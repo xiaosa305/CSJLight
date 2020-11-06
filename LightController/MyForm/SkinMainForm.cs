@@ -422,10 +422,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saveSkinButton_Click(object sender, EventArgs e)
-		{
-			
-		}
+		private void saveSkinButton_Click(object sender, EventArgs e)	{	}
 
 		/// <summary>
 		///  事件：点击《保存工程》（区分左右键）

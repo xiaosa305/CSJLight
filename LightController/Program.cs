@@ -16,19 +16,30 @@ namespace LightController
 		[STAThread]
 		static void Main()
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+			// 下列代码作用为：避免重复打开此软件
+			bool ret;
+			System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
 
-			//Application.Run(new RecordSetForm());
 
-			if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
-			{
-				Application.Run(new NewMainForm());
+			if (ret) {
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
+				{
+					Application.Run(new NewMainForm());
+				}
+				else
+				{
+					Application.Run(new SkinMainForm());
+				}
+				mutex.ReleaseMutex();
 			}
-			else
-			{
-				Application.Run(new SkinMainForm());
+			else {
+				MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");	
+				Application.Exit();
 			}
+
+
 		}
 	}
 }

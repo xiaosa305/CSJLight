@@ -41,15 +41,21 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.exportButton = new System.Windows.Forms.Button();
+			this.unifyButton = new System.Windows.Forms.Button();
+			this.unifyNUD = new System.Windows.Forms.NumericUpDown();
+			this.allCheckBox = new System.Windows.Forms.CheckBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.unifyPanel = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.stepIncNUD)).BeginInit();
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
+			this.tdFLP.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).BeginInit();
+			this.unifyPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tdTextBox
@@ -65,7 +71,7 @@
 			this.generateButton.BackColor = System.Drawing.Color.LightGray;
 			this.generateButton.Location = new System.Drawing.Point(294, 14);
 			this.generateButton.Name = "generateButton";
-			this.generateButton.Size = new System.Drawing.Size(69, 21);
+			this.generateButton.Size = new System.Drawing.Size(74, 21);
 			this.generateButton.TabIndex = 1;
 			this.generateButton.Text = "生成";
 			this.generateButton.UseVisualStyleBackColor = false;
@@ -74,7 +80,7 @@
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(83, 48);
+			this.frameComboBox.Location = new System.Drawing.Point(44, 51);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(69, 20);
 			this.frameComboBox.TabIndex = 3;
@@ -82,7 +88,7 @@
 			// 
 			// stepIncNUD
 			// 
-			this.stepIncNUD.Location = new System.Drawing.Point(230, 19);
+			this.stepIncNUD.Location = new System.Drawing.Point(59, 20);
 			this.stepIncNUD.Maximum = new decimal(new int[] {
             51,
             0,
@@ -106,7 +112,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(183, 22);
+			this.label1.Location = new System.Drawing.Point(12, 24);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(41, 12);
 			this.label1.TabIndex = 6;
@@ -118,7 +124,7 @@
 			this.tdPanelDemo.Controls.Add(this.tdNUDDemo);
 			this.tdPanelDemo.Controls.Add(this.tdCBDemo);
 			this.tdPanelDemo.Controls.Add(this.tdLabelDemo);
-			this.tdPanelDemo.Location = new System.Drawing.Point(198, 46);
+			this.tdPanelDemo.Location = new System.Drawing.Point(3, 3);
 			this.tdPanelDemo.Name = "tdPanelDemo";
 			this.tdPanelDemo.Size = new System.Drawing.Size(177, 26);
 			this.tdPanelDemo.TabIndex = 4;
@@ -160,8 +166,9 @@
 			// 
 			// tdFLP
 			// 
+			this.tdFLP.Controls.Add(this.tdPanelDemo);
 			this.tdFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tdFLP.Location = new System.Drawing.Point(0, 78);
+			this.tdFLP.Location = new System.Drawing.Point(0, 82);
 			this.tdFLP.Name = "tdFLP";
 			this.tdFLP.Size = new System.Drawing.Size(375, 164);
 			this.tdFLP.TabIndex = 7;
@@ -170,7 +177,7 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 300);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 306);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(375, 22);
 			this.statusStrip1.SizingGrip = false;
@@ -182,34 +189,25 @@
 			this.myStatusLabel.Name = "myStatusLabel";
 			this.myStatusLabel.Size = new System.Drawing.Size(360, 17);
 			this.myStatusLabel.Spring = true;
+			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.checkBox1);
 			this.panel1.Controls.Add(this.exportButton);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.stepIncNUD);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 242);
+			this.panel1.Location = new System.Drawing.Point(0, 246);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(375, 58);
+			this.panel1.Size = new System.Drawing.Size(375, 60);
 			this.panel1.TabIndex = 9;
-			// 
-			// checkBox1
-			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(12, 21);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(72, 16);
-			this.checkBox1.TabIndex = 10;
-			this.checkBox1.Text = "常亮模式";
-			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// exportButton
 			// 
 			this.exportButton.BackColor = System.Drawing.Color.Salmon;
+			this.exportButton.Enabled = false;
 			this.exportButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.exportButton.Location = new System.Drawing.Point(293, 12);
+			this.exportButton.Location = new System.Drawing.Point(293, 13);
 			this.exportButton.Name = "exportButton";
 			this.exportButton.Size = new System.Drawing.Size(75, 35);
 			this.exportButton.TabIndex = 7;
@@ -217,27 +215,72 @@
 			this.exportButton.UseVisualStyleBackColor = false;
 			this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
 			// 
+			// unifyButton
+			// 
+			this.unifyButton.Location = new System.Drawing.Point(134, 3);
+			this.unifyButton.Name = "unifyButton";
+			this.unifyButton.Size = new System.Drawing.Size(63, 23);
+			this.unifyButton.TabIndex = 12;
+			this.unifyButton.Text = "统一值";
+			this.unifyButton.UseVisualStyleBackColor = true;
+			this.unifyButton.Click += new System.EventHandler(this.unifyButton_Click);
+			// 
+			// unifyNUD
+			// 
+			this.unifyNUD.Location = new System.Drawing.Point(84, 4);
+			this.unifyNUD.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.unifyNUD.Name = "unifyNUD";
+			this.unifyNUD.Size = new System.Drawing.Size(47, 21);
+			this.unifyNUD.TabIndex = 11;
+			this.unifyNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// allCheckBox
+			// 
+			this.allCheckBox.AutoSize = true;
+			this.allCheckBox.Location = new System.Drawing.Point(4, 6);
+			this.allCheckBox.Name = "allCheckBox";
+			this.allCheckBox.Size = new System.Drawing.Size(72, 16);
+			this.allCheckBox.TabIndex = 10;
+			this.allCheckBox.Text = "全部启用";
+			this.allCheckBox.UseVisualStyleBackColor = true;
+			this.allCheckBox.CheckedChanged += new System.EventHandler(this.allCheckBox_CheckedChanged);
+			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(9, 52);
+			this.label3.Location = new System.Drawing.Point(9, 55);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(65, 12);
+			this.label3.Size = new System.Drawing.Size(35, 12);
 			this.label3.TabIndex = 6;
-			this.label3.Text = "请选择场景";
+			this.label3.Text = "场景;";
 			// 
 			// exportFolderBrowserDialog
 			// 
-			this.exportFolderBrowserDialog.Description = "请选择导出文件的目录，并在导出成功后，将文件拷贝tf卡的CSJ文件夹中（也可直接导出到该文件夹）。";
+			this.exportFolderBrowserDialog.Description = "请选择导出文件的目录，并在导出成功后，将文件拷贝到tf卡的CSJ文件夹中（也可直接导出到该文件夹）。";
+			// 
+			// unifyPanel
+			// 
+			this.unifyPanel.Controls.Add(this.unifyButton);
+			this.unifyPanel.Controls.Add(this.allCheckBox);
+			this.unifyPanel.Controls.Add(this.unifyNUD);
+			this.unifyPanel.Location = new System.Drawing.Point(168, 47);
+			this.unifyPanel.Name = "unifyPanel";
+			this.unifyPanel.Size = new System.Drawing.Size(200, 29);
+			this.unifyPanel.TabIndex = 5;
+			this.unifyPanel.Visible = false;
 			// 
 			// SpecialTDForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(375, 322);
-			this.Controls.Add(this.tdPanelDemo);
+			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.ClientSize = new System.Drawing.Size(375, 328);
 			this.Controls.Add(this.tdFLP);
+			this.Controls.Add(this.unifyPanel);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.label3);
@@ -245,16 +288,20 @@
 			this.Controls.Add(this.generateButton);
 			this.Controls.Add(this.tdTextBox);
 			this.Name = "SpecialTDForm";
-			this.Text = "特定DMX512灯光工具";
+			this.Text = "特定512调光工具";
 			this.Load += new System.EventHandler(this.specialTDForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.stepIncNUD)).EndInit();
 			this.tdPanelDemo.ResumeLayout(false);
 			this.tdPanelDemo.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
+			this.tdFLP.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).EndInit();
+			this.unifyPanel.ResumeLayout(false);
+			this.unifyPanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -277,8 +324,11 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button exportButton;
-		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.CheckBox allCheckBox;
 		private System.Windows.Forms.FolderBrowserDialog exportFolderBrowserDialog;
+		private System.Windows.Forms.Button unifyButton;
+		private System.Windows.Forms.NumericUpDown unifyNUD;
+		private System.Windows.Forms.Panel unifyPanel;
 	}
 }
 

@@ -682,7 +682,7 @@ namespace LightController.MyForm
 					LightAstList[i].LightType + "\n" +
 						"(" + LightAstList[i].LightAddr + ")\n" +
 						LightAstList[i].Remark,
-					lightImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
+					middelImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
 				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
 				);
@@ -760,7 +760,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			currentLightPictureBox.Image = lightLargeImageList.Images[la.LightPic] != null ? lightLargeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
+			currentLightPictureBox.Image = largeImageList.Images[la.LightPic] != null ? largeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = "厂商：" + la.LightName;
 			lightTypeLabel.Text = "型号：" + la.LightType;
 			lightsAddrLabel.Text = "地址：" + la.LightAddr;

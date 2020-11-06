@@ -12,12 +12,13 @@ using MultiLedController.Common;
 using MultiLedController.Ast;
 using System.Threading;
 using MultiLedController.multidevice.newmultidevice;
+using MultiLedController.multidevice.multidevicepromax;
 
 namespace MultiLedController.MyForm
 {
-	public partial class MainForm3 : Form
+	public partial class MainForm4 : Form
 	{
-		private IniFileHelper iniHelper;		
+		private IniFileHelper iniHelper;
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新			
 
 		private ManagementObject mo; //存放当前网卡的mo对象
@@ -31,9 +32,9 @@ namespace MultiLedController.MyForm
 		private string recordPath = "C:\\Temp\\CSJ_SC"; //录制文件存储路径
 		private int recordIndex = 0; //录制文件序号
 
-		private NewVirtualDevice simulator;
+		private VirtualProClientsManager simulator;
 
-		public MainForm3()
+		public MainForm4()
 		{
 			InitializeComponent();
 
@@ -42,15 +43,15 @@ namespace MultiLedController.MyForm
 
 			// 动态从ini文件内读取相应的数据
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
-			string version = iniHelper.ReadString("CommonSet", "version", "3");
-			Text += " v" + version + " beta";			
-			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt( "CommonSet", "interfaceCount",0);
-			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet", "spaceCount", 0);
-			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet", "controllerCount", 1);
+			string version = iniHelper.ReadString("CommonSet4", "version", "4");
+			Text += " v" + version + " beta";
+			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "interfaceCount4", 0);
+			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "spaceCount4", 0);
+			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet4", "controllerCount4", 1);
 			autosetControllerCountNUDMaxinum();
 		}
 
-		private void MainForm3_Load(object sender, EventArgs e)
+		private void MainForm4_Load(object sender, EventArgs e)
 		{
 			setRecordPathLabel();
 			recordTextBox.Text = transformRecordIndex(recordIndex);
@@ -59,26 +60,26 @@ namespace MultiLedController.MyForm
 			recordTextBox.LostFocus += new EventHandler(recordTextBox_LostFocus);
 			controllerCountNUD.MouseWheel += someNUD_MouseWheel;
 		}
-
+		
 		/// <summary>
 		///  事件：只在首次激活时，跑一次刷新网卡列表
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void MainForm3_Activated(object sender, EventArgs e)
+		private void MainForm4_Activated(object sender, EventArgs e)
 		{
-            try
-            {
+			try
+			{
 				if (isFirstTime)
 				{
 					refreshNetcardList();
 					isFirstTime = false;
 				}
 			}
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-            }
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.StackTrace);
+			}
 		}
 
 		/// <summary>
@@ -171,7 +172,7 @@ namespace MultiLedController.MyForm
 
 			vipList = null;
 			virtualIPListView.Items.Clear();
-					
+
 			//startButton.Enabled = false;
 			debugButton.Enabled = false;
 			recordButton.Enabled = false;
@@ -216,7 +217,7 @@ namespace MultiLedController.MyForm
 					{
 						virtualIPListView.Items.Add(new ListViewItem(new string[] {
 							 tempIndex++ +"",
-							 ipAst.IpArray[vipIndex],							 
+							 ipAst.IpArray[vipIndex],
 							 ""
 						}));
 						vipList.Add(ipAst.IpArray[vipIndex]);
@@ -226,7 +227,7 @@ namespace MultiLedController.MyForm
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// 事件：点击《启用DHCP》
 		/// </summary>
@@ -282,7 +283,7 @@ namespace MultiLedController.MyForm
 
 			setBusy(false);
 		}
-		
+
 		#region 设置路数 及 启动模拟等
 
 		/// <summary>
@@ -292,7 +293,8 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (isFirstTime) {
+			if (isFirstTime)
+			{
 				return;
 			}
 			autosetControllerCountNUDMaxinum();
@@ -301,8 +303,8 @@ namespace MultiLedController.MyForm
 		private void autosetControllerCountNUDMaxinum()
 		{
 			int interfaceCount = int.Parse(interfaceCountComboBox.Text);
-			int spaceCount = int.Parse(spaceCountComboBox.Text) / 170;
-			controllerCountNUD.Maximum = 256 / interfaceCount / spaceCount;
+			int spaceCount = int.Parse(spaceCountComboBox.Text);
+			controllerCountNUD.Maximum = 2048 / interfaceCount / spaceCount ;
 		}
 
 		/// <summary>
@@ -315,7 +317,7 @@ namespace MultiLedController.MyForm
 			//避免更改路数之后，虚拟IP显示错误，先清空所有的《关联路数》Text ( 不论是启动还是关闭模拟，都先清空关联 )
 			foreach (ListViewItem item in virtualIPListView.Items)
 			{
-				item.SubItems[2].Text = "";				
+				item.SubItems[2].Text = "";
 			}
 			Refresh();
 
@@ -326,11 +328,11 @@ namespace MultiLedController.MyForm
 				setBusy(true);
 
 				int interfaceCount = int.Parse(interfaceCountComboBox.Text);
-				int spaceCount = int.Parse(spaceCountComboBox.Text) / 170;
+				int spaceCount = int.Parse(spaceCountComboBox.Text) ;
 				int controllerCount = decimal.ToInt32(controllerCountNUD.Value);
 				int totalSpaceCount = interfaceCount * spaceCount * controllerCount;
 
-				int neededVipCount = (int)(Math.Ceiling(interfaceCount * spaceCount * controllerCount / 4.0));
+				int neededVipCount = (int)(Math.Ceiling(interfaceCount * spaceCount * controllerCount / 256.0));
 				int addVIPCount = neededVipCount - vipList.Count;
 
 				if (addVIPCount > 0)
@@ -353,7 +355,7 @@ namespace MultiLedController.MyForm
 
 					//若仍未完成，则必须提示用户无可用ip并中断操作
 					if (addVIPCount > 0)
-					{						
+					{
 						setNotice(1, "检测到当前网段无足够可用的IP地址，已中断操作。", true);
 						setBusy(false);
 						return;
@@ -394,23 +396,23 @@ namespace MultiLedController.MyForm
 						setBusy(false);
 						return;
 					}
-				}			
-				
+				}
+
 				Refresh();
 
 				List<string> neededVipList = new List<string>();
-				for (int vipIndex =0; vipIndex < neededVipCount; vipIndex++)
+				for (int vipIndex = 0; vipIndex < neededVipCount; vipIndex++)
 				{
 					neededVipList.Add(vipList[vipIndex]);
 					virtualIPListView.Items[vipIndex].SubItems[2].Text = "是";
 				}
 
-				
-				if (simulator != null ) {
+				if (simulator != null)
+				{
 					simulator.Close();
 				}
-				simulator =  new NewVirtualDevice(interfaceCount, neededVipList, spaceCount, controllerCount, mainIP, mainIP);
-				simulator.StartResponseDMXData();
+				simulator = new VirtualProClientsManager(mainIP, mainIP, neededVipList, spaceCount, interfaceCount, controllerCount);
+				simulator.Start();
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
@@ -437,7 +439,8 @@ namespace MultiLedController.MyForm
 					debugButton_Click(null, null);
 				}
 
-				if (simulator != null) {
+				if (simulator != null)
+				{
 					simulator.Close();
 					simulator = null;
 				}
@@ -470,7 +473,7 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "开始调试";
 			if (isDebuging)
 			{
-				simulator.StartDebug( showDebugFrame );
+				simulator.StartDebug(showDebugFrame);
 			}
 			else
 			{
@@ -599,7 +602,7 @@ namespace MultiLedController.MyForm
 			{
 				ListViewItem item = new ListViewItem(new string[] {
 					 tempIndex +"",
-					 newIPList[tempIndex],					 
+					 newIPList[tempIndex],
 					 "是"
 				});
 				virtualIPListView.Items.Add(item);
@@ -634,7 +637,8 @@ namespace MultiLedController.MyForm
 			if (dr == DialogResult.OK)
 			{
 				recordPath = recordFolderBrowserDialog.SelectedPath;
-				if (!recordPath.EndsWith(@"\CSJ_SC")) {
+				if (!recordPath.EndsWith(@"\CSJ_SC"))
+				{
 					recordPath += @"\CSJ_SC";
 				}
 
@@ -716,13 +720,14 @@ namespace MultiLedController.MyForm
 				setNotice(2, "正在录制文件...", false);
 
 				string binPath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
-				string configPath = recordPath + @"\csj.scu" ;
+				string configPath = recordPath + @"\csj.scu";
 
 				try
 				{
 					simulator.StartRecord(binPath, configPath, showRecordFrame);
 				}
-				catch (Exception ex){
+				catch (Exception ex)
+				{
 					Console.WriteLine(ex.Message);
 				}
 
@@ -730,7 +735,7 @@ namespace MultiLedController.MyForm
 				recordButton.Text = "停止录制";
 			}
 		}
-		
+
 		/// <summary>
 		/// 辅助方法：根据当前的recordPath，设置label及toolTip
 		/// </summary>
@@ -739,7 +744,7 @@ namespace MultiLedController.MyForm
 			recordPathLabel.Text = recordPath;
 			myToolTip.SetToolTip(recordPathLabel, recordPath);
 		}
-		
+
 		/// <summary>
 		/// 辅助方法：处理int型,使之成为两位数的string表示
 		/// </summary>
@@ -794,8 +799,8 @@ namespace MultiLedController.MyForm
 		/// <param name="msg"></param>
 		private void setNotice(int place, string msg, bool msgShow)
 		{
-            try
-            {
+			try
+			{
 				if (place == 1)
 				{
 					myStatusLabel1.Text = msg;
@@ -810,12 +815,12 @@ namespace MultiLedController.MyForm
 					MessageBox.Show(msg);
 				}
 			}
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
-			
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex.StackTrace);
+			}
+
 		}
 
 		/// <summary>
@@ -843,15 +848,15 @@ namespace MultiLedController.MyForm
 		/// <param name="count"></param>
 		private void showRecordFrame(int count)
 		{
-            try
-            {
+			try
+			{
 				setNotice(2, "当前录制帧数：" + count, false);
 			}
 			catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
+			{
+				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex.StackTrace);
+			}
 		}
 
 		/// <summary>

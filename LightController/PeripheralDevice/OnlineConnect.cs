@@ -1,4 +1,5 @@
-﻿using LightController.Tools;
+﻿using fastJSON;
+using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using System;
@@ -14,27 +15,34 @@ namespace LightController.PeripheralDevice
     {
         private static readonly String ONLINE_SERVER_IP = "192.168.31.235";
         private static readonly int ONLINE_SERVER_PORT = 7060;
-
         public static readonly byte COMMAND_SUCCESS = 0x01;
         public static readonly byte COMMAND_FAILED = 0x00;
-
         public static readonly int UNBIND_DEVICE = 0;
         public static readonly int BIND_DEVICE = 1;
         public static readonly int CHANGE_BIND_DEVICE = 2;
         public static readonly int GET_ONLINE_DEVICES = 3;
-
-
+        public static readonly int LOGIN_SERVER = 4;
         private const int RECEIVEBUFFSIZE = 1024 * 2;
         private byte[] ReceiveBuff { get; set; }//接收缓存区
         private int BuffCount { get; set; }
         private Socket Client;
+        public List<OnlineDeviceInfo> DeviceInfos { get; set; }
+        public bool IsBind { get; set; }
+        public bool IsLogin { get; set; }
 
+        public delegate void CommandSuccessed();
+        public delegate void CommandFailed();
+
+        private CommandSuccessed CommandSuccessed_Event { get; set; }
+        private CommandFailed CommandFailed_Event { get; set; }
 
         public OnlineConnect()
         {
             this.Init();
             this.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
             this.BuffCount = 0;
+            this.IsBind = false;
+            this.IsLogin = false;
         }
 
         public override bool Connect(NetworkDeviceInfo deviceInfo)
@@ -83,9 +91,9 @@ namespace LightController.PeripheralDevice
 
         public override bool IsConnected()
         {
-            if (this.Client != null)
+            if (this.Client != null && this.IsLogin && this.IsBind)
             {
-                return this.Client.Connected;
+                return true;
             }
             else
             {
@@ -145,12 +153,19 @@ namespace LightController.PeripheralDevice
                         switch (buff[2])
                         {
                             case 0x00:
+                                this.UnBindDeviceReceiveManager(buff);
                                 break;
                             case 0x01:
+                                this.BindDeviceReceiveManager(buff);
                                 break;
                             case 0x02:
+                                this.ChangeBindDeviceReceiveManager(buff);
                                 break;
                             case 0x03:
+                                this.GetOnlineDeviceReceiveManager(buff);
+                                break;
+                            case 0x04:
+                                this.LoginServerReceiveManager(buff);
                                 break;
                         }
                     }
@@ -172,44 +187,186 @@ namespace LightController.PeripheralDevice
             }
         }
 
-        public void UnBindDevice()
+        public void UnBindDevice(CommandSuccessed successed,CommandFailed failed)
         {
-
+            this.CommandSuccessed_Event = successed;
+            this.CommandFailed_Event = failed;
+            byte[] data = new byte[] { 0xBB, 0xAA, 0x00, 0x00 };
+            this.Send(data);
         }
 
-        public void BindDevice(String deviceId)
+        public void BindDevice(String deviceId,CommandSuccessed successed,CommandFailed failed)
         {
-
+            this.CommandSuccessed_Event = successed;
+            this.CommandFailed_Event = failed;
+            List<byte> data = new List<byte>();
+            data.Add(0xBB);
+            data.Add(0xAA);
+            data.Add(0x01);
+            data.Add(0x00);
+            data.AddRange(Encoding.Default.GetBytes(deviceId));
+            this.Send(data.ToArray());
         }
 
-        public void ChangeBindDevice(String deviceId)
+        public void ChangeBindDevice(String deviceId,CommandSuccessed successed,CommandFailed failed)
         {
-
+            this.CommandSuccessed_Event = successed;
+            this.CommandFailed_Event = failed;
+            List<byte> data = new List<byte>();
+            data.Add(0xBB);
+            data.Add(0xAA);
+            data.Add(0x02);
+            data.Add(0x00);
+            data.AddRange(Encoding.Default.GetBytes(deviceId));
+            this.Send(data.ToArray());
         }
 
-        public void GetOnlineDevices()
+        public void GetOnlineDevices(CommandSuccessed successed,CommandFailed failed)
         {
+            this.CommandSuccessed_Event = successed;
+            this.CommandFailed_Event = failed;
+            byte[] data = new byte[] { 0xBB, 0xAA, 0x03 };
+            this.Send(data);
+        }
 
+        public void LoginServer(string loginName, string password, CommandSuccessed successed, CommandFailed failed)
+        {
+            this.CommandSuccessed_Event = successed;
+            this.CommandFailed_Event = failed;
+            List<byte> data = new List<byte>();
+            data.Add(0xBB);
+            data.Add(0xAA);
+            data.Add(0x04);
+            data.Add(0x00);
+            data.AddRange(Encoding.Default.GetBytes(loginName));
+            data.AddRange(Encoding.Default.GetBytes(password));
+            this.Send(data.ToArray());
         }
 
         private void UnBindDeviceReceiveManager(byte[] data)
         {
+            switch (data[3])
+            {
+                case 0x00:
+                    this.UnBindDeviceFailed();
+                    break;
+                case 0x01:
+                    this.UnBindDeviceSuccessed();
+                    break;
+            }
+        }
 
+        private void UnBindDeviceFailed()
+        {
+            this.IsBind = false;
+            this.CommandFailed_Event();
+        }
+
+        private void UnBindDeviceSuccessed()
+        {
+            this.IsBind = false;
+            this.CommandSuccessed_Event();
         }
 
         private void BindDeviceReceiveManager(byte[] data)
         {
+            switch (data[3])
+            {
+                case 0x00:
+                    this.BindDeviceFailed();
+                    break;
+                case 0x01:
+                    this.BindDeviceSuccessed();
+                    break;
+            }
+        }
 
+        private void BindDeviceFailed()
+        {
+            this.IsBind = false;
+            this.CommandFailed_Event();
+        }
+
+        private void BindDeviceSuccessed()
+        {
+            this.IsBind = true;
+            this.CommandSuccessed_Event();
         }
 
         private void ChangeBindDeviceReceiveManager(byte[] data)
         {
-
+            switch (data[3])
+            {
+                case 0x00:
+                    this.ChgangeBindDeviceFailed();
+                    break;
+                case 0x01:
+                    this.ChangeBindDeviceSuccessed();
+                    break;
+            }
         }
 
-        public void GetOnlineDevice(byte[] data)
+        private void ChgangeBindDeviceFailed()
         {
+            this.CommandFailed_Event();
+        }
 
+        private void ChangeBindDeviceSuccessed()
+        {
+            this.IsBind = true;
+            this.CommandSuccessed_Event();
+        }
+
+        public void GetOnlineDeviceReceiveManager(byte[] data)
+        {
+            switch (data[3])
+            {
+                case 0x00:
+                    this.ChgangeBindDeviceFailed();
+                    break;
+                case 0x01:
+                    this.ChangeBindDeviceSuccessed();
+                    break;
+            }
+        }
+        private void GetOnlineDeviceFailed()
+        {
+            this.DeviceInfos = new List<OnlineDeviceInfo>();
+            this.CommandFailed_Event();
+        }
+
+        private void GetOnlineDeviceSuccessed(byte[] data)
+        {
+            byte[] jsonBuff = new byte[data.Length - 4];
+            Array.Copy(data, 4, jsonBuff, 0, data.Length - 4);
+            string json = Convert.ToString(jsonBuff);
+            this.DeviceInfos = JSON.ToObject<List<OnlineDeviceInfo>>(json);
+            this.CommandSuccessed_Event();
+        }
+
+        public void LoginServerReceiveManager(byte[] data)
+        {
+            switch (data[3])
+            {
+                case 0x00:
+                    this.LoginFailed();
+                    break;
+                case 0x01:
+                    this.LoginSuccessed();
+                    break;
+            }
+        }
+
+        private void LoginFailed()
+        {
+            this.IsLogin = false;
+            this.CommandFailed_Event();
+        }
+
+        private void LoginSuccessed()
+        {
+            this.IsLogin = true;
+            this.CommandSuccessed_Event();
         }
     }
 }

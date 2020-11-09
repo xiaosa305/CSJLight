@@ -1,9 +1,16 @@
-﻿using LightController.Common;
+﻿using fastJSON;
+using LightController.Ast.Entity;
+using LightController.Common;
 using LightController.MyForm;
 using LightController.MyForm.OtherTools;
+using Microsoft.VisualBasic.ApplicationServices;
 using OtherTools;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+
+using fastJSON;
+using LightController.PeripheralDevice;
 
 namespace LightController
 {
@@ -16,28 +23,58 @@ namespace LightController
 		[STAThread]
 		static void Main()
 		{
-			// 下列代码作用为：避免重复打开此软件
-			bool ret;
-			System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
+			Dictionary<string, string> testDict = new Dictionary<string, string>();
+			testDict.Add("userName", "admin");
+			testDict.Add("password", "123");
+			string resp = HttpHelper.PostUrlWithDict("http://localhost/lc/csLogin", testDict);
+
+			//string jsonStr = fastJSON.JSON.ToJSON(testDict);
+			//Console.WriteLine(jsonStr);
+			//string resp = HttpHelper.PostUrl("http://localhost/lc/csLogin", jsonStr);
+
+			Console.WriteLine(resp);
+
+			ReturnDTO<object> rd = JSON.ToObject<ReturnDTO<object>>(resp);
+			Dictionary<string,object> userDict = rd.data as Dictionary<string, object>;
+			string sessionId = userDict["userName"] as string;
+
+			OnlineConnect connect = new OnlineConnect(sessionId);
+			
+			connect.Connect( null );
+
+			connect.SetSessionId();
+
+			List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
+
+			foreach (var dev in deviceList)
+			{
+				Console.WriteLine(dev.DevoceName);
+			}
+			
+			Console.WriteLine(connect);
 
 
-			if (ret) {
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
-				{
-					Application.Run(new NewMainForm());
-				}
-				else
-				{
-					Application.Run(new SkinMainForm());
-				}
-				mutex.ReleaseMutex();
-			}
-			else {
-				MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");	
-				Application.Exit();
-			}
+			//// 下列代码作用为：避免重复打开此软件
+			//bool ret;
+			//System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
+
+			//if (ret) {
+			//	Application.EnableVisualStyles();
+			//	Application.SetCompatibleTextRenderingDefault(false);
+			//	if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
+			//	{
+			//		Application.Run(new NewMainForm());
+			//	}
+			//	else
+			//	{
+			//		Application.Run(new SkinMainForm());
+			//	}
+			//	mutex.ReleaseMutex();
+			//}
+			//else {
+			//	MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");	
+			//	Application.Exit();
+			//}
 
 
 		}

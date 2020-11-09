@@ -27,8 +27,8 @@ namespace LightController.PeripheralDevice
         private int BuffCount { get; set; }
         private Socket Client;
         public List<OnlineDeviceInfo> DeviceInfos { get; set; }
+        private string SessionId { get; set; }
         public bool IsBind { get; set; }
-        public bool IsLogin { get; set; }
 
         public delegate void CommandSuccessed();
         public delegate void CommandFailed();
@@ -36,13 +36,13 @@ namespace LightController.PeripheralDevice
         private CommandSuccessed CommandSuccessed_Event { get; set; }
         private CommandFailed CommandFailed_Event { get; set; }
 
-        public OnlineConnect()
+        public OnlineConnect(String sessionId)
         {
             this.Init();
             this.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
             this.BuffCount = 0;
             this.IsBind = false;
-            this.IsLogin = false;
+            this.SessionId = sessionId;
         }
 
         public override bool Connect(NetworkDeviceInfo deviceInfo)
@@ -91,7 +91,7 @@ namespace LightController.PeripheralDevice
 
         public override bool IsConnected()
         {
-            if (this.Client != null && this.IsLogin && this.IsBind)
+            if (this.Client != null && this.IsBind)
             {
                 return true;
             }
@@ -164,9 +164,6 @@ namespace LightController.PeripheralDevice
                             case 0x03:
                                 this.GetOnlineDeviceReceiveManager(buff);
                                 break;
-                            case 0x04:
-                                this.LoginServerReceiveManager(buff);
-                                break;
                         }
                     }
                     else
@@ -229,17 +226,14 @@ namespace LightController.PeripheralDevice
             this.Send(data);
         }
 
-        public void LoginServer(string loginName, string password, CommandSuccessed successed, CommandFailed failed)
+        public void SetSessionId()
         {
-            this.CommandSuccessed_Event = successed;
-            this.CommandFailed_Event = failed;
             List<byte> data = new List<byte>();
             data.Add(0xBB);
             data.Add(0xAA);
             data.Add(0x04);
             data.Add(0x00);
-            data.AddRange(Encoding.Default.GetBytes(loginName));
-            data.AddRange(Encoding.Default.GetBytes(password));
+            data.AddRange(Encoding.Default.GetBytes(this.SessionId));
             this.Send(data.ToArray());
         }
 
@@ -341,31 +335,6 @@ namespace LightController.PeripheralDevice
             Array.Copy(data, 4, jsonBuff, 0, data.Length - 4);
             string json = Convert.ToString(jsonBuff);
             this.DeviceInfos = JSON.ToObject<List<OnlineDeviceInfo>>(json);
-            this.CommandSuccessed_Event();
-        }
-
-        public void LoginServerReceiveManager(byte[] data)
-        {
-            switch (data[3])
-            {
-                case 0x00:
-                    this.LoginFailed();
-                    break;
-                case 0x01:
-                    this.LoginSuccessed();
-                    break;
-            }
-        }
-
-        private void LoginFailed()
-        {
-            this.IsLogin = false;
-            this.CommandFailed_Event();
-        }
-
-        private void LoginSuccessed()
-        {
-            this.IsLogin = true;
             this.CommandSuccessed_Event();
         }
     }

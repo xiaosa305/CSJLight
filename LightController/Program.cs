@@ -45,10 +45,15 @@ namespace LightController
 			connect.SetSessionId();
 
 			List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
-
-			foreach (var dev in deviceList)
+			if (deviceList != null && deviceList.Count > 0)
 			{
-				Console.WriteLine(dev.DevoceName);
+				foreach (var dev in deviceList)
+				{
+					Console.WriteLine(dev.DevoceName);
+				}
+			}
+			else {
+				Console.WriteLine("在线列表为空");
 			}
 			
 			Console.WriteLine(connect);

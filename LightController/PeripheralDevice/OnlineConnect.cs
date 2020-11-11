@@ -189,7 +189,8 @@ namespace LightController.PeripheralDevice
             this.CommandSuccessed_Event = successed;
             this.CommandFailed_Event = failed;
             byte[] data = new byte[] { 0xBB, 0xAA, 0x00, 0x00 };
-            this.Send(data);
+            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
+            //this.Send(data);
         }
 
         public void BindDevice(String deviceId,CommandSuccessed successed,CommandFailed failed)
@@ -202,7 +203,8 @@ namespace LightController.PeripheralDevice
             data.Add(0x01);
             data.Add(0x00);
             data.AddRange(Encoding.Default.GetBytes(deviceId));
-            this.Send(data.ToArray());
+            this.Client.BeginSend(data.ToArray(), 0, data.Count, SocketFlags.None, this.SendCallBack, this);
+            //this.Send(data.ToArray());
         }
 
         public void ChangeBindDevice(String deviceId,CommandSuccessed successed,CommandFailed failed)
@@ -215,15 +217,17 @@ namespace LightController.PeripheralDevice
             data.Add(0x02);
             data.Add(0x00);
             data.AddRange(Encoding.Default.GetBytes(deviceId));
-            this.Send(data.ToArray());
+            this.Client.BeginSend(data.ToArray(), 0, data.Count, SocketFlags.None, this.SendCallBack, this);
+            //this.Send(data.ToArray());
         }
 
         public void GetOnlineDevices(CommandSuccessed successed,CommandFailed failed)
         {
             this.CommandSuccessed_Event = successed;
             this.CommandFailed_Event = failed;
-            byte[] data = new byte[] { 0xBB, 0xAA, 0x03 };
-            this.Send(data);
+            byte[] data = new byte[] { 0xBB, 0xAA, 0x03,0x00,0x00 };
+            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
+            //this.Send(data);
         }
 
         public void SetSessionId()
@@ -316,26 +320,26 @@ namespace LightController.PeripheralDevice
             switch (data[3])
             {
                 case 0x00:
-                    this.ChgangeBindDeviceFailed();
+                    this.GetOnlineDeviceFailed();
                     break;
                 case 0x01:
-                    this.ChangeBindDeviceSuccessed();
+                    this.GetOnlineDeviceSuccessed(data);
                     break;
             }
         }
         private void GetOnlineDeviceFailed()
         {
             this.DeviceInfos = new List<OnlineDeviceInfo>();
-            this.CommandFailed_Event();
+            //this.CommandFailed_Event();
         }
 
         private void GetOnlineDeviceSuccessed(byte[] data)
         {
             byte[] jsonBuff = new byte[data.Length - 4];
             Array.Copy(data, 4, jsonBuff, 0, data.Length - 4);
-            string json = Convert.ToString(jsonBuff);
+            string json = Encoding.UTF8.GetString(jsonBuff);
             this.DeviceInfos = JSON.ToObject<List<OnlineDeviceInfo>>(json);
-            this.CommandSuccessed_Event();
+            //this.CommandSuccessed_Event();
         }
     }
 }

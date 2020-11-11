@@ -525,10 +525,10 @@ namespace MultiLedController.multidevice.multidevicepromax
                     while (dataBuff[controlNo].Count > 0)
                     {
                         this.DebugServer.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
-                        for (int i = 0; i < 5000; i++)
-                        {
-                            ;
-                        }
+                        //for (int i = 0; i < 5000; i++)
+                        //{
+                        //    ;
+                        //}
                     }
                 }
                 this.DebugServer.SendTo(PACKAGE_END.ToArray(), iPEnd);

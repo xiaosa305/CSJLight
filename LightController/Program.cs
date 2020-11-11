@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 using fastJSON;
 using LightController.PeripheralDevice;
+using System.Threading;
 
 namespace LightController
 {
@@ -23,32 +24,39 @@ namespace LightController
 		[STAThread]
 		static void Main()
 		{
-			Dictionary<string, string> testDict = new Dictionary<string, string>();
-			testDict.Add("userName", "admin");
-			testDict.Add("password", "123");
-			string resp = HttpHelper.PostUrlWithDict("http://localhost/lc/csLogin", testDict);
+			//Dictionary<string, string> testDict = new Dictionary<string, string>();
+			//testDict.Add("userName", "admin");
+			//testDict.Add("password", "123");
+			//string resp = HttpHelper.PostUrlWithDict("http://localhost/lc/csLogin", testDict);
 
-			//string jsonStr = fastJSON.JSON.ToJSON(testDict);
-			//Console.WriteLine(jsonStr);
-			//string resp = HttpHelper.PostUrl("http://localhost/lc/csLogin", jsonStr);
+			////string jsonStr = fastJSON.JSON.ToJSON(testDict);
+			////Console.WriteLine(jsonStr);
+			////string resp = HttpHelper.PostUrl("http://localhost/lc/csLogin", jsonStr);
 
-			Console.WriteLine(resp);
+			//Console.WriteLine(resp);
 
-			ReturnDTO<object> rd = JSON.ToObject<ReturnDTO<object>>(resp);
-			Dictionary<string,object> userDict = rd.data as Dictionary<string, object>;
-			string sessionId = userDict["userName"] as string;
+			//ReturnDTO<object> rd = JSON.ToObject<ReturnDTO<object>>(resp);
+			//Dictionary<string,object> userDict = rd.data as Dictionary<string, object>;
+			//string sessionId = userDict["userName"] as string;
 
+			string sessionId = "admin";
 			OnlineConnect connect = new OnlineConnect(sessionId);
 			
 			connect.Connect( null );
 
-			connect.SetSessionId();
+            connect.SetSessionId();
+
+			Thread.Sleep(2000);
+
+			connect.GetOnlineDevices(null, null);
+
+			Thread.Sleep(5000);
 
 			List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
 
 			foreach (var dev in deviceList)
 			{
-				Console.WriteLine(dev.DevoceName);
+				Console.WriteLine(dev.Device_name);
 			}
 			
 			Console.WriteLine(connect);

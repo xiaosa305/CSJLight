@@ -8,6 +8,6 @@ namespace LightController.PeripheralDevice
     public class OnlineDeviceInfo
     {
         public String Device_id { get; set; }
-        public String DevoceName { get; set; }
+        public String Device_name { get; set; }
     }
 }

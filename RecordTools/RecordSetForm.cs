@@ -7,24 +7,47 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using RecordTools.Entity;
-using RecordTools.Utils;
+using Dickov.Utils;
 
 namespace RecordTools
 {
 	public partial class RecordSetForm : Form
 	{
+		private IniFileHelper iniHelper;
+		private decimal eachStepTime = .04m;
+		private string savePath;
+		private int sceneNo = 1;	
+
 		// 以下变量，为《分页显示》功能必须的变量 
 		private int currentPage = 1;
 		private int pageCount;
 		private int eachCount = 100;    // 如果此项大于tdCount,则应设为tdCount的值
 		private int tdCount = 512;  //注意：此项不得为0，否则分页毫无意义
 
-		private HashSet<int> tdSet ; // 记录使用的通道
+		
+		private HashSet<int> tdSet; // 记录使用的通道
+
+		private MusicSceneConfig musicSceneConfig;
 
 		public RecordSetForm()
 		{
 			InitializeComponent();
 
+			// 读取各个默认配置
+			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
+			eachStepTime = iniHelper.ReadInt("CommonSet", "EachStepTime", 40) / 1000m;
+
+			savePath = iniHelper.ReadString("CommonSet", "SavePath", @"C:\Temp\CSJ");
+			saveFolderBrowserDialog.SelectedPath = savePath;
+			setSavePathLabel();
+
+			sceneNo = iniHelper.ReadInt("CommonSet", "SceneNo", 1);
+			if (sceneNo < 1 || sceneNo > 32) {
+				sceneNo = 1;
+			}
+			setSceneNo();
+
+			// 初始化各个组件
 			tdSet = new HashSet<int>();
 
 			eachCount = eachCount > tdCount ? tdCount : eachCount;
@@ -77,7 +100,7 @@ namespace RecordTools
 					cb.Text = "通道" + (tdIndex + 1);
 					cb.Name = "checkBox" + (tdIndex + 1);
 					cb.CheckedChanged -= tdCheckBox_CheckedChanged;
-					cb.Checked = tdSet.Contains( tdIndex+1 );
+					cb.Checked = tdSet.Contains(tdIndex + 1);
 					cb.CheckedChanged += tdCheckBox_CheckedChanged;
 					cb.Show();
 				}
@@ -98,14 +121,15 @@ namespace RecordTools
 			//Console.WriteLine("tdCheckBox_CheckedChanged");
 
 			CheckBox cb = sender as CheckBox;
-			int tdIndex = MathHelper.GetIndexNum(cb.Name,0); // 通道名无需-1，应该所见即所得
+			int tdIndex = MathHelper.GetIndexNum(cb.Name, 0); // 通道名无需-1，应该所见即所得
 
 			if (cb.Checked)
 			{
-				tdSet.Add( tdIndex  );
+				tdSet.Add(tdIndex);
 			}
-			else {
-				tdSet.Remove(tdIndex );
+			else
+			{
+				tdSet.Remove(tdIndex);
 			}
 		}
 
@@ -126,7 +150,7 @@ namespace RecordTools
 			//}
 			//refreshPage();
 		}
-		
+
 		/// <summary>
 		/// 事件：点击《保存配置文件》
 		/// </summary>
@@ -134,17 +158,23 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			MusicSceneConfig msc = new MusicSceneConfig();
-		
+			musicSceneConfig = new MusicSceneConfig
+			{
+				StepTime = decimal.ToInt32(frameStepTimeNumericUpDown.Value * 1000 / eachStepTime),
+				StepWaitTIme = decimal.ToInt32(jgtNumericUpDown.Value),
+				MusicStepList = makeLinkList(),
+				MusicChannelNoList = tdSet
+			};
 
-				
 			
+			musicSceneConfig.WriteToFile(savePath, "M" + sceneNo + ".bin");
+
 		}
 
 		#endregion
 
 		#region 通用方法(这些方法往往只需稍微修改或完全不动，就可以在不同的界面中通用)
-		
+
 		/// <summary>
 		/// 事件：点击《上|下一页》
 		/// </summary>
@@ -184,8 +214,77 @@ namespace RecordTools
 			}
 		}
 
+
 		#endregion
 
+		private void frameStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			int stepTime = Decimal.ToInt32(frameStepTimeNumericUpDown.Value / eachStepTime);
+			frameStepTimeNumericUpDown.Value = stepTime * eachStepTime;
+		}
+
+		private void setFilePathButton_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = saveFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.OK)
+			{
+				savePath = saveFolderBrowserDialog.SelectedPath;
+				setSavePathLabel();
+
+				setNotice("已设置存放目录为：" + savePath, false);
+			}
+		}
+
+
+		/// <summary>
+		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// </summary>
+		private void setSavePathLabel()
+		{
+			if (savePath != null) {
+				recordPathLabel.Text = savePath;
+				myToolTip.SetToolTip(recordPathLabel, savePath);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// </summary>
+		private void setSceneNo()
+		{
+
+		}
+
+
+		/// <summary>
+		/// 辅助方法：封装音频链表
+		/// </summary>
+		private List<int> makeLinkList() {
+
+			List<int> linkList = new List<int>();
+
+			string linkStr = mFrameLKTextBox.Text.Trim();
+			if (linkStr == "")
+			{
+				linkList.Add(1);
+			}
+			else {
+				string[] strArray = linkStr.Split(' ');
+
+				try
+				{
+					foreach (string tempStr in strArray)
+					{
+						linkList.Add(int.Parse(tempStr));
+					}
+				}
+				catch (Exception ex) {
+					MessageBox.Show("音频链表输入有误,请重新输入！");
+					linkList.Add(1);
+				}				
+			}
+			return linkList;
+		}
 
 	}
 }

@@ -8,7 +8,9 @@ namespace RecordTools.Entity
 {
     public class MusicSceneConfig
     {
-        public int StepTime { get; set; }
+		private decimal eachStepTime2 = .03m;
+
+		public int StepTime { get; set; }
         public int StepWaitTIme { get; set; }
         public List<int> MusicStepList { get; set; }
         public HashSet<int> MusicChannelNoList { get; set; }

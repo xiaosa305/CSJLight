@@ -45,7 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\MusicSceneConfig.cs" />
-    <Compile Include="Utils\MathHelper.cs" />
+    <Compile Include="Dickov.Utils\IniFileHelper.cs" />
+    <Compile Include="Dickov.Utils\MathHelper.cs" />
     <Compile Include="RecordSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +67,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="CommonSet.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

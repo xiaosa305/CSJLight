@@ -23,64 +23,65 @@ namespace LightController
 		[STAThread]
 		static void Main()
 		{
-			Dictionary<string, string> testDict = new Dictionary<string, string>();
-			testDict.Add("userName", "admin");
-			testDict.Add("password", "123");
-			string resp = HttpHelper.PostUrlWithDict("http://localhost/lc/csLogin", testDict);
+			//Dictionary<string, string> testDict = new Dictionary<string, string>();
+			//testDict.Add("userName", "admin");
+			//testDict.Add("password", "123");
+			//string resp = HttpHelper.PostUrlWithDict("http://localhost/lc/csLogin", testDict);
 
-			//string jsonStr = fastJSON.JSON.ToJSON(testDict);
-			//Console.WriteLine(jsonStr);
-			//string resp = HttpHelper.PostUrl("http://localhost/lc/csLogin", jsonStr);
+			////string jsonStr = fastJSON.JSON.ToJSON(testDict);
+			////Console.WriteLine(jsonStr);
+			////string resp = HttpHelper.PostUrl("http://localhost/lc/csLogin", jsonStr);
 
-			Console.WriteLine(resp);
+			//Console.WriteLine(resp);
 
-			ReturnDTO<object> rd = JSON.ToObject<ReturnDTO<object>>(resp);
-			Dictionary<string,object> userDict = rd.data as Dictionary<string, object>;
-			string sessionId = userDict["userName"] as string;
+			//ReturnDTO<object> rd = JSON.ToObject<ReturnDTO<object>>(resp);
+			//Dictionary<string,object> userDict = rd.data as Dictionary<string, object>;
+			//string sessionId = userDict["userName"] as string;
 
-			OnlineConnect connect = new OnlineConnect(sessionId);
-			
-			connect.Connect( null );
+			//OnlineConnect connect = new OnlineConnect(sessionId);
 
-			connect.SetSessionId();
+			//connect.Connect( null );
 
-			List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
-			if (deviceList != null && deviceList.Count > 0)
-			{
-				foreach (var dev in deviceList)
-				{
-					Console.WriteLine(dev.DevoceName);
-				}
-			}
-			else {
-				Console.WriteLine("在线列表为空");
-			}
-			
-			Console.WriteLine(connect);
+			//connect.SetSessionId();
+
+			//List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
+			//if (deviceList != null && deviceList.Count > 0)
+			//{
+			//	foreach (var dev in deviceList)
+			//	{
+			//		Console.WriteLine(dev.Device_name);
+			//	}
+			//}
+			//else {
+			//	Console.WriteLine("在线列表为空");
+			//}
+
+			//Console.WriteLine(connect);
 
 
 			//// 下列代码作用为：避免重复打开此软件
-			//bool ret;
-			//System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
+			bool ret;
+			System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
 
-			//if (ret) {
-			//	Application.EnableVisualStyles();
-			//	Application.SetCompatibleTextRenderingDefault(false);
-			//	if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
-			//	{
-			//		Application.Run(new NewMainForm());
-			//	}
-			//	else
-			//	{
-			//		Application.Run(new SkinMainForm());
-			//	}
-			//	mutex.ReleaseMutex();
-			//}
-			//else {
-			//	MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");	
-			//	Application.Exit();
-			//}
-
+			if (ret)
+			{
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
+				{
+					Application.Run(new NewMainForm());
+				}
+				else
+				{
+					Application.Run(new SkinMainForm());
+				}
+				mutex.ReleaseMutex();
+			}
+			else
+			{
+				MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");
+				Application.Exit();
+			}
 
 		}
 	}

@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RecordSetForm));
-			this.checkBoxDemo = new System.Windows.Forms.CheckBox();
 			this.nextButton = new System.Windows.Forms.Button();
 			this.previousButton = new System.Windows.Forms.Button();
 			this.bigFLP = new System.Windows.Forms.FlowLayoutPanel();
@@ -38,22 +37,14 @@
 			this.pageLabel = new System.Windows.Forms.Label();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.checkBoxDemo = new System.Windows.Forms.CheckBox();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.myStatusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// checkBoxDemo
-			// 
-			this.checkBoxDemo.Location = new System.Drawing.Point(512, 11);
-			this.checkBoxDemo.Name = "checkBoxDemo";
-			this.checkBoxDemo.Size = new System.Drawing.Size(72, 24);
-			this.checkBoxDemo.TabIndex = 39;
-			this.checkBoxDemo.Text = "通道512";
-			this.checkBoxDemo.UseVisualStyleBackColor = true;
-			this.checkBoxDemo.Visible = false;
-			// 
 			// nextButton
 			// 
-			this.nextButton.Location = new System.Drawing.Point(711, 11);
+			this.nextButton.Location = new System.Drawing.Point(726, 13);
 			this.nextButton.Name = "nextButton";
 			this.nextButton.Size = new System.Drawing.Size(61, 23);
 			this.nextButton.TabIndex = 44;
@@ -63,7 +54,7 @@
 			// 
 			// previousButton
 			// 
-			this.previousButton.Location = new System.Drawing.Point(593, 11);
+			this.previousButton.Location = new System.Drawing.Point(608, 13);
 			this.previousButton.Name = "previousButton";
 			this.previousButton.Size = new System.Drawing.Size(61, 23);
 			this.previousButton.TabIndex = 45;
@@ -73,7 +64,7 @@
 			// 
 			// bigFLP
 			// 
-			this.bigFLP.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+			this.bigFLP.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.bigFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.bigFLP.Location = new System.Drawing.Point(0, 50);
 			this.bigFLP.Name = "bigFLP";
@@ -82,7 +73,7 @@
 			// 
 			// saveButton
 			// 
-			this.saveButton.BackColor = System.Drawing.Color.Coral;
+			this.saveButton.BackColor = System.Drawing.Color.MistyRose;
 			this.saveButton.Location = new System.Drawing.Point(94, 7);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(75, 37);
@@ -107,7 +98,7 @@
 			this.pageLabel.AutoSize = true;
 			this.pageLabel.BackColor = System.Drawing.Color.Transparent;
 			this.pageLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.pageLabel.Location = new System.Drawing.Point(671, 16);
+			this.pageLabel.Location = new System.Drawing.Point(686, 18);
 			this.pageLabel.Name = "pageLabel";
 			this.pageLabel.Size = new System.Drawing.Size(23, 12);
 			this.pageLabel.TabIndex = 46;
@@ -129,6 +120,16 @@
 			this.myStatusLabel.Name = "myStatusLabel";
 			this.myStatusLabel.Size = new System.Drawing.Size(0, 17);
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// checkBoxDemo
+			// 
+			this.checkBoxDemo.Location = new System.Drawing.Point(527, 13);
+			this.checkBoxDemo.Name = "checkBoxDemo";
+			this.checkBoxDemo.Size = new System.Drawing.Size(72, 24);
+			this.checkBoxDemo.TabIndex = 39;
+			this.checkBoxDemo.Text = "通道512";
+			this.checkBoxDemo.UseVisualStyleBackColor = true;
+			this.checkBoxDemo.Visible = false;
 			// 
 			// RecordSetForm
 			// 
@@ -155,8 +156,6 @@
 		}
 
 		#endregion
-
-		private System.Windows.Forms.CheckBox checkBoxDemo;
 		private System.Windows.Forms.Button nextButton;
 		private System.Windows.Forms.Button previousButton;
 		private System.Windows.Forms.FlowLayoutPanel bigFLP;
@@ -165,6 +164,8 @@
 		private System.Windows.Forms.Label pageLabel;
 		private System.Windows.Forms.StatusStrip myStatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.CheckBox checkBoxDemo;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }
 

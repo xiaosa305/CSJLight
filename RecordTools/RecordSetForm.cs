@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RecordTools.Entity;
 using RecordTools.Utils;
 
 namespace RecordTools
@@ -43,6 +44,19 @@ namespace RecordTools
 			}
 
 			refreshPage();
+		}
+
+		private void RecordSetForm_Load(object sender, EventArgs e) { }
+
+		// 双缓冲解决刷新页面时，慢慢减少部分控件的情况
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000; // 用双缓冲绘制窗口的所有子控件
+				return cp;
+			}
 		}
 
 		/// <summary>
@@ -104,46 +118,33 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void loadButton_Click(object sender, EventArgs e)
 		{
-			tdSet = new HashSet<int>();
-			for (int tdIndex = 1; tdIndex <= tdCount; tdIndex++)
-			{
-				if (tdIndex % 3 == 0)
-					tdSet.Add(tdIndex);
-			}
-			refreshPage();
+			//tdSet = new HashSet<int>();
+			//for (int tdIndex = 1; tdIndex <= tdCount; tdIndex++)
+			//{
+			//	if (tdIndex % 3 == 0)
+			//		tdSet.Add(tdIndex);
+			//}
+			//refreshPage();
 		}
 		
-
 		/// <summary>
 		/// 事件：点击《保存配置文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
-		{	
-			
+		{
+			MusicSceneConfig msc = new MusicSceneConfig();
+		
 
+				
 			
-			refreshPage();
 		}
 
 		#endregion
 
 		#region 通用方法(这些方法往往只需稍微修改或完全不动，就可以在不同的界面中通用)
-
-		// 双缓冲解决刷新页面时，慢慢减少部分控件的情况
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				CreateParams cp = base.CreateParams;
-				cp.ExStyle |= 0x02000000; // 用双缓冲绘制窗口的所有子控件
-				return cp;
-			}
-		}
-
-		private void RecordSetForm_Load(object sender, EventArgs e) { }
-
+		
 		/// <summary>
 		/// 事件：点击《上|下一页》
 		/// </summary>

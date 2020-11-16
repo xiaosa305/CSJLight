@@ -83,6 +83,27 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《X》时，若存在多个虚拟IP，则提示用户清空；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm4_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (vipList != null && vipList.Count > 0)
+			{
+				if (MessageBox.Show("监测到当前网卡存在多个虚拟IP，是否先清空后再退出程序？",
+					"清空虚拟IP？",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+
+					clearVIPList();
+				}
+			}
+
+		}
+		
+		/// <summary>
 		/// 事件：选中不同的网卡（刷新网卡信息）
 		/// </summary>
 		/// <param name="sender"></param>
@@ -266,14 +287,7 @@ namespace MultiLedController.MyForm
 
 			if (vipList != null && vipList.Count > 0)
 			{
-				IPAst ipAst = new IPAst(mo)
-				{
-					IpArray = new string[] { mainIP },
-					SubmaskArray = new string[] { mainMask },
-				};
-
-				setNotice(1, "正在为您清空虚拟IP,清空后将刷新当前网卡信息，请稍候...", false);
-				IPHelper.SetIPAddress(mo, ipAst);
+				clearVIPList();
 				refreshNetcardInfo(); // 无论设置成功与否，都主动刷新网卡信息			
 			}
 			else
@@ -283,6 +297,22 @@ namespace MultiLedController.MyForm
 
 			setBusy(false);
 		}
+
+		/// <summary>
+		/// 辅助方法：清空当前网卡的虚拟IP列表
+		/// </summary>
+		private void clearVIPList() {
+
+			IPAst ipAst = new IPAst(mo)
+			{
+				IpArray = new string[] { mainIP },
+				SubmaskArray = new string[] { mainMask },
+			};
+
+			setNotice(1, "正在为您清空虚拟IP,清空后将刷新当前网卡信息，请稍候...", false);
+			IPHelper.SetIPAddress(mo, ipAst);
+		}
+
 
 		#region 设置路数 及 启动模拟等
 
@@ -892,8 +922,10 @@ namespace MultiLedController.MyForm
 			}
 		}
 
+
 		#endregion
 
 
+	
 	}
 }

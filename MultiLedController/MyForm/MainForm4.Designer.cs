@@ -543,6 +543,7 @@
 			this.Name = "MainForm4";
 			this.Text = "幻彩灯带控制器(广播版)";
 			this.Activated += new System.EventHandler(this.MainForm4_Activated);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm4_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm4_Load);
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();

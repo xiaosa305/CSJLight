@@ -11,7 +11,6 @@ using System.Windows.Forms;
 
 using fastJSON;
 using LightController.PeripheralDevice;
-using System.Threading;
 
 namespace LightController
 {
@@ -39,51 +38,50 @@ namespace LightController
 			//Dictionary<string,object> userDict = rd.data as Dictionary<string, object>;
 			//string sessionId = userDict["userName"] as string;
 
-			string sessionId = "admin";
-			OnlineConnect connect = new OnlineConnect(sessionId);
-			
-			connect.Connect( null );
+			//OnlineConnect connect = new OnlineConnect(sessionId);
 
-            connect.SetSessionId();
+			//connect.Connect( null );
 
-			Thread.Sleep(2000);
+			//connect.SetSessionId();
 
-			connect.GetOnlineDevices(null, null);
+			//List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
+			//if (deviceList != null && deviceList.Count > 0)
+			//{
+			//	foreach (var dev in deviceList)
+			//	{
+			//		Console.WriteLine(dev.Device_name);
+			//	}
+			//}
+			//else {
+			//	Console.WriteLine("在线列表为空");
+			//}
 
-			Thread.Sleep(5000);
-
-			List<OnlineDeviceInfo> deviceList = connect.DeviceInfos;
-
-			foreach (var dev in deviceList)
-			{
-				Console.WriteLine(dev.Device_name);
-			}
-			
-			Console.WriteLine(connect);
+			//Console.WriteLine(connect);
 
 
 			//// 下列代码作用为：避免重复打开此软件
-			//bool ret;
-			//System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
+			bool ret;
+			System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);
 
-			//if (ret) {
-			//	Application.EnableVisualStyles();
-			//	Application.SetCompatibleTextRenderingDefault(false);
-			//	if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
-			//	{
-			//		Application.Run(new NewMainForm());
-			//	}
-			//	else
-			//	{
-			//		Application.Run(new SkinMainForm());
-			//	}
-			//	mutex.ReleaseMutex();
-			//}
-			//else {
-			//	MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");	
-			//	Application.Exit();
-			//}
-
+			if (ret)
+			{
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
+				{
+					Application.Run(new NewMainForm());
+				}
+				else
+				{
+					Application.Run(new SkinMainForm());
+				}
+				mutex.ReleaseMutex();
+			}
+			else
+			{
+				MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");
+				Application.Exit();
+			}
 
 		}
 	}

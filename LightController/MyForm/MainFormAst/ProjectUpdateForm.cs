@@ -289,8 +289,8 @@ namespace LightController.MyForm
 
 			if (String.IsNullOrEmpty(projectPath))
 			{
-				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
-					"是否实时生成工程?",
+				DialogResult dr = MessageBox.Show("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？",
+					"是否继续更新工程?",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
@@ -299,6 +299,15 @@ namespace LightController.MyForm
 					return;
 				}
 
+				dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
+					"是否实时生成工程?",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+				if (dr == DialogResult.Cancel)
+				{
+					SetBusy(false);
+					return;
+				}
 				
 				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
 				{

@@ -1,5 +1,4 @@
-﻿using LightController.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,34 +6,36 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RecordTools.Utils;
 
-namespace LightController.MyForm.OtherTools
+namespace RecordTools
 {
 	public partial class RecordSetForm : Form
 	{
 		// 以下变量，为《分页显示》功能必须的变量 
-		private int currentPage = 1;　  
-		private int pageCount ;
+		private int currentPage = 1;
+		private int pageCount;
 		private int eachCount = 100;    // 如果此项大于tdCount,则应设为tdCount的值
 		private int tdCount = 512;  //注意：此项不得为0，否则分页毫无意义
 
-		private bool[] tdArray; // 记录了各个通道是否开启了音频控制的功能的数组(true为开启)
+		private HashSet<int> tdSet ; // 记录使用的通道
 
 		public RecordSetForm()
 		{
 			InitializeComponent();
 
-			tdArray = new bool[tdCount];
-			eachCount = eachCount > tdCount ? tdCount : eachCount ;			
+			tdSet = new HashSet<int>();
+
+			eachCount = eachCount > tdCount ? tdCount : eachCount;
 			pageCount = MathHelper.GetDivisionCelling(tdCount, eachCount);
-		
+
 			for (int cbIndex = 0; cbIndex < eachCount; cbIndex++)
 			{
 				int tdIndex = (currentPage - 1) * eachCount + cbIndex;
 				CheckBox cb = new CheckBox
 				{
 					Location = checkBoxDemo.Location,
-					Size = checkBoxDemo.Size,					
+					Size = checkBoxDemo.Size,
 					UseVisualStyleBackColor = checkBoxDemo.UseVisualStyleBackColor,
 					Visible = true,
 				};
@@ -43,7 +44,7 @@ namespace LightController.MyForm.OtherTools
 
 			refreshPage();
 		}
-					   
+
 		/// <summary>
 		/// 辅助方法：刷新页面（根据当前的页面，把相应的checkBox的CheckBox设为正确的值）
 		/// </summary>
@@ -55,18 +56,19 @@ namespace LightController.MyForm.OtherTools
 			// 遍历显示(或隐藏)通道,并改名
 			for (int cbIndex = 0; cbIndex < eachCount; cbIndex++)
 			{
-				CheckBox cb = bigFLP.Controls[cbIndex] as CheckBox ; 
-				if (currentPage < pageCount || tdCount % eachCount == 0 || cbIndex < tdCount % eachCount )
+				CheckBox cb = bigFLP.Controls[cbIndex] as CheckBox;
+				if (currentPage < pageCount || tdCount % eachCount == 0 || cbIndex < tdCount % eachCount)
 				{
-					int tdIndex = (currentPage - 1) * eachCount + cbIndex;					
+					int tdIndex = (currentPage - 1) * eachCount + cbIndex;
 					cb.Text = "通道" + (tdIndex + 1);
 					cb.Name = "checkBox" + (tdIndex + 1);
 					cb.CheckedChanged -= tdCheckBox_CheckedChanged;
-					cb.Checked = tdArray[tdIndex];
+					cb.Checked = tdSet.Contains( tdIndex+1 );
 					cb.CheckedChanged += tdCheckBox_CheckedChanged;
 					cb.Show();
 				}
-				else {
+				else
+				{
 					cb.Hide();
 				}
 			}
@@ -79,43 +81,38 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tdCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			Console.WriteLine("tdCheckBox_CheckedChanged");
+			//Console.WriteLine("tdCheckBox_CheckedChanged");
 
 			CheckBox cb = sender as CheckBox;
-			int tdIndex = MathHelper.GetIndexNum(cb.Name, -1);
-			tdArray[tdIndex] = cb.Checked;
+			int tdIndex = MathHelper.GetIndexNum(cb.Name,0); // 通道名无需-1，应该所见即所得
 
+			if (cb.Checked)
+			{
+				tdSet.Add( tdIndex  );
+			}
+			else {
+				tdSet.Remove(tdIndex );
+			}
 		}
-			   
+
 		#region 保存或加载配置
 
 		/// <summary>
-		/// 事件：点击《加载旧版配置》
+		/// 事件：点击《打开配置文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void loadOldButton_Click(object sender, EventArgs e)
+		private void loadButton_Click(object sender, EventArgs e)
 		{
-			for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+			tdSet = new HashSet<int>();
+			for (int tdIndex = 1; tdIndex <= tdCount; tdIndex++)
 			{
-				tdArray[tdIndex] = (tdIndex + 1) % 3 == 0;
+				if (tdIndex % 3 == 0)
+					tdSet.Add(tdIndex);
 			}
 			refreshPage();
 		}
-
-		/// <summary>
-		/// 事件：点击《加载新版配置文件》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void loadNewButton_Click(object sender, EventArgs e)
-		{
-			for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
-			{
-				tdArray[tdIndex] = (tdIndex + 1) % 5 == 0;
-			}
-			refreshPage();
-		}
+		
 
 		/// <summary>
 		/// 事件：点击《保存配置文件》
@@ -123,10 +120,10 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
-		{
-			Console.WriteLine(tdArray);
+		{	
+			
 
-			currentPage = pageCount;
+			
 			refreshPage();
 		}
 
@@ -187,6 +184,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		#endregion
+
 
 	}
 }

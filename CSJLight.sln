@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightDogWPF", "LightDogWPF\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialTools", "SpecialTools\SpecialTools.csproj", "{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordTools", "RecordTools\RecordTools.csproj", "{7C56D7EE-834D-481A-81D6-62D645CF985D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x64.Build.0 = Release|Any CPU
 		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x86.ActiveCfg = Release|Any CPU
 		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x86.Build.0 = Release|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Debug|x64.Build.0 = Debug|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Debug|x86.Build.0 = Debug|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x64.ActiveCfg = Release|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x64.Build.0 = Release|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

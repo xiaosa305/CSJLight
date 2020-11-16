@@ -8,8 +8,6 @@ namespace RecordTools.Entity
 {
     public class MusicSceneConfig
     {
-		private decimal eachStepTime2 = .03m;
-
 		public int StepTime { get; set; }
         public int StepWaitTIme { get; set; }
         public List<int> MusicStepList { get; set; }

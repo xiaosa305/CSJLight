@@ -23,7 +23,6 @@ namespace RecordTools
 		private int pageCount;
 		private int eachCount = 100;    // 如果此项大于tdCount,则应设为tdCount的值
 		private int tdCount = 512;  //注意：此项不得为0，否则分页毫无意义
-
 		
 		private HashSet<int> tdSet; // 记录使用的通道
 
@@ -36,16 +35,24 @@ namespace RecordTools
 			// 读取各个默认配置
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
 			eachStepTime = iniHelper.ReadInt("CommonSet", "EachStepTime", 40) / 1000m;
+			int stepTime = iniHelper.ReadInt("CommonSet", "StepTime", 10);
+			stepTimeNumericUpDown.Value = eachStepTime * stepTime;
+			//添加frameStepTimeNumericUpDown相关初始化及监听事件			
+			stepTimeNumericUpDown.Increment = eachStepTime;
+			stepTimeNumericUpDown.Maximum = 250*eachStepTime;
+			stepTimeNumericUpDown.MouseWheel += someNUD_MouseWheel;
+
+			jgtNumericUpDown.Value = iniHelper.ReadInt("CommonSet", "JG", 2000);
+			jgtNumericUpDown.MouseWheel += someNUD_MouseWheel;
 
 			savePath = iniHelper.ReadString("CommonSet", "SavePath", @"C:\Temp\CSJ");
 			saveFolderBrowserDialog.SelectedPath = savePath;
 			setSavePathLabel();
-
 			sceneNo = iniHelper.ReadInt("CommonSet", "SceneNo", 1);
 			if (sceneNo < 1 || sceneNo > 32) {
 				sceneNo = 1;
 			}
-			setSceneNo();
+			setSceneNo(false);
 
 			// 初始化各个组件
 			tdSet = new HashSet<int>();
@@ -142,13 +149,13 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void loadButton_Click(object sender, EventArgs e)
 		{
-			//tdSet = new HashSet<int>();
-			//for (int tdIndex = 1; tdIndex <= tdCount; tdIndex++)
-			//{
-			//	if (tdIndex % 3 == 0)
-			//		tdSet.Add(tdIndex);
-			//}
-			//refreshPage();
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				musicSceneConfig = MusicSceneConfig.ReadFromFile( openFileDialog.FileName );
+				tdSet = musicSceneConfig.MusicChannelNoList;
+
+				refreshPage();
+			}
 		}
 
 		/// <summary>
@@ -158,16 +165,26 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
+			if (tdSet == null || tdSet.Count == 0) {
+				setNotice("请选择至少一个通道！" ,  true);
+				return;
+			}
+
 			musicSceneConfig = new MusicSceneConfig
 			{
-				StepTime = decimal.ToInt32(frameStepTimeNumericUpDown.Value * 1000 / eachStepTime),
+				StepTime = decimal.ToInt32(stepTimeNumericUpDown.Value * 1000 / eachStepTime),
 				StepWaitTIme = decimal.ToInt32(jgtNumericUpDown.Value),
 				MusicStepList = makeLinkList(),
 				MusicChannelNoList = tdSet
-			};
+			};			
 
-			
-			musicSceneConfig.WriteToFile(savePath, "M" + sceneNo + ".bin");
+			if ( musicSceneConfig.WriteToFile(savePath, "M" + sceneNo + ".bin") ) {
+				setNotice("保存配置文件成功", true);
+			}
+			else
+			{
+				setNotice("保存配置文件失败", true);
+			}
 
 		}
 
@@ -214,13 +231,45 @@ namespace RecordTools
 			}
 		}
 
+		/// <summary>
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
+		}
 
 		#endregion
 
-		private void frameStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt32(frameStepTimeNumericUpDown.Value / eachStepTime);
-			frameStepTimeNumericUpDown.Value = stepTime * eachStepTime;
+			int stepTime = Decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
+			stepTimeNumericUpDown.Value = stepTime * eachStepTime;
 		}
 
 		private void setFilePathButton_Click(object sender, EventArgs e)
@@ -250,11 +299,13 @@ namespace RecordTools
 		/// <summary>
 		/// 辅助方法：根据当前的savePath，设置label及toolTip
 		/// </summary>
-		private void setSceneNo()
+		private void setSceneNo(bool isNotice)
 		{
-
+			sceneNoTextBox.Text = sceneNo.ToString() ;
+			if (isNotice) {
+				setNotice("已设置文件名为M"+sceneNo+".bin", false);
+			}
 		}
-
 
 		/// <summary>
 		/// 辅助方法：封装音频链表
@@ -263,14 +314,13 @@ namespace RecordTools
 
 			List<int> linkList = new List<int>();
 
-			string linkStr = mFrameLKTextBox.Text.Trim();
+			string linkStr = mLKTextBox.Text.Trim();
 			if (linkStr == "")
 			{
-				linkList.Add(1);
+				linkList.Add(0);
 			}
 			else {
 				string[] strArray = linkStr.Split(' ');
-
 				try
 				{
 					foreach (string tempStr in strArray)
@@ -279,11 +329,43 @@ namespace RecordTools
 					}
 				}
 				catch (Exception ex) {
-					MessageBox.Show("音频链表输入有误,请重新输入！");
-					linkList.Add(1);
+					MessageBox.Show("音频链表输入有误,请重新输入！\n"+ex.Message);
+					linkList.Add(0);
 				}				
 			}
 			return linkList;
+		}
+
+		/// <summary>
+		/// 事件：点击《+》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void plusButton_Click(object sender, EventArgs e)
+		{
+			if (sceneNo >= 32)
+			{
+				setNotice( "文件序号不得大于32。", true);
+				return;
+			}
+			sceneNo++;
+			setSceneNo(true);
+		}
+
+		/// <summary>
+		/// 事件：点击《-》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void minusButton_Click(object sender, EventArgs e)
+		{
+			if (sceneNo <= 1)
+			{
+				setNotice( "文件序号不得小于1。", true);
+				return;
+			}
+			sceneNo--;
+			setSceneNo(true);
 		}
 
 	}

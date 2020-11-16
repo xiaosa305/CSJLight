@@ -45,11 +45,11 @@
 			this.nameLabel = new System.Windows.Forms.Label();
 			this.binLabel = new System.Windows.Forms.Label();
 			this.sceneNoTextBox = new System.Windows.Forms.TextBox();
-			this.mFrameLKTextBox = new System.Windows.Forms.TextBox();
+			this.mLKTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label36 = new System.Windows.Forms.Label();
 			this.jgtNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.stepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label2 = new System.Windows.Forms.Label();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.minusButton = new System.Windows.Forms.Button();
@@ -57,7 +57,7 @@
 			this.saveFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myStatusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// nextButton
@@ -82,7 +82,8 @@
 			// 
 			// bigFLP
 			// 
-			this.bigFLP.BackColor = System.Drawing.SystemColors.InactiveBorder;
+			this.bigFLP.BackColor = System.Drawing.Color.AliceBlue;
+			this.bigFLP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.bigFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.bigFLP.Location = new System.Drawing.Point(0, 105);
 			this.bigFLP.Name = "bigFLP";
@@ -92,7 +93,7 @@
 			// saveButton
 			// 
 			this.saveButton.BackColor = System.Drawing.Color.MistyRose;
-			this.saveButton.Location = new System.Drawing.Point(697, 61);
+			this.saveButton.Location = new System.Drawing.Point(697, 59);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(75, 37);
 			this.saveButton.TabIndex = 41;
@@ -114,7 +115,7 @@
 			// pageLabel
 			// 
 			this.pageLabel.AutoSize = true;
-			this.pageLabel.BackColor = System.Drawing.Color.SeaShell;
+			this.pageLabel.BackColor = System.Drawing.Color.Silver;
 			this.pageLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.pageLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.pageLabel.Location = new System.Drawing.Point(683, 425);
@@ -125,6 +126,7 @@
 			// 
 			// myStatusStrip
 			// 
+			this.myStatusStrip.BackColor = System.Drawing.Color.LightGray;
 			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
 			this.myStatusStrip.Location = new System.Drawing.Point(0, 419);
@@ -165,7 +167,7 @@
 			// 
 			this.recordPathLabel.Location = new System.Drawing.Point(100, 62);
 			this.recordPathLabel.Name = "recordPathLabel";
-			this.recordPathLabel.Size = new System.Drawing.Size(297, 30);
+			this.recordPathLabel.Size = new System.Drawing.Size(288, 30);
 			this.recordPathLabel.TabIndex = 74;
 			this.recordPathLabel.Text = "请选择存放目录。";
 			this.recordPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -173,7 +175,7 @@
 			// nameLabel
 			// 
 			this.nameLabel.AutoSize = true;
-			this.nameLabel.Location = new System.Drawing.Point(407, 71);
+			this.nameLabel.Location = new System.Drawing.Point(398, 71);
 			this.nameLabel.Name = "nameLabel";
 			this.nameLabel.Size = new System.Drawing.Size(65, 12);
 			this.nameLabel.TabIndex = 76;
@@ -182,7 +184,7 @@
 			// binLabel
 			// 
 			this.binLabel.AutoSize = true;
-			this.binLabel.Location = new System.Drawing.Point(522, 71);
+			this.binLabel.Location = new System.Drawing.Point(498, 71);
 			this.binLabel.Name = "binLabel";
 			this.binLabel.Size = new System.Drawing.Size(29, 12);
 			this.binLabel.TabIndex = 75;
@@ -190,25 +192,25 @@
 			// 
 			// sceneNoTextBox
 			// 
-			this.sceneNoTextBox.Location = new System.Drawing.Point(476, 67);
+			this.sceneNoTextBox.Location = new System.Drawing.Point(467, 67);
 			this.sceneNoTextBox.MaxLength = 3;
 			this.sceneNoTextBox.Name = "sceneNoTextBox";
-			this.sceneNoTextBox.Size = new System.Drawing.Size(39, 21);
+			this.sceneNoTextBox.Size = new System.Drawing.Size(28, 21);
 			this.sceneNoTextBox.TabIndex = 77;
-			this.sceneNoTextBox.Text = "00";
+			this.sceneNoTextBox.Text = "1";
 			this.sceneNoTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// mFrameLKTextBox
+			// mLKTextBox
 			// 
-			this.mFrameLKTextBox.BackColor = System.Drawing.Color.White;
-			this.mFrameLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mFrameLKTextBox.Location = new System.Drawing.Point(553, 16);
-			this.mFrameLKTextBox.MaxLength = 20;
-			this.mFrameLKTextBox.Multiline = true;
-			this.mFrameLKTextBox.Name = "mFrameLKTextBox";
-			this.mFrameLKTextBox.Size = new System.Drawing.Size(219, 22);
-			this.mFrameLKTextBox.TabIndex = 82;
-			this.mFrameLKTextBox.Text = "1";
+			this.mLKTextBox.BackColor = System.Drawing.Color.White;
+			this.mLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mLKTextBox.Location = new System.Drawing.Point(553, 16);
+			this.mLKTextBox.MaxLength = 20;
+			this.mLKTextBox.Multiline = true;
+			this.mLKTextBox.Name = "mLKTextBox";
+			this.mLKTextBox.Size = new System.Drawing.Size(219, 22);
+			this.mLKTextBox.TabIndex = 82;
+			this.mLKTextBox.Text = "1";
 			// 
 			// label1
 			// 
@@ -241,15 +243,15 @@
 			this.jgtNumericUpDown.TabIndex = 80;
 			this.jgtNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// frameStepTimeNumericUpDown
+			// stepTimeNumericUpDown
 			// 
-			this.frameStepTimeNumericUpDown.DecimalPlaces = 2;
-			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(195, 17);
-			this.frameStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
-			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
-			this.frameStepTimeNumericUpDown.TabIndex = 81;
-			this.frameStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.frameStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.frameStepTimeNumericUpDown_ValueChanged);
+			this.stepTimeNumericUpDown.DecimalPlaces = 2;
+			this.stepTimeNumericUpDown.Location = new System.Drawing.Point(195, 17);
+			this.stepTimeNumericUpDown.Name = "stepTimeNumericUpDown";
+			this.stepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
+			this.stepTimeNumericUpDown.TabIndex = 81;
+			this.stepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// label2
 			// 
@@ -264,21 +266,23 @@
 			// 
 			// minusButton
 			// 
-			this.minusButton.Location = new System.Drawing.Point(605, 62);
+			this.minusButton.Location = new System.Drawing.Point(660, 62);
 			this.minusButton.Name = "minusButton";
-			this.minusButton.Size = new System.Drawing.Size(30, 31);
+			this.minusButton.Size = new System.Drawing.Size(25, 31);
 			this.minusButton.TabIndex = 84;
 			this.minusButton.Text = "-";
 			this.minusButton.UseVisualStyleBackColor = true;
+			this.minusButton.Click += new System.EventHandler(this.minusButton_Click);
 			// 
 			// plusButton
 			// 
-			this.plusButton.Location = new System.Drawing.Point(572, 62);
+			this.plusButton.Location = new System.Drawing.Point(633, 62);
 			this.plusButton.Name = "plusButton";
-			this.plusButton.Size = new System.Drawing.Size(30, 31);
+			this.plusButton.Size = new System.Drawing.Size(25, 31);
 			this.plusButton.TabIndex = 83;
 			this.plusButton.Text = "+";
 			this.plusButton.UseVisualStyleBackColor = true;
+			this.plusButton.Click += new System.EventHandler(this.plusButton_Click);
 			// 
 			// saveFolderBrowserDialog
 			// 
@@ -293,10 +297,10 @@
 			this.ClientSize = new System.Drawing.Size(784, 441);
 			this.Controls.Add(this.minusButton);
 			this.Controls.Add(this.plusButton);
-			this.Controls.Add(this.mFrameLKTextBox);
+			this.Controls.Add(this.mLKTextBox);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.jgtNumericUpDown);
-			this.Controls.Add(this.frameStepTimeNumericUpDown);
+			this.Controls.Add(this.stepTimeNumericUpDown);
 			this.Controls.Add(this.setFilePathButton);
 			this.Controls.Add(this.recordPathLabel);
 			this.Controls.Add(this.nameLabel);
@@ -313,12 +317,16 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label36);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(800, 480);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(800, 480);
 			this.Name = "RecordSetForm";
 			this.Text = "录播文件·音频通道选择器";
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -340,11 +348,11 @@
 		private System.Windows.Forms.Label nameLabel;
 		private System.Windows.Forms.Label binLabel;
 		private System.Windows.Forms.TextBox sceneNoTextBox;
-		private System.Windows.Forms.TextBox mFrameLKTextBox;
+		private System.Windows.Forms.TextBox mLKTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label36;
 		private System.Windows.Forms.NumericUpDown jgtNumericUpDown;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown;
+		private System.Windows.Forms.NumericUpDown stepTimeNumericUpDown;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.Button minusButton;

@@ -76,6 +76,8 @@ namespace RecordTools.Entity
                         }
                     }
                 }
+                writeBuff.Add(Convert.ToByte(this.MusicChannelNoList.Count & 0xFF));
+                writeBuff.Add(Convert.ToByte((this.MusicChannelNoList.Count >> 8) & 0xFF));
                 foreach (int channelNo in this.MusicChannelNoList)
                 {
                     int seek = writeBuff.Count + 8;

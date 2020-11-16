@@ -29,12 +29,13 @@ namespace LightController.PeripheralDevice
         public List<OnlineDeviceInfo> DeviceInfos { get; set; }
         private string SessionId { get; set; }
         public bool IsBind { get; set; }
+        public bool IsSendToServer { get; set; }
 
-        public delegate void CommandSuccessed();
-        public delegate void CommandFailed();
+        //public delegate void CommandSuccessed();
+        //public delegate void CommandFailed();
 
-        private CommandSuccessed CommandSuccessed_Event { get; set; }
-        private CommandFailed CommandFailed_Event { get; set; }
+        //private CommandSuccessed CommandSuccessed_Event { get; set; }
+        //private CommandFailed CommandFailed_Event { get; set; }
 
         public OnlineConnect(String sessionId)
         {
@@ -111,13 +112,26 @@ namespace LightController.PeripheralDevice
             this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
         }
 
+        private void SendToServer(byte[] data)
+        {
+            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
+            this.IsSendToServer = true;
+        }
+
         /// <summary>
         /// 网络发送完成回调方法
         /// </summary>
         /// <param name="async"></param>
         private void SendCallBack(IAsyncResult async)
         {
-            this.SendDataCompleted();
+            if (this.IsSendToServer)
+            {
+                this.IsSendToServer = false;
+            }
+            else
+            {
+                this.SendDataCompleted();
+            }
         }
 
         /// <summary>
@@ -184,19 +198,19 @@ namespace LightController.PeripheralDevice
             }
         }
 
-        public void UnBindDevice(CommandSuccessed successed,CommandFailed failed)
+        public void UnBindDevice(Completed completed ,Error error)
         {
-            this.CommandSuccessed_Event = successed;
-            this.CommandFailed_Event = failed;
+            this.Completed_Event += completed;
+            this.Error_Event += error;
             byte[] data = new byte[] { 0xBB, 0xAA, 0x00, 0x00 };
             this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
             //this.Send(data);
         }
 
-        public void BindDevice(String deviceId,CommandSuccessed successed,CommandFailed failed)
+        public void BindDevice(String deviceId, Completed completed, Error error)
         {
-            this.CommandSuccessed_Event = successed;
-            this.CommandFailed_Event = failed;
+            this.Completed_Event += completed;
+            this.Error_Event += error;
             List<byte> data = new List<byte>();
             data.Add(0xBB);
             data.Add(0xAA);
@@ -207,10 +221,10 @@ namespace LightController.PeripheralDevice
             //this.Send(data.ToArray());
         }
 
-        public void ChangeBindDevice(String deviceId,CommandSuccessed successed,CommandFailed failed)
+        public void ChangeBindDevice(String deviceId, Completed completed, Error error)
         {
-            this.CommandSuccessed_Event = successed;
-            this.CommandFailed_Event = failed;
+            this.Completed_Event += completed;
+            this.Error_Event += error;
             List<byte> data = new List<byte>();
             data.Add(0xBB);
             data.Add(0xAA);
@@ -221,10 +235,10 @@ namespace LightController.PeripheralDevice
             //this.Send(data.ToArray());
         }
 
-        public void GetOnlineDevices(CommandSuccessed successed,CommandFailed failed)
+        public void GetOnlineDevices(Completed completed, Error error)
         {
-            this.CommandSuccessed_Event = successed;
-            this.CommandFailed_Event = failed;
+            this.Completed_Event += completed;
+            this.Error_Event += error;
             byte[] data = new byte[] { 0xBB, 0xAA, 0x03,0x00,0x00 };
             this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
             //this.Send(data);
@@ -257,13 +271,11 @@ namespace LightController.PeripheralDevice
         private void UnBindDeviceFailed()
         {
             this.IsBind = false;
-            this.CommandFailed_Event();
         }
 
         private void UnBindDeviceSuccessed()
         {
             this.IsBind = false;
-            this.CommandSuccessed_Event();
         }
 
         private void BindDeviceReceiveManager(byte[] data)
@@ -282,13 +294,11 @@ namespace LightController.PeripheralDevice
         private void BindDeviceFailed()
         {
             this.IsBind = false;
-            this.CommandFailed_Event();
         }
 
         private void BindDeviceSuccessed()
         {
             this.IsBind = true;
-            this.CommandSuccessed_Event();
         }
 
         private void ChangeBindDeviceReceiveManager(byte[] data)
@@ -306,13 +316,11 @@ namespace LightController.PeripheralDevice
 
         private void ChgangeBindDeviceFailed()
         {
-            this.CommandFailed_Event();
         }
 
         private void ChangeBindDeviceSuccessed()
         {
             this.IsBind = true;
-            this.CommandSuccessed_Event();
         }
 
         public void GetOnlineDeviceReceiveManager(byte[] data)
@@ -330,7 +338,6 @@ namespace LightController.PeripheralDevice
         private void GetOnlineDeviceFailed()
         {
             this.DeviceInfos = new List<OnlineDeviceInfo>();
-            //this.CommandFailed_Event();
         }
 
         private void GetOnlineDeviceSuccessed(byte[] data)
@@ -339,7 +346,6 @@ namespace LightController.PeripheralDevice
             Array.Copy(data, 4, jsonBuff, 0, data.Length - 4);
             string json = Encoding.UTF8.GetString(jsonBuff);
             this.DeviceInfos = JSON.ToObject<List<OnlineDeviceInfo>>(json);
-            //this.CommandSuccessed_Event();
         }
     }
 }

@@ -50,8 +50,8 @@ namespace LightController.PeripheralDevice
         public delegate void Error(string message);
         public delegate void KeyPressClick(Object obj);
         public delegate void CopyListener(Object obj);
-        private event Completed Completed_Event;
-        private event Error Error_Event;
+        public event Completed Completed_Event;
+        public event Error Error_Event;
         private event KeyPressClick KeyPressClick_Event;
         private event CopyListener CopyListener_Event;
 
@@ -119,7 +119,16 @@ namespace LightController.PeripheralDevice
         /// <param name="e"></param>
         private void SendTimeOut(object sender, ElapsedEventArgs e)
         {
-            if (!(this.SecondOrder == Order.STOP_INTENT_PREVIEW))
+           
+            if (this.SecondOrder == Order.STOP_INTENT_PREVIEW)
+            {
+
+            }
+            //else if (this.SecondOrder == Order.SERVER_SET_SESSION_ID || this.SecondOrder == Order.SERVER_BIND_DEVICE || this.SecondOrder == Order.SERVER_CHANGE_BIND_DEVICE || this.SecondOrder == Order.SERVER_UNBIND_DEVICE || this.SecondOrder == Order.SERVER_GET_DEVICES)
+            //{
+            //    ;
+            //}
+            else
             {
                 this.IsStopThread = true;
                 this.IsSending = false;
@@ -390,7 +399,6 @@ namespace LightController.PeripheralDevice
             pack[7] = packCRC[1];//添加通信包CRC后8位
             this.Send(pack.ToArray());
         }
-
         /// <summary>
         /// 发送数据包
         /// </summary>
@@ -442,7 +450,6 @@ namespace LightController.PeripheralDevice
             }
             this.Send(pack.ToArray());
         }
-
         /// <summary>
         /// 接收数据处理
         /// </summary>
@@ -468,14 +475,18 @@ namespace LightController.PeripheralDevice
                         }
                     }
                 }
+                //else if (ReadBuff[0] == 0xBB && ReadBuff[1] == 0xAA && ReadBuff.Count >= 4)
+                //{
+                //    byte[] data = new byte[ReadBuff.Count];
+                //    ReadBuff.CopyTo(data);
+                //    this.ServerReceiveManager(data);
+                //}
                 else
                 {
                     ReadBuff.Clear();
                 }
             }
         }
-
-
         /// <summary>
         /// 接收数据事务管理
         /// </summary>
@@ -1891,7 +1902,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：灯光工程下载更新
         /// </summary>
@@ -2023,7 +2033,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：更新硬件配置
         /// </summary>
@@ -2083,7 +2092,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：读取硬件配置信息
         /// </summary>
@@ -2136,7 +2144,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：升级硬件系统
         /// </summary>
@@ -2204,7 +2211,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：启动网络调试模式
         /// </summary>
@@ -2257,7 +2263,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：关闭网络调试模式
         /// </summary>
@@ -2384,7 +2389,6 @@ namespace LightController.PeripheralDevice
                     break;
             }
         }
-
         /// <summary>
         /// 功能：更新硬件配置回复消息管理
         /// </summary>
@@ -2412,7 +2416,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：读取硬件配置信息回复消息管理
         /// </summary>
@@ -2435,7 +2438,6 @@ namespace LightController.PeripheralDevice
             this.IsSending = false;
             this.CloseTransactionTimer();
         }
-
         /// <summary>
         /// 功能：升级硬件系统回复消息管理
         /// </summary>
@@ -2461,7 +2463,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         /// <summary>
         /// 功能：启动网络调试模拟回复消息管理
         /// </summary>
@@ -2481,7 +2482,6 @@ namespace LightController.PeripheralDevice
             this.IsSending = false;
             this.CloseTransactionTimer();
         }
-
         /// <summary>
         /// 功能：关闭网络调试模拟回复消息管理
         /// </summary>
@@ -2493,7 +2493,6 @@ namespace LightController.PeripheralDevice
             this.IsSending = false;
             this.CloseTransactionTimer();
         }
-
         /// <summary>
         /// 功能：关闭灯光控制事务定时器
         /// </summary>
@@ -2507,127 +2506,69 @@ namespace LightController.PeripheralDevice
         }
 
 
-
-        //TODO XIAOSA：准备删除
-        //private const int UDP_INTENT_PREVIEW_PORT = 7080;
-        //private Socket IntentPreviewUDPSender { get; set; }
-
-        //public void IntentPreview(string targetIp,byte[] data)
-        //{
-        //    if (this.IntentPreviewUDPSender == null)
-        //    {
-        //        this.IntentPreviewUDPSender = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        //        this.IntentPreviewUDPSender.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-        //    }
-        //    this.IntentPreviewUDPSender.SendTo(data, new IPEndPoint(IPAddress.Parse(targetIp), UDP_INTENT_PREVIEW_PORT));
-        //}
-
-
-        ////901灯控功能设备搜索
-        //private const int UDP_SERVER_PORT = 7070;
-        //private const int UDP_CLIENT_PORT = 7060;
-        //private static Socket UDPServer { get; set; }
-        //private static UdpClient UdpClient { get; set; }
-        //private static Thread UDPReceiveThread { get; set; }
-        //private static bool UDPReceiveStatus { get; set; }
-        //private static string LocalIp { get; set; }
-        //private static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
-
-
-
-        ///// <summary>
-        ///// 功能：搜索设备
-        ///// </summary>
-        ///// <param name="localIP">网卡IP</param>
-        //public static void SearchDevice(string localIP)
+        // 服务器功能模块
+        //private void SetSessionId(String sessionId,Completed completed,Error error)
         //{
         //    try
         //    {
-        //        //配置UDP服务器
-        //        LocalIp = localIP;
-        //        UDPReceiveStatus = false;
-        //        if (UDPServer != null)
+        //        if ((!this.IsSending) && this.IsConnected())
         //        {
-        //            UDPServer.Close();
-        //            UdpClient.Close();
-        //            UDPServer = null;
-        //            UdpClient = null;
-        //            UDPReceiveThread = null;
-        //        }
-        //        UDPServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        //        UDPServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-        //        UDPServer.Bind(new IPEndPoint(IPAddress.Parse(localIP), 8080));
-        //        UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 7070));
-        //        UDPReceiveThread = new Thread(SearchDeviceReceiveMsg) { IsBackground = true };
-        //        UDPReceiveThread.Start(UdpClient);
-        //        UDPReceiveStatus = true;
-        //        //开始发送搜索包搜索设备
-        //        if (DeviceInfos.ContainsKey(localIP))
-        //        {
-        //            DeviceInfos[localIP].Clear();
-        //        }
-        //        else
-        //        {
-        //            DeviceInfos.Add(localIP, new Dictionary<string, NetworkDeviceInfo>());
-        //        }
-        //        List<byte> packageBuff = new List<byte>();
-        //        byte[] dataBuff = Encoding.Default.GetBytes(Constant.UDP_ORDER);
-        //        byte[] dataLengthBuff = new byte[] { Convert.ToByte(dataBuff.Length & 0xFF), Convert.ToByte((dataBuff.Length >> 8) & 0xFF) };
-        //        byte[] headBuff = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), dataLengthBuff[0], dataLengthBuff[1], Convert.ToByte("00000001", 2), Convert.ToByte(0x00), Convert.ToByte(0x00) };
-        //        packageBuff.AddRange(headBuff);
-        //        packageBuff.AddRange(dataBuff);
-        //        byte[] CRC = CRCTools.GetInstance().GetCRC(packageBuff.ToArray());
-        //        packageBuff[6] = CRC[0];
-        //        packageBuff[7] = CRC[1];
-        //        UDPServer.SendTo(packageBuff.ToArray(), new IPEndPoint(IPAddress.Broadcast, UDP_CLIENT_PORT));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LogTools.Error(Constant.TAG_XIAOSA, "搜索设备失败", ex);
-        //        UDPReceiveStatus = false;
-        //        UDPReceiveThread = null;
-        //    }
-        //}
-        ///// <summary>
-        ///// 功能：搜索设备接收模块
-        ///// </summary>
-        ///// <param name="obj"></param>
-        //private static void SearchDeviceReceiveMsg(Object obj)
-        //{
-        //    try
-        //    {
-        //        UdpClient udpClient = obj as UdpClient;
-        //        while (UDPReceiveStatus)
-        //        {
-        //            IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT);
-        //            NetworkDeviceInfo info = new NetworkDeviceInfo();
-        //            byte[] data = udpClient.Receive(ref iPEndPoint);
-        //            byte[] buff = new byte[data.Length - 8];
-        //            Array.Copy(data, 8, buff, 0, buff.Length);
-        //            string strBuff = Encoding.Default.GetString(buff);
-        //            string[] strarrau = strBuff.Split(' ');
-        //            info.DeviceIp = strBuff.Split(' ')[0];
-        //            int.TryParse(strBuff.Split(' ')[1], out int addr);
-        //            info.DeviceAddr = addr;
-        //            info.LocalIp = LocalIp;
-        //            info.DeviceName = strBuff.Split(' ')[2];
-        //            if (!DeviceInfos[LocalIp].ContainsKey(info.DeviceIp))
-        //            {
-        //                DeviceInfos[LocalIp].Add(info.DeviceIp, info);
-        //            }
+        //            this.IsSending = true;
+        //            this.Completed_Event = completed;
+        //            this.Error_Event = error;
+        //            this.CloseTransactionTimer();
+        //            this.TransactionTimer = new System.Timers.Timer { AutoReset = false };
+        //            this.TransactionTimer.Elapsed += new ElapsedEventHandler((s,e) => SetSessionIdStart(s, e,sessionId));
+        //            this.TransactionTimer.Start();
         //        }
         //    }
         //    catch (Exception ex)
         //    {
-        //        //LogTools.Debug(Constant.TAG_XIAOSA, "搜索设备服务器已关闭");
+        //        LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载更新任务启动失败", ex);
+        //        this.StopTimeOut();
+        //        this.IsSending = false;
+        //        this.Error_Event("灯光工程下载更新任务启动失败");
+        //        this.CloseTransactionTimer();
         //    }
         //}
-        ///// <summary>
-        ///// 功能：获取设备列表
-        ///// </summary>
-        //public static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> GetDeviceList()
+
+        //private void SetSessionIdStart(Object obj, ElapsedEventArgs e,string sessionId)
         //{
-        //    return DeviceInfos;
+        //    this.SecondOrder = Order.SERVER_SET_SESSION_ID;
+        //    List<byte> data = new List<byte>();
+        //    data.Add(0xBB);
+        //    data.Add(0xAA);
+        //    data.Add(0x04);
+        //    data.Add(0x00);
+        //    data.AddRange(Encoding.Default.GetBytes(sessionId));
+        //    this.Send(data.ToArray());
+        //}
+
+
+        //服务器功能回复管理模块
+        //private void ServerReceiveManager(byte[] data)
+        //{
+        //    switch (data[2])
+        //    {
+        //        case 0x00:
+        //        case 0x01:
+        //        case 0x02:
+        //        case 0x03:
+        //        case 0x04:
+        //            this.ServerSetSessionIdReceiveManager(data);
+        //            break;
+        //    }
+        //}
+        //private void ServerSetSessionIdReceiveManager(byte[] data)
+        //{
+        //    switch (data[3])
+        //    {
+        //        case 0x00:
+        //            //失败
+        //        case 0x01:
+        //            //成功
+        //            break;
+        //    }
         //}
     }
 
@@ -2672,6 +2613,9 @@ namespace LightController.PeripheralDevice
 
     enum Order
     {
-        ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP,DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,START_INTENT_PREVIEW,STOP_INTENT_PREVIEW
+        ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP,
+        DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,
+        START_INTENT_PREVIEW,STOP_INTENT_PREVIEW
+        //SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES
     }
 }

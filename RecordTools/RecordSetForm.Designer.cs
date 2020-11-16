@@ -103,7 +103,8 @@
 			// 
 			// loadOldButton
 			// 
-			this.loadOldButton.BackColor = System.Drawing.Color.PaleTurquoise;
+			this.loadOldButton.BackColor = System.Drawing.Color.Honeydew;
+			this.loadOldButton.ForeColor = System.Drawing.Color.Black;
 			this.loadOldButton.Location = new System.Drawing.Point(13, 9);
 			this.loadOldButton.Name = "loadOldButton";
 			this.loadOldButton.Size = new System.Drawing.Size(75, 37);

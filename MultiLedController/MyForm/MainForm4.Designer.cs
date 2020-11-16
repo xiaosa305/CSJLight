@@ -28,11 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.myToolTip = new System.Windows.Forms.ToolTip();
 			this.label3 = new System.Windows.Forms.Label();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.bottomPanel = new System.Windows.Forms.Panel();
@@ -146,7 +145,7 @@
 			this.recordButton.BackColor = System.Drawing.Color.Transparent;
 			this.recordButton.Enabled = false;
 			this.recordButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.recordButton.Location = new System.Drawing.Point(627, 19);
+			this.recordButton.Location = new System.Drawing.Point(619, 19);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(76, 72);
 			this.recordButton.TabIndex = 65;

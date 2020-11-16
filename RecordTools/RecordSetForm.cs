@@ -152,7 +152,16 @@ namespace RecordTools
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				musicSceneConfig = MusicSceneConfig.ReadFromFile( openFileDialog.FileName );
+
+				stepTimeNumericUpDown.Value = eachStepTime * musicSceneConfig.StepTime ;
+				jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme ;				
 				tdSet = musicSceneConfig.MusicChannelNoList;
+				string mLKStr = "";
+				foreach (int strTemp in musicSceneConfig.MusicStepList)
+				{
+					mLKStr += strTemp + " ";
+				}
+				mLKTextBox.Text = mLKStr.Trim();
 
 				refreshPage();
 			}

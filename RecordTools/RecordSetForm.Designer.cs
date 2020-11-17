@@ -116,7 +116,7 @@
 			// pageLabel
 			// 
 			this.pageLabel.AutoSize = true;
-			this.pageLabel.BackColor = System.Drawing.Color.Silver;
+			this.pageLabel.BackColor = System.Drawing.Color.LightGray;
 			this.pageLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.pageLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.pageLabel.Location = new System.Drawing.Point(683, 425);
@@ -212,6 +212,7 @@
 			this.mLKTextBox.Size = new System.Drawing.Size(219, 22);
 			this.mLKTextBox.TabIndex = 82;
 			this.mLKTextBox.Text = "1";
+			this.mLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mLKTextBox_KeyPress);
 			// 
 			// label1
 			// 

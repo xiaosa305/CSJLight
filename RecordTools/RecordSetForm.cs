@@ -159,7 +159,7 @@ namespace RecordTools
 				string mLKStr = "";
 				foreach (int strTemp in musicSceneConfig.MusicStepList)
 				{
-					mLKStr += strTemp + " ";
+					mLKStr += strTemp;
 				}
 				mLKTextBox.Text = mLKStr.Trim();
 
@@ -181,9 +181,9 @@ namespace RecordTools
 
 			musicSceneConfig = new MusicSceneConfig
 			{
-				StepTime = decimal.ToInt32(stepTimeNumericUpDown.Value * 1000 / eachStepTime),
+				StepTime = decimal.ToInt32( stepTimeNumericUpDown.Value *   eachStepTime / 1000),
 				StepWaitTIme = decimal.ToInt32(jgtNumericUpDown.Value),
-				MusicStepList = makeLinkList(),
+				//MusicStepList = makeLinkList(),
 				MusicChannelNoList = tdSet
 			};			
 
@@ -198,6 +198,78 @@ namespace RecordTools
 		}
 
 		#endregion
+	
+		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			int stepTime = Decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
+			stepTimeNumericUpDown.Value = stepTime * eachStepTime;
+		}
+
+		private void setFilePathButton_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = saveFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.OK)
+			{
+				savePath = saveFolderBrowserDialog.SelectedPath;
+				setSavePathLabel();
+
+				setNotice("已设置存放目录为：" + savePath, false);
+			}
+		}
+		
+		/// <summary>
+		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// </summary>
+		private void setSavePathLabel()
+		{
+			if (savePath != null) {
+				recordPathLabel.Text = savePath;
+				myToolTip.SetToolTip(recordPathLabel, savePath);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// </summary>
+		private void setSceneNo(bool isNotice)
+		{
+			sceneNoTextBox.Text = sceneNo.ToString() ;
+			if (isNotice) {
+				setNotice("已设置文件名为M"+sceneNo+".bin", false);
+			}
+		}	
+
+		/// <summary>
+		/// 事件：点击《+》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void plusButton_Click(object sender, EventArgs e)
+		{
+			if (sceneNo >= 32)
+			{
+				setNotice( "文件序号不得大于32。", true);
+				return;
+			}
+			sceneNo++;
+			setSceneNo(true);
+		}
+
+		/// <summary>
+		/// 事件：点击《-》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void minusButton_Click(object sender, EventArgs e)
+		{
+			if (sceneNo <= 1)
+			{
+				setNotice( "文件序号不得小于1。", true);
+				return;
+			}
+			sceneNo--;
+			setSceneNo(true);
+		}
 
 		#region 通用方法(这些方法往往只需稍微修改或完全不动，就可以在不同的界面中通用)
 
@@ -273,109 +345,24 @@ namespace RecordTools
 			}
 		}
 
+		/// <summary>
+		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、及回退键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mLKTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}
+		}
+
 		#endregion
-
-		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			int stepTime = Decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
-			stepTimeNumericUpDown.Value = stepTime * eachStepTime;
-		}
-
-		private void setFilePathButton_Click(object sender, EventArgs e)
-		{
-			DialogResult dr = saveFolderBrowserDialog.ShowDialog();
-			if (dr == DialogResult.OK)
-			{
-				savePath = saveFolderBrowserDialog.SelectedPath;
-				setSavePathLabel();
-
-				setNotice("已设置存放目录为：" + savePath, false);
-			}
-		}
-
-
-		/// <summary>
-		/// 辅助方法：根据当前的savePath，设置label及toolTip
-		/// </summary>
-		private void setSavePathLabel()
-		{
-			if (savePath != null) {
-				recordPathLabel.Text = savePath;
-				myToolTip.SetToolTip(recordPathLabel, savePath);
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：根据当前的savePath，设置label及toolTip
-		/// </summary>
-		private void setSceneNo(bool isNotice)
-		{
-			sceneNoTextBox.Text = sceneNo.ToString() ;
-			if (isNotice) {
-				setNotice("已设置文件名为M"+sceneNo+".bin", false);
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：封装音频链表
-		/// </summary>
-		private List<int> makeLinkList() {
-
-			List<int> linkList = new List<int>();
-
-			string linkStr = mLKTextBox.Text.Trim();
-			if (linkStr == "")
-			{
-				linkList.Add(0);
-			}
-			else {
-				string[] strArray = linkStr.Split(' ');
-				try
-				{
-					foreach (string tempStr in strArray)
-					{
-						linkList.Add(int.Parse(tempStr));
-					}
-				}
-				catch (Exception ex) {
-					MessageBox.Show("音频链表输入有误,请重新输入！\n"+ex.Message);
-					linkList.Add(0);
-				}				
-			}
-			return linkList;
-		}
-
-		/// <summary>
-		/// 事件：点击《+》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void plusButton_Click(object sender, EventArgs e)
-		{
-			if (sceneNo >= 32)
-			{
-				setNotice( "文件序号不得大于32。", true);
-				return;
-			}
-			sceneNo++;
-			setSceneNo(true);
-		}
-
-		/// <summary>
-		/// 事件：点击《-》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void minusButton_Click(object sender, EventArgs e)
-		{
-			if (sceneNo <= 1)
-			{
-				setNotice( "文件序号不得小于1。", true);
-				return;
-			}
-			sceneNo--;
-			setSceneNo(true);
-		}
 
 	}
 }

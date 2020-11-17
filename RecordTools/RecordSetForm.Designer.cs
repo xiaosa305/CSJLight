@@ -56,6 +56,7 @@
 			this.saveFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.saveConfigButton = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
 			this.myStatusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).BeginInit();
@@ -94,7 +95,7 @@
 			// saveButton
 			// 
 			this.saveButton.BackColor = System.Drawing.Color.MistyRose;
-			this.saveButton.Location = new System.Drawing.Point(547, 59);
+			this.saveButton.Location = new System.Drawing.Point(540, 59);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(63, 37);
 			this.saveButton.TabIndex = 41;
@@ -202,7 +203,7 @@
 			this.mLKTextBox.Name = "mLKTextBox";
 			this.mLKTextBox.Size = new System.Drawing.Size(225, 22);
 			this.mLKTextBox.TabIndex = 82;
-			this.mLKTextBox.Text = "12345678900987654321";
+			this.mLKTextBox.Text = "1";
 			this.mLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mLKTextBox_KeyPress);
 			// 
 			// label1
@@ -259,7 +260,7 @@
 			// 
 			// minusButton
 			// 
-			this.minusButton.Location = new System.Drawing.Point(508, 62);
+			this.minusButton.Location = new System.Drawing.Point(507, 62);
 			this.minusButton.Name = "minusButton";
 			this.minusButton.Size = new System.Drawing.Size(25, 31);
 			this.minusButton.TabIndex = 84;
@@ -269,7 +270,7 @@
 			// 
 			// plusButton
 			// 
-			this.plusButton.Location = new System.Drawing.Point(482, 62);
+			this.plusButton.Location = new System.Drawing.Point(478, 62);
 			this.plusButton.Name = "plusButton";
 			this.plusButton.Size = new System.Drawing.Size(25, 31);
 			this.plusButton.TabIndex = 83;
@@ -286,7 +287,7 @@
 			// 
 			this.frameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(619, 67);
+			this.frameComboBox.Location = new System.Drawing.Point(619, 76);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(82, 20);
 			this.frameComboBox.TabIndex = 85;
@@ -303,12 +304,22 @@
 			this.saveConfigButton.UseVisualStyleBackColor = false;
 			this.saveConfigButton.Click += new System.EventHandler(this.saveConfigButton_Click);
 			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(619, 59);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(65, 12);
+			this.label3.TabIndex = 86;
+			this.label3.Text = "开机场景：";
+			// 
 			// RecordSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(784, 441);
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.minusButton);
 			this.Controls.Add(this.plusButton);
@@ -375,6 +386,7 @@
 		private System.Windows.Forms.FolderBrowserDialog saveFolderBrowserDialog;
 		private System.Windows.Forms.ComboBox frameComboBox;
 		private System.Windows.Forms.Button saveConfigButton;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

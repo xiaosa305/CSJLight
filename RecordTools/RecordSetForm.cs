@@ -38,12 +38,13 @@ namespace RecordTools
 			Text += " v" + appFileVersion;
 
 			//载入场景
-			IList<string> frameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");			
+			IList<string> frameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
+			frameComboBox.Items.Add("无开机场景");
 			for (int frameIndex = 0; frameIndex < frameList.Count; frameIndex++)
 			{
 				frameComboBox.Items.Add(frameList[frameIndex]);
 			}
-			frameComboBox.SelectedIndex = sceneNo - 1;
+			frameComboBox.SelectedIndex = sceneNo ;
 
 			// 读取各个默认配置
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
@@ -214,8 +215,15 @@ namespace RecordTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveConfigButton_Click(object sender, EventArgs e)
-		{			 
-				
+		{
+			GlobalConfig gc = new GlobalConfig(frameComboBox.SelectedIndex);
+			if (gc.WriteToFile(savePath, "Config.bin"))
+			{
+				setNotice("成功生成全局配置文件", true);
+			}
+			else {
+				setNotice("生成全局配置文件失败", true);
+			}
 		}
 
 		#endregion
@@ -293,8 +301,10 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			sceneNo = frameComboBox.SelectedIndex + 1;
-			setSceneNo(true);
+			if (frameComboBox.SelectedIndex != 0) {
+				sceneNo = frameComboBox.SelectedIndex;
+				setSceneNo(true);
+			}
 		}
 
 		/// <summary>
@@ -335,14 +345,14 @@ namespace RecordTools
 		private void setSceneNo(bool isNotice)
 		{
 			frameComboBox.SelectedIndexChanged -= frameComboBox_SelectedIndexChanged;
-			frameComboBox.SelectedIndex = sceneNo - 1;
+			frameComboBox.SelectedIndex = sceneNo;
 			frameComboBox.SelectedIndexChanged += frameComboBox_SelectedIndexChanged;
 
-			sceneNoTextBox.Text = sceneNo.ToString() ;
+			sceneNoTextBox.Text = sceneNo.ToString();
 			if (isNotice)
 			{
-				setNotice("已设置文件名为M" + sceneNo + ".bin", false);
-			}
+					setNotice("已设置文件名为M" + sceneNo + ".bin", false);
+			}						
 		}
 
 		#region 通用方法(这些方法往往只需稍微修改或完全不动，就可以在不同的界面中通用)

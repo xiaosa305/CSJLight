@@ -21,30 +21,30 @@ namespace LightController.PeripheralDevice
 {
     public abstract class BaseCommunication
     {
-        private const int DEFAULT_PACKSIZE = 512;
-        private const double TIMEOUT = 4000;//超时等待时长
+        protected const int DEFAULT_PACKSIZE = 512;
+        protected const double TIMEOUT = 4000;//超时等待时长
         protected const int UDPADDR = 255;
-        private const int PACKHEADLENGTH = 8;//协议头大小
-        private const byte PACKFLAG1 = 0xAA;//协议标记1
-        private const byte PACKFLAG2 = 0xBB;//协议标记2
-        private const byte PARAM_SEPARATOR = 0x20;//通信命令参数分割符
-        private const byte PARAM_TERMINATOR = 0x00;//通信命令参数分割符
-        private const byte PLACEHOLDER = 0x00;//占位符
-        private int PackSize { get; set; } //通信分包大小
+        protected const int PACKHEADLENGTH = 8;//协议头大小
+        protected const byte PACKFLAG1 = 0xAA;//协议标记1
+        protected const byte PACKFLAG2 = 0xBB;//协议标记2
+        protected const byte PARAM_SEPARATOR = 0x20;//通信命令参数分割符
+        protected const byte PARAM_TERMINATOR = 0x00;//通信命令参数分割符
+        protected const byte PLACEHOLDER = 0x00;//占位符
+        protected int PackSize { get; set; } //通信分包大小
         protected int DeviceAddr { get; set; }//设备地址
         protected static List<byte> ReadBuff = new List<byte>();//接收缓存
-        private Order SecondOrder { get; set; }//二级命令
-        private string MainOrder { get; set; }//主命令
+        protected Order SecondOrder { get; set; }//二级命令
+        protected string MainOrder { get; set; }//主命令
         protected bool IsAck { get; set; }//回复确认标记
-        private bool IsSending { get; set; }//发送进行中标记
-        private bool IsStartCopy { get; set; }
+        protected bool IsSending { get; set; }//发送进行中标记
+        protected bool IsStartCopy { get; set; }
         protected System.Timers.Timer TimeOutTimer { get; set; }//超时定时器
-        private bool IsStopThread { get; set; }//终止线程继续执行标记
-        private byte[] Data { get; set; }//数据
-        private int PackCount { get; set; }//通信分包总数
-        private int PackIndex { get; set; }//当前发送分包编号
-        private bool IsCenterControlDownload { get; set; }
-        private bool IsDone { get; set; }
+        protected bool IsStopThread { get; set; }//终止线程继续执行标记
+        protected byte[] Data { get; set; }//数据
+        protected int PackCount { get; set; }//通信分包总数
+        protected int PackIndex { get; set; }//当前发送分包编号
+        protected bool IsCenterControlDownload { get; set; }
+        protected bool IsDone { get; set; }
 
         public delegate void Completed(Object obj,string message);
         public delegate void Error(string message);
@@ -52,15 +52,15 @@ namespace LightController.PeripheralDevice
         public delegate void CopyListener(Object obj);
         public event Completed Completed_Event;
         public event Error Error_Event;
-        private event KeyPressClick KeyPressClick_Event;
-        private event CopyListener CopyListener_Event;
+        protected event KeyPressClick KeyPressClick_Event;
+        protected event CopyListener CopyListener_Event;
 
 
         //910灯控新增参数
         protected const int PACKAGESIZE = 512;//数据包大小
-        private System.Timers.Timer TransactionTimer { get; set; }//灯控操作执行定时器
+        protected System.Timers.Timer TransactionTimer { get; set; }//灯控操作执行定时器
         public delegate void Progress(string filename, int progress);//进度更新事件委托
-        private event Progress ProgressEvent;//进度更新事件
+        protected event Progress ProgressEvent;//进度更新事件
         protected long DownloadFileToTalSize { get; set; }//工程项目文件总大小
         protected long CurrentDownloadCompletedSize { get; set; }//当前文件大小
         protected string CurrentFileName { get; set; }//当前下载文件名称
@@ -106,10 +106,13 @@ namespace LightController.PeripheralDevice
         protected void SendDataCompleted()
         {
             this.StartTimeOut();
-            if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
+            if (this.MainOrder != null)
             {
-                int progress = Convert.ToInt32(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
-                this.ProgressEvent(this.CurrentFileName, progress);
+                if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
+                {
+                    int progress = Convert.ToInt32(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
+                    this.ProgressEvent(this.CurrentFileName, progress);
+                }
             }
         }
         /// <summary>
@@ -136,11 +139,11 @@ namespace LightController.PeripheralDevice
                 this.CommandFailed("通信超时");
                 this.CloseTransactionTimer();
             }
-        } 
+        }
         /// <summary>
         /// 启动定时器计时
         /// </summary>
-        private void StartTimeOut()
+        protected void StartTimeOut()
         {
             //LogTools.Debug(Constant.TAG_XIAOSA, "启动超时处理定时器");
             if (this.TimeOutTimer == null)
@@ -154,7 +157,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 停止定时器计时
         /// </summary>
-        private void StopTimeOut()
+        protected void StopTimeOut()
         {
             if (TimeOutTimer != null)
             {
@@ -527,14 +530,16 @@ namespace LightController.PeripheralDevice
             }
         }
 
-        private void CommandSuccessed(Object obj,string msg)
+        protected void CommandSuccessed(Object obj,string msg)
         {
             this.Completed_Event(obj,msg);
+            this.SecondOrder = Order.NULL;
         }
 
-        private void CommandFailed(string msg)
+        protected void CommandFailed(string msg)
         {
             this.Error_Event(msg);
+            this.SecondOrder = Order.NULL;
         }
 
         //透传回复管理
@@ -2506,7 +2511,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 功能：关闭灯光控制事务定时器
         /// </summary>
-        private void CloseTransactionTimer()
+        protected void CloseTransactionTimer()
         {
             if (this.TransactionTimer != null)
             {
@@ -2621,11 +2626,12 @@ namespace LightController.PeripheralDevice
         }
     }
 
-    enum Order
+    public enum Order
     {
+        NULL,
         ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP,
         DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,
-        START_INTENT_PREVIEW,STOP_INTENT_PREVIEW
-        //SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES
+        START_INTENT_PREVIEW,STOP_INTENT_PREVIEW,
+        SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES
     }
 }

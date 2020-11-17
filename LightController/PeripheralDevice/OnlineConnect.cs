@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Timers;
 
 namespace LightController.PeripheralDevice
 {
@@ -164,6 +165,7 @@ namespace LightController.PeripheralDevice
                     Array.Copy(connect.ReceiveBuff, buff, count);
                     if (buff[0] == 0xBB && buff[1] == 0xAA)
                     {
+                        this.StopTimeOut();
                         switch (buff[2])
                         {
                             case 0x00:
@@ -177,6 +179,9 @@ namespace LightController.PeripheralDevice
                                 break;
                             case 0x03:
                                 this.GetOnlineDeviceReceiveManager(buff);
+                                break;
+                            case 0x04:
+                                this.SetSessionIdReceiveManager(buff);
                                 break;
                         }
                     }
@@ -196,6 +201,86 @@ namespace LightController.PeripheralDevice
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "网络设备已断开或网络接收模块发生异常", ex);
             }
+        }
+
+        public void SetSessionId(Completed completed,Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event += completed;
+                    this.Error_Event += error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => this.SetSessionIdTask(s, e));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "设置客户端账号失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.CommandFailed("设置客户端账号失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        private void SetSessionIdTask(Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.SERVER_SET_SESSION_ID;
+                List<byte> data = new List<byte>();
+                data.Add(0xBB);
+                data.Add(0xAA);
+                data.Add(0x04);
+                data.Add(0x00);
+                data.AddRange(Encoding.Default.GetBytes(this.SessionId));
+                this.Send(data.ToArray());
+            }
+            catch (Exception ex)
+            {
+                this.CommandFailed("连接已断开");
+            }
+            
+        }
+
+        private void SetSessionIdReceiveManager(byte[] data)
+        {
+            switch (data[3])
+            {
+                case 0x00:
+                    this.SetSessionIdFailed();
+                    break;
+                case 0x01:
+                    this.SetSessionIdSuccessed();
+                    break;
+            }
+        }
+
+        private void SetSessionIdSuccessed()
+        {
+            this.CommandSuccessed(null, "登录成功");
+        }
+
+        private void SetSessionIdFailed()
+        {
+            this.CommandFailed("登录失败");
+        }
+
+        public void GetOnlineDevices(Completed completed, Error error)
+        {
+            this.Completed_Event += completed;
+            this.Error_Event += error;
+            byte[] data = new byte[] { 0xBB, 0xAA, 0x03, 0x00, 0x00 };
+            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
+            //this.Send(data);
         }
 
         public void UnBindDevice(Completed completed ,Error error)
@@ -233,26 +318,6 @@ namespace LightController.PeripheralDevice
             data.AddRange(Encoding.Default.GetBytes(deviceId));
             this.Client.BeginSend(data.ToArray(), 0, data.Count, SocketFlags.None, this.SendCallBack, this);
             //this.Send(data.ToArray());
-        }
-
-        public void GetOnlineDevices(Completed completed, Error error)
-        {
-            this.Completed_Event += completed;
-            this.Error_Event += error;
-            byte[] data = new byte[] { 0xBB, 0xAA, 0x03,0x00,0x00 };
-            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
-            //this.Send(data);
-        }
-
-        public void SetSessionId()
-        {
-            List<byte> data = new List<byte>();
-            data.Add(0xBB);
-            data.Add(0xAA);
-            data.Add(0x04);
-            data.Add(0x00);
-            data.AddRange(Encoding.Default.GetBytes(this.SessionId));
-            this.Send(data.ToArray());
         }
 
         private void UnBindDeviceReceiveManager(byte[] data)
@@ -323,7 +388,7 @@ namespace LightController.PeripheralDevice
             this.IsBind = true;
         }
 
-        public void GetOnlineDeviceReceiveManager(byte[] data)
+        private void GetOnlineDeviceReceiveManager(byte[] data)
         {
             switch (data[3])
             {
@@ -335,6 +400,7 @@ namespace LightController.PeripheralDevice
                     break;
             }
         }
+
         private void GetOnlineDeviceFailed()
         {
             this.DeviceInfos = new List<OnlineDeviceInfo>();

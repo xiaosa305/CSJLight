@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\GlobalConfig.cs" />
     <Compile Include="Entity\MusicSceneConfig.cs" />
     <Compile Include="Dickov.Utils\IniFileHelper.cs" />
     <Compile Include="Dickov.Utils\MathHelper.cs" />

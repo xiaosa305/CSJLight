@@ -30,7 +30,7 @@ namespace RecordTools
 
 		public RecordSetForm()
 		{
-			InitializeComponent();
+			InitializeComponent();			
 
 			// 读取各个默认配置
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
@@ -54,6 +54,8 @@ namespace RecordTools
 			}
 			setSceneNo(false);
 
+			sceneNoTextBox.LostFocus += new EventHandler(sceneNoTextBox_LostFocus);
+
 			// 初始化各个组件
 			tdSet = new HashSet<int>();
 
@@ -74,6 +76,32 @@ namespace RecordTools
 			}
 
 			refreshPage();
+		}
+
+		/// <summary>
+		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sceneNoTextBox_LostFocus(object sender, EventArgs e)
+		{
+			if (sceneNoTextBox.Text.Length == 0)
+			{
+				setNotice("文件序号不得为空", true);
+				sceneNoTextBox.Text = "1";				
+			}
+			sceneNo = int.Parse(sceneNoTextBox.Text);
+			if (sceneNo < 1)
+			{
+				setNotice("文件序号不得小于1",true);
+				sceneNo = 1;
+			}
+			else if(sceneNo > 32){
+				setNotice("文件序号不得大于32", true);
+				sceneNo = 32;
+			}
+			sceneNoTextBox.Text = sceneNo + "";
+			setNotice("已设置文件名为：M" + sceneNo+ ".bin", false);
 		}
 
 		private void RecordSetForm_Load(object sender, EventArgs e) { }
@@ -154,15 +182,10 @@ namespace RecordTools
 				musicSceneConfig = MusicSceneConfig.ReadFromFile( openFileDialog.FileName );
 
 				stepTimeNumericUpDown.Value = eachStepTime * musicSceneConfig.StepTime ;
-				jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme ;				
-				tdSet = musicSceneConfig.MusicChannelNoList;
-				string mLKStr = "";
-				foreach (int strTemp in musicSceneConfig.MusicStepList)
-				{
-					mLKStr += strTemp;
-				}
-				mLKTextBox.Text = mLKStr.Trim();
+				jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme ;
+				mLKTextBox.Text = musicSceneConfig.MusicStepList;
 
+				tdSet = musicSceneConfig.MusicChannelNoList;
 				refreshPage();
 			}
 		}
@@ -181,14 +204,15 @@ namespace RecordTools
 
 			musicSceneConfig = new MusicSceneConfig
 			{
-				StepTime = decimal.ToInt32( stepTimeNumericUpDown.Value *   eachStepTime / 1000),
+				StepTime = decimal.ToInt32(stepTimeNumericUpDown.Value  / eachStepTime ),
 				StepWaitTIme = decimal.ToInt32(jgtNumericUpDown.Value),
-				//MusicStepList = makeLinkList(),
+				MusicStepList = mLKTextBox.Text.Trim(),
 				MusicChannelNoList = tdSet
-			};			
+			};
 
+			Console.WriteLine(musicSceneConfig);
 			if ( musicSceneConfig.WriteToFile(savePath, "M" + sceneNo + ".bin") ) {
-				setNotice("保存配置文件成功", true);
+				setNotice("成功保存配置文件,路径为：" + savePath + @"\M" + sceneNo + ".bin" ,	true);
 			}
 			else
 			{
@@ -237,7 +261,9 @@ namespace RecordTools
 			if (isNotice) {
 				setNotice("已设置文件名为M"+sceneNo+".bin", false);
 			}
-		}	
+		}
+
+		
 
 		/// <summary>
 		/// 事件：点击《+》

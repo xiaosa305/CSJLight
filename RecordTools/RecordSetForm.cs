@@ -36,13 +36,14 @@ namespace RecordTools
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
 			eachStepTime = iniHelper.ReadInt("CommonSet", "EachStepTime", 40) / 1000m;
 			int stepTime = iniHelper.ReadInt("CommonSet", "StepTime", 10);
-			stepTimeNumericUpDown.Value = eachStepTime * stepTime;
+			
 			//添加frameStepTimeNumericUpDown相关初始化及监听事件			
 			stepTimeNumericUpDown.Increment = eachStepTime;
 			stepTimeNumericUpDown.Maximum = 250*eachStepTime;
+			stepTimeNumericUpDown.Value = eachStepTime * stepTime;
 			stepTimeNumericUpDown.MouseWheel += someNUD_MouseWheel;
 
-			jgtNumericUpDown.Value = iniHelper.ReadInt("CommonSet", "JG", 2000);
+			jgtNumericUpDown.Value = iniHelper.ReadInt("CommonSet", "JG", 0);
 			jgtNumericUpDown.MouseWheel += someNUD_MouseWheel;
 
 			savePath = iniHelper.ReadString("CommonSet", "SavePath", @"C:\Temp\CSJ");
@@ -218,17 +219,26 @@ namespace RecordTools
 			{
 				setNotice("保存配置文件失败", true);
 			}
-
 		}
 
 		#endregion
 	
+		/// <summary>
+		/// 事件：步时间发生变化时，改变相应的stepTime；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			int stepTime = Decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
 			stepTimeNumericUpDown.Value = stepTime * eachStepTime;
 		}
 
+		/// <summary>
+		///  事件：点击《设置保存目录》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void setFilePathButton_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = saveFolderBrowserDialog.ShowDialog();
@@ -262,9 +272,7 @@ namespace RecordTools
 				setNotice("已设置文件名为M"+sceneNo+".bin", false);
 			}
 		}
-
 		
-
 		/// <summary>
 		/// 事件：点击《+》
 		/// </summary>
@@ -357,7 +365,7 @@ namespace RecordTools
 				decimal dd = nud.Value + nud.Increment;
 				if (dd <= nud.Maximum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 			// 向下滚
@@ -366,7 +374,7 @@ namespace RecordTools
 				decimal dd = nud.Value - nud.Increment;
 				if (dd >= nud.Minimum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 		}

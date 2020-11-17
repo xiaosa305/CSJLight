@@ -384,7 +384,7 @@ namespace LightController.MyForm.Multiplex
 				decimal dd = nud.Value + nud.Increment;
 				if (dd <= nud.Maximum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd ;
 				}
 			}
 			// 向下滚
@@ -393,7 +393,7 @@ namespace LightController.MyForm.Multiplex
 				decimal dd = nud.Value - nud.Increment;
 				if (dd >= nud.Minimum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd ;
 				}
 			}
 		}

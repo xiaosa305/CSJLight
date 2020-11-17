@@ -17,6 +17,7 @@ namespace RecordTools.Entity
         {
             try
             {
+                List<int> steps = new List<int>();
                 List<byte> writeBuff = new List<byte>();
                 writeBuff.Add(0x00);
                 writeBuff.Add(0x00);
@@ -39,10 +40,9 @@ namespace RecordTools.Entity
                 {
                     writeBuff.Add(0x00);
                 }
-                List<int> steps = new List<int>();
                 for (int index = 0; index < this.MusicStepList.Length; index++)
                 {
-                    steps.Add(Convert.ToInt32(this.MusicStepList[index]));
+                    steps.Add(int.Parse("" + this.MusicStepList[index]));
                 }
 
                 if (steps.Count >= 0)
@@ -68,17 +68,17 @@ namespace RecordTools.Entity
                     }
                     else
                     {
-                        if (this.MusicStepList[index] > 255)
+                        if (steps[index] > 255)
                         {
                             writeBuff.Add(0xFF);
                         }
-                        else if (this.MusicStepList[index] < 0)
+                        else if (steps[index] < 0)
                         {
                             writeBuff.Add(0x00);
                         }
                         else
                         {
-                            writeBuff.Add(Convert.ToByte(this.MusicStepList[index] & 0xFF));
+                            writeBuff.Add(Convert.ToByte(steps[index] & 0xFF));
                         }
                     }
                 }
@@ -140,17 +140,20 @@ namespace RecordTools.Entity
                 }
                 config.StepTime = (int)(readBuff[4] & 0xFF);
                 config.StepWaitTIme = (int)((readBuff[5] & 0xFF) | ((readBuff[6] << 8) & 0xFF));
+
+                config.StepWaitTIme = (int)((readBuff[5] & 0xFF) | ((readBuff[6] & 0xFF) << 8));
+
                 int stepListCount = (int)(readBuff[7] & 0xFF);
                 config.MusicStepList = "";
                 for (int index = 0; index < stepListCount; index++)
                 {
                     config.MusicStepList += ((int)(readBuff[8 + index] & 0xFF)).ToString();
                 }
-                int stepChannelCount = (int)((readBuff[27] & 0xFF) | ((readBuff[28] << 8) & 0xFF));
+                int stepChannelCount = (int)((readBuff[28] & 0xFF) | ((readBuff[29] & 0xFF) << 8));
                 config.MusicChannelNoList = new HashSet<int>();
                 for (int index = 0; index < stepChannelCount; index++)
                 {
-                    int channelNo = (int)((readBuff[29 + index * 9] & 0xFF) | ((readBuff[30 + index * 9] << 8) & 0xFF));
+                    int channelNo = (int)((readBuff[30 + index * 9] & 0xFF) | ((readBuff[31 + index * 9] & 0xFF) << 8));
                     config.MusicChannelNoList.Add(channelNo);
                 }
                 return config;

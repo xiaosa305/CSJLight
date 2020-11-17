@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dickov.Utils\TextHelper.cs" />
     <Compile Include="Entity\MusicSceneConfig.cs" />
     <Compile Include="Dickov.Utils\IniFileHelper.cs" />
     <Compile Include="Dickov.Utils\MathHelper.cs" />
@@ -55,6 +56,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="FrameList.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="更新日志.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="RecordSetForm.resx">
       <DependentUpon>RecordSetForm.cs</DependentUpon>
     </EmbeddedResource>

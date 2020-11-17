@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using RecordTools.Entity;
 using Dickov.Utils;
+using System.Diagnostics;
 
 namespace RecordTools
 {
@@ -25,12 +26,24 @@ namespace RecordTools
 		private int tdCount = 512;  //注意：此项不得为0，否则分页毫无意义
 		
 		private HashSet<int> tdSet; // 记录使用的通道
-
-		private MusicSceneConfig musicSceneConfig;
+		private MusicSceneConfig musicSceneConfig;  //维佳的接口
 
 		public RecordSetForm()
 		{
-			InitializeComponent();			
+			InitializeComponent();
+			
+			string loadexeName = Application.ExecutablePath;
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(loadexeName);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			Text += " v" + appFileVersion;
+
+			//载入场景
+			IList<string> frameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");			
+			for (int frameIndex = 0; frameIndex < frameList.Count; frameIndex++)
+			{
+				frameComboBox.Items.Add(frameList[frameIndex]);
+			}
+			frameComboBox.SelectedIndex = sceneNo - 1;
 
 			// 读取各个默认配置
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
@@ -68,9 +81,9 @@ namespace RecordTools
 				int tdIndex = (currentPage - 1) * eachCount + cbIndex;
 				CheckBox cb = new CheckBox
 				{
-					Location = checkBoxDemo.Location,
-					Size = checkBoxDemo.Size,
-					UseVisualStyleBackColor = checkBoxDemo.UseVisualStyleBackColor,
+					Location = new System.Drawing.Point(703, 68),
+					Size = new System.Drawing.Size(72, 24),
+					UseVisualStyleBackColor = true,
 					Visible = true,
 				};
 				bigFLP.Controls.Add(cb);
@@ -78,33 +91,7 @@ namespace RecordTools
 
 			refreshPage();
 		}
-
-		/// <summary>
-		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void sceneNoTextBox_LostFocus(object sender, EventArgs e)
-		{
-			if (sceneNoTextBox.Text.Length == 0)
-			{
-				setNotice("文件序号不得为空", true);
-				sceneNoTextBox.Text = "1";				
-			}
-			sceneNo = int.Parse(sceneNoTextBox.Text);
-			if (sceneNo < 1)
-			{
-				setNotice("文件序号不得小于1",true);
-				sceneNo = 1;
-			}
-			else if(sceneNo > 32){
-				setNotice("文件序号不得大于32", true);
-				sceneNo = 32;
-			}
-			sceneNoTextBox.Text = sceneNo + "";
-			setNotice("已设置文件名为：M" + sceneNo+ ".bin", false);
-		}
-
+				
 		private void RecordSetForm_Load(object sender, EventArgs e) { }
 
 		// 双缓冲解决刷新页面时，慢慢减少部分控件的情况
@@ -261,18 +248,45 @@ namespace RecordTools
 				myToolTip.SetToolTip(recordPathLabel, savePath);
 			}
 		}
-
+				   		
 		/// <summary>
-		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
 		/// </summary>
-		private void setSceneNo(bool isNotice)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sceneNoTextBox_LostFocus(object sender, EventArgs e)
 		{
-			sceneNoTextBox.Text = sceneNo.ToString() ;
-			if (isNotice) {
-				setNotice("已设置文件名为M"+sceneNo+".bin", false);
+			if (sceneNoTextBox.Text.Length == 0)
+			{
+				setNotice("文件序号不得为空", true);
+				sceneNoTextBox.Text = "1";
 			}
+			sceneNo = int.Parse(sceneNoTextBox.Text);
+			if (sceneNo < 1)
+			{
+				setNotice("文件序号不得小于1", true);
+				sceneNo = 1;
+			}
+			else if (sceneNo > 32)
+			{
+				setNotice("文件序号不得大于32", true);
+				sceneNo = 32;
+			}
+
+			setSceneNo(true);
 		}
 		
+		/// <summary>
+		/// 事件：《场景选择框》更改选项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			sceneNo = frameComboBox.SelectedIndex + 1;
+			setSceneNo(true);
+		}
+
 		/// <summary>
 		/// 事件：点击《+》
 		/// </summary>
@@ -282,7 +296,7 @@ namespace RecordTools
 		{
 			if (sceneNo >= 32)
 			{
-				setNotice( "文件序号不得大于32。", true);
+				setNotice("文件序号不得大于32。", true);
 				return;
 			}
 			sceneNo++;
@@ -298,11 +312,27 @@ namespace RecordTools
 		{
 			if (sceneNo <= 1)
 			{
-				setNotice( "文件序号不得小于1。", true);
+				setNotice("文件序号不得小于1。", true);
 				return;
 			}
 			sceneNo--;
 			setSceneNo(true);
+		}
+		
+		/// <summary>
+		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// </summary>
+		private void setSceneNo(bool isNotice)
+		{
+			frameComboBox.SelectedIndexChanged -= frameComboBox_SelectedIndexChanged;
+			frameComboBox.SelectedIndex = sceneNo - 1;
+			frameComboBox.SelectedIndexChanged += frameComboBox_SelectedIndexChanged;
+
+			sceneNoTextBox.Text = sceneNo.ToString() ;
+			if (isNotice)
+			{
+				setNotice("已设置文件名为M" + sceneNo + ".bin", false);
+			}
 		}
 
 		#region 通用方法(这些方法往往只需稍微修改或完全不动，就可以在不同的界面中通用)
@@ -398,5 +428,6 @@ namespace RecordTools
 
 		#endregion
 
+		
 	}
 }

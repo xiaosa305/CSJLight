@@ -55,7 +55,7 @@
 			this.plusButton = new System.Windows.Forms.Button();
 			this.saveFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
-			this.saveButton2 = new System.Windows.Forms.Button();
+			this.saveConfigButton = new System.Windows.Forms.Button();
 			this.myStatusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).BeginInit();
@@ -120,7 +120,7 @@
 			this.pageLabel.BackColor = System.Drawing.Color.LightGray;
 			this.pageLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.pageLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.pageLabel.Location = new System.Drawing.Point(683, 425);
+			this.pageLabel.Location = new System.Drawing.Point(682, 425);
 			this.pageLabel.Name = "pageLabel";
 			this.pageLabel.Size = new System.Drawing.Size(31, 14);
 			this.pageLabel.TabIndex = 46;
@@ -269,7 +269,7 @@
 			// 
 			// plusButton
 			// 
-			this.plusButton.Location = new System.Drawing.Point(483, 62);
+			this.plusButton.Location = new System.Drawing.Point(482, 62);
 			this.plusButton.Name = "plusButton";
 			this.plusButton.Size = new System.Drawing.Size(25, 31);
 			this.plusButton.TabIndex = 83;
@@ -286,22 +286,22 @@
 			// 
 			this.frameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(623, 67);
+			this.frameComboBox.Location = new System.Drawing.Point(619, 67);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(82, 20);
 			this.frameComboBox.TabIndex = 85;
 			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			// 
-			// saveButton2
+			// saveConfigButton
 			// 
-			this.saveButton2.BackColor = System.Drawing.Color.MistyRose;
-			this.saveButton2.Location = new System.Drawing.Point(711, 59);
-			this.saveButton2.Name = "saveButton2";
-			this.saveButton2.Size = new System.Drawing.Size(61, 37);
-			this.saveButton2.TabIndex = 41;
-			this.saveButton2.Text = "保存\r\n配置文件";
-			this.saveButton2.UseVisualStyleBackColor = false;
-			this.saveButton2.Click += new System.EventHandler(this.saveButton_Click);
+			this.saveConfigButton.BackColor = System.Drawing.Color.MistyRose;
+			this.saveConfigButton.Location = new System.Drawing.Point(710, 59);
+			this.saveConfigButton.Name = "saveConfigButton";
+			this.saveConfigButton.Size = new System.Drawing.Size(61, 37);
+			this.saveConfigButton.TabIndex = 41;
+			this.saveConfigButton.Text = "保存\r\n全局配置";
+			this.saveConfigButton.UseVisualStyleBackColor = false;
+			this.saveConfigButton.Click += new System.EventHandler(this.saveConfigButton_Click);
 			// 
 			// RecordSetForm
 			// 
@@ -324,7 +324,7 @@
 			this.Controls.Add(this.nextButton);
 			this.Controls.Add(this.previousButton);
 			this.Controls.Add(this.bigFLP);
-			this.Controls.Add(this.saveButton2);
+			this.Controls.Add(this.saveConfigButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.loadOldButton);
 			this.Controls.Add(this.pageLabel);
@@ -374,7 +374,7 @@
 		private System.Windows.Forms.Button plusButton;
 		private System.Windows.Forms.FolderBrowserDialog saveFolderBrowserDialog;
 		private System.Windows.Forms.ComboBox frameComboBox;
-		private System.Windows.Forms.Button saveButton2;
+		private System.Windows.Forms.Button saveConfigButton;
 	}
 }
 

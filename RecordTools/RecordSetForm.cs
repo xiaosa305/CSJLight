@@ -159,7 +159,7 @@ namespace RecordTools
 		#region 保存或加载配置
 
 		/// <summary>
-		/// 事件：点击《打开配置文件》
+		/// 事件：点击《打开音频文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -179,7 +179,7 @@ namespace RecordTools
 		}
 
 		/// <summary>
-		/// 事件：点击《保存配置文件》
+		/// 事件：点击《保存音频文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -208,8 +208,18 @@ namespace RecordTools
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《保存全局配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveConfigButton_Click(object sender, EventArgs e)
+		{			 
+				
+		}
+
 		#endregion
-	
+
 		/// <summary>
 		/// 事件：步时间发生变化时，改变相应的stepTime；
 		/// </summary>
@@ -425,6 +435,7 @@ namespace RecordTools
 				e.Handled = true;
 			}
 		}
+
 
 		#endregion
 

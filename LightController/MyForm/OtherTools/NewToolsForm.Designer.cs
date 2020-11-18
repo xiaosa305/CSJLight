@@ -2391,17 +2391,18 @@ namespace OtherTools
 			// 
 			this.loadProtocolButton.BackColor = System.Drawing.Color.Transparent;
 			this.loadProtocolButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.loadProtocolButton.Location = new System.Drawing.Point(31, 413);
+			this.loadProtocolButton.Location = new System.Drawing.Point(172, 359);
 			this.loadProtocolButton.Name = "loadProtocolButton";
-			this.loadProtocolButton.Size = new System.Drawing.Size(75, 30);
+			this.loadProtocolButton.Size = new System.Drawing.Size(86, 30);
 			this.loadProtocolButton.TabIndex = 15;
-			this.loadProtocolButton.Text = "加载协议";
+			this.loadProtocolButton.Text = "重新加载协议";
 			this.loadProtocolButton.UseVisualStyleBackColor = false;
+			this.loadProtocolButton.Visible = false;
 			this.loadProtocolButton.Click += new System.EventHandler(this.loadProtocolButton_Click);
 			// 
 			// ccSearchTextBox
 			// 
-			this.ccSearchTextBox.Location = new System.Drawing.Point(324, 360);
+			this.ccSearchTextBox.Location = new System.Drawing.Point(324, 364);
 			this.ccSearchTextBox.Name = "ccSearchTextBox";
 			this.ccSearchTextBox.Size = new System.Drawing.Size(100, 21);
 			this.ccSearchTextBox.TabIndex = 14;
@@ -2493,18 +2494,18 @@ namespace OtherTools
 			this.ccDownloadButton.BackColor = System.Drawing.Color.Transparent;
 			this.ccDownloadButton.Enabled = false;
 			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDownloadButton.Location = new System.Drawing.Point(32, 579);
+			this.ccDownloadButton.Location = new System.Drawing.Point(32, 573);
 			this.ccDownloadButton.Name = "ccDownloadButton";
-			this.ccDownloadButton.Size = new System.Drawing.Size(75, 30);
+			this.ccDownloadButton.Size = new System.Drawing.Size(75, 36);
 			this.ccDownloadButton.TabIndex = 12;
-			this.ccDownloadButton.Text = "下载数据";
+			this.ccDownloadButton.Text = "下载协议";
 			this.ccDownloadButton.UseVisualStyleBackColor = false;
 			this.ccDownloadButton.Click += new System.EventHandler(this.ccDownloadButton_Click);
 			// 
 			// ccClearDecodeButton
 			// 
 			this.ccClearDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccClearDecodeButton.Location = new System.Drawing.Point(32, 525);
+			this.ccClearDecodeButton.Location = new System.Drawing.Point(32, 485);
 			this.ccClearDecodeButton.Name = "ccClearDecodeButton";
 			this.ccClearDecodeButton.Size = new System.Drawing.Size(75, 30);
 			this.ccClearDecodeButton.TabIndex = 12;
@@ -2516,7 +2517,7 @@ namespace OtherTools
 			// 
 			this.ccDecodeButton.Enabled = false;
 			this.ccDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDecodeButton.Location = new System.Drawing.Point(32, 471);
+			this.ccDecodeButton.Location = new System.Drawing.Point(32, 432);
 			this.ccDecodeButton.Name = "ccDecodeButton";
 			this.ccDecodeButton.Size = new System.Drawing.Size(75, 30);
 			this.ccDecodeButton.TabIndex = 12;
@@ -2531,7 +2532,7 @@ namespace OtherTools
 			this.ccConnectButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.ccConnectButton.Location = new System.Drawing.Point(31, 350);
 			this.ccConnectButton.Name = "ccConnectButton";
-			this.ccConnectButton.Size = new System.Drawing.Size(75, 35);
+			this.ccConnectButton.Size = new System.Drawing.Size(75, 48);
 			this.ccConnectButton.TabIndex = 12;
 			this.ccConnectButton.Text = "连接中控";
 			this.ccConnectButton.UseVisualStyleBackColor = false;
@@ -2541,9 +2542,9 @@ namespace OtherTools
 			// 
 			this.protocolEditButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
 			this.protocolEditButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.protocolEditButton.Location = new System.Drawing.Point(1031, 355);
+			this.protocolEditButton.Location = new System.Drawing.Point(1041, 354);
 			this.protocolEditButton.Name = "protocolEditButton";
-			this.protocolEditButton.Size = new System.Drawing.Size(96, 30);
+			this.protocolEditButton.Size = new System.Drawing.Size(86, 30);
 			this.protocolEditButton.TabIndex = 12;
 			this.protocolEditButton.Text = "查看协议文件";
 			this.protocolEditButton.UseVisualStyleBackColor = false;
@@ -2552,7 +2553,7 @@ namespace OtherTools
 			// ccSearchButton
 			// 
 			this.ccSearchButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSearchButton.Location = new System.Drawing.Point(453, 355);
+			this.ccSearchButton.Location = new System.Drawing.Point(453, 359);
 			this.ccSearchButton.Name = "ccSearchButton";
 			this.ccSearchButton.Size = new System.Drawing.Size(75, 30);
 			this.ccSearchButton.TabIndex = 12;

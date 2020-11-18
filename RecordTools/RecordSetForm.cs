@@ -166,17 +166,33 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void loadButton_Click(object sender, EventArgs e)
 		{
-			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			try
 			{
-				musicSceneConfig = MusicSceneConfig.ReadFromFile( openFileDialog.FileName );
+				if (openFileDialog.ShowDialog() == DialogResult.OK)
+				{
+					string fileName = openFileDialog.FileName;
 
-				stepTimeNumericUpDown.Value = eachStepTime * musicSceneConfig.StepTime ;
-				jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme ;
-				mLKTextBox.Text = musicSceneConfig.MusicStepList;
+					musicSceneConfig = MusicSceneConfig.ReadFromFile(fileName);
+					stepTimeNumericUpDown.Value = eachStepTime * musicSceneConfig.StepTime;
+					jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme;
+					mLKTextBox.Text = musicSceneConfig.MusicStepList;
+					tdSet = musicSceneConfig.MusicChannelNoList;
+					refreshPage();
 
-				tdSet = musicSceneConfig.MusicChannelNoList;
-				refreshPage();
+					//想办法通过文件名，来更改sceneNo的值
+					int tempSceneNo = int.Parse(System.Text.RegularExpressions.Regex.Replace(fileName, @"[^0-9]+", ""));
+					if (tempSceneNo > 0 && tempSceneNo <= 32)
+					{
+						sceneNo = tempSceneNo;
+						setSceneNo(false);
+					}
+					setNotice("已成功打开" + fileName, true);
+				}			
+
 			}
+			catch (Exception ex) {
+				MessageBox.Show("打开文件异常:\n" + ex.Message);
+			}			
 		}
 
 		/// <summary>

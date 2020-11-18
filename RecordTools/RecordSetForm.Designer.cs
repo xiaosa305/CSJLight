@@ -145,6 +145,13 @@
 			this.myStatusLabel.Size = new System.Drawing.Size(0, 17);
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.DefaultExt = "bin";
+			this.openFileDialog.FileName = "M*.bin";
+			this.openFileDialog.Filter = "(*.bin)|*.bin";
+			this.openFileDialog.Title = "请打开格式为M*.bin的文件，否则程序可能出错！";
+			// 
 			// setFilePathButton
 			// 
 			this.setFilePathButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));

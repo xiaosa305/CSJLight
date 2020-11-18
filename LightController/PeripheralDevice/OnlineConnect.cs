@@ -61,6 +61,7 @@ namespace LightController.PeripheralDevice
                 this.Client.Connect(new IPEndPoint(IPAddress.Parse(ONLINE_SERVER_IP), ONLINE_SERVER_PORT));
                 this.Client.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
                 LogTools.Debug(Constant.TAG_XIAOSA, "连接设备成功!");
+                result = true;
             }
             catch (Exception ex)
             {
@@ -152,6 +153,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
+                Console.WriteLine("收到数据包");
                 OnlineConnect connect = asyncResult.AsyncState as OnlineConnect;
                 int count = connect.Client.EndReceive(asyncResult);
                 if (count <= 0)
@@ -169,16 +171,16 @@ namespace LightController.PeripheralDevice
                         switch (buff[2])
                         {
                             case 0x00:
-                                this.UnBindDeviceReceiveManager(buff);
+                                this.UnBindDeviceReceinvManager(buff);
                                 break;
                             case 0x01:
-                                this.BindDeviceReceiveManager(buff);
+                                this.BindDeviceReceinvManager(buff);
                                 break;
                             case 0x02:
-                                this.ChangeBindDeviceReceiveManager(buff);
+                                this.ChangeBindDeviceReceinvManager(buff);
                                 break;
                             case 0x03:
-                                this.GetOnlineDeviceReceiveManager(buff);
+                                this.GetOnlineDevicesReceiveManager(buff);
                                 break;
                             case 0x04:
                                 this.SetSessionIdReceiveManager(buff);
@@ -193,8 +195,8 @@ namespace LightController.PeripheralDevice
                             this.Receive();
                         }
                         connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
-                        this.Client.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
                     }
+                    this.Client.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
                 }
             }
             catch (Exception ex)
@@ -210,8 +212,8 @@ namespace LightController.PeripheralDevice
                 if (!this.IsSending)
                 {
                     this.IsSending = true;
-                    this.Completed_Event += completed;
-                    this.Error_Event += error;
+                    this.SetCompletedEvent(completed);
+                    this.SetErrordEvent(error);
                     this.CloseTransactionTimer();
                     this.TransactionTimer = new System.Timers.Timer
                     {
@@ -230,7 +232,6 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-
         private void SetSessionIdTask(Object obj, ElapsedEventArgs e)
         {
             try
@@ -248,9 +249,7 @@ namespace LightController.PeripheralDevice
             {
                 this.CommandFailed("连接已断开");
             }
-            
         }
-
         private void SetSessionIdReceiveManager(byte[] data)
         {
             switch (data[3])
@@ -263,12 +262,10 @@ namespace LightController.PeripheralDevice
                     break;
             }
         }
-
         private void SetSessionIdSuccessed()
         {
             this.CommandSuccessed(null, "登录成功");
         }
-
         private void SetSessionIdFailed()
         {
             this.CommandFailed("登录失败");
@@ -276,51 +273,114 @@ namespace LightController.PeripheralDevice
 
         public void GetOnlineDevices(Completed completed, Error error)
         {
-            this.Completed_Event += completed;
-            this.Error_Event += error;
-            byte[] data = new byte[] { 0xBB, 0xAA, 0x03, 0x00, 0x00 };
-            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
-            //this.Send(data);
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.SetCompletedEvent(completed);
+                    this.SetErrordEvent(error);
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => this.GetOnlineDevicesTask(s, e));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "获取设备信息失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.CommandFailed("获取设备信息失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        private void GetOnlineDevicesTask(Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.SERVER_GET_DEVICES;
+                byte[] data = new byte[] { 0xBB, 0xAA, 0x03, 0x00, 0x00 };
+                this.Send(data.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.CommandFailed("连接已断开");
+            }
+        }
+        private void GetOnlineDevicesReceiveManager(byte[] data)
+        {
+            switch (data[3])
+            {
+                case 0x00:
+                    this.GetOnlineDevicesFailed();
+                    break;
+                case 0x01:
+                    this.GetOnlineDevicesSuccessed(data);
+                    break;
+            }
+        }
+        private void GetOnlineDevicesSuccessed(byte[] data)
+        {
+            byte[] buff = new byte[data.Length - 4];
+            Array.Copy(data, 4, buff, 0, data.Length - 4);
+            string json = Encoding.UTF8.GetString(buff);
+            this.DeviceInfos = JSON.ToObject<List<OnlineDeviceInfo>>(json);
+            this.CommandSuccessed(null, "获取设备信息成功");
+        }
+        private void GetOnlineDevicesFailed()
+        {
+            this.CommandFailed("获取设备信息失败");
         }
 
         public void UnBindDevice(Completed completed ,Error error)
         {
-            this.Completed_Event += completed;
-            this.Error_Event += error;
-            byte[] data = new byte[] { 0xBB, 0xAA, 0x00, 0x00 };
-            this.Client.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
-            //this.Send(data);
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.SetCompletedEvent(completed);
+                    this.SetErrordEvent(error);
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => this.UnBindDeviceTask(s, e));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "取消绑定失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.CommandFailed("取消绑定失败");
+                this.CloseTransactionTimer();
+            }
         }
-
-        public void BindDevice(String deviceId, Completed completed, Error error)
+        private void UnBindDeviceTask(Object obj, ElapsedEventArgs e)
         {
-            this.Completed_Event += completed;
-            this.Error_Event += error;
-            List<byte> data = new List<byte>();
-            data.Add(0xBB);
-            data.Add(0xAA);
-            data.Add(0x01);
-            data.Add(0x00);
-            data.AddRange(Encoding.Default.GetBytes(deviceId));
-            this.Client.BeginSend(data.ToArray(), 0, data.Count, SocketFlags.None, this.SendCallBack, this);
-            //this.Send(data.ToArray());
+            try
+            {
+                this.SecondOrder = Order.SERVER_UNBIND_DEVICE;
+                byte[] data = new byte[] { 0xBB, 0xAA, 0x00, 0x00 };
+                this.Send(data.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.CommandFailed("连接已断开");
+            }
         }
-
-        public void ChangeBindDevice(String deviceId, Completed completed, Error error)
-        {
-            this.Completed_Event += completed;
-            this.Error_Event += error;
-            List<byte> data = new List<byte>();
-            data.Add(0xBB);
-            data.Add(0xAA);
-            data.Add(0x02);
-            data.Add(0x00);
-            data.AddRange(Encoding.Default.GetBytes(deviceId));
-            this.Client.BeginSend(data.ToArray(), 0, data.Count, SocketFlags.None, this.SendCallBack, this);
-            //this.Send(data.ToArray());
-        }
-
-        private void UnBindDeviceReceiveManager(byte[] data)
+        private void UnBindDeviceReceinvManager(byte[] data)
         {
             switch (data[3])
             {
@@ -332,18 +392,63 @@ namespace LightController.PeripheralDevice
                     break;
             }
         }
-
-        private void UnBindDeviceFailed()
-        {
-            this.IsBind = false;
-        }
-
         private void UnBindDeviceSuccessed()
         {
-            this.IsBind = false;
+            this.CommandSuccessed(null,"取消绑定成功");
+        }
+        private void UnBindDeviceFailed()
+        {
+            this.CommandFailed("取消绑定失败");
         }
 
-        private void BindDeviceReceiveManager(byte[] data)
+        public void BindDevice(OnlineDeviceInfo deviceInfo,Completed completed,Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.SetCompletedEvent(completed);
+                    this.SetErrordEvent(error);
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => this.BindDeviceTask(s, e,deviceInfo));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "绑定失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.CommandFailed("绑定失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        private void BindDeviceTask(Object obj, ElapsedEventArgs e, OnlineDeviceInfo deviceInfo)
+        {
+            try
+            {
+                this.SecondOrder = Order.SERVER_BIND_DEVICE;
+                List<byte> data = new List<byte>();
+                data.Add(0xBB);
+                data.Add(0xAA);
+                data.Add(0x01);
+                data.Add(0x00);
+                data.AddRange(Encoding.Default.GetBytes(deviceInfo.Device_id));
+                this.Send(data.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.CommandFailed("连接已断开");
+            }
+        }
+        private void BindDeviceReceinvManager(byte[] data)
         {
             switch (data[3])
             {
@@ -355,63 +460,82 @@ namespace LightController.PeripheralDevice
                     break;
             }
         }
-
-        private void BindDeviceFailed()
-        {
-            this.IsBind = false;
-        }
-
         private void BindDeviceSuccessed()
         {
-            this.IsBind = true;
+            this.CommandSuccessed(null, "绑定成功");
+        }
+        private void BindDeviceFailed()
+        {
+            this.CommandFailed("绑定失败");
         }
 
-        private void ChangeBindDeviceReceiveManager(byte[] data)
+
+        public void ChangeBindDevice(OnlineDeviceInfo deviceInfo, Completed completed, Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.SetCompletedEvent(completed);
+                    this.SetErrordEvent(error);
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => this.ChangeBindDeviceTask(s, e, deviceInfo));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "切换绑定失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.CommandFailed("切换绑定失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        private void ChangeBindDeviceTask(Object obj, ElapsedEventArgs e, OnlineDeviceInfo deviceInfo)
+        {
+            try
+            {
+                this.SecondOrder = Order.SERVER_CHANGE_BIND_DEVICE;
+                List<byte> data = new List<byte>();
+                data.Add(0xBB);
+                data.Add(0xAA);
+                data.Add(0x02);
+                data.Add(0x00);
+                data.AddRange(Encoding.Default.GetBytes(deviceInfo.Device_id));
+                this.Send(data.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.CommandFailed("连接已断开");
+            }
+        }
+        private void ChangeBindDeviceReceinvManager(byte[] data)
         {
             switch (data[3])
             {
                 case 0x00:
-                    this.ChgangeBindDeviceFailed();
+                    this.ChangeBindDeviceFailed();
                     break;
                 case 0x01:
                     this.ChangeBindDeviceSuccessed();
                     break;
             }
         }
-
-        private void ChgangeBindDeviceFailed()
-        {
-        }
-
         private void ChangeBindDeviceSuccessed()
         {
-            this.IsBind = true;
+            this.CommandSuccessed(null, "切换绑定成功");
         }
-
-        private void GetOnlineDeviceReceiveManager(byte[] data)
+        private void ChangeBindDeviceFailed()
         {
-            switch (data[3])
-            {
-                case 0x00:
-                    this.GetOnlineDeviceFailed();
-                    break;
-                case 0x01:
-                    this.GetOnlineDeviceSuccessed(data);
-                    break;
-            }
-        }
-
-        private void GetOnlineDeviceFailed()
-        {
-            this.DeviceInfos = new List<OnlineDeviceInfo>();
-        }
-
-        private void GetOnlineDeviceSuccessed(byte[] data)
-        {
-            byte[] jsonBuff = new byte[data.Length - 4];
-            Array.Copy(data, 4, jsonBuff, 0, data.Length - 4);
-            string json = Encoding.UTF8.GetString(jsonBuff);
-            this.DeviceInfos = JSON.ToObject<List<OnlineDeviceInfo>>(json);
+            this.CommandFailed("切换绑定失败");
         }
     }
 }

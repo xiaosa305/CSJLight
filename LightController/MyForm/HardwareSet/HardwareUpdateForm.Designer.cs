@@ -47,7 +47,7 @@
 			// 
 			// openFileDialog
 			// 
-			this.openFileDialog.FileName = "openFileDialog";
+			this.openFileDialog.FileName = "*.bin";
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
@@ -160,7 +160,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(286, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(367, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 

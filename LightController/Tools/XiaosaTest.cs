@@ -43,20 +43,43 @@ namespace LightController.Tools
         private void OnlineTest()
         {
             this.Connect = new OnlineConnect("admin");
-            this.Connect.Connect(null);
-            Thread.Sleep(2000);
-            this.Connect.SetSessionId(Completed2,Error);
-            //this.Connect.GetOnlineDevices(Completed2,Error);
+            if (this.Connect.Connect(null))
+            {
+                Thread.Sleep(1000);
+                this.Connect.SetSessionId(Completed1, Error1);
+            }
+        }
+        private void Completed1(Object obj, string msg)
+        {
+            Console.WriteLine("1: " + msg);
+            this.Connect.GetOnlineDevices(Completed2, Error2);
+        }
+
+        private void Error1(string msg)
+        {
+            Console.WriteLine("1: " + msg);
         }
 
         private void Completed2(Object obj,string msg)
         {
-            Console.WriteLine(msg);
+            Console.WriteLine("2: " + msg);
+            List<OnlineDeviceInfo> devices = this.Connect.DeviceInfos;
+            this.Connect.BindDevice(devices[0], Completed3, Error3);
         }
 
-        private void Error(string msg)
+        private void Error2(string msg)
         {
-            Console.WriteLine(msg);
+            Console.WriteLine("2: " +msg);
+        }
+
+        private void Completed3(Object obj, string msg)
+        {
+            Console.WriteLine("3: " + msg);
+        }
+
+        private void Error3(string msg)
+        {
+            Console.WriteLine("3: " + msg);
         }
     }
 }

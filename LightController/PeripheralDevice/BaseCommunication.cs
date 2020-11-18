@@ -161,6 +161,7 @@ namespace LightController.PeripheralDevice
         {
             if (TimeOutTimer != null)
             {
+                Console.WriteLine("关闭超时");
                 //LogTools.Debug(Constant.TAG_XIAOSA, "关闭超时定时器");
                 TimeOutTimer.Stop();
             }
@@ -532,14 +533,26 @@ namespace LightController.PeripheralDevice
 
         protected void CommandSuccessed(Object obj,string msg)
         {
-            this.Completed_Event(obj,msg);
             this.SecondOrder = Order.NULL;
+            this.IsSending = false;
+            this.Completed_Event(obj,msg);
         }
 
         protected void CommandFailed(string msg)
         {
-            this.Error_Event(msg);
             this.SecondOrder = Order.NULL;
+            this.IsSending = false;
+            this.Error_Event(msg);
+        }
+
+        protected void SetCompletedEvent(Completed completed)
+        {
+            this.Completed_Event = completed;
+        }
+
+        protected void SetErrordEvent(Error error)
+        {
+            this.Error_Event = error;
         }
 
         //透传回复管理

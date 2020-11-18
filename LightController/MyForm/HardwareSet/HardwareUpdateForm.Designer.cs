@@ -47,7 +47,6 @@
 			// 
 			// openFileDialog
 			// 
-			this.openFileDialog.FileName = "*.bin";
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 

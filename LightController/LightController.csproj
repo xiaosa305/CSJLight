@@ -501,6 +501,7 @@
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
     <Compile Include="Tools\XiaosaTest.cs" />
+    <Compile Include="Utils\CommandLogUtils.cs" />
     <Compile Include="Utils\LightConfig\LightConfigBean.cs" />
     <Compile Include="Utils\OldFileToNewFileUtils.cs" />
     <Compile Include="Utils\Ver2\ChannelDataBean.cs" />

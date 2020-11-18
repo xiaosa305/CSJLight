@@ -198,7 +198,7 @@ namespace LightController.PeripheralDevice
                 }
                 UDPServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 UDPServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-                UDPServer.Bind(new IPEndPoint(IPAddress.Parse(localIP), 8080));
+                UDPServer.Bind(new IPEndPoint(IPAddress.Parse(localIP), 7010));
                 UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
                 UDPReceiveThread = new Thread(SearchDeviceReceiveMsg) { IsBackground = true };
                 UDPReceiveThread.Start(UdpClient);
@@ -244,6 +244,7 @@ namespace LightController.PeripheralDevice
                     IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT);
                     NetworkDeviceInfo info = new NetworkDeviceInfo();
                     byte[] data = udpClient.Receive(ref iPEndPoint);
+                    CommandLogUtils.GetInstance().Enqueue(Encoding.Default.GetString(data));
                     byte[] buff = new byte[data.Length - 8];
                     Array.Copy(data, 8, buff, 0, buff.Length);
                     string strBuff = Encoding.Default.GetString(buff);

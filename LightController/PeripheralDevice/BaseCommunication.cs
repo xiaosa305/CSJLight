@@ -401,6 +401,7 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
+            CommandLogUtils.GetInstance().Enqueue("ORDER ::::  MainOrder: " + this.MainOrder + ";   SecondOrder:" + this.SecondOrder + ";   PackageIndex：" + this.PackIndex + ";    PackageCount" + this.PackCount + "\n");
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -452,6 +453,7 @@ namespace LightController.PeripheralDevice
             {
                 this.CurrentDownloadCompletedSize += packData.Count();
             }
+            CommandLogUtils.GetInstance().Enqueue("DATA ::::  MainOrder: " + this.MainOrder + ";   SecondOrder:" + this.SecondOrder + ";   PackageIndex：" + this.PackIndex + ";    PackageCount" + this.PackCount + "\n");
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -863,6 +865,11 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsDone = true;
+                //if (this.PackIndex > 0 && this.PackIndex == this.PackCount)
+                //{
+                //    this.IsAck = true;
+                //    this.StopTimeOut();
+                //}
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT))
             {
@@ -879,6 +886,15 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsAck = true;
+                //if (this.PackIndex > 0 && this.PackIndex == this.PackCount)
+                //{
+                //    //this.IsAck = true;
+                //    this.StopTimeOut();
+                //}
+                //else
+                //{
+                //    this.IsAck = true;
+                //}
             }
         }
 
@@ -1321,6 +1337,7 @@ namespace LightController.PeripheralDevice
                     {
                         this.IsAck = false;
                         this.IsDone = false;
+                        Console.WriteLine("包序：" + PackIndex);
                         if (this.PackIndex == this.PackCount)
                         {
                             this.IsSending = false;

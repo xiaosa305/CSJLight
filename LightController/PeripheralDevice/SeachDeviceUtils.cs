@@ -108,8 +108,8 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    byte[] buff = new byte[count];
-                    Array.Copy(connect.ReceiveBuff, 8, buff, 0, count);
+                    byte[] buff = new byte[count - 8];
+                    Array.Copy(connect.ReceiveBuff, 8, buff, 0, count - 8);
                     string str = Encoding.Default.GetString(buff);
                     Console.WriteLine("收到数据包：" + str);
                     string strBuff = Encoding.Default.GetString(buff);

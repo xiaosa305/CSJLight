@@ -151,16 +151,10 @@ namespace LightController.PeripheralDevice
         }
 
         //901灯控功能设备搜索
-        private const int UDP_SERVER_PORT = 7070;
-        private const int UDP_CLIENT_PORT = 7060;
         private const int UDP_INTENT_PREVIEW_PORT = 7080;
-        private static Socket UDPServer { get; set; }
-        private static UdpClient UdpClient { get; set; }
-        private static Thread UDPReceiveThread { get; set; }
-        private static bool UDPReceiveStatus { get; set; }
-        private static string LocalIp { get; set; }
         private static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
         private Socket IntentPreviewUDPSender { get; set; }
+        private static SeachDeviceUtils SeachDeviceUtils { get; set; }
 
         //发送网络模拟调试数据测试
         /// <summary>
@@ -185,93 +179,20 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                //配置UDP服务器
-                LocalIp = localIP;
-                UDPReceiveStatus = false;
-                if (UDPServer != null)
-                {
-                    UDPServer.Close();
-                    UdpClient.Close();
-                    UDPServer = null;
-                    UdpClient = null;
-                    UDPReceiveThread = null;
-                }
-                UDPServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                UDPServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-                UDPServer.Bind(new IPEndPoint(IPAddress.Parse(localIP), 7010));
-                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
-                UDPReceiveThread = new Thread(SearchDeviceReceiveMsg) { IsBackground = true };
-                UDPReceiveThread.Start(UdpClient);
-                UDPReceiveStatus = true;
-                //开始发送搜索包搜索设备
-                if (DeviceInfos.ContainsKey(localIP))
-                {
-                    DeviceInfos[localIP].Clear();
-                }
-                else
-                {
-                    DeviceInfos.Add(localIP, new Dictionary<string, NetworkDeviceInfo>());
-                }
-                List<byte> packageBuff = new List<byte>();
-                byte[] dataBuff = Encoding.Default.GetBytes(Constant.UDP_ORDER);
-                byte[] dataLengthBuff = new byte[] { Convert.ToByte(dataBuff.Length & 0xFF), Convert.ToByte((dataBuff.Length >> 8) & 0xFF) };
-                byte[] headBuff = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), dataLengthBuff[0], dataLengthBuff[1], Convert.ToByte("00000001", 2), Convert.ToByte(0x00), Convert.ToByte(0x00) };
-                packageBuff.AddRange(headBuff);
-                packageBuff.AddRange(dataBuff);
-                byte[] CRC = CRCTools.GetInstance().GetCRC(packageBuff.ToArray());
-                packageBuff[6] = CRC[0];
-                packageBuff[7] = CRC[1];
-                UDPServer.SendTo(packageBuff.ToArray(), new IPEndPoint(IPAddress.Broadcast, UDP_CLIENT_PORT));
+                SeachDeviceUtils.GetInstance().SearchDevice(localIP);
             }
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "搜索设备失败", ex);
-                UDPReceiveStatus = false;
-                UDPReceiveThread = null;
             }
         }
-        /// <summary>
-        /// 功能：搜索设备接收模块
-        /// </summary>
-        /// <param name="obj"></param>
-        private static void SearchDeviceReceiveMsg(Object obj)
-        {
-            try
-            {
-                UdpClient udpClient = obj as UdpClient;
-                while (UDPReceiveStatus)
-                {
-                    IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT);
-                    NetworkDeviceInfo info = new NetworkDeviceInfo();
-                    byte[] data = udpClient.Receive(ref iPEndPoint);
-                    CommandLogUtils.GetInstance().Enqueue(Encoding.Default.GetString(data));
-                    byte[] buff = new byte[data.Length - 8];
-                    Array.Copy(data, 8, buff, 0, buff.Length);
-                    string strBuff = Encoding.Default.GetString(buff);
-                    string[] strarrau = strBuff.Split(' ');
-                    info.DeviceIp = strBuff.Split(' ')[0];
-                    int.TryParse(strBuff.Split(' ')[1], out int addr);
-                    info.DeviceAddr = addr;
-                    info.LocalIp = LocalIp;
-                    info.DeviceName = strBuff.Split(' ')[2];
-                    Console.WriteLine(Encoding.Default.GetString(buff));
-                    if (!DeviceInfos[LocalIp].ContainsKey(info.DeviceIp))
-                    {
-                        DeviceInfos[LocalIp].Add(info.DeviceIp, info);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //LogTools.Debug(Constant.TAG_XIAOSA, "搜索设备服务器已关闭");
-            }
-        }
+
         /// <summary>
         /// 功能：获取设备列表
         /// </summary>
         public static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> GetDeviceList()
         {
-            return DeviceInfos;
+            return SeachDeviceUtils.GetInstance().Devices;
         }
         /// <summary>
         /// 功能：清除设备列表

@@ -94,6 +94,11 @@ namespace RecordTools.Entity
                 writeBuff.Add(0x0E);
                 writeBuff.Add(0x00);
 
+                writeBuff[0] = (Convert.ToByte(writeBuff.Count & 0xFF));
+                writeBuff[1] = Convert.ToByte((writeBuff.Count >> 8) & 0xFF);
+                writeBuff[2] = Convert.ToByte((writeBuff.Count >> 16) & 0xFF);
+                writeBuff[3] = Convert.ToByte((writeBuff.Count >> 24) & 0xFF);
+
                 if (!Directory.Exists(dirPath))
                 {
                     Directory.CreateDirectory(dirPath);

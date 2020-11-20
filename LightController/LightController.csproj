@@ -472,6 +472,7 @@
     <Compile Include="PeripheralDevice\NetworkConnect.cs" />
     <Compile Include="PeripheralDevice\OnlineConnect.cs" />
     <Compile Include="PeripheralDevice\OnlineDeviceInfo.cs" />
+    <Compile Include="PeripheralDevice\SeachDeviceUtils.cs" />
     <Compile Include="PeripheralDevice\SerialConnect.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

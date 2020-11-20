@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
@@ -39,7 +41,8 @@ namespace LightController.Tools
         public void Test()
         {
             Console.WriteLine("小撒的测试");
-            this.DMXTest();
+            this.SocketTest();
+            //this.DMXTest();
         }
         private void OnlineTest()
         {
@@ -147,6 +150,93 @@ namespace LightController.Tools
             }
             com.Close();
             Console.WriteLine("dmx 关闭");
+        }
+
+        private Socket Server { get; set; }
+        private byte[] ReceiveBuff { get; set; }//接收缓存区
+        private int BuffCount { get; set; }
+        private const int RECEIVEBUFFSIZE = 2048;
+        public Dictionary<string, Dictionary<string, NetworkDeviceInfo>> Devices { get; set; }
+
+        /// <summary>
+        /// 获取缓存区大小
+        /// </summary>
+        /// <returns></returns>
+        private int BuffRemain()
+        {
+            return RECEIVEBUFFSIZE - this.BuffCount;
+        }
+
+        public void SocketTest()
+        {
+            if (Server == null)
+            {
+                ReceiveBuff = new byte[RECEIVEBUFFSIZE];
+                this.BuffCount = 0;
+                Server = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, true);
+                Server.Bind(new IPEndPoint(IPAddress.Parse("192.168.31.147"), 7070));
+                Server.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+                Devices = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
+                Devices.Add("192.168.31.147", new Dictionary<string, NetworkDeviceInfo>());
+            }
+            Devices = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
+            Devices.Add("192.168.31.147", new Dictionary<string, NetworkDeviceInfo>());
+            List<byte> packageBuff = new List<byte>();
+            byte[] dataBuff = Encoding.Default.GetBytes(Constant.UDP_ORDER);
+            byte[] dataLengthBuff = new byte[] { Convert.ToByte(dataBuff.Length & 0xFF), Convert.ToByte((dataBuff.Length >> 8) & 0xFF) };
+            byte[] headBuff = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), dataLengthBuff[0], dataLengthBuff[1], Convert.ToByte("00000001", 2), Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            packageBuff.AddRange(headBuff);
+            packageBuff.AddRange(dataBuff);
+            byte[] CRC = CRCTools.GetInstance().GetCRC(packageBuff.ToArray());
+            packageBuff[6] = CRC[0];
+            packageBuff[7] = CRC[1];
+            this.Server.BeginSendTo(packageBuff.ToArray(), 0, packageBuff.Count, SocketFlags.None, new IPEndPoint(IPAddress.Broadcast, 7060), this.SendCallBack, this);
+        }
+
+        private void SendCallBack(IAsyncResult async)
+        {
+            CommandLogUtils.GetInstance().Enqueue("搜索包发送完成");
+        }
+
+        private void NetworkReceive(IAsyncResult asyncResult)
+        {
+            try
+            {
+                XiaosaTest connect = asyncResult.AsyncState as XiaosaTest;
+                int count = connect.Server.EndReceive(asyncResult);
+                if (count <= 0)
+                {
+                    CommandLogUtils.GetInstance().Enqueue("设备断开");
+                    return;
+                }
+                else
+                {
+                    byte[] buff = new byte[count];
+                    Array.Copy(connect.ReceiveBuff,8, buff,0, count);
+                    string str = Encoding.Default.GetString(buff);
+                    Console.WriteLine("收到数据包：" + str);
+                    //CommandLogUtils.GetInstance().Enqueue(str);
+                    string strBuff = Encoding.Default.GetString(buff);
+                    string[] strarrau = strBuff.Split(' ');
+                    NetworkDeviceInfo info = new NetworkDeviceInfo();
+                    info.DeviceIp = strBuff.Split(' ')[0];
+                    int.TryParse(strBuff.Split(' ')[1], out int addr);
+                    info.DeviceAddr = addr;
+                    info.LocalIp = "192.168.31.147";
+                    info.DeviceName = strBuff.Split(' ')[2];
+                    Console.WriteLine(Encoding.Default.GetString(buff));
+                    if (!Devices["192.168.31.147"].ContainsKey(info.DeviceIp))
+                    {
+                        Devices["192.168.31.147"].Add(info.DeviceIp, info);
+                    }
+                    Server.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, this.NetworkReceive, connect);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "网络设备已断开或网络接收模块发生异常", ex);
+            }
         }
     }
 }

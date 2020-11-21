@@ -1347,6 +1347,7 @@ namespace OtherTools
 			this.tgGroupBox.TabIndex = 3;
 			this.tgGroupBox.TabStop = false;
 			this.tgGroupBox.Text = "调光通道设置";
+			this.tgGroupBox.Visible = false;
 			// 
 			// tgPanel4
 			// 
@@ -2812,7 +2813,7 @@ namespace OtherTools
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(1280, 800);
 			this.Name = "NewToolsForm";
-			this.Text = "其它配置";
+			this.Text = "外设配置";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewToolsForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewToolsForm_Load);
 			this.panel2.ResumeLayout(false);

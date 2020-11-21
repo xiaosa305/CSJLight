@@ -1238,9 +1238,8 @@ namespace OtherTools
 		private void refreshDeviceComboBox()
 		{
 			// 刷新前，先清空列表(也先断开连接：只是保护性再跑一次)
-			disConnect(); // refreshDeviceComboBox
-
-			setAllStatusLabel1("正在搜索设备，请稍候...");
+			disConnect(); // refreshDeviceComboBox			
+			setAllStatusLabel1("正在搜索设备，请稍候...");		
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
 			deviceComboBox.SelectedIndex = -1;
@@ -1272,7 +1271,7 @@ namespace OtherTools
 					{
 						NetworkConnect.SearchDevice(ip.ToString());
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);						
+						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);	
 					}					
 				}
 
@@ -1295,7 +1294,7 @@ namespace OtherTools
 			if (deviceComboBox.Items.Count > 0)
 			{								
 				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
+				deviceComboBox.Enabled = true;				
 				deviceConnectButton.Enabled = true;
 				setAllStatusLabel1("已搜到可用设备列表。");						
 			}
@@ -1310,7 +1309,7 @@ namespace OtherTools
 		//事件：点击《刷新串口|网络》
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
-			refreshDeviceComboBox();  // refreshButton_Click
+			refreshDeviceComboBox();  // refreshButton_Click			
 		}
 
 		/// <summary>

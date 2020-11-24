@@ -4064,7 +4064,12 @@ namespace LightController.MyForm
 			this.components = new System.ComponentModel.Container();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.SuspendLayout();
-
+			// 
+			// lightImageList
+			// 
+			this.lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.lightImageList.ImageSize = new System.Drawing.Size(65, 60);
+			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// MainFormBase
 			// 

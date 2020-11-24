@@ -4016,12 +4016,39 @@ namespace LightController.MyForm
 
 		#region 初始化及窗口相关
 
+		private void InitializeComponent()
+		{
+			this.components = new System.ComponentModel.Container();
+			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
+			this.SuspendLayout();
+			// 
+			// lightImageList
+			// 
+			this.lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.lightImageList.ImageSize = new System.Drawing.Size(60, 65);
+			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
+			// 
+			// MainFormBase
+			// 
+			this.ClientSize = new System.Drawing.Size(284, 261);
+			this.Name = "MainFormBase";
+			this.Load += new System.EventHandler(this.MainFormBase_Load);
+			this.ResumeLayout(false);
+
+		}
+
+		/// <summary>
+		/// 空Load方法：方便查找InitGeneralControl
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainFormBase_Load(object sender, EventArgs e){	}
+
 		/// <summary>
 		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法;以及一些全局变量的取出
 		/// </summary>
 		protected void initGeneralControls()
 		{
-
 			this.components = new System.ComponentModel.Container();
 
 			// exportFolderBrowserDialog : 导出工程相关
@@ -4055,30 +4082,10 @@ namespace LightController.MyForm
 			// lightImageList的初始化
 			this.lightImageList = new ImageList();
 			this.lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			this.lightImageList.ImageSize = new System.Drawing.Size(65, 60);
+			this.lightImageList.ImageSize = new System.Drawing.Size(60, 65);
 			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
-		}
-			   
-		private void InitializeComponent()
-		{
-			this.components = new System.ComponentModel.Container();
-			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
-			this.SuspendLayout();
-			// 
-			// lightImageList
-			// 
-			this.lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			this.lightImageList.ImageSize = new System.Drawing.Size(65, 60);
-			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// MainFormBase
-			// 
-			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Name = "MainFormBase";
-			this.Load += new System.EventHandler(this.MainFormBase_Load);
-			this.ResumeLayout(false);
-
-		}
+		}   
+	
 
 		/// <summary>
 		/// 辅助方法：点击退出时FormClosing事件；
@@ -4361,10 +4368,7 @@ namespace LightController.MyForm
 
 		#endregion
 
-		private void MainFormBase_Load(object sender, EventArgs e)
-		{
 
-		}
 		
 	}
 

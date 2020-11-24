@@ -115,5 +115,17 @@ namespace LightController.Common
 			}
 		}
 
+		/// <summary>
+		/// 判断传入的文件名，是否为png、jpg、bmp三种图片格式(ico不算在内)
+		/// </summary>
+		/// <param name="picName"></param>
+		/// <returns></returns>
+		public static bool IsPicFile(string picName) {
+			return 
+				picName.ToLower().EndsWith(".jpg") || 
+				picName.ToLower().EndsWith(".png") || 
+				picName.ToLower().EndsWith(".bmp");
+		}
+
 	}
 }

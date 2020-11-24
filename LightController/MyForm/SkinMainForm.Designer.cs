@@ -49,7 +49,6 @@ namespace LightController.MyForm
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ymSkinButton = new CCWin.SkinControl.SkinButton();
 			this.newToolsSkinButton = new CCWin.SkinControl.SkinButton();
-			this.oldToolsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.helpSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.projectLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -87,8 +86,6 @@ namespace LightController.MyForm
 			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.middleImageList = new System.Windows.Forms.ImageList(this.components);
-			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -295,7 +292,6 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.globalSetSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.ymSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.newToolsSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.oldToolsSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.helpSkinButton);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 2);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -525,34 +521,6 @@ namespace LightController.MyForm
 			this.newToolsSkinButton.UseVisualStyleBackColor = false;
 			this.newToolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
 			// 
-			// oldToolsSkinButton
-			// 
-			this.oldToolsSkinButton.AutoSize = true;
-			this.oldToolsSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.oldToolsSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.oldToolsSkinButton.BorderColor = System.Drawing.Color.White;
-			this.oldToolsSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.oldToolsSkinButton.DownBack = null;
-			this.oldToolsSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.oldToolsSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.oldToolsSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.oldToolsSkinButton.ForeColorSuit = true;
-			this.oldToolsSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
-			this.oldToolsSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.oldToolsSkinButton.InheritColor = true;
-			this.oldToolsSkinButton.IsDrawBorder = false;
-			this.oldToolsSkinButton.Location = new System.Drawing.Point(754, 2);
-			this.oldToolsSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.oldToolsSkinButton.MouseBack = null;
-			this.oldToolsSkinButton.Name = "oldToolsSkinButton";
-			this.oldToolsSkinButton.NormlBack = null;
-			this.oldToolsSkinButton.Size = new System.Drawing.Size(95, 96);
-			this.oldToolsSkinButton.TabIndex = 5;
-			this.oldToolsSkinButton.Text = "旧外设配置";
-			this.oldToolsSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.oldToolsSkinButton.UseVisualStyleBackColor = false;
-			this.oldToolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton2_Click);
-			// 
 			// helpSkinButton
 			// 
 			this.helpSkinButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -570,7 +538,7 @@ namespace LightController.MyForm
 			this.helpSkinButton.ImageSize = new System.Drawing.Size(60, 60);
 			this.helpSkinButton.InheritColor = true;
 			this.helpSkinButton.IsDrawBorder = false;
-			this.helpSkinButton.Location = new System.Drawing.Point(853, 2);
+			this.helpSkinButton.Location = new System.Drawing.Point(754, 2);
 			this.helpSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.helpSkinButton.MouseBack = null;
 			this.helpSkinButton.Name = "helpSkinButton";
@@ -1057,7 +1025,6 @@ namespace LightController.MyForm
 			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lightsSkinListView.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsSkinListView.HideSelection = false;
-			this.lightsSkinListView.LargeImageList = this.middleImageList;
 			this.lightsSkinListView.Location = new System.Drawing.Point(0, 0);
 			this.lightsSkinListView.Margin = new System.Windows.Forms.Padding(0);
 			this.lightsSkinListView.Name = "lightsSkinListView";
@@ -1209,126 +1176,6 @@ namespace LightController.MyForm
 			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
 			this.showSaPanelsToolStripMenuItem.Click += new System.EventHandler(this.showSaPanelsToolStripMenuItem_Click);
-			// 
-			// middleImageList
-			// 
-			this.middleImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("middleImageList.ImageStream")));
-			this.middleImageList.TransparentColor = System.Drawing.Color.Gainsboro;
-			this.middleImageList.Images.SetKeyName(0, "1.jpg");
-			this.middleImageList.Images.SetKeyName(1, "3.jpg");
-			this.middleImageList.Images.SetKeyName(2, "4.jpg");
-			this.middleImageList.Images.SetKeyName(3, "5.jpg");
-			this.middleImageList.Images.SetKeyName(4, "60w.jpg");
-			this.middleImageList.Images.SetKeyName(5, "a (1).jpg");
-			this.middleImageList.Images.SetKeyName(6, "a (1).png");
-			this.middleImageList.Images.SetKeyName(7, "a (2).jpg");
-			this.middleImageList.Images.SetKeyName(8, "a (2).png");
-			this.middleImageList.Images.SetKeyName(9, "A500--500MW全彩动画激光灯.png");
-			this.middleImageList.Images.SetKeyName(10, "A520--梦幻星空灯.png");
-			this.middleImageList.Images.SetKeyName(11, "A1500--1.5W全彩动画激光灯.png");
-			this.middleImageList.Images.SetKeyName(12, "A2000--2W全彩动画激光灯.png");
-			this.middleImageList.Images.SetKeyName(13, "D08--六眼扫描激光灯.png");
-			this.middleImageList.Images.SetKeyName(14, "D20--摇头染色灯.png");
-			this.middleImageList.Images.SetKeyName(15, "D30G--染色激光灯.png");
-			this.middleImageList.Images.SetKeyName(16, "D50S--染色图案灯.png");
-			this.middleImageList.Images.SetKeyName(17, "E12--无极剑.png");
-			this.middleImageList.Images.SetKeyName(18, "E18--嵌入式18颗帕灯.png");
-			this.middleImageList.Images.SetKeyName(19, "E20--大蝴蝶灯.png");
-			this.middleImageList.Images.SetKeyName(20, "E30--无极魔球灯.png");
-			this.middleImageList.Images.SetKeyName(21, "E60--峰眼激光灯.png");
-			this.middleImageList.Images.SetKeyName(22, "E70G--染色激光灯.png");
-			this.middleImageList.Images.SetKeyName(23, "E80--染色图案灯.png");
-			this.middleImageList.Images.SetKeyName(24, "E300--嵌入式红绿蓝图案激光灯.png");
-			this.middleImageList.Images.SetKeyName(25, "E500--500MW嵌入式全彩激光灯.png");
-			this.middleImageList.Images.SetKeyName(26, "F05--摇头峰眼灯.png");
-			this.middleImageList.Images.SetKeyName(27, "j(1).png");
-			this.middleImageList.Images.SetKeyName(28, "j(2).png");
-			this.middleImageList.Images.SetKeyName(29, "j(3).png");
-			this.middleImageList.Images.SetKeyName(30, "j(4).png");
-			this.middleImageList.Images.SetKeyName(31, "j(5).png");
-			this.middleImageList.Images.SetKeyName(32, "j(6).png");
-			this.middleImageList.Images.SetKeyName(33, "j(7).png");
-			this.middleImageList.Images.SetKeyName(34, "j(8).png");
-			this.middleImageList.Images.SetKeyName(35, "j(9).png");
-			this.middleImageList.Images.SetKeyName(36, "j(10).png");
-			this.middleImageList.Images.SetKeyName(37, "j(11).png");
-			this.middleImageList.Images.SetKeyName(38, "P05--调焦染色灯.png");
-			this.middleImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
-			this.middleImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
-			this.middleImageList.Images.SetKeyName(41, "灯光图.png");
-			this.middleImageList.Images.SetKeyName(42, "ZF (1).png");
-			this.middleImageList.Images.SetKeyName(43, "ZF (2).png");
-			this.middleImageList.Images.SetKeyName(44, "ZF (3).png");
-			this.middleImageList.Images.SetKeyName(45, "ZF (4).png");
-			this.middleImageList.Images.SetKeyName(46, "ZF (5).png");
-			this.middleImageList.Images.SetKeyName(47, "ZF (6).png");
-			this.middleImageList.Images.SetKeyName(48, "ZF (7).png");
-			this.middleImageList.Images.SetKeyName(49, "ZF (8).png");
-			this.middleImageList.Images.SetKeyName(50, "ZF (9).png");
-			this.middleImageList.Images.SetKeyName(51, "ZF (10).png");
-			this.middleImageList.Images.SetKeyName(52, "ZF (11).png");
-			this.middleImageList.Images.SetKeyName(53, "ZF (12).png");
-			this.middleImageList.Images.SetKeyName(54, "ZF (13).png");
-			// 
-			// lightLargeImageList
-			// 
-			this.lightLargeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightLargeImageList.ImageStream")));
-			this.lightLargeImageList.TransparentColor = System.Drawing.Color.Gainsboro;
-			this.lightLargeImageList.Images.SetKeyName(0, "1.jpg");
-			this.lightLargeImageList.Images.SetKeyName(1, "3.jpg");
-			this.lightLargeImageList.Images.SetKeyName(2, "4.jpg");
-			this.lightLargeImageList.Images.SetKeyName(3, "5.jpg");
-			this.lightLargeImageList.Images.SetKeyName(4, "60w.jpg");
-			this.lightLargeImageList.Images.SetKeyName(5, "a (1).jpg");
-			this.lightLargeImageList.Images.SetKeyName(6, "a (1).png");
-			this.lightLargeImageList.Images.SetKeyName(7, "a (2).jpg");
-			this.lightLargeImageList.Images.SetKeyName(8, "a (2).png");
-			this.lightLargeImageList.Images.SetKeyName(9, "A500--500MW全彩动画激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(10, "A520--梦幻星空灯.png");
-			this.lightLargeImageList.Images.SetKeyName(11, "A1500--1.5W全彩动画激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(12, "A2000--2W全彩动画激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(13, "D08--六眼扫描激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(14, "D20--摇头染色灯.png");
-			this.lightLargeImageList.Images.SetKeyName(15, "D30G--染色激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(16, "D50S--染色图案灯.png");
-			this.lightLargeImageList.Images.SetKeyName(17, "E12--无极剑.png");
-			this.lightLargeImageList.Images.SetKeyName(18, "E18--嵌入式18颗帕灯.png");
-			this.lightLargeImageList.Images.SetKeyName(19, "E20--大蝴蝶灯.png");
-			this.lightLargeImageList.Images.SetKeyName(20, "E30--无极魔球灯.png");
-			this.lightLargeImageList.Images.SetKeyName(21, "E60--峰眼激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(22, "E70G--染色激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(23, "E80--染色图案灯.png");
-			this.lightLargeImageList.Images.SetKeyName(24, "E300--嵌入式红绿蓝图案激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(25, "E500--500MW嵌入式全彩激光灯.png");
-			this.lightLargeImageList.Images.SetKeyName(26, "F05--摇头峰眼灯.png");
-			this.lightLargeImageList.Images.SetKeyName(27, "j(1).png");
-			this.lightLargeImageList.Images.SetKeyName(28, "j(2).png");
-			this.lightLargeImageList.Images.SetKeyName(29, "j(3).png");
-			this.lightLargeImageList.Images.SetKeyName(30, "j(4).png");
-			this.lightLargeImageList.Images.SetKeyName(31, "j(5).png");
-			this.lightLargeImageList.Images.SetKeyName(32, "j(6).png");
-			this.lightLargeImageList.Images.SetKeyName(33, "j(7).png");
-			this.lightLargeImageList.Images.SetKeyName(34, "j(8).png");
-			this.lightLargeImageList.Images.SetKeyName(35, "j(9).png");
-			this.lightLargeImageList.Images.SetKeyName(36, "j(10).png");
-			this.lightLargeImageList.Images.SetKeyName(37, "j(11).png");
-			this.lightLargeImageList.Images.SetKeyName(38, "P05--调焦染色灯.png");
-			this.lightLargeImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
-			this.lightLargeImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
-			this.lightLargeImageList.Images.SetKeyName(41, "灯光图.png");
-			this.lightLargeImageList.Images.SetKeyName(42, "ZF (1).png");
-			this.lightLargeImageList.Images.SetKeyName(43, "ZF (2).png");
-			this.lightLargeImageList.Images.SetKeyName(44, "ZF (3).png");
-			this.lightLargeImageList.Images.SetKeyName(45, "ZF (4).png");
-			this.lightLargeImageList.Images.SetKeyName(46, "ZF (5).png");
-			this.lightLargeImageList.Images.SetKeyName(47, "ZF (6).png");
-			this.lightLargeImageList.Images.SetKeyName(48, "ZF (7).png");
-			this.lightLargeImageList.Images.SetKeyName(49, "ZF (8).png");
-			this.lightLargeImageList.Images.SetKeyName(50, "ZF (9).png");
-			this.lightLargeImageList.Images.SetKeyName(51, "ZF (10).png");
-			this.lightLargeImageList.Images.SetKeyName(52, "ZF (11).png");
-			this.lightLargeImageList.Images.SetKeyName(53, "ZF (12).png");
-			this.lightLargeImageList.Images.SetKeyName(54, "ZF (13).png");
 			// 
 			// astSkinPanel
 			// 
@@ -2726,14 +2573,11 @@ namespace LightController.MyForm
 		private ToolStripSeparator toolStripSeparator4;
 		private ToolStripMenuItem refreshPicToolStripMenuItem;
 		private SkinButton closeSkinButton;
-		private ImageList lightLargeImageList;
 		private SkinButton changeConnectMethodSkinButton;
 		private SkinButton syncSkinButton;
 		private System.ComponentModel.BackgroundWorker bgWorker;
 		private StatusStrip noticeStatusStrip;
 		private ToolStripStatusLabel noticeLabel;
-		private SkinButton oldToolsSkinButton;
-		private ImageList middleImageList;
 		private Label lightRemarkLabel;
 		private SkinButton helpSkinButton;
 		private SkinButton multiplexSkinButton;

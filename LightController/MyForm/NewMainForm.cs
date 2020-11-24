@@ -52,7 +52,7 @@ namespace LightController.MyForm
 			initGeneralControls(); //几个全局控件的初始化
 			InitializeComponent();
 
-			Text = SoftwareName;// 动态更改软件名称
+			Text = SoftwareName;// 动态更改软件名称		
 
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
 			//QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
@@ -248,9 +248,13 @@ namespace LightController.MyForm
 			// 添加子属性按键组是否显示的菜单
 			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
 
+			// 刷新灯具图片列表（从硬盘读取）
+			this.lightsListView.LargeImageList = lightImageList;
+			RefreshLightImageList();
+
 			isInit = true;
 		}
-
+		
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
 			//启动时刷新可用串口列表，但把显示给删除
@@ -682,7 +686,7 @@ namespace LightController.MyForm
 					LightAstList[i].LightType + "\n" +
 						"(" + LightAstList[i].LightAddr + ")\n" +
 						LightAstList[i].Remark,
-					middelImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
+					lightImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
 				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
 				);
@@ -760,7 +764,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			currentLightPictureBox.Image = largeImageList.Images[la.LightPic] != null ? largeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
+			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic) : global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = "厂商：" + la.LightName;
 			lightTypeLabel.Text = "型号：" + la.LightType;
 			lightsAddrLabel.Text = "地址：" + la.LightAddr;

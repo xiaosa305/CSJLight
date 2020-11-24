@@ -2,7 +2,6 @@
 using LightController.Common;
 using LightController.MyForm;
 using LightEditor.Ast;
-using LightEditor.MyForm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace LightEditor
 		private MainFormBase mainForm;	
 
 		private string softwareName;  //动态更改软件名
-		private string savePath;  //软件各项功能保存的路径(软件目录或C:\Temp)
 		private string picDirectory;     // 图片目录
 		private string lightDirectory;   // ini保存目录
 
@@ -41,7 +39,7 @@ namespace LightEditor
 		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
 		//调试相关变量
-		private OneLightOneStep player; // 灯具测试的实例
+		private OneLightOneStep player; // 调试工具类的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
 		private bool isConnect = false; // 辅助变量：是否连接设备
 				
@@ -55,11 +53,11 @@ namespace LightEditor
 			InitializeComponent();
 
 			softwareName = mainForm.SoftwareName + " Light Editor";
-			Text = softwareName;
-			savePath = mainForm.SavePath;
-			picDirectory = @savePath + @"\LightPic";
+			Text = softwareName ;
+			
+			picDirectory = mainForm.SavePath + @"\LightPic";
 			openImageDialog.InitialDirectory = picDirectory; //图片加载路径使用当前软件所在文件夹
-			lightDirectory = @savePath + @"\LightLibrary";
+			lightDirectory = mainForm.SavePath + @"\LightLibrary";
 			openFileDialog.InitialDirectory = lightDirectory;  //灯具目录				
 
 			// 动态添加通道预选名称

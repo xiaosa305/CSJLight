@@ -22,6 +22,7 @@ using LightController.MyForm.LightList;
 using System.Diagnostics;
 using LightController.MyForm.Multiplex;
 using LightController.PeripheralDevice;
+using System.Drawing;
 
 namespace LightController.MyForm
 {
@@ -58,8 +59,8 @@ namespace LightController.MyForm
 
 		// 几个全局的辅助控件（导出文件、toolTip提示等）
 		protected FolderBrowserDialog exportFolderBrowserDialog;
-		protected System.ComponentModel.IContainer components;
-		protected ToolTip myToolTip;
+		private System.ComponentModel.IContainer components;
+		protected ToolTip myToolTip;		
 
 		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）		
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
@@ -71,14 +72,14 @@ namespace LightController.MyForm
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
 		public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
-		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
+		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
 
 		// 程序运行后，动态变化的变量
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
 		protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。		
-
+	
 		// 工程相关的变量（只在工程载入后才用到的变量）
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
 		protected string projectPath; //存放当前工程所在目录
@@ -138,11 +139,10 @@ namespace LightController.MyForm
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		public bool IsPreviewing = false; // 是否预览状态中
+		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
 
-		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
-
-		
+		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用				
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
 		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
 		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
@@ -161,7 +161,7 @@ namespace LightController.MyForm
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
 		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons			
 		protected virtual void deviceRefresh() { } //	刷新设备列表
-
+			
 		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
@@ -238,9 +238,13 @@ namespace LightController.MyForm
 
 					HashSet<string> lightSet = new HashSet<string>();
 					HashSet<string> dirSet = new HashSet<string>();
+					HashSet<string> picSet = new HashSet<string>();
 					foreach (LightAst la in LightAstList)
 					{
 						dirSet.Add(la.LightName);
+						if (!string.IsNullOrEmpty(la.LightPic)) {
+							picSet.Add(la.LightPic);
+						}
 						lightSet.Add(la.LightName + "\\" + la.LightType + ".ini");
 					}
 
@@ -251,6 +255,12 @@ namespace LightController.MyForm
 					}
 					foreach (string lightPath in lightSet) {
 						File.Copy(SavePath + @"\LightLibrary\" + lightPath, SavePath + @"\Source\LightLibrary\" + lightPath, true);
+					}
+					// 1124：连带把灯具图片也保存起来
+					di = new DirectoryInfo(SavePath + @"\Source\LightPic");
+					di.Create(); 
+					foreach (string lightPic in picSet) {
+						File.Copy(SavePath + @"\LightPic\" + lightPic, SavePath +  @"\Source\LightPic\" + lightPic, true);
 					}
 				}
 			}
@@ -382,6 +392,30 @@ namespace LightController.MyForm
 			refreshGroupPanels(); // ReBuildLightList()
 		}
 
+		/// <summary>
+		/// 辅助方法：刷新 灯具图片的方法
+		/// </summary>
+		protected void RefreshLightImageList()
+		{
+
+			// 清空所有的图片,并添加默认图片
+			lightImageList.Images.Clear();
+			lightImageList.Images.Add("灯光图.png", global::LightController.Properties.Resources.灯光图);
+
+			string picPath = SavePath + @"\LightPic";
+			DirectoryInfo di = new DirectoryInfo(picPath);
+			if (di.Exists)
+			{
+				foreach (FileInfo f in di.GetFiles())
+				{
+					if (StringHelper.IsPicFile(f.Name))
+					{
+						lightImageList.Images.Add(f.Name, Image.FromFile(f.FullName));
+					}
+				}
+			}
+		}
+
 		//辅助方法：摧毁DmaForm，同时也将TdDict置为null
 		private void disposeDmaForm()
 		{
@@ -475,7 +509,7 @@ namespace LightController.MyForm
 				throw ex;
 			}
 		}
-
+			
 		#region 由数据库取数据的几个方法
 
 		/// <summary>
@@ -951,9 +985,7 @@ namespace LightController.MyForm
 			}
 			return sameTDIndexList;
 		}
-
-
-
+			   
 		/// <summary>
 		/// 辅助方法：用传进来的素材数据，重新包装StepWrapper
 		/// </summary>
@@ -1865,10 +1897,16 @@ namespace LightController.MyForm
 		/// （此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
 		/// </summary>
 		/// <param name="directoryPath"></param>
-		public void OpenProject(string projectName, int frameIndex)
+		public void OpenProject(string savePath , string projectName, int frameIndex)
 		{
 			SetNotice("正在打开工程，请稍候...",false);
 			setBusy(true);
+
+			//MARK1124：OpenProject内当工作
+			if (savePath != SavePath) {
+				SavePath = savePath;
+				RefreshLightImageList();
+			}
 
 			DateTime beforeDT = System.DateTime.Now;
 
@@ -4013,11 +4051,20 @@ namespace LightController.MyForm
 			MAX_StTimes = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStTimes");
 			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStep");
 			IsShowSaPanels = IniFileHelper.GetControlShow(Application.StartupPath, "saPanels");
+
+			// lightImageList的初始化
+			this.lightImageList = new ImageList();
+			this.lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.lightImageList.ImageSize = new System.Drawing.Size(65, 60);
+			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
 		}
 			   
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.SuspendLayout();
+
 			// 
 			// MainFormBase
 			// 

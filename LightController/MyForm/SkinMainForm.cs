@@ -34,16 +34,21 @@ namespace LightController.MyForm
 		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
 		private SkinComboBox[] tdChangeModeComboBoxes = new SkinComboBox[32];
 		private NumericUpDown[] tdStepTimeNumericUpDowns = new NumericUpDown[32];	
-		private Panel[] saPanels = new Panel[32];
+		private Panel[] saPanels = new Panel[32];		
 
 		public SkinMainForm()
 		{
 			initGeneralControls();
 			InitializeComponent();
 
+			string iconPath = Application.StartupPath + @"\favicon.ico";
+			if (File.Exists(iconPath))
+			{
+				Icon = Icon.ExtractAssociatedIcon(iconPath);
+			}
+
 			Text = SoftwareName;
-			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;
-			oldToolsSkinButton.Visible = IsLinkOldTools;
+			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;			
 			testGroupBox.Visible = IsShowTestButton;
 			bigTestButton.Visible = IsShowTestButton;
 
@@ -98,7 +103,6 @@ namespace LightController.MyForm
 					TickStyle = tdTrackBarDemo.TickStyle,
 					Track = tdTrackBarDemo.Track,
 				};
-
 
 				tdValueNumericUpDowns[tdIndex] = new NumericUpDown
 				{
@@ -211,9 +215,13 @@ namespace LightController.MyForm
 			// 添加子属性按键组是否显示的菜单
 			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
 
+			//  动态加载灯具图片列表
+			lightsSkinListView.LargeImageList = lightImageList ; 
+			RefreshLightImageList();
+
 			isInit = true;
 		}
-		
+
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 启动时刷新可用串口列表;
@@ -292,22 +300,7 @@ namespace LightController.MyForm
 		{
 			newToolClick();
 		}
-
-		/// <summary>
-		/// 事件：点击《旧版外设配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void otherToolsSkinButton2_Click(object sender, EventArgs e)
-		{
-			// 若要进入《其他工具》，应该先将连接断开
-			if (IsConnected)
-			{
-				connectSkinButton_Click(null, null);
-			}
-			new OldToolsForm(this).ShowDialog();
-		}
-
+			
 		/// <summary>
 		///  事件：点击《退出程序》
 		/// </summary>
@@ -522,9 +515,8 @@ namespace LightController.MyForm
 				lightsSkinListView.Items.Add(new ListViewItem(
 						LightAstList[i].LightType +"\n(" 
 						+ LightAstList[i].LightAddr +")"
-						+ LightAstList[i].Remark
-						,
-					lightLargeImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
+						+ LightAstList[i].Remark	,
+					lightImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
 				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
 				);
@@ -597,8 +589,8 @@ namespace LightController.MyForm
 				lightRemarkLabel.Text = null;
 				return;
 			}
-			
-			currentLightPictureBox.Image =lightLargeImageList.Images[la.LightPic]!=null ? lightLargeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
+
+			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic):global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = "灯具厂商：" + la.LightName;
 			lightTypeLabel.Text = "灯具型号：" + la.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
@@ -899,7 +891,6 @@ namespace LightController.MyForm
 				LightAstList[lightIndex].LightPic = tempPicStr;
 				lightsSkinListView.Items[lightIndex].ImageKey = tempPicStr;
 			}
-
 		}
 
 		// 这个别忘了
@@ -1100,7 +1091,7 @@ namespace LightController.MyForm
 		/// <param name="enable"></param>
 		protected override void enableRefreshPic(bool enable)
 		{
-			refreshPicToolStripMenuItem.Enabled = enable;
+			refreshPicToolStripMenuItem.Enabled = enable;			
 		}
 
 		/// <summary>
@@ -1790,8 +1781,7 @@ namespace LightController.MyForm
             //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
             changeScrollValue(tongdaoIndex, tdValue);
         }
-
-
+		
         /// <summary>
         /// 事件：鼠标进入通道值输入框时，切换焦点;
         /// </summary>
@@ -2479,12 +2469,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			XiaosaTest.GetInstance().Test();
+			//XiaosaTest.GetInstance().Test();E
 		}
-
-
-
-
 
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
@@ -2604,7 +2590,9 @@ namespace LightController.MyForm
 		//	labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
 		//}
 
-		#endregion		
+		#endregion
+
+		
 	}
 	   
 }

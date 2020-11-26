@@ -231,6 +231,7 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = deviceComboBox.Items.Count > 0 && !isConnected;
 			refreshButton.Enabled = !isConnected;
 			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0;
+			versionButton.Enabled = isConnected;
 			updateButton.Enabled = !string.IsNullOrEmpty(binPath) && isConnected;
 
 			if (isConnectCom)
@@ -291,6 +292,23 @@ namespace LightController.MyForm
 					SetNotice("连接网络设备(" + deviceName + ")失败。", true);
 				}
 			}
+		}
+
+		/// <summary>
+		/// 事件：点击《获取当前版本》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void versionButton_Click(object sender, EventArgs e)
+		{
+			if (myConnect == null || !isConnected)
+			{
+				SetNotice("尚未连接设备，请连接后重试。", true);
+				return;
+			}
+
+			//TODO : 获取版本信息
+
 		}
 
 		/// <summary>
@@ -407,5 +425,6 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = false;
 		}
 
+		
 	}
 }

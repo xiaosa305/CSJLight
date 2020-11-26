@@ -70,7 +70,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
 
-			//TODO 需要判断 预览还是停止预览
+			//DOTO：需要判断 预览还是停止预览
 			if (generateAction())
 			{
 				mainForm.PreviewButtonClick(material);				

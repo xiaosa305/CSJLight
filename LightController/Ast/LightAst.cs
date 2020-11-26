@@ -48,8 +48,7 @@ namespace LightController.Ast
 			StartNum = laOld.StartNum;
 			EndNum = laOld.EndNum;
 			SawList = laOld.SawList;
-			Remark = laOld.Remark;
-			// TODO 校验 
+			Remark = laOld.Remark;			
 			saPanelDict = laOld.saPanelDict;
 		}
 

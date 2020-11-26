@@ -360,7 +360,7 @@ namespace OtherTools
 					}
 				}
 
-				//TODO : 直接通过通道数量，把后六位给固定的排风及空调通道
+				//DOTO：直接通过通道数量，把后六位给固定的排风及空调通道
 				//for (int lightIndex = 0; lightIndex < 6;  lightIndex++) {
 				//		fanChannelComboBoxes[lightIndex].Items.Add("通道"+ (lcEntity.RelayCount - 6 + lightIndex + 1) );
 				//		fanChannelComboBoxes[lightIndex].SelectedIndex = 0;
@@ -1650,7 +1650,7 @@ namespace OtherTools
 
 		/// <summary>
 		///  辅助回调方法：结束《中控-调试解码》成功
-		///  TODO: 异步处理，在disconnect方法中调用，避免界面卡死
+		///  异步处理，在disconnect方法中调用，避免界面卡死
 		/// </summary>
 		/// <param name="obj"></param>
 		public void AsynchronousCCStopCompleted(Object obj, string msg)
@@ -1679,7 +1679,7 @@ namespace OtherTools
 
 		/// <summary>
 		/// 辅助回调方法：结束《中控-调试解码》失败
-		/// TODO：异步处理，在disConnect方法中调用，避免界面卡死
+		/// 异步处理，在disConnect方法中调用，避免界面卡死
 		/// </summary>
 		public void AsynchronousCCStopError(string msg)
 		{

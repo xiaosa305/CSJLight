@@ -307,7 +307,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			//TODO : 获取版本信息
+			//DOTO：《硬件升级》获取版本信息
 
 		}
 

@@ -4062,7 +4062,7 @@ namespace LightController.MyForm
 			this.myToolTip.InitialDelay = 600;
 
 			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码			
-			SoftwareName = IniFileHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
+			SoftwareName = IniFileHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "");
 			SoftwareName += " Dimmer System ";
 
 			string loadexeName = Application.ExecutablePath;
@@ -4086,7 +4086,6 @@ namespace LightController.MyForm
 			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
 		}   
 	
-
 		/// <summary>
 		/// 辅助方法：点击退出时FormClosing事件；
 		/// </summary>

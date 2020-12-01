@@ -130,9 +130,6 @@
   <data name="统一跳渐变" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\统一跳渐变.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CSJ墙板工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\墙板工具.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="断开连接" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\断开连接.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -145,9 +142,6 @@
   <data name="打开工程3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\打开工程3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CSJ中控工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\KTV中央控制器.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="触发音频后" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\触发音频后.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -156,9 +150,6 @@
   </data>
   <data name="触发音频" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\触发音频.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CSJ灯控工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\灯光控制器.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="硬件设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\硬件设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -258,9 +249,6 @@
   </data>
   <data name="粘贴步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\粘贴步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CSJ灯库工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CSJ灯库工具.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="前插入步1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\前插入步1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

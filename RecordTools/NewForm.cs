@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace RecordTools
 {
-	public partial class ButtonForm : Form
+	public partial class NewForm : Form
 	{
 		private IniFileHelper iniHelper;
 		private decimal eachStepTime = .04m;
@@ -26,7 +26,7 @@ namespace RecordTools
 		private HashSet<int> tdSet; // 记录使用的通道
 		private MusicSceneConfig musicSceneConfig;  //维佳的接口
 
-		public ButtonForm()
+		public NewForm()
 		{
 			InitializeComponent();
 
@@ -143,7 +143,6 @@ namespace RecordTools
 		/// </summary>
 		private void refreshPage()
 		{
-			Console.WriteLine("refreshPage()");
 			// 显示页数(灯具)
 			for (int pageIndex = 0; pageIndex < 32; pageIndex++)
 			{
@@ -152,23 +151,23 @@ namespace RecordTools
 			}
 
 			// 遍历改通道名 ,并将已在Set内的通道值勾上
+			int startTd = (currentPage - 1) * eachCount + 1;
 			for (int btnIndex = 0; btnIndex < eachCount; btnIndex++)
 			{
-				Button btn = tdFLP.Controls[btnIndex] as Button;
+				Button tdBtn = tdFLP.Controls[btnIndex] as Button;				
 
-				int tdIndex = (currentPage - 1) * eachCount + btnIndex;
-				btn.Text = (tdIndex + 1).ToString();
-				btn.Name = "tbBtn" + (tdIndex + 1);
+				int tdIndex = startTd + btnIndex;
+				tdBtn.Text = tdIndex .ToString();			
 
-				if (tdSet.Contains(tdIndex + 1))
+				if (tdSet.Contains(tdIndex))
 				{
-					btn.BackColor = Color.Blue;
-					btn.ForeColor = Color.AliceBlue;
+					tdBtn.BackColor = Color.Blue;
+					tdBtn.ForeColor = Color.AliceBlue;
 				}
 				else
 				{
-					btn.BackColor = SystemColors.Control;
-					btn.ForeColor = SystemColors.ControlText;
+					tdBtn.BackColor = SystemColors.Control;
+					tdBtn.ForeColor = SystemColors.ControlText;
 				}
 			}
 		}
@@ -182,7 +181,7 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
+			int stepTime = decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
 			stepTimeNumericUpDown.Value = stepTime * eachStepTime;
 		}
 
@@ -326,7 +325,6 @@ namespace RecordTools
 					jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme;
 					mLKTextBox.Text = musicSceneConfig.MusicStepList;
 					tdSet = musicSceneConfig.MusicChannelNoList;
-
 					refreshPage();
 
 					//想办法通过文件名，来更改sceneNo的值
@@ -336,6 +334,9 @@ namespace RecordTools
 						sceneNo = tempSceneNo;
 						setSceneNo(false);
 					}
+
+					
+
 					setNotice("已成功打开文件：" + fileName, true);
 				}
 			}
@@ -462,7 +463,7 @@ namespace RecordTools
 			}
 		}
 
-		#endregion		
-		
+		#endregion
+
 	}
 }

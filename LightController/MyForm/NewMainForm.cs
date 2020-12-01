@@ -44,7 +44,6 @@ namespace LightController.MyForm
 		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
 		private ComboBox[] tdCmComboBoxes = new ComboBox[32];
 		private NumericUpDown[] tdStNumericUpDowns = new NumericUpDown[32];
-
 		private Panel[] saPanels = new Panel[32];
 
 		public NewMainForm()
@@ -52,19 +51,18 @@ namespace LightController.MyForm
 			initGeneralControls(); //几个全局控件的初始化
 			InitializeComponent();
 
-			Text = SoftwareName;// 动态更改软件名称		
+			// 定义标题栏文字+Icon
+			string iconPath = Application.StartupPath + @"\favicon.ico";
+			if (File.Exists(iconPath))
+			{
+				Icon = Icon.ExtractAssociatedIcon(iconPath);
+			}
+			Text = SoftwareName;
 
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
-			//QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
-			//CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
-			//KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			testButton1.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
 			wjTestButton.Visible = IsShowTestButton;
-
-			IList<Panel> groupPanels = new List<Panel>();
-			IList<Button> groupInButtons = new List<Button>();
-			IList<Button> groupDelButtons = new List<Button>();
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;

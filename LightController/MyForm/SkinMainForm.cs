@@ -41,13 +41,14 @@ namespace LightController.MyForm
 			initGeneralControls();
 			InitializeComponent();
 
+			// 定义标题栏文字+Icon
 			string iconPath = Application.StartupPath + @"\favicon.ico";
 			if (File.Exists(iconPath))
 			{
 				Icon = Icon.ExtractAssociatedIcon(iconPath);
 			}
-
 			Text = SoftwareName;
+
 			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;			
 			testGroupBox.Visible = IsShowTestButton;
 			bigTestButton.Visible = IsShowTestButton;
@@ -2469,7 +2470,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			//XiaosaTest.GetInstance().Test();E
+			//XiaosaTest.GetInstance().Test();
+			Console.WriteLine( NETWORK_WAITTIME );
 		}
 
 		/// <summary>

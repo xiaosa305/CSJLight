@@ -1,6 +1,6 @@
 ﻿namespace RecordTools
 {
-	partial class ButtonForm
+	partial class NewForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -67,7 +67,7 @@
 			// tdButtonDemo
 			// 
 			this.tdButtonDemo.BackColor = System.Drawing.Color.RosyBrown;
-			this.tdButtonDemo.Location = new System.Drawing.Point(306, 56);
+			this.tdButtonDemo.Location = new System.Drawing.Point(297, 56);
 			this.tdButtonDemo.Name = "tdButtonDemo";
 			this.tdButtonDemo.Size = new System.Drawing.Size(42, 42);
 			this.tdButtonDemo.TabIndex = 0;
@@ -79,9 +79,9 @@
 			// 
 			this.tdFLP.BackColor = System.Drawing.Color.AliceBlue;
 			this.tdFLP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.tdFLP.Location = new System.Drawing.Point(10, 29);
+			this.tdFLP.Location = new System.Drawing.Point(5, 29);
 			this.tdFLP.Name = "tdFLP";
-			this.tdFLP.Size = new System.Drawing.Size(784, 54);
+			this.tdFLP.Size = new System.Drawing.Size(774, 54);
 			this.tdFLP.TabIndex = 44;
 			// 
 			// myStatusStrip
@@ -89,9 +89,9 @@
 			this.myStatusStrip.BackColor = System.Drawing.Color.LightGray;
 			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.myStatusStrip.Location = new System.Drawing.Point(0, 355);
+			this.myStatusStrip.Location = new System.Drawing.Point(0, 359);
 			this.myStatusStrip.Name = "myStatusStrip";
-			this.myStatusStrip.Size = new System.Drawing.Size(802, 22);
+			this.myStatusStrip.Size = new System.Drawing.Size(784, 22);
 			this.myStatusStrip.SizingGrip = false;
 			this.myStatusStrip.TabIndex = 48;
 			this.myStatusStrip.Text = "statusStrip1";
@@ -105,7 +105,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(627, 59);
+			this.label3.Location = new System.Drawing.Point(618, 59);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(65, 12);
 			this.label3.TabIndex = 104;
@@ -115,7 +115,7 @@
 			// 
 			this.frameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(627, 76);
+			this.frameComboBox.Location = new System.Drawing.Point(618, 76);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(82, 20);
 			this.frameComboBox.TabIndex = 103;
@@ -123,7 +123,7 @@
 			// 
 			// minusButton
 			// 
-			this.minusButton.Location = new System.Drawing.Point(515, 62);
+			this.minusButton.Location = new System.Drawing.Point(506, 62);
 			this.minusButton.Name = "minusButton";
 			this.minusButton.Size = new System.Drawing.Size(25, 31);
 			this.minusButton.TabIndex = 102;
@@ -133,7 +133,7 @@
 			// 
 			// plusButton
 			// 
-			this.plusButton.Location = new System.Drawing.Point(486, 62);
+			this.plusButton.Location = new System.Drawing.Point(477, 62);
 			this.plusButton.Name = "plusButton";
 			this.plusButton.Size = new System.Drawing.Size(25, 31);
 			this.plusButton.TabIndex = 101;
@@ -145,18 +145,19 @@
 			// 
 			this.mLKTextBox.BackColor = System.Drawing.Color.White;
 			this.mLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mLKTextBox.Location = new System.Drawing.Point(555, 16);
+			this.mLKTextBox.Location = new System.Drawing.Point(546, 16);
 			this.mLKTextBox.MaxLength = 20;
 			this.mLKTextBox.Multiline = true;
 			this.mLKTextBox.Name = "mLKTextBox";
 			this.mLKTextBox.Size = new System.Drawing.Size(225, 22);
 			this.mLKTextBox.TabIndex = 100;
 			this.mLKTextBox.Text = "1";
+			this.mLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mLKTextBox_KeyPress);
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(486, 21);
+			this.label2.Location = new System.Drawing.Point(477, 21);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(65, 12);
 			this.label2.TabIndex = 95;
@@ -164,7 +165,7 @@
 			// 
 			// jgtNumericUpDown
 			// 
-			this.jgtNumericUpDown.Location = new System.Drawing.Point(403, 17);
+			this.jgtNumericUpDown.Location = new System.Drawing.Point(394, 17);
 			this.jgtNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -178,16 +179,17 @@
 			// stepTimeNumericUpDown
 			// 
 			this.stepTimeNumericUpDown.DecimalPlaces = 2;
-			this.stepTimeNumericUpDown.Location = new System.Drawing.Point(203, 17);
+			this.stepTimeNumericUpDown.Location = new System.Drawing.Point(194, 17);
 			this.stepTimeNumericUpDown.Name = "stepTimeNumericUpDown";
 			this.stepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
 			this.stepTimeNumericUpDown.TabIndex = 99;
 			this.stepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// setFilePathButton
 			// 
 			this.setFilePathButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.setFilePathButton.Location = new System.Drawing.Point(21, 58);
+			this.setFilePathButton.Location = new System.Drawing.Point(12, 58);
 			this.setFilePathButton.Name = "setFilePathButton";
 			this.setFilePathButton.Size = new System.Drawing.Size(75, 39);
 			this.setFilePathButton.TabIndex = 90;
@@ -197,7 +199,7 @@
 			// 
 			// recordPathLabel
 			// 
-			this.recordPathLabel.Location = new System.Drawing.Point(106, 62);
+			this.recordPathLabel.Location = new System.Drawing.Point(97, 62);
 			this.recordPathLabel.Name = "recordPathLabel";
 			this.recordPathLabel.Size = new System.Drawing.Size(242, 30);
 			this.recordPathLabel.TabIndex = 91;
@@ -207,7 +209,7 @@
 			// nameLabel
 			// 
 			this.nameLabel.AutoSize = true;
-			this.nameLabel.Location = new System.Drawing.Point(356, 71);
+			this.nameLabel.Location = new System.Drawing.Point(347, 71);
 			this.nameLabel.Name = "nameLabel";
 			this.nameLabel.Size = new System.Drawing.Size(65, 12);
 			this.nameLabel.TabIndex = 93;
@@ -216,7 +218,7 @@
 			// binLabel
 			// 
 			this.binLabel.AutoSize = true;
-			this.binLabel.Location = new System.Drawing.Point(456, 71);
+			this.binLabel.Location = new System.Drawing.Point(447, 71);
 			this.binLabel.Name = "binLabel";
 			this.binLabel.Size = new System.Drawing.Size(29, 12);
 			this.binLabel.TabIndex = 92;
@@ -224,7 +226,7 @@
 			// 
 			// sceneNoTextBox
 			// 
-			this.sceneNoTextBox.Location = new System.Drawing.Point(425, 67);
+			this.sceneNoTextBox.Location = new System.Drawing.Point(416, 67);
 			this.sceneNoTextBox.MaxLength = 3;
 			this.sceneNoTextBox.Name = "sceneNoTextBox";
 			this.sceneNoTextBox.Size = new System.Drawing.Size(28, 21);
@@ -235,7 +237,7 @@
 			// saveConfigButton
 			// 
 			this.saveConfigButton.BackColor = System.Drawing.Color.MistyRose;
-			this.saveConfigButton.Location = new System.Drawing.Point(718, 59);
+			this.saveConfigButton.Location = new System.Drawing.Point(709, 59);
 			this.saveConfigButton.Name = "saveConfigButton";
 			this.saveConfigButton.Size = new System.Drawing.Size(61, 37);
 			this.saveConfigButton.TabIndex = 88;
@@ -246,7 +248,7 @@
 			// saveButton
 			// 
 			this.saveButton.BackColor = System.Drawing.Color.MistyRose;
-			this.saveButton.Location = new System.Drawing.Point(548, 59);
+			this.saveButton.Location = new System.Drawing.Point(539, 59);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(63, 37);
 			this.saveButton.TabIndex = 87;
@@ -258,7 +260,7 @@
 			// 
 			this.loadOldButton.BackColor = System.Drawing.Color.Honeydew;
 			this.loadOldButton.ForeColor = System.Drawing.Color.Black;
-			this.loadOldButton.Location = new System.Drawing.Point(21, 9);
+			this.loadOldButton.Location = new System.Drawing.Point(12, 9);
 			this.loadOldButton.Name = "loadOldButton";
 			this.loadOldButton.Size = new System.Drawing.Size(75, 37);
 			this.loadOldButton.TabIndex = 89;
@@ -269,7 +271,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(285, 21);
+			this.label1.Location = new System.Drawing.Point(276, 21);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(125, 12);
 			this.label1.TabIndex = 96;
@@ -278,7 +280,7 @@
 			// label36
 			// 
 			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(112, 21);
+			this.label36.Location = new System.Drawing.Point(103, 21);
 			this.label36.Name = "label36";
 			this.label36.Size = new System.Drawing.Size(95, 12);
 			this.label36.TabIndex = 97;
@@ -288,9 +290,9 @@
 			// 
 			this.groupBox1.Controls.Add(this.tdFLP);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.groupBox1.Location = new System.Drawing.Point(0, 252);
+			this.groupBox1.Location = new System.Drawing.Point(0, 256);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(802, 103);
+			this.groupBox1.Size = new System.Drawing.Size(784, 103);
 			this.groupBox1.TabIndex = 105;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "选通道";
@@ -299,9 +301,9 @@
 			// 
 			this.groupBox2.Controls.Add(this.pageFLP);
 			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.groupBox2.Location = new System.Drawing.Point(0, 117);
+			this.groupBox2.Location = new System.Drawing.Point(0, 121);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(802, 135);
+			this.groupBox2.Size = new System.Drawing.Size(784, 135);
 			this.groupBox2.TabIndex = 106;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "选灯具";
@@ -310,9 +312,9 @@
 			// 
 			this.pageFLP.BackColor = System.Drawing.Color.Azure;
 			this.pageFLP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pageFLP.Location = new System.Drawing.Point(10, 20);
+			this.pageFLP.Location = new System.Drawing.Point(5, 20);
 			this.pageFLP.Name = "pageFLP";
-			this.pageFLP.Size = new System.Drawing.Size(784, 100);
+			this.pageFLP.Size = new System.Drawing.Size(774, 100);
 			this.pageFLP.TabIndex = 44;
 			// 
 			// openFileDialog
@@ -327,12 +329,12 @@
 			this.saveFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.saveFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ";
 			// 
-			// ButtonForm
+			// NewForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.ClientSize = new System.Drawing.Size(802, 377);
+			this.ClientSize = new System.Drawing.Size(784, 381);
 			this.Controls.Add(this.tdButtonDemo);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
@@ -355,8 +357,12 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label36);
 			this.Controls.Add(this.myStatusStrip);
-			this.Name = "ButtonForm";
-			this.Text = "ButtonForm";
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(800, 420);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(800, 420);
+			this.Name = "NewForm";
+			this.Text = "录播文件·音频通道选择器";
 			this.Load += new System.EventHandler(this.ButtonForm_Load);
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();

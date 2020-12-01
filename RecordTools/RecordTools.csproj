@@ -44,11 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonForm.cs">
+    <Compile Include="NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ButtonForm.Designer.cs">
-      <DependentUpon>ButtonForm.cs</DependentUpon>
+    <Compile Include="NewForm.Designer.cs">
+      <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dickov.Utils\TextHelper.cs" />
     <Compile Include="Entity\GlobalConfig.cs" />
@@ -69,8 +69,8 @@
     <Content Include="更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="ButtonForm.resx">
-      <DependentUpon>ButtonForm.cs</DependentUpon>
+    <EmbeddedResource Include="NewForm.resx">
+      <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RecordSetForm.resx">
       <DependentUpon>RecordSetForm.cs</DependentUpon>

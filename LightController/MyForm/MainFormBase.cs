@@ -39,6 +39,11 @@ namespace LightController.MyForm
 			ALL
 		}
 
+		// 几个全局的辅助控件（导出文件、toolTip提示等）
+		protected FolderBrowserDialog exportFolderBrowserDialog;
+		private System.ComponentModel.IContainer components;
+		protected ToolTip myToolTip;
+
 		//各类提示
 		protected string useFrameNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
 		protected string chooseStepNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
@@ -46,21 +51,15 @@ namespace LightController.MyForm
 		protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
 		protected string backStepNotice = "右击可跳转至第一步";
 		protected string nextStepNotice = "右击可跳转至最后一步";		
-
+			   
 		// 全局配置及数据库连接		
-		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+		public static int NETWORK_WAITTIME; //网络搜索时的通用暂停时间
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
 		public bool IsShowTestButton = false;
 		public bool IsShowHardwareUpdate = false;
-		public bool IsLinkLightEditor = false;
-		public bool IsLinkOldTools = false;
-
-		// 几个全局的辅助控件（导出文件、toolTip提示等）
-		protected FolderBrowserDialog exportFolderBrowserDialog;
-		private System.ComponentModel.IContainer components;
-		protected ToolTip myToolTip;		
+		public bool IsUseSkin = false ;
 
 		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）		
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
@@ -2688,23 +2687,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor()
 		{
-			if (IsLinkLightEditor)
-			{
-				try
-				{
-					System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
-				}
-				catch (Exception)
-				{					
-					//new LightEditor.LightEditorForm(this).ShowDialog();
-				}
-			}
-			else
-			{
-				// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
-				//new LightEditor.LightEditorForm(this).ShowDialog();
-				new LightEditor.NewLightEditorForm(this).ShowDialog();
-			}
+			new LightEditor.NewLightEditorForm(this).ShowDialog();			
 		}
 
 		/// <summary>
@@ -3302,7 +3285,7 @@ namespace LightController.MyForm
 			//最后都要用上RefreshStep()
 			RefreshStep();
 
-			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath, CurrentMode==0?"maxStep":"maxStepSound");
+			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath,  CurrentMode==0?"maxStep":"maxStepSound" ,0);
 			if (MAX_STEP == 0) {
 				MAX_STEP = CurrentMode == 0 ? 100 : 300;			
 			}
@@ -4069,15 +4052,16 @@ namespace LightController.MyForm
 			FileVersionInfo fileVersionInfo =FileVersionInfo.GetVersionInfo(loadexeName);
 			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			SoftwareName += "v" + appFileVersion + " ";
+			
+			IniFileHelper iniHelper = new IniFileHelper(Application.StartupPath + @"\GlobalSet.ini");		
+			SavePath = iniHelper.GetSavePath();
+			IsShowTestButton = iniHelper.GetControlShow( "testButton");
+			IsShowHardwareUpdate = iniHelper.GetControlShow( "hardwareUpdateButton");
+			IsShowSaPanels = iniHelper.GetControlShow("saPanels");
 
-			SavePath = IniFileHelper.GetSavePath(Application.StartupPath);
-			IsShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton");
-			IsShowHardwareUpdate = IniFileHelper.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
-			IsLinkLightEditor = IniFileHelper.GetIsLink(Application.StartupPath, "lightEditor");
-			IsLinkOldTools = IniFileHelper.GetIsLink(Application.StartupPath, "oldTools");
-			MAX_StTimes = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStTimes");
-			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStep");
-			IsShowSaPanels = IniFileHelper.GetControlShow(Application.StartupPath, "saPanels");
+			MAX_StTimes = iniHelper.GetSystemCount( "maxStTimes",250);
+			MAX_STEP = iniHelper.GetSystemCount( "maxStep",100);	
+			NETWORK_WAITTIME = iniHelper.GetSystemCount( "waitTime",1000);
 
 			// lightImageList的初始化
 			this.lightImageList = new ImageList();

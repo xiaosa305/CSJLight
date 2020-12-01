@@ -1019,10 +1019,6 @@ namespace LightController.MyForm
 			foreach (var lightPath in lightPathHashSet)
 			{
 				string picStr = IniFileHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
-				if (String.IsNullOrEmpty(picStr))
-				{
-					picStr = "灯光图.png";
-				}
 				lightDict.Add(lightPath, picStr);
 			}
 
@@ -1030,7 +1026,7 @@ namespace LightController.MyForm
 			{
 				string tempPicStr = lightDict[LightAstList[lightIndex].LightPath];
 				LightAstList[lightIndex].LightPic = tempPicStr;
-				lightsListView.Items[lightIndex].ImageKey = tempPicStr;
+				lightsListView.Items[lightIndex].ImageKey = lightImageList.Images.ContainsKey(tempPicStr) ? tempPicStr : "灯光图.png";
 			}
 		}
 

@@ -148,9 +148,9 @@ namespace LightController.MyForm
 			this.labelAstPanel = new System.Windows.Forms.Panel();
 			this.labelFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.labelPanel = new System.Windows.Forms.Panel();
-			this.thirdLabel1 = new System.Windows.Forms.Label();
-			this.secondLabel1 = new System.Windows.Forms.Label();
-			this.firstLabel1 = new System.Windows.Forms.Label();
+			this.thirdLabel = new System.Windows.Forms.Label();
+			this.secondLabel = new System.Windows.Forms.Label();
+			this.firstLabel = new System.Windows.Forms.Label();
 			this.middleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.myMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.hideMenuPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2298,41 +2298,41 @@ namespace LightController.MyForm
 			// 
 			// labelPanel
 			// 
-			this.labelPanel.Controls.Add(this.thirdLabel1);
-			this.labelPanel.Controls.Add(this.secondLabel1);
-			this.labelPanel.Controls.Add(this.firstLabel1);
+			this.labelPanel.Controls.Add(this.thirdLabel);
+			this.labelPanel.Controls.Add(this.secondLabel);
+			this.labelPanel.Controls.Add(this.firstLabel);
 			this.labelPanel.Location = new System.Drawing.Point(3, 3);
 			this.labelPanel.Name = "labelPanel";
 			this.labelPanel.Size = new System.Drawing.Size(80, 292);
 			this.labelPanel.TabIndex = 27;
 			this.labelPanel.Visible = false;
 			// 
-			// thirdLabel1
+			// thirdLabel
 			// 
-			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(12, 255);
-			this.thirdLabel1.Name = "thirdLabel1";
-			this.thirdLabel1.Size = new System.Drawing.Size(59, 12);
-			this.thirdLabel1.TabIndex = 0;
-			this.thirdLabel1.Text = "步时间(S)";
+			this.thirdLabel.AutoSize = true;
+			this.thirdLabel.Location = new System.Drawing.Point(12, 255);
+			this.thirdLabel.Name = "thirdLabel";
+			this.thirdLabel.Size = new System.Drawing.Size(59, 12);
+			this.thirdLabel.TabIndex = 0;
+			this.thirdLabel.Text = "步时间(S)";
 			// 
-			// secondLabel1
+			// secondLabel
 			// 
-			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(12, 232);
-			this.secondLabel1.Name = "secondLabel1";
-			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
-			this.secondLabel1.TabIndex = 0;
-			this.secondLabel1.Text = "跳渐变";
+			this.secondLabel.AutoSize = true;
+			this.secondLabel.Location = new System.Drawing.Point(12, 232);
+			this.secondLabel.Name = "secondLabel";
+			this.secondLabel.Size = new System.Drawing.Size(41, 12);
+			this.secondLabel.TabIndex = 0;
+			this.secondLabel.Text = "跳渐变";
 			// 
-			// firstLabel1
+			// firstLabel
 			// 
-			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(12, 208);
-			this.firstLabel1.Name = "firstLabel1";
-			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
-			this.firstLabel1.TabIndex = 0;
-			this.firstLabel1.Text = "通道值";
+			this.firstLabel.AutoSize = true;
+			this.firstLabel.Location = new System.Drawing.Point(12, 208);
+			this.firstLabel.Name = "firstLabel";
+			this.firstLabel.Size = new System.Drawing.Size(41, 12);
+			this.firstLabel.TabIndex = 0;
+			this.firstLabel.Text = "通道值";
 			// 
 			// middleTableLayoutPanel
 			// 
@@ -2520,9 +2520,9 @@ namespace LightController.MyForm
 		private Panel labelAstPanel;
 		private FlowLayoutPanel labelFlowLayoutPanel;
 		private Panel labelPanel;
-		private Label thirdLabel1;
-		private Label secondLabel1;
-		private Label firstLabel1;
+		private Label thirdLabel;
+		private Label secondLabel;
+		private Label firstLabel;
 		private Panel unifyPanel;
 		private Panel playPanel;
 		private SkinButton exportSkinButton;

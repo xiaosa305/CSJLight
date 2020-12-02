@@ -1374,6 +1374,7 @@ namespace LightController.MyForm
 
 			SetNotice("正在切换模式", false);
 			CurrentMode = modeComboBox.SelectedIndex;
+
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
@@ -1384,20 +1385,9 @@ namespace LightController.MyForm
 				{
 					this.tdCmComboBoxes[i].Items.Clear();
 					this.tdCmComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
-					this.tdStNumericUpDowns[i].Hide();
-					this.thirdLabel.Hide();
+					this.tdStNumericUpDowns[i].Hide();					
 				}
-
-				unifyChangeModeComboBox.Items.Clear();
-				unifyChangeModeComboBox.Items.AddRange(new object[] { "屏蔽", "跳变" });
-				unifyChangeModeComboBox.SelectedIndex = 0;
-				unifyChangeModeButton.Text = "统一声控";
-
-				unifyStepTimeNumericUpDown.Hide();
-				unifyStepTimeButton.Text = "修改此音频场景全局设置";
-				unifyStepTimeButton.Location = new Point(10, 299);
-				unifyStepTimeButton.Size = new System.Drawing.Size(154, 23);
-
+				this.thirdLabel.Hide();
 			}
 			else //mode=0，常规模式
 			{
@@ -1408,16 +1398,6 @@ namespace LightController.MyForm
 					this.tdStNumericUpDowns[i].Show();
 					this.thirdLabel.Show();
 				}
-
-				unifyChangeModeComboBox.Items.Clear();
-				unifyChangeModeComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-				unifyChangeModeComboBox.SelectedIndex = 0;
-				unifyChangeModeButton.Text = "统一跳渐变";
-
-				unifyStepTimeNumericUpDown.Show();
-				unifyStepTimeButton.Text = "统一步时间";
-				unifyStepTimeButton.Location = new Point(82, 299);
-				unifyStepTimeButton.Size = new System.Drawing.Size(83, 23);
 			}
 
 			changeFrameMode();

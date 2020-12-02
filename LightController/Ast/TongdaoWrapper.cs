@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.MyForm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace LightController.Ast
 		public int ChangeMode { get; set; }     // 变化模式： | 常规：跳变0；渐变1；屏蔽2    |  声控：屏蔽0；跳变1；（渐变2）
 		public int StepTime { get; set; }    // 步时间：某内部时间因子的倍数
 		public string Remark { get; set; } //备注,主要用以显示各个子属性，在渲染时要写进去
-
+		
 		/// <summary>
 		/// 通过模板的通道数据，生成新的非引用(要摆脱与StepMode的关系)的tongdaoList
 		/// </summary>
@@ -31,7 +32,7 @@ namespace LightController.Ast
 						StepTime = td.StepTime,
 						TongdaoName = td.TongdaoName,
 						ScrollValue = td.ScrollValue,
-						ChangeMode = td.ChangeMode == -1 ? (mode == 0 ? 1 : 0) : td.ChangeMode ,
+						ChangeMode = td.ChangeMode == -1 ? (mode == 0 ? 1 : MainFormBase.DefaultSoundCM) : td.ChangeMode ,
 						Address = td.Address ,
 						Remark = td.Remark
 					}

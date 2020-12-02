@@ -67,6 +67,7 @@ namespace LightController.MyForm
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
 		public bool IsShowSaPanels = true; // 是否显示 子属性面板
+		public static int DefaultSoundCM = 0; // 添加音频步数时，其跳渐变默认值（可由配置文件进行改变）
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -140,6 +141,8 @@ namespace LightController.MyForm
 		public bool IsPreviewing = false; // 是否预览状态中
 		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
+
+		
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用				
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
@@ -4062,6 +4065,7 @@ namespace LightController.MyForm
 			MAX_StTimes = iniHelper.GetSystemCount( "maxStTimes",250);
 			MAX_STEP = iniHelper.GetSystemCount( "maxStep",100);	
 			NETWORK_WAITTIME = iniHelper.GetSystemCount( "waitTime",1000);
+			DefaultSoundCM = iniHelper.GetSystemCount("soundChangeMode", 0);
 
 			// lightImageList的初始化
 			this.lightImageList = new ImageList();

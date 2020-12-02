@@ -34,6 +34,7 @@
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.switchButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
+			this.versionButton = new System.Windows.Forms.Button();
 			this.updateButton = new System.Windows.Forms.Button();
 			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
@@ -41,7 +42,6 @@
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.progressStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.versionButton = new System.Windows.Forms.Button();
 			this.connectPanel.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -105,6 +105,21 @@
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			// 
+			// versionButton
+			// 
+			this.versionButton.BackColor = System.Drawing.Color.Silver;
+			this.versionButton.Enabled = false;
+			this.versionButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.versionButton.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.versionButton.Location = new System.Drawing.Point(385, 29);
+			this.versionButton.Name = "versionButton";
+			this.versionButton.Size = new System.Drawing.Size(66, 59);
+			this.versionButton.TabIndex = 12;
+			this.versionButton.Text = "获取\r\n当前版本";
+			this.versionButton.UseVisualStyleBackColor = false;
+			this.versionButton.Visible = false;
+			this.versionButton.Click += new System.EventHandler(this.versionButton_Click);
 			// 
 			// updateButton
 			// 
@@ -178,20 +193,6 @@
 			this.progressStatusLabel.Name = "progressStatusLabel";
 			this.progressStatusLabel.Size = new System.Drawing.Size(32, 17);
 			this.progressStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// versionButton
-			// 
-			this.versionButton.BackColor = System.Drawing.Color.Silver;
-			this.versionButton.Enabled = false;
-			this.versionButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.versionButton.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.versionButton.Location = new System.Drawing.Point(385, 29);
-			this.versionButton.Name = "versionButton";
-			this.versionButton.Size = new System.Drawing.Size(66, 59);
-			this.versionButton.TabIndex = 12;
-			this.versionButton.Text = "获取\r\n当前版本";
-			this.versionButton.UseVisualStyleBackColor = false;
-			this.versionButton.Click += new System.EventHandler(this.versionButton_Click);
 			// 
 			// HardwareUpdateForm
 			// 

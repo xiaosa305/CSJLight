@@ -1202,13 +1202,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			CurrentMode = modeSkinComboBox.SelectedIndex;
-
 			//11.13 若未初始化，直接return；
 			if (!isInit)
 			{
 				return;
 			}
+
+			SetNotice("正在切换模式...",false);
+			CurrentMode = modeSkinComboBox.SelectedIndex;
 			
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
@@ -1220,8 +1221,9 @@ namespace LightController.MyForm
 				{
 					this.tdChangeModeComboBoxes[i].Items.Clear();
 					this.tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
-					this.tdStepTimeNumericUpDowns[i].Hide();
-				}			
+					this.tdStepTimeNumericUpDowns[i].Hide();					
+				}
+				this.thirdLabel.Hide();
 			}
 			else //mode=0，常规模式
 			{
@@ -1229,9 +1231,10 @@ namespace LightController.MyForm
 				{
 					this.tdChangeModeComboBoxes[i].Items.Clear();
 					this.tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-					this.tdStepTimeNumericUpDowns[i].Show();
+					this.tdStepTimeNumericUpDowns[i].Show();					
 				}
-            }
+				this.thirdLabel.Show();
+			}
 
 			changeFrameMode();
 			SetNotice("成功切换模式", false);

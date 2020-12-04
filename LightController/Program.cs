@@ -57,8 +57,7 @@ namespace LightController
 			//}
 
 			//Console.WriteLine(connect);
-
-
+			
 			//// 下列代码作用为：避免重复打开此软件
 			bool ret;
 			System.Threading.Mutex mutex = new System.Threading.Mutex(true, Application.ProductName, out ret);

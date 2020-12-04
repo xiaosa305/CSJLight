@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace LightController.Common
 {
@@ -166,7 +167,7 @@ namespace LightController.Common
 		public static string GetSavePath(string appPathStr)
 		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.GetSavePath() ;
+			return iniFileAst.GetSavePath(  ) ;
 		}
 
 		/// <summary>
@@ -177,7 +178,7 @@ namespace LightController.Common
 			string appPath = ReadString("SavePath", "useAppPath", "false");
 			if (appPath.Trim().ToLower().Equals("true"))
 			{
-				return filePath;
+				return Application.StartupPath ;
 			}
 			else
 			{

@@ -33,8 +33,7 @@ namespace LightController.MyForm
 			Location = MousePosition;
 			hardwareLibraryPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\HardwareLibrary\";
 		}
-
-
+		
 		/// <summary>
 		/// 点击《确认》按键
 		/// </summary>
@@ -74,14 +73,13 @@ namespace LightController.MyForm
 				string sourcePath = Application.StartupPath + @"\HardwareSet.ini";
 				string globalIniFilePath = directoryPath + @"\HardwareSet.ini";
 				File.Copy(sourcePath, globalIniFilePath);
-				hardwareSetForm.Save(globalIniFilePath,hName);
+				hardwareSetForm.SaveAll(globalIniFilePath,hName,true);				
 
-				this.Dispose();
+				Dispose();
 				hardwareSetForm.Activate();
 			}
 		}
-
-
+		
 		/// <summary>
 		///  点击《取消》按钮
 		/// </summary>

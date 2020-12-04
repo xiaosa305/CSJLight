@@ -73,7 +73,7 @@ namespace LightController.MyForm.Multiplex
 			//DOTO：需要判断 预览还是停止预览
 			if (generateAction())
 			{
-				mainForm.PreviewButtonClick(material);				
+				mainForm.PreviewButtonClick(material);
 			}
 		}
 

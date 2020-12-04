@@ -76,7 +76,6 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.switchButton = new System.Windows.Forms.Button();
 			this.downloadButton = new System.Windows.Forms.Button();
-			this.autoSaveCheckBox = new System.Windows.Forms.CheckBox();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.deviceConnectButton = new System.Windows.Forms.Button();
@@ -157,7 +156,7 @@
 			this.addrNumericUpDown.Size = new System.Drawing.Size(82, 21);
 			this.addrNumericUpDown.TabIndex = 3;
 			this.addrNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.addrNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.addrNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// baudComboBox
 			// 
@@ -189,7 +188,7 @@
 			this.currUseTimeNumericUpDown.Size = new System.Drawing.Size(80, 21);
 			this.currUseTimeNumericUpDown.TabIndex = 3;
 			this.currUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.currUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.currUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// label20
 			// 
@@ -215,7 +214,7 @@
 			this.sumUseTimeNumericUpDown.Size = new System.Drawing.Size(82, 21);
 			this.sumUseTimeNumericUpDown.TabIndex = 3;
 			this.sumUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.sumUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.sumUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// label16
 			// 
@@ -241,7 +240,7 @@
 			this.heartbeatCycleNumericUpDown.Size = new System.Drawing.Size(80, 21);
 			this.heartbeatCycleNumericUpDown.TabIndex = 3;
 			this.heartbeatCycleNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.heartbeatCycleNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.heartbeatCycleNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// diskFlagComboBox
 			// 
@@ -472,6 +471,7 @@
 			// 
 			this.macTextBox.Location = new System.Drawing.Point(97, 145);
 			this.macTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this.macTextBox.MaxLength = 17;
 			this.macTextBox.Name = "macTextBox";
 			this.macTextBox.Size = new System.Drawing.Size(146, 21);
 			this.macTextBox.TabIndex = 1;
@@ -641,7 +641,6 @@
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel1.Controls.Add(this.switchButton);
 			this.panel1.Controls.Add(this.downloadButton);
-			this.panel1.Controls.Add(this.autoSaveCheckBox);
 			this.panel1.Controls.Add(this.deviceComboBox);
 			this.panel1.Controls.Add(this.cancelButton);
 			this.panel1.Controls.Add(this.deviceConnectButton);
@@ -667,6 +666,7 @@
 			// 
 			// downloadButton
 			// 
+			this.downloadButton.BackColor = System.Drawing.Color.Transparent;
 			this.downloadButton.Enabled = false;
 			this.downloadButton.Location = new System.Drawing.Point(123, 222);
 			this.downloadButton.Margin = new System.Windows.Forms.Padding(2);
@@ -674,21 +674,8 @@
 			this.downloadButton.Size = new System.Drawing.Size(91, 36);
 			this.downloadButton.TabIndex = 26;
 			this.downloadButton.Text = "下载配置";
-			this.downloadButton.UseVisualStyleBackColor = true;
+			this.downloadButton.UseVisualStyleBackColor = false;
 			this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
-			// 
-			// autoSaveCheckBox
-			// 
-			this.autoSaveCheckBox.AutoSize = true;
-			this.autoSaveCheckBox.Checked = true;
-			this.autoSaveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.autoSaveCheckBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.autoSaveCheckBox.Location = new System.Drawing.Point(15, 458);
-			this.autoSaveCheckBox.Name = "autoSaveCheckBox";
-			this.autoSaveCheckBox.Size = new System.Drawing.Size(115, 16);
-			this.autoSaveCheckBox.TabIndex = 5;
-			this.autoSaveCheckBox.Text = "下载前自动保存";
-			this.autoSaveCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// deviceComboBox
 			// 
@@ -747,6 +734,7 @@
 			// 
 			// readButton
 			// 
+			this.readButton.BackColor = System.Drawing.Color.Transparent;
 			this.readButton.Enabled = false;
 			this.readButton.Location = new System.Drawing.Point(15, 223);
 			this.readButton.Margin = new System.Windows.Forms.Padding(2);
@@ -754,7 +742,7 @@
 			this.readButton.Size = new System.Drawing.Size(91, 36);
 			this.readButton.TabIndex = 27;
 			this.readButton.Text = "回读配置";
-			this.readButton.UseVisualStyleBackColor = true;
+			this.readButton.UseVisualStyleBackColor = false;
 			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
 			// statusStrip1
@@ -817,7 +805,6 @@
 			this.otherGroupBox.ResumeLayout(false);
 			this.otherGroupBox.PerformLayout();
 			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.showPanel.ResumeLayout(false);
@@ -874,7 +861,6 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.CheckBox autoSaveCheckBox;
 		private System.Windows.Forms.CheckBox macCheckBox;
 		private System.Windows.Forms.CheckBox dhcpCheckBox;
 		private System.Windows.Forms.Button switchButton;

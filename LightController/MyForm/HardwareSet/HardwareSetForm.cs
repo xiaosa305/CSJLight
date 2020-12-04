@@ -52,7 +52,8 @@ namespace LightController.MyForm
 				this.hsName = hsName;
 				Text = "硬件配置(" + hsName + ")";
 			}
-			readIniFile(iniPath);
+			CSJ_Hardware ch = new CSJ_Hardware(iniPath);
+			SetParamFromDevice(ch);
 		}
 
 		/// <summary>
@@ -282,16 +283,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-			
-		/// <summary>
-		/// 辅助方法：读取配置文件
-		/// </summary>
-		/// <param name="iniPath"></param>
-		private void readIniFile(string iniPath)
-		{
-			CSJ_Hardware ch = new CSJ_Hardware(iniPath);
-			SetParamFromDevice(ch);					
-		}
 
 		/// <summary>
 		///  辅助方法：通过回读的CSJ_Hardware对象，来填充左侧的所有输入框。
@@ -313,14 +304,14 @@ namespace LightController.MyForm
 				playFlagComboBox.SelectedIndex = ch.PlayFlag;
 
 				linkModeComboBox.SelectedIndex = ch.LinkMode;
-				IPTextBox.Text = ch.IP;
+				IPTextBox.Text = ch.IP ;
 				linkPortTextBox.Text = ch.LinkPort.ToString();
 				netmaskTextBox.Text = ch.NetMask;
 				gatewayTextBox.Text = ch.GateWay;
 				macTextBox.Text = ch.Mac;
 
-				dhcpCheckBox.Checked = IPTextBox.Text.Equals("0.0.0.0");
-				macCheckBox.Checked = macTextBox.Text.Equals("00-00-00-00-00-00");
+				dhcpCheckBox.Checked = IPTextBox.Text.Trim().Equals("0.0.0.0");
+				macCheckBox.Checked = macTextBox.Text.Trim().Equals("00-00-00-00-00-00");
 
 				remoteHostTextBox.Text = ch.RemoteHost;
 				remotePortTextBox.Text = ch.RemotePort.ToString();
@@ -332,8 +323,7 @@ namespace LightController.MyForm
 				MessageBox.Show("回读异常:" + ex.Message);
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 事件：勾选《启用DHCP》
 		/// </summary>

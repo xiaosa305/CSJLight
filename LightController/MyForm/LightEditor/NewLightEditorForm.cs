@@ -284,7 +284,8 @@ namespace LightEditor
 			checkGenerateEnable();
 
 			showAllPanels();
-			enableRename(false);				
+			enableRename(false);
+			refreshPlayGroupBox();
 		}
 
 		/// <summary>
@@ -308,9 +309,15 @@ namespace LightEditor
 		/// 辅助方法：不管什么情况（打开或新建灯具），都把隐藏的界面打开
 		/// </summary>
 		private void showAllPanels() {
-			lightGroupBox.Show();
-			playGroupBox.Show();			
+			lightGroupBox.Show();			
 			saFLPDemo.Show();
+		}
+
+		/// <summary>
+		///  辅助方法：根据tongdaoList，来确定是否显示调试面板；
+		/// </summary>
+		private void refreshPlayGroupBox() {
+			playGroupBox.Visible = tongdaoList != null && tongdaoList.Count > 0;
 		}
 
 		/// <summary>
@@ -336,7 +343,6 @@ namespace LightEditor
 				{
 					tdRemark += "\n" + sa.SAName + "：" + sa.StartValue + " - " + sa.EndValue;
 				}
-
 				tdPanels[tdIndex].Show();
 			}
 
@@ -588,6 +594,7 @@ namespace LightEditor
 			checkGenerateEnable();
 			showTds();
 			handleTongdaoCount();
+			refreshPlayGroupBox();
 		}
 
 		/// <summary>

@@ -621,11 +621,13 @@ namespace LightController.MyForm
 			// 
 			// tdCmComboBoxDemo
 			// 
+			this.tdCmComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.tdCmComboBoxDemo.FormattingEnabled = true;
 			this.tdCmComboBoxDemo.Location = new System.Drawing.Point(8, 247);
 			this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
 			this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 20);
 			this.tdCmComboBoxDemo.TabIndex = 2;
+			this.tdCmComboBoxDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
 			// 
 			// tdStNUDDemo
 			// 
@@ -641,6 +643,7 @@ namespace LightController.MyForm
 			this.tdStNUDDemo.Size = new System.Drawing.Size(50, 20);
 			this.tdStNUDDemo.TabIndex = 1;
 			this.tdStNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdStNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
 			// 
 			// tdValueNUDDemo
 			// 
@@ -655,6 +658,7 @@ namespace LightController.MyForm
 			this.tdValueNUDDemo.Size = new System.Drawing.Size(50, 20);
 			this.tdValueNUDDemo.TabIndex = 1;
 			this.tdValueNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdValueNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
 			// 
 			// tdTrackBarDemo
 			// 

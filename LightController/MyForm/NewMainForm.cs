@@ -114,8 +114,9 @@ namespace LightController.MyForm
 					Font = tdValueNUDDemo.Font,
 					Location = tdValueNUDDemo.Location,
 					Maximum = tdValueNUDDemo.Maximum,
-					Size = tdValueNUDDemo.Size,					
-					TextAlign = tdValueNUDDemo.TextAlign
+					Size = tdValueNUDDemo.Size,
+					TextAlign = tdValueNUDDemo.TextAlign,
+					Tag = 0,
 				};
 
 
@@ -124,7 +125,9 @@ namespace LightController.MyForm
 					Name = "tdCmComboBox" + (tdIndex + 1),
 					FormattingEnabled = tdCmComboBoxDemo.FormattingEnabled,
 					Location = tdCmComboBoxDemo.Location,
-					Size = tdCmComboBoxDemo.Size,				
+					Size = tdCmComboBoxDemo.Size,
+					DropDownStyle = tdCmComboBoxDemo.DropDownStyle,
+					Tag = 1,
 				};
 				tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
 					"跳变",
@@ -138,7 +141,8 @@ namespace LightController.MyForm
 					Location = tdStNUDDemo.Location,
 					Size = tdStNUDDemo.Size,			
 					TextAlign = tdStNUDDemo.TextAlign,
-					DecimalPlaces = tdStNUDDemo.DecimalPlaces
+					DecimalPlaces = tdStNUDDemo.DecimalPlaces,
+					Tag = 2
 				};
 
 				tdPanels[tdIndex].Controls.Add(this.tdNameLabels[tdIndex]);
@@ -176,6 +180,11 @@ namespace LightController.MyForm
 					Visible = true,										
 				};
 				tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
+
+				tdValueNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
+				tdCmComboBoxes[tdIndex].KeyPress += td_KeyPress;
+				tdStNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
+
 			}
 
 			// 场景选项框		
@@ -251,8 +260,8 @@ namespace LightController.MyForm
 			RefreshLightImageList();
 
 			isInit = true;
-		}
-		
+		}	
+
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
 			//启动时刷新可用串口列表，但把显示给删除
@@ -1571,8 +1580,7 @@ namespace LightController.MyForm
 				insertStepClick( true );
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 事件：点击《追加步》(空方法)
 		/// </summary>
@@ -2092,7 +2100,17 @@ namespace LightController.MyForm
 		private void tdNameNumLabels_Click(object sender, EventArgs e)
 		{			
 			tdNameNumLabelClick(sender);
-		}		
+		}
+
+		/// <summary>
+		/// 事件：监听几个通道输入框的键盘点击
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void td_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			tdUnifyKeyPress(sender, e);
+		}
 
 		#endregion
 
@@ -2125,8 +2143,6 @@ namespace LightController.MyForm
 			}
 			new GroupForm(this, LightAstList, SelectedIndices).ShowDialog();
 		}
-
-	
 
 		/// <summary>
 		/// 事件：点击《音频链表》

@@ -60,6 +60,7 @@ namespace LightController.MyForm
 		public bool IsShowTestButton = false;
 		public bool IsShowHardwareUpdate = false;
 		public bool IsUseSkin = false ;
+		public bool IsNoticeUnifyTd = true;
 
 		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）		
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
@@ -67,7 +68,7 @@ namespace LightController.MyForm
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
 		public bool IsShowSaPanels = true; // 是否显示 子属性面板
-		public static int DefaultSoundCM = 0; // 添加音频步数时，其跳渐变默认值（可由配置文件进行改变）
+		public static int DefaultSoundCM = 0; // 添加音频步数时，其跳渐变默认值（可由配置文件进行改变）	
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -141,8 +142,7 @@ namespace LightController.MyForm
 		public bool IsPreviewing = false; // 是否预览状态中
 		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
-
-		
+				
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用				
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
@@ -1117,6 +1117,85 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：当通道的三个相关输入框，键盘输入某些按键时，可以对通道或步统一调值；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void tdUnifyKeyPress(object sender, KeyPressEventArgs e)
+		{
+			//DOTO：tdUnifyKeyPress
+			char key = e.KeyChar;
+			if (key != 'a' && key != 'A' && key != 's' && key != 'S') {
+				return;
+			}
+
+			Control control = sender as Control;
+			StepWrapper step = getCurrentStepWrapper();
+			List<int> tdIndexList = new List<int>();
+			int startStep, endStep,unifyValue=0;
+			string msg;
+
+			// 按a/A时，作用于当前通道所有步
+			if ( key == 'a' || key == 'A')
+			{
+				tdIndexList.Add(MathHelper.GetIndexNum(control.Name, -1) );
+				startStep = 1;
+				endStep = getTotalStep();
+				msg = "要将【当前通道所有步】";
+			}
+			//按s/S时，把变化作用于当前步的所有通道
+			else
+			{
+				for (int tdIndex = 0; tdIndex < step.TongdaoList.Count; tdIndex++)
+				{
+					tdIndexList.Add(tdIndex);
+				}
+				startStep = getCurrentStep();
+				endStep = startStep;
+				msg = "要将【当前步所有通道】";
+			}
+						
+			WHERE  where = (WHERE)int.Parse( control.Tag.ToString() );
+			if (where == WHERE.SCROLL_VALUE)
+			{
+				NumericUpDown valueNUD = control as NumericUpDown;
+				decimal tdValue = valueNUD.Value;
+				unifyValue = decimal.ToInt32(tdValue);
+				msg += "的通道值都设为【" + unifyValue + "】吗？";
+			}
+			else if (where == WHERE.CHANGE_MODE)
+			{
+				ComboBox cb = sender as ComboBox;
+				unifyValue = cb.SelectedIndex;
+				msg += "的跳渐变都设为【" + cb.Text + "】吗？";
+			}
+			else if (where == WHERE.STEP_TIME)
+			{
+				NumericUpDown stNUD = control as NumericUpDown;
+				decimal stepTime = stNUD.Value;
+				unifyValue = decimal.ToInt32(stepTime / EachStepTime2);
+				msg += "的步时间都设为【" + stepTime + "】吗？";
+			}
+			else {
+				SetNotice("错误的Tag。", true);
+				return;
+			}
+
+			if (IsNoticeUnifyTd ) {			
+				if (   MessageBox.Show(
+					msg,
+					"通道统一设值",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question) == DialogResult.Cancel  ) {
+					return;
+				}
+			}
+
+			SetMultiStepValues(where, tdIndexList, startStep, endStep, 0, unifyValue);
+
+		}
+		
 		#region 获取各种当前（步数、灯具）等的辅助方法
 
 		/// <summary>
@@ -1394,13 +1473,16 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：供《多步(多通道)调节》使用
 		/// </summary>
-		/// <param name="indexList"></param>
-		/// <param name="startStep"></param>
-		/// <param name="endStep"></param>
-		/// <param name="where"></param>
-		/// <param name="unifyValue"></param>
+		/// <param name="tdIndexList">要设置的通道Index列表，从0开始</param>
+		/// <param name="startStep">开始步</param>
+		/// <param name="endStep">结束步</param>
+		/// <param name="where">统一设置的属性</param>
+		/// <param name="stepPos">全部步0 ;单数步1、双数步2</param>
+		/// <param name="unifyValue">统一要设的值，如果是跳渐变则为其索引</param>
 		public void SetMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int stepPos, int unifyValue) {
-					   
+
+			//DOTO：SetMultiStepValues
+
 			// 多灯模式，将值赋给每个编组的灯具中
 			if (IsMultiMode)
 			{
@@ -3977,6 +4059,7 @@ namespace LightController.MyForm
 		#endregion
 
 		#region lightListView相关
+
 		/// <summary>
 		/// 辅助方法：双击列表中灯具，更改备注
 		/// </summary>
@@ -4061,6 +4144,7 @@ namespace LightController.MyForm
 			IsShowTestButton = iniHelper.GetControlShow( "testButton");
 			IsShowHardwareUpdate = iniHelper.GetControlShow( "hardwareUpdateButton");
 			IsShowSaPanels = iniHelper.GetControlShow("saPanels");
+			IsNoticeUnifyTd = iniHelper.GetControlShow("unifyTd");
 
 			MAX_StTimes = iniHelper.GetSystemCount( "maxStTimes",250);
 			MAX_STEP = iniHelper.GetSystemCount( "maxStep",100);	
@@ -4146,216 +4230,7 @@ namespace LightController.MyForm
 		}
 		
 		#endregion
-
-		#region 弃用方法区
-
-		//SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
-		/// <summary>
-		///  辅助方法：通过场景编号（0-31），来读取数据库相关数据填入虚假空白数据（NewStep 、Flag==0）中，并将Flag设为1
-		/// </summary>
-		/// <param name="tempFrame"></param>
-		//private void MakeFrameData(int tempFrame)
-		//{
-		//		Thread[] threadArray = new Thread[dbLightList.Count];
-		//		for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
-		//		{
-		//			int tempLightIndex = lightListIndex; // 灯具index（lightAstList和lightWrapperList） ； 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
-		//			int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)		
-		//			IList<DB_Value> tempDbValueList = valueDAO.GetByLightNoAndFrame(tempLightNo, tempFrame);
-
-		//			threadArray[tempLightIndex] = new Thread(delegate ()
-		//			{
-		//				Console.WriteLine(tempLightIndex + " ++ （MakeFrameData）线程开始了");
-		//				for (int tempMode = 0; tempMode < 1; tempMode++)
-		//				{
-		//					for (int step = 1; step <= lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList.Count; step++)
-		//					{
-		//						if (lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].Flag == 0)
-		//						{
-		//							for (int tdIndex = 0; tdIndex < lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList.Count; tdIndex++)
-		//							{
-		//								int lightId = lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].Address;
-		//								DB_Value stepValue = tempDbValueList.SingleOrDefault(t => t.PK.LightID == lightId && t.PK.Frame == tempFrame && t.PK.Mode == tempMode && t.PK.Step == step);
-		//								if (stepValue != null)
-		//								{
-		//									lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].ScrollValue = stepValue.ScrollValue;
-		//									lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].StepTime = stepValue.StepTime;
-		//									lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].ChangeMode = stepValue.ChangeMode;
-		//								}
-		//							}
-		//							lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].Flag = 1;
-		//						}
-		//					}
-		//				}
-		//				Console.WriteLine(tempLightIndex + " -- （MakeFrameData）线程结束了");
-		//			});
-		//			threadArray[tempLightIndex].Start();
-
-		//	}
-
-		//	// 下列代码，用以监视所有线程是否已经结束运行。
-		//	while (true)
-		//	{
-		//		int unFinishedCount = 0;
-		//		foreach (var thread in threadArray)
-		//		{
-		//			unFinishedCount += thread.IsAlive ? 1 : 0;
-		//		}
-
-		//		if (unFinishedCount == 0)
-		//		{
-		//			Console.WriteLine("Dickov:所有线程(MakeFrameData)已结束。");
-		//			break;
-		//		}
-		//		else
-		//		{
-		//			Thread.Sleep(100);
-		//		}
-		//	}
-		//}
-
-		/// <summary>
-		///  辅助方法：实时读取（渲染）单灯单步的数据（单线程即可）
-		/// </summary>
-		//protected void MakeCurrentStepWrapperData(int stepNum)
-		//{
-
-		//	if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0)
-		//	{
-
-		//		LightAst la = lightAstList[selectedIndex];
-		//		int lightIndex = la.StartNum;
-		//		IList<DB_Value> tempValueList = valueDAO.getStepValueList(lightIndex, frame, mode, getCurrentStep());
-
-		//		if (tempValueList.Count == getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList.Count)
-		//		{
-		//			for (int tdIndex = 0; tdIndex < tempValueList.Count; tdIndex++)
-		//			{
-		//				DB_Value stepValue = tempValueList[tdIndex];
-		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = tempValueList[tdIndex].ScrollValue;
-		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = tempValueList[tdIndex].StepTime;
-		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = tempValueList[tdIndex].ChangeMode;
-		//			}
-		//		}
-		//		getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag = 1;
-		//		Console.WriteLine("此步成功渲染。");
-		//	}
-		//	else
-		//	{
-		//		Console.WriteLine("此步已渲染过了。");
-		//	}
-		//}
-
-		/// <summary>		
-		/// 辅助方法：保存步数信息：针对每个灯具，保存其相关的步数情况; （弃用原因：有更好的方法替代）
-		/// </summary>
-		//protected void saveAllStepCounts()
-		//{
-		//	if (stepCountDAO == null)
-		//	{
-		//		stepCountDAO = new StepCountDAO(dbFilePath, isEncrypt);
-		//	}
-		//	// 由lightWrapperList生成最新的dbStepCountList
-		//	generateDBStepCountList();
-		//	// 先删除所有，再保存当前的列表
-		//	stepCountDAO.SaveAll("StepCount", dbStepCountList);
-		//}
-
-		/// <summary>
-		/// 辅助方法：存放所有灯具所有场景的每一步每一通道的值，记录数据到db.Value表中 （弃用原因：有更好的方法替代；）
-		/// </summary>
-		//protected void saveAllValues()
-		//{
-		//	// 10.24 过时的方法:可能导致内存溢出（数据量过大）
-		//	if (valueDAO == null)
-		//	{
-		//		valueDAO = new ValueDAO(dbFilePath, isEncrypt);
-		//	}
-		//	//由lightWrapperList等内存数据，生成dbValueList
-		//	generateDBValueList();
-		//	// 调用此方法，会先删除之前的表数据，再将当前dbValueList保存到数据库中
-
-		//	valueDAO.SaveAll("Value", dbValueList);
-		//}
-
-		/// <summary>
-		///  辅助方法：由dbFilePath，获取valueList（弃用原因：valueList应该从内存中拿，直接从DB拿效率太低）
-		/// </summary>
-		/// <returns></returns>
-		//protected IList<DB_Value> getValueList()
-		//{
-		//	if (valueDAO == null)
-		//	{
-		//		valueDAO = new ValueDAO(dbFilePath, isEncrypt);
-		//	}
-
-		//	IList<DB_Value> valueList = valueDAO.GetAll();
-		//	return valueList;
-		//}
-
-		/// <summary>
-		/// 辅助方法：由lightWrapperList等内存数据，生成dbValueList
-		/// </summary>
-		//protected void generateDBValueList()
-		//{
-		//	需要先清空valueList
-		//   dbValueList = new List<DB_Value>();
-		//	foreach (LightWrapper lightTemp in lightWrapperList)
-		//	{
-		//		DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
-		//		LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
-		//		for (int frame = 0; frame < FrameCount; frame++)
-		//		{
-		//			for (int mode = 0; mode < 2; mode++)
-		//			{
-		//				LightStepWrapper lightStep = lswl[frame, mode];
-		//				if (lightStep != null && lightStep.TotalStep > 0)
-		//				{  //只有不为null，才可能有需要保存的数据
-		//					IList<StepWrapper> stepWrapperList = lightStep.StepWrapperList;
-		//					foreach (StepWrapper step in stepWrapperList)
-		//					{
-		//						int stepIndex = stepWrapperList.IndexOf(step) + 1;
-		//						for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
-		//						{
-		//							TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
-		//							DB_Value valueTemp = new DB_Value()
-		//							{
-		//								ChangeMode = tongdao.ChangeMode,
-		//								ScrollValue = tongdao.ScrollValue,
-		//								StepTime = tongdao.StepTime,
-		//								PK = new DB_ValuePK()
-		//								{
-		//									Frame = frame,
-		//									Mode = mode,
-		//									LightID = light.LightNo + tongdaoIndex,
-		//									LightIndex = light.LightNo,
-		//									Step = stepIndex
-		//								}
-		//							};
-		//							dbValueList.Add(valueTemp);
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-
-		/// <summary>
-		/// 辅助方法：提示工程与灯库不匹配，并clearAll
-		/// </summary>
-		/// <param name="ex"></param>
-		//private void openProjectError(string exMessage)
-		//{
-		//	MessageBox.Show("打开工程出错，可能是灯库不匹配。\n异常信息:" + exMessage);
-		//	clearAllData();
-		//	setBusy(false);
-		//	SetNotice("打开工程失败,请验证后重试");
-		//}
-
-		#endregion
-
-
+	
 		
 	}
 

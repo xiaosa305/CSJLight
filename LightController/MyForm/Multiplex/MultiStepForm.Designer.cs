@@ -568,6 +568,7 @@
 			// 
 			// unifyCmComboBox
 			// 
+			this.unifyCmComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.unifyCmComboBox.FormattingEnabled = true;
 			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 275);
 			this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(2);

@@ -549,6 +549,7 @@ namespace LightController.MyForm
 			this.helpSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.helpSkinButton.UseVisualStyleBackColor = false;
 			this.helpSkinButton.Click += new System.EventHandler(this.helpSkinButton_Click);
+			this.helpSkinButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.helpSkinButton_MouseDown);
 			// 
 			// projectSkinPanel
 			// 
@@ -2182,6 +2183,8 @@ namespace LightController.MyForm
             0,
             0,
             65536});
+			this.tdStepTimeNUDDemo.ValueChanged += new System.EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+			this.tdStepTimeNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
 			// 
 			// tdTrackBarDemo
 			// 
@@ -2214,6 +2217,8 @@ namespace LightController.MyForm
 			this.tdValueNUDDemo.Size = new System.Drawing.Size(56, 21);
 			this.tdValueNUDDemo.TabIndex = 25;
 			this.tdValueNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdValueNUDDemo.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+			this.tdValueNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
 			// 
 			// tdChangeModeComboBoxDemo
 			// 
@@ -2221,6 +2226,7 @@ namespace LightController.MyForm
 			this.tdChangeModeComboBoxDemo.BaseColor = System.Drawing.Color.Gray;
 			this.tdChangeModeComboBoxDemo.BorderColor = System.Drawing.Color.Gray;
 			this.tdChangeModeComboBoxDemo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.tdChangeModeComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.tdChangeModeComboBoxDemo.FormattingEnabled = true;
 			this.tdChangeModeComboBoxDemo.ItemBorderColor = System.Drawing.Color.LightSlateGray;
 			this.tdChangeModeComboBoxDemo.Items.AddRange(new object[] {
@@ -2232,6 +2238,8 @@ namespace LightController.MyForm
 			this.tdChangeModeComboBoxDemo.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeComboBoxDemo.TabIndex = 19;
 			this.tdChangeModeComboBoxDemo.WaterText = "";
+			this.tdChangeModeComboBoxDemo.SelectedIndexChanged += new System.EventHandler(this.tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+			this.tdChangeModeComboBoxDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
 			// 
 			// saPanelDemo
 			// 

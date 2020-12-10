@@ -100,19 +100,20 @@ namespace LightController.MyForm
 					Location = tdTrackBarDemo.Location,
 					Maximum = tdTrackBarDemo.Maximum,
 					Orientation = tdTrackBarDemo.Orientation,
-					Size = tdTrackBarDemo.Size,				
+					Size = tdTrackBarDemo.Size,
 					TickStyle = tdTrackBarDemo.TickStyle,
-					Track = tdTrackBarDemo.Track,
+					Track = tdTrackBarDemo.Track,					
 				};
 
 				tdValueNumericUpDowns[tdIndex] = new NumericUpDown
 				{
-					Name = "tdValueNUD" + (tdIndex + 1) ,
+					Name = "tdValueNUD" + (tdIndex + 1),
 					Font = tdValueNUDDemo.Font,
 					TextAlign = tdValueNUDDemo.TextAlign,
 					Size = tdValueNUDDemo.Size,
 					Location = tdValueNUDDemo.Location,
 					Maximum = tdValueNUDDemo.Maximum,
+					Tag = 0,
 				};
 
 				tdChangeModeComboBoxes[tdIndex] = new SkinComboBox
@@ -123,9 +124,11 @@ namespace LightController.MyForm
 					BorderColor = tdChangeModeComboBoxDemo.BorderColor,
 					DrawMode = tdChangeModeComboBoxDemo.DrawMode,
 					FormattingEnabled = tdChangeModeComboBoxDemo.FormattingEnabled,
-					ItemBorderColor = tdChangeModeComboBoxDemo.ItemBorderColor,					
+					ItemBorderColor = tdChangeModeComboBoxDemo.ItemBorderColor,
 					Location = tdChangeModeComboBoxDemo.Location,
 					Size = tdChangeModeComboBoxDemo.Size,
+					DropDownStyle = tdChangeModeComboBoxDemo.DropDownStyle,
+					Tag = 1
 				};
 				tdChangeModeComboBoxes[tdIndex].Items.AddRange(new object[] {"跳变","渐变","屏蔽"});
 
@@ -138,6 +141,7 @@ namespace LightController.MyForm
 					Location = tdStepTimeNUDDemo.Location,
 					DecimalPlaces = tdStepTimeNUDDemo.DecimalPlaces,
 					Maximum = tdStepTimeNUDDemo.Maximum,
+					Tag = 2
 				};
 
 				tdPanels[tdIndex].Controls.Add(tdNameLabels[tdIndex]); //插入的先后顺序很重要；顺序不对时，会造成label文字被遮挡
@@ -160,13 +164,17 @@ namespace LightController.MyForm
 
 				tdValueNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
 				tdValueNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
-				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);				
 
 				tdChangeModeComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
 
 				tdStepTimeNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
 				tdStepTimeNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
 				tdStepTimeNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+
+				tdValueNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
+				tdChangeModeComboBoxes[tdIndex].KeyPress += td_KeyPress;
+				tdStepTimeNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
 
 				#endregion
 
@@ -313,14 +321,29 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《使用说明》
+		/// 事件：点击《使用说明》->导航功能
 		/// </summary>
 		/// <param name="noticeText"></param>
-		private void helpSkinButton_Click(object sender, EventArgs e)
+		private void helpSkinButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：鼠标左右键按下《使用说明》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void helpSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			helpButtonClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				helpButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				updateLogButtonClick();
+			}
 		}
-		
+
+
 		#endregion
 
 		#region 工具按钮组 - 工程相关
@@ -765,7 +788,6 @@ namespace LightController.MyForm
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
-
 					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
 					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
 
@@ -1909,7 +1931,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -1926,13 +1948,23 @@ namespace LightController.MyForm
 		private void tdNameNumLabels_Click(object sender, EventArgs e)
 		{
 			tdNameNumLabelClick(sender);
-		}		
+		}
+
+		/// <summary>
+		///   事件：通道相关的按键点击事件：设为该输入框的值（a为当前通道所有步、s为当前步所有通道）
+		///  </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void td_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			tdUnifyKeyPress(sender, e);
+		}
 		
 		#endregion
 
 		//MARK：SkinMainForm统一调整框各事件处理
 		#region 统一调整框的组件及事件绑定
-		
+
 		/// <summary>
 		/// 事件：点击《灯具编组》
 		/// </summary>
@@ -1969,7 +2001,7 @@ namespace LightController.MyForm
 		private void multiButton_Click(object sender, EventArgs e){  }
 
 		/// <summary>
-		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// 事件：左右键点击《多步调节》：右键暂无作用
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1993,7 +2025,7 @@ namespace LightController.MyForm
 		private void detailMultiButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
-		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// 事件：左右键点击《多步调节》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -2470,8 +2502,9 @@ namespace LightController.MyForm
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
 			//XiaosaTest.GetInstance().Test();
-			Console.WriteLine( NETWORK_WAITTIME );
+			Console.WriteLine( getCurrentStep() );
 		}
+
 
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
@@ -2594,6 +2627,7 @@ namespace LightController.MyForm
 		#endregion
 
 		
+	
 	}
 	   
 }

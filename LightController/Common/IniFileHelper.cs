@@ -187,7 +187,7 @@ namespace LightController.Common
 		}
 
 		/// <summary>
-		/// 辅助方法：取出是否显示按钮
+		/// 辅助方法：取出是否显示按钮；默认不显示，比较安全。
 		/// </summary>
 		/// <returns></returns>
 		public static bool GetControlShow(string appPathStr, string controlName)
@@ -197,7 +197,7 @@ namespace LightController.Common
 		}
 
 		/// <summary>
-		/// 辅助方法：取出是否显示按钮(非静态)
+		/// 辅助方法：取出是否显示按钮(非静态)；默认不显示，比较安全。
 		/// </summary>
 		/// <returns></returns>
 		public bool GetControlShow( string controlName)
@@ -206,6 +206,27 @@ namespace LightController.Common
 			return isShow.Trim().ToLower().Equals("true");
 		}
 
+		/// <summary>
+		/// 辅助方法：取出是否提示(静态)；默认为提示，比较安全。
+		/// </summary>
+		/// <param name="controlName"></param>
+		/// <returns></returns>
+		public static bool GetIsNotice(string appPathStr , string controlName)
+		{
+			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
+			return iniFileAst.GetIsNotice(controlName);			
+		}
+
+		/// <summary>
+		/// 辅助方法：取出是否提示；默认为提示，比较安全。
+		/// </summary>
+		/// <param name="controlName"></param>
+		/// <returns></returns>
+		public bool GetIsNotice(string controlName) {
+			string isNotice = ReadString("Show", controlName, "true");
+			return isNotice.Trim().ToLower().Equals("true");
+		}
+		
 		/// <summary>
 		/// 辅助方法：取出是否关联外部的软件
 		/// </summary>
@@ -248,8 +269,7 @@ namespace LightController.Common
 		{
 			return ReadInt("System", attrName, defaultValue);
 		}
-
-
+		
 		//与ini交互必须统一编码格式
 		private static byte[] getBytes(string s, string encodingName)
 		{

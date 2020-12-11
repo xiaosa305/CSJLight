@@ -181,9 +181,9 @@ namespace LightController.MyForm
 				};
 				tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 
-				tdValueNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
-				tdCmComboBoxes[tdIndex].KeyPress += td_KeyPress;
-				tdStNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
+				tdValueNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
+				tdCmComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
+				tdStNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
 
 			}
 
@@ -205,12 +205,7 @@ namespace LightController.MyForm
 			//模式选项框
 			modeComboBox.Items.AddRange(new object[] { "常规模式", "音频模式" });
 			modeComboBox.SelectedIndex = 0;
-
-			///统一调节的几个输入框，设置监听事件
-			unifyValueNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyValueNumericUpDown_MouseWheel);
-			unifyChangeModeComboBox.SelectedIndex = 1;    // 《统一跳渐变》numericUpDown不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
-			unifyStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyStepTimeNumericUpDown_MouseWheel);
-
+			
 			// 几个按钮添加提示
 			myToolTip.SetToolTip(useFrameButton, useFrameNotice);
 			myToolTip.SetToolTip(chooseStepButton, chooseStepNotice);
@@ -715,9 +710,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void initStNumericUpDowns()
 		{
-			unifyStepTimeNumericUpDown.Maximum = EachStepTime2 * MAX_StTimes; ;
-			unifyStepTimeNumericUpDown.Increment = EachStepTime2;
-
 			for (int i = 0; i < 32; i++) {
 				tdStNumericUpDowns[i].Maximum = EachStepTime2 * MAX_StTimes;
 				tdStNumericUpDowns[i].Increment = EachStepTime2;
@@ -2107,9 +2099,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void td_KeyPress(object sender, KeyPressEventArgs e)
+		private void unifyTd_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			tdUnifyKeyPress(sender, e);
+			unifyTdKeyPress(sender, e);
 		}
 
 		#endregion
@@ -2311,182 +2303,7 @@ namespace LightController.MyForm
 				int lightIndex = SelectedIndices[i];
 				lightsListView.Items[lightIndex].Selected = true;
 			}
-		}
-		
-		#region 弃用的快捷设置按钮组
-
-		/// <summary>
-		/// 事件：点击《全部归零》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void zeroButton_Click(object sender, EventArgs e)
-		{
-			zeroButtonClick();
-		}
-
-		/// <summary>
-		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
-				if (dd <= unifyValueNumericUpDown.Maximum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
-				if (dd >= unifyValueNumericUpDown.Minimum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《统一通道值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueButton_Click(object sender, EventArgs e)
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-			{
-				SetNotice("请先选中任意步数，才能进行统一调整！",true);
-				return;
-			}
-
-			int commonValue = Convert.ToInt32(unifyValueNumericUpDown.Text);
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
-			}
-
-			if (IsMultiMode)
-			{
-				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
-			}
-			RefreshStep();
-		}
-
-		/// <summary>
-		/// 事件：点击《统一跳渐变》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyChangeModeButton_Click(object sender, EventArgs e)
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-			{
-				SetNotice("请先选中任意步数，才能进行统一调整！",true);
-				return;
-			}
-
-			int commonChangeMode = unifyChangeModeComboBox.SelectedIndex;
-
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ChangeMode = commonChangeMode;
-			}
-			if (IsMultiMode)
-			{
-				copyUnifyValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
-			}
-			RefreshStep();
-		}
-
-		/// <summary>
-		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件（只+/-1）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyStepTimeNumericUpDown.Value + unifyStepTimeNumericUpDown.Increment;
-				if (dd <= unifyStepTimeNumericUpDown.Maximum)
-				{
-					unifyStepTimeNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyStepTimeNumericUpDown.Value - unifyStepTimeNumericUpDown.Increment;
-				if (dd >= unifyStepTimeNumericUpDown.Minimum)
-				{
-					unifyStepTimeNumericUpDown.Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / EachStepTime2);			
-			unifyStepTimeNumericUpDown.Value = stepTime * EachStepTime2;
-		}
-		
-		/// <summary>
-		/// 事件：点击《统一步时间》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeButton_Click(object sender, EventArgs e)
-		{
-			string buttonText = unifyStepTimeButton.Text;
-			if (buttonText.Equals("统一步时间"))
-			{
-				StepWrapper currentStep = getCurrentStepWrapper();
-				if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-				{
-					SetNotice("请先选中任意步数，才能进行统一调整！",true);
-					return;
-				}
-
-				//MARK 步时间 NewMainForm：点击《统一步时间》的处理
-				int unifyStepTimeParsed = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / EachStepTime2);
-				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-				{
-					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
-				}
-				if (IsMultiMode)
-				{
-					copyUnifyValueToAll(getCurrentStep(), WHERE.STEP_TIME, unifyStepTimeParsed);
-				}
-				RefreshStep();
-			}
-			//若按键名称变动，则说明是音频模式
-			else
-			{
-				new SKForm(this,  CurrentFrame, frameComboBox.Text).ShowDialog();
-			}
-		}
-
-		#endregion 
+		}		
 
 		#endregion
 

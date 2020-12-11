@@ -2184,7 +2184,7 @@ namespace LightController.MyForm
             0,
             65536});
 			this.tdStepTimeNUDDemo.ValueChanged += new System.EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
-			this.tdStepTimeNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
+			this.tdStepTimeNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.unifyTd_KeyPress);
 			// 
 			// tdTrackBarDemo
 			// 
@@ -2218,7 +2218,7 @@ namespace LightController.MyForm
 			this.tdValueNUDDemo.TabIndex = 25;
 			this.tdValueNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tdValueNUDDemo.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-			this.tdValueNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
+			this.tdValueNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.unifyTd_KeyPress);
 			// 
 			// tdChangeModeComboBoxDemo
 			// 
@@ -2239,7 +2239,7 @@ namespace LightController.MyForm
 			this.tdChangeModeComboBoxDemo.TabIndex = 19;
 			this.tdChangeModeComboBoxDemo.WaterText = "";
 			this.tdChangeModeComboBoxDemo.SelectedIndexChanged += new System.EventHandler(this.tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-			this.tdChangeModeComboBoxDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.td_KeyPress);
+			this.tdChangeModeComboBoxDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.unifyTd_KeyPress);
 			// 
 			// saPanelDemo
 			// 

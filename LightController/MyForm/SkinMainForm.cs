@@ -172,9 +172,9 @@ namespace LightController.MyForm
 				tdStepTimeNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
 				tdStepTimeNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
-				tdValueNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
-				tdChangeModeComboBoxes[tdIndex].KeyPress += td_KeyPress;
-				tdStepTimeNumericUpDowns[tdIndex].KeyPress += td_KeyPress;
+				tdValueNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
+				tdChangeModeComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
+				tdStepTimeNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
 
 				#endregion
 
@@ -1955,9 +1955,9 @@ namespace LightController.MyForm
 		///  </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void td_KeyPress(object sender, KeyPressEventArgs e)
+		private void unifyTd_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			tdUnifyKeyPress(sender, e);
+			unifyTdKeyPress(sender, e);
 		}
 		
 		#endregion

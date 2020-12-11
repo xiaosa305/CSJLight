@@ -1122,51 +1122,63 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		protected void tdUnifyKeyPress(object sender, KeyPressEventArgs e)
+		protected void unifyTdKeyPress(object sender, KeyPressEventArgs e)
 		{
-			//DOTO：tdUnifyKeyPress
-			char key = e.KeyChar;
-			if (key != 'a' && key != 'A' && key != 's' && key != 'S') {
+			//DOTO：tdUnifyKeyPress			
+			
+			// 先验证按下的键是否在这些数据中
+			if (!"aAsS".ToCharArray().Contains( e.KeyChar )) { 
 				return;
 			}
 
-			Control control = sender as Control;
-			StepWrapper step = getCurrentStepWrapper();
+			Control control = sender as Control;			
 			List<int> tdIndexList = new List<int>();
-			int startStep, endStep,unifyValue=0;
-			string msg;
+			int startStep,endStep,unifyValue;
+			string msg ;
 
-			// 按a/A时，作用于当前通道所有步
-			if ( key == 'a' || key == 'A')
+			// 按a|A时，作用于当前通道所有步
+			if ( e.KeyChar == 'a'  ||  e.KeyChar == 'A')
 			{
-				tdIndexList.Add(MathHelper.GetIndexNum(control.Name, -1) );
 				startStep = 1;
-				endStep = getTotalStep();
+				endStep = getTotalStep();	 // 因存在输入框，表示步数一定存在，无需验证空指针
+				// 若始末步相同，意味着此操作无意义，直接return
+				if (startStep == endStep) { 
+					return;
+				}
+
+				tdIndexList.Add(MathHelper.GetIndexNum(control.Name, -1));
 				msg = "要将【当前通道所有步】";
 			}
-			//按s/S时，把变化作用于当前步的所有通道
+			//按s|S时，把变化作用于当前步的所有通道
 			else
 			{
-				for (int tdIndex = 0; tdIndex < step.TongdaoList.Count; tdIndex++)
+				// 因为存在输入框，表示一定存在StepWrapper及TongdaoList，不需要验证空指针
+				// 若此灯具小于等于(一般不会)一个通道，则此操作无意义，直接return;
+				if ( getCurrentStepWrapper().TongdaoList.Count <= 1)
+				{
+					return;
+				}
+
+				for (int tdIndex = 0; tdIndex < getCurrentStepWrapper().TongdaoList.Count; tdIndex++)
 				{
 					tdIndexList.Add(tdIndex);
-				}
+				}				
 				startStep = getCurrentStep();
 				endStep = startStep;
 				msg = "要将【当前步所有通道】";
 			}
-						
+			
+			// 定义where，因为下面会多次使用；
 			WHERE  where = (WHERE)int.Parse( control.Tag.ToString() );
 			if (where == WHERE.SCROLL_VALUE)
 			{
-				NumericUpDown valueNUD = control as NumericUpDown;
-				decimal tdValue = valueNUD.Value;
-				unifyValue = decimal.ToInt32(tdValue);
+				NumericUpDown valueNUD = control as NumericUpDown;				
+				unifyValue = decimal.ToInt32(valueNUD.Value);
 				msg += "的通道值都设为【" + unifyValue + "】吗？";
 			}
 			else if (where == WHERE.CHANGE_MODE)
 			{
-				ComboBox cb = sender as ComboBox;
+				ComboBox cb = control as ComboBox;
 				unifyValue = cb.SelectedIndex;
 				msg += "的跳渐变都设为【" + cb.Text + "】吗？";
 			}
@@ -1182,16 +1194,17 @@ namespace LightController.MyForm
 				return;
 			}
 
+			// 设置了提示，且用户点击了取消，则return。否则继续往下走
 			if (IsNoticeUnifyTd ) {			
-				if (   MessageBox.Show(
-					msg,
-					"通道统一设值",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question) == DialogResult.Cancel  ) {
+				if ( DialogResult.Cancel ==  MessageBox.Show(	
+						msg,
+						"通道统一设值",	
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question)) {
 					return;
 				}
 			}
-
+			
 			SetMultiStepValues(where, tdIndexList, startStep, endStep, 0, unifyValue);
 
 		}
@@ -1480,8 +1493,6 @@ namespace LightController.MyForm
 		/// <param name="stepPos">全部步0 ;单数步1、双数步2</param>
 		/// <param name="unifyValue">统一要设的值，如果是跳渐变则为其索引</param>
 		public void SetMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int stepPos, int unifyValue) {
-
-			//DOTO：SetMultiStepValues
 
 			// 多灯模式，将值赋给每个编组的灯具中
 			if (IsMultiMode)
@@ -4144,7 +4155,7 @@ namespace LightController.MyForm
 			IsShowTestButton = iniHelper.GetControlShow( "testButton");
 			IsShowHardwareUpdate = iniHelper.GetControlShow( "hardwareUpdateButton");
 			IsShowSaPanels = iniHelper.GetControlShow("saPanels");
-			IsNoticeUnifyTd = iniHelper.GetControlShow("unifyTd");
+			IsNoticeUnifyTd = iniHelper.GetIsNotice("unifyTd");
 
 			MAX_StTimes = iniHelper.GetSystemCount( "maxStTimes",250);
 			MAX_STEP = iniHelper.GetSystemCount( "maxStep",100);	

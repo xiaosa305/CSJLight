@@ -226,6 +226,12 @@
     <Compile Include="MyForm\Multiplex\AddStepsForm.Designer.cs">
       <DependentUpon>AddStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\ColorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\ColorForm.Designer.cs">
+      <DependentUpon>ColorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Multiplex\DeleteStepsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -508,6 +514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\AddStepsForm.resx">
       <DependentUpon>AddStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\ColorForm.resx">
+      <DependentUpon>ColorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>

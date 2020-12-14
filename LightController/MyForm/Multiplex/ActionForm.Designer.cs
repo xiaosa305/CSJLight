@@ -73,7 +73,6 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.sqLiteCommandBuilder1 = new System.Data.SQLite.SQLiteCommandBuilder();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.actionTabControl.SuspendLayout();
@@ -740,11 +739,6 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
-			// sqLiteCommandBuilder1
-			// 
-			this.sqLiteCommandBuilder1.DataAdapter = null;
-			this.sqLiteCommandBuilder1.QuoteSuffix = "]";
-			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -760,7 +754,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.Transparent;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(369, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(338, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -839,7 +833,6 @@
 		private System.Windows.Forms.NumericUpDown lineY1NumericUpDown;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
-		private System.Data.SQLite.SQLiteCommandBuilder sqLiteCommandBuilder1;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.NumericUpDown circleYNumericUpDown;

@@ -151,13 +151,13 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(IP.Split('.')[1]));
             data.Add(Convert.ToByte(IP.Split('.')[2]));
             data.Add(Convert.ToByte(IP.Split('.')[3]));
-            if (Convert.ToByte(IP.Split('.')[0]) == 0x00 && Convert.ToByte(IP.Split('.')[1]) == 0x00 && Convert.ToByte(IP.Split('.')[2]) == 0x00 && Convert.ToByte(IP.Split('.')[3]) == 0x00)
-            {
-                if (Convert.ToByte(GateWay.Split('.')[0]) != 0x00 || Convert.ToByte(GateWay.Split('.')[1]) != 0x00 || Convert.ToByte(GateWay.Split('.')[2]) != 0x00 || Convert.ToByte(GateWay.Split('.')[3]) != 0x00)
-                {
-                    throw new Exception("IP 为DHCP模式下，网关配置异常");
-                }
-            }
+            //if (Convert.ToByte(IP.Split('.')[0]) == 0x00 && Convert.ToByte(IP.Split('.')[1]) == 0x00 && Convert.ToByte(IP.Split('.')[2]) == 0x00 && Convert.ToByte(IP.Split('.')[3]) == 0x00)
+            //{
+            //    if (Convert.ToByte(GateWay.Split('.')[0]) != 0x00 || Convert.ToByte(GateWay.Split('.')[1]) != 0x00 || Convert.ToByte(GateWay.Split('.')[2]) != 0x00 || Convert.ToByte(GateWay.Split('.')[3]) != 0x00)
+            //    {
+            //        throw new Exception("IP 为DHCP模式下，网关配置异常");
+            //    }
+            //}
             data.Add(Convert.ToByte(NetMask.Split('.')[0]));
             data.Add(Convert.ToByte(NetMask.Split('.')[1]));
             data.Add(Convert.ToByte(NetMask.Split('.')[2]));

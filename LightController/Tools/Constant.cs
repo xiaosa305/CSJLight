@@ -50,6 +50,7 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_PUT = "Ok:Decode";
         public const string RECEIVE_ORDER_PUT_PARAM = "Ok:Decode";
         public const string RECEIVE_ORDER_GET_PARAM = "Error:Get_Param";
+        public const string RECEIVE_ORDER_GET_FIRMWARE_VERSION = "Error:FirmwareVersion";
         public const string RECEIVE_ORDER_OTHER_OK = "OK";
         public const string RECEIVE_ORDER_OTHER_ERROR = "Error";
         public const string RECEIVE_ORDER_UPDATE_OK = "Ok:Decode";
@@ -74,6 +75,7 @@ namespace LightController.Tools
         public const string ORDER_START_DEBUG = "StartDebug";
         public const string ORDER_END_DEBUG = "EndDebug";
         public const string ORDER_SEND_DEBUG_DATA = "SendPreviewData";
+        public const string ORDER_GET_FIRMWARE_VERSION = "FirmwareVersion";
 
 
         public const string MARK_ORDER_TAKE_DATA = "00000101";

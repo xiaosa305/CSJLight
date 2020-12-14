@@ -2133,7 +2133,7 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA,"更新硬件配置信息失败",ex);
                 this.StopTimeOut();
                 this.IsSending = false;
-                this.Error_Event("更新硬件配置信息失败");
+                this.Error_Event(ex.Message);
                 this.CloseTransactionTimer();
             }
         }
@@ -2362,6 +2362,59 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
+        /// <summary>
+        /// 获取固件版本号
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        private void GetFirmwareVersion(Completed completed,Error error)
+        {
+            try
+            {
+                if ((!this.IsSending) && this.IsConnected())
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => GetFirmwareVersionStart(s, e));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "获取固件版本任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("获取固件版本任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 获取固件版本号执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="e"></param>
+        private void GetFirmwareVersionStart(Object obj,ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.GET_FIRMWARE_VERSION;
+                this.SendOrder(null, Constant.ORDER_GET_FIRMWARE_VERSION,null);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "获取固件版本失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("获取固件版本失败");
+                this.CloseTransactionTimer();
+            }
+        }
 
         //910灯控功能回复管理模块
         /// <summary>
@@ -2549,6 +2602,27 @@ namespace LightController.PeripheralDevice
                 this.TransactionTimer = null;
             }
         }
+        /// <summary>
+        /// 获取固件版本回复消息管理
+        /// </summary>
+        /// <param name="data"></param>
+        private void GetFirmwareVersionReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_GET_FIRMWARE_VERSION))
+            {
+                //读取固件版本信息失败
+                LogTools.Debug(Constant.TAG_XIAOSA, "读取固件版本信息失败");
+                this.Error_Event("读取固件版本信息失败");
+            }
+            else
+            {
+                string version = Encoding.Default.GetString(Data);
+                this.Completed_Event(version, "读取固件版本信息成功");
+            }
+            this.IsSending = false;
+            this.CloseTransactionTimer();
+        }
 
 
         // 服务器功能模块
@@ -2660,7 +2734,7 @@ namespace LightController.PeripheralDevice
     {
         NULL,
         ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP,
-        DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,
+        DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,GET_FIRMWARE_VERSION,
         START_INTENT_PREVIEW,STOP_INTENT_PREVIEW,
         SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES
     }

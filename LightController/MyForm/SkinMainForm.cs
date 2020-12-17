@@ -2375,14 +2375,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
-		/// </summary>
-		protected override void oneStepWork()
-		{
-			base.oneStepWork();            
-        }
-
-		/// <summary>
 		/// 辅助方法：根据入参，调整《预览效果|停止预览》按键的显示
 		/// </summary>
 		/// <param name="preview"></param>

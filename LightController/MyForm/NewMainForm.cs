@@ -2542,7 +2542,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-			colorButtonClick();
 		}
 		
 		/// <summary>

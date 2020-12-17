@@ -1013,7 +1013,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：单(多)灯单步发送DMX512帧数据
 		/// </summary>
-		protected virtual void oneStepWork()
+		protected void oneStepWork()
 		{
 			// 未连接的情况下，无法发送数据。 
 			if (!IsConnected )

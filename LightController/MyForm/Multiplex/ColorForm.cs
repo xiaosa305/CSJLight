@@ -189,21 +189,16 @@ namespace LightController.MyForm.Multiplex
 		private void previewButton_MouseDown(object sender, MouseEventArgs e)
 		{
 			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
-			if (e.Button == MouseButtons.Left) {
-
-				
-
+			if (e.Button == MouseButtons.Left) {				
 				if( ! generateColorMaterial()){					
 					return;
 				}
-
 			}else if (e.Button == MouseButtons.Right) {
 
 				if (selectedPanelIndex <= 0) {
 					setNotice("请先选择色块，再进行单色预览。", true);
 					return;
 				}
-
 				tongdaoList = new TongdaoWrapper[1, tongdaoCount];
 
 				Panel colorPanel = colorFLP.Controls[selectedPanelIndex] as Panel;

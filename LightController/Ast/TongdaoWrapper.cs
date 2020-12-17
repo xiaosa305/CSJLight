@@ -66,7 +66,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 构造方法：主要被《ActionForm》调用，（因有些数据是默认统一的，不需重新添加）
+		/// 构造方法：主要被ColorForm调用，需要用到跳渐变。
 		/// </summary>
 		/// <param name="tdName"></param>
 		/// <param name="value"></param>

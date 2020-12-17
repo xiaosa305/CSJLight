@@ -480,12 +480,26 @@ namespace LightController.Utils.Ver2
                     File.Delete(filePath);
                 }
                 buff.Add(Convert.ToByte(dataBean.ChannelFlag == ChannelFlag.FineTune ? 0 : dataBean.StepValues[0]));
+
+                //Test
+                if (dataBean.StepMode[0] == ChannelDataBean.MODE_C_JUMP)
+                {
+                    for (int i = 0; i < dataBean.StepTime[0] - 1; i++)
+                    {
+                        buff.Add(Convert.ToByte(dataBean.ChannelFlag == ChannelFlag.FineTune ? 0 : dataBean.StepValues[0]));
+                    }
+                }
+
                 for (int stepIndex = 1; stepIndex < dataBean.StepValues.Count + 1; stepIndex++)
                 {
                     int index = stepIndex == dataBean.StepCount ? 0 : stepIndex;
                     stepValue = dataBean.StepValues[index];
                     stepMode = dataBean.StepMode[index];
                     stepTime = dataBean.StepTime[index];
+                    if (stepIndex == dataBean.StepValues.Count && dataBean.StepMode[0] == ChannelDataBean.MODE_C_JUMP)
+                    {
+                        break;
+                    }
                     inc = (stepValue - startValue) / (float)stepTime;
                     for (int fram = 0; fram < stepTime; fram++)
                     {
@@ -520,7 +534,6 @@ namespace LightController.Utils.Ver2
                             else if (stepMode == ChannelDataBean.MODE_C_JUMP)
                             {
                                 buff.Add(Convert.ToByte(dataBean.ChannelFlag == ChannelFlag.FineTune ? 0 : stepValue));
-
                             }
                         }
                     }

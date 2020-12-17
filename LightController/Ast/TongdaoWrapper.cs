@@ -65,5 +65,19 @@ namespace LightController.Ast
 			ChangeMode = 1;
 		}
 
+		/// <summary>
+		/// 构造方法：主要被《ActionForm》调用，（因有些数据是默认统一的，不需重新添加）
+		/// </summary>
+		/// <param name="tdName"></param>
+		/// <param name="value"></param>
+		/// <param name="stepTime"></param>
+		public TongdaoWrapper(string tdName, int value, int stepTime,int changeMode)
+		{
+			TongdaoName = tdName;
+			ScrollValue = value;
+			StepTime = stepTime;
+			ChangeMode = changeMode;
+		}
+
 	}
 }

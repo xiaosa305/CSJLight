@@ -145,12 +145,12 @@ namespace LightController.MyForm
 					Tag = 2
 				};
 
-				tdPanels[tdIndex].Controls.Add(this.tdNameLabels[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(this.tdNoLabels[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(this.tdTrackBars[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(this.tdValueNumericUpDowns[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(this.tdCmComboBoxes[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(this.tdStNumericUpDowns[tdIndex]);	
+				tdPanels[tdIndex].Controls.Add(tdNameLabels[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdNoLabels[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdTrackBars[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdValueNumericUpDowns[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdCmComboBoxes[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdStNumericUpDowns[tdIndex]);	
 
 				tdTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdTrackBars_MouseWheel);
@@ -181,6 +181,7 @@ namespace LightController.MyForm
 				};
 				tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 
+				// 统一调值监听器
 				tdValueNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
 				tdCmComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
 				tdStNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
@@ -1647,7 +1648,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				rgbButtonClick();
+				colorButtonClick();
 			}
 		}	
 
@@ -1889,7 +1890,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
 				if (dd <= tdTrackBars[tdIndex].Maximum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
+					tdTrackBars[tdIndex].Value = decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1898,7 +1899,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
 				if (dd >= tdTrackBars[tdIndex].Minimum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
+					tdTrackBars[tdIndex].Value = decimal.ToInt32(dd);
 				}
 			}
 		}
@@ -1935,7 +1936,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
+			int tdValue = decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
 			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -2075,7 +2076,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			// MARK 步时间 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -2145,8 +2146,7 @@ namespace LightController.MyForm
 		{
 			new SKForm(this, CurrentFrame, frameComboBox.Text).ShowDialog();
 		}
-
-
+		
 		/// <summary>
 		/// 事件：点击《多步调节》
 		/// </summary>
@@ -2190,8 +2190,7 @@ namespace LightController.MyForm
 				DetailMultiButtonClick(true);
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 事件：点击《groupInButtons(进入编组)》
 		/// </summary>
@@ -2534,14 +2533,16 @@ namespace LightController.MyForm
 
 		#endregion
 
+		#region 测试代码、测试按键点击事件等
+
 		/// <summary>
 		/// 事件：点击《Test1》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
-		{			
-
+		{
+			colorButtonClick();
 		}
 		
 		/// <summary>
@@ -2564,119 +2565,7 @@ namespace LightController.MyForm
 			new TestForm(GetDBWrapper(false), GlobalIniPath).ShowDialog();
 		}
 
-		private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			string loadexeName = System.Windows.Forms.Application.ExecutablePath;
-			//loadexeName : "D:\\YokiSystem\\Yoki.UI\\bin\\Debug\\Yoki.UI.exe"
-
-			FileVersionInfo fileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(loadexeName);
-
-			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
-			MessageBox.Show(serverFileVersion);
-		}
-
-
-		#region 弃用方法
-
-		///// <summary>
-		///// 事件：点击《实时调试|关闭实时》
-		///// </summary>
-		///// <param name="sender"></param>
-		///// <param name="e"></param>
-		//private void realtimeButton_Click(object sender, EventArgs e)
-		//{
-		//默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-		//if (!isRealtime)
-		//{
-		//	realtimeButton.Text = "关闭\n实时调试";
-		//	isRealtime = true;
-		//	if (!isConnectCom)
-		//	{
-		//		playTools.StartInternetPreview(myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-		//	}
-		//	RefreshStep();
-		//	SetNotice("已开启实时调试。");
-		//}
-		//else //否则( 按钮显示为“断开连接”）断开连接
-		//{
-		//	realtimeButton.Text = "实时调试";
-		//	isRealtime = false;
-		//	playTools.ResetDebugDataToEmpty();
-		//	SetNotice("已退出实时调试。");
-		//}
-		//}
-
-		/// <summary>
-		/// 辅助方法：通过选中的灯具，生成相应的saButtons
-		/// </summary>
-		//private void generateSAButtons()
-		//{
-		//	saFlowLayoutPanel.Controls.Clear();
-		//	saToolTip.RemoveAll();
-
-		//	if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
-		//	{
-		//		MessageBox.Show("generateSAButtons()出错\n[selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0]。");
-		//		return;
-		//	}
-
-		//	LightAst la = lightAstList[selectedIndex];
-		//	try
-		//	{
-		//		if (la.SawList != null)
-		//		{
-		//			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-		//			{
-		//				addTdSaButtons(la, tdIndex);
-		//			}
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
-		//	}
-
-		//	// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
-		//	saFlowLayoutPanel.Enabled = getCurrentStep() != 0;
-		//}
-
-		/// <summary>
-		/// 辅助方法：抽象出添加通道相关的saButtons，供《切换灯具》及点击《通道名label》时使用
-		/// </summary>
-		/// <param name="la"></param>
-		/// <param name="tdIndex"></param>
-		//private void addTdSaButtons(LightAst la, int tdIndex)
-		//{
-
-		//	for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-		//	{
-		//		SA sa = la.SawList[tdIndex].SaList[saIndex];
-		//		Button saButton = new Button
-		//		{
-		//			Text = sa.SAName,
-		//			Size = new Size(68, 20),
-		//			Tag = tdIndex + "*" + sa.StartValue,
-		//			UseVisualStyleBackColor = true
-		//		};
-		//		saButton.Click += new EventHandler(saButton_Click);
-		//		saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
-		//		saPanelArray[selectedIndex].Controls.Add(saButton);
-		//	}
-		//	Console.WriteLine( saPanelArray[selectedIndex] );
-		//}
-
-		/// <summary>
-		/// 事件：点击《设为初值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void initButton_Click(object sender, EventArgs e)
-		{
-			initButtonClick();
-		}
-
 		#endregion
-
 
 	}
 }

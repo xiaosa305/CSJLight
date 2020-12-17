@@ -277,7 +277,7 @@ namespace LightController.MyForm
 			}
 
 			if( IPTextBox.Text.Trim() != "0.0.0.0" && gatewayTextBox.Text.Trim() == "0.0.0.0"  ){
-				errorMsg += "\n 未启用DHCP的情况下，【网关不能设为0.0.0.0】";
+				errorMsg += "\n未启用DHCP的情况下，【网关不能设为0.0.0.0】";
 				result = false;
 			}
 

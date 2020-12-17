@@ -78,6 +78,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="使用说明.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

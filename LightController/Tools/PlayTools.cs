@@ -417,6 +417,17 @@ namespace LightController.Tools
                 Interlocked.Exchange(ref SendTimerStatus, 0);
             }
         }
+
+        public byte[] GetTestData()
+        {
+            byte[] data = new byte[512];
+            lock (this.PlayData)
+            {
+                Array.Copy(this.PlayData, data, 512);
+            }
+            return data;
+        }
+
         private void Play()
         {
             try

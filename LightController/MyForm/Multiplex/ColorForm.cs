@@ -14,8 +14,7 @@ namespace LightController.MyForm.Multiplex
 	public partial class ColorForm : Form
 	{
 		private MainFormBase mainForm;
-		private int selectedPanelIndex = -1 ;		
-		private MaterialAst material ;
+		private int selectedPanelIndex = -1 ;				
 		private decimal eachStepTime = .04m;
 		private decimal commonStepTime = 50;
 
@@ -127,6 +126,21 @@ namespace LightController.MyForm.Multiplex
 			astLabel.Text = "第"+selectedPanelIndex+"步";
 
 			refreshButtons();
+
+			//DOTO : 1218 单灯单步+使用素材；
+			if (mainForm.IsConnected && !mainForm.IsPreviewing) {
+				if (generateSingleMaterial()) {
+
+					MaterialAst material = new MaterialAst
+					{
+						StepCount = stepCount,
+						TongdaoCount = tongdaoCount,
+						TdNameList = tdNameList,
+						TongdaoList = tongdaoList,
+					};
+					mainForm.OneStepWork(material);					
+				}	 
+			}
 		}
 
 		/// <summary>
@@ -337,7 +351,6 @@ namespace LightController.MyForm.Multiplex
 		}
 		
 		#endregion
-
-		
+				
 	}
 }

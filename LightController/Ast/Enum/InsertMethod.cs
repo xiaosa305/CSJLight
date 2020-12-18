@@ -7,6 +7,6 @@ namespace LightController.Ast
 {
 	public enum InsertMethod
 	{
-		INSERT, COVER,  INSERT_LAST
+		INSERT, COVER,  APPEND
 	}
 }

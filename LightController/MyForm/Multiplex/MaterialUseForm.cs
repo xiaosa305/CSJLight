@@ -94,7 +94,7 @@ namespace LightController.MyForm
 		}
 	
 		/// <summary>
-		///  事件：《插入、覆盖》素材插入到主窗口的操作
+		///  事件：《插入、覆盖、追加》素材插入到主窗口的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

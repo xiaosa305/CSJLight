@@ -805,7 +805,7 @@ namespace LightController.MyForm
 			int addStepCount = materialAst.StepCount;
 
 			// 选择《追加》时，不更改核心代码 : 而是先选择最后步(0步则不走这个)，再设置method = insert
-			if (method == InsertMethod.INSERT_LAST) {
+			if (method == InsertMethod.APPEND) {
 				if (totalStep != 0 && currentStep!=totalStep) {
 					chooseStep(totalStep);
 				}
@@ -864,15 +864,8 @@ namespace LightController.MyForm
 					{
 						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 						{
-							StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
-							if (stepWrapper == null)
-							{
-								stepWrapper = getCurrentStepTemplate();
-							}
-							newStep = StepWrapper.GenerateNewStep(stepWrapper, CurrentMode);
-
+							newStep = StepWrapper.GenerateNewStep( getSelectedLightStepTemplate(lightIndex), CurrentMode);
 							getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
-
 						}
 					}
 				}
@@ -1028,64 +1021,17 @@ namespace LightController.MyForm
 				return;
 			}
 
-			byte[] stepBytes = new byte[512];
-						
-			if (material == null)
+			byte[] stepBytes = new byte[512];						
+
+			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
+			if (isKeepOtherLights || isSyncMode)
 			{
-				// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
-				if (isKeepOtherLights || isSyncMode)
+				if (LightWrapperList != null)
 				{
-					if (LightWrapperList != null)
+					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 					{
-						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-						{
-							StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
-							if (stepWrapper != null)
-							{
-								foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-								{
-									int tongdaoIndex = td.Address - 1;
-									stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					// 多灯单步				
-					if (IsMultiMode)
-					{
-						int currentStep = getCurrentStep();
-						if (currentStep == 0)
-						{
-							SetNotice("当前多灯编组未选中可用步，无法播放。", false);
-							return;
-						}
-						foreach (int lightIndex in SelectedIndices)
-						{
-							// 取出所有编组灯具的当前步数据。
-							StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
-							if (stepWrapper != null)
-							{
-								foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-								{
-									int tongdaoIndex = td.Address - 1;
-									stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-								}
-							}
-						}
-					}
-					// 单灯单步
-					else
-					{
-						StepWrapper stepWrapper = getCurrentStepWrapper();
-						if (stepWrapper == null)
-						{
-							SetNotice("当前灯具未选中可用步，无法播放。", false);
-							return;
-						}
-						else
+						StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
+						if (stepWrapper != null)
 						{
 							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
 							{
@@ -1096,9 +1042,65 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			//DOTO : 1217 OneStepWork添加material后，实时生成。
-			else{			}
-			
+			else
+			{
+				// 多灯单步				
+				if (IsMultiMode)
+				{
+					int currentStep = getCurrentStep();
+					if (currentStep == 0)
+					{
+						SetNotice("当前多灯编组未选中可用步，无法播放。", false);
+						return;
+					}
+					foreach (int lightIndex in SelectedIndices)
+					{
+						// 取出所有编组灯具的当前步数据。
+						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
+						if (stepWrapper != null)
+						{
+							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+							{
+								int tongdaoIndex = td.Address - 1;
+								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+							}
+						}
+					}
+				}
+				// 单灯单步
+				else
+				{
+					StepWrapper stepWrapper = getCurrentStepWrapper();
+					if (stepWrapper == null)
+					{
+						SetNotice("当前灯具未选中可用步，无法播放。", false);
+						return;
+					}
+					else
+					{
+						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+						{
+							int tongdaoIndex = td.Address - 1;
+							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+						}
+					}
+				}
+			}
+
+			//DOTO : 1217 OneStepWork添加material后，实时生成(基于现有步数据，处理)。
+			//if (material != null)
+			//{
+				//// 多灯单步				
+				//if (IsMultiMode)
+				//{
+
+				//}
+				//else
+				//{
+
+				//}
+			//}
+
 			string tdValueStr = "";
 			if (tdValues != null && tdValues.Count > 0)
 			{
@@ -1385,7 +1387,8 @@ namespace LightController.MyForm
 			LightWrapper lightWrapper = getSelectedLightWrapper(lightIndex);
 			if (lightWrapper != null)
 			{
-				return lightWrapper.StepTemplate; }
+				return lightWrapper.StepTemplate;
+			}
 			else
 			{
 				return null;
@@ -3209,11 +3212,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void colorButtonClick()
 		{
-			//if (colorForm == null)
-			//{
-			//	colorForm = new ColorForm(this);
-			//}
-			//colorForm.ShowDialog();
+			if (colorForm == null)
+			{
+				colorForm = new ColorForm(this);
+			}
+			colorForm.ShowDialog();
 		}
 
 		/// <summary>
@@ -4196,7 +4199,7 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			catch (Exception ex) {
+			catch (Exception) {
 				tdValues = null;
 			}			
 

@@ -2493,8 +2493,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			//XiaosaTest.GetInstance().Test();
-			Console.WriteLine( getCurrentStep() );
+
 		}
 
 

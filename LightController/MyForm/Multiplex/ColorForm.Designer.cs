@@ -243,7 +243,6 @@
 			this.myToolTip.SetToolTip(this.previewButton, "左键点击为全部预览；\r\n右键点击为单色预览。");
 			this.previewButton.UseVisualStyleBackColor = false;
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
-			this.previewButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.previewButton_MouseDown);
 			// 
 			// statusStrip1
 			// 

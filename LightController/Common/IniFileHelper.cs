@@ -70,7 +70,6 @@ namespace LightController.Common
 		{
 			StringBuilder vRetSb = new StringBuilder(2048);
 			GetPrivateProfileString(section, name, def, vRetSb, 2048, this.filePath);
-			//Console.WriteLine( " -----" +  vRetSb .ToString() );
 			return vRetSb.ToString();
 		}
 		

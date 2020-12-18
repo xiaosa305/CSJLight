@@ -62,13 +62,14 @@ namespace LightController.MyForm
 		public bool IsUseSkin = false ;
 		public bool IsNoticeUnifyTd = true;
 
-		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）		
+		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）			
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
 		public bool IsShowSaPanels = true; // 是否显示 子属性面板
 		public static int DefaultSoundCM = 0; // 添加音频步数时，其跳渐变默认值（可由配置文件进行改变）	
+		protected List<int> tdValues = null;
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -143,7 +144,7 @@ namespace LightController.MyForm
 		public bool IsPreviewing = false; // 是否预览状态中
 		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
-				
+			
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用				
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
@@ -1013,30 +1014,78 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：单(多)灯单步发送DMX512帧数据
 		/// </summary>
-		protected void oneStepWork()
+		public void OneStepWork( MaterialAst material )
 		{
 			// 未连接的情况下，无法发送数据。 
 			if (!IsConnected )
 			{
-				MessageBox.Show("请先连接设备。");
+				SetNotice("请先连接设备。",false);
 				return;
 			}
 
 			if (IsPreviewing) {
-				MessageBox.Show("正在预览中，无法实时调试。");
+				SetNotice("正在预览中，无法实时调试。",false);
 				return;
 			}
 
 			byte[] stepBytes = new byte[512];
-			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
-			if (isKeepOtherLights || isSyncMode)
+						
+			if (material == null)
 			{
-				if (LightWrapperList != null)
+				// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
+				if (isKeepOtherLights || isSyncMode)
 				{
-					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+					if (LightWrapperList != null)
 					{
-						StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
-						if (stepWrapper != null)
+						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+						{
+							StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
+							if (stepWrapper != null)
+							{
+								foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+								{
+									int tongdaoIndex = td.Address - 1;
+									stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					// 多灯单步				
+					if (IsMultiMode)
+					{
+						int currentStep = getCurrentStep();
+						if (currentStep == 0)
+						{
+							SetNotice("当前多灯编组未选中可用步，无法播放。", false);
+							return;
+						}
+						foreach (int lightIndex in SelectedIndices)
+						{
+							// 取出所有编组灯具的当前步数据。
+							StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
+							if (stepWrapper != null)
+							{
+								foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+								{
+									int tongdaoIndex = td.Address - 1;
+									stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+								}
+							}
+						}
+					}
+					// 单灯单步
+					else
+					{
+						StepWrapper stepWrapper = getCurrentStepWrapper();
+						if (stepWrapper == null)
+						{
+							SetNotice("当前灯具未选中可用步，无法播放。", false);
+							return;
+						}
+						else
 						{
 							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
 							{
@@ -1047,53 +1096,22 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			else {
-				// 多灯单步				
-				if (IsMultiMode)
+			//DOTO : 1217 OneStepWork添加material后，实时生成。
+			else{			}
+			
+			string tdValueStr = "";
+			if (tdValues != null && tdValues.Count > 0)
+			{
+				tdValueStr += "【";
+				foreach (int tdIndex in tdValues)
 				{
-					int currentStep = getCurrentStep();
-					if (currentStep == 0)
-					{
-						SetNotice("当前多灯编组未选中可用步，无法播放。",false);
-						return;
-					}
-					foreach (int lightIndex in SelectedIndices)
-					{
-						// 取出所有编组灯具的当前步数据。
-						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
-						if (stepWrapper != null)
-						{
-							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-							{
-								int tongdaoIndex = td.Address - 1;
-								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-							}
-						}
-					}
+					tdValueStr += stepBytes[tdIndex] + " ";
 				}
-				// 单灯单步
-				else
-				{
-					StepWrapper stepWrapper = getCurrentStepWrapper();
-					if (stepWrapper == null)
-					{
-                        SetNotice("当前灯具未选中可用步，无法播放。",false);
-                        return;
-					}
-					else
-					{
-						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-						{
-							int tongdaoIndex = td.Address - 1;
-							//Console.WriteLine(td.ScrollValue);
-							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-						}
-					}
-				}
+				tdValueStr += "】";
 			}
 
 			playTools.OLOSView(stepBytes);
-			SetNotice("正在实时调试("+(selectedIndex+1)+")当前步...",false);
+			SetNotice("正在实时调试("+(selectedIndex+1)+")当前步..."+tdValueStr , false);
 		}
 
 		/// <summary>
@@ -1102,7 +1120,6 @@ namespace LightController.MyForm
 		/// <param name="tdIndex"></param>
 		protected void changeScrollValue(int tdIndex, int tdValue)
 		{
-			//Console.WriteLine("changeScrollValue");
 			// 设tongdaoWrapper的值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[tdIndex].ScrollValue = tdValue;
@@ -1114,7 +1131,7 @@ namespace LightController.MyForm
 			// 是否实时单灯单步
 			if (IsConnected && !IsPreviewing)
 			{
-				oneStepWork();
+				OneStepWork(null);
 			}
 		}
 
@@ -1125,8 +1142,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		protected void unifyTdKeyPress(object sender, KeyPressEventArgs e)
 		{
-			//DOTO：tdUnifyKeyPress			
-			
 			// 先验证按下的键是否在这些数据中
 			if (!"aAsS".ToCharArray().Contains( e.KeyChar )) { 
 				return;
@@ -3194,11 +3209,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void colorButtonClick()
 		{
-			if (colorForm == null)
-			{
-				colorForm = new ColorForm(this);
-			}
-			colorForm.ShowDialog();
+			//if (colorForm == null)
+			//{
+			//	colorForm = new ColorForm(this);
+			//}
+			//colorForm.ShowDialog();
 		}
 
 		/// <summary>
@@ -3479,7 +3494,7 @@ namespace LightController.MyForm
 			
 			if (IsConnected && !IsPreviewing )
 			{
-				oneStepWork();
+				OneStepWork(null );
 			}
 		}
 
@@ -4166,6 +4181,24 @@ namespace LightController.MyForm
 			MAX_STEP = iniHelper.GetSystemCount( "maxStep",100);	
 			NETWORK_WAITTIME = iniHelper.GetSystemCount( "waitTime",1000);
 			DefaultSoundCM = iniHelper.GetSystemCount("soundChangeMode", 0);
+
+			//DOTO : 1218 添加对单步运行时某些步数据是否显示的处理
+			try
+			{
+				string tdStr = iniHelper.ReadString("Show", "tdValues", "");
+				if (tdStr.Trim() != "")
+				{
+					string[] tdValuesStr = tdStr.Split(',');
+					tdValues = new List<int>();
+					foreach (string valueStr in tdValuesStr)
+					{
+						tdValues.Add(int.Parse(valueStr) - 1);
+					}
+				}
+			}
+			catch (Exception ex) {
+				tdValues = null;
+			}			
 
 			// lightImageList的初始化
 			this.lightImageList = new ImageList();

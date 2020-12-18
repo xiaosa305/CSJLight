@@ -179,40 +179,11 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void previewButton_Click(object sender, EventArgs e){	}
+		private void previewButton_Click(object sender, EventArgs e){
 
-		/// <summary>
-		/// 事件：鼠标左右键点击《预览》：左键全部预览，右键单步预览
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void previewButton_MouseDown(object sender, MouseEventArgs e)
-		{
 			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
-			if (e.Button == MouseButtons.Left) {				
-				if( ! generateColorMaterial()){					
-					return;
-				}
-			}else if (e.Button == MouseButtons.Right) {
 
-				if (selectedPanelIndex <= 0) {
-					setNotice("请先选择色块，再进行单色预览。", true);
-					return;
-				}
-				tongdaoList = new TongdaoWrapper[1, tongdaoCount];
-
-				Panel colorPanel = colorFLP.Controls[selectedPanelIndex] as Panel;
-				Color bColor = colorPanel.BackColor;
-				int stepTime = decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime);
-
-				tongdaoList[0, 0] = new TongdaoWrapper("总调光", tgTrackBar.Value, 50,0);
-				tongdaoList[0, 1] = new TongdaoWrapper("红", bColor.R, stepTime,0);
-				tongdaoList[0, 2] = new TongdaoWrapper("绿", bColor.G, stepTime,0);
-				tongdaoList[0, 3] = new TongdaoWrapper("蓝", bColor.B, stepTime,0);
-
-			}
-			else {
-				setNotice("请不要使用鼠标中键点击按键。", true);
+			if (! generateComplexMaterial() ) {
 				return;
 			}
 
@@ -224,14 +195,13 @@ namespace LightController.MyForm.Multiplex
 				TongdaoList = tongdaoList,
 			};
 			mainForm.PreviewButtonClick(material);
-			
 		}
-
+		
 		/// <summary>
-		/// 
+		/// 辅助方法：生成所有颜色组合的预览数据
 		/// </summary>
 		/// <returns></returns>
-		private bool generateColorMaterial()
+		private bool generateComplexMaterial()
 		{
 			if (stepCount == 0) {
 				setNotice("尚未添加颜色块。", true);
@@ -260,6 +230,31 @@ namespace LightController.MyForm.Multiplex
 					return false;
 				}				
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：生成单个颜色的【预览】数据
+		/// </summary>
+		/// <returns></returns>
+		private bool generateSingleMaterial() {
+
+			if (selectedPanelIndex <= 0)
+			{
+				setNotice("请先选择色块，再进行单色预览。", true);
+				return false;
+			}
+			tongdaoList = new TongdaoWrapper[1, tongdaoCount];
+
+			Panel colorPanel = colorFLP.Controls[selectedPanelIndex] as Panel;
+			Color bColor = colorPanel.BackColor;
+			int stepTime = decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime);
+
+			tongdaoList[0, 0] = new TongdaoWrapper("总调光", tgTrackBar.Value, 50, 0);
+			tongdaoList[0, 1] = new TongdaoWrapper("红", bColor.R, stepTime, 0);
+			tongdaoList[0, 2] = new TongdaoWrapper("绿", bColor.G, stepTime, 0);
+			tongdaoList[0, 3] = new TongdaoWrapper("蓝", bColor.B, stepTime, 0);
+
+			return true;
 		}
 
 		#region 调节总调光
@@ -340,8 +335,7 @@ namespace LightController.MyForm.Multiplex
 				MessageBox.Show(msg);
 			}
 		}
-
-
+		
 		#endregion
 
 		

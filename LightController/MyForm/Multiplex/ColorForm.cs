@@ -134,9 +134,10 @@ namespace LightController.MyForm.Multiplex
 		{
 			astPanel.BackColor = selectedPanelIndex > 0 ? (colorFLP.Controls[selectedPanelIndex] as Panel).BackColor : Color.MintCream;
 			astLabel.Text = selectedPanelIndex > 0 ?  "第" + selectedPanelIndex + "步" : "未选中步";
+			stepCount = colorFLP.Controls.Count - 1;
 			editButton.Enabled = selectedPanelIndex > 0;
 			deleteButton.Enabled = selectedPanelIndex > 0;
-			stepCount = colorFLP.Controls.Count - 1;
+			clearButton.Enabled = stepCount > 0;
 
 			oneStepPlay();
 		}

@@ -267,6 +267,7 @@
 			// 
 			// clearButton
 			// 
+			this.clearButton.Enabled = false;
 			this.clearButton.Location = new System.Drawing.Point(169, 22);
 			this.clearButton.Name = "clearButton";
 			this.clearButton.Size = new System.Drawing.Size(38, 45);

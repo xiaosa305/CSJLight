@@ -22,6 +22,7 @@ namespace LightController.MyForm.Multiplex
 		private int stepCount = 0;
 		private TongdaoWrapper[,] tongdaoList ;
 		private IList<string> tdNameList = new List<string> { "总调光", "红", "绿", "蓝" }; // 为tdNameList赋值；此列表是固定的
+		private MaterialAst material; 
 		
 		public ColorForm(MainFormBase mainForm)
 		{
@@ -128,17 +129,9 @@ namespace LightController.MyForm.Multiplex
 			refreshButtons();
 
 			//DOTO : 1218 单灯单步+使用素材；
-			if (mainForm.IsConnected && !mainForm.IsPreviewing) {
-				if (generateSingleMaterial()) {
-
-					MaterialAst material = new MaterialAst
-					{
-						StepCount = stepCount,
-						TongdaoCount = tongdaoCount,
-						TdNameList = tdNameList,
-						TongdaoList = tongdaoList,
-					};
-					mainForm.OneStepWork(material);					
+			if (mainForm.IsConnected && ! mainForm.IsPreviewing ) {
+				if (generateSingleMaterial()) {					
+					mainForm.OneStepPlay(material);
 				}	 
 			}
 		}
@@ -196,23 +189,13 @@ namespace LightController.MyForm.Multiplex
 		private void previewButton_Click(object sender, EventArgs e){
 
 			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
-
-			if (! generateComplexMaterial() ) {
-				return;
-			}
-
-			MaterialAst material = new MaterialAst
-			{
-				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
-				TdNameList = tdNameList,
-				TongdaoList = tongdaoList,
-			};
-			mainForm.PreviewButtonClick(material);
+			if ( generateComplexMaterial() ) {
+				mainForm.PreviewButtonClick(material);
+			}	
 		}
 		
 		/// <summary>
-		/// 辅助方法：生成所有颜色组合的预览数据
+		/// 辅助方法：生成所有颜色组合的【素材】
 		/// </summary>
 		/// <returns></returns>
 		private bool generateComplexMaterial()
@@ -236,6 +219,15 @@ namespace LightController.MyForm.Multiplex
 						tongdaoList[panelIndex - 1, 1] = new TongdaoWrapper("红", colorPanel.BackColor.R, stepTime, changeMode);
 						tongdaoList[panelIndex - 1, 2] = new TongdaoWrapper("绿", colorPanel.BackColor.G, stepTime, changeMode);
 						tongdaoList[panelIndex - 1, 3] = new TongdaoWrapper("蓝", colorPanel.BackColor.B, stepTime, changeMode);
+
+						material = new MaterialAst
+						{
+							StepCount = stepCount,
+							TongdaoCount = tongdaoCount,
+							TdNameList = tdNameList,
+							TongdaoList = tongdaoList,
+						};
+
 					}
 					return true;
 				}
@@ -247,7 +239,7 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
-		/// 辅助方法：生成单个颜色的【预览】数据
+		/// 辅助方法：生成单个颜色的【素材】
 		/// </summary>
 		/// <returns></returns>
 		private bool generateSingleMaterial() {
@@ -257,16 +249,25 @@ namespace LightController.MyForm.Multiplex
 				setNotice("请先选择色块，再进行单色预览。", true);
 				return false;
 			}
+
 			tongdaoList = new TongdaoWrapper[1, tongdaoCount];
 
 			Panel colorPanel = colorFLP.Controls[selectedPanelIndex] as Panel;
 			Color bColor = colorPanel.BackColor;
 			int stepTime = decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime);
-
+			
 			tongdaoList[0, 0] = new TongdaoWrapper("总调光", tgTrackBar.Value, 50, 0);
-			tongdaoList[0, 1] = new TongdaoWrapper("红", bColor.R, stepTime, 0);
+			tongdaoList[0, 1] = new TongdaoWrapper("红", bColor.R,  stepTime, 0);
 			tongdaoList[0, 2] = new TongdaoWrapper("绿", bColor.G, stepTime, 0);
 			tongdaoList[0, 3] = new TongdaoWrapper("蓝", bColor.B, stepTime, 0);
+
+			material = new MaterialAst
+			{
+				StepCount = stepCount,
+				TongdaoCount = tongdaoCount,
+				TdNameList = tdNameList,
+				TongdaoList = tongdaoList,
+			};
 
 			return true;
 		}

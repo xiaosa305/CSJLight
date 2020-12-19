@@ -1537,8 +1537,7 @@ namespace LightController.MyForm
 		{
 			pasteStepClick();
 		}
-
-
+		
 		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
@@ -2491,130 +2490,8 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bigTestButton_Click(object sender, EventArgs e)
-		{
-
-		}
-
-
-		/// <summary>
-		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
-		///  --9.4禁用此功能，即无论是否屏蔽，
-		/// </summary>
-		/// <param name="tongdaoIndex">tongdaoList的Index</param>
-		/// <param name="shielded">是否被屏蔽</param>
-		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-		//{
-		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//}
-
-		/// <summary>
-		/// 事件：点击《实时调试》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		//private void realtimeSkinButton_Click(object sender, EventArgs e)
-		//{
-		//// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-		//if (!isRealtime)
-		//{
-		//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
-		//	realtimeSkinButton.Text = "关闭实时";
-		//	isRealtime = true;
-		//	if (!isConnectCom)
-		//	{
-		//		playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-		//	}
-		//	RefreshStep();
-		//	SetNotice("已开启实时调试。");
-		//}
-		//else //否则( 按钮显示为“断开连接”）断开连接
-		//{
-		//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-		//	realtimeSkinButton.Text = "实时调试";
-		//	isRealtime = false;
-		//	playTools.ResetDebugDataToEmpty();
-		//	SetNotice("已退出实时调试。");
-		//}
-		//}
-
-		/// <summary>
-		///   事件：tdSkinFlowLayoutPanel的paint事件
-		///  </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		//private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
-		//{
-		//	if (!isPainting)
-		//	{
-		//		repaintTDPanels();
-		//	}
-		//}
-
-		///// <summary>
-		/////  辅助方法：重绘tdPanels
-		///// </summary>
-		//private void repaintTDPanels()
-		//{
-		//	// 1. j是tdPanels中在第一列的panel的数量，
-		//	int j = 0;
-		//	foreach (var tdPanel in tdPanels)
-		//	{
-		//		if (tdPanel.Visible && tdPanel.Location.X == 3)
-		//		{
-		//			j++;
-		//		}
-		//	}
-		//	showLabelPanels(j);
-
-		//	// 2. 设置滚动条的位置
-		//	labelFlowLayoutPanel.AutoScrollPosition = new Point(0, -tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
-		//}
-
-		///// <summary>
-		/////  辅助方法：通过实时计算tdPanels占用的行数，来显示相同行数的labelPanels
-		///// </summary>
-		///// <param name="j"></param>
-		//private void showLabelPanels(int j)
-		//{
-		//	switch (j)
-		//	{
-		//		case 0:
-		//			labelPanel1.Hide();
-		//			labelPanel2.Hide();
-		//			labelPanel3.Hide();
-		//			break;
-		//		case 1:
-		//			labelPanel1.Show();
-		//			labelPanel2.Hide();
-		//			labelPanel3.Hide();
-		//			break;
-		//		case 2:
-		//			labelPanel1.Show();
-		//			labelPanel2.Show();
-		//			labelPanel3.Hide();
-		//			break;
-		//		case 3:
-		//			labelPanel1.Show();
-		//			labelPanel2.Show();
-		//			labelPanel3.Show();
-		//			break;
-		//	}
-		//}
-
-		///// <summary>
-		/////  事件：拦截labelFlowLayoutPanel的鼠标滚动。
-		///// </summary>
-		///// <param name="sender"></param>
-		///// <param name="e"></param>
-		//private void labelFlowLayoutPanel_MouseWheel(object sender, MouseEventArgs e)
-		//{
-		//	Point oldPoint = labelFlowLayoutPanel.AutoScrollPosition;
-		//	labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
-		//}
-
+		private void bigTestButton_Click(object sender, EventArgs e)	{ }
+		
 		#endregion
 
 		

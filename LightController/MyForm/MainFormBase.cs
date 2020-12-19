@@ -938,7 +938,6 @@ namespace LightController.MyForm
 					}
 				}
 
-
 				if (isSyncMode)
 				{
 					foreach (int lightIndex in getNotSelectedIndices())
@@ -1003,229 +1002,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
-		/// <summary>
-		/// 辅助方法：单(多)灯单步发送DMX512帧数据
-		/// </summary>
-		public void OneStepWork( MaterialAst material )
-		{
-			// 未连接的情况下，无法发送数据。 
-			if (!IsConnected )
-			{
-				SetNotice("请先连接设备。",false);
-				return;
-			}
-
-			if (IsPreviewing) {
-				SetNotice("正在预览中，无法实时调试。",false);
-				return;
-			}
-
-			byte[] stepBytes = new byte[512];						
-
-			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
-			if (isKeepOtherLights || isSyncMode)
-			{
-				if (LightWrapperList != null)
-				{
-					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-					{
-						StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
-						if (stepWrapper != null)
-						{
-							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-							{
-								int tongdaoIndex = td.Address - 1;
-								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				// 多灯单步				
-				if (IsMultiMode)
-				{
-					int currentStep = getCurrentStep();
-					if (currentStep == 0)
-					{
-						SetNotice("当前多灯编组未选中可用步，无法播放。", false);
-						return;
-					}
-					foreach (int lightIndex in SelectedIndices)
-					{
-						// 取出所有编组灯具的当前步数据。
-						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
-						if (stepWrapper != null)
-						{
-							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-							{
-								int tongdaoIndex = td.Address - 1;
-								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-							}
-						}
-					}
-				}
-				// 单灯单步
-				else
-				{
-					StepWrapper stepWrapper = getCurrentStepWrapper();
-					if (stepWrapper == null)
-					{
-						SetNotice("当前灯具未选中可用步，无法播放。", false);
-						return;
-					}
-					else
-					{
-						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-						{
-							int tongdaoIndex = td.Address - 1;
-							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-						}
-					}
-				}
-			}
-
-			//DOTO : 1217 OneStepWork添加material后，实时生成(基于现有步数据，处理)。
-			//if (material != null)
-			//{
-				//// 多灯单步				
-				//if (IsMultiMode)
-				//{
-
-				//}
-				//else
-				//{
-
-				//}
-			//}
-
-			string tdValueStr = "";
-			if (tdValues != null && tdValues.Count > 0)
-			{
-				tdValueStr += "【";
-				foreach (int tdIndex in tdValues)
-				{
-					tdValueStr += stepBytes[tdIndex] + " ";
-				}
-				tdValueStr += "】";
-			}
-
-			playTools.OLOSView(stepBytes);
-			SetNotice("正在实时调试("+(selectedIndex+1)+")当前步..."+tdValueStr , false);
-		}
-
-		/// <summary>
-		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
-		/// </summary>
-		/// <param name="tdIndex"></param>
-		protected void changeScrollValue(int tdIndex, int tdValue)
-		{
-			// 设tongdaoWrapper的值
-			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[tdIndex].ScrollValue = tdValue;
-
-			if (IsMultiMode) {
-				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
-			}
-
-			// 是否实时单灯单步
-			if (IsConnected && !IsPreviewing)
-			{
-				OneStepWork(null);
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：当通道的三个相关输入框，键盘输入某些按键时，可以对通道或步统一调值；
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void unifyTdKeyPress(object sender, KeyPressEventArgs e)
-		{
-			// 先验证按下的键是否在这些数据中
-			if (!"aAsS".ToCharArray().Contains( e.KeyChar )) { 
-				return;
-			}
-
-			Control control = sender as Control;			
-			List<int> tdIndexList = new List<int>();
-			int startStep,endStep,unifyValue;
-			string msg ;
-
-			// 按a|A时，作用于当前通道所有步
-			if ( e.KeyChar == 'a'  ||  e.KeyChar == 'A')
-			{
-				startStep = 1;
-				endStep = getTotalStep();	 // 因存在输入框，表示步数一定存在，无需验证空指针
-				// 若始末步相同，意味着此操作无意义，直接return
-				if (startStep == endStep) { 
-					return;
-				}
-
-				tdIndexList.Add(MathHelper.GetIndexNum(control.Name, -1));
-				msg = "要将【当前通道所有步】";
-			}
-			//按s|S时，把变化作用于当前步的所有通道
-			else
-			{
-				// 因为存在输入框，表示一定存在StepWrapper及TongdaoList，不需要验证空指针
-				// 若此灯具小于等于(一般不会)一个通道，则此操作无意义，直接return;
-				if ( getCurrentStepWrapper().TongdaoList.Count <= 1)
-				{
-					return;
-				}
-
-				for (int tdIndex = 0; tdIndex < getCurrentStepWrapper().TongdaoList.Count; tdIndex++)
-				{
-					tdIndexList.Add(tdIndex);
-				}				
-				startStep = getCurrentStep();
-				endStep = startStep;
-				msg = "要将【当前步所有通道】";
-			}
-			
-			// 定义where，因为下面会多次使用；
-			WHERE  where = (WHERE)int.Parse( control.Tag.ToString() );
-			if (where == WHERE.SCROLL_VALUE)
-			{
-				NumericUpDown valueNUD = control as NumericUpDown;				
-				unifyValue = decimal.ToInt32(valueNUD.Value);
-				msg += "的通道值都设为【" + unifyValue + "】吗？";
-			}
-			else if (where == WHERE.CHANGE_MODE)
-			{
-				ComboBox cb = control as ComboBox;
-				unifyValue = cb.SelectedIndex;
-				msg += "的跳渐变都设为【" + cb.Text + "】吗？";
-			}
-			else if (where == WHERE.STEP_TIME)
-			{
-				NumericUpDown stNUD = control as NumericUpDown;
-				decimal stepTime = stNUD.Value;
-				unifyValue = decimal.ToInt32(stepTime / EachStepTime2);
-				msg += "的步时间都设为【" + stepTime + "】吗？";
-			}
-			else {
-				SetNotice("错误的Tag。", true);
-				return;
-			}
-
-			// 设置了提示，且用户点击了取消，则return。否则继续往下走
-			if (IsNoticeUnifyTd ) {			
-				if ( DialogResult.Cancel ==  MessageBox.Show(	
-						msg,
-						"通道统一设值",	
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question)) {
-					return;
-				}
-			}
-			
-			SetMultiStepValues(where, tdIndexList, startStep, endStep, 0, unifyValue);
-
-		}
 		
 		#region 获取各种当前（步数、灯具）等的辅助方法
 
@@ -1583,15 +1359,7 @@ namespace LightController.MyForm
 			}					
 			RefreshStep();
 		}
-
-		/// <summary>
-		/// 辅助方法：刷新当前步;
-		/// </summary>
-		public void RefreshStep()
-		{
-			chooseStep(getCurrentStep());
-		}
-
+				
 		/// <summary>
 		/// 9.16 辅助方法：进入多灯模式
 		///		1.取出选中的组长，
@@ -3497,7 +3265,7 @@ namespace LightController.MyForm
 			
 			if (IsConnected && !IsPreviewing )
 			{
-				OneStepWork(null );
+				OneStepPlay(null );
 			}
 		}
 
@@ -3599,58 +3367,8 @@ namespace LightController.MyForm
 
 		#endregion
 
-		#region unifyPanel(Or astPanel)相关
-
-		/// <summary>
-		/// 辅助方法：点击《全部归零》
-		/// </summary>
-		protected void zeroButtonClick()
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-			{				
-				SetNotice("请先选中任意步数，才能进行统一调整！", true);
-				return;
-			}
-
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
-			}
-
-			if (IsMultiMode)
-			{
-				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
-			}
-
-			RefreshStep();
-		}
-
-		/// <summary>
-		/// 辅助方法：点击《设为初值》
-		/// </summary>
-		protected void initButtonClick()
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0) {
-			
-				SetNotice("请先选中任意步数，才能进行统一调整！", true);
-				return;
-			}
-
-			StepWrapper stepMode = getCurrentStepTemplate();
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
-			}
-			if (IsMultiMode)
-			{
-				// 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
-				copyStepToAll(getCurrentStep(), WHERE.SCROLL_VALUE);
-			}
-			RefreshStep();
-		}
-
+		#region astPanel相关
+		
 		/// <summary>
 		/// 辅助方法：点击《多步调节》
 		/// </summary>
@@ -3965,6 +3683,121 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 辅助方法：单(多)灯单步发送DMX512帧数据
+		/// </summary>
+		public void OneStepPlay(MaterialAst material)
+		{
+			// 未连接的情况下，无法发送数据。 
+			if (!IsConnected)
+			{
+				SetNotice("请先连接设备。", false);
+				return;
+			}
+
+			if (IsPreviewing)
+			{
+				SetNotice("正在预览中，无法实时调试。", false);
+				return;
+			}
+
+			byte[] stepBytes = new byte[512];
+
+			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
+			if (isKeepOtherLights || isSyncMode)
+			{
+				if (LightWrapperList != null)
+				{
+					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+					{
+						StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
+						if (stepWrapper != null)
+						{
+							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+							{
+								int tongdaoIndex = td.Address - 1;
+								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// 多灯单步				
+				if (IsMultiMode)
+				{
+					int currentStep = getCurrentStep();
+					if (currentStep == 0)
+					{
+						SetNotice("当前多灯编组未选中可用步，无法播放。", false);
+						return;
+					}
+					foreach (int lightIndex in SelectedIndices)
+					{
+						// 取出所有编组灯具的当前步数据。
+						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
+						if (stepWrapper != null)
+						{
+							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+							{
+								int tongdaoIndex = td.Address - 1;
+								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+							}
+						}
+					}
+				}
+				// 单灯单步
+				else
+				{
+					StepWrapper stepWrapper = getCurrentStepWrapper();
+					if (stepWrapper == null)
+					{
+						SetNotice("当前灯具未选中可用步，无法播放。", false);
+						return;
+					}
+					else
+					{
+						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+						{
+							int tongdaoIndex = td.Address - 1;
+							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+						}
+					}
+				}
+			}
+
+			//DOTO : 1217 OneStepPlay添加material后，实时生成(基于现有步数据，处理)。
+			if (material != null)
+			{
+				// 多灯单步				
+				if (IsMultiMode)
+				{
+					
+
+				}
+				// 单灯单步
+				else
+				{
+
+				}
+			}
+
+			string tdValueStr = "";
+			if (tdValues != null && tdValues.Count > 0)
+			{
+				tdValueStr += "【";
+				foreach (int tdIndex in tdValues)
+				{
+					tdValueStr += stepBytes[tdIndex] + " ";
+				}
+				tdValueStr += "】";
+			}
+
+			playTools.OLOSView(stepBytes);
+			SetNotice("正在实时调试(" + (selectedIndex + 1) + ")当前步..." + tdValueStr, false);
+		}
+		
+		/// <summary>
 		/// 辅助方法：点击《预览效果》
 		/// </summary>
 		internal void Preview()
@@ -4246,6 +4079,135 @@ namespace LightController.MyForm
 
 		#endregion
 
+		#region 通用方法
+
+		/// <summary>
+		/// 辅助方法：刷新当前步;
+		/// </summary>
+		public void RefreshStep()
+		{
+			chooseStep(getCurrentStep());
+		}
+
+		/// <summary>
+		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
+		/// </summary>
+		/// <param name="tdIndex"></param>
+		protected void changeScrollValue(int tdIndex, int tdValue)
+		{
+			// 设tongdaoWrapper的值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[tdIndex].ScrollValue = tdValue;
+
+			if (IsMultiMode)
+			{
+				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
+			}
+
+			// 是否实时单灯单步
+			if (IsConnected && !IsPreviewing)
+			{
+				OneStepPlay(null);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：当通道的三个相关输入框，键盘输入某些按键时，可以对通道或步统一调值；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void unifyTdKeyPress(object sender, KeyPressEventArgs e)
+		{
+			// 先验证按下的键是否在这些数据中
+			if (!"aAsS".ToCharArray().Contains(e.KeyChar))
+			{
+				return;
+			}
+
+			Control control = sender as Control;
+			List<int> tdIndexList = new List<int>();
+			int startStep, endStep, unifyValue;
+			string msg;
+
+			// 按a|A时，作用于当前通道所有步
+			if (e.KeyChar == 'a' || e.KeyChar == 'A')
+			{
+				startStep = 1;
+				endStep = getTotalStep();    // 因存在输入框，表示步数一定存在，无需验证空指针
+											 // 若始末步相同，意味着此操作无意义，直接return
+				if (startStep == endStep)
+				{
+					return;
+				}
+
+				tdIndexList.Add(MathHelper.GetIndexNum(control.Name, -1));
+				msg = "要将【当前通道所有步】";
+			}
+			//按s|S时，把变化作用于当前步的所有通道
+			else
+			{
+				// 因为存在输入框，表示一定存在StepWrapper及TongdaoList，不需要验证空指针
+				// 若此灯具小于等于(一般不会)一个通道，则此操作无意义，直接return;
+				if (getCurrentStepWrapper().TongdaoList.Count <= 1)
+				{
+					return;
+				}
+
+				for (int tdIndex = 0; tdIndex < getCurrentStepWrapper().TongdaoList.Count; tdIndex++)
+				{
+					tdIndexList.Add(tdIndex);
+				}
+				startStep = getCurrentStep();
+				endStep = startStep;
+				msg = "要将【当前步所有通道】";
+			}
+
+			// 定义where，因为下面会多次使用；
+			WHERE where = (WHERE)int.Parse(control.Tag.ToString());
+			if (where == WHERE.SCROLL_VALUE)
+			{
+				NumericUpDown valueNUD = control as NumericUpDown;
+				unifyValue = decimal.ToInt32(valueNUD.Value);
+				msg += "的通道值都设为【" + unifyValue + "】吗？";
+			}
+			else if (where == WHERE.CHANGE_MODE)
+			{
+				ComboBox cb = control as ComboBox;
+				unifyValue = cb.SelectedIndex;
+				msg += "的跳渐变都设为【" + cb.Text + "】吗？";
+			}
+			else if (where == WHERE.STEP_TIME)
+			{
+				NumericUpDown stNUD = control as NumericUpDown;
+				decimal stepTime = stNUD.Value;
+				unifyValue = decimal.ToInt32(stepTime / EachStepTime2);
+				msg += "的步时间都设为【" + stepTime + "】吗？";
+			}
+			else
+			{
+				SetNotice("错误的Tag。", true);
+				return;
+			}
+
+			// 设置了提示，且用户点击了取消，则return。否则继续往下走
+			if (IsNoticeUnifyTd)
+			{
+				if (DialogResult.Cancel == MessageBox.Show(
+						msg,
+						"通道统一设值",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question))
+				{
+					return;
+				}
+			}
+
+			SetMultiStepValues(where, tdIndexList, startStep, endStep, 0, unifyValue);
+
+		}
+
+		#endregion
+
 		#region 委托的成功或方法块 
 
 		/// <summary>
@@ -4281,8 +4243,7 @@ namespace LightController.MyForm
 			});
 		}
 		
-		#endregion
-	
+		#endregion	
 		
 	}
 

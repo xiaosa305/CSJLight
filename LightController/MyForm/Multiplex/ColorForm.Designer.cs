@@ -50,6 +50,7 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.clearButton = new System.Windows.Forms.Button();
 			this.colorPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).BeginInit();
@@ -182,9 +183,9 @@
 			this.label19.AutoSize = true;
 			this.label19.Location = new System.Drawing.Point(14, 176);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(47, 12);
+			this.label19.Size = new System.Drawing.Size(65, 12);
 			this.label19.TabIndex = 66;
-			this.label19.Text = "步时间:";
+			this.label19.Text = "步时间(S):";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// editButton
@@ -231,6 +232,7 @@
 			this.enterButton.TabIndex = 75;
 			this.enterButton.Text = "应用\r\n颜色变化";
 			this.enterButton.UseVisualStyleBackColor = true;
+			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
 			// previewButton
 			// 
@@ -263,6 +265,16 @@
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// clearButton
+			// 
+			this.clearButton.Location = new System.Drawing.Point(169, 22);
+			this.clearButton.Name = "clearButton";
+			this.clearButton.Size = new System.Drawing.Size(38, 45);
+			this.clearButton.TabIndex = 72;
+			this.clearButton.Text = "清空";
+			this.clearButton.UseVisualStyleBackColor = true;
+			this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+			// 
 			// ColorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -275,6 +287,7 @@
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.previewButton);
 			this.Controls.Add(this.astPanel);
+			this.Controls.Add(this.clearButton);
 			this.Controls.Add(this.deleteButton);
 			this.Controls.Add(this.tgNUD);
 			this.Controls.Add(this.label21);
@@ -325,5 +338,6 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.ToolTip myToolTip;
+		private System.Windows.Forms.Button clearButton;
 	}
 }

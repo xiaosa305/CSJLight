@@ -72,7 +72,7 @@ namespace LightController.MyForm.Multiplex
 				return;
 			}
 
-			Console.WriteLine(myColorDialog.Color.R + myColorDialog.Color.G + myColorDialog.Color.B);
+			Console.WriteLine(myColorDialog.Color.R + " - " + myColorDialog.Color.G + " - " + myColorDialog.Color.B);
 			Panel colorPanel = new Panel()
 			{
 				Size = colorPanelDemo.Size,
@@ -110,7 +110,10 @@ namespace LightController.MyForm.Multiplex
 			colorPanel.Controls.Add(cmCB);
 
 			colorFLP.Controls.Add(colorPanel);
-			stepCount = colorFLP.Controls.Count - 1;
+			selectedPanelIndex = colorFLP.Controls.IndexOf(colorPanel);
+
+			selectPanel();
+			
 		}
 
 		/// <summary>
@@ -119,30 +122,37 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void colorPanel_Click(object sender, EventArgs e)
-		{
-			Panel colorPanel = sender as Panel;			
-
-			selectedPanelIndex = colorFLP.Controls.IndexOf(colorPanel) ;
-			astPanel.BackColor = colorPanel.BackColor;
-			astLabel.Text = "第"+selectedPanelIndex+"步";
-
-			refreshButtons();
-
-			//DOTO : 1218 单灯单步+使用素材；
-			if (mainForm.IsConnected && ! mainForm.IsPreviewing ) {
-				if (generateSingleMaterial()) {					
-					mainForm.OneStepPlay(material);
-				}	 
-			}
+		{	
+			selectedPanelIndex = colorFLP.Controls.IndexOf(sender as Panel) ;
+			selectPanel();
 		}
 
 		/// <summary>
-		/// 辅助方法：根据当前选中的colorPanel，来确认几个按键的可用性；
+		/// 辅助方法：更改selectedPanelIndex后，刷新相应的一些控件；
 		/// </summary>
-		private void refreshButtons()
+		private void selectPanel( )
 		{
+			astPanel.BackColor = selectedPanelIndex > 0 ? (colorFLP.Controls[selectedPanelIndex] as Panel).BackColor : Color.MintCream;
+			astLabel.Text = selectedPanelIndex > 0 ?  "第" + selectedPanelIndex + "步" : "未选中步";
 			editButton.Enabled = selectedPanelIndex > 0;
 			deleteButton.Enabled = selectedPanelIndex > 0;
+			stepCount = colorFLP.Controls.Count - 1;
+
+			oneStepPlay();
+		}
+
+		/// <summary>
+		/// 辅助方法：根据当前色块，直接在灯具上显示颜色
+		/// </summary>
+		private void oneStepPlay()
+		{
+			Console.WriteLine("one step play");
+			//DOTO : 1218 单灯单步+使用素材；
+			if (mainForm.IsConnected && !mainForm.IsPreviewing)
+			{
+				generateSingleMaterial();
+				mainForm.OneStepPlay( material );				
+			}
 		}
 
 		/// <summary>
@@ -161,6 +171,7 @@ namespace LightController.MyForm.Multiplex
 			}
 
 			colorFLP.Controls[selectedPanelIndex].BackColor = myColorDialog.Color;
+			oneStepPlay();
 		}
 
 		/// <summary>
@@ -170,15 +181,26 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			colorFLP.Controls.RemoveAt(selectedPanelIndex);
+			colorFLP.Controls.RemoveAt(selectedPanelIndex);			
 			selectedPanelIndex = -1;
-			stepCount = colorFLP.Controls.Count - 1;
+			
+			selectPanel();	
+			
+		}
 
-			astPanel.BackColor = Color.MintCream;
-			astLabel.ForeColor = Color.Black;
-			astLabel.Text = "未选中步";
+		/// <summary>
+		/// 事件：点击《清空(色块)》按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void clearButton_Click(object sender, EventArgs e)
+		{
+			for (int panelIndex = colorFLP.Controls.Count - 1; panelIndex > 0 ; panelIndex--) {
+				colorFLP.Controls.RemoveAt(panelIndex);
+			}			
+			selectedPanelIndex = -1;
 
-			refreshButtons();
+			selectPanel();
 		}
 
 		/// <summary>
@@ -242,12 +264,13 @@ namespace LightController.MyForm.Multiplex
 		/// 辅助方法：生成单个颜色的【素材】
 		/// </summary>
 		/// <returns></returns>
-		private bool generateSingleMaterial() {
+		private void generateSingleMaterial() {
 
 			if (selectedPanelIndex <= 0)
 			{
-				setNotice("请先选择色块，再进行单色预览。", true);
-				return false;
+				setNotice("尚未选择色块。", false);
+				material = null;
+				return;
 			}
 
 			tongdaoList = new TongdaoWrapper[1, tongdaoCount];
@@ -268,8 +291,6 @@ namespace LightController.MyForm.Multiplex
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList,
 			};
-
-			return true;
 		}
 
 		#region 调节总调光
@@ -286,6 +307,9 @@ namespace LightController.MyForm.Multiplex
 			tgNUD.ValueChanged -= tgNUD_ValueChanged;
 			tgNUD.Value = tBar.Value;
 			tgNUD.ValueChanged += tgNUD_ValueChanged;
+
+			oneStepPlay();
+
 		}
 
 		/// <summary>
@@ -299,6 +323,8 @@ namespace LightController.MyForm.Multiplex
 			tgTrackBar.ValueChanged -= tgTrackBar_ValueChanged;
 			tgTrackBar.Value = decimal.ToInt32(nud.Value);
 			tgTrackBar.ValueChanged += tgTrackBar_ValueChanged;
+
+			oneStepPlay();
 		}
 
 		#endregion
@@ -350,8 +376,18 @@ namespace LightController.MyForm.Multiplex
 				MessageBox.Show(msg);
 			}
 		}
-		
+
+
 		#endregion
-				
+
+		/// <summary>
+		/// 事件：点击《应用颜色变化》按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void enterButton_Click(object sender, EventArgs e)
+		{
+			Console.WriteLine(colorFLP.Controls.Count);
+		}
 	}
 }

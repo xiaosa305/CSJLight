@@ -3688,100 +3688,51 @@ namespace LightController.MyForm
 		public void OneStepPlay(MaterialAst material)
 		{
 			// 未连接的情况下，无法发送数据。 
-			if (!IsConnected)
+			if (!IsConnected || IsPreviewing)
 			{
-				SetNotice("请先连接设备。", false);
-				return;
-			}
-
-			if (IsPreviewing)
-			{
-				SetNotice("正在预览中，无法实时调试。", false);
+				SetNotice("未连接设备或正在预览中，无法实时调试。", false);
 				return;
 			}
 
 			byte[] stepBytes = new byte[512];
+			int currentStep = getCurrentStep();
 
-			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
-			if (isKeepOtherLights || isSyncMode)
-			{
-				if (LightWrapperList != null)
+			for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++) {
+
+				if (lightIndex == selectedIndex // 当前灯具一定会动
+					|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
+					|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
+					|| isSyncMode  // 同步状态下，所有灯一起动
+					)
 				{
-					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-					{
-						StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
-						if (stepWrapper != null)
-						{
-							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-							{
-								int tongdaoIndex = td.Address - 1;
-								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				// 多灯单步				
-				if (IsMultiMode)
-				{
-					int currentStep = getCurrentStep();
-					if (currentStep == 0)
-					{
-						SetNotice("当前多灯编组未选中可用步，无法播放。", false);
-						return;
-					}
-					foreach (int lightIndex in SelectedIndices)
-					{
-						// 取出所有编组灯具的当前步数据。
-						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
-						if (stepWrapper != null)
-						{
-							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-							{
-								int tongdaoIndex = td.Address - 1;
-								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-							}
-						}
-					}
-				}
-				// 单灯单步
-				else
-				{
-					StepWrapper stepWrapper = getCurrentStepWrapper();
-					if (stepWrapper == null)
-					{
-						SetNotice("当前灯具未选中可用步，无法播放。", false);
-						return;
-					}
-					else
+					StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
+					if (stepWrapper != null)
 					{
 						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
 						{
-							int tongdaoIndex = td.Address - 1;
-							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+							stepBytes[td.Address - 1] = (byte)td.ScrollValue;			
 						}
 					}
 				}
 			}
 
-			//DOTO : 1217 OneStepPlay添加material后，实时生成(基于现有步数据，处理)。
+			//DOTO : 1219 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
 			if (material != null)
 			{
-				// 多灯单步				
-				if (IsMultiMode)
+				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 				{
-					
+					if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex) ){
 
-				}
-				// 单灯单步
-				else
-				{
-
+						IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+						foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+						{
+							stepBytes[ tdList[ mi.CurrentTDIndex].Address - 1 ] =(byte) material.TongdaoList[0, mi.MaterialTDIndex].ScrollValue ;
+						}						
+					}
 				}
 			}
 
+			// DOTO :  1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
 			string tdValueStr = "";
 			if (tdValues != null && tdValues.Count > 0)
 			{
@@ -3794,7 +3745,7 @@ namespace LightController.MyForm
 			}
 
 			playTools.OLOSView(stepBytes);
-			SetNotice("正在实时调试(" + (selectedIndex + 1) + ")当前步..." + tdValueStr, false);
+			SetNotice("正在实时调试(" + (selectedIndex + 1) + ")第"+currentStep+"步" + tdValueStr ,false);
 		}
 		
 		/// <summary>

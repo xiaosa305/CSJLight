@@ -108,13 +108,14 @@
 			this.cmCBDemo.TabIndex = 1;
 			this.cmCBDemo.Text = "渐变";
 			this.cmCBDemo.UseVisualStyleBackColor = false;
+			this.cmCBDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmCheckBox_KeyPress);
 			// 
 			// stNUDDemo
 			// 
 			this.stNUDDemo.DecimalPlaces = 2;
 			this.stNUDDemo.Location = new System.Drawing.Point(4, 92);
 			this.stNUDDemo.Maximum = new decimal(new int[] {
-            10,
+            250,
             0,
             0,
             0});
@@ -122,6 +123,7 @@
 			this.stNUDDemo.Size = new System.Drawing.Size(50, 21);
 			this.stNUDDemo.TabIndex = 0;
 			this.stNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.stNUD_KeyPress);
 			// 
 			// tgNUD
 			// 

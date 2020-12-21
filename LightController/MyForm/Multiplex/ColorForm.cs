@@ -92,11 +92,12 @@ namespace LightController.MyForm.Multiplex
 				Size = stNUDDemo.Size,
 				TextAlign = stNUDDemo.TextAlign,
 				DecimalPlaces = stNUDDemo.DecimalPlaces,
-				Maximum = MainFormBase.MAX_STEP * eachStepTime,
+				Maximum = stNUDDemo.Maximum * eachStepTime,
 				Increment = eachStepTime,
 				Value = mainForm.EachStepTime2 * commonStepTime
 			};
 			stNUD.MouseWheel += someNUD_MouseWheel;
+			stNUD.KeyPress += stNUD_KeyPress ;  
 
 			CheckBox cmCB = new CheckBox()
 			{
@@ -108,6 +109,7 @@ namespace LightController.MyForm.Multiplex
 				ForeColor = cmCBDemo.ForeColor,
 				BackColor = cmCBDemo.BackColor,				
 			};
+			cmCB.KeyPress += cmCheckBox_KeyPress;
 
 			colorPanel.Controls.Add(stNUD);
 			colorPanel.Controls.Add(cmCB);
@@ -208,7 +210,11 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine(colorFLP.Controls.Count);
+			if (generateComplexMaterial()) {
+				mainForm.InsertOrCoverMaterial(material, InsertMethod.INSERT);
+				Hide();
+				mainForm.Activate();
+			}			
 		}
 
 		/// <summary>
@@ -224,6 +230,7 @@ namespace LightController.MyForm.Multiplex
 			stepCount = colorFLP.Controls.Count - 1;
 			clearButton.Enabled = stepCount > 0;
 			previewButton.Enabled = mainForm.IsConnected && (mainForm.IsPreviewing || stepCount>0 ); // 必须是连接模式；如果正在预览中则一直可用；否则需要判断是否有色块
+			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览";
 
 			oneStepPlay(); //selectColorPanel
 		}
@@ -317,7 +324,69 @@ namespace LightController.MyForm.Multiplex
 			};
 		}
 
-		#region 调节总调光
+		#region 调节总调光 及 统一设值相关
+
+		/// <summary>
+		/// 事件：《步时间NUD》的键盘点击事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void stNUD_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (stepCount > 1 &&  (e.KeyChar == 'a' || e.KeyChar == 'A') ) {
+
+				decimal unifySt = (sender as NumericUpDown).Value;
+
+				// 设置了提示，且用户点击了取消，则return。否则继续往下走
+				if (mainForm.IsNoticeUnifyTd)
+				{
+					if (DialogResult.Cancel == MessageBox.Show(
+							"确定要将所有步时间都设为【"+ unifySt + " S】吗",
+							"统一步时间",
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question))
+					{
+						return;
+					}
+				}
+
+				for (int controlIndex = 1; controlIndex < colorFLP.Controls.Count; controlIndex++) {
+					( (colorFLP.Controls[controlIndex] as Panel).Controls[0] as NumericUpDown ).Value =unifySt;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：《跳渐变复选框》的键盘点击事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cmCheckBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (stepCount > 1 && (e.KeyChar == 'a' || e.KeyChar == 'A'))
+			{
+				bool unifyCM = (sender as CheckBox).Checked;
+				string cmStr= unifyCM ? "渐变" : "跳变";
+
+				// 设置了提示，且用户点击了取消，则return。否则继续往下走
+				if (mainForm.IsNoticeUnifyTd)
+				{
+					if (DialogResult.Cancel == MessageBox.Show(
+							"确定要将所有跳渐变都设为【" + cmStr + "】吗",
+							"统一跳渐变",
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question))
+					{
+						return;
+					}
+				}
+
+				for (int controlIndex = 1; controlIndex < colorFLP.Controls.Count; controlIndex++)
+				{
+					((colorFLP.Controls[controlIndex] as Panel).Controls[1] as CheckBox).Checked = unifyCM;
+				}
+			}
+		}
 
 		/// <summary>
 		/// 事件：(总)调光滑动杆值发生变化
@@ -445,13 +514,18 @@ namespace LightController.MyForm.Multiplex
 		{
 			if (mainForm.IsConnected) {
 				if (mainForm.IsPreviewing)
-				{
+				{					
 					mainForm.PreviewButtonClick(null);
+					previewButton.Text = "预览";
 				}
 				else {
 					mainForm.OneStepPlay(null);
 				}
 			}
 		}
+
+
+
+		
 	}
 }

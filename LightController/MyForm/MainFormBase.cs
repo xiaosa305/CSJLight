@@ -3756,7 +3756,7 @@ namespace LightController.MyForm
 				}
 			}
 
-			//DOTO : 1219 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
+			//MARK : 1219 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
 			if (material != null)
 			{
 				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
@@ -3772,7 +3772,7 @@ namespace LightController.MyForm
 				}
 			}
 
-			//DOTO : 1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
+			//MARK : 1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
 			string tdValueStr = "";
 			if (tdValues != null && tdValues.Count > 0)
 			{
@@ -4009,7 +4009,7 @@ namespace LightController.MyForm
 			NETWORK_WAITTIME = iniHelper.GetSystemCount( "waitTime",1000);
 			DefaultSoundCM = iniHelper.GetSystemCount("soundChangeMode", 0);
 
-			//DOTO : 1218 添加对单步运行时某些步数据是否显示的处理
+			//MARK : 1218 添加对单步运行时某些步数据是否显示的处理
 			try
 			{
 				string tdStr = iniHelper.ReadString("Show", "tdValues", "");

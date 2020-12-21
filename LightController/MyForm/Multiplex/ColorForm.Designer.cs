@@ -237,6 +237,7 @@
 			// previewButton
 			// 
 			this.previewButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.previewButton.Enabled = false;
 			this.previewButton.Location = new System.Drawing.Point(14, 270);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(75, 37);
@@ -302,6 +303,7 @@
 			this.Name = "ColorForm";
 			this.Text = "快速调色";
 			this.Activated += new System.EventHandler(this.ColorForm_Activated);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ColorForm_FormClosed);
 			this.Load += new System.EventHandler(this.ColorForm_Load);
 			this.colorPanelDemo.ResumeLayout(false);
 			this.colorPanelDemo.PerformLayout();

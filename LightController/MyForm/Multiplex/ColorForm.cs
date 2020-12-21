@@ -31,6 +31,7 @@ namespace LightController.MyForm.Multiplex
 			InitializeComponent();
 
 			tgNUD.MouseWheel += someNUD_MouseWheel;
+			tgTrackBar.MouseWheel += someTrackBar_MouseWheel;
 
 		}
 
@@ -58,7 +59,9 @@ namespace LightController.MyForm.Multiplex
 					stNUD.Value = mainForm.EachStepTime2 * oldValue ; 
 				}
 				eachStepTime = mainForm.EachStepTime2;
-			}			
+			}
+
+			selectColorPanel(); //ColorForm_Activated
 		}
 
 		/// <summary>
@@ -112,48 +115,8 @@ namespace LightController.MyForm.Multiplex
 			colorFLP.Controls.Add(colorPanel);
 			selectedPanelIndex = colorFLP.Controls.IndexOf(colorPanel);
 
-			selectPanel();
-			
-		}
+			selectColorPanel(); //addButton_Click
 
-		/// <summary>
-		/// 事件：点击《色块(Panel)》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void colorPanel_Click(object sender, EventArgs e)
-		{	
-			selectedPanelIndex = colorFLP.Controls.IndexOf(sender as Panel) ;
-			selectPanel();
-		}
-
-		/// <summary>
-		/// 辅助方法：更改selectedPanelIndex后，刷新相应的一些控件；
-		/// </summary>
-		private void selectPanel( )
-		{
-			astPanel.BackColor = selectedPanelIndex > 0 ? (colorFLP.Controls[selectedPanelIndex] as Panel).BackColor : Color.MintCream;
-			astLabel.Text = selectedPanelIndex > 0 ?  "第" + selectedPanelIndex + "步" : "未选中步";
-			stepCount = colorFLP.Controls.Count - 1;
-			editButton.Enabled = selectedPanelIndex > 0;
-			deleteButton.Enabled = selectedPanelIndex > 0;
-			clearButton.Enabled = stepCount > 0;
-
-			oneStepPlay();
-		}
-
-		/// <summary>
-		/// 辅助方法：根据当前色块，直接在灯具上显示颜色
-		/// </summary>
-		private void oneStepPlay()
-		{
-			Console.WriteLine("one step play");
-			//DOTO : 1218 单灯单步+使用素材；
-			if (mainForm.IsConnected && !mainForm.IsPreviewing)
-			{
-				generateSingleMaterial();
-				mainForm.OneStepPlay( material );				
-			}
 		}
 
 		/// <summary>
@@ -164,15 +127,15 @@ namespace LightController.MyForm.Multiplex
 		private void editButton_Click(object sender, EventArgs e)
 		{
 			Color selectedColor = colorFLP.Controls[selectedPanelIndex].BackColor;
-			myColorDialog.Color = selectedColor;
+			myColorDialog.Color = selectedColor;  // 把选中色块的颜色，放给myColorDialog
 
 			if (DialogResult.Cancel == myColorDialog.ShowDialog())
 			{
 				return;
 			}
-
 			colorFLP.Controls[selectedPanelIndex].BackColor = myColorDialog.Color;
-			oneStepPlay();
+			
+			selectColorPanel(); //editButton_Click
 		}
 
 		/// <summary>
@@ -182,11 +145,11 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			colorFLP.Controls.RemoveAt(selectedPanelIndex);			
+			colorFLP.Controls.RemoveAt(selectedPanelIndex);
 			selectedPanelIndex = -1;
-			
-			selectPanel();	
-			
+
+			selectColorPanel(); //deleteButton_Click
+
 		}
 
 		/// <summary>
@@ -196,27 +159,87 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void clearButton_Click(object sender, EventArgs e)
 		{
-			for (int panelIndex = colorFLP.Controls.Count - 1; panelIndex > 0 ; panelIndex--) {
+			for (int panelIndex = colorFLP.Controls.Count - 1; panelIndex > 0; panelIndex--)
+			{
 				colorFLP.Controls.RemoveAt(panelIndex);
-			}			
+			}
 			selectedPanelIndex = -1;
 
-			selectPanel();
+			selectColorPanel(); //clearButton_Click
 		}
 
+		/// <summary>
+		/// 事件：点击《色块(Panel)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void colorPanel_Click(object sender, EventArgs e)
+		{	
+			selectedPanelIndex = colorFLP.Controls.IndexOf(sender as Panel) ;
+			selectColorPanel(); //colorPanel_Click
+		}
+		
 		/// <summary>
 		/// 事件：点击《预览》按键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e){
-
-			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
-			if ( generateComplexMaterial() ) {
+					   
+			// 如果正在预览中，则停止预览（不需生成material）
+			if (mainForm.IsPreviewing)
+			{
+				mainForm.PreviewButtonClick(null);
+				previewButton.Text = "预览";
+				// 停止预览后，恢复 单色显示(并在里面集成previewButton是否可用的代码)
+				selectColorPanel();  //previewButton_Click-->点击停止预览后
+			}
+			else if( generateComplexMaterial() ) {
 				mainForm.PreviewButtonClick(material);
-			}	
+				previewButton.Text = "停止预览";			
+			}		
+			
 		}
-		
+
+		/// <summary>
+		/// 事件：点击《应用颜色变化》按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void enterButton_Click(object sender, EventArgs e)
+		{
+			Console.WriteLine(colorFLP.Controls.Count);
+		}
+
+		/// <summary>
+		/// 辅助方法：更改selectedPanelIndex后，刷新相应的一些控件；
+		/// </summary>
+		private void selectColorPanel()
+		{
+			astPanel.BackColor = selectedPanelIndex > 0 ? (colorFLP.Controls[selectedPanelIndex] as Panel).BackColor : Color.MintCream;
+			astLabel.Text = selectedPanelIndex > 0 ? "第" + selectedPanelIndex + "步" : "未选中步";			
+			editButton.Enabled = selectedPanelIndex > 0;
+			deleteButton.Enabled = selectedPanelIndex > 0;
+
+			stepCount = colorFLP.Controls.Count - 1;
+			clearButton.Enabled = stepCount > 0;
+			previewButton.Enabled = mainForm.IsConnected && (mainForm.IsPreviewing || stepCount>0 ); // 必须是连接模式；如果正在预览中则一直可用；否则需要判断是否有色块
+
+			oneStepPlay(); //selectColorPanel
+		}
+
+		/// <summary>
+		/// 辅助方法：根据当前色块，直接在灯具上显示颜色(已连接且非预览中)
+		/// </summary>
+		private void oneStepPlay()
+		{
+			if (mainForm.IsConnected && !mainForm.IsPreviewing)
+			{
+				generateSingleMaterial(); // 若未选中色块，则material = null,此时mainForm会直接跑原来的步数据
+				mainForm.OneStepPlay(material);
+			}
+		}
+
 		/// <summary>
 		/// 辅助方法：生成所有颜色组合的【素材】
 		/// </summary>
@@ -309,7 +332,7 @@ namespace LightController.MyForm.Multiplex
 			tgNUD.Value = tBar.Value;
 			tgNUD.ValueChanged += tgNUD_ValueChanged;
 
-			oneStepPlay();
+			oneStepPlay(); //tgTrackBar_ValueChanged
 
 		}
 
@@ -325,7 +348,7 @@ namespace LightController.MyForm.Multiplex
 			tgTrackBar.Value = decimal.ToInt32(nud.Value);
 			tgTrackBar.ValueChanged += tgTrackBar_ValueChanged;
 
-			oneStepPlay();
+			oneStepPlay(); //tgNUD_ValueChanged
 		}
 
 		#endregion
@@ -364,7 +387,40 @@ namespace LightController.MyForm.Multiplex
 				}
 			}
 		}
-			   
+
+		/// <summary>
+		///  验证：对某些TrackBar进行鼠标滚轮的验证，避免一次性滚动过多（与OS设置有关）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someTrackBar_MouseWheel(object sender, MouseEventArgs e) {
+
+			TrackBar tb = sender as TrackBar;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true; //设为true则屏蔽之后系统自行处理的操作（就是原来加3(Win10)之类的操作）
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				int dd = tb.Value + tb.SmallChange;
+				if (dd <= tb.Maximum)
+				{
+					tb.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				int dd = tb.Value - tb.SmallChange;
+				if (dd >= tb.Minimum)
+				{
+					tb.Value = dd;
+				}
+			}
+		}
+
 		/// <summary>
 		/// 辅助方法：显示提示
 		/// </summary>
@@ -378,17 +434,24 @@ namespace LightController.MyForm.Multiplex
 			}
 		}
 
-
 		#endregion
 
 		/// <summary>
-		/// 事件：点击《应用颜色变化》按键
+		/// 事件：关闭窗口时：若正在预览中，则停止预览(点击按键一次);若非预览中，则恢复到当前步（用OneStepPlay 或 RefreshStep【这个方法过于完整，不考虑】 ）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void enterButton_Click(object sender, EventArgs e)
+		private void ColorForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			Console.WriteLine(colorFLP.Controls.Count);
+			if (mainForm.IsConnected) {
+				if (mainForm.IsPreviewing)
+				{
+					mainForm.PreviewButtonClick(null);
+				}
+				else {
+					mainForm.OneStepPlay(null);
+				}
+			}
 		}
 	}
 }

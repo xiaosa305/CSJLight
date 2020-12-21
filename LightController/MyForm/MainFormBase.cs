@@ -2980,12 +2980,52 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void colorButtonClick()
 		{
+			//检查是否有RGB及总调光；
+			if (!checkRGB())
+			{
+				SetNotice("检测到当前灯具无RGB或总调光通道，无法使用快速调色功能。", true);
+				return;
+			}
+
+			// 若正在预览，则先停止预览
+			if (IsPreviewing)
+			{
+				PreviewButtonClick(null);
+			}
+
 			if (colorForm == null)
 			{
 				colorForm = new ColorForm(this);
 			}
 			colorForm.ShowDialog();
 		}
+
+		/// <summary>
+		/// 辅助方法：监测当前灯具是否存在RGB及总调光
+		/// </summary>
+		/// <returns></returns>
+		protected bool checkRGB() {
+			try
+			{
+				int existCount = 0;
+				string[] rgbStrList = { "总调光", "红", "绿", "蓝" };
+				IList<TongdaoWrapper> tongdaoList = LightWrapperList[selectedIndex].StepTemplate.TongdaoList;
+				foreach (TongdaoWrapper td in tongdaoList)
+				{
+					if (rgbStrList .Contains( td.TongdaoName) )
+					{
+						existCount ++;
+					}
+				}
+				return existCount == 4;
+			}
+			catch (Exception ex)
+			{
+				SetNotice("监测是否RGB灯具时发生异常:"+ex.Message, true);
+				return false;
+			}	
+
+	}
 
 		/// <summary>
 		/// 辅助方法：点击《复制步》
@@ -3732,7 +3772,7 @@ namespace LightController.MyForm
 				}
 			}
 
-			// DOTO :  1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
+			//DOTO : 1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
 			string tdValueStr = "";
 			if (tdValues != null && tdValues.Count > 0)
 			{

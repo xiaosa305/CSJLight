@@ -81,92 +81,6 @@ namespace LightController.Utils.Ver2
             }
         }
 
-        public void PreviewFileBuild(DBWrapper wrapper,string configPath,int sceneNo,Completed completed,Error error)
-        {
-            try
-            {
-                if (!TaskStatus)
-                {
-                    this.Stopwatch = new Stopwatch();
-                    this.Stopwatch.Start();
-                    GlobalBean global = new GlobalBean(configPath, wrapper.lightList);
-                    this.InitParam();
-                    this.ClearPreviewCacheDir();
-                    this.ClearPreviewDir();
-                    this.TaskStatus = true;
-                    this.Completed_Event = completed;
-                    this.Error_Event = error;
-                    Dictionary<int, List<DB_Value>> cValues = new Dictionary<int, List<DB_Value>>();
-                    Dictionary<int, List<DB_Value>> mValues = new Dictionary<int, List<DB_Value>>();
-                    for (int valueIndex = 0; valueIndex < wrapper.valueList.Count; valueIndex++)
-                    {
-                        if (wrapper.valueList[valueIndex].PK.Frame == sceneNo)
-                        {
-                            switch (wrapper.valueList[valueIndex].PK.Mode)
-                            {
-                                case ChannelDataBean.MODE_C:
-                                    if (wrapper.valueList[valueIndex].ChangeMode != ChannelDataBean.MODE_C_HIDDEN)
-                                    {
-                                        if (!cValues.ContainsKey(wrapper.valueList[valueIndex].PK.LightID))
-                                        {
-                                            cValues.Add(wrapper.valueList[valueIndex].PK.LightID, new List<DB_Value>());
-                                        }
-                                        cValues[wrapper.valueList[valueIndex].PK.LightID].Add(wrapper.valueList[valueIndex]);
-                                    }
-                                    break;
-                                case ChannelDataBean.MODE_M:
-                                    if (wrapper.valueList[valueIndex].ChangeMode != ChannelDataBean.MODE_M_HIDDEN)
-                                    {
-                                        if (!mValues.ContainsKey(wrapper.valueList[valueIndex].PK.LightID))
-                                        {
-                                            mValues.Add(wrapper.valueList[valueIndex].PK.LightID, new List<DB_Value>());
-                                        }
-                                        mValues[wrapper.valueList[valueIndex].PK.LightID].Add(wrapper.valueList[valueIndex]);
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                    if (cValues.Count != 0)
-                    {
-                        foreach (KeyValuePair<int, List<DB_Value>> item in cValues)
-                        {
-                            lock (this.BasicTaskStatus)
-                            {
-                                this.BasicTaskStatus.Add(item.Key + 0, false);
-                            }
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item, 0 + sceneNo, Mode.Basics, global));
-                        }
-                    }
-                    else
-                    {
-                        this.BasicStatus = true;
-                        this.Complected();
-                    }
-                    if (mValues.Count != 0)
-                    {
-                        foreach (KeyValuePair<int, List<DB_Value>> item in mValues)
-                        {
-                            lock (this.MusicTaskStatus)
-                            {
-                                this.MusicTaskStatus.Add(item.Key + 0, false);
-                            }
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item, 0 + sceneNo, Mode.Music, global));
-                        }
-                    }
-                    else
-                    {
-                        this.MusicStatus = true;
-                        this.Complected();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Error(ex);
-            }
-        }
-
         public void PreviewFileBuild(DBWrapper wrapper, GlobalBean global, int sceneNo, Completed completed, Error error)
         {
             try
@@ -216,11 +130,23 @@ namespace LightController.Utils.Ver2
                     {
                         foreach (KeyValuePair<int, List<DB_Value>> item in cValues)
                         {
+                            bool isFineTune = false;
+                            int fineTuneMaxValue = 0;
+                            List<DB_Value> data = item.Value;
                             lock (this.BasicTaskStatus)
                             {
                                 this.BasicTaskStatus.Add(item.Key + 0, false);
                             }
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item, sceneNo + 0, Mode.Basics, global));
+                            for (int i = 0; i < wrapper.fineTuneList.Count; i++)
+                            {
+                                if (wrapper.fineTuneList[i].FineTuneIndex == item.Key)
+                                {
+                                    data = cValues[wrapper.fineTuneList[i].MainIndex];
+                                    isFineTune = true;
+                                    fineTuneMaxValue = wrapper.fineTuneList[i].MaxValue;
+                                }
+                            }
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item.Key,data,isFineTune, fineTuneMaxValue, sceneNo + 0, Mode.Basics, global));
                         }
                     }
                     else
@@ -236,7 +162,7 @@ namespace LightController.Utils.Ver2
                             {
                                 this.MusicTaskStatus.Add(item.Key + 0, false);
                             }
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item, sceneNo + 0, Mode.Music, global));
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item.Key,item.Value,false,0, sceneNo + 0, Mode.Music, global));
                         }
                     }
                     else
@@ -258,15 +184,17 @@ namespace LightController.Utils.Ver2
             {
                 ChannelDataBean dataBean = new ChannelDataBean()
                 {
-                    ChannelNo = (obj as WaitCallbackObject).KeyValuePair.Key + 0,
-                    StepCount = (obj as WaitCallbackObject).KeyValuePair.Value.Count + 0,
+                    ChannelNo = (obj as WaitCallbackObject).ChannelNo + 0,
+                    StepCount = (obj as WaitCallbackObject).Values.Count + 0,
                     SceneNo = (obj as WaitCallbackObject).SceneNo + 0,
                     Mode = (obj as WaitCallbackObject).Mode,
+                    ChannelFlag = (obj as WaitCallbackObject).IsFineTune ? ChannelFlag.FineTune : ChannelFlag.MainTune,
+                    MaxValue = (obj as WaitCallbackObject).FineTuneMaxValue,
                     StepValues = new List<int>(),
                     StepMode = new List<int>(),
                     StepTime = new List<int>()
                 };
-                foreach (DB_Value value in (obj as WaitCallbackObject).KeyValuePair.Value.OrderBy(m => m.PK.Step).ToList())
+                foreach (DB_Value value in (obj as WaitCallbackObject).Values.OrderBy(m => m.PK.Step).ToList())
                 {
                     dataBean.StepValues.Add(value.ScrollValue + 0);
                     dataBean.StepMode.Add(value.ChangeMode + 0);
@@ -922,16 +850,22 @@ namespace LightController.Utils.Ver2
 
     class WaitCallbackObject
     {
-        public KeyValuePair<int, List<DB_Value>> KeyValuePair { get; set; }
+        public int ChannelNo { get; set; }
+        public List<DB_Value> Values { get; set; }
         public int SceneNo { get; set; }
         public Mode Mode { get; set; }
         public GlobalBean GlobalBean { get; set; }
-        public WaitCallbackObject(KeyValuePair<int, List<DB_Value>> keyValuePair, int sceneNo,Mode mode,GlobalBean global)
+        public bool IsFineTune { get; set; }
+        public int FineTuneMaxValue { get; set; }
+        public WaitCallbackObject(int channelNo ,List<DB_Value> values,bool isFineTune,int fineTuneMaxValue, int sceneNo,Mode mode,GlobalBean global)
         {
-            this.KeyValuePair = keyValuePair;
+            this.ChannelNo = channelNo;
+            this.Values = values;
             this.SceneNo = sceneNo;
             this.Mode = mode;
             this.GlobalBean = global;
+            this.IsFineTune = isFineTune;
+            this.FineTuneMaxValue = fineTuneMaxValue;
         }
     }
 }

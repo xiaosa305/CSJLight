@@ -417,6 +417,17 @@ namespace LightController.Tools
                 Interlocked.Exchange(ref SendTimerStatus, 0);
             }
         }
+
+        public byte[] GetTestData()
+        {
+            byte[] data = new byte[512];
+            lock (this.PlayData)
+            {
+                Array.Copy(this.PlayData, data, 512);
+            }
+            return data;
+        }
+
         private void Play()
         {
             try
@@ -427,7 +438,7 @@ namespace LightController.Tools
                 {
                     buff.AddRange(this.PlayData);
                 }
-                //Console.WriteLine("X轴：" + buff[1] + "------------------" + "X轴微调：" + buff[2] + "红色：" + buff[8] + "------------------" + "绿色" + buff[9] + "------------------" +"蓝色" + buff[10] + "------------------" + "白色" + buff[11] + "------------------12:" + buff[12] + "------------------13:" + buff[13]);
+                //Console.WriteLine("X轴：" + buff[193] + "  ------------------" + "X轴微调：" + buff[194] + "  ------------------" + "Y轴：" + buff[195] + "  ------------------" + "Y轴微调：" + buff[196]);
                 if (this.IsTest)
                 {
                     this.SendTestData(buff.ToArray());

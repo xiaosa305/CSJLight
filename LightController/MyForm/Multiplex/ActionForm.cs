@@ -83,7 +83,12 @@ namespace LightController.MyForm.Multiplex
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			if ( generateAction() ) {
-				mainForm.InsertOrCoverMaterial(material, InsertMethod.INSERT);
+				mainForm.InsertOrCoverMaterial(material,  InsertMethod.INSERT , false);
+				if (mainForm.IsPreviewing)
+				{
+					mainForm.PreviewButtonClick(null);
+					previewButton.Text = "预览";
+				}
 				Hide();
 				mainForm.Activate();
 			}				

@@ -41,7 +41,7 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
-		/// 事件：每次激活后，需要重新刷新步时间（避免主界面更改了时间因子造成的显示问题）；也必须重新隐藏或显示预览的按键
+		/// 事件：每次激活后，需要重新刷新步时间（避免主界面更改了时间因子造成的显示问题）；也必须重新隐藏或显示预览的按键(用selectColorPanel)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -195,12 +195,13 @@ namespace LightController.MyForm.Multiplex
 				previewButton.Text = "预览";
 				// 停止预览后，恢复 单色显示(并在里面集成previewButton是否可用的代码)
 				selectColorPanel();  //previewButton_Click-->点击停止预览后
+				setNotice("已停止预览",false);
 			}
 			else if( generateComplexMaterial() ) {
 				mainForm.PreviewButtonClick(material);
-				previewButton.Text = "停止预览";			
-			}		
-			
+				previewButton.Text = "停止预览";
+				setNotice("正在预览颜色变化", false);
+			}				
 		}
 
 		/// <summary>
@@ -208,15 +209,32 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void enterButton_Click(object sender, EventArgs e)
-		{
-			if (generateComplexMaterial()) {
-				mainForm.InsertOrCoverMaterial(material, InsertMethod.INSERT);
-				Hide();
-				mainForm.Activate();
-			}			
-		}
+		private void enterButton_Click(object sender, EventArgs e)	{ }
 
+		/// <summary>
+		/// 事件：左右键点击《应用颜色变化》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void enterButton_MouseDown(object sender, MouseEventArgs e)
+		{
+				InsertMethod insMethod = InsertMethod.COVER;   //  左键覆盖
+				if (e.Button == MouseButtons.Right)	{		insMethod = InsertMethod.INSERT;		}  //右键插入
+				else if(  e.Button == MouseButtons.Middle)	{		return;		}  // 中键不生效
+
+				if (generateComplexMaterial() )
+				{					
+					mainForm.InsertOrCoverMaterial( material,   insMethod,  shieldCheckBox.Checked);
+					if (mainForm.IsPreviewing)
+					{
+						mainForm.PreviewButtonClick(null);
+						previewButton.Text = "预览";
+					}
+					Hide();
+					mainForm.Activate();
+				}
+			}			
+		
 		/// <summary>
 		/// 辅助方法：更改selectedPanelIndex后，刷新相应的一些控件；
 		/// </summary>
@@ -523,8 +541,6 @@ namespace LightController.MyForm.Multiplex
 				}
 			}
 		}
-
-
 
 		
 	}

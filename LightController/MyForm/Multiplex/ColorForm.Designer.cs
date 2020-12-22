@@ -51,6 +51,7 @@
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.clearButton = new System.Windows.Forms.Button();
+			this.shieldCheckBox = new System.Windows.Forms.CheckBox();
 			this.colorPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).BeginInit();
@@ -219,7 +220,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(313, 270);
+			this.cancelButton.Location = new System.Drawing.Point(312, 272);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 37);
 			this.cancelButton.TabIndex = 74;
@@ -228,13 +229,15 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(233, 270);
+			this.enterButton.Location = new System.Drawing.Point(231, 272);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 37);
 			this.enterButton.TabIndex = 75;
 			this.enterButton.Text = "应用\r\n颜色变化";
+			this.myToolTip.SetToolTip(this.enterButton, "左键为覆盖模式；\r\n右键为插入模式；");
 			this.enterButton.UseVisualStyleBackColor = true;
 			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
+			this.enterButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.enterButton_MouseDown);
 			// 
 			// previewButton
 			// 
@@ -245,7 +248,6 @@
 			this.previewButton.Size = new System.Drawing.Size(75, 37);
 			this.previewButton.TabIndex = 76;
 			this.previewButton.Text = "预览";
-			this.myToolTip.SetToolTip(this.previewButton, "左键点击为全部预览；\r\n右键点击为单色预览。");
 			this.previewButton.UseVisualStyleBackColor = false;
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
@@ -279,12 +281,26 @@
 			this.clearButton.UseVisualStyleBackColor = true;
 			this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
 			// 
+			// shieldCheckBox
+			// 
+			this.shieldCheckBox.AutoSize = true;
+			this.shieldCheckBox.Checked = true;
+			this.shieldCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.shieldCheckBox.Location = new System.Drawing.Point(126, 276);
+			this.shieldCheckBox.Name = "shieldCheckBox";
+			this.shieldCheckBox.Size = new System.Drawing.Size(96, 28);
+			this.shieldCheckBox.TabIndex = 78;
+			this.shieldCheckBox.Text = "屏蔽其它步数\r\n相关通道";
+			this.shieldCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.shieldCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// ColorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.MintCream;
 			this.ClientSize = new System.Drawing.Size(407, 347);
+			this.Controls.Add(this.shieldCheckBox);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.astLabel);
 			this.Controls.Add(this.cancelButton);
@@ -344,5 +360,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.Button clearButton;
+		private System.Windows.Forms.CheckBox shieldCheckBox;
 	}
 }

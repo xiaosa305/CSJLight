@@ -104,9 +104,9 @@ namespace LightController.MyForm
 			if (iniPath != null)
 			{
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
-				InsertMethod method = (InsertMethod)int.Parse(((Button)sender).Tag.ToString());
+				InsertMethod insMethod = (InsertMethod)int.Parse(((Button)sender).Tag.ToString());
 
-				mainForm.InsertOrCoverMaterial(materialAst, method);
+				mainForm.InsertOrCoverMaterial(materialAst, insMethod,false);
 
 				Dispose();
 				mainForm.Activate();

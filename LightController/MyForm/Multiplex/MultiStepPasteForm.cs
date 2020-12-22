@@ -46,8 +46,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void insertOrCoverSkinButton_Click(object sender, EventArgs e)
 		{
-			InsertMethod method = ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER;
-			mainForm.InsertOrCoverMaterial(mainForm.TempMaterialAst  ,method);
+			InsertMethod insMethod = ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER;
+			mainForm.InsertOrCoverMaterial(mainForm.TempMaterialAst  ,insMethod,false);
 
 			Dispose();
 			mainForm.Activate();

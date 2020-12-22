@@ -40,9 +40,9 @@ namespace LightController.MyForm
 		}
 
 		// 几个全局的辅助控件（导出文件、toolTip提示等）
-		protected FolderBrowserDialog exportFolderBrowserDialog;
-		private System.ComponentModel.IContainer components;
-		protected ToolTip myToolTip;
+		protected FolderBrowserDialog exportFolderBrowserDialog; 
+		private System.ComponentModel.IContainer components; 
+		protected ToolTip myToolTip; 
 
 		//各类提示
 		protected string useFrameNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
@@ -792,13 +792,13 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="materialAst"></param>
 		/// <param name="method"></param>
-		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, InsertMethod method)
+		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, InsertMethod method , bool isShieldOthers)
 		{
 			if (materialAst == null) {
-				MessageBox.Show("素材调用失败");
+				SetNotice("素材调用失败(material为空)",true);
 				return;
 			}
-
+			
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			int totalStep = lsWrapper.TotalStep;
 			int currentStep = lsWrapper.CurrentStep;
@@ -811,6 +811,8 @@ namespace LightController.MyForm
 				}
 				method = InsertMethod.INSERT;
 			}
+
+			//DOTO : 1222 使用素材核心代码
 
 			// 选择《插入》时的操作：后插法（往当前步后加数据）
 			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
@@ -950,7 +952,6 @@ namespace LightController.MyForm
 						}
 					}
 				}
-
 				chooseStep(finalStep);  // 此处不适用RefreshStep()，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。但相应的，因为计算公式不同，chooseStep反而有效。
 			}
 
@@ -1537,10 +1538,10 @@ namespace LightController.MyForm
 		/// 辅助方法：多步粘贴时，使用此方法;
 		/// -- 基本思路与使用素材一样,故直接在其代码基础上进行改动
 		/// </summary>
-		/// <param name="method"></param>
-		public void MultiStepPaste(InsertMethod method)
+		/// <param name="insMethod"></param>
+		public void MultiStepPaste(InsertMethod insMethod)
 		{
-			InsertOrCoverMaterial(TempMaterialAst, method);
+			InsertOrCoverMaterial(TempMaterialAst, insMethod, false );
 		}
 
 		/// <summary>
@@ -3756,7 +3757,7 @@ namespace LightController.MyForm
 				}
 			}
 
-			//MARK : 1219 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
+			//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
 			if (material != null)
 			{
 				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
@@ -3841,44 +3842,42 @@ namespace LightController.MyForm
 				SetNotice("正在生成预览数据，请稍候...",false);
 				try
 				{
-					// 给使用动作预览的方法
+					//MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
 					if ( material != null) 
 					{
 						generateDBLightList();
 						generateDBFineTuneList();
 
 						IList<DB_Value> valueList = new List<DB_Value>();
-
-						int lightId = dbLightList[selectedIndex].StartID;			
-						StepWrapper stepTemplate = getCurrentStepTemplate();
-						IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList( material.TdNameList ,  stepTemplate.TongdaoList);						
-
-						for (int stepIndex = 0; stepIndex < material.StepCount ; stepIndex++)
+						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 						{
-							for (int tdIndex = 0; tdIndex < sameTDIndexList.Count; tdIndex++)
+							if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
 							{
-								int materialTdIndex = sameTDIndexList[tdIndex].MaterialTDIndex;
-								int trueTdIndex = sameTDIndexList[tdIndex].CurrentTDIndex + lightId;
-
-								TongdaoWrapper td = material.TongdaoList[stepIndex, materialTdIndex];
-
-								DB_Value value = new DB_Value()
+								IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+								for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++) 
 								{
-									PK = new DB_ValuePK(){
-										 Frame = CurrentFrame,
-										 LightIndex = lightId,
-										 LightID = trueTdIndex ,
-										 Mode = 0,
-										 Step = stepIndex+1,
-									},
-									ScrollValue = td.ScrollValue,
-									StepTime = td.StepTime,
-									ChangeMode = td.ChangeMode,
-								};
-
-								valueList.Add(value);
+									foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+									{
+										DB_Value value = new DB_Value()
+										{
+											PK = new DB_ValuePK()
+											{
+												Frame = CurrentFrame,
+												Mode = CurrentMode,
+												Step = stepIndex + 1,
+												LightIndex = dbLightList[lightIndex].StartID,
+												LightID = tdList[mi.CurrentTDIndex].Address , 												
+											},
+											ScrollValue = material.TongdaoList[stepIndex, mi.MaterialTDIndex].ScrollValue,
+											StepTime = material.TongdaoList[stepIndex, mi.MaterialTDIndex].StepTime,
+											ChangeMode = material.TongdaoList[stepIndex, mi.MaterialTDIndex].ChangeMode,
+										};
+										valueList.Add(value);
+									}
+								}
 							}
-						}						
+						}
+
 						dbWrapperTemp = new DBWrapper(dbLightList,  null, valueList , dbFineTuneList );
 					}
 					else {
@@ -4289,6 +4288,7 @@ namespace LightController.MyForm
 		{
 			throw new NotImplementedException();
 		}
+
 	}
 
 	public class PreviewCallBack : ISaveProjectCallBack

@@ -451,7 +451,7 @@ namespace LightController.Utils.Ver2
                                 iValue = (int)Math.Floor(fValue * 256);
                                 if (dataBean.ChannelFlag == ChannelFlag.FineTune)
                                 {
-                                    iValue = (int)((iValue & 0xFF) / (255.0 / dataBean.MaxValue));
+                                    iValue = (int)((iValue & 0xFF) / (255.0 / (dataBean.MaxValue == 0 ? 255 : dataBean.MaxValue)));
                                 }
                                 else
                                 {

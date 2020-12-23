@@ -19,11 +19,9 @@ namespace LightController.MyForm
 		private string materialPath ;
 		private string lightName;
 		private string lightType;
-		// 辅助变量：删除选中节点后，treeView会自动选择下一个节点，但不会显示出来；故需要有一个标记位来处理这个情况
-		private bool ifJustDelete = false;
-
+		
 		private string generalStr = @"\通用\";
-		private string specialStr;
+		private string specialStr;		
 	
 		/// <summary>
 		/// 构造方法：主要作用是加载已有的素材到listView中
@@ -59,7 +57,7 @@ namespace LightController.MyForm
 						generalTreeNode.Nodes.Add(node);
 					}					
 				}
-				this.materialTreeView.Nodes.Add(generalTreeNode);
+				materialTreeView.Nodes.Add(generalTreeNode);
 			}
 
 			// 添加该灯的素材
@@ -81,9 +79,9 @@ namespace LightController.MyForm
 						specialTreeNode.Nodes.Add(node);
 					}
 				}				
-				this.materialTreeView.Nodes.Add(specialTreeNode);				
+				materialTreeView.Nodes.Add(specialTreeNode);				
 			}
-			this.materialTreeView.ExpandAll();
+			materialTreeView.ExpandAll();
 
 			previewButton.Visible = mainForm.IsConnected;
 			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览素材";
@@ -107,6 +105,55 @@ namespace LightController.MyForm
 				"4.插入或覆盖之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败。",
 			"素材使用帮助");
 			e.Cancel = true;
+		}
+
+		/// <summary>
+		/// 事件：《关闭窗体》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MaterialUseForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			// 因为是退出窗体，不需要其他额外操作，直接关闭预览即可
+			if( mainForm.IsConnected && mainForm.IsPreviewing ){
+				mainForm.PreviewButtonClick(null);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《删除》；后期可能不保留
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteButton_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("确认删除素材【" + materialTreeView.SelectedNode.FullPath + "】吗？",
+				"删除素材？",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Warning) == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			string iniPath = getIniPath();
+			if (iniPath != null)
+			{
+				// 1.删除文件
+				try
+				{
+					File.Delete(iniPath);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+					return;
+				}
+
+				// 2.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免用户误操作
+				materialTreeView.SelectedNode.Remove();
+				materialTreeView.SelectedNode = null; // 需主动设置为null，才不会选到被删节点的兄弟节点；但仍会选中第一个节点（如“通用”）
+				enableButtons(false);
+			}
 		}
 
 		/// <summary>
@@ -156,34 +203,7 @@ namespace LightController.MyForm
 				mainForm.Activate();
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击《删除》；后期可能不保留
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void deleteButton_Click(object sender, EventArgs e)
-		{
-			string iniPath = getIniPath();			
-			if (iniPath != null)
-			{
-				// 1.删除文件
-				try
-				{
-					File.Delete(iniPath);
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(ex.Message);
-					return;
-				}
-
-				// 2.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免用户误操作
-				materialTreeView.SelectedNode.Remove();
-				ifJustDelete = true;
-			}
-		}
-		
+				
 		/// <summary>
 		///  事件：点击《取消》
 		/// </summary>
@@ -191,7 +211,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -203,9 +223,22 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void materialTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			ifJustDelete = false;
+			enableButtons( e.Node.Level > 0);
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：传入bool值，使能某些按键；(删除和选中素材用得到)
+		/// </summary>
+		/// <param name="enable"></param>
+		private void enableButtons(bool enable)
+		{
+			deleteButton.Enabled = enable;
+			previewButton.Enabled = enable;
+			insertButton.Enabled = enable;
+			coverButton.Enabled = enable;
+			appendButton.Enabled = enable;
+		}
+
 		/// <summary>
 		///  辅助方法：供删除及使用素材使用，通过此方法可以直接获取选中项的物理路径
 		/// </summary>
@@ -213,7 +246,7 @@ namespace LightController.MyForm
 		private string getIniPath() {
 
 				// 1.先验证是否刚删除素材 或 空选
-				if (ifJustDelete || materialTreeView.SelectedNode == null)
+				if( materialTreeView.SelectedNode == null )
 				{
 					MessageBox.Show("请选择正确的素材名");
 					return null;
@@ -222,7 +255,7 @@ namespace LightController.MyForm
 				//2. 验证是否子节点，父节点不是素材
 				if (materialTreeView.SelectedNode.Level == 0)
 				{
-					MessageBox.Show("请选择最后一级的节点，不要选择父节点。");
+					MessageBox.Show("请选择素材树的子节点。");
 					return null;
 				}
 
@@ -255,7 +288,8 @@ namespace LightController.MyForm
 			}
 		}
 
-		#endregion
 
+		#endregion
+		
 	}
 }

@@ -165,12 +165,10 @@ namespace LightController.MyForm
 			}
 
 			// 1. 弹出是否删除的确认框
-			DialogResult dr = MessageBox.Show(
-				"确定删除此工程吗？", 
+			if ( MessageBox.Show("确定删除此工程吗？", 
 				"删除工程？",
 				MessageBoxButtons.OKCancel,
-				MessageBoxIcon.Question);
-			if (dr == DialogResult.Cancel)
+				MessageBoxIcon.Warning) == DialogResult.Cancel )
 			{
 				return;
 			}

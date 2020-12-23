@@ -19,13 +19,12 @@ namespace LightController.MyForm
 		private string materialPath ;
 		private string lightName;
 		private string lightType;
-		// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；故需要有一个标记位来处理这个情况
+		// 辅助变量：删除选中节点后，treeView会自动选择下一个节点，但不会显示出来；故需要有一个标记位来处理这个情况
 		private bool ifJustDelete = false;
 
 		private string generalStr = @"\通用\";
 		private string specialStr;
-
-
+	
 		/// <summary>
 		/// 构造方法：主要作用是加载已有的素材到listView中
 		/// </summary>
@@ -96,7 +95,7 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
-		/// 
+		/// 事件：点击右上角《？》按键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -111,7 +110,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《预览|停止预览》
+		/// 事件：点击《预览素材|停止预览》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -132,7 +131,7 @@ namespace LightController.MyForm
 				string iniPath = getIniPath();
 				if (iniPath != null)
 				{
-					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
+					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);					
 					mainForm.PreviewButtonClick(materialAst);
 					previewButton.Text = "停止预览";
 					setNotice("正在预览素材【"+materialTreeView.SelectedNode.Text+"】...", false);
@@ -152,9 +151,7 @@ namespace LightController.MyForm
 			{
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
 				InsertMethod insMethod = (InsertMethod)int.Parse(((Button)sender).Tag.ToString());
-
 				mainForm.InsertOrCoverMaterial(materialAst, insMethod, false);
-
 				Dispose();
 				mainForm.Activate();
 			}
@@ -204,7 +201,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		private void materialTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			ifJustDelete = false;
 		}
@@ -241,7 +238,7 @@ namespace LightController.MyForm
 
 				return iniPath;				
 		}
-
+				
 		#region 通用方法
 
 		/// <summary>

@@ -44,12 +44,13 @@
 			// 
 			this.materialTreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.materialTreeView.Dock = System.Windows.Forms.DockStyle.Top;
+			this.materialTreeView.FullRowSelect = true;
 			this.materialTreeView.Location = new System.Drawing.Point(0, 0);
 			this.materialTreeView.Margin = new System.Windows.Forms.Padding(2);
 			this.materialTreeView.Name = "materialTreeView";
 			this.materialTreeView.Size = new System.Drawing.Size(279, 315);
 			this.materialTreeView.TabIndex = 0;
-			this.materialTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+			this.materialTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.materialTreeView_NodeMouseClick);
 			// 
 			// deleteButton
 			// 
@@ -90,7 +91,7 @@
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(67, 27);
 			this.previewButton.TabIndex = 3;
-			this.previewButton.Text = "预览";
+			this.previewButton.Text = "预览素材";
 			this.previewButton.UseVisualStyleBackColor = false;
 			this.previewButton.Visible = false;
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
@@ -129,7 +130,7 @@
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(233, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(264, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 

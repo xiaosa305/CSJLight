@@ -1337,8 +1337,7 @@ namespace LightController.MyForm
 			}
 
 		}
-
-
+		
 		/// <summary>
 		///  事件：点击《上一步》
 		///  先判断currentStep，再调用chooseStep(stepValue)

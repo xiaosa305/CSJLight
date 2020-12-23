@@ -244,12 +244,6 @@
     <Compile Include="MyForm\Multiplex\DetailMultiAstForm.Designer.cs">
       <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.Designer.cs">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\Multiplex\DetailMultiPageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -523,9 +517,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DetailMultiAstForm.resx">
       <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm.resx">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DetailMultiPageForm.resx">
       <DependentUpon>DetailMultiPageForm.cs</DependentUpon>

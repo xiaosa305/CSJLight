@@ -65,6 +65,12 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
+			if (!mainForm.IsConnected)
+			{
+				setNotice("尚未连接设备", true);
+				return;
+			}
+
 			if (mainForm.IsPreviewing)
 			{
 				endView(); // previewButton_Click

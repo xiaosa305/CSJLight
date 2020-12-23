@@ -3124,6 +3124,12 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void useMaterial()
 		{
+			// 若正在预览，则先停止预览
+			if (IsPreviewing)
+			{
+				PreviewButtonClick(null);
+			}
+
 			LightAst la = LightAstList[selectedIndex];
 			new MaterialUseForm(this, CurrentMode, la.LightName, la.LightType).ShowDialog();
 		}

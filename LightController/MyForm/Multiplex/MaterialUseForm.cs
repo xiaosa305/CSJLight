@@ -60,7 +60,7 @@ namespace LightController.MyForm
 						generalTreeNode.Nodes.Add(node);
 					}					
 				}
-				this.treeView1.Nodes.Add(generalTreeNode);
+				this.materialTreeView.Nodes.Add(generalTreeNode);
 			}
 
 			// 添加该灯的素材
@@ -82,17 +82,64 @@ namespace LightController.MyForm
 						specialTreeNode.Nodes.Add(node);
 					}
 				}				
-				this.treeView1.Nodes.Add(specialTreeNode);				
+				this.materialTreeView.Nodes.Add(specialTreeNode);				
 			}
-			this.treeView1.ExpandAll();
+			this.materialTreeView.ExpandAll();
+
+			previewButton.Visible = mainForm.IsConnected;
+			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览素材";
 		}
 
 		private void MaterialUseForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			Location = MousePosition;
 		}
-	
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MaterialUseForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("1.点击《插入》按钮，会在当前步与下一步之间插入你所选中的素材，未涉及的通道将使用灯具初始值；\n" +
+				"2.点击《覆盖》按钮，会从当前步开始覆盖相关步数，素材内未涉及通道将保留原值；若现有步数不足，会自动添加新步，未涉及的通道将使用灯具初始值;\n" +
+				"3.点击《追加》按钮，会在最后一步之后插入素材，未涉及的通道将使用灯具初始值;\n" +
+				"4.插入或覆盖之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败。",
+			"素材使用帮助");
+			e.Cancel = true;
+		}
+
+		/// <summary>
+		/// 事件：点击《预览|停止预览》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void previewButton_Click(object sender, EventArgs e)
+		{
+			if ( !mainForm.IsConnected) {
+				setNotice("尚未连接设备",true);
+				return;
+			}
+
+			if (mainForm.IsPreviewing)
+			{
+				mainForm.PreviewButtonClick(null);
+				previewButton.Text = "预览素材";
+				setNotice("已停止预览", false);
+			}
+			else {
+				string iniPath = getIniPath();
+				if (iniPath != null)
+				{
+					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
+					mainForm.PreviewButtonClick(materialAst);
+					previewButton.Text = "停止预览";
+					setNotice("正在预览素材【"+materialTreeView.SelectedNode.Text+"】...", false);
+				}
+			}
+		}
+
 		/// <summary>
 		///  事件：《插入、覆盖、追加》素材插入到主窗口的操作
 		/// </summary>
@@ -106,7 +153,7 @@ namespace LightController.MyForm
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
 				InsertMethod insMethod = (InsertMethod)int.Parse(((Button)sender).Tag.ToString());
 
-				mainForm.InsertOrCoverMaterial(materialAst, insMethod,false);
+				mainForm.InsertOrCoverMaterial(materialAst, insMethod, false);
 
 				Dispose();
 				mainForm.Activate();
@@ -135,7 +182,7 @@ namespace LightController.MyForm
 				}
 
 				// 2.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免用户误操作
-				treeView1.SelectedNode.Remove();
+				materialTreeView.SelectedNode.Remove();
 				ifJustDelete = true;
 			}
 		}
@@ -161,21 +208,7 @@ namespace LightController.MyForm
 		{
 			ifJustDelete = false;
 		}
-
-		/// <summary>
-		/// 事件：点击《右上角帮助》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void helpSkinButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("1.点击《插入》按钮，会在当前步与下一步之间插入你所选中的素材，未涉及的通道将使用灯具初始值；\n" +
-				"2.点击《覆盖》按钮，会从当前步开始覆盖相关步数，素材内未涉及通道将保留原值；若现有步数不足，会自动添加新步，未涉及的通道将使用灯具初始值;\n" +
-				"3.点击《追加》按钮，会在最后一步之后插入素材，未涉及的通道将使用灯具初始值;\n" +
-				"4.插入或覆盖之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败。",
-			"素材使用帮助");
-		}
-
+		
 		/// <summary>
 		///  辅助方法：供删除及使用素材使用，通过此方法可以直接获取选中项的物理路径
 		/// </summary>
@@ -183,31 +216,49 @@ namespace LightController.MyForm
 		private string getIniPath() {
 
 				// 1.先验证是否刚删除素材 或 空选
-				if (ifJustDelete || treeView1.SelectedNode == null)
+				if (ifJustDelete || materialTreeView.SelectedNode == null)
 				{
 					MessageBox.Show("请选择正确的素材名");
 					return null;
 				}
 
 				//2. 验证是否子节点，父节点不是素材
-				if (treeView1.SelectedNode.Level == 0)
+				if (materialTreeView.SelectedNode.Level == 0)
 				{
 					MessageBox.Show("请选择最后一级的节点，不要选择父节点。");
 					return null;
 				}
 
 				//3.验证素材名是否为空
-				string materialName = treeView1.SelectedNode.Text;
+				string materialName = materialTreeView.SelectedNode.Text;
 				if ( String.IsNullOrEmpty(materialName)) {
 					MessageBox.Show("素材名不得为空。");
 					return null;
 				}
 
-				string astPath = treeView1.SelectedNode.Parent.Text.Equals("通用素材") ? generalStr :specialStr ;
+				string astPath = materialTreeView.SelectedNode.Parent.Text.Equals("通用素材") ? generalStr :specialStr ;
 				string iniPath = materialPath + astPath + materialName + ".ini";
 
 				return iniPath;				
 		}
+
+		#region 通用方法
+
+		/// <summary>
+		/// 辅助方法：设置提醒
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="msgBoxShow"></param>
+		private void setNotice(string msg, bool msgBoxShow)
+		{
+			myStatusLabel.Text = msg;
+			if (msgBoxShow)
+			{
+				MessageBox.Show(msg);
+			}
+		}
+
+		#endregion
 
 	}
 }

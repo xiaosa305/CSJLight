@@ -754,7 +754,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.Transparent;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(338, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(369, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -776,7 +776,7 @@
 			this.Name = "ActionForm";
 			this.Text = "使用内置动作";
 			this.Activated += new System.EventHandler(this.ActionForm_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ActionForm_FormClosing);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ActionForm_FormClosed);
 			this.Load += new System.EventHandler(this.ActionForm_Load);
 			this.actionTabControl.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);

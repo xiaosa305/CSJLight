@@ -65,6 +65,26 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
+		/// 事件：关闭窗口时：
+		/// 若正在预览中，则停止预览(点击按键一次);
+		/// 若非预览中，则恢复到当前步，用OneStepPlay（不用RefreshStep【这个方法过于完整，不考虑】 ）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ColorForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (mainForm.IsConnected) {
+				if (mainForm.IsPreviewing)
+				{
+					endView();
+				}
+				else {
+					mainForm.OneStepPlay(null);
+				}				
+			}			
+		}
+
+		/// <summary>
 		/// 事件：点击《添加(色块)》按键
 		/// </summary>
 		/// <param name="sender"></param>
@@ -149,9 +169,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			colorFLP.Controls.RemoveAt(selectedPanelIndex);
 			selectedPanelIndex = -1;
-
 			selectColorPanel(); //deleteButton_Click
-
 		}
 
 		/// <summary>
@@ -166,7 +184,6 @@ namespace LightController.MyForm.Multiplex
 				colorFLP.Controls.RemoveAt(panelIndex);
 			}
 			selectedPanelIndex = -1;
-
 			selectColorPanel(); //clearButton_Click
 		}
 
@@ -186,16 +203,15 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void previewButton_Click(object sender, EventArgs e){
+ 		private void previewButton_Click(object sender, EventArgs e){
 					   
 			// 如果正在预览中，则停止预览（不需生成material）
 			if (mainForm.IsPreviewing)
 			{
-				mainForm.PreviewButtonClick(null);
-				previewButton.Text = "预览";
+				endView();
 				// 停止预览后，恢复 单色显示(并在里面集成previewButton是否可用的代码)
 				selectColorPanel();  //previewButton_Click-->点击停止预览后
-				setNotice("已停止预览",false);
+				setNotice("已停止预览，并恢复单色显示。", false);
 			}
 			else if( generateComplexMaterial() ) {
 				mainForm.PreviewButtonClick(material);
@@ -233,8 +249,19 @@ namespace LightController.MyForm.Multiplex
 					Hide();
 					mainForm.Activate();
 				}
-			}			
-		
+		}
+
+		/// <summary>
+		/// 事件：点击取消按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			Hide();
+			mainForm.Activate();
+		}
+
 		/// <summary>
 		/// 辅助方法：更改selectedPanelIndex后，刷新相应的一些控件；
 		/// </summary>
@@ -340,6 +367,18 @@ namespace LightController.MyForm.Multiplex
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList,
 			};
+		}
+
+		/// <summary>
+		/// 辅助方法：结束预览
+		/// </summary>
+		private void endView() {
+		
+			if (mainForm .IsConnected && mainForm.IsPreviewing ) {
+				mainForm.PreviewButtonClick(null);
+				previewButton.Text = "预览";				
+				setNotice("已停止预览", false);
+			}			
 		}
 
 		#region 调节总调光 及 统一设值相关
@@ -523,24 +562,7 @@ namespace LightController.MyForm.Multiplex
 
 		#endregion
 
-		/// <summary>
-		/// 事件：关闭窗口时：若正在预览中，则停止预览(点击按键一次);若非预览中，则恢复到当前步（用OneStepPlay 或 RefreshStep【这个方法过于完整，不考虑】 ）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ColorForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			if (mainForm.IsConnected) {
-				if (mainForm.IsPreviewing)
-				{					
-					mainForm.PreviewButtonClick(null);
-					previewButton.Text = "预览";
-				}
-				else {
-					mainForm.OneStepPlay(null);
-				}
-			}
-		}
+	
 
 		
 	}

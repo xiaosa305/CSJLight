@@ -49,16 +49,13 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
-		/// 事件：关闭窗体时，如果正在预览，则停止预览
+		/// 事件：关闭窗体(包括点击《取消》按键、Hide()也会运行此方法)时，如果正在预览，则停止预览
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ActionForm_FormClosing(object sender, FormClosingEventArgs e)
+		private void ActionForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (mainForm.IsPreviewing)
-			{
-				mainForm.PreviewButtonClick(null);
-			}
+			endView(); //ActionForm_FormClosed
 		}
 
 		/// <summary>
@@ -68,10 +65,14 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
-			if (generateAction())
+			if (mainForm.IsPreviewing)
+			{
+				endView(); // previewButton_Click
+			}
+			else if (generateAction())
 			{
 				mainForm.PreviewButtonClick(material);
+				previewButton.Text =  "停止预览";
 			}
 		}
 
@@ -95,6 +96,17 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
+		/// 事件：点击《取消》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			Hide();
+			mainForm.Activate();
+		}
+
+		/// <summary>
 		/// 辅助方法：生成动作的素材（供预览和使用动作）
 		/// </summary>
 		private bool generateAction()
@@ -115,18 +127,19 @@ namespace LightController.MyForm.Multiplex
 			}
 			return true;
 		}
-		
+
 		/// <summary>
-		/// 事件：点击《取消》
+		/// 辅助方法：结束预览
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cancelButton_Click(object sender, EventArgs e)
+		private void endView()
 		{
-			Hide();
-			mainForm.Activate();
+			if (mainForm.IsPreviewing)
+			{
+				mainForm.PreviewButtonClick(null);
+				previewButton.Text = "预览";
+			}
 		}
-		
+				
 		#region 画直线相关的方法：包括验证，生成数据等；
 
 		/// <summary>

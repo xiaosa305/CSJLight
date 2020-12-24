@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LightController.Common;
 
 namespace LightController.MyForm.Multiplex
 {
@@ -16,6 +17,8 @@ namespace LightController.MyForm.Multiplex
 		private MainFormBase mainForm;
 		private int selectedPanelIndex = -1 ;				
 		private decimal eachStepTime = .04m;
+		private int mode = 0;
+		private int soundStepTime = 10; 
 		private decimal commonStepTime = 50;
 
 		private int tongdaoCount = 4;
@@ -47,9 +50,11 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void ColorForm_Activated(object sender, EventArgs e)
 		{
-			previewButton.Visible = mainForm.IsConnected;
+			previewButton.Visible = mainForm.IsConnected && mainForm.CurrentMode == 0; // 音频模式就不让预览了，没有意义
+
+			// 当时间因子发生变化时，需要重新渲染步时间；
 			if ( eachStepTime != mainForm.EachStepTime2 ) {								
-				for (int panelIndex = 1; panelIndex < stepCount; panelIndex++)
+				for (int panelIndex = 1; panelIndex < colorFLP.Controls.Count; panelIndex++)
 				{
 					NumericUpDown stNUD = (colorFLP.Controls[panelIndex] as Panel).Controls[0] as NumericUpDown;
 					decimal oldValue = stNUD.Value / eachStepTime ;
@@ -59,6 +64,24 @@ namespace LightController.MyForm.Multiplex
 					stNUD.Value = mainForm.EachStepTime2 * oldValue ; 
 				}
 				eachStepTime = mainForm.EachStepTime2;
+			}
+
+			// 当模式发生变化时，需要隐藏|显示 相关控件
+			if ( mode != mainForm.CurrentMode) {
+				for (int panelIndex = 1; panelIndex < colorFLP.Controls.Count; panelIndex++)
+				{
+					(colorFLP.Controls[panelIndex] as Panel).Controls[0].Visible = mainForm.CurrentMode == 0;
+					(colorFLP.Controls[panelIndex] as Panel).Controls[1].Visible  = mainForm.CurrentMode == 0;			
+				}
+				stLabel.Visible = mainForm.CurrentMode == 0;
+				modeLabel.Visible = mainForm.CurrentMode == 0;
+				mode = mainForm.CurrentMode;				
+			}
+
+			// 虽然不显示，但应用颜色时，仍需用到这些数据
+			if (mainForm.CurrentMode == 1) {
+				IniFileHelper iniHelper = new IniFileHelper(mainForm.GlobalIniPath);
+				soundStepTime =  iniHelper.ReadInt("SK", mainForm.CurrentFrame + "ST", 11);
 			}
 
 			selectColorPanel(); //ColorForm_Activated
@@ -114,7 +137,8 @@ namespace LightController.MyForm.Multiplex
 				DecimalPlaces = stNUDDemo.DecimalPlaces,
 				Maximum = stNUDDemo.Maximum * eachStepTime,
 				Increment = eachStepTime,
-				Value = mainForm.EachStepTime2 * commonStepTime
+				Value = mainForm.EachStepTime2 * commonStepTime,
+				Visible = mode == 0,
 			};
 			stNUD.MouseWheel += someNUD_MouseWheel;
 			stNUD.KeyPress += stNUD_KeyPress ;  
@@ -127,7 +151,8 @@ namespace LightController.MyForm.Multiplex
 				TextAlign = cmCBDemo.TextAlign,
 				Text = cmCBDemo.Text,
 				ForeColor = cmCBDemo.ForeColor,
-				BackColor = cmCBDemo.BackColor,				
+				BackColor = cmCBDemo.BackColor,
+				Visible = mode == 0,
 			};
 			cmCB.KeyPress += cmCheckBox_KeyPress;
 
@@ -316,8 +341,10 @@ namespace LightController.MyForm.Multiplex
 					for (int panelIndex = 1; panelIndex <= stepCount; panelIndex++)
 					{
 						Panel colorPanel = colorFLP.Controls[panelIndex] as Panel;
-						int stepTime = decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime);
-						int changeMode = (colorPanel.Controls[1] as CheckBox).Checked ? 1 : 0;
+
+						// 常规模式，取控件内的值；音频模式，取固定值；
+						int stepTime = mode == 0 ? decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime) : soundStepTime;
+						int changeMode = mode == 0 ? ( (colorPanel.Controls[1] as CheckBox).Checked ? 1 : 0 ) : 1;								
 
 						tongdaoList[panelIndex - 1, 0] = new TongdaoWrapper("总调光", tgTrackBar.Value, stepTime, changeMode);
 						tongdaoList[panelIndex - 1, 1] = new TongdaoWrapper("红", colorPanel.BackColor.R, stepTime, changeMode);
@@ -331,7 +358,6 @@ namespace LightController.MyForm.Multiplex
 							TdNameList = tdNameList,
 							TongdaoList = tongdaoList,
 						};
-
 					}
 					return true;
 				}

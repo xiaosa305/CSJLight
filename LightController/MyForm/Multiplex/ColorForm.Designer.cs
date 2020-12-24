@@ -38,9 +38,8 @@
 			this.tgNUD = new System.Windows.Forms.NumericUpDown();
 			this.label21 = new System.Windows.Forms.Label();
 			this.tgTrackBar = new System.Windows.Forms.TrackBar();
-			this.label20 = new System.Windows.Forms.Label();
 			this.colorFLP = new System.Windows.Forms.FlowLayoutPanel();
-			this.label19 = new System.Windows.Forms.Label();
+			this.stLabel = new System.Windows.Forms.Label();
 			this.editButton = new System.Windows.Forms.Button();
 			this.addButton = new System.Windows.Forms.Button();
 			this.myColorDialog = new System.Windows.Forms.ColorDialog();
@@ -52,6 +51,7 @@
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.clearButton = new System.Windows.Forms.Button();
 			this.shieldCheckBox = new System.Windows.Forms.CheckBox();
+			this.modeLabel = new System.Windows.Forms.Label();
 			this.colorPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).BeginInit();
@@ -160,16 +160,6 @@
 			this.tgTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
 			this.tgTrackBar.ValueChanged += new System.EventHandler(this.tgTrackBar_ValueChanged);
 			// 
-			// label20
-			// 
-			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(14, 199);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(59, 12);
-			this.label20.TabIndex = 67;
-			this.label20.Text = "是否渐变:";
-			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
 			// colorFLP
 			// 
 			this.colorFLP.AutoScroll = true;
@@ -181,15 +171,15 @@
 			this.colorFLP.TabIndex = 65;
 			this.colorFLP.WrapContents = false;
 			// 
-			// label19
+			// stLabel
 			// 
-			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(14, 176);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(65, 12);
-			this.label19.TabIndex = 66;
-			this.label19.Text = "步时间(S):";
-			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.stLabel.AutoSize = true;
+			this.stLabel.Location = new System.Drawing.Point(14, 176);
+			this.stLabel.Name = "stLabel";
+			this.stLabel.Size = new System.Drawing.Size(65, 12);
+			this.stLabel.TabIndex = 66;
+			this.stLabel.Text = "步时间(S):";
+			this.stLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// editButton
 			// 
@@ -294,6 +284,17 @@
 			this.shieldCheckBox.Text = "屏蔽其它步数\r\n相关通道";
 			this.shieldCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.shieldCheckBox.UseVisualStyleBackColor = true;
+			this.shieldCheckBox.Visible = false;
+			// 
+			// modeLabel
+			// 
+			this.modeLabel.AutoSize = true;
+			this.modeLabel.Location = new System.Drawing.Point(14, 201);
+			this.modeLabel.Name = "modeLabel";
+			this.modeLabel.Size = new System.Drawing.Size(59, 12);
+			this.modeLabel.TabIndex = 67;
+			this.modeLabel.Text = "是否渐变:";
+			this.modeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// ColorForm
 			// 
@@ -313,9 +314,9 @@
 			this.Controls.Add(this.tgNUD);
 			this.Controls.Add(this.label21);
 			this.Controls.Add(this.tgTrackBar);
-			this.Controls.Add(this.label20);
+			this.Controls.Add(this.modeLabel);
 			this.Controls.Add(this.colorFLP);
-			this.Controls.Add(this.label19);
+			this.Controls.Add(this.stLabel);
 			this.Controls.Add(this.editButton);
 			this.Controls.Add(this.addButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -347,9 +348,8 @@
 		private System.Windows.Forms.NumericUpDown tgNUD;
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.TrackBar tgTrackBar;
-		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.FlowLayoutPanel colorFLP;
-		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.Label stLabel;
 		private System.Windows.Forms.Button editButton;
 		private System.Windows.Forms.Button addButton;
 		private System.Windows.Forms.ColorDialog myColorDialog;
@@ -362,5 +362,6 @@
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.Button clearButton;
 		private System.Windows.Forms.CheckBox shieldCheckBox;
+		private System.Windows.Forms.Label modeLabel;
 	}
 }

@@ -1231,36 +1231,36 @@ namespace LightController.MyForm
 			}
 
 			SetNotice("正在切换模式...",false);
-			CurrentMode = modeSkinComboBox.SelectedIndex;
+			CurrentMode = modeSkinComboBox.SelectedIndex;		
 			
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
 			// 3.所有步时间值的调节，改为enabled=false						
 			if (CurrentMode == 1)
-			{
+			{			
 				for (int i = 0; i < FrameCount; i++)
 				{
-					this.tdChangeModeComboBoxes[i].Items.Clear();
-					this.tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
-					this.tdStepTimeNumericUpDowns[i].Hide();					
+					tdChangeModeComboBoxes[i].Items.Clear();
+					tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
+					tdStepTimeNumericUpDowns[i].Hide();					
 				}
-				this.thirdLabel.Hide();
+				thirdLabel.Hide();				
 			}
 			else //mode=0，常规模式
 			{
 				for (int i = 0; i < FrameCount; i++)
 				{
-					this.tdChangeModeComboBoxes[i].Items.Clear();
-					this.tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-					this.tdStepTimeNumericUpDowns[i].Show();					
+					tdChangeModeComboBoxes[i].Items.Clear();
+					tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
+					tdStepTimeNumericUpDowns[i].Show();					
 				}
-				this.thirdLabel.Show();
+				thirdLabel.Show();
 			}
 
 			changeFrameMode();
 			SetNotice("成功切换模式", false);
-		}
+		}	
 
 		/// <summary>
 		/// 事件：点击切换《多灯模式|单灯模式》。

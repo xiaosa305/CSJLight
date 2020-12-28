@@ -50,11 +50,10 @@ namespace LightController.MyForm
 		private void SKForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-			//Location = MousePosition;
 		}
 
 		/// <summary>
-		///  事件：点击《保存》
+		///  事件：点击《保存设置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -64,6 +63,9 @@ namespace LightController.MyForm
 			iniAst.WriteInt("SK", frame + "JG", jgtNumericUpDown.Value);
 			iniAst.WriteString("SK", frame + "LK", mFrameLKTextBox.Text);
 			MessageBox.Show("设置保存成功");
+
+			Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -73,7 +75,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void cancelSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -84,7 +86,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void SKForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 

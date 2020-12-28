@@ -3869,7 +3869,7 @@ namespace LightController.MyForm
 											PK = new DB_ValuePK()
 											{
 												Frame = CurrentFrame,
-												Mode = CurrentMode,
+												Mode = CurrentMode, // 注意，如果要让音频素材也生效，则此处得设为1，而下面的ChangeMode也得发生变化(但目前屏蔽了音频素材的预览)
 												Step = stepIndex + 1,
 												LightIndex = dbLightList[lightIndex].StartID,
 												LightID = tdList[mi.CurrentTDIndex].Address , 												
@@ -3883,7 +3883,6 @@ namespace LightController.MyForm
 								}
 							}
 						}
-
 						dbWrapperTemp = new DBWrapper(dbLightList,  null, valueList , dbFineTuneList );
 					}
 					else {

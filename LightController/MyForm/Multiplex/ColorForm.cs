@@ -265,9 +265,9 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void enterButton_MouseDown(object sender, MouseEventArgs e)
 		{
-				InsertMethod insMethod = InsertMethod.COVER;   //  左键覆盖
-				if (e.Button == MouseButtons.Right)	{		insMethod = InsertMethod.INSERT;		}  //右键插入
-				else if(  e.Button == MouseButtons.Middle)	{		return;		}  // 中键不生效
+				InsertMethod insMethod = InsertMethod.INSERT;   //  左键插入
+				if (e.Button == MouseButtons.Middle)	{		insMethod = InsertMethod.COVER;		}  //中键追加
+				else if(  e.Button == MouseButtons.Right)	{ insMethod = InsertMethod.APPEND ;		}  // 右键覆盖
 
 				if (generateComplexMaterial() )
 				{					

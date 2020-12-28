@@ -83,7 +83,7 @@ namespace LightController.MyForm
 			}
 			materialTreeView.ExpandAll();
 
-			previewButton.Visible = mainForm.IsConnected;
+			previewButton.Visible = mainForm.IsConnected && mainForm.CurrentMode == 0 ;
 			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览素材";
 		}
 
@@ -102,7 +102,8 @@ namespace LightController.MyForm
 			MessageBox.Show("1.点击《插入》按钮，会在当前步与下一步之间插入你所选中的素材，未涉及的通道将使用灯具初始值；\n" +
 				"2.点击《覆盖》按钮，会从当前步开始覆盖相关步数，素材内未涉及通道将保留原值；若现有步数不足，会自动添加新步，未涉及的通道将使用灯具初始值;\n" +
 				"3.点击《追加》按钮，会在最后一步之后插入素材，未涉及的通道将使用灯具初始值;\n" +
-				"4.插入或覆盖之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败。",
+				"4.使用素材之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败;\n" +
+				"5.常规模式下，若已经进入调试模式，则可以进行预览；音频模式无法进行预览。",
 			"素材使用帮助");
 			e.Cancel = true;
 		}
@@ -197,7 +198,7 @@ namespace LightController.MyForm
 			if (iniPath != null)
 			{
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
-				InsertMethod insMethod = (InsertMethod)int.Parse(((Button)sender).Tag.ToString());
+				InsertMethod insMethod = (InsertMethod)int.Parse(((Button)sender).Tag.ToString()); // 通过Tag里的index序号，来决定插入的方式：0.插入 1.覆盖 2.追加
 				mainForm.InsertOrCoverMaterial(materialAst, insMethod, false);
 				Dispose();
 				mainForm.Activate();

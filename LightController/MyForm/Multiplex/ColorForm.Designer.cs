@@ -225,7 +225,7 @@
 			this.enterButton.Size = new System.Drawing.Size(75, 37);
 			this.enterButton.TabIndex = 75;
 			this.enterButton.Text = "应用\r\n颜色变化";
-			this.myToolTip.SetToolTip(this.enterButton, "左键为覆盖模式；\r\n右键为插入模式；");
+			this.myToolTip.SetToolTip(this.enterButton, "左键为插入模式；\r\n中键为追加模式；\r\n右键为覆盖模式；");
 			this.enterButton.UseVisualStyleBackColor = true;
 			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			this.enterButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.enterButton_MouseDown);

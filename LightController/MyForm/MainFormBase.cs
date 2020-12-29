@@ -58,8 +58,7 @@ namespace LightController.MyForm
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
 		public bool IsShowTestButton = false;
-		public bool IsShowHardwareUpdate = false;
-		public bool IsUseSkin = false ;
+		public bool IsShowHardwareUpdate = false;		
 		public bool IsNoticeUnifyTd = true;
 
 		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）			
@@ -71,7 +70,7 @@ namespace LightController.MyForm
 		public static int DefaultSoundCM = 0; // 添加音频步数时，其跳渐变默认值（可由配置文件进行改变）	
 		protected List<int> tdValues = null;
 
-		// 辅助的bool变量：	
+		// 全局辅助变量
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
 		public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
@@ -143,43 +142,47 @@ namespace LightController.MyForm
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		public bool IsPreviewing = false; // 是否预览状态中
 		protected ImageList lightImageList;
-		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
-			
+		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）			
 
-		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用				
-		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
-		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
-		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
-		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
+		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用
+		// 全局
 		protected virtual void setBusy(bool buzy) { } //设置是否忙时
-		protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中		
-		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板
-		protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
-		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
-		protected virtual void hideAllTDPanels() { } //隐藏所有通道
+		public virtual void SetNotice(string notice, bool msgBoxShow) { } //设置提示信息（有些重要提示，则需弹窗）
+		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值	
+		// 工程面板
+		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
+		// listView相关
+		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
+		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
+		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
+		protected virtual void enableStepPanel(bool enable) { } //是否使能《步数面板》
+		// 步数面板
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
-		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
+		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
+		protected virtual void enterMultiMode(bool enter) { } //进入|退出多灯模式				
 		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
 		protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
-		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
+		// 辅助面板
+		protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中	
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
-		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons			
-		protected virtual void deviceRefresh() { } //	刷新设备列表
-			
-		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
-		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
-		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
-		public virtual void SetNotice(string notice,bool msgBoxShow) { } //设置提示信息（有些重要提示，则需弹窗）
-		public virtual void EnableConnectedButtons(bool connected,bool previewing) {
+		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons	
+		// 通道面板		
+		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据		
+		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
+		// 调试面板
+		public virtual void EnableConnectedButtons(bool connected, bool previewing)
+		{
 			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
 			IsConnected = connected;
-			IsPreviewing = previewing;		
+			IsPreviewing = previewing;
 		} //设置《连接按钮组》是否可用	
-
-		protected virtual void enterMultiMode() { }
-		protected virtual void exitMultiMode() { }
-
+		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
+		protected virtual void deviceRefresh() { } //	刷新设备列表
+		protected virtual void refreshConnectMethod() { } //切换连接方式后的相关操作
+		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
+		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示		
+		
 		#endregion
 
 		#region 存储一些供其他Form使用的变量，比如已打开的升级文件、工程文件等
@@ -293,7 +296,7 @@ namespace LightController.MyForm
 		protected void autosetEnabledPlayAndRefreshPic()
 		{
 			bool enable = LightAstList != null && LightAstList.Count > 0;
-			showPlayPanel(enable);
+			enablePlayPanel(enable);
 			enableRefreshPic(enable);
 		}
 
@@ -347,14 +350,13 @@ namespace LightController.MyForm
 				lightDictionary.Add(LightAstList[lightIndex].StartNum, lightIndex);
 			}
 
-			//disposeSauForm();
 			selectedIndex = -1;
 			SelectedIndices = new List<int>();		
 
 			//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
 			EnterSyncMode(false); // 修改了灯具后，一定要退出同步模式
 			enableProjectRelative(true);    //ReBuildLightAst内设置
-			autosetEnabledPlayAndRefreshPic();
+			autosetEnabledPlayAndRefreshPic(); //ReBuildLightList
 			reBuildLightListView();
 
 			//出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
@@ -362,8 +364,8 @@ namespace LightController.MyForm
 			{
 				selectedIndex = 0;
 			}
-			generateLightData();
-			
+			generateLightData(); //ReBuildLightList
+
 			// 处理编组列表
 			IList<GroupAst> newGroupList = new List<GroupAst>();
 			//取出每个编组，并分别进行处理
@@ -1354,7 +1356,7 @@ namespace LightController.MyForm
 				if (!IsMultiMode && selectedIndex != selectedLightIndex)
 				{
 					selectedIndex = selectedLightIndex;
-					generateLightData();
+					generateLightData();  // SetTdStepValue
 					return ; //generateLightData()代码中已包含RefreshStep，故如果运行后可直接return；不return的则由最后的RefreshStep()来收尾
 				}				
 			}					
@@ -1649,7 +1651,7 @@ namespace LightController.MyForm
 			IniFileHelper iniAst = new IniFileHelper(GlobalIniPath);
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
 			EachStepTime2 = eachStepTime / 1000m;
-			initStNumericUpDowns();  //更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
+			initStNumericUpDowns();  // InitProject : 更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
 
 			// 1.3 加载groupList : 初始化时检查文件是否存在，不存在，则直接把默认文件拷贝过去；加载到内存后，通过相应的groupList刷新按钮
 			groupIniPath = projectPath + @"\groupList.ini";
@@ -1718,9 +1720,7 @@ namespace LightController.MyForm
 
 			arrangeIniPath = null;
 			groupIniPath = null ;
-
-			//clearSaPanelArray();
-
+					
 			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
 			frameLoadArray = null;
@@ -1729,13 +1729,13 @@ namespace LightController.MyForm
 
 			EnterSyncMode(false);  //退出《同步模式》
 			RefreshMultiModeButtons(false); // 刷新为单灯状态的按钮可用性
-			autoEnableSLArrange();  // 《保存|读取灯具位置》不可用
+			autoEnableSLArrange();  // clearAllData
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
-			autosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
+			autosetEnabledPlayAndRefreshPic();  //clearAllData()
 			refreshGroupPanels(); //clearAllData()
 
-			hideAllTDPanels();
-			showStepLabel(0, 0);
+			showStepLabel(0, 0); //clearAllData
+			showTDPanels(null, 0); // clearAllData
 		}
 
 		/// <summary>
@@ -1797,19 +1797,18 @@ namespace LightController.MyForm
 			InitProject(projectName, frameIndex, false);
 
 			// 设置listView右键菜单中读取位置配置的可用项	
-			autoEnableSLArrange();
+			autoEnableSLArrange(); //OpenProject
 
 			// 把各数据库表的内容填充进来。
 			dbLightList = getLightList();
 			//10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
 			if (dbLightList == null || dbLightList.Count == 0)
 			{
-				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？",
-					"",
+				SetNotice("成功打开空工程(" + projectName + ")", false);						
+				if (DialogResult.OK == MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？",
+					"为空工程添加灯具",
 					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
-				SetNotice("成功打开空工程(" + projectName + ")",false);
-				if (dr == DialogResult.OK)
+					MessageBoxIcon.Question))
 				{
 					new LightsForm(this, null).ShowDialog();
 				}
@@ -1848,7 +1847,7 @@ namespace LightController.MyForm
 								
 				EnterSyncMode(false); //需要退出同步模式
 				enableProjectRelative(true);    //OpenProject内设置
-				autosetEnabledPlayAndRefreshPic(); 
+				autosetEnabledPlayAndRefreshPic();  //OpenProject
 				reBuildLightListView();
 
 				//MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
@@ -1868,7 +1867,7 @@ namespace LightController.MyForm
 			{
 				selectedIndex = 0;
 			}
-			generateLightData();
+			generateLightData();//OpenProject
 		}
 
 		/// <summary>
@@ -2479,7 +2478,7 @@ namespace LightController.MyForm
 				}
 			}
 
-			EnterSyncMode(false);
+			EnterSyncMode(false); //UseOtherForm
 			RefreshStep();
 			MessageBox.Show("成功调用场景:" + AllFrameList[selectedFrameIndex]);
 		}
@@ -3155,20 +3154,19 @@ namespace LightController.MyForm
 			// 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
 			if (isSyncMode)
 			{
-				EnterSyncMode(false);
-				return;
+				EnterSyncMode(false); //syncButtonClick				
 			}
 			else
 			{
 				// 异步时，要切换到同步模式，需要先进行检查。
-				if (!CheckAllSameStepCounts())
+				if (CheckAllSameStepCounts())
 				{
-					MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
-					return;
+					EnterSyncMode(true); //syncButtonClick				
 				}
-				EnterSyncMode(true);
+				else {
+					SetNotice("当前场景所有灯具步数不一致，无法进入同步模式。", true);					
+				}				
 			}
-
 		}
 
 		/// <summary>
@@ -3274,7 +3272,7 @@ namespace LightController.MyForm
 			if (stepNum == 0)
 			{
 				showTDPanels(null, 0);
-				showStepLabel(0, 0);
+				showStepLabel(0, 0); // chooseStep(0)
 				from0on = true;
 			}
 			else
@@ -3306,7 +3304,7 @@ namespace LightController.MyForm
 				}
 
 				showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep); //chooseStep
 				from0on = false;
 			}
 			
@@ -3551,7 +3549,7 @@ namespace LightController.MyForm
 			}
 			// 否则退出多灯模式
 			else {
-				exitMultiMode();
+				enterMultiMode(false);
 			}			
 		}
 
@@ -3653,10 +3651,27 @@ namespace LightController.MyForm
 			}
 			RefreshStep();
 		}
-			
+
 		#endregion
 
 		#region playPanel相关
+
+		/// <summary>
+		///  辅助方法：点击《切换连接方式》
+		/// </summary>
+		protected void changeConnectMethodButtonClick()
+		{
+			SetNotice("正在切换连接模式,请稍候...", false);
+			isConnectCom = !isConnectCom;
+			refreshConnectMethod();			
+			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
+
+			//保存此连接方式到Settings中
+			Properties.Settings.Default.IsConnectCom = isConnectCom;
+			Properties.Settings.Default.Save();
+
+			deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
+		}
 
 		/// <summary>
 		/// 辅助方法：点击《连接设备 | 断开连接》

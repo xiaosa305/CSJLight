@@ -340,11 +340,11 @@ namespace LightController.MyForm
 			this.playPanel.Controls.Add(this.deviceConnectButton);
 			this.playPanel.Controls.Add(this.makeSoundButton);
 			this.playPanel.Controls.Add(this.previewButton);
+			this.playPanel.Enabled = false;
 			this.playPanel.Location = new System.Drawing.Point(364, 0);
 			this.playPanel.Name = "playPanel";
 			this.playPanel.Size = new System.Drawing.Size(549, 68);
 			this.playPanel.TabIndex = 30;
-			this.playPanel.Visible = false;
 			// 
 			// changeConnectMethodButton
 			// 
@@ -382,6 +382,8 @@ namespace LightController.MyForm
 			// 
 			// deviceComboBox
 			// 
+			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.deviceComboBox.Enabled = false;
 			this.deviceComboBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.deviceComboBox.FormattingEnabled = true;
 			this.deviceComboBox.Location = new System.Drawing.Point(101, 8);
@@ -1047,10 +1049,7 @@ namespace LightController.MyForm
 			this.lightsListView.TabIndex = 50;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
 			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
-			this.lightsListView.DragOver += new System.Windows.Forms.DragEventHandler(this.lightsListView_DragOver);
 			this.lightsListView.DoubleClick += new System.EventHandler(this.lightsListView_DoubleClick);
-			this.lightsListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lightsListView_MouseDown);
-			this.lightsListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lightsListView_MouseMove);
 			// 
 			// lightType
 			// 

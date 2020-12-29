@@ -232,11 +232,7 @@ namespace LightController.MyForm
 		}
 
 		private void SkinMainForm_Load(object sender, EventArgs e)
-		{
-			// 启动时刷新可用串口列表;
-			deviceRefresh(); //SkinMainForm_Load
-			SetNotice("", false);
-			
+		{					
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
 			lightsSkinListView.HideSelection = true;
 
@@ -245,6 +241,10 @@ namespace LightController.MyForm
 			{
 				panel.Hide();
 			}
+
+			// 每次启动后，可以切换到上一次软件打开时连接的方式
+			isConnectCom = Properties.Settings.Default.IsConnectCom;
+			refreshConnectMethod();			
 		}
 
 		/// <summary>
@@ -552,9 +552,9 @@ namespace LightController.MyForm
 		///  辅助方法：设定是否显示《 （调试区域的N个按钮）panel》
 		/// </summary>
 		/// <param name="visible"></param>
-		protected override void showPlayPanel(bool visible)
+		protected override void enablePlayPanel(bool enable)
 		{
-			playFlowLayoutPanel.Visible = visible;
+			playFlowLayoutPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -591,11 +591,10 @@ namespace LightController.MyForm
 		{
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsSkinListView.SelectedIndices[0];
-				//disposeSauForm();
+				selectedIndex = lightsSkinListView.SelectedIndices[0];				
 				if (generateNow)
 				{					
-					generateLightData();	
+					generateLightData();    //lightsSkinListView_SelectedIndexChanged
 				}
 			}
 		}
@@ -719,10 +718,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：初始化灯具数据。
-		/// 0.先查看当前内存是否已有此数据 
-		/// 1.若还未有，则取出相关的ini进行渲染
-		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
+		/// 辅助方法：使能《stepPanel》
 		/// </summary>
 		/// <param name="la"></param>
 		protected override void enableStepPanel(bool enable)
@@ -768,7 +764,11 @@ namespace LightController.MyForm
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
-				hideAllTDPanels();
+				for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+				{
+					tdPanels[tdIndex].Hide();
+					saPanels[tdIndex].Hide();
+				}
 				labelPanel.Hide();
 			}
 			//2.将dataWrappers的内容渲染到起VScrollBar中
@@ -808,18 +808,6 @@ namespace LightController.MyForm
 					generateSaPanels();
 				}
 			}
-		}
-
-		/// <summary>
-		/// 辅助方法：隐藏所有tdPanels,因为所有panels为空了，则《统一调整框》enabled应设为false
-		/// </summary>
-		protected override void hideAllTDPanels()
-		{
-			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
-			{
-				tdPanels[tdIndex].Hide();
-				saPanels[tdIndex].Hide();
-			}			
 		}
 
 		/// <summary>
@@ -1001,7 +989,7 @@ namespace LightController.MyForm
 			isAutoArrange = autoArrangeToolStripMenuItem.Checked;
 			lightsSkinListView.AllowDrop = !isAutoArrange;
 			lightsSkinListView.AutoArrange = isAutoArrange;
-			autoEnableSLArrange();			
+			autoEnableSLArrange(); //autoArrangeToolStripMenuItem_Click
 		}
 
 		/// <summary>
@@ -1053,9 +1041,9 @@ namespace LightController.MyForm
 				iniFileAst.WriteInt("Position", i + "X", lightsSkinListView.Items[i].Position.X);
 				iniFileAst.WriteInt("Position", i + "Y", lightsSkinListView.Items[i].Position.Y);
 			}
-			autoEnableSLArrange();
+			autoEnableSLArrange(); //saveArrangeToolStripMenuItem_Click
 
-			MessageBox.Show("灯具位置保存成功。");
+			SetNotice("灯具位置保存成功。",true);
 		}
 
 		/// <summary>
@@ -1277,65 +1265,57 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiLightSkinButton_Click(object sender, EventArgs e)
 		{
+			enterMultiMode(!IsMultiMode);			
+		}
+
+		/// <summary>
+		/// 辅助方法：进入|退出多灯模式的子类实现（某些情况需要自己判断退出还是进入，故得自己传参）
+		/// </summary>
+		protected override void enterMultiMode(bool enter) {
+
 			// 进入多灯模式
-			if (!IsMultiMode)
+			if (enter)
 			{
-				enterMultiMode();
+				if (lightsSkinListView.SelectedIndices.Count < 2)
+				{
+					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
+					return;
+				}
+				if (!checkSameLights())
+				{
+					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+					return;
+				}
+				SelectedIndices = new List<int>();
+				foreach (int item in lightsSkinListView.SelectedIndices)
+				{
+					SelectedIndices.Add(item);
+				}
+				new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
+
 			}
 			// 退出多灯模式
-			else
-			{
-				exitMultiMode();
-			}
-		}
+			else {
 
-		/// <summary>
-		/// 辅助方法：进入多灯模式的子类实现
-		/// </summary>
-		protected override void enterMultiMode() {
-
-			if (lightsSkinListView.SelectedIndices.Count < 2)
-			{
-				MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-				return;
-			}
-			if (!checkSameLights())
-			{
-				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-				return;
-			}
-			SelectedIndices = new List<int>();
-			foreach (int item in lightsSkinListView.SelectedIndices)
-			{
-				SelectedIndices.Add(item);
-			}
-			new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：退出多灯模式的子类实现
-		/// </summary>
-		protected override void exitMultiMode() {
-
-			foreach (ListViewItem item in lightsSkinListView.Items)
-			{
-				item.BackColor = Color.White;
-			}
-			RefreshMultiModeButtons(false);
-
-			try
-			{
-				for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+				foreach (ListViewItem item in lightsSkinListView.Items)
 				{
-					lightsSkinListView.Items[i].Selected = i == selectedIndex;
+					item.BackColor = Color.White;
 				}
-				lightsSkinListView.Select();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-			}
+				RefreshMultiModeButtons(false);
 
+				try
+				{
+					for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+					{
+						lightsSkinListView.Items[i].Selected = i == selectedIndex;
+					}
+					lightsSkinListView.Select();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
+				}
+			}		
 		}
 		
 		/// <summary>
@@ -1654,7 +1634,8 @@ namespace LightController.MyForm
 		public override void EnterSyncMode(bool isSyncMode)
 		{
 			this.isSyncMode = isSyncMode;
-			syncSkinButton.Text = isSyncMode? "退出同步":"进入同步";
+			syncSkinButton.Text = isSyncMode ? "退出同步" : "进入同步";			
+			SetNotice(isSyncMode ? "已进入同步模式。" : "已退出同步模式。", false);
 		}	
 
 		/// <summary>
@@ -2173,13 +2154,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodSkinButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式,请稍候...", false);
-			isConnectCom = !isConnectCom;
+			changeConnectMethodButtonClick();
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新几个按键的文本
+		/// </summary>
+		protected override void refreshConnectMethod()
+		{
 			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
-
-			deviceRefresh(); //changeConnectMethodSkinButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
 		}
 
 		/// <summary>
@@ -2281,7 +2265,7 @@ namespace LightController.MyForm
 			else
 			{
 				deviceConnectSkinButton.Enabled = false;
-				MessageBox.Show("未选中可用设备");
+				SetNotice("未选中可用设备" , false );
 			}
 		}
 		

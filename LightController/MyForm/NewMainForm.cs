@@ -34,6 +34,7 @@ namespace LightController.MyForm
 		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle		
 		private Color unifyColor = SystemColors.Window;
 		private Color unifyColor2 = SystemColors.Window;
+		private bool isUseSkin = false;
 
 		#endregion
 
@@ -67,7 +68,8 @@ namespace LightController.MyForm
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
-			//动态添加32个tdPanel的内容及其监听事件; 动态添加32个saPanel 
+			#region 动态添加32个tdPanel的内容及其监听事件; 动态添加32个saPanel 
+
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{
 				tdPanels[tdIndex] = new Panel
@@ -118,7 +120,6 @@ namespace LightController.MyForm
 					TextAlign = tdValueNUDDemo.TextAlign,
 					Tag = 0,
 				};
-
 
 				tdCmComboBoxes[tdIndex] = new ComboBox
 				{
@@ -188,6 +189,8 @@ namespace LightController.MyForm
 
 			}
 
+			#endregion
+
 			// 场景选项框		
 			//添加FramList.txt中的场景列表
 			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
@@ -218,7 +221,8 @@ namespace LightController.MyForm
 			#region 皮肤 及 panel样式 相关代码
 
 			setDeepStyle(false);
-			if (IniFileHelper.GetControlShow(Application.StartupPath, "useSkin")) {
+			isUseSkin = IniFileHelper.GetControlShow(Application.StartupPath, "useSkin");
+			if( isUseSkin ) {
 				//加载皮肤列表		
 				DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
 				try
@@ -252,23 +256,28 @@ namespace LightController.MyForm
 			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
 
 			// 刷新灯具图片列表（从硬盘读取）
-			this.lightsListView.LargeImageList = lightImageList;
+			lightsListView.LargeImageList = lightImageList;
 			RefreshLightImageList();
 
 			isInit = true;
-		}	
+		}
 
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
-			//启动时刷新可用串口列表，但把显示给删除
-			deviceRefresh();    //NewMainForm_Load
-			SetNotice("", false);
-
 			// 用以处理大工程时，子属性列表会连在一起的bug；
 			foreach (Panel panel in saPanels)
-			{			
+			{
 				panel.Hide();
 			}
+
+			// 根据之前打开时存在Settings内的数据，设置皮肤
+			if (isUseSkin) {
+				skinComboBox.SelectedIndex = Properties.Settings.Default.IrisSkinIndex; ; // 触发skinComboBox_SelectedIndexChanged事件				
+			}
+
+			// 根据之前打开时存在Settings内的数据，设置连接方式
+			isConnectCom = Properties.Settings.Default.IsConnectCom;
+			refreshConnectMethod();			
 		}
 
 		/// <summary>
@@ -330,36 +339,35 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			
 			if (!isInit) {
 				return;
 			}
+			
+			// 保存用户自选的皮肤到OS注册表中
+			Properties.Settings.Default.IrisSkinIndex = skinComboBox.SelectedIndex;
+			Properties.Settings.Default.Save();
 
+			// 处理皮肤显示
 			string sskName = skinComboBox.Text;
-			if (String.IsNullOrEmpty(sskName) || sskName.Equals("浅色皮肤"))
+			if (string.IsNullOrEmpty(sskName) || sskName.Equals("浅色皮肤"))
 			{
-				this.skinEngine1.Active = false;
+				skinEngine1.Active = false;
 				setDeepStyle(false);
 				return;
 			}
 			if (sskName.Equals("深色皮肤"))
 			{
-				this.skinEngine1.Active = false;
+				skinEngine1.Active = false;
 				setDeepStyle(true);
 				return;
 			}
 			
-			this.skinEngine1.Active = true;
-			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
+			skinEngine1.Active = true;
+			skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 			//额外加一句其他的句子(需要与SkniFile相关又不影响效果)，可以解决有些控件无法被渲染的问题
-			this.skinEngine1.SkinFile = sskName + ".ssk";
-
-			// 若需保存用户自选的皮肤，则启用下句
-			//new IniFileAst(Application.StartupPath+@"\GlobalSet.ini").WriteString("SkinSet", "skin", sskName + ".ssk");
-
-			// 网上搜到的处理闪烁的解决方案，测试有没有效果
-			//SetStyle(ControlStyles.DoubleBuffer, true);    //设置双缓冲，防止图像抖动      
-			//SetStyle(ControlStyles.AllPaintingInWmPaint, true);    //忽略系统消息，防止图像闪烁
-
+			skinEngine1.SkinFile = sskName + ".ssk";
+					   
 		}
 
 		/// <summary>
@@ -700,10 +708,10 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：是否显示playPanel
 		/// </summary>
-		/// <param name="visible"></param>
-		protected override void showPlayPanel(bool visible)
+		/// <param name="enable"></param>
+		protected override void enablePlayPanel(bool enable)
 		{
-			playPanel.Visible = visible;
+			playPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -739,11 +747,10 @@ namespace LightController.MyForm
 		{	
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsListView.SelectedIndices[0];
-				//disposeSauForm();
+				selectedIndex = lightsListView.SelectedIndices[0];				
 				if ( generateNow)
 				{
-					generateLightData();
+					generateLightData(); //lightsListView_SelectedIndexChanged
 				}
 			}
 		}	
@@ -874,7 +881,7 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		protected override void enableStepPanel(bool enable)
 		{
-			stepPanel.Enabled = enable;
+			stepPanel.Enabled = enable;			
 		}
 
 		/// <summary>
@@ -917,7 +924,11 @@ namespace LightController.MyForm
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
-				hideAllTDPanels();			
+				for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+				{
+					tdPanels[tdIndex].Hide();
+					saPanels[tdIndex].Hide();
+				}
 			}
 			//2.将dataWrappers的内容渲染到起VScrollBar中
 			else
@@ -956,19 +967,7 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
-		/// <summary>
-		///辅助方法：隐藏所有的TdPanel
-		/// </summary>
-		protected override void hideAllTDPanels()
-		{
-			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
-			{				
-				tdPanels[tdIndex].Hide();
-				saPanels[tdIndex].Hide();
-			}
-		}
-		
+				
 		/// <summary>
 		/// 事件：双击《LightListView》内灯具，更改备注
 		/// </summary>
@@ -1039,218 +1038,6 @@ namespace LightController.MyForm
 		protected override void enableRefreshPic(bool enable)
 		{
 			refreshPicToolStripMenuItem.Enabled = enable;
-		}
-
-		#endregion
-
-		#region 灯具listView相关（右键菜单+位置等）newMainForm内暂时不采用可以移动灯具图标，故下列代码暂时无用
-
-		// listView1.AllowDrop = true; 
-		// listView1.AutoArrange = false;
-		private Point startPoint = Point.Empty;
-
-		/// <summary>
-		/// 辅助方法：获取亮点之间的距离
-		/// </summary>
-		/// <param name="pt1"></param>
-		/// <param name="pt2"></param>
-		/// <returns></returns>
-		private double getVector(Point pt1, Point pt2)
-		{
-			var x = Math.Pow((pt1.X - pt2.X), 2);
-			var y = Math.Pow((pt1.Y - pt2.Y), 2);
-			return Math.Abs(Math.Sqrt(x - y));
-		}
-
-		/// <summary>
-		/// 事件：鼠标拖动对象时发生（VS:将对象拖过空间边界时发生）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lightsListView_DragOver(object sender, DragEventArgs e)
-		{
-			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
-				e.Effect = DragDropEffects.Move;
-		}
-
-		/// <summary>
-		/// 事件：松开鼠标时发生（VS：拖动操作时发生）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lightsListView_DragDrop(object sender, DragEventArgs e)
-		{
-			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
-			{
-				var items = e.Data.GetData(typeof(ListViewItem[])) as ListViewItem[];
-
-				var pos = lightsListView.PointToClient(new Point(e.X, e.Y));
-
-				var offset = new Point(pos.X - startPoint.X, pos.Y - startPoint.Y);
-
-				foreach (var item in items)
-				{
-					pos = item.Position;
-					pos.Offset(offset);
-					item.Position = pos;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：按下鼠标时发生 （VS：在组件上方且按下鼠标时发生）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lightsListView_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-				startPoint = e.Location;
-		}
-
-		/// <summary>
-		/// 事件：listView鼠标移动
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lightsListView_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (lightsListView.SelectedItems.Count == 0)
-				return;
-
-			if (e.Button == MouseButtons.Left)
-			{
-				var vector = getVector(startPoint, e.Location);
-				if (vector < 10) return;
-
-				var data = lightsListView.SelectedItems.OfType<ListViewItem>().ToArray();
-
-				lightsListView.DoDragDrop(data, DragDropEffects.Move);
-			}
-		}
-
-		/// <summary>
-		/// 事件：点选《自动排列》与否
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//isAutoArrange = autoArrangeToolStripMenuItem.Checked;
-			//lightsListView.AllowDrop = !isAutoArrange;
-			//lightsListView.AutoArrange = isAutoArrange;
-			//autoEnableSLArrange();
-		}
-
-		/// <summary>
-		/// 事件：点击《重新排列》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void arrangeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//bool tempAutoArrange = lightsListView.AutoArrange;
-			//lightsListView.AutoArrange = true;
-			//lightsListView.AutoArrange = tempAutoArrange;
-			//lightsListView.Update();
-		}
-
-		/// <summary>
-		/// 事件：点击《保存灯具位置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saveArrangeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//1.先判断是否在自动排列下
-			if (isAutoArrange)
-			{
-				MessageBox.Show("在自动排列模式下，无法保存灯具位置，请取消勾选后重新保存。");
-				return;
-			}
-
-			// 2.判断当前是否已打开工程(arrangeIniPath不为空）
-			if (String.IsNullOrEmpty(arrangeIniPath))
-			{
-				MessageBox.Show("当前尚未新建或打开工程，无法保存灯具位置。");
-				return;
-			}
-
-			// 3.判断灯具数量是否为空
-			if (LightAstList == null || LightAstList.Count == 0)
-			{
-				MessageBox.Show("当前工程尚无灯具，无法保存灯具位置，请添加灯具后重新保存。");
-				return;
-			}
-
-			// 4.保存操作
-			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
-			iniFileAst.WriteInt("Common", "Count", lightsListView.Items.Count);
-			for (int i = 0; i < lightsListView.Items.Count; i++)
-			{
-				iniFileAst.WriteInt("Position", i + "X", lightsListView.Items[i].Position.X);
-				iniFileAst.WriteInt("Position", i + "Y", lightsListView.Items[i].Position.Y);
-			}
-			autoEnableSLArrange();
-
-			MessageBox.Show("灯具位置保存成功。");
-		}
-
-		/// <summary>
-		///  事件：点击《读取灯具位置》：
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			// 1.先验证ini文件是否存在
-			if (!File.Exists(arrangeIniPath))
-			{
-				MessageBox.Show("未找到灯具位置文件，无法读取。");
-				return;
-			}
-
-			//2.验证灯具数目是否一致
-			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
-			int lightCount = iniFileAst.ReadInt("Common", "Count", 0);
-			if (lightCount == 0)
-			{
-				MessageBox.Show("灯具位置文件的灯具数量为0，此文件无实际效果。");
-				return;
-			}
-
-			//3. 验证灯具数量是否一致
-			if (lightCount != lightsListView.Items.Count)
-			{
-				MessageBox.Show("灯具位置文件的灯具数量与当前工程的灯具数量不匹配，无法读取位置。");
-				return;
-			}
-
-			// 4.开始读取并绘制		
-			// 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
-			lightsListView.BeginUpdate();
-			for (int i = 0; i < lightsListView.Items.Count; i++)
-			{
-				//Console.WriteLine(lightsSkinListView.Items[i].Position);
-				int tempX = iniFileAst.ReadInt("Position", i + "X", 0);
-				int tempY = iniFileAst.ReadInt("Position", i + "Y", 0);
-				lightsListView.Items[i].Position = new Point(0, 0);
-				lightsListView.Items[i].Position = new Point(tempX, tempY);
-			}
-
-			lightsListView.EndUpdate();
-			MessageBox.Show("灯具位置读取成功。");
-		}
-
-		/// <summary>
-		///  辅助方法：是否显示《 存、取 灯具位置》	
-		/// </summary>
-		/// <param name="enableSave"></param>
-		/// <param name="enableLoad"></param>
-		protected override void autoEnableSLArrange()
-		{
-			//saveArrangeToolStripMenuItem.Enabled = enableSave;
-			//loadArrangeToolStripMenuItem.Enabled = enableLoad;
 		}
 
 		#endregion
@@ -1421,64 +1208,55 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiLightButton_Click(object sender, EventArgs e)
 		{
-			// 进入多灯模式
-			if (!IsMultiMode)
-			{
-				enterMultiMode();
-			}
-			// 退出多灯模式
-			else
-			{				
-				exitMultiMode();
-			}
+			enterMultiMode(!IsMultiMode);		
 		}
 
 		/// <summary>
 		/// 辅助方法：进入同步模式的子类实现
 		/// </summary>
-		protected override void enterMultiMode()
+		protected override void enterMultiMode( bool enter)
 		{
-			if (lightsListView.SelectedIndices.Count < 2)
+			// 进入多灯
+			if (enter)
 			{
-				MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-				return;
-			}
-			if (!checkSameLights())
-			{
-				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-				return;
-			}
-			SelectedIndices = new List<int>();
-			foreach (int item in lightsListView.SelectedIndices)
-			{
-				SelectedIndices.Add(item);
-			}
-			new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：退出同步的子类实现
-		/// </summary>
-		protected override void exitMultiMode()
-		{
-			foreach (ListViewItem item in lightsListView.Items)
-			{
-				item.BackColor = Color.White;
-			}
-			RefreshMultiModeButtons(false);
-
-			try
-			{
-				for (int i = 0; i < lightsListView.Items.Count; i++)
+				if (lightsListView.SelectedIndices.Count < 2)
 				{
-					lightsListView.Items[i].Selected = i == selectedIndex;
+					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
+					return;
 				}
-				lightsListView.Select();
+				if (!checkSameLights())
+				{
+					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+					return;
+				}
+				SelectedIndices = new List<int>();
+				foreach (int item in lightsListView.SelectedIndices)
+				{
+					SelectedIndices.Add(item);
+				}
+				new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
 			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-			}
+			// 退出多灯
+			else {
+				foreach (ListViewItem item in lightsListView.Items)
+				{
+					item.BackColor = Color.White;
+				}
+				RefreshMultiModeButtons(false);
+
+				try
+				{
+					for (int i = 0; i < lightsListView.Items.Count; i++)
+					{
+						lightsListView.Items[i].Selected = i == selectedIndex;
+					}
+					lightsListView.Select();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
+				}
+			}			
 		}
 
 		/// <summary>
@@ -1793,6 +1571,7 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
+			SetNotice(isSyncMode ? "已进入同步模式" : "已退出同步模式", false);
 		}
 
 		/// <summary>
@@ -2316,13 +2095,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式,请稍候...", false);		
-			isConnectCom = !isConnectCom;
-			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
-			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
+			changeConnectMethodButtonClick( );
+		}	
 
-			deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
+		/// <summary>
+		/// 辅助方法：切换连接方式后，刷新几个按键
+		/// </summary>
+		protected override void refreshConnectMethod() {
+			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";			
 		}
 
 		/// <summary>
@@ -2423,7 +2204,7 @@ namespace LightController.MyForm
 			else
 			{
 				deviceConnectButton.Enabled = false;
-				MessageBox.Show("未选中可用设备");
+				SetNotice("未选中可用设备",true);
 			}
 		}		
 				

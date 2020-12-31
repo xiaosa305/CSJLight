@@ -35,11 +35,11 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.addrLabel = new System.Windows.Forms.Label();
 			this.noticePanel = new System.Windows.Forms.Panel();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
+			this.iSeeButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton2 = new System.Windows.Forms.Button();
-			this.iSeeButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).BeginInit();
 			this.noticePanel.SuspendLayout();
 			this.SuspendLayout();
@@ -84,9 +84,9 @@
 			this.label1.Location = new System.Drawing.Point(32, 30);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(59, 12);
+			this.label1.Size = new System.Drawing.Size(65, 12);
 			this.label1.TabIndex = 4;
-			this.label1.Text = "灯具信息:";
+			this.label1.Text = "灯具信息：";
 			// 
 			// nameTypeLabel
 			// 
@@ -131,6 +131,16 @@
 			this.noticePanel.Size = new System.Drawing.Size(274, 204);
 			this.noticePanel.TabIndex = 10;
 			// 
+			// cancelButton
+			// 
+			this.cancelButton.Location = new System.Drawing.Point(153, 140);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(97, 43);
+			this.cancelButton.TabIndex = 12;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+			// 
 			// label3
 			// 
 			this.label3.BackColor = System.Drawing.Color.Transparent;
@@ -141,7 +151,19 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(274, 120);
 			this.label3.TabIndex = 0;
-			this.label3.Text = "若改变了通道的初始地址，基于原通道地址编辑的步数信息将会消失，请谨慎操作！";
+			this.label3.Text = "若改变了灯具通道地址，基于原地址编辑的步数信息将会消失，请谨慎操作！";
+			// 
+			// iSeeButton
+			// 
+			this.iSeeButton.BackColor = System.Drawing.Color.Transparent;
+			this.iSeeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.iSeeButton.Location = new System.Drawing.Point(30, 140);
+			this.iSeeButton.Name = "iSeeButton";
+			this.iSeeButton.Size = new System.Drawing.Size(97, 43);
+			this.iSeeButton.TabIndex = 12;
+			this.iSeeButton.Text = "坚持修改";
+			this.iSeeButton.UseVisualStyleBackColor = false;
+			this.iSeeButton.Click += new System.EventHandler(this.iSeeButton_Click);
 			// 
 			// enterButton
 			// 
@@ -163,28 +185,6 @@
 			this.cancelButton2.UseVisualStyleBackColor = true;
 			this.cancelButton2.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
-			// iSeeButton
-			// 
-			this.iSeeButton.BackColor = System.Drawing.Color.Transparent;
-			this.iSeeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.iSeeButton.Location = new System.Drawing.Point(30, 140);
-			this.iSeeButton.Name = "iSeeButton";
-			this.iSeeButton.Size = new System.Drawing.Size(97, 43);
-			this.iSeeButton.TabIndex = 12;
-			this.iSeeButton.Text = "坚持修改";
-			this.iSeeButton.UseVisualStyleBackColor = false;
-			this.iSeeButton.Click += new System.EventHandler(this.iSeeButton_Click);
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.Location = new System.Drawing.Point(153, 140);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(97, 43);
-			this.cancelButton.TabIndex = 12;
-			this.cancelButton.Text = "取消";
-			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
 			// LightsEditForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -202,7 +202,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "LightsEditForm";
-			this.Text = "灯具修改";
+			this.Text = "修改灯具地址";
 			this.Load += new System.EventHandler(this.LightsEditForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).EndInit();
 			this.noticePanel.ResumeLayout(false);

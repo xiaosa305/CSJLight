@@ -68,7 +68,8 @@ namespace LightController.MyForm
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
 		public bool IsShowSaPanels = true; // 是否显示 子属性面板
 		public static int DefaultSoundCM = 0; // 添加音频步数时，其跳渐变默认值（可由配置文件进行改变）	
-		protected List<int> tdValues = null;
+		protected List<int> tdValues = null;  // 要实时显示单步数据的通道列表
+		public static string Language = "zh-CN";
 
 		// 全局辅助变量
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -127,8 +128,8 @@ namespace LightController.MyForm
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		public IList<int> SelectedIndices; //选择的灯具的index列表（多选情况下）
 
-		public int CurrentFrame = 0; // 表示场景编号(selectedIndex )
-		public int CurrentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
+		public int CurrentScene = 0; // 表示场景编号(selectedIndex)
+		public int CurrentMode = 0;  // 表示模式编号(selectedIndex)；0.常规模式； 1.音频模式
 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
 		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
@@ -147,7 +148,7 @@ namespace LightController.MyForm
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用
 		// 全局
 		protected virtual void setBusy(bool buzy) { } //设置是否忙时
-		public virtual void SetNotice(string notice, bool msgBoxShow) { } //设置提示信息（有些重要提示，则需弹窗）
+		public virtual void SetNotice(string notice, bool msgBoxShow,bool isTranslate) { } //设置提示信息（有些重要提示，则需弹窗）
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值	
 		// 工程面板
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
@@ -403,7 +404,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void RefreshLightImageList()
 		{
-
 			// 清空所有的图片,并添加默认图片
 			lightImageList.Images.Clear();
 			lightImageList.Images.Add("灯光图.png", global::LightController.Properties.Resources.灯光图);
@@ -592,7 +592,7 @@ namespace LightController.MyForm
 				generateDBFineTuneList();
 				//MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList(); 【重新生成内存中的dbStepCountList】
 				generateDBStepCountList();
-				IList<DB_Value> dbValueListTemp = generateDBValueList(CurrentFrame);
+				IList<DB_Value> dbValueListTemp = generateDBValueList(CurrentScene);
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
 
@@ -797,7 +797,7 @@ namespace LightController.MyForm
 		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, InsertMethod method , bool isShieldOthers)
 		{
 			if (materialAst == null) {
-				SetNotice("素材调用失败(material为空)",true);
+				SetNotice("素材调用失败(material为空)",true, true);
 				return;
 			}
 			
@@ -1063,14 +1063,14 @@ namespace LightController.MyForm
 			else
 			{
 				//若为空，则立刻创建一个
-				if (lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode] == null)
+				if (lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode] == null)
 				{
-					lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode] = new LightStepWrapper()
+					lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode] = new LightStepWrapper()
 					{
 						StepWrapperList = new List<StepWrapper>()
 					};
 				};
-				return lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode];
+				return lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode];
 			}
 		}
 
@@ -1261,12 +1261,12 @@ namespace LightController.MyForm
 		protected StepWrapper getSelectedStepWrapper(int lightIndex)
 		{
 			LightWrapper lightWrapper = LightWrapperList[lightIndex];
-			if (lightWrapper == null || lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode] == null) {
+			if (lightWrapper == null || lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode] == null) {
 				return null;
 			}
 
-			int currentStep = lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode].CurrentStep;
-			int totalStep = lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode].TotalStep;
+			int currentStep = lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode].CurrentStep;
+			int totalStep = lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode].TotalStep;
 
 			// 当前步或最大步某一种为0的情况下，返回null
 			if (currentStep == 0 || totalStep == 0)
@@ -1275,7 +1275,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				return lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode].StepWrapperList[currentStep - 1];
+				return lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode].StepWrapperList[currentStep - 1];
 			}
 		}
 
@@ -1381,7 +1381,7 @@ namespace LightController.MyForm
 				{
 					//通过组长生成相关的数据
 					StepWrapper currentStepTemplate = LightWrapperList[index].StepTemplate;
-					LightWrapperList[index].LightStepWrapperList[CurrentFrame, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
+					LightWrapperList[index].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
 				}
 			}
 			RefreshStep();
@@ -1604,7 +1604,7 @@ namespace LightController.MyForm
 
 			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
-			new NewForm(this, CurrentFrame).ShowDialog();
+			new NewForm(this, CurrentScene).ShowDialog();
 
 			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
 			if (IsCreateSuccess)
@@ -1768,7 +1768,7 @@ namespace LightController.MyForm
 			if (!RequestSaveProject("打开工程前，是否保存当前工程？", false)) {
 				return;
 			}
-			new OpenForm(this, CurrentFrame, currentProjectName).ShowDialog();
+			new OpenForm(this, CurrentScene, currentProjectName).ShowDialog();
 		}
 
 		/// <summary>
@@ -1782,13 +1782,13 @@ namespace LightController.MyForm
 		/// <param name="directoryPath"></param>
 		public void OpenProject(string savePath , string projectName, int frameIndex)
 		{
-			SetNotice("正在打开工程，请稍候...",false);
+			SetNotice("正在打开工程，请稍候...",false, true);
 			setBusy(true);
 
 			//MARK1124：OpenProject内当工作
 			if (savePath != SavePath) {
 				SavePath = savePath;
-				RefreshLightImageList();
+				RefreshLightImageList(); // OpenProject
 			}
 
 			DateTime beforeDT = System.DateTime.Now;
@@ -1804,7 +1804,8 @@ namespace LightController.MyForm
 			//10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
 			if (dbLightList == null || dbLightList.Count == 0)
 			{
-				SetNotice("成功打开空工程(" + projectName + ")", false);						
+				SetNotice(  "成功打开空工程(" + projectName + ")", false,false);						
+				//DOTO
 				if (DialogResult.OK == MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？",
 					"为空工程添加灯具",
 					MessageBoxButtons.OKCancel,
@@ -1851,14 +1852,16 @@ namespace LightController.MyForm
 				reBuildLightListView();
 
 				//MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
-				generateFrameData(CurrentFrame);
+				generateFrameData(CurrentScene);
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
 								
-				SetNotice("成功打开工程：【" + projectName + "】" +
-					"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" +
-					"。", true);
+				SetNotice( LanguageHelper.TranslateSentence( "成功打开工程：" )
+					+"【" 
+					+ projectName + "】" 
+					//+	"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" +
+					+ "。", true , false );
 			}
 			setBusy(false);
 
@@ -1972,7 +1975,7 @@ namespace LightController.MyForm
 				MessageBox.Show("当前工程没有灯具，无法使用调用场景功能。");
 				return;
 			}
-			new UseFrameForm(this, CurrentFrame).ShowDialog();
+			new UseFrameForm(this, CurrentScene).ShowDialog();
 		}
 
 		/// <summary>
@@ -1980,7 +1983,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void saveFrameClick() {
 
-			SetNotice("正在保存场景,请稍候...",false);
+			SetNotice("正在保存场景,请稍候...",false,true);
 			setBusy(true);
 
 			// 1.先判断是否有灯具数据；若无，则清空所有表数据
@@ -1994,7 +1997,7 @@ namespace LightController.MyForm
 				saveAllLights();
 				saveAllFineTunes();
 				// 只保存当前场景（两种模式）的stepCount和value
-				saveFrameSCAndValue(CurrentFrame);
+				saveFrameSCAndValue(CurrentScene);
 				try
 				{
 					GroupAst.SaveGroupIni(groupIniPath, GroupList);
@@ -2004,8 +2007,9 @@ namespace LightController.MyForm
 					MessageBox.Show("保存编组数据出错：\n" + ex.Message);
 				}
 			}
-						
-			SetNotice("成功保存场景(" + AllFrameList[CurrentFrame] + ")",true);
+			
+			SetNotice( LanguageHelper.TranslateSentence("成功保存场景")
+				+"(" 	+ AllFrameList[CurrentScene] + ")",true,false);
 			setBusy(false);
 		}
 
@@ -2014,7 +2018,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void saveProjectClick() {
 						
-			SetNotice("正在保存工程,请稍候...",false);
+			SetNotice("正在保存工程,请稍候...",false,true);
 			setBusy(true);
 
 			DateTime beforeDT = System.DateTime.Now;
@@ -2042,7 +2046,10 @@ namespace LightController.MyForm
 			TimeSpan ts = afterDT.Subtract(beforeDT);
 
 			setBusy(false);
-			SetNotice("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" , true);
+			SetNotice( LanguageHelper.TranslateSentence("成功保存工程:" )
+				+ currentProjectName 
+				//+ ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" 	
+				,true,false);
 		}
 
 		/// <summary>
@@ -2076,10 +2083,10 @@ namespace LightController.MyForm
 			{
 				DateTime beforeDT = System.DateTime.Now;
 
-				SetNotice("正在压缩源文件,请稍候..." ,false);
+				SetNotice("正在压缩源文件,请稍候..." ,false,true);
 				string dirPath = SavePath + @"\Source";
 				ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
-				SetNotice("已成功压缩源文件(Source.zip)。", false);
+				SetNotice("已成功压缩源文件(Source.zip)。", false, true);
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
@@ -2092,11 +2099,11 @@ namespace LightController.MyForm
 					System.Diagnostics.Process.Start(exportPath);
 				}
 				setBusy(false);
-				SetNotice("成功导出工程源文件", false);
+				SetNotice("成功导出工程源文件", false, true);
 			}
 			else {
 				setBusy(false);
-				SetNotice("导出工程源文件失败。", false);				
+				SetNotice("导出工程源文件失败。", false, true);				
 			}			
 		}
 
@@ -2140,7 +2147,7 @@ namespace LightController.MyForm
 				}
 			}
 						
-			SetNotice("正在导出工程，请稍候...", false);
+			SetNotice("正在导出工程，请稍候...", false, true);
 			setBusy(true);
 
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath));
@@ -2187,7 +2194,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...", false);
+			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...", false, true);
 			setBusy(true);
 
 			exportFrame(exportPath);
@@ -2223,13 +2230,13 @@ namespace LightController.MyForm
 				{
 					//若点击取消，则直接把忙时设为false，因为不会再往下走了，没有机会进行更改操作了。
 					setBusy(false);
-					SetNotice("因发生异常，已取消导出工程(只修改当前场景数据)的操作。", false);
+					SetNotice("因发生异常，已取消导出工程(只修改当前场景数据)的操作。", false, true);
 				}
 				return; //只要出现异常，就一定要退出本方法；
 			}
 
 			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）
-			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath), CurrentFrame);
+			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath), CurrentScene);
 		}
 
 		/// <summary>
@@ -2237,14 +2244,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void closeProjectClick()
 		{
-			if (!RequestSaveProject("关闭工程前，是否保存当前工程?", false))
+			if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭工程前，是否保存当前工程?"), false))
 			{
 				return;
 			}
 
 			string tempProjectName = currentProjectName;
 			clearAllData();
-			SetNotice("成功关闭工程(" + tempProjectName + ")。", true);
+			SetNotice("成功关闭工程(" + tempProjectName + ")。", true, true);
 		}
 
 		/// <summary>
@@ -2280,11 +2287,11 @@ namespace LightController.MyForm
 				// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
 				if (GenerateSourceProject())
 				{
-					SetNotice("正在压缩源文件,请稍候...",false);
+					SetNotice("正在压缩源文件,请稍候...",false, true);
 					string dirPath = SavePath + @"\Source";
 					string zipPath = exportPath + @"\Source.zip";
 					ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
-					SetNotice("已成功压缩源文件(Source.zip)。", false);
+					SetNotice("已成功压缩源文件(Source.zip)。", false, true);
 				}
 
 				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
@@ -2302,7 +2309,7 @@ namespace LightController.MyForm
 			}
 
 			setBusy(false);
-			SetNotice("导出工程" + (success ? "成功" : "出错"), false);
+			SetNotice("导出工程" + (success ? "成功" : "出错"), false, true);
 		}
 
 		/// <summary>
@@ -2448,7 +2455,7 @@ namespace LightController.MyForm
 				{
 					saveFrameSCAndValue(frameIndex);
 					//MARK 只开单场景：08.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了；而当前场景的值仍为true；
-					if (frameIndex != CurrentFrame)
+					if (frameIndex != CurrentScene)
 					{
 						frameSaveArray[frameIndex] = false;
 					}
@@ -2473,7 +2480,7 @@ namespace LightController.MyForm
 			{
 				foreach (LightWrapper lightWrapper in LightWrapperList)
 				{
-					lightWrapper.LightStepWrapperList[CurrentFrame, CurrentMode]
+					lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode]
 						= LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, CurrentMode], lightWrapper.StepTemplate, CurrentMode);
 				}
 			}
@@ -2500,7 +2507,7 @@ namespace LightController.MyForm
 
 			DialogResult dr = MessageBox.Show(
 				msg,
-				"保存工程?",
+				LanguageHelper.TranslateSentence("保存工程?"),
 				MessageBoxButtons.YesNoCancel,
 				 MessageBoxIcon.Question
 			);
@@ -2574,9 +2581,9 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《硬件升级》
+		/// 辅助方法：点击《固件升级》
 		/// </summary>
-		protected void hardwareUpdateClick()
+		protected void firmwareButtonClick()
 		{
 			new HardwareUpdateForm(this, binPath).ShowDialog();
 		}
@@ -2657,7 +2664,7 @@ namespace LightController.MyForm
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			if (lsWrapper == null)
 			{
-				SetNotice("尚未选中灯具，无法插入步。", true);
+				SetNotice("尚未选中灯具，无法插入步。", true, true);
 				return;
 			}
 
@@ -2728,7 +2735,7 @@ namespace LightController.MyForm
 		{
 			if (getCurrentLightStepWrapper() == null)
 			{
-				SetNotice("尚未选中灯具，无法追加步。", true);
+				SetNotice("尚未选中灯具，无法追加步。", true, true);
 				return;
 			}
 
@@ -2743,7 +2750,7 @@ namespace LightController.MyForm
 		{
 			if (getCurrentLightStepWrapper() == null)
 			{
-				SetNotice("尚未选中灯具，无法追加步。", true);
+				SetNotice("尚未选中灯具，无法追加步。", true, true);
 				return;
 			}
 			new AddStepsForm(this, MAX_STEP - getTotalStep() ).ShowDialog();
@@ -2812,7 +2819,7 @@ namespace LightController.MyForm
 		{
 			if (getCurrentLightStepWrapper() == null)
 			{
-				SetNotice("尚未选中灯具，无法删除步。", true);
+				SetNotice("尚未选中灯具，无法删除步。", true, true);
 				return;
 			}
 
@@ -2858,12 +2865,12 @@ namespace LightController.MyForm
 		{
 			if (getCurrentLightStepWrapper() == null)
 			{
-				SetNotice("尚未选中灯具，无法追加步。", true);
+				SetNotice("尚未选中灯具，无法追加步。", true, true);
 				return;
 			}
 
 			if (getTotalStep() == 0) {
-				SetNotice("当前灯具没有步数，无法删除步。",true);
+				SetNotice("当前灯具没有步数，无法删除步。",true, true);
 				return;
 			}
 			new DeleteStepsForm(this, getCurrentStep() , getTotalStep() ) .ShowDialog();
@@ -2922,13 +2929,13 @@ namespace LightController.MyForm
 			//检查是否有X、Y轴；
 			if (!checkXY())
 			{
-				SetNotice("检测到当前灯具无X/Y轴，无法使用内置动作功能。",true);
+				SetNotice("检测到当前灯具无X/Y轴，无法使用内置动作功能。",true, true);
 				return;
 			}
 
 			// 检查当前模式（音频模式很少用到动作，更多的是亮灭，故暂时不给音频模式做动作）
 			if (CurrentMode != 0) {
-				SetNotice("检测到当前模式不是常规模式，无法使用内置动作。",true);
+				SetNotice("检测到当前模式不是常规模式，无法使用内置动作。",true, true);
 				return;
 			}
 			
@@ -2983,7 +2990,7 @@ namespace LightController.MyForm
 			//检查是否有RGB及总调光；
 			if (!checkRGB())
 			{
-				SetNotice("检测到当前灯具无RGB或总调光通道，无法使用快速调色功能。", true);
+				SetNotice("检测到当前灯具无RGB或总调光通道，无法使用快速调色功能。", true, true);
 				return;
 			}
 
@@ -3021,7 +3028,7 @@ namespace LightController.MyForm
 			}
 			catch (Exception ex)
 			{
-				SetNotice("监测是否RGB灯具时发生异常:"+ex.Message, true);
+				SetNotice("监测是否RGB灯具时发生异常:"+ex.Message, true,false);
 				return false;
 			}	
 
@@ -3164,7 +3171,7 @@ namespace LightController.MyForm
 					EnterSyncMode(true); //syncButtonClick				
 				}
 				else {
-					SetNotice("当前场景所有灯具步数不一致，无法进入同步模式。", true);					
+					SetNotice("当前场景所有灯具步数不一致，无法进入同步模式。", true, true);					
 				}				
 			}
 		}
@@ -3203,7 +3210,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法： 改变了模式和场景后的操作		
 		/// </summary>
-		protected void changeFrameMode()
+		protected void changeSceneMode()
 		{
 			// 9.2 不可让selectedIndex为-1  , 否则会出现数组越界错误
 			if (selectedIndex == -1)
@@ -3234,7 +3241,7 @@ namespace LightController.MyForm
 		{
 			if (selectedIndex < 0 || LightAstList == null || LightAstList.Count == 0)
 			{
-				SetNotice("尚未选择灯具。", false);
+				SetNotice("尚未选择灯具。", false, true);
 				editLightInfo(null);
 				RefreshStep();
 				return;
@@ -3279,7 +3286,7 @@ namespace LightController.MyForm
 			{
 				if (getCurrentLightStepWrapper() == null)
 				{
-					SetNotice("尚未选中灯具，无法选步。", true);
+					SetNotice("尚未选中灯具，无法选步。", true, true);
 					return;
 				}
 
@@ -3400,13 +3407,13 @@ namespace LightController.MyForm
 			string lightAddr = la.LightAddr;
 			string tdName = lw.StepTemplate.TongdaoList[selectedTdIndex].TongdaoName;
 
-			SetNotice("打开【" + lightType+"("+selectedIndex+")" + "("+ selectedTdIndex + ":"+tdName+")】的单通道多步联调窗口。", false);
+			SetNotice("打开【" + lightType+"("+selectedIndex+")" + "("+ selectedTdIndex + ":"+tdName+")】的单通道多步联调窗口。", false,false);
 
 			new DetailSingleForm(
 				this, 				
 				selectedIndex,
 				selectedTdIndex,
-				lw.LightStepWrapperList[CurrentFrame,CurrentMode].StepWrapperList 
+				lw.LightStepWrapperList[CurrentScene,CurrentMode].StepWrapperList 
 			) . ShowDialog();
 		}
 
@@ -3422,7 +3429,7 @@ namespace LightController.MyForm
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
 			{
-				SetNotice("请先选中任意步数，才能进行统一调整！", true);
+				SetNotice("请先选中任意步数，才能进行统一调整！", true, true);
 				return;
 			}
 						
@@ -3435,7 +3442,7 @@ namespace LightController.MyForm
 				getCurrentStepWrapper(),
 				CurrentMode,
 				selectedIndex,
-				lw.LightStepWrapperList[CurrentFrame, CurrentMode].StepWrapperList
+				lw.LightStepWrapperList[CurrentScene, CurrentMode].StepWrapperList
 			).ShowDialog();
 		}
 		
@@ -3446,7 +3453,7 @@ namespace LightController.MyForm
 		{
 			if (getTotalStep() == 0)
 			{
-				SetNotice("当前灯具没有步数，无法使用多步联调。", true);
+				SetNotice("当前灯具没有步数，无法使用多步联调。", true, true);
 				return;
 			}
 
@@ -3455,7 +3462,6 @@ namespace LightController.MyForm
 				new DetailMultiPageForm(this, TdDict).ShowDialog();
 				return;
 			}
-
 
 			if (DmaForm == null || DmaForm.IsDisposed)
 			{
@@ -3635,7 +3641,7 @@ namespace LightController.MyForm
 		{
 			if (getCurrentStepWrapper() == null)
 			{
-				SetNotice("当前无选中步，不可点击子属性按钮", false);
+				SetNotice("当前无选中步，不可点击子属性按钮", false, true);
 				return;
 			}
 
@@ -3661,10 +3667,10 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void changeConnectMethodButtonClick()
 		{
-			SetNotice("正在切换连接模式,请稍候...", false);
+			SetNotice("正在切换连接模式,请稍候...", false, true);
 			isConnectCom = !isConnectCom;
 			refreshConnectMethod();			
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
+			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
 
 			//保存此连接方式到Settings中
 			Properties.Settings.Default.IsConnectCom = isConnectCom;
@@ -3689,23 +3695,23 @@ namespace LightController.MyForm
 				{
 					if (String.IsNullOrEmpty(deviceName))
 					{
-						SetNotice("未选中可用串口，请选中后再点击连接。",true);
+						SetNotice("未选中可用串口，请选中后再点击连接。",true, true);
 						return;
 					}
 					if (playTools.ConnectDevice(deviceName))
 					{
-						SetNotice("设备(以串口方式)连接成功,并进入调试模式。",false);
+						SetNotice("设备(以串口方式)连接成功,并进入调试模式。",false, true);
 						EnableConnectedButtons(true, false);
 					}
 					else {
-						SetNotice("设备连接失败，请刷新串口列表后重试。",true);
+						SetNotice("设备连接失败，请刷新串口列表后重试。",true, true);
 					}
 				}
 				else
 				{
 					if ( deviceSelectedIndex < 0)
 					{
-						SetNotice("未选中可用网络连接，请选中后再点击连接。",true);
+						SetNotice("未选中可用网络连接，请选中后再点击连接。",true, true);
 						return;
 					}
 					
@@ -3713,11 +3719,11 @@ namespace LightController.MyForm
 					if (myConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
 						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
-						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false);						
+						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false, true);						
 					}
 					else
 					{
-						SetNotice("设备连接失败，请刷新网络设备列表后重试。",true);
+						SetNotice("设备连接失败，请刷新网络设备列表后重试。",true, true);
 					}
 				}
 			}			
@@ -3740,7 +3746,7 @@ namespace LightController.MyForm
 				{
 					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
 				}
-				SetNotice("已断开连接。",false);
+				SetNotice("已断开连接。",false, true);
 			}
 		}
 
@@ -3752,7 +3758,7 @@ namespace LightController.MyForm
 			// 未连接的情况下，无法发送数据。 
 			if (!IsConnected || IsPreviewing)
 			{
-				SetNotice("未连接设备或正在预览中，无法实时调试。", false);
+				SetNotice("未连接设备或正在预览中，无法实时调试。", false, true);
 				return;
 			}
 
@@ -3807,7 +3813,8 @@ namespace LightController.MyForm
 			}
 
 			playTools.OLOSView(stepBytes);
-			SetNotice("正在实时调试(" + (selectedIndex + 1) + ")第"+currentStep+"步" + tdValueStr ,false);
+			//DOTO
+			SetNotice("正在实时调试(" + (selectedIndex + 1) + ")第"+currentStep+"步" + tdValueStr ,false,false);
 		}
 		
 		/// <summary>
@@ -3815,10 +3822,10 @@ namespace LightController.MyForm
 		/// </summary>
 		internal void Preview()
 		{			
-			SetNotice("预览数据生成成功,即将开始预览。",false);
+			SetNotice("预览数据生成成功,即将开始预览。",false, true);
 			EnableConnectedButtons(true,true);
 
-			playTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentFrame);			
+			playTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
 		}
 		
 		/// <summary>
@@ -3836,7 +3843,7 @@ namespace LightController.MyForm
 		{
 			if (!IsConnected)
 			{
-				MessageBox.Show("尚未连接设备，无法预览效果（或停止预览）。");
+				SetNotice("尚未连接设备，无法预览效果（或停止预览）。", true,true);
 				EnableConnectedButtons(false, false);
 				return;
 			}
@@ -3846,21 +3853,21 @@ namespace LightController.MyForm
 			{
 				endview();
 				EnableConnectedButtons(true, false);	
-				SetNotice("已结束预览,并恢复到实时调试模式。",false);
+				SetNotice("已结束预览,并恢复到实时调试模式。",false, true);
 			}
 			// 开始预览
 			else
 			{
 				if (LightAstList == null || LightAstList.Count == 0)
 				{
-					SetNotice("当前工程还未添加灯具，无法预览。",true);
+					SetNotice("当前工程还未添加灯具，无法预览。",true, true);
 					SetPreview(false);
 					return;
 				}
 
 				setBusy(true);
 				SetPreview(true);
-				SetNotice("正在生成预览数据，请稍候...",false);
+				SetNotice("正在生成预览数据，请稍候...",false, true);
 				try
 				{
 					//MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
@@ -3883,7 +3890,7 @@ namespace LightController.MyForm
 										{
 											PK = new DB_ValuePK()
 											{
-												Frame = CurrentFrame,
+												Frame = CurrentScene,
 												Mode = CurrentMode, // 注意，如果要让音频素材也生效，则此处得设为1，而下面的ChangeMode也得发生变化(但目前屏蔽了音频素材的预览)
 												Step = stepIndex + 1,
 												LightIndex = dbLightList[lightIndex].StartID,
@@ -3903,7 +3910,7 @@ namespace LightController.MyForm
 					else {
 						dbWrapperTemp = GetDBWrapper(false);
 					}
-					DataConvertUtils.SaveProjectFileByPreviewData( dbWrapperTemp , GlobalIniPath, CurrentFrame, new PreviewCallBack(this));
+					DataConvertUtils.SaveProjectFileByPreviewData( dbWrapperTemp , GlobalIniPath, CurrentScene, new PreviewCallBack(this));
 				}
 				catch (Exception ex)
 				{
@@ -4028,6 +4035,8 @@ namespace LightController.MyForm
 			NETWORK_WAITTIME = iniHelper.GetSystemCount( "waitTime",1000);
 			DefaultSoundCM = iniHelper.GetSystemCount("soundChangeMode", 0);
 
+			LanguageHelper.SetLanguage(iniHelper.ReadString("System", "language", "zh-CN").Trim());// 国际化初始化
+
 			//MARK : 1218 添加对单步运行时某些步数据是否显示的处理
 			try
 			{
@@ -4047,10 +4056,12 @@ namespace LightController.MyForm
 			}			
 
 			// lightImageList的初始化
-			this.lightImageList = new ImageList();
-			this.lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			this.lightImageList.ImageSize = new System.Drawing.Size(60, 65);
-			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
+			lightImageList = new ImageList();
+			lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			lightImageList.ImageSize = new System.Drawing.Size(60, 65);
+			lightImageList.TransparentColor = System.Drawing.Color.Transparent;
+
+			
 		}   
 	
 		/// <summary>
@@ -4195,7 +4206,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				SetNotice("错误的Tag。", true);
+				SetNotice("错误的Tag。", true, true);
 				return;
 			}
 
@@ -4249,7 +4260,7 @@ namespace LightController.MyForm
 		public void ConnectAndDisconnectError(string msg)
 		{
 			Invoke((EventHandler)delegate	{
-				SetNotice(msg,true);
+				SetNotice(msg,true, true);
 			});
 		}
 		
@@ -4273,7 +4284,7 @@ namespace LightController.MyForm
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。",false);
+			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。",false, false);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -4325,11 +4336,11 @@ namespace LightController.MyForm
 		public void Error(string msg)
 		{
             mainForm.SetPreview(false);
-            mainForm.SetNotice("预览数据生成出错,无法预览,。错误原因为：" + msg , true);            
+            mainForm.SetNotice("预览数据生成出错,无法预览,。错误原因为：" + msg , true, false);            
 		}
 		public void UpdateProgress(string name)
 		{
-			mainForm.SetNotice("预览数据生成中(" + name + ")" , false);
+			mainForm.SetNotice("预览数据生成中(" + name + ")" , false, true);
 		}
 	}
 
@@ -4352,7 +4363,9 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			mainForm.SetNotice("正在生成工程文件("+name+")" ,false);
+			mainForm.SetNotice(
+				LanguageHelper.TranslateSentence("正在生成工程文件")
+				+"("+name+")" ,false,false);
 		}
 	}	
 

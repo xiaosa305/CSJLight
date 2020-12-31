@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using LightController.Ast;
+using LightController.Common;
 
 namespace LightController.MyForm
 {
@@ -36,8 +37,9 @@ namespace LightController.MyForm
 
 		private void MultiLightForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(lightsListView);
 		}
 
 		/// <summary>

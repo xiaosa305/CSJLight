@@ -40,8 +40,8 @@ namespace LightController
 
         private void LightsAstForm_Load(object sender, EventArgs e)
         {
-            //this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
         // 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址

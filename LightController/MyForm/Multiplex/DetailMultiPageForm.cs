@@ -22,7 +22,7 @@ namespace LightController.MyForm.Multiplex
 		private List<int> tdList = new List<int>(); // 记录选中的通道		
 		private int pageCount; //  总页数
 		private int currentPage = 1;  // 从0开始计算页数		
-		private bool isShowSa ;
+		private bool isShowSa ;		
 
 		public DetailMultiPageForm(MainFormBase mainForm, Dictionary<int, List<int>> tdDict)
 		{
@@ -74,7 +74,7 @@ namespace LightController.MyForm.Multiplex
 			IList<LightWrapper> lwList = mainForm.LightWrapperList;
 			foreach (int lightIndex in tdDict.Keys)
 			{
-				LightStepWrapper lsWrapper = lwList[lightIndex].LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
+				LightStepWrapper lsWrapper = lwList[lightIndex].LightStepWrapperList[mainForm.CurrentScene, mainForm.CurrentMode];
 				if (lsWrapper != null)
 				{
 					IList<StepWrapper> stepWrapperList = lsWrapper.StepWrapperList;
@@ -91,6 +91,7 @@ namespace LightController.MyForm.Multiplex
 		private void DetailMultiPageForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>
@@ -103,7 +104,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				LightStepWrapper lsWrapper = mainForm
 					.LightWrapperList[lightIndex]
-					.LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
+					.LightStepWrapperList[mainForm.CurrentScene, mainForm.CurrentMode];
 
 				if (lsWrapper != null)
 				{
@@ -295,7 +296,7 @@ namespace LightController.MyForm.Multiplex
 
 				IList<StepWrapper> swList = mainForm
 					.LightWrapperList[lightIndex]
-					.LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode]
+					.LightStepWrapperList[mainForm.CurrentScene, mainForm.CurrentMode]
 					.StepWrapperList;
 
 				for (int stepPanelIndex = 0; stepPanelIndex < 20; stepPanelIndex++)
@@ -386,7 +387,8 @@ namespace LightController.MyForm.Multiplex
 			}
 			catch (Exception) {
 				mainForm.DmaForm.Show();
-			}			
+			}
+			
 
 			#region 当作测试键使用时的功能
 

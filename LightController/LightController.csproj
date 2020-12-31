@@ -119,6 +119,9 @@
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
@@ -166,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\Entity\ReturnDTO.cs" />
+    <Compile Include="Ast\Entity\TranslateResult.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\GroupAst.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
@@ -176,6 +180,7 @@
     <Compile Include="Common\HttpHelper.cs" />
     <Compile Include="Common\IniFileHelper.cs" />
     <Compile Include="Common\IniFileHelper_UTF8.cs" />
+    <Compile Include="Common\LanguageHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
@@ -203,11 +208,11 @@
     <Compile Include="MyForm\LightEditor\NewLightEditorForm.Designer.cs">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\LightRemarkForm.cs">
+    <Compile Include="MyForm\MainFormAst\LightRemarksForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\LightRemarkForm.Designer.cs">
-      <DependentUpon>LightRemarkForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\LightRemarksForm.Designer.cs">
+      <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
@@ -420,11 +425,11 @@
     <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.Designer.cs">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\UseFrameForm.cs">
+    <Compile Include="MyForm\MainFormAst\CopyFrameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\UseFrameForm.Designer.cs">
-      <DependentUpon>UseFrameForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\CopyFrameForm.Designer.cs">
+      <DependentUpon>CopyFrameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\GlobalSet\YMSetForm.cs">
       <SubType>Form</SubType>
@@ -487,6 +492,9 @@
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Content Include="灯库软件.ico" />
+    <Content Include="Language\en-US.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\灯光图.png" />
     <Content Include="安装说明.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -497,8 +505,8 @@
     <EmbeddedResource Include="MyForm\LightEditor\NewLightEditorForm.resx">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\LightRemarkForm.resx">
-      <DependentUpon>LightRemarkForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\LightRemarksForm.resx">
+      <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
@@ -603,8 +611,8 @@
     <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\UseFrameForm.resx">
-      <DependentUpon>UseFrameForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\CopyFrameForm.resx">
+      <DependentUpon>CopyFrameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>

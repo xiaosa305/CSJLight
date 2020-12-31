@@ -67,8 +67,7 @@
 			this.insertButton.Location = new System.Drawing.Point(118, 336);
 			this.insertButton.Name = "insertButton";
 			this.insertButton.Size = new System.Drawing.Size(67, 27);
-			this.insertButton.TabIndex = 3;
-			this.insertButton.Tag = "0";
+			this.insertButton.TabIndex = 3;			
 			this.insertButton.Text = "插入";
 			this.insertButton.UseVisualStyleBackColor = true;
 			this.insertButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
@@ -80,7 +79,6 @@
 			this.coverButton.Name = "coverButton";
 			this.coverButton.Size = new System.Drawing.Size(67, 27);
 			this.coverButton.TabIndex = 3;
-			this.coverButton.Tag = "1";
 			this.coverButton.Text = "覆盖";
 			this.coverButton.UseVisualStyleBackColor = true;
 			this.coverButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
@@ -93,10 +91,22 @@
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(67, 27);
 			this.previewButton.TabIndex = 3;
-			this.previewButton.Text = "预览素材";
+			this.previewButton.Text = "预览";
 			this.previewButton.UseVisualStyleBackColor = false;
 			this.previewButton.Visible = false;
-			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+			this.previewButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
+			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);			
+			// 
+			// appendButton
+			// 
+			this.appendButton.Enabled = false;
+			this.appendButton.Location = new System.Drawing.Point(118, 370);
+			this.appendButton.Name = "appendButton";
+			this.appendButton.Size = new System.Drawing.Size(67, 27);
+			this.appendButton.TabIndex = 3;
+			this.appendButton.Text = "追加";
+			this.appendButton.UseVisualStyleBackColor = true;
+			this.appendButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
 			// 
 			// cancelButton
 			// 
@@ -107,18 +117,7 @@
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
-			// appendButton
-			// 
-			this.appendButton.Enabled = false;
-			this.appendButton.Location = new System.Drawing.Point(118, 370);
-			this.appendButton.Name = "appendButton";
-			this.appendButton.Size = new System.Drawing.Size(67, 27);
-			this.appendButton.TabIndex = 3;
-			this.appendButton.Tag = "2";
-			this.appendButton.Text = "追加";
-			this.appendButton.UseVisualStyleBackColor = true;
-			this.appendButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
+
 			// 
 			// myStatusStrip
 			// 
@@ -157,7 +156,7 @@
 			this.MinimizeBox = false;
 			this.Name = "MaterialUseForm";
 			this.ShowInTaskbar = false;
-			this.Text = "使用素材";
+			this.Text = "使用素材 ";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MaterialUseForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MaterialUseForm_FormClosed);
 			this.Load += new System.EventHandler(this.MaterialUseForm_Load);

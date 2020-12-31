@@ -354,8 +354,9 @@ namespace OtherTools
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(91, 54);
 			this.switchButton.TabIndex = 24;
-			this.switchButton.Text = "切换为\r\n网络连接";
+			this.switchButton.Text = "以网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
 			// deviceConnectButton
@@ -368,6 +369,7 @@ namespace OtherTools
 			this.deviceConnectButton.TabIndex = 23;
 			this.deviceConnectButton.Text = "打开串口";
 			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.deviceConnectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// refreshButton
@@ -379,6 +381,7 @@ namespace OtherTools
 			this.refreshButton.TabIndex = 23;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// comboBox2
@@ -551,7 +554,7 @@ namespace OtherTools
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(47, 12);
 			this.label25.TabIndex = 6;
-			this.label25.Text = "键值码1";
+			this.label25.Text = "键码值1";
 			// 
 			// label24
 			// 
@@ -560,7 +563,7 @@ namespace OtherTools
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(47, 12);
 			this.label24.TabIndex = 6;
-			this.label24.Text = "键值码0";
+			this.label24.Text = "键码值0";
 			// 
 			// kpConnectButton
 			// 
@@ -602,7 +605,7 @@ namespace OtherTools
 			this.kpLoadButton.Name = "kpLoadButton";
 			this.kpLoadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpLoadButton.TabIndex = 5;
-			this.kpLoadButton.Text = "加载文件";
+			this.kpLoadButton.Text = "加载本地文件";
 			this.kpLoadButton.UseVisualStyleBackColor = true;
 			this.kpLoadButton.Click += new System.EventHandler(this.kpLoadButton_Click);
 			// 
@@ -672,7 +675,7 @@ namespace OtherTools
 			this.kpDownloadButton.Name = "kpDownloadButton";
 			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpDownloadButton.TabIndex = 5;
-			this.kpDownloadButton.Text = "下载文件";
+			this.kpDownloadButton.Text = "下载到墙板";
 			this.kpDownloadButton.UseVisualStyleBackColor = true;
 			this.kpDownloadButton.Click += new System.EventHandler(this.kpDownloadButton_Click);
 			// 
@@ -683,7 +686,7 @@ namespace OtherTools
 			this.kpSaveButton.Name = "kpSaveButton";
 			this.kpSaveButton.Size = new System.Drawing.Size(105, 40);
 			this.kpSaveButton.TabIndex = 5;
-			this.kpSaveButton.Text = "保存文件";
+			this.kpSaveButton.Text = "保存到本地";
 			this.kpSaveButton.UseVisualStyleBackColor = true;
 			this.kpSaveButton.Click += new System.EventHandler(this.kpSaveButton_Click);
 			// 
@@ -773,7 +776,7 @@ namespace OtherTools
 			this.fanButton.Name = "fanButton";
 			this.fanButton.Size = new System.Drawing.Size(91, 52);
 			this.fanButton.TabIndex = 0;
-			this.fanButton.Text = "点击禁用\r\n排风通道";
+			this.fanButton.Text = "禁用排风通道";
 			this.fanButton.UseVisualStyleBackColor = true;
 			this.fanButton.Click += new System.EventHandler(this.fanButton_Click);
 			// 
@@ -784,7 +787,7 @@ namespace OtherTools
 			this.acButton.Name = "acButton";
 			this.acButton.Size = new System.Drawing.Size(91, 52);
 			this.acButton.TabIndex = 0;
-			this.acButton.Text = "点击禁用\r\n空调通道";
+			this.acButton.Text = "禁用空调通道";
 			this.acButton.UseVisualStyleBackColor = true;
 			this.acButton.Click += new System.EventHandler(this.acButton_Click);
 			// 
@@ -796,9 +799,9 @@ namespace OtherTools
 			this.lcGroupBox4.Controls.Add(this.panel9);
 			this.lcGroupBox4.Controls.Add(this.panel8);
 			this.lcGroupBox4.Controls.Add(this.panel3);
-			this.lcGroupBox4.Location = new System.Drawing.Point(187, 380);
+			this.lcGroupBox4.Location = new System.Drawing.Point(176, 380);
 			this.lcGroupBox4.Name = "lcGroupBox4";
-			this.lcGroupBox4.Size = new System.Drawing.Size(366, 175);
+			this.lcGroupBox4.Size = new System.Drawing.Size(360, 175);
 			this.lcGroupBox4.TabIndex = 6;
 			this.lcGroupBox4.TabStop = false;
 			this.lcGroupBox4.Text = "空调与排风通道设置";
@@ -989,9 +992,9 @@ namespace OtherTools
 			this.lcGroupBox5.Controls.Add(this.lrGroupBox);
 			this.lcGroupBox5.Controls.Add(this.fjGroupBox);
 			this.lcGroupBox5.Controls.Add(this.ktwdGroupBox);
-			this.lcGroupBox5.Location = new System.Drawing.Point(575, 380);
+			this.lcGroupBox5.Location = new System.Drawing.Point(556, 380);
 			this.lcGroupBox5.Name = "lcGroupBox5";
-			this.lcGroupBox5.Size = new System.Drawing.Size(568, 174);
+			this.lcGroupBox5.Size = new System.Drawing.Size(587, 174);
 			this.lcGroupBox5.TabIndex = 6;
 			this.lcGroupBox5.TabStop = false;
 			this.lcGroupBox5.Text = "空调控制";
@@ -1004,9 +1007,9 @@ namespace OtherTools
 			this.ktmsGroupBox.Controls.Add(this.ktHighRadioButton);
 			this.ktmsGroupBox.Controls.Add(this.ktLowRadioButton);
 			this.ktmsGroupBox.Enabled = false;
-			this.ktmsGroupBox.Location = new System.Drawing.Point(182, 103);
+			this.ktmsGroupBox.Location = new System.Drawing.Point(148, 107);
 			this.ktmsGroupBox.Name = "ktmsGroupBox";
-			this.ktmsGroupBox.Size = new System.Drawing.Size(375, 58);
+			this.ktmsGroupBox.Size = new System.Drawing.Size(420, 58);
 			this.ktmsGroupBox.TabIndex = 1;
 			this.ktmsGroupBox.TabStop = false;
 			this.ktmsGroupBox.Text = "空调模式";
@@ -1083,9 +1086,9 @@ namespace OtherTools
 			this.lrGroupBox.Controls.Add(this.zlRadioButton1);
 			this.lrGroupBox.Controls.Add(this.zlRadioButton2);
 			this.lrGroupBox.Enabled = false;
-			this.lrGroupBox.Location = new System.Drawing.Point(299, 28);
+			this.lrGroupBox.Location = new System.Drawing.Point(333, 28);
 			this.lrGroupBox.Name = "lrGroupBox";
-			this.lrGroupBox.Size = new System.Drawing.Size(258, 58);
+			this.lrGroupBox.Size = new System.Drawing.Size(235, 73);
 			this.lrGroupBox.TabIndex = 1;
 			this.lrGroupBox.TabStop = false;
 			this.lrGroupBox.Text = "冷热模式";
@@ -1095,7 +1098,7 @@ namespace OtherTools
 			// 
 			this.zlRadioButton3.AutoSize = true;
 			this.zlRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton3.Location = new System.Drawing.Point(160, 25);
+			this.zlRadioButton3.Location = new System.Drawing.Point(164, 25);
 			this.zlRadioButton3.Name = "zlRadioButton3";
 			this.zlRadioButton3.Size = new System.Drawing.Size(47, 16);
 			this.zlRadioButton3.TabIndex = 0;
@@ -1107,7 +1110,7 @@ namespace OtherTools
 			// 
 			this.zlRadioButton1.AutoSize = true;
 			this.zlRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton1.Location = new System.Drawing.Point(22, 26);
+			this.zlRadioButton1.Location = new System.Drawing.Point(26, 26);
 			this.zlRadioButton1.Name = "zlRadioButton1";
 			this.zlRadioButton1.Size = new System.Drawing.Size(47, 16);
 			this.zlRadioButton1.TabIndex = 0;
@@ -1119,7 +1122,7 @@ namespace OtherTools
 			// 
 			this.zlRadioButton2.AutoSize = true;
 			this.zlRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton2.Location = new System.Drawing.Point(91, 26);
+			this.zlRadioButton2.Location = new System.Drawing.Point(95, 26);
 			this.zlRadioButton2.Name = "zlRadioButton2";
 			this.zlRadioButton2.Size = new System.Drawing.Size(47, 16);
 			this.zlRadioButton2.TabIndex = 0;
@@ -1134,7 +1137,7 @@ namespace OtherTools
 			this.fjGroupBox.Controls.Add(this.fjSXFRadioButton);
 			this.fjGroupBox.Location = new System.Drawing.Point(25, 28);
 			this.fjGroupBox.Name = "fjGroupBox";
-			this.fjGroupBox.Size = new System.Drawing.Size(257, 58);
+			this.fjGroupBox.Size = new System.Drawing.Size(292, 73);
 			this.fjGroupBox.TabIndex = 1;
 			this.fjGroupBox.TabStop = false;
 			this.fjGroupBox.Text = "风机类型";
@@ -1143,40 +1146,35 @@ namespace OtherTools
 			// 
 			this.fjJYRadioButton.AutoSize = true;
 			this.fjJYRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjJYRadioButton.Location = new System.Drawing.Point(23, 28);
+			this.fjJYRadioButton.Location = new System.Drawing.Point(15, 36);
 			this.fjJYRadioButton.Name = "fjJYRadioButton";
 			this.fjJYRadioButton.Size = new System.Drawing.Size(47, 16);
 			this.fjJYRadioButton.TabIndex = 0;
 			this.fjJYRadioButton.TabStop = true;
-			this.fjJYRadioButton.Tag = "0";
 			this.fjJYRadioButton.Text = "禁用";
 			this.fjJYRadioButton.UseVisualStyleBackColor = true;
 			this.fjJYRadioButton.Click += new System.EventHandler(this.fjRadioButton_Click);
 			// 
 			// fjDXFRadioButton
 			// 
-			this.fjDXFRadioButton.AutoSize = true;
 			this.fjDXFRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjDXFRadioButton.Location = new System.Drawing.Point(95, 28);
+			this.fjDXFRadioButton.Location = new System.Drawing.Point(91, 22);
 			this.fjDXFRadioButton.Name = "fjDXFRadioButton";
-			this.fjDXFRadioButton.Size = new System.Drawing.Size(59, 16);
+			this.fjDXFRadioButton.Size = new System.Drawing.Size(95, 45);
 			this.fjDXFRadioButton.TabIndex = 0;
 			this.fjDXFRadioButton.TabStop = true;
-			this.fjDXFRadioButton.Tag = "1";
 			this.fjDXFRadioButton.Text = "单线阀";
 			this.fjDXFRadioButton.UseVisualStyleBackColor = true;
 			this.fjDXFRadioButton.Click += new System.EventHandler(this.fjRadioButton_Click);
 			// 
 			// fjSXFRadioButton
 			// 
-			this.fjSXFRadioButton.AutoSize = true;
 			this.fjSXFRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjSXFRadioButton.Location = new System.Drawing.Point(179, 28);
+			this.fjSXFRadioButton.Location = new System.Drawing.Point(192, 20);
 			this.fjSXFRadioButton.Name = "fjSXFRadioButton";
-			this.fjSXFRadioButton.Size = new System.Drawing.Size(59, 16);
+			this.fjSXFRadioButton.Size = new System.Drawing.Size(94, 47);
 			this.fjSXFRadioButton.TabIndex = 0;
 			this.fjSXFRadioButton.TabStop = true;
-			this.fjSXFRadioButton.Tag = "2";
 			this.fjSXFRadioButton.Text = "双线阀";
 			this.fjSXFRadioButton.UseVisualStyleBackColor = true;
 			this.fjSXFRadioButton.Click += new System.EventHandler(this.fjRadioButton_Click);
@@ -1186,7 +1184,7 @@ namespace OtherTools
 			this.ktwdGroupBox.Controls.Add(this.numericUpDown6);
 			this.ktwdGroupBox.Controls.Add(this.label10);
 			this.ktwdGroupBox.Enabled = false;
-			this.ktwdGroupBox.Location = new System.Drawing.Point(25, 103);
+			this.ktwdGroupBox.Location = new System.Drawing.Point(25, 107);
 			this.ktwdGroupBox.Name = "ktwdGroupBox";
 			this.ktwdGroupBox.Size = new System.Drawing.Size(114, 58);
 			this.ktwdGroupBox.TabIndex = 1;
@@ -1498,9 +1496,9 @@ namespace OtherTools
 			this.label13.AutoSize = true;
 			this.label13.Location = new System.Drawing.Point(153, 35);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(71, 12);
+			this.label13.Size = new System.Drawing.Size(65, 12);
 			this.label13.TabIndex = 2;
-			this.label13.Text = "选择场景 ：";
+			this.label13.Text = "选择场景：";
 			// 
 			// qdFrameComboBox
 			// 
@@ -2298,7 +2296,7 @@ namespace OtherTools
 			// keepLightOnCheckBox
 			// 
 			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(96, -2);
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(144, -2);
 			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
 			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.keepLightOnCheckBox.TabIndex = 9;
@@ -2601,7 +2599,7 @@ namespace OtherTools
 			// label22
 			// 
 			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(889, 573);
+			this.label22.Location = new System.Drawing.Point(863, 573);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(47, 12);
 			this.label22.TabIndex = 3;
@@ -2610,7 +2608,7 @@ namespace OtherTools
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(603, 572);
+			this.label17.Location = new System.Drawing.Point(576, 572);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(47, 12);
 			this.label17.TabIndex = 3;
@@ -2619,7 +2617,7 @@ namespace OtherTools
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(886, 532);
+			this.label21.Location = new System.Drawing.Point(863, 532);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(53, 12);
 			this.label21.TabIndex = 3;
@@ -2628,7 +2626,7 @@ namespace OtherTools
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(600, 531);
+			this.label9.Location = new System.Drawing.Point(576, 531);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(53, 12);
 			this.label9.TabIndex = 3;
@@ -2637,7 +2635,7 @@ namespace OtherTools
 			// label20
 			// 
 			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(883, 491);
+			this.label20.Location = new System.Drawing.Point(863, 491);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(59, 12);
 			this.label20.TabIndex = 3;
@@ -2646,7 +2644,7 @@ namespace OtherTools
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(597, 490);
+			this.label4.Location = new System.Drawing.Point(576, 490);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(59, 12);
 			this.label4.TabIndex = 3;
@@ -2655,7 +2653,7 @@ namespace OtherTools
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(883, 450);
+			this.label19.Location = new System.Drawing.Point(863, 450);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(59, 12);
 			this.label19.TabIndex = 3;
@@ -2664,7 +2662,7 @@ namespace OtherTools
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(597, 449);
+			this.label3.Location = new System.Drawing.Point(576, 449);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(59, 12);
 			this.label3.TabIndex = 3;
@@ -2673,7 +2671,7 @@ namespace OtherTools
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(600, 408);
+			this.label18.Location = new System.Drawing.Point(576, 408);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(53, 12);
 			this.label18.TabIndex = 1;
@@ -2682,7 +2680,7 @@ namespace OtherTools
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(886, 409);
+			this.label2.Location = new System.Drawing.Point(863, 409);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(53, 12);
 			this.label2.TabIndex = 1;
@@ -2907,7 +2905,6 @@ namespace OtherTools
 		private StatusStrip lcStatusStrip;
 		private ToolStripStatusLabel lcToolStripStatusLabel1;
 		private ToolStripStatusLabel lcToolStripStatusLabel2;
-		private GroupBox lcGroupBox3;
 		private Button fanButton;
 		private Button acButton;
 		private GroupBox lcGroupBox4;
@@ -3083,6 +3080,7 @@ namespace OtherTools
 		private ToolStripStatusLabel ccToolStripStatusLabel2;
 		private CheckBox tcCheckBox;
 		private Button editCodeButton;
+		private GroupBox lcGroupBox3;
 	}
 }
 

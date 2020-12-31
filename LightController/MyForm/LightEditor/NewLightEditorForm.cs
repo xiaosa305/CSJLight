@@ -147,6 +147,7 @@ namespace LightEditor
 		private void NewLightEditorForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 40, mainForm.Location.Y + 60);
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>

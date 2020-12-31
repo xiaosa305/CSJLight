@@ -165,9 +165,9 @@
 			this.label1.Location = new System.Drawing.Point(388, 142);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(125, 12);
+			this.label1.Size = new System.Drawing.Size(113, 12);
 			this.label1.TabIndex = 16;
-			this.label1.Text = "请选择被复用的步数：";
+			this.label1.Text = "请选择被复用的步数";
 			// 
 			// label3
 			// 

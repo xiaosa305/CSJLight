@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +33,7 @@ namespace LightController.MyForm.Multiplex
 		private void ActionForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
 		/// <summary>
@@ -395,6 +397,10 @@ namespace LightController.MyForm.Multiplex
 				MessageBox.Show(msg);
 			}
 		}
-			
+
+		private void previewButton_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Button);
+		}
 	}
 }

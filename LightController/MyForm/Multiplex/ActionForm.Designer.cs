@@ -105,12 +105,13 @@
 			// previewButton
 			// 
 			this.previewButton.BackColor = System.Drawing.Color.SandyBrown;
-			this.previewButton.Location = new System.Drawing.Point(45, 375);
+			this.previewButton.Location = new System.Drawing.Point(53, 375);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(75, 37);
 			this.previewButton.TabIndex = 0;
 			this.previewButton.Text = "预览";
 			this.previewButton.UseVisualStyleBackColor = false;
+			this.previewButton.TextChanged += new System.EventHandler(this.previewButton_TextChanged);
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
 			// actionTabControl
@@ -720,7 +721,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(181, 375);
+			this.enterButton.Location = new System.Drawing.Point(184, 375);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 37);
 			this.enterButton.TabIndex = 0;
@@ -731,7 +732,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(261, 375);
+			this.cancelButton.Location = new System.Drawing.Point(264, 375);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 37);
 			this.cancelButton.TabIndex = 0;

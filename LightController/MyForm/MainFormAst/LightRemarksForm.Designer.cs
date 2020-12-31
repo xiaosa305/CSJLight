@@ -88,7 +88,6 @@
 			this.lightRemarkTextBox.Name = "lightRemarkTextBox";
 			this.lightRemarkTextBox.Size = new System.Drawing.Size(125, 21);
 			this.lightRemarkTextBox.TabIndex = 12;
-			this.lightRemarkTextBox.Text = "壹贰叁肆伍陆柒巴九十";
 			// 
 			// label3
 			// 

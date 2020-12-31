@@ -568,9 +568,9 @@
 			this.lightLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightLabel.Location = new System.Drawing.Point(319, 31);
 			this.lightLabel.Name = "lightLabel";
-			this.lightLabel.Size = new System.Drawing.Size(70, 14);
+			this.lightLabel.Size = new System.Drawing.Size(77, 14);
 			this.lightLabel.TabIndex = 7;
-			this.lightLabel.Text = "灯具名称:";
+			this.lightLabel.Text = "灯具名称：";
 			// 
 			// label1
 			// 
@@ -578,9 +578,9 @@
 			this.label1.Location = new System.Drawing.Point(317, 106);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(125, 12);
+			this.label1.Size = new System.Drawing.Size(113, 12);
 			this.label1.TabIndex = 8;
-			this.label1.Text = "请选择要复制的步数：";
+			this.label1.Text = "请选择要复制的步数";
 			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// panel1
@@ -712,7 +712,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MultiStepCopyForm";
-			this.Text = "复制多步";
+			this.Text = "复制多步 ";
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);
 			this.tongdaoPanel.PerformLayout();

@@ -91,8 +91,9 @@
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(88, 59);
 			this.switchButton.TabIndex = 34;
-			this.switchButton.Text = "切换为\r\n网络连接";
+			this.switchButton.Text = "以网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.TextChanged += new System.EventHandler(this.someButtton_TextChanged);
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
 			// refreshButton
@@ -104,6 +105,7 @@
 			this.refreshButton.TabIndex = 32;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.TextChanged += new System.EventHandler(this.someButtton_TextChanged);
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// versionButton
@@ -145,6 +147,7 @@
 			this.deviceConnectButton.TabIndex = 31;
 			this.deviceConnectButton.Text = "打开串口";
 			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.TextChanged += new System.EventHandler(this.someButtton_TextChanged);
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
 			// deviceComboBox
@@ -210,7 +213,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "HardwareUpdateForm";
-			this.Text = "硬件升级(固件更新)";
+			this.Text = "固件升级";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareUpdateForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.UpdateForm_Load);

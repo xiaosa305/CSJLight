@@ -22,6 +22,7 @@ using OtherTools;
 using LightEditor.Ast;
 using LightController.PeripheralDevice;
 using LightController.MyForm.Multiplex;
+using Newtonsoft.Json;
 
 namespace LightController.MyForm
 {
@@ -226,7 +227,10 @@ namespace LightController.MyForm
 
 			//  动态加载灯具图片列表
 			lightsSkinListView.LargeImageList = lightImageList ; 
-			RefreshLightImageList();
+			RefreshLightImageList(); //SkinMainForm构造函数
+
+			// 刷新为设置的语言
+			LanguageHelper.InitForm(this);
 
 			isInit = true;
 		}
@@ -244,7 +248,8 @@ namespace LightController.MyForm
 
 			// 每次启动后，可以切换到上一次软件打开时连接的方式
 			isConnectCom = Properties.Settings.Default.IsConnectCom;
-			refreshConnectMethod();			
+			refreshConnectMethod();	
+
 		}
 
 		/// <summary>
@@ -291,13 +296,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《硬件升级》按钮
+		///  事件：点击《固件升级》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void hardwareUpdateButton_Click(object sender, EventArgs e)
+		private void firewareButton_Click(object sender, EventArgs e)
 		{
-			hardwareUpdateClick();
+			firmwareButtonClick();
 		}
 
 		/// <summary>
@@ -545,7 +550,7 @@ namespace LightController.MyForm
 				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
 				);
 			}
-			Refresh(); 
+			Refresh();
 		}
 		
 		/// <summary>
@@ -572,9 +577,9 @@ namespace LightController.MyForm
 		//MARK 只开单场景：02.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
-			CurrentFrame = frameIndex;
+			CurrentScene = frameIndex;
 			frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
-			frameSkinComboBox.SelectedIndex = CurrentFrame;
+			frameSkinComboBox.SelectedIndex = CurrentScene;
 			frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 		}
 
@@ -1043,7 +1048,7 @@ namespace LightController.MyForm
 			}
 			autoEnableSLArrange(); //saveArrangeToolStripMenuItem_Click
 
-			SetNotice("灯具位置保存成功。",true);
+			SetNotice("灯具位置保存成功。",true, true);
 		}
 
 		/// <summary>
@@ -1170,17 +1175,17 @@ namespace LightController.MyForm
 
 			//若选中项与当前项相同，则不再往下执行
 			int tempFrame = frameSkinComboBox.SelectedIndex;
-			if (tempFrame == CurrentFrame) {
+			if (tempFrame == CurrentScene) {
 				return;
 			}
 
 			setBusy(true);
-			SetNotice("正在切换场景,请稍候...", false);			
+			SetNotice("正在切换场景,请稍候...", false,true);			
 
 			// 只要更改了场景，直接结束预览
 			endview();
 
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentFrame] + ")？",
+			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentScene] + ")？",
 				"保存场景?",
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
@@ -1188,21 +1193,23 @@ namespace LightController.MyForm
 			{
 				saveFrameClick();
 				//MARK 只开单场景：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[CurrentFrame] = false;				
+				frameSaveArray[CurrentScene] = false;				
 			}
 
-			CurrentFrame = frameSkinComboBox.SelectedIndex;
+			CurrentScene = frameSkinComboBox.SelectedIndex;
 			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-			if (!frameLoadArray[CurrentFrame])
+			if (!frameLoadArray[CurrentScene])
 			{
-				generateFrameData(CurrentFrame);
+				generateFrameData(CurrentScene);
 			}
 			//MARK 只开单场景：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-			frameSaveArray[CurrentFrame] = true;
+			frameSaveArray[CurrentScene] = true;
 
-			changeFrameMode();
+			changeSceneMode();
 			setBusy(false);
-			SetNotice("成功切换为场景(" + AllFrameList[CurrentFrame] + ")", false);
+			SetNotice( 
+				LanguageHelper.TranslateSentence("成功切换为场景(" )
+				+ AllFrameList[CurrentScene] + ")",	false,false);
 		}
 
 		/// <summary>
@@ -1218,7 +1225,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			SetNotice("正在切换模式...",false);
+			SetNotice("正在切换模式...",false,true);
 			CurrentMode = modeSkinComboBox.SelectedIndex;		
 			
 			// 若模式为声控模式mode=1
@@ -1246,8 +1253,8 @@ namespace LightController.MyForm
 				thirdLabel.Show();
 			}
 
-			changeFrameMode();
-			SetNotice("成功切换模式", false);
+			changeSceneMode();
+			SetNotice("成功切换模式", false, true);
 		}	
 
 		/// <summary>
@@ -1635,7 +1642,7 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncSkinButton.Text = isSyncMode ? "退出同步" : "进入同步";			
-			SetNotice(isSyncMode ? "已进入同步模式。" : "已退出同步模式。", false);
+			SetNotice(isSyncMode ? "已进入同步模式。" : "已退出同步模式。", false, true);
 		}	
 
 		/// <summary>
@@ -2028,7 +2035,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
         {
-           new SKForm(this, CurrentFrame, frameSkinComboBox.Text).ShowDialog();  
+           new SKForm(this, CurrentScene, frameSkinComboBox.Text).ShowDialog();  
         }
 
         /// <summary>
@@ -2179,12 +2186,12 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新设备
 		/// </summary>
-		protected override void deviceRefresh() {
+		protected override void deviceRefresh() {			
 
 			deviceRefreshSkinButton.Enabled = false;
 
 			//	 刷新前，先清空按键等
-			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
+			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false, true);
 			deviceSkinComboBox.Items.Clear();
 			deviceSkinComboBox.Text = "";
 			deviceSkinComboBox.SelectedIndex = -1;
@@ -2241,11 +2248,11 @@ namespace LightController.MyForm
 				deviceSkinComboBox.SelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
 				deviceConnectSkinButton.Enabled = true;				
-				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
+				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false, true);
 			}
 			else
 			{
-				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
+				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false, true);
 			}
 
 			deviceRefreshSkinButton.Enabled = true;
@@ -2265,7 +2272,7 @@ namespace LightController.MyForm
 			else
 			{
 				deviceConnectSkinButton.Enabled = false;
-				SetNotice("未选中可用设备" , false );
+				SetNotice("未选中可用设备" , false, true);
 			}
 		}
 		
@@ -2339,14 +2346,18 @@ namespace LightController.MyForm
 
 			if (IsConnected)
 			{
-				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
-				deviceConnectSkinButton.Text = "断开连接";
+				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;				
+				deviceConnectSkinButton.Text = "断开连接";				
 			}
 			else
 			{                
                 deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				deviceConnectSkinButton.Text = "连接设备";
 			}
+						
+			LanguageHelper.TranslateControl(deviceConnectSkinButton);
+			
+
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
@@ -2363,7 +2374,7 @@ namespace LightController.MyForm
 		public override void SetPreview(bool preview)
 		{
 			previewSkinButton.Image = preview ? Properties.Resources.浏览效果后 : Properties.Resources.浏览效果前;
-			previewSkinButton.Text = preview ? "停止预览" : "预览效果";
+			previewSkinButton.Text = preview ? "停止预览" : "预览效果";			
 		}
 
 		/// <summary>
@@ -2384,8 +2395,12 @@ namespace LightController.MyForm
 		/// 辅助方法：设置提醒 - 实现基类的纯虚函数
 		/// </summary>
 		/// <param name="notice"></param>
-		public override void SetNotice(string notice, bool msgBoxShow)
+		public override void SetNotice(string notice, bool msgBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				notice = LanguageHelper.TranslateSentence(notice);
+			}
+
 			noticeLabel.Text = notice;
 			noticeStatusStrip.Refresh();
 			if (msgBoxShow) {
@@ -2473,12 +2488,23 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bigTestButton_Click(object sender, EventArgs e)	{ }
-		
+		private void bigTestButton_Click(object sender, EventArgs e)	{
+
+			
+		}
+
 		#endregion
 
-		
-	
+		/// <summary>
+		/// 部分Control文本更新，需要进行翻译
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someControl_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl( sender as Control );
+		}
+
 	}
 	   
 }

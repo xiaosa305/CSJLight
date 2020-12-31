@@ -37,7 +37,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(39, 38);
+			this.label1.Location = new System.Drawing.Point(29, 38);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(53, 12);
 			this.label1.TabIndex = 8;
@@ -46,7 +46,7 @@
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(101, 34);
+			this.frameComboBox.Location = new System.Drawing.Point(104, 34);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(103, 20);
 			this.frameComboBox.TabIndex = 10;
@@ -85,7 +85,7 @@
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "UseFrameForm";
-			this.Text = "使用其他场景";
+			this.Text = "调用其它场景";
 			this.Load += new System.EventHandler(this.UseFrameForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

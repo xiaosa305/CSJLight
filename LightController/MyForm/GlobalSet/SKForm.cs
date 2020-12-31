@@ -50,6 +50,7 @@ namespace LightController.MyForm
 		private void SKForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			LanguageHelper.InitForm(this);			
 		}
 
 		/// <summary>
@@ -146,6 +147,15 @@ namespace LightController.MyForm
 			{
 				e.Handled = true;
 			}
+		}
+
+		// 事件：点击提示
+		private void SKForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show( 
+				LanguageHelper.TranslateSentence("请在文本框内输入每一次音频触发时执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为0或空字符串，则表示该场景不执行声控模式；链表数量不可超过20个。") 
+				);
+			e.Cancel = true;
 		}
 	}
 }

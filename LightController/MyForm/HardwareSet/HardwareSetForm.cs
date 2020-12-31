@@ -43,14 +43,15 @@ namespace LightController.MyForm
 			{
 				isNew = true;
 				iniPath = Application.StartupPath + @"\HardwareSet.ini";
-				Text = "硬件配置(未保存)";
+				Text = LanguageHelper.TranslateSentence("硬件配置(未保存)");
 			}
 			// 否则打开相应配置文件，并载入到当前form中
 			else
 			{
 				isNew = false;
 				this.hsName = hsName;
-				Text = "硬件配置(" + hsName + ")";
+				Text = LanguageHelper.TranslateSentence("硬件配置" )
+					+	"(" + hsName + ")";
 			}
 			CSJ_Hardware ch = new CSJ_Hardware(iniPath);
 			SetParamFromDevice(ch);
@@ -64,6 +65,8 @@ namespace LightController.MyForm
 		private void HardwareSetForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
+
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
 
@@ -114,7 +117,7 @@ namespace LightController.MyForm
 		private void saveButton_Click(object sender, EventArgs e)
 		{
 			if (! checkAllFormat() ) {
-				setNotice("有异常参数，请校对后重试！", false);
+				setNotice("有异常参数，请校对后重试！", false,true);
 				return;
 			}
 
@@ -178,7 +181,7 @@ namespace LightController.MyForm
 			isNew = false;
 			Text = "硬件配置(" + hsName + ")";
 
-			setNotice("已成功保存配置。", msgShow);
+			setNotice("已成功保存配置。", msgShow, true);
 		}
 			   
 		#region 几个输入监视器、及格式校验方法
@@ -373,7 +376,7 @@ namespace LightController.MyForm
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为网络连接" : "切换为串口连接";
+			switchButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
@@ -445,11 +448,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				setNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false);
+				setNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false, true);
 			}
 			else
 			{
-				setNotice("未找到可用设备，请检查设备连接后重试。", false);
+				setNotice("未找到可用设备，请检查设备连接后重试。", false, true);
 			}
 		}
 		
@@ -486,12 +489,12 @@ namespace LightController.MyForm
 					if( (myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text ) ) {
 						isConnected = true;
 						refreshConnectButtons();
-						setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+						setNotice("已打开串口。", true, true);
 					}				
 				}
 				catch (Exception ex)
 				{
-					setNotice("打开串口失败，原因是：\n" + ex.Message, true);
+					setNotice("打开串口失败，原因是：\n" + ex.Message, true, true);
 				}
 			}
 			else
@@ -503,11 +506,11 @@ namespace LightController.MyForm
 				{
 					isConnected = true;
 					refreshConnectButtons();
-					setNotice("成功连接网络设备(" + deviceName + ")。", true);
+					setNotice("成功连接网络设备。", true, true);
 				}
 				else
 				{
-					setNotice("连接网络设备(" + deviceName + ")失败。", true);
+					setNotice("连接网络设备失败。", true, true);
 				}
 			}
 		}
@@ -523,7 +526,7 @@ namespace LightController.MyForm
 				myConnect = null;
 				isConnected = false;
 				refreshConnectButtons();
-				setNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+				setNotice("已" + (isConnectCom ? "关闭串口" : "断开连接"), true, true);
 			}
 		}
 		
@@ -568,7 +571,7 @@ namespace LightController.MyForm
 			{
 				CSJ_Hardware ch = obj as CSJ_Hardware;
 				SetParamFromDevice(ch);
-				setNotice("成功回读硬件配置。", true);
+				setNotice("成功回读硬件配置。", true, true);
 			});
 		}
 
@@ -580,7 +583,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("回读配置失败[" + msg + "]", true);
+				setNotice("回读配置失败[" + msg + "]", true, false);
 			});
 		}	
 
@@ -593,13 +596,13 @@ namespace LightController.MyForm
 		{
 			if (!checkAllFormat())
 			{
-				setNotice("有异常参数，请校对后重试！", false);
+				setNotice("有异常参数，请校对后重试！", false, true);
 				return;
 			}
 
 			if (isNew)
 			{
-				setNotice("下载之前需先保存配置(设定配置文件名)。",true);
+				setNotice("下载之前需先保存配置(设定配置文件名)。",true, true);
 				return;
 			}		
 
@@ -607,7 +610,7 @@ namespace LightController.MyForm
 			SaveAll(iniPath, hsName,false);
 
 			// 下载配置			
-			setNotice("正在下载配置，请稍候...",false);
+			setNotice("正在下载配置，请稍候...",false, true);
 			setBusy(true);
 			myConnect.PutParam(iniPath, PutParamCompleted, PutParamError);
 		}
@@ -620,11 +623,11 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("硬件配置下载成功,请等待设备重启(约耗时5s)...", true);
+				setNotice("硬件配置下载成功,请等待设备重启(约耗时5s)...", true, true);
 				Thread.Sleep(5000);
 				if (isConnectCom)
 				{
-					setNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。",true);	
+					setNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。",true, true);	
 				}
 				else
 				{
@@ -633,7 +636,7 @@ namespace LightController.MyForm
 					isConnected = false;
 					disableDeviceComboBox();
 					refreshConnectButtons();					
-					setNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试。", true);					
+					setNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试。", true, true);					
 				}
 				setBusy(false);
 			});
@@ -647,7 +650,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("下载配置失败[" + msg + "]", true);
+				setNotice("下载配置失败[" + msg + "]", true, false);
                 setBusy(false);
             });
 		}
@@ -669,8 +672,12 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		private void setNotice(string msg, bool messageBoxShow)
+		private void setNotice(string msg, bool messageBoxShow,bool  isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			if (messageBoxShow)
 			{
 				MessageBox.Show(msg);
@@ -690,7 +697,18 @@ namespace LightController.MyForm
 			Refresh();
 		}
 
+		/// <summary>
+		/// 某些按键的文字如果发生了变化，就需要重新设置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someButton_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Button);
+		}
+
 		#endregion
+
 
 	}
 

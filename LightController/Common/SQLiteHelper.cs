@@ -213,7 +213,7 @@ namespace LightController.Common
 		{
 			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
 			sqlHelper.Connect();
-			sqlHelper.ChangePassword(MD5Helper.MD5("Dickov" + dbFile));
+			sqlHelper.ChangePassword(MD5Helper.MD5_UTF8("Dickov" + dbFile));
 			sqlHelper.DisConnect();
 		}
 

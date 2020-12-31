@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -61,8 +62,9 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void MultiplexForm_Load(object sender, EventArgs e)
 		{
-			//Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(lightsListView);
 
 			lightsListView.HideSelection = true;    //主动设置一下这个属性，避免被VS吃掉设置
 			
@@ -171,7 +173,7 @@ namespace LightController.MyForm.Multiplex
 				}
 
 				if (selectedIndices == null || selectedIndices.Count == 0) {
-					MessageBox.Show("请选择至少一个灯具，否则无法使用复用功能。");
+					MessageBox.Show(LanguageHelper.TranslateSentence("请选择至少一个灯具，否则无法使用复用功能。"));
 					return;
 				}
 			}
@@ -184,7 +186,7 @@ namespace LightController.MyForm.Multiplex
 
 			if( result == null)
 			{
-				MessageBox.Show("成功复用多灯多步。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("成功复用多灯多步。"));
 				Dispose();
 				mainForm.Activate();
 			}

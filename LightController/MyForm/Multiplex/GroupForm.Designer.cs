@@ -41,7 +41,7 @@
 			// 
 			// nameTextBox
 			// 
-			this.nameTextBox.Location = new System.Drawing.Point(101, 361);
+			this.nameTextBox.Location = new System.Drawing.Point(108, 361);
 			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameTextBox.MaxLength = 8;
 			this.nameTextBox.Name = "nameTextBox";
@@ -51,7 +51,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(44, 365);
+			this.label1.Location = new System.Drawing.Point(37, 365);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(53, 12);

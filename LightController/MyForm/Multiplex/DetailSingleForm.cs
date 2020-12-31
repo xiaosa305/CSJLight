@@ -26,6 +26,7 @@ namespace LightController.MyForm.Multiplex
 			this.tdIndex = tdIndex;
 
 			InitializeComponent();
+			Text = LanguageHelper.TranslateSentence(Text);
 			Text +=  "【"
 				+ mainForm.LightAstList[lightIndex].LightType 				
 				+ "("+ mainForm.LightAstList[lightIndex].LightAddr + ")"
@@ -115,6 +116,7 @@ namespace LightController.MyForm.Multiplex
 		private void DetailSingleForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
 		}
 
 		#region 单独设值

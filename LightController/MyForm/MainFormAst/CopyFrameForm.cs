@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,7 +32,8 @@ namespace LightController.MyForm
 
 		private void UseFrameForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);			
+			Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>

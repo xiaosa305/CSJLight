@@ -33,7 +33,8 @@ namespace LightController.MyForm
 
 		private void RenameForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(openForm.Location.X + 100, openForm.Location.Y + 100);
+			Location = new Point(openForm.Location.X + 100, openForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
 		}
 
 		/// <summary>

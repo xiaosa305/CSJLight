@@ -632,9 +632,9 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// skNoticeButton
 			// 
-			this.skNoticeButton.Location = new System.Drawing.Point(827, 6);
+			this.skNoticeButton.Location = new System.Drawing.Point(819, 6);
 			this.skNoticeButton.Name = "skNoticeButton";
-			this.skNoticeButton.Size = new System.Drawing.Size(44, 37);
+			this.skNoticeButton.Size = new System.Drawing.Size(52, 37);
 			this.skNoticeButton.TabIndex = 6;
 			this.skNoticeButton.Text = "提示";
 			this.skNoticeButton.UseVisualStyleBackColor = true;

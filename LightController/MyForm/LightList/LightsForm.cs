@@ -75,8 +75,10 @@ namespace LightController
 		/// <param name="e"></param>
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-			this.lightsListView.HideSelection = true;
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			lightsListView.HideSelection = true;
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(lightsListView);
 		}
 
 		/// <summary>

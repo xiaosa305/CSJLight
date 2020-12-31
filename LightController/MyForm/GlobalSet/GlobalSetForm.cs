@@ -104,7 +104,8 @@ namespace LightController.MyForm
 
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);						
+			Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
 
 			loadGlobalSet();
 			loadZuheSet(0);
@@ -154,7 +155,8 @@ namespace LightController.MyForm
 		private void loadZuheSet(int frame)
 		{
 			zuheCheckBox.Checked = ( iniAst.ReadInt("Multiple", frame + "OPEN", 0) != 0 );
-			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 9999);
+			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 
+				9);
 			
 			//frame0methodComboBox.SelectedIndex = iniAst.ReadInt("Multiple", frame + "F0M", 0);
 			frame0NumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);
@@ -314,7 +316,9 @@ namespace LightController.MyForm
 			}
 			mainForm.ChangeEachStepTime(eachStepTime); // 主界面的时间因子，也要更改一下
 
-			MessageBox.Show("开机场景、场景切换跳渐变\n等全局设置保存成功");
+			MessageBox.Show( 
+				LanguageHelper.TranslateSentence("开机场景、场景切换跳渐变\n等全局设置保存成功") 
+				) ;
 		}
 			
 		/// <summary>
@@ -333,7 +337,9 @@ namespace LightController.MyForm
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
 				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Text );
 			}
-			MessageBox.Show( "场景【"+zuheFrameComboBox.Text + "】的组合播放设置\n保存成功");
+			MessageBox.Show(LanguageHelper.TranslateSentence("场景") 
+				+  "【" +zuheFrameComboBox.Text + "】"
+				+ LanguageHelper.TranslateSentence("的组合播放设置保存成功") );
 		}
 
 		/// <summary>
@@ -343,7 +349,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skNoticeButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("请在音频链表文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。");
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("请在音频链表文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。")
+				);
 		}
 
 		/// <summary>

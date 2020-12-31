@@ -42,7 +42,7 @@ namespace LightController.MyForm
 			string generalPath = materialPath + generalStr;
 			if (Directory.Exists(generalPath ))
 			{
-				TreeNode generalTreeNode = new TreeNode("通用素材");
+				TreeNode generalTreeNode = new TreeNode(LanguageHelper.TranslateSentence( "通用素材"));
 
 				string[] filePaths = Directory.GetFiles( generalPath );
 				foreach (string filePath in filePaths)
@@ -84,12 +84,13 @@ namespace LightController.MyForm
 			materialTreeView.ExpandAll();
 
 			previewButton.Visible = mainForm.IsConnected && mainForm.CurrentMode == 0 ;
-			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览素材";
+			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览";
 		}
 
 		private void MaterialUseForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>
@@ -172,7 +173,7 @@ namespace LightController.MyForm
 			if (mainForm.IsPreviewing)
 			{
 				mainForm.PreviewButtonClick(null);
-				previewButton.Text = "预览素材";
+				previewButton.Text = "预览";
 				setNotice("已停止预览", false);
 			}
 			else {
@@ -198,7 +199,19 @@ namespace LightController.MyForm
 			if (iniPath != null)
 			{
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
-				InsertMethod insMethod = (InsertMethod)int.Parse(((Button)sender).Tag.ToString()); // 通过Tag里的index序号，来决定插入的方式：0.插入 1.覆盖 2.追加
+				Button btn = sender as Button;			
+				InsertMethod insMethod;
+				if (btn.Name == "insertButton")
+				{
+					insMethod = InsertMethod.INSERT;
+				}
+				else if (btn.Name == "coverButton")
+				{
+					insMethod = InsertMethod.COVER;
+				}
+				else {
+					insMethod = InsertMethod.APPEND;
+				}
 				mainForm.InsertOrCoverMaterial(materialAst, insMethod, false);
 				Dispose();
 				mainForm.Activate();
@@ -267,7 +280,7 @@ namespace LightController.MyForm
 					return null;
 				}
 
-				string astPath = materialTreeView.SelectedNode.Parent.Text.Equals("通用素材") ? generalStr :specialStr ;
+				string astPath = materialTreeView.SelectedNode.Parent.Text.Equals( LanguageHelper.TranslateSentence("通用素材")) ? generalStr :specialStr ;
 				string iniPath = materialPath + astPath + materialName + ".ini";
 
 				return iniPath;				
@@ -289,8 +302,13 @@ namespace LightController.MyForm
 			}
 		}
 
+		private void someControl_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Control);
+		}
 
 		#endregion
-		
+
+
 	}
 }

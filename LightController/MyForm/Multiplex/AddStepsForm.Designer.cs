@@ -73,7 +73,7 @@
 			// 
 			this.cancelButton.BackColor = System.Drawing.SystemColors.Window;
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(137, 60);
+			this.cancelButton.Location = new System.Drawing.Point(136, 60);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(78, 26);
 			this.cancelButton.TabIndex = 23;
@@ -83,7 +83,7 @@
 			// addButton
 			// 
 			this.addButton.BackColor = System.Drawing.SystemColors.Window;
-			this.addButton.Location = new System.Drawing.Point(21, 60);
+			this.addButton.Location = new System.Drawing.Point(22, 60);
 			this.addButton.Name = "addButton";
 			this.addButton.Size = new System.Drawing.Size(78, 26);
 			this.addButton.TabIndex = 24;

@@ -1,5 +1,6 @@
 ﻿using CCWin.SkinControl;
 using LightController.Ast;
+using LightController.Common;
 using LightController.PeripheralDevice;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
@@ -38,7 +39,9 @@ namespace LightController.MyForm
 
 		private void UpdateForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
+			
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
 
@@ -116,7 +119,7 @@ namespace LightController.MyForm
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			switchButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
@@ -198,11 +201,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				SetNotice("已刷新"+ (isConnectCom?"串口":"网络设备")+"列表。", false);
+				SetNotice("已刷新"+ (isConnectCom?"串口":"网络设备")+"列表。", false,true);
 			}
 			else
 			{
-				SetNotice("未找到可用设备，请检查设备连接后重试。", false);
+				SetNotice("未找到可用设备，请检查设备连接后重试。", false, true);
 			}
 			refreshConnectButtons();
 		}
@@ -218,7 +221,7 @@ namespace LightController.MyForm
 				myConnect = null;
 				isConnected = false;
 				refreshConnectButtons();
-				SetNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+				SetNotice("已" + (isConnectCom ? "关闭串口" : "断开连接"), true, true);
 			}
 		}
 
@@ -268,12 +271,12 @@ namespace LightController.MyForm
 					{
 						isConnected = true;
 						refreshConnectButtons();
-						SetNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+						SetNotice("已打开串口。", true, true);
 					}
 				}
 				catch (Exception ex)
 				{
-					SetNotice("打开串口失败，原因是：\n" + ex.Message, true);
+					SetNotice("打开串口失败，原因是：\n" + ex.Message, true,false);
 				}
 			}
 			else
@@ -285,11 +288,11 @@ namespace LightController.MyForm
 				{
 					isConnected = true;
 					refreshConnectButtons();
-					SetNotice("成功连接网络设备(" + deviceName + ")。", true);
+					SetNotice("成功连接网络设备。", true, true);
 				}
 				else
 				{
-					SetNotice("连接网络设备(" + deviceName + ")失败。", true);
+					SetNotice("连接网络设备失败。", true, true);
 				}
 			}
 		}
@@ -303,7 +306,7 @@ namespace LightController.MyForm
 		{
 			if (myConnect == null || !isConnected)
 			{
-				SetNotice("尚未连接设备，请连接后重试。", true);
+				SetNotice("尚未连接设备，请连接后重试。", true, true);
 				return;
 			}
 
@@ -320,12 +323,12 @@ namespace LightController.MyForm
 		{
 			if ( string.IsNullOrEmpty(binPath) )
 			{
-				SetNotice("尚未选择xbin文件，请在选择后重试。",true);
+				SetNotice("尚未选择xbin文件，请在选择后重试。",true, true);
 				return;
 			}
 
 			if (myConnect == null || !isConnected) {
-				SetNotice("尚未连接设备，请连接后重试。", true);
+				SetNotice("尚未连接设备，请连接后重试。", true, true);
 				return;
 			}
 
@@ -341,21 +344,21 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("硬件升级成功，设备将自动重启，请稍等片刻。" , true);
+				SetNotice("硬件升级成功，设备将自动重启，请稍等片刻。" , true, true);
 				Thread.Sleep(5000);
 				myProgressBar.Value = 0;
 				progressStatusLabel.Text = "";
 
 				if(isConnectCom)
 				{
-					SetNotice("请继续操作(如出现错误，可先关闭再打开串口后重试)。", true);
+					SetNotice("请继续操作(如出现错误，可先关闭再打开串口后重试)。", true, true);
 				}else{
 					myConnect.DisConnect();
 					myConnect = null;
 					isConnected = false;
 					disableDeviceComboBox();
 					refreshConnectButtons();
-					SetNotice("请刷新网络，并重新连接设备(如未找到设备，请稍等片刻后重试)。", true);					
+					SetNotice("请刷新网络，并重新连接设备(如未找到设备，请稍等片刻后重试)。", true, true);
 				}				
 				SetBusy(false);
 			});
@@ -369,7 +372,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("硬件升级失败[" + msg + "]", true);
+				SetNotice("硬件升级失败[" + msg + "]", true,false);
 				myProgressBar.Value = 0;
 				progressStatusLabel.Text = "";
 				SetBusy(false);
@@ -383,19 +386,36 @@ namespace LightController.MyForm
 		/// <param name="progress"></param>
 		public void DrawProgress(string fileName, int progressPercent)
 		{
-			SetNotice( "正在升级硬件，请稍候..." , false);			
+			SetNotice( "正在升级硬件，请稍候..." , false, true);			
 			myProgressBar.Value = progressPercent;
 			progressStatusLabel.Text = progressPercent + "%";
 			statusStrip1.Refresh();
 		}
+		
+		/// <summary>
+		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// </summary>
+		private void disableDeviceComboBox()
+		{
+			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Text = "";
+			deviceComboBox.Enabled = false;
+		}
+
+		#region 通用方法
 
 		/// <summary>
 		/// 辅助方法：显示信息
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		public void SetNotice(string msg, bool messageBoxShow)
+		public void SetNotice(string msg, bool messageBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			if (messageBoxShow)
 			{
 				MessageBox.Show(msg);
@@ -415,16 +435,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// 通用方法：部分按键文本更新时，进行翻译
 		/// </summary>
-		private void disableDeviceComboBox()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someButtton_TextChanged(object sender, EventArgs e)
 		{
-			deviceComboBox.Items.Clear();
-			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Text = "";
-			deviceComboBox.Enabled = false;
+			LanguageHelper.TranslateControl(sender as Button);
 		}
 
-		
+		#endregion
 	}
 }

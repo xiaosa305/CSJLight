@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,7 +37,8 @@ namespace LightController.MyForm.Multiplex
 		private void GroupForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-			//Location = MousePosition;
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(lightsListView);
 		}
 
 		/// <summary>
@@ -49,7 +51,7 @@ namespace LightController.MyForm.Multiplex
 			string groupName = nameTextBox.Text.Trim();
 			if (string.IsNullOrEmpty(groupName))
 			{
-				MessageBox.Show("编组名不得为空。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("编组名不得为空。"));
 				return;
 			}
 
@@ -63,13 +65,13 @@ namespace LightController.MyForm.Multiplex
 			string result = mainForm.CreateGroup(groupName, captainIndex);
 			if (result == null)
 			{
-				MessageBox.Show("编组成功");
+				MessageBox.Show(LanguageHelper.TranslateSentence("编组成功"));
 				Dispose();
 				mainForm.Activate();			
 			}
 			else
 			{
-				MessageBox.Show(result);
+				MessageBox.Show(LanguageHelper.TranslateSentence(result));
 			}
 		}
 

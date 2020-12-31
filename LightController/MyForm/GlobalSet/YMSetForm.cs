@@ -134,7 +134,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void YMSetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
 
 			//1. 先设置各个下拉框的默认值：这里的三个选项(checkbox和numericUpDown)都不太需要设置
 			//2.读取各个配置

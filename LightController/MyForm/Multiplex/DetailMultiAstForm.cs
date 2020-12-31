@@ -109,11 +109,12 @@ namespace LightController.MyForm.Multiplex
 		private void DetailMultiAstForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 200);
+			LanguageHelper.InitForm(this);
 
 			// 在load中决定哪些灯具要进行显示		
 			for (int lightIndex = 0; lightIndex < mainForm.LightAstList.Count; lightIndex++)
 			{
-				LightStepWrapper lsWrapper = mainForm.LightWrapperList[lightIndex].LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
+				LightStepWrapper lsWrapper = mainForm.LightWrapperList[lightIndex].LightStepWrapperList[mainForm.CurrentScene, mainForm.CurrentMode];
 				if (lsWrapper != null && lsWrapper.StepWrapperList != null && lsWrapper.StepWrapperList.Count > 0)
 				{
 					bigFLP.Controls[lightIndex + 1].Show(); 

@@ -49,6 +49,8 @@ namespace LightController.MyForm
 
 			// 主动刷新设备列表
 			refreshDeviceComboBox();
+
+			LanguageHelper.TranslateControl(this);
 		}
 
 		/// <summary>
@@ -100,7 +102,7 @@ namespace LightController.MyForm
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			switchButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
@@ -440,7 +442,16 @@ namespace LightController.MyForm
 			deviceComboBox.Text = "";
 			deviceComboBox.Enabled = false;
 		}
-			   		
+
+		/// <summary>
+		/// 事件：各个按键文字发生变化后，也要相应进行翻译
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someButton_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Button);
+		}
 	}
 
 	public class GenerateProjectCallBack : ISaveProjectCallBack

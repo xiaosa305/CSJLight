@@ -62,26 +62,27 @@
 			// 
 			// astPanel
 			// 
-			this.astPanel.Location = new System.Drawing.Point(14, 122);
+			this.astPanel.Location = new System.Drawing.Point(7, 122);
 			this.astPanel.Name = "astPanel";
-			this.astPanel.Size = new System.Drawing.Size(59, 24);
+			this.astPanel.Size = new System.Drawing.Size(68, 24);
 			this.astPanel.TabIndex = 73;
 			// 
 			// astLabel
 			// 
 			this.astLabel.AutoSize = true;
-			this.astLabel.Location = new System.Drawing.Point(14, 95);
+			this.astLabel.Location = new System.Drawing.Point(7, 95);
 			this.astLabel.Name = "astLabel";
 			this.astLabel.Size = new System.Drawing.Size(53, 12);
 			this.astLabel.TabIndex = 0;
 			this.astLabel.Text = "未选中步";
+			this.astLabel.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			// 
 			// deleteButton
 			// 
 			this.deleteButton.Enabled = false;
-			this.deleteButton.Location = new System.Drawing.Point(125, 22);
+			this.deleteButton.Location = new System.Drawing.Point(126, 22);
 			this.deleteButton.Name = "deleteButton";
-			this.deleteButton.Size = new System.Drawing.Size(38, 45);
+			this.deleteButton.Size = new System.Drawing.Size(50, 45);
 			this.deleteButton.TabIndex = 72;
 			this.deleteButton.Text = "删除";
 			this.deleteButton.UseVisualStyleBackColor = true;
@@ -103,11 +104,10 @@
 			// 
 			this.cmCBDemo.AutoSize = true;
 			this.cmCBDemo.BackColor = System.Drawing.Color.MintCream;
-			this.cmCBDemo.Location = new System.Drawing.Point(4, 119);
+			this.cmCBDemo.Location = new System.Drawing.Point(21, 119);
 			this.cmCBDemo.Name = "cmCBDemo";
-			this.cmCBDemo.Size = new System.Drawing.Size(48, 16);
+			this.cmCBDemo.Size = new System.Drawing.Size(15, 14);
 			this.cmCBDemo.TabIndex = 1;
-			this.cmCBDemo.Text = "渐变";
 			this.cmCBDemo.UseVisualStyleBackColor = false;
 			this.cmCBDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmCheckBox_KeyPress);
 			// 
@@ -174,7 +174,7 @@
 			// stLabel
 			// 
 			this.stLabel.AutoSize = true;
-			this.stLabel.Location = new System.Drawing.Point(14, 176);
+			this.stLabel.Location = new System.Drawing.Point(7, 176);
 			this.stLabel.Name = "stLabel";
 			this.stLabel.Size = new System.Drawing.Size(65, 12);
 			this.stLabel.TabIndex = 66;
@@ -184,9 +184,9 @@
 			// editButton
 			// 
 			this.editButton.Enabled = false;
-			this.editButton.Location = new System.Drawing.Point(81, 22);
+			this.editButton.Location = new System.Drawing.Point(70, 22);
 			this.editButton.Name = "editButton";
-			this.editButton.Size = new System.Drawing.Size(38, 45);
+			this.editButton.Size = new System.Drawing.Size(50, 45);
 			this.editButton.TabIndex = 63;
 			this.editButton.Text = "修改";
 			this.editButton.UseVisualStyleBackColor = true;
@@ -194,9 +194,9 @@
 			// 
 			// addButton
 			// 
-			this.addButton.Location = new System.Drawing.Point(14, 22);
+			this.addButton.Location = new System.Drawing.Point(7, 22);
 			this.addButton.Name = "addButton";
-			this.addButton.Size = new System.Drawing.Size(38, 45);
+			this.addButton.Size = new System.Drawing.Size(50, 45);
 			this.addButton.TabIndex = 64;
 			this.addButton.Text = "添加";
 			this.addButton.UseVisualStyleBackColor = true;
@@ -220,11 +220,11 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(231, 272);
+			this.enterButton.Location = new System.Drawing.Point(233, 272);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 37);
 			this.enterButton.TabIndex = 75;
-			this.enterButton.Text = "应用\r\n颜色变化";
+			this.enterButton.Text = "应用颜色";
 			this.myToolTip.SetToolTip(this.enterButton, "左键为插入模式；\r\n中键为追加模式；\r\n右键为覆盖模式；");
 			this.enterButton.UseVisualStyleBackColor = true;
 			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
@@ -240,6 +240,7 @@
 			this.previewButton.TabIndex = 76;
 			this.previewButton.Text = "预览";
 			this.previewButton.UseVisualStyleBackColor = false;
+			this.previewButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
 			// statusStrip1
@@ -264,9 +265,9 @@
 			// clearButton
 			// 
 			this.clearButton.Enabled = false;
-			this.clearButton.Location = new System.Drawing.Point(169, 22);
+			this.clearButton.Location = new System.Drawing.Point(182, 22);
 			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(38, 45);
+			this.clearButton.Size = new System.Drawing.Size(50, 45);
 			this.clearButton.TabIndex = 72;
 			this.clearButton.Text = "清空";
 			this.clearButton.UseVisualStyleBackColor = true;
@@ -277,7 +278,7 @@
 			this.shieldCheckBox.AutoSize = true;
 			this.shieldCheckBox.Checked = true;
 			this.shieldCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.shieldCheckBox.Location = new System.Drawing.Point(126, 276);
+			this.shieldCheckBox.Location = new System.Drawing.Point(118, 276);
 			this.shieldCheckBox.Name = "shieldCheckBox";
 			this.shieldCheckBox.Size = new System.Drawing.Size(96, 28);
 			this.shieldCheckBox.TabIndex = 78;
@@ -289,11 +290,11 @@
 			// modeLabel
 			// 
 			this.modeLabel.AutoSize = true;
-			this.modeLabel.Location = new System.Drawing.Point(14, 201);
+			this.modeLabel.Location = new System.Drawing.Point(7, 201);
 			this.modeLabel.Name = "modeLabel";
-			this.modeLabel.Size = new System.Drawing.Size(59, 12);
+			this.modeLabel.Size = new System.Drawing.Size(65, 12);
 			this.modeLabel.TabIndex = 67;
-			this.modeLabel.Text = "是否渐变:";
+			this.modeLabel.Text = "是否渐变：";
 			this.modeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// ColorForm

@@ -120,7 +120,7 @@
 			// 
 			this.cancelButton.BackColor = System.Drawing.SystemColors.Window;
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(138, 103);
+			this.cancelButton.Location = new System.Drawing.Point(135, 103);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(78, 26);
 			this.cancelButton.TabIndex = 21;
@@ -131,7 +131,7 @@
 			// deleteButton
 			// 
 			this.deleteButton.BackColor = System.Drawing.SystemColors.Window;
-			this.deleteButton.Location = new System.Drawing.Point(22, 103);
+			this.deleteButton.Location = new System.Drawing.Point(29, 103);
 			this.deleteButton.Name = "deleteButton";
 			this.deleteButton.Size = new System.Drawing.Size(78, 26);
 			this.deleteButton.TabIndex = 22;

@@ -319,7 +319,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(1150, 800);
 			this.Name = "DetailMultiPageForm";
-			this.Text = "多通道多步联调（分页版）";
+			this.Text = "多通道多步联调";
 			this.Load += new System.EventHandler(this.DetailMultiPageForm_Load);
 			this.bigFLP.ResumeLayout(false);
 			this.tdPanelDemo.ResumeLayout(false);

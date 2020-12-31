@@ -41,6 +41,7 @@ namespace LightController.MyForm.Multiplex
 		private void ColorForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
 		/// <summary>
@@ -81,7 +82,7 @@ namespace LightController.MyForm.Multiplex
 			// 虽然不显示，但应用颜色时，仍需用到这些数据
 			if (mainForm.CurrentMode == 1) {
 				IniFileHelper iniHelper = new IniFileHelper(mainForm.GlobalIniPath);
-				soundStepTime =  iniHelper.ReadInt("SK", mainForm.CurrentFrame + "ST", 11);
+				soundStepTime =  iniHelper.ReadInt("SK", mainForm.CurrentScene + "ST", 11);
 			}
 
 			selectColorPanel(); //ColorForm_Activated
@@ -232,7 +233,7 @@ namespace LightController.MyForm.Multiplex
 
 			if ( !mainForm.IsConnected)
 			{
-				setNotice("尚未连接设备", true);
+				setNotice("尚未连接设备", true,true);
 				return;
 			}
 
@@ -242,12 +243,12 @@ namespace LightController.MyForm.Multiplex
 				endView();
 				// 停止预览后，恢复 单色显示(并在里面集成previewButton是否可用的代码)
 				selectColorPanel();  //previewButton_Click-->点击停止预览后
-				setNotice("已停止预览，并恢复单色显示。", false);
+				setNotice("已停止预览，并恢复单色显示。", false, true);
 			}
 			else if( generateComplexMaterial() ) {
 				mainForm.PreviewButtonClick(material);
 				previewButton.Text = "停止预览";
-				setNotice("正在预览颜色变化", false);
+				setNotice("正在预览颜色变化", false, true);
 			}				
 		}
 
@@ -299,7 +300,7 @@ namespace LightController.MyForm.Multiplex
 		private void selectColorPanel()
 		{
 			astPanel.BackColor = selectedPanelIndex > 0 ? (colorFLP.Controls[selectedPanelIndex] as Panel).BackColor : Color.MintCream;
-			astLabel.Text = selectedPanelIndex > 0 ? "第" + selectedPanelIndex + "步" : "未选中步";			
+			astLabel.Text = selectedPanelIndex > 0 ?  selectedPanelIndex+"" : "未选中步";	
 			editButton.Enabled = selectedPanelIndex > 0;
 			deleteButton.Enabled = selectedPanelIndex > 0;
 
@@ -330,7 +331,7 @@ namespace LightController.MyForm.Multiplex
 		private bool generateComplexMaterial()
 		{
 			if (stepCount == 0) {
-				setNotice("尚未添加颜色块。", true);
+				setNotice("尚未添加颜色块。", true, true);
 				return false;
 			}
 			else
@@ -362,7 +363,7 @@ namespace LightController.MyForm.Multiplex
 					return true;
 				}
 				catch (Exception ex) {
-					setNotice("生成数据出错：" + ex.Message, true);
+					setNotice("生成数据出错：" + ex.Message, true, false);
 					return false;
 				}				
 			}
@@ -376,7 +377,7 @@ namespace LightController.MyForm.Multiplex
 
 			if (selectedPanelIndex <= 0)
 			{
-				setNotice("尚未选择色块。", false);
+				setNotice("尚未选择色块。", false, true);
 				material = null;
 				return;
 			}
@@ -409,7 +410,7 @@ namespace LightController.MyForm.Multiplex
 			if (mainForm .IsConnected && mainForm.IsPreviewing ) {
 				mainForm.PreviewButtonClick(null);
 				previewButton.Text = "预览";				
-				setNotice("已停止预览", false);
+				setNotice("已停止预览", false, true);
 			}			
 		}
 
@@ -430,8 +431,8 @@ namespace LightController.MyForm.Multiplex
 				if (mainForm.IsNoticeUnifyTd)
 				{
 					if (DialogResult.Cancel == MessageBox.Show(
-							"确定要将所有步时间都设为【"+ unifySt + " S】吗",
-							"统一步时间",
+							LanguageHelper.TranslateSentence("确定要将所有步时间都设为")+"【"+ unifySt + " S】?",
+							LanguageHelper.TranslateSentence("统一步时间"),
 							MessageBoxButtons.OKCancel,
 							MessageBoxIcon.Question))
 					{
@@ -461,8 +462,8 @@ namespace LightController.MyForm.Multiplex
 				if (mainForm.IsNoticeUnifyTd)
 				{
 					if (DialogResult.Cancel == MessageBox.Show(
-							"确定要将所有跳渐变都设为【" + cmStr + "】吗",
-							"统一跳渐变",
+							LanguageHelper.TranslateSentence("确定要将所有跳渐变都设为【" + cmStr + "】吗?"),
+							LanguageHelper.TranslateSentence("统一跳渐变"),
 							MessageBoxButtons.OKCancel,
 							MessageBoxIcon.Question))
 					{
@@ -583,8 +584,12 @@ namespace LightController.MyForm.Multiplex
 		/// 辅助方法：显示提示
 		/// </summary>
 		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
+		private void setNotice(string msg, bool msgBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgBoxShow)
 			{
@@ -592,10 +597,18 @@ namespace LightController.MyForm.Multiplex
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：预览按键改变文字后，进行翻译
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someControl_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Control);
+		}
+
 		#endregion
 
-	
 
-		
 	}
 }

@@ -158,6 +158,9 @@ namespace OtherTools
 		private void NewToolsForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(protocolListView);
+			LanguageHelper.InitListView(keypressListView);
 
 			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
@@ -415,7 +418,7 @@ namespace OtherTools
 			fanChannelComboBox.Enabled = lcEntity.IsOpenFan;
 			int lightIndex = Convert.ToInt32(fanChannelComboBox.Text.Substring(2)) -1 ;
 			lightButtons[lightIndex].Visible = !lcEntity.IsOpenFan;
-			fanButton.Text = lcEntity.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
+			fanButton.Text = lcEntity.IsOpenFan ? "禁用排风通道" : "启用排风通道";
 		}
 
 		// <summary>
@@ -436,7 +439,7 @@ namespace OtherTools
 				int tempIndex = lcEntity.RelayCount - 6 + lightIndex;
 				lightButtons[tempIndex].Visible = !lcEntity.IsOpenAirCondition;
 			}
-			acButton.Text = lcEntity.IsOpenAirCondition ? "点击禁用\r\n空调通道" : "点击启用\r\n空调通道";
+			acButton.Text = lcEntity.IsOpenAirCondition ? "禁用空调通道" : "启用空调通道";
 		}
 
 		/// <summary>
@@ -528,6 +531,7 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
+			//DOTO 1231
 			lcEntity.AirControlSwitch = Convert.ToInt32(radio.Tag);
 		}
 
@@ -1192,7 +1196,7 @@ namespace OtherTools
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			switchButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectCom ?  "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ?  "打开串口" : "连接设备";
 
@@ -2249,7 +2253,7 @@ namespace OtherTools
 			//Console.WriteLine(tabControl1.SelectedIndex);
 
 		}
-
+			   
 		/// <summary>
 		/// 事件：点击《修改码值》
 		/// </summary>
@@ -2262,5 +2266,18 @@ namespace OtherTools
 
 
 		}
+
+
+		/// <summary>
+		///  辅助方法：一些Control文本改变时，进行翻译
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someControl_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Control);
+		}
+
+
 	}
 }

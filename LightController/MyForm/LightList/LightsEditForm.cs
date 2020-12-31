@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,8 +33,8 @@ namespace LightController.MyForm
 
 		private void LightsEditForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
 

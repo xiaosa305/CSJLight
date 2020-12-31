@@ -56,7 +56,7 @@
 			this.projectTreeView.Location = new System.Drawing.Point(0, 0);
 			this.projectTreeView.Margin = new System.Windows.Forms.Padding(2);
 			this.projectTreeView.Name = "projectTreeView";
-			this.projectTreeView.Size = new System.Drawing.Size(242, 244);
+			this.projectTreeView.Size = new System.Drawing.Size(244, 244);
 			this.projectTreeView.TabIndex = 0;
 			this.projectTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
 			this.projectTreeView.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
@@ -74,7 +74,7 @@
 			// 
 			// deleteButton
 			// 
-			this.deleteButton.Location = new System.Drawing.Point(120, 299);
+			this.deleteButton.Location = new System.Drawing.Point(131, 299);
 			this.deleteButton.Name = "deleteButton";
 			this.deleteButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteButton.TabIndex = 1;
@@ -85,7 +85,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(216, 299);
+			this.cancelButton.Location = new System.Drawing.Point(238, 299);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 1;
@@ -95,7 +95,7 @@
 			// frameLabel
 			// 
 			this.frameLabel.AutoSize = true;
-			this.frameLabel.Location = new System.Drawing.Point(23, 267);
+			this.frameLabel.Location = new System.Drawing.Point(24, 267);
 			this.frameLabel.Name = "frameLabel";
 			this.frameLabel.Size = new System.Drawing.Size(83, 12);
 			this.frameLabel.TabIndex = 2;
@@ -104,7 +104,7 @@
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(112, 263);
+			this.frameComboBox.Location = new System.Drawing.Point(122, 263);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(93, 20);
 			this.frameComboBox.TabIndex = 3;
@@ -143,13 +143,13 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(309, 246);
+			this.panel1.Size = new System.Drawing.Size(334, 246);
 			this.panel1.TabIndex = 6;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(247, 9);
+			this.label1.Location = new System.Drawing.Point(258, 10);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(59, 12);
 			this.label1.TabIndex = 6;
@@ -158,9 +158,9 @@
 			// sortCreateTimeButton
 			// 
 			this.sortCreateTimeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.sortCreateTimeButton.Location = new System.Drawing.Point(243, 86);
+			this.sortCreateTimeButton.Location = new System.Drawing.Point(249, 84);
 			this.sortCreateTimeButton.Name = "sortCreateTimeButton";
-			this.sortCreateTimeButton.Size = new System.Drawing.Size(63, 45);
+			this.sortCreateTimeButton.Size = new System.Drawing.Size(80, 45);
 			this.sortCreateTimeButton.TabIndex = 7;
 			this.sortCreateTimeButton.Text = "创建时间";
 			this.sortCreateTimeButton.UseVisualStyleBackColor = true;
@@ -169,9 +169,9 @@
 			// sortNameButton
 			// 
 			this.sortNameButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.sortNameButton.Location = new System.Drawing.Point(243, 32);
+			this.sortNameButton.Location = new System.Drawing.Point(249, 33);
 			this.sortNameButton.Name = "sortNameButton";
-			this.sortNameButton.Size = new System.Drawing.Size(63, 45);
+			this.sortNameButton.Size = new System.Drawing.Size(80, 45);
 			this.sortNameButton.TabIndex = 8;
 			this.sortNameButton.Text = "文件名";
 			this.sortNameButton.UseVisualStyleBackColor = true;
@@ -180,9 +180,10 @@
 			// changeWorkspaceButton
 			// 
 			this.changeWorkspaceButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.changeWorkspaceButton.Location = new System.Drawing.Point(243, 194);
+			this.changeWorkspaceButton.Font = new System.Drawing.Font("宋体", 9F);
+			this.changeWorkspaceButton.Location = new System.Drawing.Point(249, 192);
 			this.changeWorkspaceButton.Name = "changeWorkspaceButton";
-			this.changeWorkspaceButton.Size = new System.Drawing.Size(63, 45);
+			this.changeWorkspaceButton.Size = new System.Drawing.Size(80, 45);
 			this.changeWorkspaceButton.TabIndex = 9;
 			this.changeWorkspaceButton.Text = "更改\r\n工作目录";
 			this.changeWorkspaceButton.UseVisualStyleBackColor = true;
@@ -191,9 +192,9 @@
 			// sortLastTimeButton
 			// 
 			this.sortLastTimeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.sortLastTimeButton.Location = new System.Drawing.Point(243, 140);
+			this.sortLastTimeButton.Location = new System.Drawing.Point(249, 138);
 			this.sortLastTimeButton.Name = "sortLastTimeButton";
-			this.sortLastTimeButton.Size = new System.Drawing.Size(63, 45);
+			this.sortLastTimeButton.Size = new System.Drawing.Size(80, 45);
 			this.sortLastTimeButton.TabIndex = 9;
 			this.sortLastTimeButton.Text = "保存时间";
 			this.sortLastTimeButton.UseVisualStyleBackColor = true;
@@ -208,7 +209,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(309, 331);
+			this.ClientSize = new System.Drawing.Size(334, 331);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.frameLabel);
@@ -218,11 +219,11 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(325, 370);
+			this.MaximumSize = new System.Drawing.Size(350, 370);
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(325, 370);
+			this.MinimumSize = new System.Drawing.Size(350, 370);
 			this.Name = "OpenForm";
-			this.Text = "打开工程";
+			this.Text = "打开工程 ";
 			this.Load += new System.EventHandler(this.OpenForm_Load);
 			this.myContextMenuStrip.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);

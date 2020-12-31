@@ -30,7 +30,7 @@
 		{
 			this.insertButton = new System.Windows.Forms.Button();
 			this.coverButton = new System.Windows.Forms.Button();
-			this.helpButton = new System.Windows.Forms.Button();
+			this.appendButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
@@ -54,15 +54,15 @@
 			this.coverButton.UseVisualStyleBackColor = true;
 			this.coverButton.Click += new System.EventHandler(this.insertOrCoverSkinButton_Click);
 			// 
-			// helpButton
+			// appendButton
 			// 
-			this.helpButton.Location = new System.Drawing.Point(33, 74);
-			this.helpButton.Name = "helpButton";
-			this.helpButton.Size = new System.Drawing.Size(75, 23);
-			this.helpButton.TabIndex = 8;
-			this.helpButton.Text = "使用说明";
-			this.helpButton.UseVisualStyleBackColor = true;
-			this.helpButton.Click += new System.EventHandler(this.helpSkinButton_Click);
+			this.appendButton.Location = new System.Drawing.Point(33, 74);
+			this.appendButton.Name = "appendButton";
+			this.appendButton.Size = new System.Drawing.Size(75, 23);
+			this.appendButton.TabIndex = 8;
+			this.appendButton.Text = "追加";
+			this.appendButton.UseVisualStyleBackColor = true;
+			this.appendButton.Click += new System.EventHandler(this.insertOrCoverSkinButton_Click);
 			// 
 			// cancelButton
 			// 
@@ -84,13 +84,17 @@
 			this.ClientSize = new System.Drawing.Size(239, 124);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.coverButton);
-			this.Controls.Add(this.helpButton);
+			this.Controls.Add(this.appendButton);
 			this.Controls.Add(this.insertButton);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(255, 163);
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(255, 163);
 			this.Name = "MultiStepPasteForm";
-			this.Text = "粘贴多步";
+			this.Text = "粘贴多步 ";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MultiStepPasteForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MultiStepPasteForm_Load);
 			this.ResumeLayout(false);
 
@@ -99,7 +103,7 @@
 		#endregion
 		private System.Windows.Forms.Button insertButton;
 		private System.Windows.Forms.Button coverButton;
-		private System.Windows.Forms.Button helpButton;
+		private System.Windows.Forms.Button appendButton;
 		private System.Windows.Forms.Button cancelButton;
 	}
 }

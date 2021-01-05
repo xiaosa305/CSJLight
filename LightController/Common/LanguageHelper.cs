@@ -247,6 +247,10 @@ namespace LightController.Common
 		/// </summary>
 		private static void saveSentenceDict()
 		{
+			if ( language == "zh-CN")
+			{
+				return;
+			}
 			SortDictionary_Asc(sentenceDict);
 			File.WriteAllText( sentenceJsonPath , JsonConvert.SerializeObject( sentenceDict ) );
 		}

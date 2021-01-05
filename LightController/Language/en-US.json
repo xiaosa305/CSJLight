@@ -65,6 +65,8 @@
   // StepPanel
   "场景：": "Scene",
   "模式：": "Mode",
+  "常规模式": "Normal",
+  "音频模式": "Sound",
   "多灯模式": "MultiMode",
   "单灯模式": "SingelMode",
   "调用场景": "CopyScene",
@@ -85,6 +87,13 @@
   "退出同步": "ExitSync",
   "多步复用": "Multiplex",
 
+  "跳变": "jump",
+  "渐变": "gradient",
+  "屏蔽": "shield",
+  "通道值": "Value",
+  "跳渐变": "ChangeMode",
+  "步时间(S)": "StepTime(S)",
+
   // PlayPanel
   "以网络连接": "Use NET",
   "以串口连接": "Use COM",
@@ -101,6 +110,8 @@
   "预览效果": "Preview",
   "停止预览": "Stop",
   "触发音频": "MakeSound",
+  "正在调试灯具：": "Playing Light : ",
+  "，当前步：": " , CurrentStep : ",
 
   // LightRemarksForm
   "修改灯具备注": "Edit Light Remarks",
@@ -352,6 +363,9 @@
   "连接中控": "ConnectCC",
   "查找": "Search",
   "串口0": "Com0",
+  "串口0 = ": "Com0 = ",
+  "串口1 = ": "Com1 = ",
+
   "串口1": "Even",
   "查看协议文件": "ReadXLS",
   "协议选择": "Protocal",
@@ -374,6 +388,7 @@
   "连接灯控": "ConnectLC",
   "选择场景：": "Scene:",
   "开关模式": "SwitchMode",
+  "开关": "Switch ",
   "切换": "Switch",
   "叠加": "Overlay",
   "系统": "System",

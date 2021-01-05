@@ -2339,27 +2339,27 @@ namespace LightController.MyForm
 			this.thirdLabel.AutoSize = true;
 			this.thirdLabel.Location = new System.Drawing.Point(5, 255);
 			this.thirdLabel.Name = "thirdLabel";
-			this.thirdLabel.Size = new System.Drawing.Size(71, 12);
+			this.thirdLabel.Size = new System.Drawing.Size(59, 12);
 			this.thirdLabel.TabIndex = 0;
-			this.thirdLabel.Text = "StepTime(S)";
+			this.thirdLabel.Text = "步时间(S)";
 			// 
 			// secondLabel
 			// 
 			this.secondLabel.AutoSize = true;
 			this.secondLabel.Location = new System.Drawing.Point(5, 232);
 			this.secondLabel.Name = "secondLabel";
-			this.secondLabel.Size = new System.Drawing.Size(65, 12);
+			this.secondLabel.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel.TabIndex = 0;
-			this.secondLabel.Text = "ChangeMode";
+			this.secondLabel.Text = "跳渐变";
 			// 
 			// firstLabel
 			// 
 			this.firstLabel.AutoSize = true;
 			this.firstLabel.Location = new System.Drawing.Point(5, 208);
 			this.firstLabel.Name = "firstLabel";
-			this.firstLabel.Size = new System.Drawing.Size(35, 12);
+			this.firstLabel.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel.TabIndex = 0;
-			this.firstLabel.Text = "Value";
+			this.firstLabel.Text = "通道值";
 			// 
 			// middleTableLayoutPanel
 			// 

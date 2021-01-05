@@ -216,6 +216,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// eachChangeModeComboBox
 			// 
+			this.eachChangeModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.eachChangeModeComboBox.FormattingEnabled = true;
 			this.eachChangeModeComboBox.Items.AddRange(new object[] {
             "跳变",
@@ -230,6 +231,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// startupComboBox
 			// 
+			this.startupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.startupComboBox.FormattingEnabled = true;
 			this.startupComboBox.Items.AddRange(new object[] {
             "无"});
@@ -251,6 +253,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// tongdaoCountComboBox
 			// 
+			this.tongdaoCountComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.tongdaoCountComboBox.Enabled = false;
 			this.tongdaoCountComboBox.FormattingEnabled = true;
 			this.tongdaoCountComboBox.Items.AddRange(new object[] {
@@ -295,6 +298,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// zuheFrameComboBox
 			// 
+			this.zuheFrameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.zuheFrameComboBox.FormattingEnabled = true;
 			this.zuheFrameComboBox.Location = new System.Drawing.Point(13, 26);
 			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -411,6 +415,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame4ComboBox
 			// 
+			this.frame4ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame4ComboBox.FormattingEnabled = true;
 			this.frame4ComboBox.Location = new System.Drawing.Point(545, 66);
 			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -420,6 +425,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame3ComboBox
 			// 
+			this.frame3ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame3ComboBox.FormattingEnabled = true;
 			this.frame3ComboBox.Location = new System.Drawing.Point(435, 66);
 			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -429,6 +435,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame2ComboBox
 			// 
+			this.frame2ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame2ComboBox.FormattingEnabled = true;
 			this.frame2ComboBox.Location = new System.Drawing.Point(325, 66);
 			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -438,6 +445,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame1ComboBox
 			// 
+			this.frame1ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame1ComboBox.FormattingEnabled = true;
 			this.frame1ComboBox.Location = new System.Drawing.Point(215, 66);
 			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);

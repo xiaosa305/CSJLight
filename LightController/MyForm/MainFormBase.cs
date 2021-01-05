@@ -1808,10 +1808,10 @@ namespace LightController.MyForm
 			//10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
 			if (dbLightList == null || dbLightList.Count == 0)
 			{
-				SetNotice(  "成功打开空工程(" + projectName + ")", false,false);						
-				//DOTO
-				if (DialogResult.OK == MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？",
-					"为空工程添加灯具",
+				SetNotice(LanguageHelper.TranslateSentence("成功打开空工程：") + projectName , false , false);										
+				if (DialogResult.OK == MessageBox.Show(
+					LanguageHelper.TranslateSentence("成功打开空工程 , 要为此工程添加灯具吗？"),
+					LanguageHelper.TranslateSentence("为空工程添加灯具"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question))
 				{
@@ -1863,9 +1863,9 @@ namespace LightController.MyForm
 								
 				SetNotice( LanguageHelper.TranslateSentence( "成功打开工程：" )
 					+"【" 
-					+ projectName + "】" 
-					//+	"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" +
-					+ "。", true , false );
+					+ projectName + "】"
+					 //+	"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" + "。"
+					 , true, false );
 			}
 			setBusy(false);
 
@@ -3817,12 +3817,18 @@ namespace LightController.MyForm
 				{
 					tdValueStr += stepBytes[tdIndex] + " ";
 				}
+				tdValueStr = tdValueStr.TrimEnd(); // 去掉结尾的空格
 				tdValueStr += "】";
 			}
 
 			playTools.OLOSView(stepBytes);
-			//DOTO
-			SetNotice("正在实时调试(" + (selectedIndex + 1) + ")第"+currentStep+"步" + tdValueStr ,false,false);
+			
+			SetNotice(
+				LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + 
+				LanguageHelper.TranslateWord("，当前步：")+currentStep +
+				tdValueStr 				
+				,false,
+				false);
 		}
 		
 		/// <summary>

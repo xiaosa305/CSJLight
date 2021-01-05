@@ -148,31 +148,8 @@ namespace OtherTools
 			this.label13 = new System.Windows.Forms.Label();
 			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.lightGroupBox = new System.Windows.Forms.GroupBox();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.lightButton1 = new CCWin.SkinControl.SkinButton();
-			this.lightButton2 = new CCWin.SkinControl.SkinButton();
-			this.lightButton3 = new CCWin.SkinControl.SkinButton();
-			this.lightButton4 = new CCWin.SkinControl.SkinButton();
-			this.lightButton5 = new CCWin.SkinControl.SkinButton();
-			this.lightButton6 = new CCWin.SkinControl.SkinButton();
-			this.lightButton7 = new CCWin.SkinControl.SkinButton();
-			this.lightButton8 = new CCWin.SkinControl.SkinButton();
-			this.lightButton9 = new CCWin.SkinControl.SkinButton();
-			this.lightButton10 = new CCWin.SkinControl.SkinButton();
-			this.lightButton11 = new CCWin.SkinControl.SkinButton();
-			this.lightButton12 = new CCWin.SkinControl.SkinButton();
-			this.lightButton13 = new CCWin.SkinControl.SkinButton();
-			this.lightButton14 = new CCWin.SkinControl.SkinButton();
-			this.lightButton15 = new CCWin.SkinControl.SkinButton();
-			this.lightButton16 = new CCWin.SkinControl.SkinButton();
-			this.lightButton17 = new CCWin.SkinControl.SkinButton();
-			this.lightButton18 = new CCWin.SkinControl.SkinButton();
-			this.lightButton19 = new CCWin.SkinControl.SkinButton();
-			this.lightButton20 = new CCWin.SkinControl.SkinButton();
-			this.lightButton21 = new CCWin.SkinControl.SkinButton();
-			this.lightButton22 = new CCWin.SkinControl.SkinButton();
-			this.lightButton23 = new CCWin.SkinControl.SkinButton();
-			this.lightButton24 = new CCWin.SkinControl.SkinButton();
+			this.switchFLP = new System.Windows.Forms.FlowLayoutPanel();
+			this.switchButtonDemo = new CCWin.SkinControl.SkinButton();
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.centerTabPage = new System.Windows.Forms.TabPage();
 			this.editCodeButton = new System.Windows.Forms.Button();
@@ -263,7 +240,7 @@ namespace OtherTools
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
 			this.lightGroupBox.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.switchFLP.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.ccStatusStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -749,7 +726,7 @@ namespace OtherTools
 			// 
 			this.lcToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
 			this.lcToolStripStatusLabel1.Name = "lcToolStripStatusLabel1";
-			this.lcToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.lcToolStripStatusLabel1.Size = new System.Drawing.Size(572, 17);
 			this.lcToolStripStatusLabel1.Spring = true;
 			// 
 			// lcToolStripStatusLabel2
@@ -1311,7 +1288,7 @@ namespace OtherTools
 			// 
 			this.lightModeQHRadioButton.AutoSize = true;
 			this.lightModeQHRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightModeQHRadioButton.Location = new System.Drawing.Point(29, 27);
+			this.lightModeQHRadioButton.Location = new System.Drawing.Point(102, 31);
 			this.lightModeQHRadioButton.Name = "lightModeQHRadioButton";
 			this.lightModeQHRadioButton.Size = new System.Drawing.Size(47, 16);
 			this.lightModeQHRadioButton.TabIndex = 0;
@@ -1324,7 +1301,7 @@ namespace OtherTools
 			// 
 			this.lightModeDJRadioButton.AutoSize = true;
 			this.lightModeDJRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightModeDJRadioButton.Location = new System.Drawing.Point(107, 27);
+			this.lightModeDJRadioButton.Location = new System.Drawing.Point(14, 31);
 			this.lightModeDJRadioButton.Name = "lightModeDJRadioButton";
 			this.lightModeDJRadioButton.Size = new System.Drawing.Size(47, 16);
 			this.lightModeDJRadioButton.TabIndex = 0;
@@ -1532,7 +1509,7 @@ namespace OtherTools
 			// 
 			// lightGroupBox
 			// 
-			this.lightGroupBox.Controls.Add(this.flowLayoutPanel1);
+			this.lightGroupBox.Controls.Add(this.switchFLP);
 			this.lightGroupBox.Controls.Add(this.keepLightOnCheckBox);
 			this.lightGroupBox.Location = new System.Drawing.Point(29, 129);
 			this.lightGroupBox.Name = "lightGroupBox";
@@ -1541,757 +1518,45 @@ namespace OtherTools
 			this.lightGroupBox.TabStop = false;
 			this.lightGroupBox.Text = "各开关设置";
 			// 
-			// flowLayoutPanel1
+			// switchFLP
 			// 
-			this.flowLayoutPanel1.Controls.Add(this.lightButton1);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton2);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton3);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton4);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton5);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton6);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton7);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton8);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton9);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton10);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton11);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton12);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton13);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton14);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton15);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton16);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton17);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton18);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton19);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton20);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton21);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton22);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton23);
-			this.flowLayoutPanel1.Controls.Add(this.lightButton24);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(806, 191);
-			this.flowLayoutPanel1.TabIndex = 7;
+			this.switchFLP.Controls.Add(this.switchButtonDemo);
+			this.switchFLP.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.switchFLP.Location = new System.Drawing.Point(3, 17);
+			this.switchFLP.Name = "switchFLP";
+			this.switchFLP.Size = new System.Drawing.Size(806, 191);
+			this.switchFLP.TabIndex = 7;
 			// 
-			// lightButton1
+			// switchButtonDemo
 			// 
-			this.lightButton1.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton1.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton1.BorderColor = System.Drawing.Color.White;
-			this.lightButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton1.DownBack = null;
-			this.lightButton1.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.lightButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton1.ForeColorSuit = true;
-			this.lightButton1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton1.ImageIndex = 0;
-			this.lightButton1.ImageList = this.lightImageList;
-			this.lightButton1.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton1.InheritColor = true;
-			this.lightButton1.IsDrawBorder = false;
-			this.lightButton1.Location = new System.Drawing.Point(2, 2);
-			this.lightButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton1.MouseBack = null;
-			this.lightButton1.Name = "lightButton1";
-			this.lightButton1.NormlBack = null;
-			this.lightButton1.Size = new System.Drawing.Size(63, 85);
-			this.lightButton1.TabIndex = 12;
-			this.lightButton1.Tag = "9999";
-			this.lightButton1.Text = "开关1";
-			this.lightButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton1.UseVisualStyleBackColor = true;
-			this.lightButton1.Visible = false;
-			this.lightButton1.Click += new System.EventHandler(this.lightButton_Click);
-			// 
-			// lightButton2
-			// 
-			this.lightButton2.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton2.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton2.BorderColor = System.Drawing.Color.White;
-			this.lightButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton2.DownBack = null;
-			this.lightButton2.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton2.ForeColorSuit = true;
-			this.lightButton2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton2.ImageIndex = 0;
-			this.lightButton2.ImageList = this.lightImageList;
-			this.lightButton2.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton2.InheritColor = true;
-			this.lightButton2.IsDrawBorder = false;
-			this.lightButton2.Location = new System.Drawing.Point(69, 2);
-			this.lightButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton2.MouseBack = null;
-			this.lightButton2.Name = "lightButton2";
-			this.lightButton2.NormlBack = null;
-			this.lightButton2.Size = new System.Drawing.Size(63, 85);
-			this.lightButton2.TabIndex = 12;
-			this.lightButton2.Tag = "9999";
-			this.lightButton2.Text = "开关2";
-			this.lightButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton2.UseVisualStyleBackColor = false;
-			this.lightButton2.Visible = false;
-			// 
-			// lightButton3
-			// 
-			this.lightButton3.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton3.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton3.BorderColor = System.Drawing.Color.White;
-			this.lightButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton3.DownBack = null;
-			this.lightButton3.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton3.ForeColorSuit = true;
-			this.lightButton3.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton3.ImageIndex = 0;
-			this.lightButton3.ImageList = this.lightImageList;
-			this.lightButton3.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton3.InheritColor = true;
-			this.lightButton3.IsDrawBorder = false;
-			this.lightButton3.Location = new System.Drawing.Point(136, 2);
-			this.lightButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton3.MouseBack = null;
-			this.lightButton3.Name = "lightButton3";
-			this.lightButton3.NormlBack = null;
-			this.lightButton3.Size = new System.Drawing.Size(63, 85);
-			this.lightButton3.TabIndex = 12;
-			this.lightButton3.Tag = "9999";
-			this.lightButton3.Text = "开关3";
-			this.lightButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton3.UseVisualStyleBackColor = false;
-			this.lightButton3.Visible = false;
-			// 
-			// lightButton4
-			// 
-			this.lightButton4.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton4.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton4.BorderColor = System.Drawing.Color.White;
-			this.lightButton4.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton4.DownBack = null;
-			this.lightButton4.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton4.ForeColorSuit = true;
-			this.lightButton4.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton4.ImageIndex = 0;
-			this.lightButton4.ImageList = this.lightImageList;
-			this.lightButton4.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton4.InheritColor = true;
-			this.lightButton4.IsDrawBorder = false;
-			this.lightButton4.Location = new System.Drawing.Point(203, 2);
-			this.lightButton4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton4.MouseBack = null;
-			this.lightButton4.Name = "lightButton4";
-			this.lightButton4.NormlBack = null;
-			this.lightButton4.Size = new System.Drawing.Size(63, 85);
-			this.lightButton4.TabIndex = 12;
-			this.lightButton4.Tag = "9999";
-			this.lightButton4.Text = "开关4";
-			this.lightButton4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton4.UseVisualStyleBackColor = false;
-			this.lightButton4.Visible = false;
-			// 
-			// lightButton5
-			// 
-			this.lightButton5.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton5.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton5.BorderColor = System.Drawing.Color.White;
-			this.lightButton5.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton5.DownBack = null;
-			this.lightButton5.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton5.ForeColorSuit = true;
-			this.lightButton5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton5.ImageIndex = 0;
-			this.lightButton5.ImageList = this.lightImageList;
-			this.lightButton5.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton5.InheritColor = true;
-			this.lightButton5.IsDrawBorder = false;
-			this.lightButton5.Location = new System.Drawing.Point(270, 2);
-			this.lightButton5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton5.MouseBack = null;
-			this.lightButton5.Name = "lightButton5";
-			this.lightButton5.NormlBack = null;
-			this.lightButton5.Size = new System.Drawing.Size(63, 85);
-			this.lightButton5.TabIndex = 12;
-			this.lightButton5.Tag = "9999";
-			this.lightButton5.Text = "开关5";
-			this.lightButton5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton5.UseVisualStyleBackColor = false;
-			this.lightButton5.Visible = false;
-			// 
-			// lightButton6
-			// 
-			this.lightButton6.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton6.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton6.BorderColor = System.Drawing.Color.White;
-			this.lightButton6.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton6.DownBack = null;
-			this.lightButton6.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton6.ForeColorSuit = true;
-			this.lightButton6.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton6.ImageIndex = 0;
-			this.lightButton6.ImageList = this.lightImageList;
-			this.lightButton6.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton6.InheritColor = true;
-			this.lightButton6.IsDrawBorder = false;
-			this.lightButton6.Location = new System.Drawing.Point(337, 2);
-			this.lightButton6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton6.MouseBack = null;
-			this.lightButton6.Name = "lightButton6";
-			this.lightButton6.NormlBack = null;
-			this.lightButton6.Size = new System.Drawing.Size(63, 85);
-			this.lightButton6.TabIndex = 12;
-			this.lightButton6.Tag = "9999";
-			this.lightButton6.Text = "开关6";
-			this.lightButton6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton6.UseVisualStyleBackColor = false;
-			this.lightButton6.Visible = false;
-			// 
-			// lightButton7
-			// 
-			this.lightButton7.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton7.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton7.BorderColor = System.Drawing.Color.White;
-			this.lightButton7.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton7.DownBack = null;
-			this.lightButton7.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton7.ForeColorSuit = true;
-			this.lightButton7.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton7.ImageIndex = 0;
-			this.lightButton7.ImageList = this.lightImageList;
-			this.lightButton7.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton7.InheritColor = true;
-			this.lightButton7.IsDrawBorder = false;
-			this.lightButton7.Location = new System.Drawing.Point(404, 2);
-			this.lightButton7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton7.MouseBack = null;
-			this.lightButton7.Name = "lightButton7";
-			this.lightButton7.NormlBack = null;
-			this.lightButton7.Size = new System.Drawing.Size(63, 85);
-			this.lightButton7.TabIndex = 12;
-			this.lightButton7.Tag = "9999";
-			this.lightButton7.Text = "开关7";
-			this.lightButton7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton7.UseVisualStyleBackColor = false;
-			this.lightButton7.Visible = false;
-			// 
-			// lightButton8
-			// 
-			this.lightButton8.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton8.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton8.BorderColor = System.Drawing.Color.White;
-			this.lightButton8.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton8.DownBack = null;
-			this.lightButton8.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton8.ForeColorSuit = true;
-			this.lightButton8.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton8.ImageIndex = 0;
-			this.lightButton8.ImageList = this.lightImageList;
-			this.lightButton8.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton8.InheritColor = true;
-			this.lightButton8.IsDrawBorder = false;
-			this.lightButton8.Location = new System.Drawing.Point(471, 2);
-			this.lightButton8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton8.MouseBack = null;
-			this.lightButton8.Name = "lightButton8";
-			this.lightButton8.NormlBack = null;
-			this.lightButton8.Size = new System.Drawing.Size(63, 85);
-			this.lightButton8.TabIndex = 12;
-			this.lightButton8.Tag = "9999";
-			this.lightButton8.Text = "开关8";
-			this.lightButton8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton8.UseVisualStyleBackColor = false;
-			this.lightButton8.Visible = false;
-			// 
-			// lightButton9
-			// 
-			this.lightButton9.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton9.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton9.BorderColor = System.Drawing.Color.White;
-			this.lightButton9.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton9.DownBack = null;
-			this.lightButton9.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton9.ForeColorSuit = true;
-			this.lightButton9.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton9.ImageIndex = 0;
-			this.lightButton9.ImageList = this.lightImageList;
-			this.lightButton9.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton9.InheritColor = true;
-			this.lightButton9.IsDrawBorder = false;
-			this.lightButton9.Location = new System.Drawing.Point(538, 2);
-			this.lightButton9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton9.MouseBack = null;
-			this.lightButton9.Name = "lightButton9";
-			this.lightButton9.NormlBack = null;
-			this.lightButton9.Size = new System.Drawing.Size(63, 85);
-			this.lightButton9.TabIndex = 12;
-			this.lightButton9.Tag = "9999";
-			this.lightButton9.Text = "开关9";
-			this.lightButton9.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton9.UseVisualStyleBackColor = false;
-			this.lightButton9.Visible = false;
-			// 
-			// lightButton10
-			// 
-			this.lightButton10.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton10.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton10.BorderColor = System.Drawing.Color.White;
-			this.lightButton10.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton10.DownBack = null;
-			this.lightButton10.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton10.ForeColorSuit = true;
-			this.lightButton10.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton10.ImageIndex = 0;
-			this.lightButton10.ImageList = this.lightImageList;
-			this.lightButton10.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton10.InheritColor = true;
-			this.lightButton10.IsDrawBorder = false;
-			this.lightButton10.Location = new System.Drawing.Point(605, 2);
-			this.lightButton10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton10.MouseBack = null;
-			this.lightButton10.Name = "lightButton10";
-			this.lightButton10.NormlBack = null;
-			this.lightButton10.Size = new System.Drawing.Size(63, 85);
-			this.lightButton10.TabIndex = 12;
-			this.lightButton10.Tag = "9999";
-			this.lightButton10.Text = "开关10";
-			this.lightButton10.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton10.UseVisualStyleBackColor = false;
-			this.lightButton10.Visible = false;
-			// 
-			// lightButton11
-			// 
-			this.lightButton11.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton11.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton11.BorderColor = System.Drawing.Color.White;
-			this.lightButton11.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton11.DownBack = null;
-			this.lightButton11.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton11.ForeColorSuit = true;
-			this.lightButton11.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton11.ImageIndex = 0;
-			this.lightButton11.ImageList = this.lightImageList;
-			this.lightButton11.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton11.InheritColor = true;
-			this.lightButton11.IsDrawBorder = false;
-			this.lightButton11.Location = new System.Drawing.Point(672, 2);
-			this.lightButton11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton11.MouseBack = null;
-			this.lightButton11.Name = "lightButton11";
-			this.lightButton11.NormlBack = null;
-			this.lightButton11.Size = new System.Drawing.Size(63, 85);
-			this.lightButton11.TabIndex = 12;
-			this.lightButton11.Tag = "9999";
-			this.lightButton11.Text = "开关11";
-			this.lightButton11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton11.UseVisualStyleBackColor = false;
-			this.lightButton11.Visible = false;
-			// 
-			// lightButton12
-			// 
-			this.lightButton12.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton12.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton12.BorderColor = System.Drawing.Color.White;
-			this.lightButton12.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton12.DownBack = null;
-			this.lightButton12.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton12.ForeColorSuit = true;
-			this.lightButton12.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton12.ImageIndex = 0;
-			this.lightButton12.ImageList = this.lightImageList;
-			this.lightButton12.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton12.InheritColor = true;
-			this.lightButton12.IsDrawBorder = false;
-			this.lightButton12.Location = new System.Drawing.Point(739, 2);
-			this.lightButton12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton12.MouseBack = null;
-			this.lightButton12.Name = "lightButton12";
-			this.lightButton12.NormlBack = null;
-			this.lightButton12.Size = new System.Drawing.Size(63, 85);
-			this.lightButton12.TabIndex = 12;
-			this.lightButton12.Tag = "9999";
-			this.lightButton12.Text = "开关12";
-			this.lightButton12.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton12.UseVisualStyleBackColor = false;
-			this.lightButton12.Visible = false;
-			// 
-			// lightButton13
-			// 
-			this.lightButton13.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton13.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton13.BorderColor = System.Drawing.Color.White;
-			this.lightButton13.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton13.DownBack = null;
-			this.lightButton13.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton13.ForeColorSuit = true;
-			this.lightButton13.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton13.ImageIndex = 0;
-			this.lightButton13.ImageList = this.lightImageList;
-			this.lightButton13.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton13.InheritColor = true;
-			this.lightButton13.IsDrawBorder = false;
-			this.lightButton13.Location = new System.Drawing.Point(2, 99);
-			this.lightButton13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton13.MouseBack = null;
-			this.lightButton13.Name = "lightButton13";
-			this.lightButton13.NormlBack = null;
-			this.lightButton13.Size = new System.Drawing.Size(63, 85);
-			this.lightButton13.TabIndex = 12;
-			this.lightButton13.Tag = "9999";
-			this.lightButton13.Text = "开关13";
-			this.lightButton13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton13.UseVisualStyleBackColor = false;
-			this.lightButton13.Visible = false;
-			// 
-			// lightButton14
-			// 
-			this.lightButton14.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton14.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton14.BorderColor = System.Drawing.Color.White;
-			this.lightButton14.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton14.DownBack = null;
-			this.lightButton14.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton14.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton14.ForeColorSuit = true;
-			this.lightButton14.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton14.ImageIndex = 0;
-			this.lightButton14.ImageList = this.lightImageList;
-			this.lightButton14.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton14.InheritColor = true;
-			this.lightButton14.IsDrawBorder = false;
-			this.lightButton14.Location = new System.Drawing.Point(69, 99);
-			this.lightButton14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton14.MouseBack = null;
-			this.lightButton14.Name = "lightButton14";
-			this.lightButton14.NormlBack = null;
-			this.lightButton14.Size = new System.Drawing.Size(63, 85);
-			this.lightButton14.TabIndex = 12;
-			this.lightButton14.Tag = "9999";
-			this.lightButton14.Text = "开关14";
-			this.lightButton14.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton14.UseVisualStyleBackColor = false;
-			this.lightButton14.Visible = false;
-			// 
-			// lightButton15
-			// 
-			this.lightButton15.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton15.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton15.BorderColor = System.Drawing.Color.White;
-			this.lightButton15.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton15.DownBack = null;
-			this.lightButton15.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton15.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton15.ForeColorSuit = true;
-			this.lightButton15.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton15.ImageIndex = 0;
-			this.lightButton15.ImageList = this.lightImageList;
-			this.lightButton15.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton15.InheritColor = true;
-			this.lightButton15.IsDrawBorder = false;
-			this.lightButton15.Location = new System.Drawing.Point(136, 99);
-			this.lightButton15.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton15.MouseBack = null;
-			this.lightButton15.Name = "lightButton15";
-			this.lightButton15.NormlBack = null;
-			this.lightButton15.Size = new System.Drawing.Size(63, 85);
-			this.lightButton15.TabIndex = 12;
-			this.lightButton15.Tag = "9999";
-			this.lightButton15.Text = "开关15";
-			this.lightButton15.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton15.UseVisualStyleBackColor = false;
-			this.lightButton15.Visible = false;
-			// 
-			// lightButton16
-			// 
-			this.lightButton16.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton16.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton16.BorderColor = System.Drawing.Color.White;
-			this.lightButton16.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton16.DownBack = null;
-			this.lightButton16.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton16.ForeColorSuit = true;
-			this.lightButton16.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton16.ImageIndex = 0;
-			this.lightButton16.ImageList = this.lightImageList;
-			this.lightButton16.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton16.InheritColor = true;
-			this.lightButton16.IsDrawBorder = false;
-			this.lightButton16.Location = new System.Drawing.Point(203, 99);
-			this.lightButton16.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton16.MouseBack = null;
-			this.lightButton16.Name = "lightButton16";
-			this.lightButton16.NormlBack = null;
-			this.lightButton16.Size = new System.Drawing.Size(63, 85);
-			this.lightButton16.TabIndex = 12;
-			this.lightButton16.Tag = "9999";
-			this.lightButton16.Text = "开关16";
-			this.lightButton16.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton16.UseVisualStyleBackColor = false;
-			this.lightButton16.Visible = false;
-			// 
-			// lightButton17
-			// 
-			this.lightButton17.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton17.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton17.BorderColor = System.Drawing.Color.White;
-			this.lightButton17.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton17.DownBack = null;
-			this.lightButton17.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton17.ForeColorSuit = true;
-			this.lightButton17.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton17.ImageIndex = 0;
-			this.lightButton17.ImageList = this.lightImageList;
-			this.lightButton17.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton17.InheritColor = true;
-			this.lightButton17.IsDrawBorder = false;
-			this.lightButton17.Location = new System.Drawing.Point(270, 99);
-			this.lightButton17.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton17.MouseBack = null;
-			this.lightButton17.Name = "lightButton17";
-			this.lightButton17.NormlBack = null;
-			this.lightButton17.Size = new System.Drawing.Size(63, 85);
-			this.lightButton17.TabIndex = 12;
-			this.lightButton17.Tag = "9999";
-			this.lightButton17.Text = "开关17";
-			this.lightButton17.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton17.UseVisualStyleBackColor = false;
-			this.lightButton17.Visible = false;
-			// 
-			// lightButton18
-			// 
-			this.lightButton18.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton18.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton18.BorderColor = System.Drawing.Color.White;
-			this.lightButton18.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton18.DownBack = null;
-			this.lightButton18.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton18.ForeColorSuit = true;
-			this.lightButton18.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton18.ImageIndex = 0;
-			this.lightButton18.ImageList = this.lightImageList;
-			this.lightButton18.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton18.InheritColor = true;
-			this.lightButton18.IsDrawBorder = false;
-			this.lightButton18.Location = new System.Drawing.Point(337, 99);
-			this.lightButton18.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton18.MouseBack = null;
-			this.lightButton18.Name = "lightButton18";
-			this.lightButton18.NormlBack = null;
-			this.lightButton18.Size = new System.Drawing.Size(63, 85);
-			this.lightButton18.TabIndex = 12;
-			this.lightButton18.Tag = "9999";
-			this.lightButton18.Text = "开关18";
-			this.lightButton18.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton18.UseVisualStyleBackColor = false;
-			this.lightButton18.Visible = false;
-			// 
-			// lightButton19
-			// 
-			this.lightButton19.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton19.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton19.BorderColor = System.Drawing.Color.White;
-			this.lightButton19.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton19.DownBack = null;
-			this.lightButton19.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton19.ForeColorSuit = true;
-			this.lightButton19.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton19.ImageIndex = 0;
-			this.lightButton19.ImageList = this.lightImageList;
-			this.lightButton19.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton19.InheritColor = true;
-			this.lightButton19.IsDrawBorder = false;
-			this.lightButton19.Location = new System.Drawing.Point(404, 99);
-			this.lightButton19.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton19.MouseBack = null;
-			this.lightButton19.Name = "lightButton19";
-			this.lightButton19.NormlBack = null;
-			this.lightButton19.Size = new System.Drawing.Size(63, 85);
-			this.lightButton19.TabIndex = 12;
-			this.lightButton19.Tag = "9999";
-			this.lightButton19.Text = "开关19";
-			this.lightButton19.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton19.UseVisualStyleBackColor = false;
-			this.lightButton19.Visible = false;
-			// 
-			// lightButton20
-			// 
-			this.lightButton20.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton20.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton20.BorderColor = System.Drawing.Color.White;
-			this.lightButton20.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton20.DownBack = null;
-			this.lightButton20.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton20.ForeColorSuit = true;
-			this.lightButton20.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton20.ImageIndex = 0;
-			this.lightButton20.ImageList = this.lightImageList;
-			this.lightButton20.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton20.InheritColor = true;
-			this.lightButton20.IsDrawBorder = false;
-			this.lightButton20.Location = new System.Drawing.Point(471, 99);
-			this.lightButton20.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton20.MouseBack = null;
-			this.lightButton20.Name = "lightButton20";
-			this.lightButton20.NormlBack = null;
-			this.lightButton20.Size = new System.Drawing.Size(63, 85);
-			this.lightButton20.TabIndex = 12;
-			this.lightButton20.Tag = "9999";
-			this.lightButton20.Text = "开关20";
-			this.lightButton20.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton20.UseVisualStyleBackColor = false;
-			this.lightButton20.Visible = false;
-			// 
-			// lightButton21
-			// 
-			this.lightButton21.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton21.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton21.BorderColor = System.Drawing.Color.White;
-			this.lightButton21.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton21.DownBack = null;
-			this.lightButton21.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton21.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton21.ForeColorSuit = true;
-			this.lightButton21.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton21.ImageIndex = 0;
-			this.lightButton21.ImageList = this.lightImageList;
-			this.lightButton21.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton21.InheritColor = true;
-			this.lightButton21.IsDrawBorder = false;
-			this.lightButton21.Location = new System.Drawing.Point(538, 99);
-			this.lightButton21.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton21.MouseBack = null;
-			this.lightButton21.Name = "lightButton21";
-			this.lightButton21.NormlBack = null;
-			this.lightButton21.Size = new System.Drawing.Size(63, 85);
-			this.lightButton21.TabIndex = 12;
-			this.lightButton21.Tag = "9999";
-			this.lightButton21.Text = "开关21";
-			this.lightButton21.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton21.UseVisualStyleBackColor = false;
-			this.lightButton21.Visible = false;
-			// 
-			// lightButton22
-			// 
-			this.lightButton22.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton22.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton22.BorderColor = System.Drawing.Color.White;
-			this.lightButton22.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton22.DownBack = null;
-			this.lightButton22.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton22.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton22.ForeColorSuit = true;
-			this.lightButton22.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton22.ImageIndex = 0;
-			this.lightButton22.ImageList = this.lightImageList;
-			this.lightButton22.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton22.InheritColor = true;
-			this.lightButton22.IsDrawBorder = false;
-			this.lightButton22.Location = new System.Drawing.Point(605, 99);
-			this.lightButton22.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton22.MouseBack = null;
-			this.lightButton22.Name = "lightButton22";
-			this.lightButton22.NormlBack = null;
-			this.lightButton22.Size = new System.Drawing.Size(63, 85);
-			this.lightButton22.TabIndex = 12;
-			this.lightButton22.Tag = "9999";
-			this.lightButton22.Text = "开关22";
-			this.lightButton22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton22.UseVisualStyleBackColor = false;
-			this.lightButton22.Visible = false;
-			// 
-			// lightButton23
-			// 
-			this.lightButton23.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton23.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton23.BorderColor = System.Drawing.Color.White;
-			this.lightButton23.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton23.DownBack = null;
-			this.lightButton23.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton23.ForeColorSuit = true;
-			this.lightButton23.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton23.ImageIndex = 0;
-			this.lightButton23.ImageList = this.lightImageList;
-			this.lightButton23.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton23.InheritColor = true;
-			this.lightButton23.IsDrawBorder = false;
-			this.lightButton23.Location = new System.Drawing.Point(672, 99);
-			this.lightButton23.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton23.MouseBack = null;
-			this.lightButton23.Name = "lightButton23";
-			this.lightButton23.NormlBack = null;
-			this.lightButton23.Size = new System.Drawing.Size(63, 85);
-			this.lightButton23.TabIndex = 12;
-			this.lightButton23.Tag = "9999";
-			this.lightButton23.Text = "开关23";
-			this.lightButton23.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton23.UseVisualStyleBackColor = false;
-			this.lightButton23.Visible = false;
-			// 
-			// lightButton24
-			// 
-			this.lightButton24.BackColor = System.Drawing.Color.Transparent;
-			this.lightButton24.BaseColor = System.Drawing.Color.Transparent;
-			this.lightButton24.BorderColor = System.Drawing.Color.Transparent;
-			this.lightButton24.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightButton24.DownBack = null;
-			this.lightButton24.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightButton24.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightButton24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightButton24.ForeColorSuit = true;
-			this.lightButton24.GlowColor = System.Drawing.Color.Transparent;
-			this.lightButton24.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton24.ImageIndex = 0;
-			this.lightButton24.ImageList = this.lightImageList;
-			this.lightButton24.ImageSize = new System.Drawing.Size(45, 45);
-			this.lightButton24.Location = new System.Drawing.Point(739, 99);
-			this.lightButton24.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.lightButton24.MouseBack = null;
-			this.lightButton24.Name = "lightButton24";
-			this.lightButton24.NormlBack = null;
-			this.lightButton24.Size = new System.Drawing.Size(63, 85);
-			this.lightButton24.TabIndex = 12;
-			this.lightButton24.Tag = "9999";
-			this.lightButton24.Text = "开关24";
-			this.lightButton24.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton24.UseVisualStyleBackColor = false;
-			this.lightButton24.Visible = false;
+			this.switchButtonDemo.BackColor = System.Drawing.Color.Transparent;
+			this.switchButtonDemo.BaseColor = System.Drawing.Color.Transparent;
+			this.switchButtonDemo.BorderColor = System.Drawing.Color.White;
+			this.switchButtonDemo.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.switchButtonDemo.DownBack = null;
+			this.switchButtonDemo.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.switchButtonDemo.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.switchButtonDemo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.switchButtonDemo.ForeColorSuit = true;
+			this.switchButtonDemo.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.switchButtonDemo.ImageIndex = 0;
+			this.switchButtonDemo.ImageList = this.lightImageList;
+			this.switchButtonDemo.ImageSize = new System.Drawing.Size(45, 45);
+			this.switchButtonDemo.InheritColor = true;
+			this.switchButtonDemo.IsDrawBorder = false;
+			this.switchButtonDemo.Location = new System.Drawing.Point(2, 2);
+			this.switchButtonDemo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.switchButtonDemo.MouseBack = null;
+			this.switchButtonDemo.Name = "switchButtonDemo";
+			this.switchButtonDemo.NormlBack = null;
+			this.switchButtonDemo.Size = new System.Drawing.Size(63, 85);
+			this.switchButtonDemo.TabIndex = 12;
+			this.switchButtonDemo.Tag = "9999";
+			this.switchButtonDemo.Text = "开关1";
+			this.switchButtonDemo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.switchButtonDemo.UseVisualStyleBackColor = true;
+			this.switchButtonDemo.Visible = false;
+			this.switchButtonDemo.Click += new System.EventHandler(this.switchesButton_Click);
 			// 
 			// keepLightOnCheckBox
 			// 
@@ -2871,7 +2136,7 @@ namespace OtherTools
 			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
 			this.lightGroupBox.ResumeLayout(false);
 			this.lightGroupBox.PerformLayout();
-			this.flowLayoutPanel1.ResumeLayout(false);
+			this.switchFLP.ResumeLayout(false);
 			this.centerTabPage.ResumeLayout(false);
 			this.centerTabPage.PerformLayout();
 			this.ccStatusStrip.ResumeLayout(false);
@@ -2892,7 +2157,7 @@ namespace OtherTools
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label7;
-		private SkinButton[] lightButtons = new SkinButton[24];
+		private SkinButton[] switchButtons = new SkinButton[24];
 		
 		private System.Windows.Forms.ImageList lightImageList;
 		private System.Windows.Forms.OpenFileDialog cfgOpenFileDialog;
@@ -2972,31 +2237,8 @@ namespace OtherTools
 		private Label label13;
 		private ComboBox qdFrameComboBox;
 		private GroupBox lightGroupBox;
-		private FlowLayoutPanel flowLayoutPanel1;
-		private SkinButton lightButton1;
-		private SkinButton lightButton2;
-		private SkinButton lightButton3;
-		private SkinButton lightButton4;
-		private SkinButton lightButton5;
-		private SkinButton lightButton6;
-		private SkinButton lightButton7;
-		private SkinButton lightButton8;
-		private SkinButton lightButton9;
-		private SkinButton lightButton10;
-		private SkinButton lightButton11;
-		private SkinButton lightButton12;
-		private SkinButton lightButton13;
-		private SkinButton lightButton14;
-		private SkinButton lightButton15;
-		private SkinButton lightButton16;
-		private SkinButton lightButton17;
-		private SkinButton lightButton18;
-		private SkinButton lightButton19;
-		private SkinButton lightButton20;
-		private SkinButton lightButton21;
-		private SkinButton lightButton22;
-		private SkinButton lightButton23;
-		private SkinButton lightButton24;
+		private FlowLayoutPanel switchFLP;
+		private SkinButton switchButtonDemo;
 		private TabPage centerTabPage;
 		private Button loadProtocolButton;
 		private TextBox ccSearchTextBox;

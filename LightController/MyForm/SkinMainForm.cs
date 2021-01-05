@@ -131,7 +131,11 @@ namespace LightController.MyForm
 					DropDownStyle = tdChangeModeComboBoxDemo.DropDownStyle,
 					Tag = 1
 				};
-				tdChangeModeComboBoxes[tdIndex].Items.AddRange(new object[] {"跳变","渐变","屏蔽"});
+				tdChangeModeComboBoxes[tdIndex].Items.AddRange(new object[] {
+					LanguageHelper.TranslateWord("跳变"),
+					LanguageHelper.TranslateWord("渐变"),
+					LanguageHelper.TranslateWord("屏蔽")
+				});
 
 				tdStepTimeNumericUpDowns[tdIndex] = new NumericUpDown
 				{
@@ -209,7 +213,10 @@ namespace LightController.MyForm
 			frameSkinComboBox.SelectedIndex = 0;
 
 			//模式选项框
-			modeSkinComboBox.Items.AddRange(new object[] { "常规模式", "音频模式" });
+			modeSkinComboBox.Items.AddRange(new object[] {
+				LanguageHelper.TranslateWord("常规模式"),
+				LanguageHelper.TranslateWord("音频模式")
+			});
 			modeSkinComboBox.SelectedIndex = 0;
 						
 			#endregion
@@ -1234,7 +1241,10 @@ namespace LightController.MyForm
 				for (int i = 0; i < FrameCount; i++)
 				{
 					tdChangeModeComboBoxes[i].Items.Clear();
-					tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
+					tdChangeModeComboBoxes[i].Items.AddRange(new object[] {
+						LanguageHelper.TranslateWord("屏蔽"),
+						LanguageHelper.TranslateWord("跳变")
+					});
 					tdStepTimeNumericUpDowns[i].Hide();					
 				}
 				thirdLabel.Hide();				
@@ -1244,7 +1254,11 @@ namespace LightController.MyForm
 				for (int i = 0; i < FrameCount; i++)
 				{
 					tdChangeModeComboBoxes[i].Items.Clear();
-					tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
+					tdChangeModeComboBoxes[i].Items.AddRange(new object[] {
+						LanguageHelper.TranslateWord("跳变"),
+						LanguageHelper.TranslateWord("渐变"),
+						LanguageHelper.TranslateWord("屏蔽")
+					});
 					tdStepTimeNumericUpDowns[i].Show();					
 				}
 				thirdLabel.Show();
@@ -2487,7 +2501,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)	{
 
-			LanguageHelper.TranslateSentence("特意保存4");
+			LanguageHelper.SetLanguage("en-US");
 
 		}
 

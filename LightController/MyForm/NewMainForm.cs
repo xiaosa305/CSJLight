@@ -131,9 +131,10 @@ namespace LightController.MyForm
 					Tag = 1,
 				};
 				tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
-					"跳变",
-					"渐变",
-					"屏蔽"});
+						LanguageHelper.TranslateWord("跳变"),
+						LanguageHelper.TranslateWord("渐变"),
+						LanguageHelper.TranslateWord("屏蔽")
+				});
 
 				tdStNumericUpDowns[tdIndex] = new NumericUpDown
 				{
@@ -207,7 +208,10 @@ namespace LightController.MyForm
 			sceneComboBox.SelectedIndex = 0;
 
 			//模式选项框
-			modeComboBox.Items.AddRange(new object[] { "常规模式", "音频模式" });
+			modeComboBox.Items.AddRange(new object[] {
+				LanguageHelper.TranslateWord("常规模式"),
+				LanguageHelper.TranslateWord("音频模式")
+			});
 			modeComboBox.SelectedIndex = 0;
 			
 			// 几个按钮添加提示
@@ -1176,7 +1180,10 @@ namespace LightController.MyForm
 				for (int i = 0; i < FrameCount; i++)
 				{
 					this.tdCmComboBoxes[i].Items.Clear();
-					this.tdCmComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
+					this.tdCmComboBoxes[i].Items.AddRange(new object[] {
+						LanguageHelper.TranslateWord("屏蔽"),
+						LanguageHelper.TranslateWord("跳变")
+					});
 					this.tdStNumericUpDowns[i].Hide();					
 				}
 				this.thirdLabel.Hide();
@@ -1186,7 +1193,11 @@ namespace LightController.MyForm
 				for (int i = 0; i < FrameCount; i++)
 				{
 					this.tdCmComboBoxes[i].Items.Clear();
-					this.tdCmComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
+					this.tdCmComboBoxes[i].Items.AddRange(new object[] {
+						LanguageHelper.TranslateWord("跳变"),
+						LanguageHelper.TranslateWord("渐变"),
+						LanguageHelper.TranslateWord("屏蔽")
+					});
 					this.tdStNumericUpDowns[i].Show();
 					this.thirdLabel.Show();
 				}
@@ -2323,7 +2334,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-			SetNotice( "冯立辉是个大帅哥！",true, true) ;
 		}
 		
 		/// <summary>

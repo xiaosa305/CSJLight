@@ -25,7 +25,6 @@ using System.Net;
 using System.Net.Sockets;
 using LightController.MyForm.OtherTools;
 using LightController.MyForm;
-using LightController.Ast.Enum;
 
 namespace OtherTools
 {
@@ -54,6 +53,11 @@ namespace OtherTools
 			LOW,
 			FOPEN,
 			FCLOSE
+		}
+
+		enum StatusLabel
+		{
+			NO = 0, CC1, CC2, LC1, LC2, KP1, KP2, ALL1, ALL2
 		}
 
 		private const int END_DECODING_TIME = 200; // 关闭中控解码需要一定的时间，才能往下操作；正常情况下200毫秒应该足够，但应设为可调节的
@@ -96,33 +100,42 @@ namespace OtherTools
 			// 初始化灯控（强电）各配置
 			qdFrameComboBox.SelectedIndex = 0;
 
-			lightButtons[0] = lightButton1;
-			lightButtons[1] = lightButton2;
-			lightButtons[2] = lightButton3;
-			lightButtons[3] = lightButton4;
-			lightButtons[4] = lightButton5;
-			lightButtons[5] = lightButton6;
-			lightButtons[6] = lightButton7;
-			lightButtons[7] = lightButton8;
-			lightButtons[8] = lightButton9;
-			lightButtons[9] = lightButton10;
-			lightButtons[10] = lightButton11;
-			lightButtons[11] = lightButton12;
-			lightButtons[12] = lightButton13;
-			lightButtons[13] = lightButton14;
-			lightButtons[14] = lightButton15;
-			lightButtons[15] = lightButton16;
-			lightButtons[16] = lightButton17;
-			lightButtons[17] = lightButton18;
-			lightButtons[18] = lightButton19;
-			lightButtons[19] = lightButton20;
-			lightButtons[20] = lightButton21;
-			lightButtons[21] = lightButton22;
-			lightButtons[22] = lightButton23;
-			lightButtons[23] = lightButton24;
-			for (int i = 1; i < 24; i++)
+			// 各强电开关
+			for (int switchIndex = 0; switchIndex < 24; switchIndex++)
 			{
-				lightButtons[i].Click += new System.EventHandler(this.lightButton_Click);
+				switchButtons[switchIndex] = new SkinButton
+				{
+					BackColor = switchButtonDemo.BackColor,
+					BaseColor = switchButtonDemo.BaseColor,
+					BorderColor = switchButtonDemo.BorderColor,
+					ControlState = switchButtonDemo.ControlState,
+					DownBack = switchButtonDemo.DownBack,
+					DrawType = switchButtonDemo.DrawType,
+					Font = switchButtonDemo.Font,
+					ForeColor = switchButtonDemo.ForeColor,
+					ForeColorSuit = switchButtonDemo.ForeColorSuit,
+					ImageAlign = switchButtonDemo.ImageAlign,
+					ImageIndex = switchButtonDemo.ImageIndex,
+					ImageList = switchButtonDemo.ImageList,
+					ImageSize = switchButtonDemo.ImageSize,
+					InheritColor = switchButtonDemo.InheritColor,
+					IsDrawBorder = switchButtonDemo.IsDrawBorder,
+					Location = switchButtonDemo.Location,
+					Margin = switchButtonDemo.Margin,
+					MouseBack = switchButtonDemo.MouseBack,
+					NormlBack = switchButtonDemo.NormlBack,
+					Size = switchButtonDemo.Size,
+					Tag = switchButtonDemo.Tag,
+					TextAlign = switchButtonDemo.TextAlign,
+					UseVisualStyleBackColor = switchButtonDemo.UseVisualStyleBackColor,
+					Visible = switchButtonDemo.Visible,
+
+					Name = "switchButtons" + (switchIndex + 1),
+					Text = LanguageHelper.TranslateWord("开关") + (switchIndex + 1)
+				};
+				switchButtons[switchIndex].Click += switchesButton_Click;
+
+				switchFLP.Controls.Add(switchButtons[switchIndex]);
 			}
 
 			tgPanels[0] = tgPanel1;
@@ -232,24 +245,24 @@ namespace OtherTools
 		}			
 
 		/// <summary>
-		/// 事件：点击《灯光通道按键》
+		/// 事件：点击《开关按键(1-24)》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void lightButton_Click(object sender, EventArgs e)
+		private void switchesButton_Click(object sender, EventArgs e)
 		{
 			if (!isReadLC)
 			{
 				return;
 			}
 
-			int lightIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-			setLightButtonValue(lightIndex);
+			int switchIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
+			setLightButtonValue(switchIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
-				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, lightIndex];
+				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, switchIndex];
 				for (int frameIndex = 0; frameIndex < 17; frameIndex++) {
-					lcEntity.SceneData[frameIndex, lightIndex] = tempLightOnMode;
+					lcEntity.SceneData[frameIndex, switchIndex] = tempLightOnMode;
 				}
 			}
 			debugLC();
@@ -258,15 +271,15 @@ namespace OtherTools
 		/// <summary>
 		///  
 		/// </summary>
-		/// <param name="lightIndex"></param>
-		private void setLightButtonValue(int lightIndex)
+		/// <param name="switchIndex"></param>
+		private void setLightButtonValue(int switchIndex)
 		{
 			if (!isReadLC)
 			{
 				return;
 			}
-			lcEntity.SceneData[lcFrameIndex, lightIndex] = !lcEntity.SceneData[lcFrameIndex, lightIndex];
-			lightButtons[lightIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, lightIndex] ? 1 : 0;
+			lcEntity.SceneData[lcFrameIndex, switchIndex] = !lcEntity.SceneData[lcFrameIndex, switchIndex];
+			switchButtons[switchIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, switchIndex] ? 1 : 0;
 		}
 
 		/// <summary>
@@ -308,14 +321,17 @@ namespace OtherTools
 		{
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcEntity = new LightControlData(paramList);
-			lcSetForm();
+			lcSetLoad();
 
 			setNotice(StatusLabel.LC2,
 				LanguageHelper.TranslateSentence("已加载配置文件：") + cfgPath,
 				false, false);
 		}
 
-		private void lcSetForm() {
+		/// <summary>
+		/// 辅助方法：通过lcEntity，渲染灯控Tab内相关的控件
+		/// </summary>
+		private void lcSetLoad() {
 
 			if (lcEntity == null) {				
 				lightGroupBox.Enabled = false;
@@ -356,13 +372,13 @@ namespace OtherTools
 				}
 				else
 				{
-					foreach (SkinButton btn in lightButtons)
+					foreach (SkinButton btn in switchButtons)
 					{
 						btn.Visible = false;
 					}
 					for (int relayIndex = 0; relayIndex < lcEntity.RelayCount; relayIndex++)
 					{
-						lightButtons[relayIndex].Visible = true;
+						switchButtons[relayIndex].Visible = true;
 					}
 				}
 
@@ -407,6 +423,11 @@ namespace OtherTools
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：设置风扇通道
+		/// </summary>
+		/// <param name="airMode"></param>
+		/// <param name="fanChannel"></param>
 		private void setFanChannel(airModeEnum airMode, int fanChannel)
 		{
 			fanChannelComboBoxes[(int)airMode].SelectedIndex = fanChannel;
@@ -419,8 +440,8 @@ namespace OtherTools
 		private void enableFan()
 		{
 			fanChannelComboBox.Enabled = lcEntity.IsOpenFan;
-			int lightIndex = Convert.ToInt32(fanChannelComboBox.Text.Substring(2)) -1 ;
-			lightButtons[lightIndex].Visible = !lcEntity.IsOpenFan;
+			int switchIndex = Convert.ToInt32(fanChannelComboBox.Text.Substring(2)) -1 ;
+			switchButtons[switchIndex].Visible = !lcEntity.IsOpenFan;
 			fanButton.Text = lcEntity.IsOpenFan ? "禁用排风通道" : "启用排风通道";
 		}
 
@@ -440,7 +461,7 @@ namespace OtherTools
 			for (int lightIndex = 1; lightIndex < 6; lightIndex++)
 			{
 				int tempIndex = lcEntity.RelayCount - 6 + lightIndex;
-				lightButtons[tempIndex].Visible = !lcEntity.IsOpenAirCondition;
+				switchButtons[tempIndex].Visible = !lcEntity.IsOpenAirCondition;
 			}
 			acButton.Text = lcEntity.IsOpenAirCondition ? "禁用空调通道" : "启用空调通道";
 		}
@@ -480,7 +501,7 @@ namespace OtherTools
 
 			for (int relayIndex = 0; relayIndex < lcEntity.RelayCount; relayIndex++)
 			{
-				lightButtons[relayIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
+				switchButtons[relayIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
 			}
 			debugLC();
 		}
@@ -534,16 +555,12 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			
-			//DOTO 1231
+					
 			switch (radio.Name) {
 				case "fjJYRadioButton" :	lcEntity.AirControlSwitch = 0;break;
 				case "fjDXFRadioButton": lcEntity.AirControlSwitch = 1; break;
 				case "fjSXFRadioButton": lcEntity.AirControlSwitch = 2; break;
 			}
-
-			Console.WriteLine("lcEntity.AirControlSwitch : "+ lcEntity.AirControlSwitch);
-
 		}
 
 		/// <summary>
@@ -768,8 +785,8 @@ namespace OtherTools
 			}
 
 			ccEntity = generateCC();
-			com0Label.Text = "串口0 = " + ccEntity.Com0;
-			com1Label.Text = "串口1 = " + ccEntity.Com1;
+			com0Label.Text = LanguageHelper.TranslateWord("串口0 = ") + ccEntity.Com0;
+			com1Label.Text = LanguageHelper.TranslateWord("串口1 = ")+ ccEntity.Com1;
 			PS2Label.Text = "PS2 = " + ccEntity.PS2;
 
 			protocolListView.Items.Clear();
@@ -1482,7 +1499,7 @@ namespace OtherTools
 				}
 
 				lcEntity = lcDataTemp as LightControlData;
-				lcSetForm();
+				lcSetLoad();
 				setNotice(StatusLabel.LC2, "成功回读灯控配置", true, true);
 			});
 		}

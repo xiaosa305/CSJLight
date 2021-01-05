@@ -36,9 +36,6 @@ namespace LightController.MyForm
 			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
 			{
 				addFramePanel(frameIndex,MainFormBase.AllFrameList[frameIndex]);
-				ymCheckBoxes[frameIndex].CheckedChanged += new EventHandler(ymCheckBox_CheckedChanged);
-				jgNumericUpDowns[frameIndex].ValueChanged += new EventHandler(jgNumericUpDown_ValueChanged);
-				zxNumericUpDowns[frameIndex].ValueChanged += new EventHandler(zxNumericUpDown_ValueChanged);
 			}
 
 			#endregion
@@ -141,26 +138,7 @@ namespace LightController.MyForm
 			//2.读取各个配置
 			loadAll();
 		}
-
-
-		private void ymCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			int frameIndex = MathHelper.GetIndexNum(((CheckBox)sender).Name, -1 );
-				
-		}
-		private void jgNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			int frameIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
-		}
-		private void zxNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			int frameIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
-		}
-
 		
-
 		/// <summary>
 		/// 辅助方法：从配置文件读取配置，并填入所有的框中
 		/// </summary>
@@ -217,7 +195,7 @@ namespace LightController.MyForm
 				iniFileAst.WriteString("YM", i + "JG", jgNumericUpDowns[i].Text );
 				iniFileAst.WriteString("YM", i + "ZX", zxNumericUpDowns[i].Text);
 			}
-			MessageBox.Show("保存成功:");
+			MessageBox.Show(LanguageHelper.TranslateSentence("保存成功。"));
 		}
 
 		/// <summary>
@@ -243,5 +221,6 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
+	
 	}
 }

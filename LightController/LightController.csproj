@@ -171,6 +171,7 @@
     <Compile Include="Ast\Entity\ReturnDTO.cs" />
     <Compile Include="Ast\Entity\TranslateResult.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
+    <Compile Include="Ast\Enum\StatusLabel.cs" />
     <Compile Include="Ast\GroupAst.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />

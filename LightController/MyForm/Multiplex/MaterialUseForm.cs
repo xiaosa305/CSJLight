@@ -166,7 +166,7 @@ namespace LightController.MyForm
 		private void previewButton_Click(object sender, EventArgs e)
 		{
 			if ( !mainForm.IsConnected) {
-				setNotice("尚未连接设备",true);
+				setNotice("尚未连接设备",true,true);
 				return;
 			}
 
@@ -174,7 +174,7 @@ namespace LightController.MyForm
 			{
 				mainForm.PreviewButtonClick(null);
 				previewButton.Text = "预览";
-				setNotice("已停止预览", false);
+				setNotice("已停止预览", false, true);
 			}
 			else {
 				string iniPath = getIniPath();
@@ -183,7 +183,7 @@ namespace LightController.MyForm
 					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);					
 					mainForm.PreviewButtonClick(materialAst);
 					previewButton.Text = "停止预览";
-					setNotice("正在预览素材【"+materialTreeView.SelectedNode.Text+"】...", false);
+					setNotice( LanguageHelper.TranslateSentence("正在预览素材")+"【"+materialTreeView.SelectedNode.Text+"】...", false, false);
 				}
 			}
 		}
@@ -293,8 +293,12 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
+		private void setNotice(string msg, bool msgBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgBoxShow)
 			{

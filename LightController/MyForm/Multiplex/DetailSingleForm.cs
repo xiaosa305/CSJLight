@@ -37,7 +37,7 @@ namespace LightController.MyForm.Multiplex
 			// 验证有否步数
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
-				setNotice("检测到当前灯具没有步数，无法使用多步联调。", true);
+				setNotice("检测到当前灯具没有步数，无法使用多步联调。", true,true);
 				return;
 			}
 
@@ -70,7 +70,7 @@ namespace LightController.MyForm.Multiplex
 				Label stepLabel = new Label
 				{
 					Name = "stepLabel" + (stepIndex + 1),
-					Text = "第" + (stepIndex + 1) + "步",
+					Text = LanguageHelper.TranslateWord("步 ") + (stepIndex + 1) ,
 					AutoSize = stepLabelDemo.AutoSize,
 					ForeColor = stepLabelDemo.ForeColor,
 					Location = stepLabelDemo.Location,
@@ -174,13 +174,13 @@ namespace LightController.MyForm.Multiplex
 		private void stepNUD_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			if (!saComboBox.Visible) {
-				setNotice("没有子属性，双击无效。",false);
+				setNotice("没有子属性，双击无效。",false, true);
 				return;
 			}
 
 			NumericUpDown nud = sender as NumericUpDown;			
 			nud.Value = StringHelper.GetInnerValue(saComboBox.Text);
-			setNotice("已设为子属性值。", false);
+			setNotice("已设为子属性值。", false, true);
 		}
 		
 		/// <summary>
@@ -282,8 +282,11 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
+		private void setNotice(string msg, bool msgBoxShow, bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
 			myStatusLabel.Text = msg;
 			if (msgBoxShow)
 			{

@@ -260,7 +260,7 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		private void refreshPage()
 		{
-			setNotice(currentPage + "/" + pageCount, false);
+			setNotice(currentPage + "/" + pageCount, false,false);
 
 			// 渲染stepShowFLP
 			int editStepCount = maxStep - (currentPage - 1) * 20;
@@ -425,7 +425,7 @@ namespace LightController.MyForm.Multiplex
 
 			// 只要更改了编组，就先清空tdComboBox的项,并关闭使能 : 但很奇怪！一旦先写这一句，tdComboBox后面加的内容就不见了
 			tdComboBox.Items.Clear();
-			tdComboBox.Items.Add("请选择通道");
+			tdComboBox.Items.Add(LanguageHelper.TranslateWord("请选择通道"));
 
 			if (cb.SelectedIndex > 0)
 			{
@@ -671,8 +671,12 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
+		private void setNotice(string msg, bool msgBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgBoxShow)
 			{

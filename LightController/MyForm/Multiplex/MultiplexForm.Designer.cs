@@ -241,7 +241,7 @@
 			this.noticeLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.noticeLabel.Location = new System.Drawing.Point(388, 50);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(191, 40);
+			this.noticeLabel.Size = new System.Drawing.Size(191, 65);
 			this.noticeLabel.TabIndex = 25;
 			this.noticeLabel.Text = "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，而是采用该灯具的最后一步进行填充。";
 			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

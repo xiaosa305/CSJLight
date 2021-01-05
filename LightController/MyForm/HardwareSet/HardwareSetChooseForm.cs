@@ -55,7 +55,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetChooseForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -86,7 +86,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			this.isJustDelete = false;
+			isJustDelete = false;
 		}
 		
 		/// <summary>
@@ -120,7 +120,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				MessageBox.Show("请选择要删除的配置:");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请选择要删除的配置。"));
 				return;
 			}
 		}
@@ -155,7 +155,7 @@ namespace LightController.MyForm
 			// 1.先验证是否刚删除项目
 			if (isJustDelete)
 			{
-				MessageBox.Show("请选择正确的配置文件名");
+				MessageBox.Show( LanguageHelper.TranslateSentence("请选择正确的配置文件。") );
 				return;
 			}
 			// 2.验证是否为空选项
@@ -173,7 +173,7 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					MessageBox.Show("请选择正确的配置文件名");
+					MessageBox.Show( LanguageHelper.TranslateSentence("请选择正确的配置文件。") );
 					return;
 				}
 			}

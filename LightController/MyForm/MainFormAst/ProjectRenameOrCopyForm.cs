@@ -28,7 +28,7 @@ namespace LightController.MyForm
 			InitializeComponent();
 			projectNameLabel.Text = oldProjectName;
 			projectNameTextBox.Text = oldProjectName;
-			this.Text = copy ? "工程复制" : "工程重命名";
+			Text = copy ? "工程复制" : "工程重命名";
 		}
 
 		private void RenameForm_Load(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void cancelSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			openForm.Activate();
 		}
 
@@ -63,19 +63,19 @@ namespace LightController.MyForm
 
 			if (!FileHelper.CheckFileName(projectName))
 			{
-				MessageBox.Show("工程名包含非法字符，请重新输入。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("工程名包含非法字符，请重新输入。"));
 				return;
 			}
 
 			if (String.IsNullOrEmpty(projectName))
 			{
-				MessageBox.Show("工程名不得为空，请重新输入。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("工程名不得为空，请重新输入。"));
 				return;
 			}
 
 			string destDirPath = savePath + @"\LightProject\" + projectName;
 			if (Directory.Exists(destDirPath)) {
-				MessageBox.Show("当前工程名已存在同名工程，请重新输入。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("已存在同名工程，请重新输入。"));
 				return;
 			}
 
@@ -92,11 +92,11 @@ namespace LightController.MyForm
 						string pFilePath = destDirPath + "\\" + Path.GetFileName(file);						
 						File.Copy(file, pFilePath, true);
 					}
-					MessageBox.Show("工程复制成功。");
+					MessageBox.Show(LanguageHelper.TranslateSentence("工程复制成功。"));
 				}
 				else {
 					Directory.Move(sourceDirPath, destDirPath);
-					MessageBox.Show("工程重命名成功。");
+					MessageBox.Show(LanguageHelper.TranslateSentence("工程重命名成功。"));
 				}
 				openForm.RefreshDirTreeView();				
 				this.Dispose();

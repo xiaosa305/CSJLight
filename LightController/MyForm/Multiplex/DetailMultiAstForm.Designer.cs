@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm.Multiplex
+﻿using LightController.Common;
+
+namespace LightController.MyForm.Multiplex
 {
 	partial class DetailMultiAstForm
 	{
@@ -138,9 +140,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 538);
+			this.label1.Location = new System.Drawing.Point(12, 530);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(526, 43);
+			this.label1.Size = new System.Drawing.Size(608, 72);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "提示：\r\n①请不要一次性选择过多通道，否则多步联调界面可能出现卡顿的情况（上限为50通道）；\r\n②若当前是多灯模式状态，可只选择多灯内的其中一个灯具，更改操作会作" +
     "用于组内的每个灯具。";
@@ -168,8 +170,8 @@
 			this.groupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.groupComboBox.FormattingEnabled = true;
 			this.groupComboBox.Items.AddRange(new object[] {
-            "请选择编组"});
-			this.groupComboBox.Location = new System.Drawing.Point(627, 561);
+				LanguageHelper.TranslateWord("请选择编组") });
+			this.groupComboBox.Location = new System.Drawing.Point(671, 561);
 			this.groupComboBox.Name = "groupComboBox";
 			this.groupComboBox.Size = new System.Drawing.Size(106, 20);
 			this.groupComboBox.TabIndex = 5;
@@ -179,7 +181,7 @@
 			// 
 			this.groupLabel.AutoSize = true;
 			this.groupLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.groupLabel.Location = new System.Drawing.Point(627, 541);
+			this.groupLabel.Location = new System.Drawing.Point(671, 541);
 			this.groupLabel.Name = "groupLabel";
 			this.groupLabel.Size = new System.Drawing.Size(65, 12);
 			this.groupLabel.TabIndex = 7;

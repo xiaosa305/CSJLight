@@ -231,6 +231,7 @@ namespace LightController.MyForm
 
 			// 刷新为设置的语言
 			LanguageHelper.InitForm(this);
+			LanguageHelper.TranslateMenuStrip( mySkinContextMenuStrip);
 
 			isInit = true;
 		}
@@ -619,10 +620,10 @@ namespace LightController.MyForm
 			}
 
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic):global::LightController.Properties.Resources.灯光图;
-			lightNameLabel.Text = "灯具厂商：" + la.LightName;
-			lightTypeLabel.Text = "灯具型号：" + la.LightType;
-			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
-			lightRemarkLabel.Text = "灯具备注：" + la.Remark;
+			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
 		
 		}
 
@@ -787,7 +788,7 @@ namespace LightController.MyForm
 					tdChangeModeComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
 					tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
 
-					tdNoLabels[i].Text = "通道" + (startNum + i);
+					tdNoLabels[i].Text = LanguageHelper.TranslateWord("通道") + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
 					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
@@ -1123,28 +1124,24 @@ namespace LightController.MyForm
 		private void hideMenuPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			menuSkinPanel.Visible = !menuSkinPanel.Visible;
-			hideMenuPanelToolStripMenuItem.Text = menuSkinPanel.Visible ? "隐藏主菜单面板" : "显示主菜单面板";
 			hideMenuPanelToolStripMenuItem2.Text = menuSkinPanel.Visible ? "隐藏主菜单面板" : "显示主菜单面板";
 		}
 
 		private void hideProjectPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			projectSkinPanel.Visible = !projectSkinPanel.Visible;
-			hideProjectPanelToolStripMenuItem.Text = projectSkinPanel.Visible ? "隐藏工程面板" : "显示工程面板";
 			hideProjectPanelToolStripMenuItem2.Text = projectSkinPanel.Visible ? "隐藏工程面板" : "显示工程面板";
 		}
 
 		private void hideAstPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			astSkinPanel.Visible = !astSkinPanel.Visible;
-			hideAstPanelToolStripMenuItem.Text = astSkinPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
 			hideAstPanelToolStripMenuItem2.Text = astSkinPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
 		}
 
 		private void hidePlayPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			playPanel.Visible = !playPanel.Visible;
-			hidePlayPanelToolStripMenuItem.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 			hidePlayPanelToolStripMenuItem2.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 		}
 
@@ -2490,7 +2487,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)	{
 
-			
+			LanguageHelper.TranslateSentence("特意保存4");
+
 		}
 
 		#endregion
@@ -2502,9 +2500,18 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void someControl_TextChanged(object sender, EventArgs e)
 		{
-			LanguageHelper.TranslateControl( sender as Control );
+			LanguageHelper.TranslateControl(sender as Control);
 		}
 
+		/// <summary>
+		///  部分MenuItem需要在文本发生变化时，进行翻译
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someMenuItem_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
+		}
 	}
 	   
 }

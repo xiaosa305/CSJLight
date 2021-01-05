@@ -98,10 +98,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.此界面设置，用户需要更改的只有《主控标识》、《优先播放》及《网络配置》等少数配置；其他输入框暂时没有作用，无需更改；\n" +
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("1.此界面设置，用户需要更改的只有《主控标识》、《优先播放》及《网络配置》等少数配置；其他输入框暂时没有作用，无需更改；\n" +
 											"2.常规的操作步骤为：先从设备回读配置，在修改需要变动的配置后，下载新配置；\n" +
-											"3.下载配置前，软件需在本地生成配置文件(ini)，才能下载到设备中，以避免误操作。",
-				"使用提示或说明",
+											"3.下载配置前，软件需在本地生成配置文件(ini)，才能下载到设备中，以避免误操作。"),
+				LanguageHelper.TranslateSentence("提示"),
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
 			e.Cancel = true;

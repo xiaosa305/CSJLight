@@ -69,7 +69,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			if (!mainForm.IsConnected)
 			{
-				setNotice("尚未连接设备", true);
+				setNotice("尚未连接设备", true,true);
 				return;
 			}
 
@@ -130,7 +130,7 @@ namespace LightController.MyForm.Multiplex
 			}
 			if (material == null)
 			{
-				setNotice("生成动作数据出错，请重试", true);
+				setNotice("生成动作数据出错，请重试", true,true);
 				return false;
 			}
 			return true;
@@ -391,7 +391,11 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="msgShow"></param>
-		private void setNotice(string msg, bool msgShow) {
+		private void setNotice(string msg, bool msgShow,bool isTranslate) {
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgShow) {
 				MessageBox.Show(msg);

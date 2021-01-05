@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm.Multiplex
+﻿using LightController.Common;
+
+namespace LightController.MyForm.Multiplex
 {
 	partial class DetailSingleForm
 	{
@@ -129,9 +131,9 @@
 			this.unifyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.unifyComboBox.FormattingEnabled = true;
 			this.unifyComboBox.Items.AddRange(new object[] {
-            "全步",
-            "奇数步",
-            "偶数步"});
+            LanguageHelper.TranslateWord("全步"),
+			LanguageHelper.TranslateWord("奇数步"),
+			LanguageHelper.TranslateWord("偶数步")});
 			this.unifyComboBox.Location = new System.Drawing.Point(6, 14);
 			this.unifyComboBox.Name = "unifyComboBox";
 			this.unifyComboBox.Size = new System.Drawing.Size(57, 20);

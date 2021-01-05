@@ -775,11 +775,11 @@ namespace LightController.MyForm
 			}
 
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic) : global::LightController.Properties.Resources.灯光图;
-			lightNameLabel.Text = "厂商：" + la.LightName;
-			lightTypeLabel.Text = "型号：" + la.LightType;
-			lightsAddrLabel.Text = "地址：" + la.LightAddr;
-			lightRemarkLabel.Text = "备注：" + la.Remark;
-			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);		
+			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
+			myToolTip.SetToolTip(lightRemarkLabel, LanguageHelper.TranslateWord("备注：") +"\n" + la.Remark);		
 		}
 
 		/// <summary>
@@ -943,7 +943,7 @@ namespace LightController.MyForm
 					tdCmComboBoxes[tdIndex].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
 					tdStNumericUpDowns[tdIndex].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
-					tdNoLabels[tdIndex].Text = "通道" + (startNum + tdIndex);
+					tdNoLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (startNum + tdIndex);
 					tdNameLabels[tdIndex].Text = tongdaoList[tdIndex].TongdaoName;
 					myToolTip.SetToolTip(tdNameLabels[tdIndex], tongdaoList[tdIndex].Remark);
 					tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].ScrollValue;

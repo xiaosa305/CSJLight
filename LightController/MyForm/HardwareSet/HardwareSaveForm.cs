@@ -44,8 +44,8 @@ namespace LightController.MyForm
 		{
 			string hName = hNameTextBox.Text;
 
-			if (String.IsNullOrEmpty(hName) ) {
-				MessageBox.Show("请输入正确的硬件配置名称!");
+			if (string.IsNullOrEmpty(hName) ) {
+				MessageBox.Show(LanguageHelper.TranslateSentence("请输入正确的硬件配置名称，不得为空!"));
 				return;
 			}
 
@@ -63,7 +63,7 @@ namespace LightController.MyForm
 
 			if (di.Exists)
 			{
-				MessageBox.Show("这个名称已经被使用了，请使用其他名称。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("这个名称已经被使用了，请使用其他名称。"));
 				return;
 			}
 			else
@@ -110,11 +110,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSaveForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("硬件设置名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。",
-				"使用提示或说明",
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("硬件设置名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。"),
+				LanguageHelper.TranslateSentence("提示"),
 				MessageBoxButtons.OK,
-				MessageBoxIcon.Information
-				);
+				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
 	}

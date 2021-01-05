@@ -664,7 +664,7 @@ namespace OtherTools
 			this.kpEditButton.Name = "kpEditButton";
 			this.kpEditButton.Size = new System.Drawing.Size(92, 40);
 			this.kpEditButton.TabIndex = 5;
-			this.kpEditButton.Text = "修改键值码";
+			this.kpEditButton.Text = "修改键码值";
 			this.kpEditButton.UseVisualStyleBackColor = true;
 			this.kpEditButton.Click += new System.EventHandler(this.kpEditButton_Click);
 			// 
@@ -778,6 +778,7 @@ namespace OtherTools
 			this.fanButton.TabIndex = 0;
 			this.fanButton.Text = "禁用排风通道";
 			this.fanButton.UseVisualStyleBackColor = true;
+			this.fanButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.fanButton.Click += new System.EventHandler(this.fanButton_Click);
 			// 
 			// acButton
@@ -789,6 +790,7 @@ namespace OtherTools
 			this.acButton.TabIndex = 0;
 			this.acButton.Text = "禁用空调通道";
 			this.acButton.UseVisualStyleBackColor = true;
+			this.acButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.acButton.Click += new System.EventHandler(this.acButton_Click);
 			// 
 			// lcGroupBox4
@@ -1146,7 +1148,7 @@ namespace OtherTools
 			// 
 			this.fjJYRadioButton.AutoSize = true;
 			this.fjJYRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjJYRadioButton.Location = new System.Drawing.Point(15, 36);
+			this.fjJYRadioButton.Location = new System.Drawing.Point(15, 35);
 			this.fjJYRadioButton.Name = "fjJYRadioButton";
 			this.fjJYRadioButton.Size = new System.Drawing.Size(47, 16);
 			this.fjJYRadioButton.TabIndex = 0;
@@ -1158,7 +1160,7 @@ namespace OtherTools
 			// fjDXFRadioButton
 			// 
 			this.fjDXFRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjDXFRadioButton.Location = new System.Drawing.Point(91, 22);
+			this.fjDXFRadioButton.Location = new System.Drawing.Point(91, 21);
 			this.fjDXFRadioButton.Name = "fjDXFRadioButton";
 			this.fjDXFRadioButton.Size = new System.Drawing.Size(95, 45);
 			this.fjDXFRadioButton.TabIndex = 0;
@@ -1314,7 +1316,6 @@ namespace OtherTools
 			this.lightModeQHRadioButton.Size = new System.Drawing.Size(47, 16);
 			this.lightModeQHRadioButton.TabIndex = 0;
 			this.lightModeQHRadioButton.TabStop = true;
-			this.lightModeQHRadioButton.Tag = "1";
 			this.lightModeQHRadioButton.Text = "切换";
 			this.lightModeQHRadioButton.UseVisualStyleBackColor = true;
 			this.lightModeQHRadioButton.Click += new System.EventHandler(this.lightModeRadioButton_Click);
@@ -1328,7 +1329,6 @@ namespace OtherTools
 			this.lightModeDJRadioButton.Size = new System.Drawing.Size(47, 16);
 			this.lightModeDJRadioButton.TabIndex = 0;
 			this.lightModeDJRadioButton.TabStop = true;
-			this.lightModeDJRadioButton.Tag = "0";
 			this.lightModeDJRadioButton.Text = "叠加";
 			this.lightModeDJRadioButton.UseVisualStyleBackColor = true;
 			this.lightModeDJRadioButton.Click += new System.EventHandler(this.lightModeRadioButton_Click);

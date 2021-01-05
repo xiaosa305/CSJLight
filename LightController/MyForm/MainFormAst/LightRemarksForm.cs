@@ -26,7 +26,7 @@ namespace LightController.MyForm.LightList
 			lightTypeLabel.Text = la.LightType;
 			lightAddrLabel.Text = la.LightAddr;
 			lightRemarkTextBox.Text = la.Remark;
-			myToolTip.SetToolTip(label3, "备注上限为8个字");
+			myToolTip.SetToolTip(label3, LanguageHelper.TranslateSentence("备注上限为8个字"));
 		}
 
 		private void LightRemarkForm_Load(object sender, EventArgs e)

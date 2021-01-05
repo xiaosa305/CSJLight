@@ -1,4 +1,5 @@
-﻿using LightController.Ast.Entity;
+﻿using CCWin.SkinControl;
+using LightController.Ast.Entity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -64,23 +65,14 @@ namespace LightController.Common
 			}
 
 			if (wordDict != null && wordDict.Count > 0) {
-
-				//TODEL InitLanguage的相关语句
-				//DateTime beforeDT = System.DateTime.Now;
-
 				TranslateControl(form);
-
-				//DateTime afterDT = System.DateTime.Now;
-				//TimeSpan ts = afterDT.Subtract(beforeDT);
-				//Console.WriteLine("耗时: " + ts.TotalSeconds.ToString("#0.00") + "s。", true);
-
 			}
 		}
 
 		// 翻译常规Control
 		public static void TranslateControl( Control ctrl)
 		{
-			if (language == "zh-CN")
+			if (language == "zh-CN" || ctrl == null)
 			{
 				return;
 			}
@@ -101,7 +93,7 @@ namespace LightController.Common
 				}
 				else {
 					TranslateControl(item);
-				}	
+				}
 			}			
 		}
 
@@ -129,7 +121,7 @@ namespace LightController.Common
 		///  翻译菜单
 		/// </summary>
 		/// <param name="ms"></param>		
-		public static void TranslateMenuStrip( ContextMenuStrip ms) {
+		public static void TranslateMenuStrip( ContextMenuStrip ms ) {
 
 			if (language == "zh-CN")
 			{
@@ -141,20 +133,27 @@ namespace LightController.Common
 				ms.Text = wordDict[ms.Text];
 			}
 
-			foreach (ToolStripMenuItem item in ms.Items )
+			foreach (var item in ms.Items )
 			{
-				TranslateMenuItem(item);									
+				if (item is ToolStripMenuItem) {
+					ToolStripMenuItem mi = item as ToolStripMenuItem;
+					TranslateMenuItem(mi);					
+				}						
 			}
-
 		}
-
+	
 		/// <summary>
 		/// 翻译菜单项
 		/// </summary>
 		/// <param name="mi"></param>
-	
-		private static void TranslateMenuItem(ToolStripMenuItem mi) {
-			
+
+		public static void TranslateMenuItem(ToolStripMenuItem mi) {
+
+			if (language == "zh-CN")
+			{
+				return;
+			}
+
 			if (mi.Tag == null && wordDict.ContainsKey(mi.Text))
 			{
 				mi.Text = wordDict[mi.Text];
@@ -170,6 +169,26 @@ namespace LightController.Common
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		///  从wordDict中获取可翻译的word（文件中写死）
+		/// </summary>
+		/// <param name="word"></param>
+		/// <returns></returns>
+		public static string TranslateWord(string word) {
+			if (language == "zh-CN")
+			{
+				return word;
+			}
+
+			if (wordDict.ContainsKey(word))
+			{
+				return wordDict[word];
+			}
+			else {
+				return word;
+			}			
 		}
 		
 		/// <summary>
@@ -222,13 +241,34 @@ namespace LightController.Common
 				}	
 			}	
 		}
-
+		
 		/// <summary>
 		///  保存当前的Sentence到硬盘中
 		/// </summary>
 		private static void saveSentenceDict()
-		{			
-			File.WriteAllText( sentenceJsonPath , JsonConvert.SerializeObject( sentenceDict) );
+		{
+			SortDictionary_Asc(sentenceDict);
+			File.WriteAllText( sentenceJsonPath , JsonConvert.SerializeObject( sentenceDict ) );
 		}
+
+		/// <summary>
+		///  对Dictionary，按照进行升序排序
+		/// </summary>
+		/// <param name="dic"></param>
+		/// <returns></returns>
+		private static void SortDictionary_Asc(Dictionary<string, string> dic)
+		{
+			List<KeyValuePair<string, string>> myList = new List<KeyValuePair<string, string>>(dic);
+			myList.Sort(delegate (KeyValuePair<string, string> s1, KeyValuePair<string, string> s2)
+			{
+				return s1.Key.CompareTo(s2.Key);
+			});
+			dic.Clear();
+			foreach (KeyValuePair<string, string> pair in myList)
+			{
+				dic.Add(pair.Key, pair.Value);
+			}
+		}
+
 	}
 }

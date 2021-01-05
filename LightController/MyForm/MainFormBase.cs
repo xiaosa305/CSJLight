@@ -50,7 +50,7 @@ namespace LightController.MyForm
 		protected string keepNotice = "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。";
 		protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
 		protected string backStepNotice = "右击可跳转至第一步";
-		protected string nextStepNotice = "右击可跳转至最后一步";		
+		protected string nextStepNotice = "右击可跳转至最后一步";	
 			   
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME; //网络搜索时的通用暂停时间
@@ -1598,7 +1598,9 @@ namespace LightController.MyForm
 		protected void newProjectClick()
 		{
 			//MARK 只开单场景：17.1 新建工程前，申请保存工程
-			if (!RequestSaveProject("新建工程前，是否保存当前工程？", false)) {
+			if (!RequestSaveProject(
+				LanguageHelper.TranslateSentence("新建工程前，是否保存当前工程？"), 
+				false)) {
 				return;
 			}
 
@@ -1765,7 +1767,9 @@ namespace LightController.MyForm
 		protected void openProjectClick()
 		{
 			//MARK 只开单场景：17.2 打开工程前，申请保存工程
-			if (!RequestSaveProject("打开工程前，是否保存当前工程？", false)) {
+			if (! RequestSaveProject(
+				LanguageHelper.TranslateSentence("打开工程前，是否保存当前工程？")
+				, false)) {
 				return;
 			}
 			new OpenForm(this, CurrentScene, currentProjectName).ShowDialog();
@@ -2114,20 +2118,21 @@ namespace LightController.MyForm
 		{
 			if (LightAstList == null || LightAstList.Count == 0)
 			{
-				MessageBox.Show("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。");
+				MessageBox.Show( LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。") );
 				return;
 			}
 
-			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？",
-					"导出工程？",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
+			DialogResult dr = MessageBox.Show(
+				LanguageHelper.TranslateSentence("请确保工程已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？"),
+				LanguageHelper.TranslateSentence("导出工程？"),
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
 			if (dr == DialogResult.Cancel)
 			{
 				return;
 			}
 
-			exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
+			exportFolderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。");
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
@@ -2137,10 +2142,11 @@ namespace LightController.MyForm
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
 			{
-				dr = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
-						"覆盖工程？",
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question);
+				dr = MessageBox.Show(
+					LanguageHelper.TranslateSentence("检测到目标文件夹不为空，是否覆盖？"),
+					LanguageHelper.TranslateSentence("覆盖工程？"),
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
 				{
 					return;
@@ -2167,9 +2173,8 @@ namespace LightController.MyForm
 
 			//MARK 导出单场景具体实现 1. 修改弹窗的提示
 			DialogResult dr = MessageBox.Show(
-					"请确保灯具列表未发生变化，并且与选择的已导出工程相比，只改动了当前场景的数据，否则可能产生错误的效果!\n" +
-					"确定现在导出工程（只修改当前场景数据）吗？",
-					"导出工程（只修改当前场景数据）？",
+					LanguageHelper.TranslateSentence("请确保灯具列表未发生变化，并且与选择的已导出工程相比，只改动了当前场景的数据，否则可能产生错误的效果!\n确定现在导出工程（只修改当前场景数据）吗？"),
+					LanguageHelper.TranslateSentence("导出工程（只修改当前场景数据）？"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 			if (dr == DialogResult.Cancel)
@@ -2178,7 +2183,9 @@ namespace LightController.MyForm
 			}
 
 			//MARK 导出单场景具体实现 2. 修改打开文件夹对话框的提示
-			exportFolderBrowserDialog.Description = "请选择当前工程之前已导出过的工程文件夹(CSJ文件夹的上一层)，导出工程（只修改当前场景数据）时，程序将只改动当前场景的两个bin文件、Config.bin及GradientData文件，其他文件不会发生变化，请稍等片刻即可。";
+			exportFolderBrowserDialog.Description =
+				LanguageHelper.TranslateSentence("请选择当前工程之前已导出过的工程文件夹(CSJ文件夹的上一层)，导出工程（只修改当前场景数据）时，"
+								+ "程序将只改动当前场景的两个bin文件、Config.bin及GradientData文件，其他文件不会发生变化，请稍等片刻即可。");
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
@@ -2190,7 +2197,7 @@ namespace LightController.MyForm
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (!di.Exists || di.GetFiles().Length == 0)
 			{
-				MessageBox.Show("检测到目标文件夹为空，说明该文件夹并不存在已导出工程，请选中正确的已导出工程的文件夹（有一些bin文件）！");
+				MessageBox.Show( LanguageHelper.TranslateSentence("检测到目标文件夹为空，说明该文件夹并不存在已导出工程，请选中正确的已导出工程的文件夹（有一些bin文件）！"));
 				return;
 			}
 
@@ -2251,7 +2258,8 @@ namespace LightController.MyForm
 
 			string tempProjectName = currentProjectName;
 			clearAllData();
-			SetNotice("成功关闭工程(" + tempProjectName + ")。", true, true);
+			SetNotice(				
+				LanguageHelper.TranslateSentence("成功关闭工程") 	+ "【" + tempProjectName + "】。", true, false);
 		}
 
 		/// <summary>
@@ -4060,7 +4068,6 @@ namespace LightController.MyForm
 			lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
 			lightImageList.ImageSize = new System.Drawing.Size(60, 65);
 			lightImageList.TransparentColor = System.Drawing.Color.Transparent;
-
 			
 		}   
 	
@@ -4071,7 +4078,9 @@ namespace LightController.MyForm
 		protected void formClosing(FormClosingEventArgs e)
 		{
 			//MARK 只开单场景：17.4 FormClosing时提示保存工程
-			if (!RequestSaveProject("关闭窗口前，是否保存当前工程？", false))
+			if (!RequestSaveProject( 
+				LanguageHelper.TranslateSentence("关闭程序前，是否保存当前工程？"), 
+				false))
 			{
 				e.Cancel = true;
 			}

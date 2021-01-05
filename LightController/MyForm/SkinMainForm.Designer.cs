@@ -152,11 +152,6 @@ namespace LightController.MyForm
 			this.secondLabel = new System.Windows.Forms.Label();
 			this.firstLabel = new System.Windows.Forms.Label();
 			this.middleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.myMenuStrip = new System.Windows.Forms.MenuStrip();
-			this.hideMenuPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -192,7 +187,6 @@ namespace LightController.MyForm
 			this.labelFlowLayoutPanel.SuspendLayout();
 			this.labelPanel.SuspendLayout();
 			this.middleTableLayoutPanel.SuspendLayout();
-			this.myMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuSkinPanel
@@ -1150,6 +1144,7 @@ namespace LightController.MyForm
 			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			this.hideMenuPanelToolStripMenuItem2.Text = "隐藏主菜单面板";
 			this.hideMenuPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
+			this.hideMenuPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
 			// 
 			// hideProjectPanelToolStripMenuItem2
 			// 
@@ -1157,6 +1152,7 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			this.hideProjectPanelToolStripMenuItem2.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
+			this.hideProjectPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
 			// 
 			// hideAstPanelToolStripMenuItem2
 			// 
@@ -1164,6 +1160,7 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			this.hideAstPanelToolStripMenuItem2.Text = "隐藏辅助面板";
 			this.hideAstPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideAstPanelToolStripMenuItem_Click);
+			this.hideAstPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
 			// 
 			// hidePlayPanelToolStripMenuItem2
 			// 
@@ -1171,6 +1168,7 @@ namespace LightController.MyForm
 			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
+			this.hidePlayPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
 			// 
 			// toolStripSeparator1
 			// 
@@ -1183,6 +1181,7 @@ namespace LightController.MyForm
 			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
 			this.showSaPanelsToolStripMenuItem.Click += new System.EventHandler(this.showSaPanelsToolStripMenuItem_Click);
+			this.showSaPanelsToolStripMenuItem.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
 			// 
 			// astSkinPanel
 			// 
@@ -2338,29 +2337,29 @@ namespace LightController.MyForm
 			// thirdLabel
 			// 
 			this.thirdLabel.AutoSize = true;
-			this.thirdLabel.Location = new System.Drawing.Point(12, 255);
+			this.thirdLabel.Location = new System.Drawing.Point(5, 255);
 			this.thirdLabel.Name = "thirdLabel";
-			this.thirdLabel.Size = new System.Drawing.Size(59, 12);
+			this.thirdLabel.Size = new System.Drawing.Size(71, 12);
 			this.thirdLabel.TabIndex = 0;
-			this.thirdLabel.Text = "步时间(S)";
+			this.thirdLabel.Text = "StepTime(S)";
 			// 
 			// secondLabel
 			// 
 			this.secondLabel.AutoSize = true;
-			this.secondLabel.Location = new System.Drawing.Point(12, 232);
+			this.secondLabel.Location = new System.Drawing.Point(5, 232);
 			this.secondLabel.Name = "secondLabel";
-			this.secondLabel.Size = new System.Drawing.Size(41, 12);
+			this.secondLabel.Size = new System.Drawing.Size(65, 12);
 			this.secondLabel.TabIndex = 0;
-			this.secondLabel.Text = "跳渐变";
+			this.secondLabel.Text = "ChangeMode";
 			// 
 			// firstLabel
 			// 
 			this.firstLabel.AutoSize = true;
-			this.firstLabel.Location = new System.Drawing.Point(12, 208);
+			this.firstLabel.Location = new System.Drawing.Point(5, 208);
 			this.firstLabel.Name = "firstLabel";
-			this.firstLabel.Size = new System.Drawing.Size(41, 12);
+			this.firstLabel.Size = new System.Drawing.Size(35, 12);
 			this.firstLabel.TabIndex = 0;
-			this.firstLabel.Text = "通道值";
+			this.firstLabel.Text = "Value";
 			// 
 			// middleTableLayoutPanel
 			// 
@@ -2383,48 +2382,6 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.Size = new System.Drawing.Size(1055, 712);
 			this.middleTableLayoutPanel.TabIndex = 29;
 			// 
-			// myMenuStrip
-			// 
-			this.myMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hideMenuPanelToolStripMenuItem,
-            this.hideProjectPanelToolStripMenuItem,
-            this.hideAstPanelToolStripMenuItem,
-            this.hidePlayPanelToolStripMenuItem});
-			this.myMenuStrip.Location = new System.Drawing.Point(0, 0);
-			this.myMenuStrip.Name = "myMenuStrip";
-			this.myMenuStrip.Size = new System.Drawing.Size(1424, 25);
-			this.myMenuStrip.TabIndex = 11;
-			this.myMenuStrip.Text = "menuStrip1";
-			this.myMenuStrip.Visible = false;
-			// 
-			// hideMenuPanelToolStripMenuItem
-			// 
-			this.hideMenuPanelToolStripMenuItem.Name = "hideMenuPanelToolStripMenuItem";
-			this.hideMenuPanelToolStripMenuItem.Size = new System.Drawing.Size(104, 21);
-			this.hideMenuPanelToolStripMenuItem.Text = "隐藏主菜单面板";
-			this.hideMenuPanelToolStripMenuItem.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
-			// 
-			// hideProjectPanelToolStripMenuItem
-			// 
-			this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
-			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
-			this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
-			this.hideProjectPanelToolStripMenuItem.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
-			// 
-			// hideAstPanelToolStripMenuItem
-			// 
-			this.hideAstPanelToolStripMenuItem.Name = "hideAstPanelToolStripMenuItem";
-			this.hideAstPanelToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
-			this.hideAstPanelToolStripMenuItem.Text = "隐藏辅助面板";
-			this.hideAstPanelToolStripMenuItem.Click += new System.EventHandler(this.hideAstPanelToolStripMenuItem_Click);
-			// 
-			// hidePlayPanelToolStripMenuItem
-			// 
-			this.hidePlayPanelToolStripMenuItem.Name = "hidePlayPanelToolStripMenuItem";
-			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
-			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
-			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
-			// 
 			// bgWorker
 			// 
 			this.bgWorker.WorkerReportsProgress = true;
@@ -2443,11 +2400,9 @@ namespace LightController.MyForm
 			this.Controls.Add(this.projectSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
 			this.Controls.Add(this.astSkinPanel);
-			this.Controls.Add(this.myMenuStrip);
 			this.Controls.Add(this.noticeStatusStrip);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MainMenuStrip = this.myMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MinimumSize = new System.Drawing.Size(1024, 880);
 			this.Name = "SkinMainForm";
@@ -2498,8 +2453,6 @@ namespace LightController.MyForm
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
 			this.middleTableLayoutPanel.ResumeLayout(false);
-			this.myMenuStrip.ResumeLayout(false);
-			this.myMenuStrip.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2578,11 +2531,6 @@ namespace LightController.MyForm
 		private SkinLabel frameLabel;
 		private NumericUpDown chooseStepNumericUpDown;
 		private SkinButton chooseStepSkinButton;
-		private MenuStrip myMenuStrip;
-		private ToolStripMenuItem hideMenuPanelToolStripMenuItem;
-		private ToolStripMenuItem hideProjectPanelToolStripMenuItem;
-		private ToolStripMenuItem hideAstPanelToolStripMenuItem;
-		private ToolStripMenuItem hidePlayPanelToolStripMenuItem;
 		private SkinButton newToolsSkinButton;
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripMenuItem hideMenuPanelToolStripMenuItem2;

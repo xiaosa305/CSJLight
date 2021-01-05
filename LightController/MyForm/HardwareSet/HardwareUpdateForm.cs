@@ -72,8 +72,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareUpdateForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("此升级方式，是只适用于硬件出现重大问题时的解决方案，请谨慎使用！",
-				"使用提示或说明",
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("此升级方式，是只适用于硬件出现重大问题时的解决方案，请谨慎使用！"),
+				LanguageHelper.TranslateSentence( "警告！"),
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Warning);
 			e.Cancel = true;

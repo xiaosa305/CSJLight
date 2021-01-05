@@ -113,7 +113,7 @@ namespace LightController.MyForm
 			// 1.先验证是否刚删除项目 或 空选项
 			if (isJustDelete  || projectTreeView.SelectedNode == null)
 			{
-				MessageBox.Show("请选择正确的项目名");
+				MessageBox.Show(LanguageHelper.TranslateSentence(LanguageHelper.TranslateSentence("请选择要打开的工程")));
 				return;
 			}
 
@@ -127,7 +127,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				MessageBox.Show("请选择正确的项目名");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请选择要打开的工程"));
 				return;
 			}			
 		}
@@ -154,7 +154,7 @@ namespace LightController.MyForm
 		{
 			// 1.先验证是否刚删除项目
 			if (isJustDelete || projectTreeView.SelectedNode == null) {
-				MessageBox.Show("请选择要删除的工程:");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请选择要删除的工程:"));
 				return;
 			}
 
@@ -163,13 +163,14 @@ namespace LightController.MyForm
 
 			// 8.21 验证是否当前项目，若是则不可删除
 			if (projectName.Equals(currentProjectName)) {
-				MessageBox.Show("无法删除正在使用的工程！");
+				MessageBox.Show(LanguageHelper.TranslateSentence("无法删除正在使用的工程！"));
 				return;
 			}
 
 			// 1. 弹出是否删除的确认框
-			if ( MessageBox.Show("确定删除此工程吗？", 
-				"删除工程？",
+			if ( MessageBox.Show(
+				LanguageHelper.TranslateSentence("确定删除此工程吗？"), 
+				LanguageHelper.TranslateSentence("删除工程？"),
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Warning) == DialogResult.Cancel )
 			{
@@ -244,7 +245,7 @@ namespace LightController.MyForm
 		{
 			if (selectedProjectName.Equals(currentProjectName))
 			{
-				MessageBox.Show("无法重命名当前打开的工程。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("无法重命名当前打开的工程。"));
 			}
 			else {
 				// 这里用到了形参默认值的方法，在没有设置的情况下，copy值默认为false（重命名）

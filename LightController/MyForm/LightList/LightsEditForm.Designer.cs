@@ -46,7 +46,7 @@
 			// 
 			// startCountNumericUpDown
 			// 
-			this.startCountNumericUpDown.Location = new System.Drawing.Point(126, 108);
+			this.startCountNumericUpDown.Location = new System.Drawing.Point(149, 108);
 			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
@@ -91,7 +91,7 @@
 			// nameTypeLabel
 			// 
 			this.nameTypeLabel.AutoSize = true;
-			this.nameTypeLabel.Location = new System.Drawing.Point(126, 30);
+			this.nameTypeLabel.Location = new System.Drawing.Point(149, 30);
 			this.nameTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.nameTypeLabel.Name = "nameTypeLabel";
 			this.nameTypeLabel.Size = new System.Drawing.Size(41, 12);
@@ -111,7 +111,7 @@
 			// addrLabel
 			// 
 			this.addrLabel.AutoSize = true;
-			this.addrLabel.Location = new System.Drawing.Point(126, 69);
+			this.addrLabel.Location = new System.Drawing.Point(149, 69);
 			this.addrLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.addrLabel.Name = "addrLabel";
 			this.addrLabel.Size = new System.Drawing.Size(41, 12);
@@ -128,7 +128,7 @@
 			this.noticePanel.Location = new System.Drawing.Point(0, 0);
 			this.noticePanel.Margin = new System.Windows.Forms.Padding(2);
 			this.noticePanel.Name = "noticePanel";
-			this.noticePanel.Size = new System.Drawing.Size(274, 204);
+			this.noticePanel.Size = new System.Drawing.Size(287, 211);
 			this.noticePanel.TabIndex = 10;
 			// 
 			// cancelButton
@@ -149,7 +149,7 @@
 			this.label3.Location = new System.Drawing.Point(0, 0);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(274, 120);
+			this.label3.Size = new System.Drawing.Size(287, 120);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "若改变了灯具通道地址，基于原地址编辑的步数信息将会消失，请谨慎操作！";
 			// 
@@ -177,7 +177,7 @@
 			// 
 			// cancelButton2
 			// 
-			this.cancelButton2.Location = new System.Drawing.Point(149, 152);
+			this.cancelButton2.Location = new System.Drawing.Point(169, 151);
 			this.cancelButton2.Name = "cancelButton2";
 			this.cancelButton2.Size = new System.Drawing.Size(75, 27);
 			this.cancelButton2.TabIndex = 12;
@@ -189,7 +189,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(274, 204);
+			this.ClientSize = new System.Drawing.Size(287, 211);
 			this.Controls.Add(this.noticePanel);
 			this.Controls.Add(this.addrLabel);
 			this.Controls.Add(this.nameTypeLabel);

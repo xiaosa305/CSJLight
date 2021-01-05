@@ -184,11 +184,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false);
+				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false,true);
 			}
 			else
 			{
-				SetNotice("未找到可用设备，请检查设备连接后重试。", false);
+				SetNotice("未找到可用设备，请检查设备连接后重试。", false, true);
 			}
 		}
 
@@ -203,7 +203,7 @@ namespace LightController.MyForm
 				myConnect = null;
 				isConnected = false;
 				refreshConnectButtons();
-				SetNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+				SetNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true, true);
 			}
 		}
 
@@ -252,12 +252,12 @@ namespace LightController.MyForm
 					{
 						isConnected = true;
 						refreshConnectButtons();
-						SetNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+						SetNotice("已打开串口", true, true);
 					}
 				}
 				catch (Exception ex)
 				{
-					SetNotice("打开串口失败，原因是：\n" + ex.Message, true);
+					SetNotice("打开串口失败，原因是：\n" + ex.Message, true, false);
 				}
 			}
 			else
@@ -269,11 +269,11 @@ namespace LightController.MyForm
 				{
 					isConnected = true;
 					refreshConnectButtons();
-					SetNotice("成功连接网络设备(" + deviceName + ")。", true);
+					SetNotice("成功连接网络设备。", true, true);
 				}
 				else
 				{
-					SetNotice("连接网络设备(" + deviceName + ")失败。", true);
+					SetNotice("连接网络设备失败。", true, true);
 				}
 			}
 		}
@@ -291,8 +291,9 @@ namespace LightController.MyForm
 
 			if (String.IsNullOrEmpty(projectPath))
 			{
-				DialogResult dr = MessageBox.Show("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？",
-					"是否继续更新工程?",
+				DialogResult dr = MessageBox.Show(
+					LanguageHelper.TranslateSentence("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
+					LanguageHelper.TranslateSentence("是否继续更新工程?"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
@@ -301,8 +302,9 @@ namespace LightController.MyForm
 					return;
 				}
 
-				dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
-					"是否实时生成工程?",
+				dr = MessageBox.Show(
+					LanguageHelper.TranslateSentence("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？"),
+					LanguageHelper.TranslateSentence("是否实时导出工程?"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
@@ -313,7 +315,7 @@ namespace LightController.MyForm
 				
 				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
 				{
-					SetNotice("当前工程无灯具，无法更新工程。",true);
+					SetNotice("当前工程无灯具，无法更新工程。",true, true);
 					SetBusy(false);
 					return;
 				}
@@ -324,21 +326,21 @@ namespace LightController.MyForm
 			{
 				if (Directory.GetFiles(projectPath).Length == 0)
 				{
-					SetNotice("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。",true);
+					SetNotice("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。",true,true);
 					SetBusy(false);
 					return;
 				}
 			}
 
 			if (myConnect == null || !isConnected) {
-				SetNotice("尚未连接设备，请连接后重试。", true);
+				SetNotice("尚未连接设备，请连接后重试。", true, true);
 				SetBusy(false);
 				return;
 			}
 
 			if (generateNow)
 			{
-				SetNotice("正在实时生成工程数据，请耐心等待...", false);
+				SetNotice("正在实时生成工程数据，请耐心等待...", false, true);
 				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this));
 			}
 			else
@@ -376,7 +378,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("工程更新成功。", true);
+				SetNotice("工程更新成功。", true, true);
 				myProgressBar.Value = 0;
 				SetBusy(false);
 			});
@@ -390,7 +392,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("工程更新失败[" + msg + "]", true);
+				SetNotice("工程更新失败[" + msg + "]", true, false);
 				myProgressBar.Value = 0;
 				SetBusy(false);
 			});
@@ -403,7 +405,7 @@ namespace LightController.MyForm
 		/// <param name="progress"></param>
 		public void DrawProgress(string fileName, int progressPercent)
 		{
-			SetNotice(string.IsNullOrEmpty(fileName) ? "" : "正在传输文件：" + fileName, false);
+			SetNotice(string.IsNullOrEmpty(fileName) ? "" : LanguageHelper.TranslateSentence("正在传输文件：" )+ fileName, false, false );
 			myProgressBar.Value = progressPercent;
 		}
 				
@@ -412,8 +414,12 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		public void SetNotice(string msg, bool messageBoxShow)
+		public void SetNotice(string msg, bool messageBoxShow, bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			if (messageBoxShow)
 			{
 				MessageBox.Show(msg);
@@ -465,27 +471,27 @@ namespace LightController.MyForm
 
 		public void Completed()
 		{
-			puForm.SetNotice("数据生成成功，即将传输数据到设备。", false);
+			puForm.SetNotice("数据生成成功，即将传输数据到设备。", false, true);
 			if (FileUtils.CopyProjectFileToDownloadDir())
 			{
 				puForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
 				puForm.DownloadProject();
 			}
 			else {
-				MessageBox.Show("拷贝工程文件到临时目录时出错。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("拷贝工程文件到临时目录时出错。"));
 				puForm.SetBusy(false);
 			}			
 		}
 
 		public void Error(string msg)
 		{
-			MessageBox.Show("数据生成出错");
+			MessageBox.Show(LanguageHelper.TranslateSentence("数据生成出错"));
 			puForm.SetBusy(false);
 		}
 
 		public void UpdateProgress(string name)
 		{
-			puForm.SetNotice("正在生成工程文件(" + name + ")" ,false);
+			puForm.SetNotice( LanguageHelper.TranslateSentence("正在生成工程文件")+"(" + name + ")" ,false, false);
 		}
 	}
 

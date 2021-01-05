@@ -316,9 +316,7 @@ namespace LightController.MyForm
 			}
 			mainForm.ChangeEachStepTime(eachStepTime); // 主界面的时间因子，也要更改一下
 
-			MessageBox.Show( 
-				LanguageHelper.TranslateSentence("开机场景、场景切换跳渐变\n等全局设置保存成功") 
-				) ;
+			MessageBox.Show(LanguageHelper.TranslateSentence("开机场景、场景切换跳渐变\n等全局设置保存成功")) ;
 		}
 			
 		/// <summary>
@@ -349,9 +347,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skNoticeButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show(
-				LanguageHelper.TranslateSentence("请在音频链表文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。")
-				);
+			MessageBox.Show(LanguageHelper.TranslateSentence("请在音频链表文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。")	);
 		}
 
 		/// <summary>
@@ -367,7 +363,7 @@ namespace LightController.MyForm
 				iniAst.WriteString("SK", i + "JG", skJGTimeNumericUpDowns[i].Text);
 				iniAst.WriteString("SK", i + "LK", lkTextBoxes[i].Text.Trim());
 			}
-			MessageBox.Show("音频场景设置保存成功");
+			MessageBox.Show(LanguageHelper.TranslateSentence("音频场景设置保存成功"));
 		}
 			   
 		#region  《声控全局配置》各种监听事件
@@ -434,7 +430,6 @@ namespace LightController.MyForm
 
 		#endregion
 		
-
 		/// <summary>
 		/// 事件：单独处理时间因子输入框，以免用户手动输入时出错
 		/// </summary>

@@ -244,7 +244,7 @@ namespace LightController.MyForm
 
 			if (endStep < startStep)
 			{
-				MessageBox.Show("结束步不可大于起始步");
+				MessageBox.Show(LanguageHelper.TranslateSentence("结束步不可大于起始步"));
 				endNumericUpDown.Value = startStep;
 				return false;
 			}
@@ -257,7 +257,7 @@ namespace LightController.MyForm
 					}
 				}
 				if (tdIndexList.Count == 0) {
-					MessageBox.Show("请选择至少一个通道。");
+					MessageBox.Show(LanguageHelper.TranslateSentence("请选择至少一个通道。"));
 					return false;
 				}
 				else

@@ -56,12 +56,12 @@ namespace LightController
 			string projectName = textBox1.Text;
 
 			if ( ! FileHelper.CheckFileName(projectName)) {
-				MessageBox.Show("工程名包含非法字符，请重新输入！");
+				MessageBox.Show(LanguageHelper.TranslateSentence("工程名包含非法字符，请重新输入！"));
 				return;
 			}
 
 			if (String.IsNullOrEmpty(projectName)) {
-				MessageBox.Show("请输入工程名");				
+				MessageBox.Show(LanguageHelper.TranslateSentence("请输入工程名"));				
 				return;
 			}
 
@@ -78,7 +78,7 @@ namespace LightController
 			
 			if (di.Exists)
 			{
-				MessageBox.Show("这个名称已经被使用了，请使用其他名称。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("这个名称已经被使用了，请使用其他名称。"));
 				return;
 			}
 			else
@@ -100,7 +100,6 @@ namespace LightController
 			}	
 		}
 		
-
 		/// <summary>
 		/// 事件：点击《右上角关闭（X）》按钮、《取消》按钮
 		/// </summary>
@@ -119,8 +118,9 @@ namespace LightController
 		/// <param name="e"></param>
 		private void NewForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("工程名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。",
-				"使用提示或说明",
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("工程名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。"),
+				LanguageHelper.TranslateSentence("提示"),
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
 			e.Cancel = true;

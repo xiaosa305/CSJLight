@@ -58,7 +58,6 @@ namespace LightController.MyForm.Multiplex
 			Dispose();
 			mainForm.Activate();
 		}
-
-		
+				
 	}
 }

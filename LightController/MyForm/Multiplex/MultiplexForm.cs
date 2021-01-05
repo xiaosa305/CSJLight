@@ -80,11 +80,12 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void MultiplexForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.点击灯具左侧的方格，或双击灯具，皆可选中灯具；\n" +
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("1.点击灯具左侧的方格，或双击灯具，皆可选中灯具；\n" +
 					"2.使用同步复用功能，将会复制选中灯具的指定步数，并将这些步粘贴到最大步之后；\n" +
 					"3.用户可通过更改复用次数输入框的数值，自行设置复制的次数；\n" +
-					"4.未选中的灯具，仍会添加相应数量的新步，并以该灯具最大步的数据填充新步；"	,
-				"使用提示或说明",
+					"4.未选中的灯具，仍会添加相应数量的新步，并以该灯具最大步的数据填充新步；"),
+				LanguageHelper.TranslateSentence("提示"),
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Information
 				);
@@ -123,7 +124,7 @@ namespace LightController.MyForm.Multiplex
 			// 当输入（或点选）的步数值不合规时，处理输入框
 			if (copyStepCount < 1)
 			{
-				MessageBox.Show("起始步不可大于结束步。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("起始步不可大于结束步。"));
 				if (((NumericUpDown)sender).Name.Equals("startNumericUpDown"))
 				{
 					startNumericUpDown.ValueChanged -= new System.EventHandler(this.startEndNumericUpDown_ValueChanged);
@@ -192,7 +193,7 @@ namespace LightController.MyForm.Multiplex
 			}
 			else
 			{
-				MessageBox.Show(result);
+				MessageBox.Show(LanguageHelper.TranslateSentence(result));
 			}
 		}
 

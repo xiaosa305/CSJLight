@@ -53,7 +53,7 @@ namespace LightController
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(139, 72);
 			this.label1.TabIndex = 6;
-			this.label1.Text = "提示：双击右侧灯具，可修改初始通道地址。";
+			this.label1.Text = "提示：双击右侧灯具，可修改其通道地址。";
 			// 
 			// skinTreeView1
 			// 

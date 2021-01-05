@@ -57,6 +57,10 @@
   "多步调节": "MultiAdjust",
   "音频链表": "LinkList",
   "多步联调": "DetailMulti",
+  "厂商：": "Name : ",
+  "型号：": "Type : ",
+  "地址：": "Addr : ",
+  "备注：": "Remarks : ",
 
   // StepPanel
   "场景：": "Scene",
@@ -153,8 +157,7 @@
   // SKForm
   "音频步时间(s)：": "StepTime(s):",
   "叠加后间隔时间(ms):": "KeepTime(ms)",
-  "音频链表：": null,
-  "Play LinkList:": null,
+  "音频链表：": "Play LinkList:",
 
   // YMForm
   "是否开启": "Turn ON",
@@ -225,13 +228,15 @@
   "子属性名": "\"SaName\"，",
   "起始值": "Start",
   "截止值": "End",
+  "双击可将选中项填入左侧当前通道名称的文本框中": "Double-Click to fill the word into the selected channel name box",
+  "子属性": "SA",
 
   // 灯具列表
   "添加灯具": "Add Light",
   "添加灯具名称：": "Light:",
   "起始灯具地址：": "First Addr:",
   "添加灯具数量：": "Quantity:",
-  "若改变了灯具通道地址，基于原地址编辑的步数信息将会消失，请谨慎操作！": "If you change the light address , all steps will be deleted. Please be careful!",
+  "若改变了灯具通道地址，基于原地址编辑的步数信息将会消失，请谨慎操作！": "If you change the light address , all steps based on the address will be deleted. Please be careful!",
   "坚持修改": "I See",
   "修改灯具地址": "Modify Light Addr",
   "灯具信息：": "Light：",
@@ -243,7 +248,7 @@
   "厂商名": "LightName",
   "型号": "Type",
   "通道地址": "Address",
-  "提示：双击右侧灯具，可修改初始通道地址。": "Tips:Double-click the light on the right to modify the address.",
+  "提示：双击右侧灯具，可修改其通道地址。": "Tips:Double-click the light on the right to modify its address.",
 
   // 内置动作
   "使用内置动作": "Action",
@@ -267,6 +272,8 @@
   "Y轴摆动幅度：": "Y(Amplitude of Variation):",
   "摆动倍率：": "Swing ratio:",
   "Y轴幅度(值越小8字越大)：": "Y(Size):",
+  "X轴": "X",
+  "Y轴": "Y",
 
   // 快速调色
   "快速调色": "Color",
@@ -277,6 +284,9 @@
   "步时间(S):": "StepTime(s):",
   "是否渐变：": "Gradient:",
   "应用颜色": "Apply",
+  "红": "R",
+  "绿": "G",
+  "蓝": "B",
 
   // 快速加减步
   "追加步数": "Append Step",
@@ -308,6 +318,7 @@
   "请选择被复用的步数": "Choose Steps",
   "请设置复用的次数：": "Input Copy Times",
   "复用": "Duplicate",
+  "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，而是采用该灯具的最后一步进行填充。": "tips:For the unselected lights, the corresponding number of new steps will still be added, using their last step",
 
   // 复制、粘贴多步
   "复制多步 ": "Multi Steps Copy",
@@ -321,15 +332,20 @@
   "当前模式：音频模式": "Sound Mode",
   "请勾选要统一调节的通道": "Choose Channels",
   "请选择要调节的步数": "Choose Steps",
+  "请选择编组": "Choose Group",
+  "请选步": "Steps",
   "全步": "All",
   "奇数步": "Odd",
   "偶数步": "Even",
+  "请选择通道": "Choose Channel",
   "统一屏蔽": "ShieldAll",
   "统一归零": "Unify 0",
   "统一通道值 ": "Set",
   "统一跳渐变": "Set",
   "统一步时间": "Set",
   "使用选中通道多步联调": "DetailMulti with Channels",
+  "提示：\r\n①请不要一次性选择过多通道，否则多步联调界面可能出现卡顿的情况（上限为50通道）；\r\n②若当前是多灯模式状态，可只选择多灯内的其中一个灯具，更改操作会作用于组内的每个灯具。": "Tips:\n①Do not choose too many channels at one time,up to 50 channels;\n②If it's multiMode now : you can choose only one light,and all operations will affect each light in the group.",
+  "步 ": "Step ",
 
   // 外设
   "中控配置": "Center Controller",
@@ -341,7 +357,7 @@
   "协议选择": "Protocal",
   "功能描述": "Desc",
   "串口0上行": "Com0Up",
-  "串口0下行行": "Com0Down",
+  "串口0下行": "Com0Down",
   "串口1上行": "Com1Up",
   "串口1下行": "Com1Down",
   "红外发送": "InfraredSend",
@@ -380,7 +396,7 @@
   "阀关：": "ValveClose:",
   "空调控制": "Air Condition Setttings",
   "风机类型": "Fan Type:",
-  "禁用": "Disable:",
+  "禁用": "Disable",
   "单线阀": "Single Line Valve",
   "双线阀": "Double Line Valve",
 
@@ -394,6 +410,31 @@
   "加载本地文件": "Read",
   "保存到本地 ": "Save",
   "下载到墙板": "Write",
-  "修改键值码": "Edit KeyCode"
+  "修改键码值": "Edit KeyCode",
+  "码值": "KeyCode",
+  "排序": "No.",
+
+  // 通道面板等
+  "通道": "CH ",
+  "通道值": "Value",
+  "跳渐变": "ChangeMode",
+  "步时间(S)": "StepTime(S)",
+
+  // listView右键菜单面板
+  "自动排列": "AutoArrange",
+  "重新排列": "Rearrange",
+  "保存灯具位置": "Save Lights' Positions",
+  "读取灯具位置": "Load Lights' Positions",
+  "重新加载灯具图片": "Reload Lights' Pictures",
+  "隐藏主菜单面板": "Hide Menu Panel",
+  "显示主菜单面板": "Show Menu Panel",
+  "隐藏工程面板": "Hide Project Panel",
+  "显示工程面板": "Show Project Panel",
+  "隐藏辅助面板": "Hide Ast Panel",
+  "显示辅助面板": "Show Ast Panel",
+  "隐藏调试面板": "Hide Play Panel",
+  "显示调试面板": "Show Play Panel",
+  "隐藏子属性面板": "Hide  Subattribute Panels",
+  "显示子属性面板": "Show  SubAttribute(SA) Panels"
 
 }

@@ -53,7 +53,7 @@ namespace LightController.MyForm.Multiplex
 			int lastStep = decimal.ToInt32(endNumericUpDown.Value);
 
 			if (lastStep < firstStep) {
-				MessageBox.Show("起始步不可大于结束步；请检查后重试。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("起始步不可大于结束步；请检查后重试。"));
 				return; 
 			}
 

@@ -109,6 +109,8 @@
     <Compile Include="multidevice\impl\TransactionManager.cs" />
     <Compile Include="multidevice\impl\VirtualClient.cs" />
     <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
+    <Compile Include="multidevice\multidevicepromax\M5VirtualProClient.cs" />
+    <Compile Include="multidevice\multidevicepromax\M5VirtualProClientsManager.cs" />
     <Compile Include="multidevice\multidevicepromax\VirtualProClient.cs" />
     <Compile Include="multidevice\multidevicepromax\VirtualProClientsManager.cs" />
     <Compile Include="multidevice\newmultidevice\NewVirtualClient.cs" />

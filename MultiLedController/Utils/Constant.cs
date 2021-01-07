@@ -10,7 +10,7 @@ namespace MultiLedController.utils
         public const string TAG_XIAOSA = "XiaoSa";
         public const string RECEIVE_START_DEBUF_MODE = "OK:poweron>";
         public static bool IsLogInFile = false;
-        /*private static readonly byte[] Receive_SearchDevice = new byte[]
+        private static readonly byte[] Receive_SearchDevice = new byte[]
         {
             0x41,0x72,0x74,0x2D,0x4E,0x65,0x74,0x00
                 ,0x00,0x021
@@ -48,8 +48,8 @@ namespace MultiLedController.utils
                 ,0x00   //BindInex
                 ,0x00   //Status2   
                 ,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-        };*/
-        private static readonly byte[] Receive_SearchDevice = new byte[]
+        };
+        private static readonly byte[] M5_Receive_SearchDevice = new byte[]
         {
             0x41,0x72,0x74,0x2D,0x4E,0x65,0x74,0x00
             ,0x00,0x21
@@ -111,6 +111,10 @@ namespace MultiLedController.utils
         public static byte[] GetReceiveDataBySerchDeviceOrder()
         {
             return Receive_SearchDevice;
+        }
+        public static byte[] GetM5ReceiveDataBySerchDeviceOrder()
+        {
+            return M5_Receive_SearchDevice;
         }
     }
 }

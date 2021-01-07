@@ -39,10 +39,10 @@ namespace RecordTools.Entity
                 writeBuff.Add(Convert.ToByte(this.DefaultScene));
 
                 //音频功能
-                writeBuff.Add(0x00);
-                writeBuff.Add(0x00);
-                writeBuff.Add(0x00);
-                writeBuff.Add(0x00);
+                writeBuff.Add(0xFF);
+                writeBuff.Add(0xFF);
+                writeBuff.Add(0xFF);
+                writeBuff.Add(0xFF);
 
                 //场景切换
                 writeBuff.Add(0x00);

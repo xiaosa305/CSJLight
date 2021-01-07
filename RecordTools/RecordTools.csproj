@@ -63,15 +63,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="FrameList.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="更新日志.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="NewForm.resx">
-      <DependentUpon>NewForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="RecordSetForm.resx">
       <DependentUpon>RecordSetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +78,9 @@
     <Content Include="CommonSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="test\XiaosaTestForm.resx">
+      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

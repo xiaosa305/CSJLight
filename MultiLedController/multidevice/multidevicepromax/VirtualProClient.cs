@@ -148,6 +148,14 @@ namespace MultiLedController.multidevice.multidevicepromax
             data[12] = Convert.ToByte(Convert.ToInt16(iPAddress[2]));
             data[13] = Convert.ToByte(Convert.ToInt16(iPAddress[3]));
 
+
+            //Test
+            data[18] = Convert.ToByte(0x01);//高字节空间编号
+            data[207] = Convert.ToByte(Convert.ToInt16(iPAddress[0]));//绑定IP地址
+            data[208] = Convert.ToByte(Convert.ToInt16(iPAddress[1]));
+            data[209] = Convert.ToByte(Convert.ToInt16(iPAddress[2]));
+            data[210] = Convert.ToByte(Convert.ToInt16(iPAddress[3]));
+
             //修改空间编号
             for (int i = 0; i < 4; i++)
             {

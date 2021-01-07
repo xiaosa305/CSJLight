@@ -219,6 +219,8 @@ namespace LightController.Tools
                     this.PreviewTimer.Stop();
                 }
                 this.PreviewTimer.Interval = this.TimeFactory;
+                //this.PreviewTimer.Interval = 100;
+
                 this.SendTimer.Interval = this.TimeFactory;
                 if (this.SendTimer.Enabled)
                 {
@@ -438,7 +440,7 @@ namespace LightController.Tools
                 {
                     buff.AddRange(this.PlayData);
                 }
-                //Console.WriteLine("X轴：" + buff[193] + "  ------------------" + "X轴微调：" + buff[194] + "  ------------------" + "Y轴：" + buff[195] + "  ------------------" + "Y轴微调：" + buff[196]);
+                Console.WriteLine("X轴：" + buff[1] + "  ------------------" + "X轴微调：" + buff[2] + "  ------------------" + "Y轴：" + buff[3] + "  ------------------" + "Y轴微调：" + buff[4]);
                 if (this.IsTest)
                 {
                     this.SendTestData(buff.ToArray());

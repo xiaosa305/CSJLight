@@ -38,6 +38,7 @@
             this.debugcount = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.recordcount = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Start
@@ -136,11 +137,22 @@
             this.recordcount.TabIndex = 9;
             this.recordcount.Text = "0";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(481, 198);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // XiaosaTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.recordcount);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.debugcount);
@@ -170,5 +182,6 @@
         private System.Windows.Forms.Label debugcount;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label recordcount;
+        private System.Windows.Forms.Button button1;
     }
 }

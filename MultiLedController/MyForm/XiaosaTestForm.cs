@@ -1,4 +1,5 @@
 ﻿using MultiLedController.multidevice.multidevicepromax;
+using MultiLedController.utils.lbdconfigtor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -82,6 +83,11 @@ namespace MultiLedController.MyForm
             //this.recordcount.Text = count.ToString();
             Console.WriteLine("record: " + count);
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            NetCommunitor.GetInstance().Start();
         }
     }
 }

@@ -9,8 +9,9 @@ namespace MultiLedController.utils.lbdconfigtor
 {
     public class NetCommunitor : BaseFunctionalModule
     {
-        private static NetCommunitor Instance { get; set; }
         private const int REC_BUFF_SIZE = 1024 * 2;
+        private const int PORT = 7070;
+        private static NetCommunitor Instance { get; set; }
         private Socket UdpServer { get; set; }
         private byte[] RecBuff { get; set; }
         private NetCommunitor()
@@ -28,7 +29,7 @@ namespace MultiLedController.utils.lbdconfigtor
 
         protected override void Send(byte[] data)
         {
-            base.Send(data);
+            this.UdpServer.BeginSendTo(data, 0, data.Length, SocketFlags.None, new IPEndPoint(IPAddress.Broadcast,PORT), SendCallback, UdpServer);
         }
 
         public NetCommunitor Start()
@@ -36,6 +37,11 @@ namespace MultiLedController.utils.lbdconfigtor
             this.InitParam();
             this.InitUdpServer();
             return this;
+        }
+
+        public void Close()
+        {
+
         }
 
         private void InitParam()
@@ -58,6 +64,11 @@ namespace MultiLedController.utils.lbdconfigtor
                 Console.WriteLine("启动服务器成失败: " + ex.Message);
             }
           
+        }
+
+        private void SendCallback(IAsyncResult result)
+        {
+            base.SendCompleted();
         }
 
         private void ReceiveCallback(IAsyncResult result)

@@ -185,7 +185,6 @@
     <Compile Include="utils\IFileUtils.cs" />
     <Compile Include="utils\impl\LogTools.cs" />
     <Compile Include="utils\lbdconfigtor\BaseFunctionalModule.cs" />
-    <Compile Include="utils\lbdconfigtor\BaseFunctionalModuleBase.cs" />
     <Compile Include="utils\lbdconfigtor\NetCommunitor.cs" />
     <Compile Include="utils\StringHelper.cs" />
     <Compile Include="utils\XiaosaTest.cs" />

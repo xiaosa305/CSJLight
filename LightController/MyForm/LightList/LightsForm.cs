@@ -78,7 +78,7 @@ namespace LightController
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			lightsListView.HideSelection = true;
 			LanguageHelper.InitForm(this);
-			LanguageHelper.InitListView(lightsListView);
+			LanguageHelper.TranslateListView(lightsListView);
 		}
 
 		/// <summary>

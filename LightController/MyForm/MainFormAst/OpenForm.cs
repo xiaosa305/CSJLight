@@ -50,7 +50,6 @@ namespace LightController.MyForm
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);			
 			LanguageHelper.InitForm(this);
-
 			LanguageHelper.TranslateMenuStrip( myContextMenuStrip );
 		}
 

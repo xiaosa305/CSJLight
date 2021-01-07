@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm
+﻿using LightController.Common;
+
+namespace LightController.MyForm
 {
 	partial class OpenForm
 	{
@@ -202,7 +204,7 @@
 			// 
 			// wsFolderBrowserDialog
 			// 
-			this.wsFolderBrowserDialog.Description = "使用本功能，只在本次软件开启期间有效。本功能主要供高级用户调试使用，建议不要轻易在打开导出工程之后，随意更改工程或编辑灯具。";
+			this.wsFolderBrowserDialog.Description = LanguageHelper.TranslateSentence( "本功能只在此次软件运行期间有效，主要供高级用户调试使用。在打开[导出的工程]之后，请勿随意更改工程或编辑灯具。");
 			// 
 			// OpenForm
 			// 

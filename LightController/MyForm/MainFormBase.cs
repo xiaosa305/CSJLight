@@ -45,13 +45,14 @@ namespace LightController.MyForm
 		protected ToolTip myToolTip; 
 
 		//各类提示
-		protected string useFrameNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
-		protected string chooseStepNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
+		protected string copyFrameNotice ="使用本功能，将以选中的场景数据替换当前的场景数据。";
 		protected string keepNotice = "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。";
 		protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
-		protected string backStepNotice = "右击可跳转至第一步";
-		protected string nextStepNotice = "右击可跳转至最后一步";	
-			   
+		protected string appendNotice = "右击可追加多步";
+		protected string deleteNotice = "右击可删除多步";
+		protected string backStepNotice ="右击可跳转至第一步";
+		protected string nextStepNotice = "右击可跳转至最后一步";
+
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME; //网络搜索时的通用暂停时间
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
@@ -2585,7 +2586,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor()
 		{
-			new LightEditor.NewLightEditorForm(this).ShowDialog();			
+			new LightEditor.LightEditorForm(this).ShowDialog();			
 		}
 
 		/// <summary>
@@ -4074,7 +4075,17 @@ namespace LightController.MyForm
 			lightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
 			lightImageList.ImageSize = new System.Drawing.Size(60, 65);
 			lightImageList.TransparentColor = System.Drawing.Color.Transparent;
-			
+
+			// myToolTips的初始化
+			if (LanguageHelper.Language != "zh-CN" ) {
+					copyFrameNotice = LanguageHelper.TranslateWord(copyFrameNotice);
+					keepNotice = LanguageHelper.TranslateWord(keepNotice);
+					insertNotice = LanguageHelper.TranslateWord(insertNotice);
+					appendNotice = LanguageHelper.TranslateWord(appendNotice);
+					deleteNotice = LanguageHelper.TranslateWord(deleteNotice);
+					backStepNotice = LanguageHelper.TranslateWord(backStepNotice);
+					nextStepNotice = LanguageHelper.TranslateWord(nextStepNotice);
+			}			
 		}   
 	
 		/// <summary>

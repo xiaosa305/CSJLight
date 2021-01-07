@@ -9,6 +9,17 @@
   "创建时间": "CreateTime",
   "保存时间": "SaveTime",
   "更改\r\n工作目录": "Change\r\nWorkspace",
+  "浅色皮肤": "Light Skin",
+  "深色皮肤": "Dark Skin",
+
+  // 提示类ToolTips
+  "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。": "After clicking this button, the other lamps that are not currently selected will keep their final adjustment state and facilitate debugging.",
+  "使用本功能，将以选中的场景数据替换当前的场景数据。": "Replace the current scene data with the selected scene data.",
+  "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。": "Left click to insert a new step after the current step;\nRight click to insert a new step before the current step.",
+  "右击可追加多步": "Right click to append steps",
+  "右击可删除多步": "Right click to delete steps",
+  "右击可跳转至第一步": "Right click to jump to the first step",
+  "右击可跳转至最后一步": "Right click to jump to the last step",
 
   // 素材、动作、颜色
   "保存素材 ": "Save Material",
@@ -27,7 +38,7 @@
   "灯库编辑": "LightLib",
   "硬件配置": "Hardware",
   "新建配置": "New",
-  "打开配置": "Open",
+  "打开配置": "Load",
   "固件升级": "Fireware",
   "工程更新": "Update",
   "灯具列表": "LightList",
@@ -69,7 +80,7 @@
   "音频模式": "Sound",
   "多灯模式": "MultiMode",
   "单灯模式": "SingelMode",
-  "调用场景": "CopyScene",
+  "调用场景": "CallScene",
   "上一步": "Previous",
   "下一步": "Next",
   "插入步": "Insert",
@@ -87,6 +98,8 @@
   "退出同步": "ExitSync",
   "多步复用": "Multiplex",
 
+  // 通道面板等
+  "通道": "CH ",
   "跳变": "jump",
   "渐变": "gradient",
   "屏蔽": "shield",
@@ -113,7 +126,7 @@
   "正在调试灯具：": "Playing Light : ",
   "，当前步：": " , CurrentStep : ",
 
-  // LightRemarksForm
+  // 灯具备注
   "修改灯具备注": "Edit Light Remarks",
   "灯具型号：": "LightType:",
   "灯具地址：": "Address:",
@@ -135,7 +148,7 @@
   "清空": "Clear",
 
   // 调用场景
-  "调用其它场景": "Copy Other Scene",
+  "调用其它场景": "Call Other Scene",
   "场景名：": "Scene:",
 
   //全局设置
@@ -161,6 +174,7 @@
   "组合场景4": "AstScene4",
 
   "音频场景设置": "Sound Scene Settings",
+  "场景名": "Scene",
   "步时间": "StepTime",
   "间隔时间": "KeepTime",
   "提示": "Notice",
@@ -181,7 +195,7 @@
   // 硬件配置
   "新建硬件配置名称": "Save New HardwareSet",
   "硬件配置名：": "SaveName:",
-  "选择硬件配置文件": "Open HardwareSet",
+  "选择硬件配置文件": "Load HardwareSet",
   "新建": "New",
   "打开": "Open",
   "通用配置": "Generic Settings",
@@ -195,19 +209,21 @@
   "心跳周期(s)：": "HeartBeat Cycle:",
   "波特率：": "Baud:",
   "优先播放：": "File To Play:",
+  "录播文件": "Record",
+  "程序文件": "Software",
   "网络配置": "Network Settings:",
   "网络连接类型：": "TCP/UDP:",
-  "启用DHCP": "DHCP:",
+  "启用DHCP": "DHCP",
   "自动获取MAC地址": "Autoset Mac",
   "IP地址：": "IP:",
   "端口号：": "Port:",
   "子网掩码：": "Submask:",
   "网关：": "Gateway:",
   "Mac地址：": "MAC:",
-  "其他配置": "Other Setttings",
+  "其他配置": "Otxer Setttings",
   "远端IP：": "RemoteIP:",
   "远端端口：": "RemotePort:",
-  "服务器域名": "ServerDomain",
+  "服务器域名": "Server:",
   "服务器IP：": "ServerIP:",
   "从设备回读": "Read",
   "写入设备": "Write",
@@ -225,18 +241,18 @@
   "允许改名另存": "Enable Rename",
   "灯具厂家": "Name:",
   "灯具型号": "Type:",
-  "灯具图片": "Picture",
+  "灯具图片": "Picture:",
   "通道数量": "Channel",
   "生成": "Generate",
   "设初始通道地址": "Set First Channel Addr",
   "统一通道值": "Unify ",
   "全部归零": "Unify 0",
-  "全设初值": "Initial Value",
+  "全设初值": "ResetInit",
   "设当前通道值为初始值": "Set Current as Initial",
   " 请选择通道：": " Please Choose Channel",
   "添加子属性": "Add SA",
-  "清空子属性": "Clear SA",
-  "子属性名": "\"SaName\"，",
+  "清空子属性": "Clear SAs",
+  "子属性名": "SA Name",
   "起始值": "Start",
   "截止值": "End",
   "双击可将选中项填入左侧当前通道名称的文本框中": "Double-Click to fill the word into the selected channel name box",
@@ -268,7 +284,7 @@
   "预览": "Preview",
   "起始步(相位)：": "FirstStep:",
   "直线": "Line",
-  "圆形": "Circle:",
+  "圆形": "Circle",
   "半圆": "Semi-Circle",
   "波浪": "Wave",
   "8字": "Draw 8",
@@ -422,18 +438,12 @@
   "键序": "KeyNumber",
   "键码值0": "KeyCode0",
   "键码值1": "KeyCode1",
-  "加载本地文件": "Read",
+  "加载本地文件": "Load",
   "保存到本地 ": "Save",
   "下载到墙板": "Write",
   "修改键码值": "Edit KeyCode",
   "码值": "KeyCode",
   "排序": "No.",
-
-  // 通道面板等
-  "通道": "CH ",
-  "通道值": "Value",
-  "跳渐变": "ChangeMode",
-  "步时间(S)": "StepTime(S)",
 
   // listView右键菜单面板
   "自动排列": "AutoArrange",
@@ -451,5 +461,6 @@
   "显示调试面板": "Show Play Panel",
   "隐藏子属性面板": "Hide  Subattribute Panels",
   "显示子属性面板": "Show  SubAttribute(SA) Panels"
+
 
 }

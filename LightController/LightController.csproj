@@ -202,11 +202,11 @@
     <Compile Include="Ast\Entity\DB_FineTune.cs" />
     <Compile Include="Ast\Entity\CCEntity.cs" />
     <Compile Include="Ast\Entity\KeyEntity.cs" />
-    <Compile Include="MyForm\LightEditor\NewLightEditorForm.cs">
+    <Compile Include="MyForm\LightEditor\LightEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightEditor\NewLightEditorForm.Designer.cs">
-      <DependentUpon>NewLightEditorForm.cs</DependentUpon>
+    <Compile Include="MyForm\LightEditor\LightEditorForm.Designer.cs">
+      <DependentUpon>LightEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.cs">
       <SubType>Form</SubType>
@@ -502,8 +502,8 @@
     <Content Include="更新日志\更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="MyForm\LightEditor\NewLightEditorForm.resx">
-      <DependentUpon>NewLightEditorForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\LightEditor\LightEditorForm.resx">
+      <DependentUpon>LightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\LightRemarksForm.resx">
       <DependentUpon>LightRemarksForm.cs</DependentUpon>

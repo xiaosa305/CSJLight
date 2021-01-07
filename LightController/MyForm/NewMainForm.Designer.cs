@@ -108,7 +108,7 @@ namespace LightController.MyForm
 			this.projectPanel = new System.Windows.Forms.Panel();
 			this.newProjectButton = new System.Windows.Forms.Button();
 			this.exportButton = new System.Windows.Forms.Button();
-			this.useFrameButton = new System.Windows.Forms.Button();
+			this.copyFrameButton = new System.Windows.Forms.Button();
 			this.openProjectButton = new System.Windows.Forms.Button();
 			this.saveProjectButton = new System.Windows.Forms.Button();
 			this.saveFrameButton = new System.Windows.Forms.Button();
@@ -133,10 +133,10 @@ namespace LightController.MyForm
 			this.nextStepButton = new System.Windows.Forms.Button();
 			this.actionButton = new System.Windows.Forms.Button();
 			this.useMaterialButton = new System.Windows.Forms.Button();
-			this.deleteStepButton = new System.Windows.Forms.Button();
+			this.deleteButton = new System.Windows.Forms.Button();
 			this.multiplexButton = new System.Windows.Forms.Button();
 			this.multiCopyButton = new System.Windows.Forms.Button();
-			this.addStepButton = new System.Windows.Forms.Button();
+			this.appendButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
@@ -942,7 +942,7 @@ namespace LightController.MyForm
 			this.projectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.projectPanel.Controls.Add(this.newProjectButton);
 			this.projectPanel.Controls.Add(this.exportButton);
-			this.projectPanel.Controls.Add(this.useFrameButton);
+			this.projectPanel.Controls.Add(this.copyFrameButton);
 			this.projectPanel.Controls.Add(this.openProjectButton);
 			this.projectPanel.Controls.Add(this.saveProjectButton);
 			this.projectPanel.Controls.Add(this.saveFrameButton);
@@ -981,14 +981,14 @@ namespace LightController.MyForm
 			// 
 			// useFrameButton
 			// 
-			this.useFrameButton.Enabled = false;
-			this.useFrameButton.Location = new System.Drawing.Point(10, 124);
-			this.useFrameButton.Name = "useFrameButton";
-			this.useFrameButton.Size = new System.Drawing.Size(74, 40);
-			this.useFrameButton.TabIndex = 49;
-			this.useFrameButton.Text = "调用场景";
-			this.useFrameButton.UseVisualStyleBackColor = true;
-			this.useFrameButton.Click += new System.EventHandler(this.useFrameButton_Click);
+			this.copyFrameButton.Enabled = false;
+			this.copyFrameButton.Location = new System.Drawing.Point(10, 124);
+			this.copyFrameButton.Name = "useFrameButton";
+			this.copyFrameButton.Size = new System.Drawing.Size(74, 40);
+			this.copyFrameButton.TabIndex = 49;
+			this.copyFrameButton.Text = "调用场景";
+			this.copyFrameButton.UseVisualStyleBackColor = true;
+			this.copyFrameButton.Click += new System.EventHandler(this.useFrameButton_Click);
 			// 
 			// openProjectButton
 			// 
@@ -1094,10 +1094,10 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.nextStepButton);
 			this.stepPanel.Controls.Add(this.actionButton);
 			this.stepPanel.Controls.Add(this.useMaterialButton);
-			this.stepPanel.Controls.Add(this.deleteStepButton);
+			this.stepPanel.Controls.Add(this.deleteButton);
 			this.stepPanel.Controls.Add(this.multiplexButton);
 			this.stepPanel.Controls.Add(this.multiCopyButton);
-			this.stepPanel.Controls.Add(this.addStepButton);
+			this.stepPanel.Controls.Add(this.appendButton);
 			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(84, 0);
 			this.stepPanel.Name = "stepPanel";
@@ -1287,16 +1287,16 @@ namespace LightController.MyForm
 			this.useMaterialButton.UseVisualStyleBackColor = true;
 			this.useMaterialButton.Click += new System.EventHandler(this.useMaterialButton_Click);
 			// 
-			// deleteStepButton
+			// deleteButton
 			// 
-			this.deleteStepButton.Location = new System.Drawing.Point(460, 48);
-			this.deleteStepButton.Name = "deleteStepButton";
-			this.deleteStepButton.Size = new System.Drawing.Size(75, 23);
-			this.deleteStepButton.TabIndex = 49;
-			this.deleteStepButton.Text = "删除步";
-			this.deleteStepButton.UseVisualStyleBackColor = true;
-			this.deleteStepButton.Click += new System.EventHandler(this.deleteStepButton_Click);
-			this.deleteStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deleteStepButton_MouseDown);
+			this.deleteButton.Location = new System.Drawing.Point(460, 48);
+			this.deleteButton.Name = "deleteButton";
+			this.deleteButton.Size = new System.Drawing.Size(75, 23);
+			this.deleteButton.TabIndex = 49;
+			this.deleteButton.Text = "删除步";
+			this.deleteButton.UseVisualStyleBackColor = true;
+			this.deleteButton.Click += new System.EventHandler(this.deleteStepButton_Click);
+			this.deleteButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deleteStepButton_MouseDown);
 			// 
 			// multiplexButton
 			// 
@@ -1319,16 +1319,16 @@ namespace LightController.MyForm
 			this.multiCopyButton.UseVisualStyleBackColor = true;
 			this.multiCopyButton.Click += new System.EventHandler(this.multiCopyButton_Click);
 			// 
-			// addStepButton
+			// appendButton
 			// 
-			this.addStepButton.Location = new System.Drawing.Point(375, 48);
-			this.addStepButton.Name = "addStepButton";
-			this.addStepButton.Size = new System.Drawing.Size(75, 23);
-			this.addStepButton.TabIndex = 49;
-			this.addStepButton.Text = "追加步";
-			this.addStepButton.UseVisualStyleBackColor = true;
-			this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
-			this.addStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.addStepButton_MouseDown);
+			this.appendButton.Location = new System.Drawing.Point(375, 48);
+			this.appendButton.Name = "appendButton";
+			this.appendButton.Size = new System.Drawing.Size(75, 23);
+			this.appendButton.TabIndex = 49;
+			this.appendButton.Text = "追加步";
+			this.appendButton.UseVisualStyleBackColor = true;
+			this.appendButton.Click += new System.EventHandler(this.addStepButton_Click);
+			this.appendButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.addStepButton_MouseDown);
 			// 
 			// topPanel
 			// 
@@ -1471,7 +1471,7 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Panel projectPanel;
 		private System.Windows.Forms.Button newProjectButton;
 		private System.Windows.Forms.Button exportButton;
-		private System.Windows.Forms.Button useFrameButton;
+		private System.Windows.Forms.Button copyFrameButton;
 		private System.Windows.Forms.Button openProjectButton;
 		private System.Windows.Forms.Button saveProjectButton;
 		private System.Windows.Forms.Button saveFrameButton;
@@ -1494,10 +1494,10 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button insertButton;
 		private System.Windows.Forms.Button nextStepButton;
 		private System.Windows.Forms.Button useMaterialButton;
-		private System.Windows.Forms.Button deleteStepButton;
+		private System.Windows.Forms.Button deleteButton;
 		private System.Windows.Forms.Button multiCopyButton;
 		private System.Windows.Forms.Button copyStepButton;
-		private System.Windows.Forms.Button addStepButton;
+		private System.Windows.Forms.Button appendButton;
 		private System.Windows.Forms.Button pasteStepButton;
 		private System.Windows.Forms.Panel topPanel;
 		

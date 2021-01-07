@@ -222,12 +222,13 @@ namespace LightController.MyForm
 			#endregion
 
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(useFrameSkinButton, useFrameNotice);
-			myToolTip.SetToolTip(chooseStepSkinButton, chooseStepNotice);
+			myToolTip.SetToolTip(copyFrameSkinButton, copyFrameNotice);			
 			myToolTip.SetToolTip(keepSkinButton, keepNotice);
 			myToolTip.SetToolTip(insertSkinButton, insertNotice);
+			myToolTip.SetToolTip(appendSkinButton, appendNotice);
+			myToolTip.SetToolTip(deleteSkinButton, deleteNotice);
 			myToolTip.SetToolTip(backStepSkinButton, backStepNotice);
-			myToolTip.SetToolTip(nextStepSkinButton, nextStepNotice);
+			myToolTip.SetToolTip(nextStepSkinButton,nextStepNotice);
 
 			// 添加子属性按键组是否显示的菜单
 			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
@@ -517,7 +518,7 @@ namespace LightController.MyForm
 			closeSkinButton.Enabled = enable;
 
 			// 不同MainForm在不同位置的按钮
-			useFrameSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
+			copyFrameSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 
 			// 菜单栏相关按钮
 			lightListSkinButton.Enabled = enable;
@@ -1640,7 +1641,7 @@ namespace LightController.MyForm
 			lightsSkinListView.Enabled = !isMultiMode;
 			frameSkinComboBox.Enabled = !isMultiMode;
 			modeSkinComboBox.Enabled = !isMultiMode;
-			useFrameSkinButton.Enabled = !isMultiMode;
+			copyFrameSkinButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
 			multiLightSkinButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
@@ -1668,11 +1669,11 @@ namespace LightController.MyForm
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
 
 			// 2.1 设定《删除步》按钮是否可用
-			deleteStepSkinButton.Enabled = totalStep != 0;
+			deleteSkinButton.Enabled = totalStep != 0;
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
-			addStepSkinButton.Enabled = insertEnabled;
+			appendSkinButton.Enabled = insertEnabled;
 			insertSkinButton.Enabled = insertEnabled ;
 
 			// 2.3 设定《上一步》《下一步》是否可用			

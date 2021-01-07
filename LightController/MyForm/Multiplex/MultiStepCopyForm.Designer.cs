@@ -566,7 +566,7 @@
 			// 
 			this.lightLabel.AutoSize = true;
 			this.lightLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightLabel.Location = new System.Drawing.Point(319, 31);
+			this.lightLabel.Location = new System.Drawing.Point(317, 31);
 			this.lightLabel.Name = "lightLabel";
 			this.lightLabel.Size = new System.Drawing.Size(77, 14);
 			this.lightLabel.TabIndex = 7;

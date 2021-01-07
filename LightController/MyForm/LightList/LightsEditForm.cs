@@ -25,9 +25,9 @@ namespace LightController.MyForm
 			this.lightAst = lightAst;
 			this.lightIndex = lightIndex;
 
-			nameTypeLabel.Text = lightAst.LightName + "-" + lightAst.LightType;
+			nameLabel.Text = lightAst.LightName + "-" + lightAst.LightType;
 			addrLabel.Text = lightAst.LightAddr;			
-			startCountNumericUpDown.Value = lightAst.StartNum;
+			startNUD.Value = lightAst.StartNum;
 
 		}
 
@@ -54,7 +54,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			int startAddr = decimal.ToInt32(startCountNumericUpDown.Value );
+			int startAddr = decimal.ToInt32(startNUD.Value );
             int endAddr = startAddr + lightAst.Count - 1;
             if (!lightsForm.CheckAddrAvailale( lightIndex,  startAddr , endAddr))
             {

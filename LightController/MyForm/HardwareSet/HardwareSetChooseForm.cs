@@ -99,12 +99,22 @@ namespace LightController.MyForm
 			// 若非刚删除
 			if (!isJustDelete)
 			{
-				// 1. 先取出目录path
+				//  弹出是否删除的确认框
+				if (MessageBox.Show(
+					LanguageHelper.TranslateSentence("确定删除此硬件配置吗？"),
+					LanguageHelper.TranslateSentence("删除硬件配置？"),
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Warning) == DialogResult.Cancel)
+				{
+					return;
+				}
+
+				// 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
 				string directoryPath =  savePath + @"\HardwareLibrary\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
 
-				// 2.删除目录
+				// 删除目录
 				try
 				{
 					di.Delete(true);

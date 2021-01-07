@@ -215,10 +215,11 @@ namespace LightController.MyForm
 			modeComboBox.SelectedIndex = 0;
 			
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(useFrameButton, useFrameNotice);
-			myToolTip.SetToolTip(chooseStepButton, chooseStepNotice);
-			myToolTip.SetToolTip(keepButton, keepNotice);
+			myToolTip.SetToolTip(copyFrameButton, copyFrameNotice);			
+			myToolTip.SetToolTip(keepButton,keepNotice);
 			myToolTip.SetToolTip(insertButton, insertNotice);
+			myToolTip.SetToolTip(appendButton, appendNotice);
+			myToolTip.SetToolTip(deleteButton, deleteNotice);
 			myToolTip.SetToolTip(backStepButton, backStepNotice);
 			myToolTip.SetToolTip(nextStepButton, nextStepNotice);
 
@@ -234,8 +235,8 @@ namespace LightController.MyForm
 					FileInfo[] file = fdir.GetFiles();
 					if (file.Length > 0)
 					{
-						skinComboBox.Items.Add("浅色皮肤");
-						skinComboBox.Items.Add("深色皮肤");
+						skinComboBox.Items.Add(LanguageHelper.TranslateWord("浅色皮肤"));
+						skinComboBox.Items.Add(LanguageHelper.TranslateWord("深色皮肤"));
 
 						foreach (var item in file)
 						{
@@ -345,8 +346,7 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			
+		{			
 			if (!isInit) {
 				return;
 			}
@@ -357,13 +357,13 @@ namespace LightController.MyForm
 
 			// 处理皮肤显示
 			string sskName = skinComboBox.Text;
-			if (string.IsNullOrEmpty(sskName) || sskName.Equals("浅色皮肤"))
+			if (string.IsNullOrEmpty(sskName) || skinComboBox.SelectedIndex == 0)
 			{
 				skinEngine1.Active = false;
 				setDeepStyle(false);
 				return;
 			}
-			if (sskName.Equals("深色皮肤"))
+			if (skinComboBox.SelectedIndex == 1 )
 			{
 				skinEngine1.Active = false;
 				setDeepStyle(true);
@@ -668,7 +668,7 @@ namespace LightController.MyForm
 			closeProjectButton.Enabled = enable;
 
 			// 不同MainForm在不同位置的按钮
-			useFrameButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
+			copyFrameButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 
 			// 菜单栏相关按钮组			
 			lightListToolStripMenuItem.Enabled = enable;
@@ -1572,7 +1572,7 @@ namespace LightController.MyForm
 			lightsListView.Enabled = !isMultiMode;
 			sceneComboBox.Enabled = !isMultiMode;
 			modeComboBox.Enabled = !isMultiMode;
-			useFrameButton.Enabled = !isMultiMode;
+			copyFrameButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
 			multiLightButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
@@ -1597,11 +1597,11 @@ namespace LightController.MyForm
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
 
 			// 2.1 设定《删除步》按钮是否可用
-			deleteStepButton.Enabled = totalStep != 0;
+			deleteButton.Enabled = totalStep != 0;
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
-			addStepButton.Enabled = insertEnabled;
+			appendButton.Enabled = insertEnabled;
 			insertButton.Enabled = insertEnabled;
 
 			// 2.3 设定《上一步》《下一步》是否可用			

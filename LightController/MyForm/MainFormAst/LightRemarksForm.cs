@@ -31,7 +31,7 @@ namespace LightController.MyForm.LightList
 
 		private void LightRemarkForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 			LanguageHelper.InitForm(  this);
 		}
 		
@@ -43,7 +43,7 @@ namespace LightController.MyForm.LightList
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			mainForm.EditLightRemark(lightIndex, lightRemarkTextBox.Text.Trim());
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -54,7 +54,7 @@ namespace LightController.MyForm.LightList
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 

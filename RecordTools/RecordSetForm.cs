@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using RecordTools.Entity;
 using Dickov.Utils;
+using System.Diagnostics;
 
 namespace RecordTools
 {
@@ -25,24 +26,38 @@ namespace RecordTools
 		private int tdCount = 512;  //注意：此项不得为0，否则分页毫无意义
 		
 		private HashSet<int> tdSet; // 记录使用的通道
-
-		private MusicSceneConfig musicSceneConfig;
+		private MusicSceneConfig musicSceneConfig;  //维佳的接口
 
 		public RecordSetForm()
 		{
-			InitializeComponent();			
+			InitializeComponent();
+			
+			string loadexeName = Application.ExecutablePath;
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(loadexeName);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			Text += " v" + appFileVersion;
+
+			//载入场景
+			IList<string> frameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
+			frameComboBox.Items.Add("无开机场景");
+			for (int frameIndex = 0; frameIndex < frameList.Count; frameIndex++)
+			{
+				frameComboBox.Items.Add(frameList[frameIndex]);
+			}
+			frameComboBox.SelectedIndex = sceneNo ;
 
 			// 读取各个默认配置
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
 			eachStepTime = iniHelper.ReadInt("CommonSet", "EachStepTime", 40) / 1000m;
 			int stepTime = iniHelper.ReadInt("CommonSet", "StepTime", 10);
-			stepTimeNumericUpDown.Value = eachStepTime * stepTime;
+			
 			//添加frameStepTimeNumericUpDown相关初始化及监听事件			
 			stepTimeNumericUpDown.Increment = eachStepTime;
 			stepTimeNumericUpDown.Maximum = 250*eachStepTime;
+			stepTimeNumericUpDown.Value = eachStepTime * stepTime;
 			stepTimeNumericUpDown.MouseWheel += someNUD_MouseWheel;
 
-			jgtNumericUpDown.Value = iniHelper.ReadInt("CommonSet", "JG", 2000);
+			jgtNumericUpDown.Value = iniHelper.ReadInt("CommonSet", "JG", 0);
 			jgtNumericUpDown.MouseWheel += someNUD_MouseWheel;
 
 			savePath = iniHelper.ReadString("CommonSet", "SavePath", @"C:\Temp\CSJ");
@@ -67,9 +82,9 @@ namespace RecordTools
 				int tdIndex = (currentPage - 1) * eachCount + cbIndex;
 				CheckBox cb = new CheckBox
 				{
-					Location = checkBoxDemo.Location,
-					Size = checkBoxDemo.Size,
-					UseVisualStyleBackColor = checkBoxDemo.UseVisualStyleBackColor,
+					Location = new System.Drawing.Point(703, 68),
+					Size = new System.Drawing.Size(72, 24),
+					UseVisualStyleBackColor = true,
 					Visible = true,
 				};
 				bigFLP.Controls.Add(cb);
@@ -77,33 +92,7 @@ namespace RecordTools
 
 			refreshPage();
 		}
-
-		/// <summary>
-		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void sceneNoTextBox_LostFocus(object sender, EventArgs e)
-		{
-			if (sceneNoTextBox.Text.Length == 0)
-			{
-				setNotice("文件序号不得为空", true);
-				sceneNoTextBox.Text = "1";				
-			}
-			sceneNo = int.Parse(sceneNoTextBox.Text);
-			if (sceneNo < 1)
-			{
-				setNotice("文件序号不得小于1",true);
-				sceneNo = 1;
-			}
-			else if(sceneNo > 32){
-				setNotice("文件序号不得大于32", true);
-				sceneNo = 32;
-			}
-			sceneNoTextBox.Text = sceneNo + "";
-			setNotice("已设置文件名为：M" + sceneNo+ ".bin", false);
-		}
-
+				
 		private void RecordSetForm_Load(object sender, EventArgs e) { }
 
 		// 双缓冲解决刷新页面时，慢慢减少部分控件的情况
@@ -171,27 +160,43 @@ namespace RecordTools
 		#region 保存或加载配置
 
 		/// <summary>
-		/// 事件：点击《打开配置文件》
+		/// 事件：点击《打开音频文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void loadButton_Click(object sender, EventArgs e)
 		{
-			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			try
 			{
-				musicSceneConfig = MusicSceneConfig.ReadFromFile( openFileDialog.FileName );
+				if (openFileDialog.ShowDialog() == DialogResult.OK)
+				{
+					string fileName = openFileDialog.FileName;
 
-				stepTimeNumericUpDown.Value = eachStepTime * musicSceneConfig.StepTime ;
-				jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme ;
-				mLKTextBox.Text = musicSceneConfig.MusicStepList;
+					musicSceneConfig = MusicSceneConfig.ReadFromFile(fileName);
+					stepTimeNumericUpDown.Value = eachStepTime * musicSceneConfig.StepTime;
+					jgtNumericUpDown.Value = musicSceneConfig.StepWaitTIme;
+					mLKTextBox.Text = musicSceneConfig.MusicStepList;
+					tdSet = musicSceneConfig.MusicChannelNoList;
+					refreshPage();
 
-				tdSet = musicSceneConfig.MusicChannelNoList;
-				refreshPage();
+					//想办法通过文件名，来更改sceneNo的值
+					int tempSceneNo = int.Parse(System.Text.RegularExpressions.Regex.Replace(fileName, @"[^0-9]+", ""));
+					if (tempSceneNo > 0 && tempSceneNo <= 32)
+					{
+						sceneNo = tempSceneNo;
+						setSceneNo(false);
+					}
+					setNotice("已成功打开" + fileName, true);
+				}			
+
 			}
+			catch (Exception ex) {
+				MessageBox.Show("打开文件异常:\n" + ex.Message);
+			}			
 		}
 
 		/// <summary>
-		/// 事件：点击《保存配置文件》
+		/// 事件：点击《保存音频文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -218,17 +223,43 @@ namespace RecordTools
 			{
 				setNotice("保存配置文件失败", true);
 			}
+		}
 
+		/// <summary>
+		/// 事件：点击《保存全局配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveConfigButton_Click(object sender, EventArgs e)
+		{
+			GlobalConfig gc = new GlobalConfig(frameComboBox.SelectedIndex);
+			if (gc.WriteToFile(savePath, "Config.bin"))
+			{
+				setNotice("成功生成全局配置文件", true);
+			}
+			else {
+				setNotice("生成全局配置文件失败", true);
+			}
 		}
 
 		#endregion
-	
+
+		/// <summary>
+		/// 事件：步时间发生变化时，改变相应的stepTime；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			int stepTime = Decimal.ToInt32(stepTimeNumericUpDown.Value / eachStepTime);
 			stepTimeNumericUpDown.Value = stepTime * eachStepTime;
 		}
 
+		/// <summary>
+		///  事件：点击《设置保存目录》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void setFilePathButton_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = saveFolderBrowserDialog.ShowDialog();
@@ -251,19 +282,46 @@ namespace RecordTools
 				myToolTip.SetToolTip(recordPathLabel, savePath);
 			}
 		}
-
+				   		
 		/// <summary>
-		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
 		/// </summary>
-		private void setSceneNo(bool isNotice)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sceneNoTextBox_LostFocus(object sender, EventArgs e)
 		{
-			sceneNoTextBox.Text = sceneNo.ToString() ;
-			if (isNotice) {
-				setNotice("已设置文件名为M"+sceneNo+".bin", false);
+			if (sceneNoTextBox.Text.Length == 0)
+			{
+				setNotice("文件序号不得为空", true);
+				sceneNoTextBox.Text = "1";
+			}
+			sceneNo = int.Parse(sceneNoTextBox.Text);
+			if (sceneNo < 1)
+			{
+				setNotice("文件序号不得小于1", true);
+				sceneNo = 1;
+			}
+			else if (sceneNo > 32)
+			{
+				setNotice("文件序号不得大于32", true);
+				sceneNo = 32;
+			}
+
+			setSceneNo(true);
+		}
+		
+		/// <summary>
+		/// 事件：《场景选择框》更改选项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (frameComboBox.SelectedIndex != 0) {
+				sceneNo = frameComboBox.SelectedIndex;
+				setSceneNo(true);
 			}
 		}
-
-		
 
 		/// <summary>
 		/// 事件：点击《+》
@@ -274,7 +332,7 @@ namespace RecordTools
 		{
 			if (sceneNo >= 32)
 			{
-				setNotice( "文件序号不得大于32。", true);
+				setNotice("文件序号不得大于32。", true);
 				return;
 			}
 			sceneNo++;
@@ -290,11 +348,27 @@ namespace RecordTools
 		{
 			if (sceneNo <= 1)
 			{
-				setNotice( "文件序号不得小于1。", true);
+				setNotice("文件序号不得小于1。", true);
 				return;
 			}
 			sceneNo--;
 			setSceneNo(true);
+		}
+		
+		/// <summary>
+		/// 辅助方法：根据当前的savePath，设置label及toolTip
+		/// </summary>
+		private void setSceneNo(bool isNotice)
+		{
+			frameComboBox.SelectedIndexChanged -= frameComboBox_SelectedIndexChanged;
+			frameComboBox.SelectedIndex = sceneNo;
+			frameComboBox.SelectedIndexChanged += frameComboBox_SelectedIndexChanged;
+
+			sceneNoTextBox.Text = sceneNo.ToString();
+			if (isNotice)
+			{
+					setNotice("已设置文件名为M" + sceneNo + ".bin", false);
+			}						
 		}
 
 		#region 通用方法(这些方法往往只需稍微修改或完全不动，就可以在不同的界面中通用)
@@ -357,7 +431,7 @@ namespace RecordTools
 				decimal dd = nud.Value + nud.Increment;
 				if (dd <= nud.Maximum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 			// 向下滚
@@ -366,7 +440,7 @@ namespace RecordTools
 				decimal dd = nud.Value - nud.Increment;
 				if (dd >= nud.Minimum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 		}
@@ -388,7 +462,9 @@ namespace RecordTools
 			}
 		}
 
+
 		#endregion
 
+		
 	}
 }

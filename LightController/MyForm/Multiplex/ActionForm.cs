@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +33,7 @@ namespace LightController.MyForm.Multiplex
 		private void ActionForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
 		/// <summary>
@@ -49,16 +51,13 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
-		/// 事件：关闭窗体时，如果正在预览，则停止预览
+		/// 事件：关闭窗体(包括点击《取消》按键、Hide()也会运行此方法)时，如果正在预览，则停止预览
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ActionForm_FormClosing(object sender, FormClosingEventArgs e)
+		private void ActionForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (mainForm.IsPreviewing)
-			{
-				mainForm.PreviewButtonClick(null);
-			}
+			endView(); //ActionForm_FormClosed
 		}
 
 		/// <summary>
@@ -68,12 +67,20 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
-
-			//TODO 需要判断 预览还是停止预览
-			if (generateAction())
+			if (!mainForm.IsConnected)
 			{
-				mainForm.PreviewButtonClick(material);				
+				setNotice("尚未连接设备", true,true);
+				return;
+			}
+
+			if (mainForm.IsPreviewing)
+			{
+				endView(); // previewButton_Click
+			}
+			else if (generateAction())
+			{
+				mainForm.PreviewButtonClick(material);
+				previewButton.Text =  "停止预览";
 			}
 		}
 
@@ -85,10 +92,26 @@ namespace LightController.MyForm.Multiplex
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			if ( generateAction() ) {
-				mainForm.InsertOrCoverMaterial(material, InsertMethod.INSERT);
+				mainForm.InsertOrCoverMaterial(material,  InsertMethod.INSERT , false);
+				if (mainForm.IsPreviewing)
+				{
+					mainForm.PreviewButtonClick(null);
+					previewButton.Text = "预览";
+				}
 				Hide();
 				mainForm.Activate();
 			}				
+		}
+
+		/// <summary>
+		/// 事件：点击《取消》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			Hide();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -107,23 +130,24 @@ namespace LightController.MyForm.Multiplex
 			}
 			if (material == null)
 			{
-				setNotice("生成动作数据出错，请重试", true);
+				setNotice("生成动作数据出错，请重试", true,true);
 				return false;
 			}
 			return true;
 		}
-		
+
 		/// <summary>
-		/// 事件：点击《取消》
+		/// 辅助方法：结束预览
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cancelButton_Click(object sender, EventArgs e)
+		private void endView()
 		{
-			Hide();
-			mainForm.Activate();
+			if (mainForm.IsPreviewing)
+			{
+				mainForm.PreviewButtonClick(null);
+				previewButton.Text = "预览";
+			}
 		}
-		
+				
 		#region 画直线相关的方法：包括验证，生成数据等；
 
 		/// <summary>
@@ -367,12 +391,20 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="msgShow"></param>
-		private void setNotice(string msg, bool msgShow) {
+		private void setNotice(string msg, bool msgShow,bool isTranslate) {
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgShow) {
 				MessageBox.Show(msg);
 			}
 		}
-			
+
+		private void previewButton_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Button);
+		}
 	}
 }

@@ -76,7 +76,6 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.switchButton = new System.Windows.Forms.Button();
 			this.downloadButton = new System.Windows.Forms.Button();
-			this.autoSaveCheckBox = new System.Windows.Forms.CheckBox();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.deviceConnectButton = new System.Windows.Forms.Button();
@@ -122,11 +121,11 @@
 			this.commonGroupBox.Controls.Add(this.deviceNameTextBox);
 			this.commonGroupBox.Controls.Add(this.label1);
 			this.commonGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-			this.commonGroupBox.Location = new System.Drawing.Point(0, 0);
+			this.commonGroupBox.Location = new System.Drawing.Point(4, 4);
 			this.commonGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.commonGroupBox.Name = "commonGroupBox";
 			this.commonGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.commonGroupBox.Size = new System.Drawing.Size(483, 248);
+			this.commonGroupBox.Size = new System.Drawing.Size(475, 248);
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用配置";
@@ -146,7 +145,7 @@
 			// 
 			// addrNumericUpDown
 			// 
-			this.addrNumericUpDown.Location = new System.Drawing.Point(337, 40);
+			this.addrNumericUpDown.Location = new System.Drawing.Point(339, 40);
 			this.addrNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.addrNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -157,7 +156,7 @@
 			this.addrNumericUpDown.Size = new System.Drawing.Size(82, 21);
 			this.addrNumericUpDown.TabIndex = 3;
 			this.addrNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.addrNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.addrNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// baudComboBox
 			// 
@@ -189,12 +188,12 @@
 			this.currUseTimeNumericUpDown.Size = new System.Drawing.Size(80, 21);
 			this.currUseTimeNumericUpDown.TabIndex = 3;
 			this.currUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.currUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.currUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// label20
 			// 
 			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(245, 207);
+			this.label20.Location = new System.Drawing.Point(244, 197);
 			this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(65, 12);
@@ -215,12 +214,12 @@
 			this.sumUseTimeNumericUpDown.Size = new System.Drawing.Size(82, 21);
 			this.sumUseTimeNumericUpDown.TabIndex = 3;
 			this.sumUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.sumUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.sumUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// label16
 			// 
 			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(30, 207);
+			this.label16.Location = new System.Drawing.Point(30, 197);
 			this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(53, 12);
@@ -241,7 +240,7 @@
 			this.heartbeatCycleNumericUpDown.Size = new System.Drawing.Size(80, 21);
 			this.heartbeatCycleNumericUpDown.TabIndex = 3;
 			this.heartbeatCycleNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.heartbeatCycleNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
+			this.heartbeatCycleNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_Leave);
 			// 
 			// diskFlagComboBox
 			// 
@@ -271,7 +270,7 @@
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(30, 174);
+			this.label19.Location = new System.Drawing.Point(30, 164);
 			this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(53, 12);
@@ -281,17 +280,17 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(30, 141);
+			this.label4.Location = new System.Drawing.Point(30, 131);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 12);
+			this.label4.Size = new System.Drawing.Size(77, 12);
 			this.label4.TabIndex = 0;
-			this.label4.Text = "总使用次数:";
+			this.label4.Text = "总使用次数：";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(245, 44);
+			this.label3.Location = new System.Drawing.Point(244, 32);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(59, 12);
@@ -301,18 +300,18 @@
 			// hardwareIDTextBox
 			// 
 			this.hardwareIDTextBox.Enabled = false;
-			this.hardwareIDTextBox.Location = new System.Drawing.Point(93, 71);
+			this.hardwareIDTextBox.Location = new System.Drawing.Point(121, 71);
 			this.hardwareIDTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.hardwareIDTextBox.MaxLength = 16;
 			this.hardwareIDTextBox.Name = "hardwareIDTextBox";
-			this.hardwareIDTextBox.Size = new System.Drawing.Size(326, 21);
+			this.hardwareIDTextBox.Size = new System.Drawing.Size(298, 21);
 			this.hardwareIDTextBox.TabIndex = 1;
 			this.hardwareIDTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateDigit_KeyPress);
 			// 
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(30, 75);
+			this.label13.Location = new System.Drawing.Point(30, 65);
 			this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(53, 12);
@@ -322,7 +321,7 @@
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(245, 174);
+			this.label18.Location = new System.Drawing.Point(244, 164);
 			this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(83, 12);
@@ -332,7 +331,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(30, 108);
+			this.label2.Location = new System.Drawing.Point(30, 98);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(65, 12);
@@ -342,7 +341,7 @@
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(245, 141);
+			this.label17.Location = new System.Drawing.Point(244, 131);
 			this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(89, 12);
@@ -351,7 +350,7 @@
 			// 
 			// deviceNameTextBox
 			// 
-			this.deviceNameTextBox.Location = new System.Drawing.Point(93, 38);
+			this.deviceNameTextBox.Location = new System.Drawing.Point(121, 38);
 			this.deviceNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceNameTextBox.MaxLength = 16;
 			this.deviceNameTextBox.Name = "deviceNameTextBox";
@@ -361,7 +360,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(30, 42);
+			this.label1.Location = new System.Drawing.Point(30, 32);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(65, 12);
@@ -386,11 +385,11 @@
 			this.networkGroupBox.Controls.Add(this.label7);
 			this.networkGroupBox.Controls.Add(this.label8);
 			this.networkGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-			this.networkGroupBox.Location = new System.Drawing.Point(0, 248);
+			this.networkGroupBox.Location = new System.Drawing.Point(4, 252);
 			this.networkGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.networkGroupBox.Name = "networkGroupBox";
 			this.networkGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.networkGroupBox.Size = new System.Drawing.Size(483, 192);
+			this.networkGroupBox.Size = new System.Drawing.Size(475, 192);
 			this.networkGroupBox.TabIndex = 0;
 			this.networkGroupBox.TabStop = false;
 			this.networkGroupBox.Text = "网络配置";
@@ -472,6 +471,7 @@
 			// 
 			this.macTextBox.Location = new System.Drawing.Point(97, 145);
 			this.macTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this.macTextBox.MaxLength = 17;
 			this.macTextBox.Name = "macTextBox";
 			this.macTextBox.Size = new System.Drawing.Size(146, 21);
 			this.macTextBox.TabIndex = 1;
@@ -482,9 +482,9 @@
 			this.label10.Location = new System.Drawing.Point(34, 149);
 			this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(53, 12);
+			this.label10.Size = new System.Drawing.Size(59, 12);
 			this.label10.TabIndex = 0;
-			this.label10.Text = "Mac地址:";
+			this.label10.Text = "Mac地址：";
 			// 
 			// IPTextBox
 			// 
@@ -501,9 +501,9 @@
 			this.label6.Location = new System.Drawing.Point(31, 77);
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(47, 12);
+			this.label6.Size = new System.Drawing.Size(53, 12);
 			this.label6.TabIndex = 0;
-			this.label6.Text = "IP地址:";
+			this.label6.Text = "IP地址：";
 			// 
 			// netmaskTextBox
 			// 
@@ -546,11 +546,11 @@
 			this.otherGroupBox.Controls.Add(this.domainNameTextBox);
 			this.otherGroupBox.Controls.Add(this.label15);
 			this.otherGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-			this.otherGroupBox.Location = new System.Drawing.Point(0, 440);
+			this.otherGroupBox.Location = new System.Drawing.Point(4, 444);
 			this.otherGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.otherGroupBox.Name = "otherGroupBox";
 			this.otherGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.otherGroupBox.Size = new System.Drawing.Size(483, 122);
+			this.otherGroupBox.Size = new System.Drawing.Size(475, 122);
 			this.otherGroupBox.TabIndex = 0;
 			this.otherGroupBox.TabStop = false;
 			this.otherGroupBox.Text = "其他配置";
@@ -558,7 +558,7 @@
 			// remotePortTextBox
 			// 
 			this.remotePortTextBox.Enabled = false;
-			this.remotePortTextBox.Location = new System.Drawing.Point(309, 32);
+			this.remotePortTextBox.Location = new System.Drawing.Point(314, 32);
 			this.remotePortTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.remotePortTextBox.Name = "remotePortTextBox";
 			this.remotePortTextBox.Size = new System.Drawing.Size(57, 21);
@@ -568,7 +568,7 @@
 			// domainServerTextBox
 			// 
 			this.domainServerTextBox.Enabled = false;
-			this.domainServerTextBox.Location = new System.Drawing.Point(308, 69);
+			this.domainServerTextBox.Location = new System.Drawing.Point(313, 69);
 			this.domainServerTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.domainServerTextBox.Name = "domainServerTextBox";
 			this.domainServerTextBox.Size = new System.Drawing.Size(146, 21);
@@ -578,7 +578,7 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(245, 36);
+			this.label11.Location = new System.Drawing.Point(251, 36);
 			this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(65, 12);
@@ -588,7 +588,7 @@
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(245, 73);
+			this.label12.Location = new System.Drawing.Point(251, 73);
 			this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(65, 12);
@@ -641,7 +641,6 @@
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel1.Controls.Add(this.switchButton);
 			this.panel1.Controls.Add(this.downloadButton);
-			this.panel1.Controls.Add(this.autoSaveCheckBox);
 			this.panel1.Controls.Add(this.deviceComboBox);
 			this.panel1.Controls.Add(this.cancelButton);
 			this.panel1.Controls.Add(this.deviceConnectButton);
@@ -661,34 +660,23 @@
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(199, 36);
 			this.switchButton.TabIndex = 28;
-			this.switchButton.Text = "切换为网络连接";
+			this.switchButton.Text = "以网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
 			// downloadButton
 			// 
+			this.downloadButton.BackColor = System.Drawing.Color.Transparent;
 			this.downloadButton.Enabled = false;
 			this.downloadButton.Location = new System.Drawing.Point(123, 222);
 			this.downloadButton.Margin = new System.Windows.Forms.Padding(2);
 			this.downloadButton.Name = "downloadButton";
 			this.downloadButton.Size = new System.Drawing.Size(91, 36);
 			this.downloadButton.TabIndex = 26;
-			this.downloadButton.Text = "下载配置";
-			this.downloadButton.UseVisualStyleBackColor = true;
+			this.downloadButton.Text = "写入设备";
+			this.downloadButton.UseVisualStyleBackColor = false;
 			this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
-			// 
-			// autoSaveCheckBox
-			// 
-			this.autoSaveCheckBox.AutoSize = true;
-			this.autoSaveCheckBox.Checked = true;
-			this.autoSaveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.autoSaveCheckBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.autoSaveCheckBox.Location = new System.Drawing.Point(15, 458);
-			this.autoSaveCheckBox.Name = "autoSaveCheckBox";
-			this.autoSaveCheckBox.Size = new System.Drawing.Size(115, 16);
-			this.autoSaveCheckBox.TabIndex = 5;
-			this.autoSaveCheckBox.Text = "下载前自动保存";
-			this.autoSaveCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// deviceComboBox
 			// 
@@ -722,6 +710,7 @@
 			this.deviceConnectButton.TabIndex = 26;
 			this.deviceConnectButton.Text = "打开串口";
 			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
 			// saveButton
@@ -730,7 +719,7 @@
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(91, 36);
 			this.saveButton.TabIndex = 4;
-			this.saveButton.Text = "保存配置";
+			this.saveButton.Text = "保存到本地";
 			this.saveButton.UseVisualStyleBackColor = true;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
@@ -743,18 +732,20 @@
 			this.refreshButton.TabIndex = 27;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// readButton
 			// 
+			this.readButton.BackColor = System.Drawing.Color.Transparent;
 			this.readButton.Enabled = false;
 			this.readButton.Location = new System.Drawing.Point(15, 223);
 			this.readButton.Margin = new System.Windows.Forms.Padding(2);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 36);
 			this.readButton.TabIndex = 27;
-			this.readButton.Text = "回读配置";
-			this.readButton.UseVisualStyleBackColor = true;
+			this.readButton.Text = "从设备回读";
+			this.readButton.UseVisualStyleBackColor = false;
 			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
 			// statusStrip1
@@ -783,6 +774,7 @@
 			this.showPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.showPanel.Location = new System.Drawing.Point(0, 0);
 			this.showPanel.Name = "showPanel";
+			this.showPanel.Padding = new System.Windows.Forms.Padding(4);
 			this.showPanel.Size = new System.Drawing.Size(483, 562);
 			this.showPanel.TabIndex = 4;
 			// 
@@ -817,7 +809,6 @@
 			this.otherGroupBox.ResumeLayout(false);
 			this.otherGroupBox.PerformLayout();
 			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.showPanel.ResumeLayout(false);
@@ -874,7 +865,6 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.CheckBox autoSaveCheckBox;
 		private System.Windows.Forms.CheckBox macCheckBox;
 		private System.Windows.Forms.CheckBox dhcpCheckBox;
 		private System.Windows.Forms.Button switchButton;

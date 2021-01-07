@@ -61,7 +61,7 @@
 			// 
 			this.fileOpenButton.Location = new System.Drawing.Point(36, 17);
 			this.fileOpenButton.Name = "fileOpenButton";
-			this.fileOpenButton.Size = new System.Drawing.Size(86, 33);
+			this.fileOpenButton.Size = new System.Drawing.Size(87, 33);
 			this.fileOpenButton.TabIndex = 15;
 			this.fileOpenButton.Text = "选择已有工程";
 			this.fileOpenButton.UseVisualStyleBackColor = true;
@@ -84,8 +84,9 @@
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(88, 59);
 			this.switchButton.TabIndex = 34;
-			this.switchButton.Text = "切换为\r\n网络连接";
+			this.switchButton.Text = "以网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
 			// deviceComboBox
@@ -109,6 +110,7 @@
 			this.deviceConnectButton.TabIndex = 31;
 			this.deviceConnectButton.Text = "打开串口";
 			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
 			// refreshButton
@@ -120,6 +122,7 @@
 			this.refreshButton.TabIndex = 32;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// updateButton
@@ -153,7 +156,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(342, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(367, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 

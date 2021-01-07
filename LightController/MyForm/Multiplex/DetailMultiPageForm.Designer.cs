@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm.Multiplex
+﻿using LightController.Common;
+
+namespace LightController.MyForm.Multiplex
 {
 	partial class DetailMultiPageForm
 	{
@@ -247,7 +249,7 @@
             "请选择编组"});
 			this.groupComboBox.Location = new System.Drawing.Point(6, 6);
 			this.groupComboBox.Name = "groupComboBox";
-			this.groupComboBox.Size = new System.Drawing.Size(97, 20);
+			this.groupComboBox.Size = new System.Drawing.Size(102, 20);
 			this.groupComboBox.TabIndex = 1;
 			this.groupComboBox.SelectedIndexChanged += new System.EventHandler(this.groupComboBox_SelectedIndexChanged);
 			// 
@@ -260,9 +262,9 @@
             "全步",
             "奇数步",
             "偶数步"});
-			this.stepComboBox.Location = new System.Drawing.Point(114, 33);
+			this.stepComboBox.Location = new System.Drawing.Point(124, 33);
 			this.stepComboBox.Name = "stepComboBox";
-			this.stepComboBox.Size = new System.Drawing.Size(68, 20);
+			this.stepComboBox.Size = new System.Drawing.Size(58, 20);
 			this.stepComboBox.TabIndex = 1;
 			this.stepComboBox.SelectedIndexChanged += new System.EventHandler(this.unifyComboBox_SelectedIndexChanged);
 			// 
@@ -284,7 +286,7 @@
             "请选择通道"});
 			this.tdComboBox.Location = new System.Drawing.Point(6, 32);
 			this.tdComboBox.Name = "tdComboBox";
-			this.tdComboBox.Size = new System.Drawing.Size(97, 20);
+			this.tdComboBox.Size = new System.Drawing.Size(112, 20);
 			this.tdComboBox.TabIndex = 1;
 			this.tdComboBox.SelectedIndexChanged += new System.EventHandler(this.tdComboBox_SelectedIndexChanged);
 			// 
@@ -319,7 +321,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(1150, 800);
 			this.Name = "DetailMultiPageForm";
-			this.Text = "多通道多步联调（分页版）";
+			this.Text = "多通道多步联调";
 			this.Load += new System.EventHandler(this.DetailMultiPageForm_Load);
 			this.bigFLP.ResumeLayout(false);
 			this.tdPanelDemo.ResumeLayout(false);

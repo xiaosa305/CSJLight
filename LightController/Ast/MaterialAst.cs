@@ -14,10 +14,10 @@ namespace LightController.Ast
 		public int Mode { get; set; }
 		public int StepCount { set; get; }
 		public int TongdaoCount { set; get; }
+		public IList<string> TdNameList { set; get; }
 		/// <summary>
 		/// 左步数，右通道数
 		/// </summary>
-		public IList<string> TdNameList { set; get; }
 		public TongdaoWrapper[,] TongdaoList { set; get; }
 
 		/// <summary>

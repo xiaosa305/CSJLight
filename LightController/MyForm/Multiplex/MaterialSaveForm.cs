@@ -27,7 +27,7 @@ namespace LightController.MyForm
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
-				MessageBox.Show("步数据为空，无法生成素材:");
+				MessageBox.Show(LanguageHelper.TranslateSentence("步数据为空，无法生成素材:"));
 				this.Dispose();
 				return;
 			}
@@ -36,7 +36,7 @@ namespace LightController.MyForm
 			StepWrapper firstStep = stepWrapperList[0];
 			tongdaoCount = firstStep.TongdaoList.Count;
 			if (tongdaoCount == 0) {
-				MessageBox.Show("通道数据为空，无法生成素材:");
+				MessageBox.Show(LanguageHelper.TranslateSentence("通道数据为空，无法生成素材:"));
 				this.Dispose();
 				return;
 			}
@@ -115,30 +115,23 @@ namespace LightController.MyForm
 
 			// 1.1 先判断各种信息，没问题了再保存
 			if ( String.IsNullOrEmpty(materialName)) {
-				MessageBox.Show("请输入素材名。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请输入素材名。"));
 				return;
 			}				
 				
 			//1.2 判断是否有非法字符 "\"和“/”
 			if ( ! FileHelper.CheckFileName(materialName))
 			{
-				MessageBox.Show("素材命名不规范，无法保存。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("素材命名不规范，无法保存。"));
 				return;
 			}
 
-			// 1.3 判断步数 : 初始化本Form时已判断过了
-			//if (stepCount == 0)
-			//{
-			//	MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
-			//	return;
-			//}
-
 			// 1.4 起始步、结束步的验证
-			int startNum = Decimal.ToInt32(startNumericUpDown.Value);
-			int endNum = Decimal.ToInt32(endNumericUpDown.Value);
+			int startNum = decimal.ToInt32(startNumericUpDown.Value);
+			int endNum =  decimal.ToInt32(endNumericUpDown.Value);
 			if (startNum > endNum)
 			{
-				MessageBox.Show("起始步不可大于结束步；请检查后重新保存。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("起始步不可大于结束步；请检查后重新保存。"));
 				return;
 			}
 
@@ -155,7 +148,7 @@ namespace LightController.MyForm
 			}
 			if (tdIndexList.Count == 0)
 			{
-				MessageBox.Show("请选择至少一个通道，选择完成后重新保存。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请选择至少一个通道，选择完成后重新保存。"));
 				return;
 			}
 
@@ -180,7 +173,7 @@ namespace LightController.MyForm
 			if (fi.Exists )
 			{
 				DialogResult dr = MessageBox.Show(
-					"当前名称已有素材，是否覆盖？",
+					LanguageHelper.TranslateSentence("当前名称已有素材，是否覆盖？"),
 					"",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question
@@ -231,8 +224,9 @@ namespace LightController.MyForm
 				}
 				selectedStepIndex++;
 			}										
-			MessageBox.Show("成功保存素材。");
-			this.Dispose();
+			MessageBox.Show(LanguageHelper.TranslateSentence("成功保存素材。"));
+
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -262,8 +256,8 @@ namespace LightController.MyForm
 
 		private void MaterialForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>
@@ -288,8 +282,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void MaterialSaveForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("素材名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。",
-				"使用提示或说明",
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("素材名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。"),
+				LanguageHelper.TranslateSentence("提示"),
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
 			e.Cancel = true;

@@ -568,6 +568,7 @@
 			// 
 			// unifyCmComboBox
 			// 
+			this.unifyCmComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.unifyCmComboBox.FormattingEnabled = true;
 			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 275);
 			this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -686,6 +687,7 @@
 			this.detailMultiButton.TabIndex = 36;
 			this.detailMultiButton.Text = "使用选中通道多步联调";
 			this.detailMultiButton.UseVisualStyleBackColor = true;
+			this.detailMultiButton.Visible = false;
 			this.detailMultiButton.Click += new System.EventHandler(this.detailMultiButton_Click);
 			// 
 			// sLabel
@@ -754,7 +756,7 @@
 			this.unifyValueButton.Name = "unifyValueButton";
 			this.unifyValueButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyValueButton.TabIndex = 34;
-			this.unifyValueButton.Text = "统一通道值";
+			this.unifyValueButton.Text = "统一通道值 ";
 			this.unifyValueButton.UseVisualStyleBackColor = true;
 			this.unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
 			// 
@@ -764,9 +766,9 @@
 			this.label4.Location = new System.Drawing.Point(31, 67);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(125, 12);
+			this.label4.Size = new System.Drawing.Size(113, 12);
 			this.label4.TabIndex = 32;
-			this.label4.Text = "请选择要调节的步数：";
+			this.label4.Text = "请选择要调节的步数";
 			// 
 			// allPanel
 			// 

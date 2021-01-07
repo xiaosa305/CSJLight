@@ -55,6 +55,11 @@ namespace OtherTools
 			FCLOSE
 		}
 
+		enum StatusLabel
+		{
+			NO = 0, CC1, CC2, LC1, LC2, KP1, KP2, ALL1, ALL2
+		}
+
 		private const int END_DECODING_TIME = 200; // 关闭中控解码需要一定的时间，才能往下操作；正常情况下200毫秒应该足够，但应设为可调节的
 
 		private IList<Button> buttonList = new List<Button>();	 // 动态添加的按钮组（灯控各个开关）
@@ -95,33 +100,42 @@ namespace OtherTools
 			// 初始化灯控（强电）各配置
 			qdFrameComboBox.SelectedIndex = 0;
 
-			lightButtons[0] = lightButton1;
-			lightButtons[1] = lightButton2;
-			lightButtons[2] = lightButton3;
-			lightButtons[3] = lightButton4;
-			lightButtons[4] = lightButton5;
-			lightButtons[5] = lightButton6;
-			lightButtons[6] = lightButton7;
-			lightButtons[7] = lightButton8;
-			lightButtons[8] = lightButton9;
-			lightButtons[9] = lightButton10;
-			lightButtons[10] = lightButton11;
-			lightButtons[11] = lightButton12;
-			lightButtons[12] = lightButton13;
-			lightButtons[13] = lightButton14;
-			lightButtons[14] = lightButton15;
-			lightButtons[15] = lightButton16;
-			lightButtons[16] = lightButton17;
-			lightButtons[17] = lightButton18;
-			lightButtons[18] = lightButton19;
-			lightButtons[19] = lightButton20;
-			lightButtons[20] = lightButton21;
-			lightButtons[21] = lightButton22;
-			lightButtons[22] = lightButton23;
-			lightButtons[23] = lightButton24;
-			for (int i = 1; i < 24; i++)
+			// 各强电开关
+			for (int switchIndex = 0; switchIndex < 24; switchIndex++)
 			{
-				lightButtons[i].Click += new System.EventHandler(this.lightButton_Click);
+				switchButtons[switchIndex] = new SkinButton
+				{
+					BackColor = switchButtonDemo.BackColor,
+					BaseColor = switchButtonDemo.BaseColor,
+					BorderColor = switchButtonDemo.BorderColor,
+					ControlState = switchButtonDemo.ControlState,
+					DownBack = switchButtonDemo.DownBack,
+					DrawType = switchButtonDemo.DrawType,
+					Font = switchButtonDemo.Font,
+					ForeColor = switchButtonDemo.ForeColor,
+					ForeColorSuit = switchButtonDemo.ForeColorSuit,
+					ImageAlign = switchButtonDemo.ImageAlign,
+					ImageIndex = switchButtonDemo.ImageIndex,
+					ImageList = switchButtonDemo.ImageList,
+					ImageSize = switchButtonDemo.ImageSize,
+					InheritColor = switchButtonDemo.InheritColor,
+					IsDrawBorder = switchButtonDemo.IsDrawBorder,
+					Location = switchButtonDemo.Location,
+					Margin = switchButtonDemo.Margin,
+					MouseBack = switchButtonDemo.MouseBack,
+					NormlBack = switchButtonDemo.NormlBack,
+					Size = switchButtonDemo.Size,
+					Tag = switchButtonDemo.Tag,
+					TextAlign = switchButtonDemo.TextAlign,
+					UseVisualStyleBackColor = switchButtonDemo.UseVisualStyleBackColor,
+					Visible = switchButtonDemo.Visible,
+
+					Name = "switchButtons" + (switchIndex + 1),
+					Text = LanguageHelper.TranslateWord("开关") + (switchIndex + 1)
+				};
+				switchButtons[switchIndex].Click += switchesButton_Click;
+
+				switchFLP.Controls.Add(switchButtons[switchIndex]);
 			}
 
 			tgPanels[0] = tgPanel1;
@@ -158,6 +172,9 @@ namespace OtherTools
 		private void NewToolsForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(protocolListView);
+			LanguageHelper.InitListView(keypressListView);
 
 			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
@@ -218,34 +235,34 @@ namespace OtherTools
 		{
 			switch (connStatus)
 			{
-				case ConnectStatus.No: setAllStatusLabel1("尚未连接设备");break;
+				case ConnectStatus.No: setNotice(StatusLabel.ALL1,"尚未连接设备",false,true);break;
 				//case ConnectStatus.Normal: setAllStatusLabel1("已连接设备"); break;
-				case ConnectStatus.Lc: setAllStatusLabel2("已切换为灯控配置"); break;
-				case ConnectStatus.Cc: setAllStatusLabel2("已切换为中控模式"); break;
-				case ConnectStatus.Kp: setAllStatusLabel2("已切换为墙板配置"); break;
-				default: setAllStatusLabel2(""); break;
+				case ConnectStatus.Lc: setNotice(StatusLabel.ALL2,"已切换为灯控配置",false,true); break;
+				case ConnectStatus.Cc: setNotice(StatusLabel.ALL2,"已切换为中控模式",false,true); break;
+				case ConnectStatus.Kp: setNotice(StatusLabel.ALL2,"已切换为墙板配置",false,true); break;
+				default: setNotice(StatusLabel.ALL2,"",false,false); break;
 			}
 		}			
 
 		/// <summary>
-		/// 事件：点击《灯光通道按键》
+		/// 事件：点击《开关按键(1-24)》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void lightButton_Click(object sender, EventArgs e)
+		private void switchesButton_Click(object sender, EventArgs e)
 		{
 			if (!isReadLC)
 			{
 				return;
 			}
 
-			int lightIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-			setLightButtonValue(lightIndex);
+			int switchIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
+			setLightButtonValue(switchIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
-				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, lightIndex];
+				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, switchIndex];
 				for (int frameIndex = 0; frameIndex < 17; frameIndex++) {
-					lcEntity.SceneData[frameIndex, lightIndex] = tempLightOnMode;
+					lcEntity.SceneData[frameIndex, switchIndex] = tempLightOnMode;
 				}
 			}
 			debugLC();
@@ -254,15 +271,15 @@ namespace OtherTools
 		/// <summary>
 		///  
 		/// </summary>
-		/// <param name="lightIndex"></param>
-		private void setLightButtonValue(int lightIndex)
+		/// <param name="switchIndex"></param>
+		private void setLightButtonValue(int switchIndex)
 		{
 			if (!isReadLC)
 			{
 				return;
 			}
-			lcEntity.SceneData[lcFrameIndex, lightIndex] = !lcEntity.SceneData[lcFrameIndex, lightIndex];
-			lightButtons[lightIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, lightIndex] ? 1 : 0;
+			lcEntity.SceneData[lcFrameIndex, switchIndex] = !lcEntity.SceneData[lcFrameIndex, switchIndex];
+			switchButtons[switchIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, switchIndex] ? 1 : 0;
 		}
 
 		/// <summary>
@@ -304,22 +321,27 @@ namespace OtherTools
 		{
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcEntity = new LightControlData(paramList);
-			lcSetForm();
-			//MessageBox.Show("已加载配置文件：" + cfgPath);
-			lcToolStripStatusLabel2.Text = "已加载配置文件：" + cfgPath;
+			lcSetLoad();
+
+			setNotice(StatusLabel.LC2,
+				LanguageHelper.TranslateSentence("已加载配置文件：") + cfgPath,
+				false, false);
 		}
 
-		private void lcSetForm() {
+		/// <summary>
+		/// 辅助方法：通过lcEntity，渲染灯控Tab内相关的控件
+		/// </summary>
+		private void lcSetLoad() {
 
-			if (lcEntity == null) {
-				//MessageBox.Show("lcEntity==null");
-				Console.WriteLine("lcEntity为null。");
+			if (lcEntity == null) {				
 				lightGroupBox.Enabled = false;
 				tgGroupBox.Enabled = false;
 				lcGroupBox3.Enabled = false;
 				lcGroupBox4.Enabled = false;
 				lcGroupBox5.Enabled = false;
 				refreshButtons();
+
+				setNotice(0, "lcEntity==null。", true, false);
 				return;
 			}
 
@@ -350,17 +372,17 @@ namespace OtherTools
 				}
 				else
 				{
-					foreach (SkinButton btn in lightButtons)
+					foreach (SkinButton btn in switchButtons)
 					{
 						btn.Visible = false;
 					}
 					for (int relayIndex = 0; relayIndex < lcEntity.RelayCount; relayIndex++)
 					{
-						lightButtons[relayIndex].Visible = true;
+						switchButtons[relayIndex].Visible = true;
 					}
 				}
 
-				//TODO : 直接通过通道数量，把后六位给固定的排风及空调通道
+				//DOTO：直接通过通道数量，把后六位给固定的排风及空调通道
 				//for (int lightIndex = 0; lightIndex < 6;  lightIndex++) {
 				//		fanChannelComboBoxes[lightIndex].Items.Add("通道"+ (lcEntity.RelayCount - 6 + lightIndex + 1) );
 				//		fanChannelComboBoxes[lightIndex].SelectedIndex = 0;
@@ -397,10 +419,15 @@ namespace OtherTools
 				refreshButtons();
 			}
 			catch (Exception ex) {
-				Console.WriteLine(ex.Message);
+				MessageBox.Show(ex.Message);
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：设置风扇通道
+		/// </summary>
+		/// <param name="airMode"></param>
+		/// <param name="fanChannel"></param>
 		private void setFanChannel(airModeEnum airMode, int fanChannel)
 		{
 			fanChannelComboBoxes[(int)airMode].SelectedIndex = fanChannel;
@@ -413,9 +440,9 @@ namespace OtherTools
 		private void enableFan()
 		{
 			fanChannelComboBox.Enabled = lcEntity.IsOpenFan;
-			int lightIndex = Convert.ToInt32(fanChannelComboBox.Text.Substring(2)) -1 ;
-			lightButtons[lightIndex].Visible = !lcEntity.IsOpenFan;
-			fanButton.Text = lcEntity.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
+			int switchIndex = Convert.ToInt32(fanChannelComboBox.Text.Substring(2)) -1 ;
+			switchButtons[switchIndex].Visible = !lcEntity.IsOpenFan;
+			fanButton.Text = lcEntity.IsOpenFan ? "禁用排风通道" : "启用排风通道";
 		}
 
 		// <summary>
@@ -434,9 +461,9 @@ namespace OtherTools
 			for (int lightIndex = 1; lightIndex < 6; lightIndex++)
 			{
 				int tempIndex = lcEntity.RelayCount - 6 + lightIndex;
-				lightButtons[tempIndex].Visible = !lcEntity.IsOpenAirCondition;
+				switchButtons[tempIndex].Visible = !lcEntity.IsOpenAirCondition;
 			}
-			acButton.Text = lcEntity.IsOpenAirCondition ? "点击禁用\r\n空调通道" : "点击启用\r\n空调通道";
+			acButton.Text = lcEntity.IsOpenAirCondition ? "禁用空调通道" : "启用空调通道";
 		}
 
 		/// <summary>
@@ -447,8 +474,6 @@ namespace OtherTools
 		private void fanChannelComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox cb = (ComboBox)sender;
-			//MessageBox.Show(cb.Text);
-
 			int tempIndex = cb.SelectedIndex;
 			cb.SelectedIndex = tempIndex;
 		}
@@ -476,7 +501,7 @@ namespace OtherTools
 
 			for (int relayIndex = 0; relayIndex < lcEntity.RelayCount; relayIndex++)
 			{
-				lightButtons[relayIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
+				switchButtons[relayIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
 			}
 			debugLC();
 		}
@@ -512,7 +537,9 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			lcEntity.LightMode = Convert.ToInt32(radio.Tag);
+			lcEntity.LightMode = radio.Name == "lightModeQHRadioButton" ? 1 : 0 ;
+
+			Console.WriteLine(lcEntity.LightMode + " 	lcEntity.LightMode");
 		}
 
 		/// <summary>
@@ -528,7 +555,12 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			lcEntity.AirControlSwitch = Convert.ToInt32(radio.Tag);
+					
+			switch (radio.Name) {
+				case "fjJYRadioButton" :	lcEntity.AirControlSwitch = 0;break;
+				case "fjDXFRadioButton": lcEntity.AirControlSwitch = 1; break;
+				case "fjSXFRadioButton": lcEntity.AirControlSwitch = 2; break;
+			}
 		}
 
 		/// <summary>
@@ -562,8 +594,7 @@ namespace OtherTools
 			lcEntity.IsOpenAirCondition = !lcEntity.IsOpenAirCondition;
 			enableAirCondition();
 		}
-
-
+		
 		/// <summary>
 		/// 事件：点击《保存配置按钮》
 		/// -- 在此情况下，无法再考虑用户体验了，会自动将lcData.SceneData中启用了排风或空调的通道所有Frame都设为false
@@ -604,8 +635,9 @@ namespace OtherTools
 
 			//保存成功后，手动重新加载一下LightGroupBox(因为没有更换场景）
 			reloadLightGroupBox();
-			MessageBox.Show("成功保存配置文件(" + cfgPath + ")");
-			lcToolStripStatusLabel2.Text = "成功保存配置文件(" + cfgPath + ")";
+			setNotice(StatusLabel.LC2,
+				LanguageHelper.TranslateSentence("成功保存配置文件：") + cfgPath,
+				true, false);
 		}
 
 		/// <summary>
@@ -626,8 +658,7 @@ namespace OtherTools
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
 			if (myConnect == null) {
-				MessageBox.Show("当前myConnect==null，无法下载数据");
-				lcToolStripStatusLabel2.Text = "当前myConnect==null，无法下载数据";
+				setNotice(StatusLabel.LC2, "myConnect==null，无法下载数据", true, true);
 				return;				
 			}
 
@@ -669,13 +700,14 @@ namespace OtherTools
 					protocolComboBox.SelectedIndex = 0;
 					isReadXLS = true;
 					reloadProtocolListView();
-					ccToolStripStatusLabel2.Text = "已加载xls文件：" + protocolXlsPath;
+					setNotice(StatusLabel.CC2,
+						LanguageHelper.TranslateSentence("已加载xls文件：") + protocolXlsPath,
+						false, false);
 				}
 				else
 				{
 					isReadXLS = false;
-					MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
-					ccToolStripStatusLabel2.Text = "加载xls文件失败。";
+					setNotice(StatusLabel.CC2, "请检查xls文件是否正确，其Sheet数量为0。", true, true);
 				}
 			}
 			catch (Exception ex) {
@@ -753,8 +785,8 @@ namespace OtherTools
 			}
 
 			ccEntity = generateCC();
-			com0Label.Text = "串口0 = " + ccEntity.Com0;
-			com1Label.Text = "串口1 = " + ccEntity.Com1;
+			com0Label.Text = LanguageHelper.TranslateWord("串口0 = ") + ccEntity.Com0;
+			com1Label.Text = LanguageHelper.TranslateWord("串口1 = ")+ ccEntity.Com1;
 			PS2Label.Text = "PS2 = " + ccEntity.PS2;
 
 			protocolListView.Items.Clear();
@@ -786,17 +818,17 @@ namespace OtherTools
 		{
 			if (ccEntity == null)
 			{
-				MessageBox.Show("请先加载xls文件并选择协议。");
+				setNotice(StatusLabel.CC2, "请先加载xls文件并选择协议。",true,true);
 				return;
 			}
 
 			// 正常情况下，在解码模式下不能下载数据，加这个判断以防万一
 			if(isDecoding) {
-				MessageBox.Show("在解码状态下无法下载数据，请先关闭解码");
+				setNotice(StatusLabel.CC2, "在解码状态下无法下载协议，请先关闭解码。",true,true);
 				return;
 			}
 				
-			ccToolStripStatusLabel2.Text = "正在下载中控数据，请稍候...";
+			setNotice(StatusLabel.CC2, "正在下载中控协议到设备，请稍候...", false, true);
 			myConnect.CenterControlDownload(ccEntity, CCDownloadCompleted, CCDownloadError);
 			
 		}
@@ -879,14 +911,14 @@ namespace OtherTools
 			string keyword = ccSearchTextBox.Text.Trim();
 			if (keyword.Equals(""))
 			{
-				MessageBox.Show("请输入搜索关键字。");
+				setNotice(0, "请输入搜索关键字。", true, true);
 				return;
 			}
 
 			// 检查是否已载入协议
 			if (ccEntity == null)
 			{
-				MessageBox.Show("请先加载协议(cc为空)。");
+				setNotice(0, "请先加载协议(cc为空)", true, true);
 				return;
 			}
 
@@ -999,15 +1031,16 @@ namespace OtherTools
 			string keyPath = keyOpenFileDialog.FileName;
 			keyEntity = loadKeyFile(keyPath);
 			if (keyEntity == null) {
-				MessageBox.Show("加载墙板配置文件出错。");
-				kpToolStripStatusLabel2.Text = "加载墙板配置文件出错。";
+				setNotice(StatusLabel.KP2, "加载墙板配置文件出错。", true, true);
 				return;
 			}
 
 			reloadKeypressListView();
 			refreshButtons();
-			//MessageBox.Show("成功加载墙板配置文件：\n"+ keyPath);
-			kpToolStripStatusLabel2.Text = "已加载墙板配置文件：" + keyPath;
+			
+			setNotice(StatusLabel.KP2, 
+				LanguageHelper.TranslateSentence("已加载墙板配置文件:")+keyPath,
+				false, false);
 		}
 
 		/// <summary>
@@ -1041,7 +1074,7 @@ namespace OtherTools
 			IList<string> paramList = getParamListFromPath(keyPath);
 			if (paramList == null || paramList.Count != 50)
 			{
-				MessageBox.Show("key文件有错误，无法加载。");
+				setNotice( StatusLabel.KP2, "key文件有错误，无法加载。", true, true);				
 				return null;
 			}
 
@@ -1083,7 +1116,7 @@ namespace OtherTools
 				}
 				else
 				{
-					MessageBox.Show("文件不存在。}");
+					setNotice(0, "文件不存在", true, true);
 					return null;
 				}
 			}
@@ -1128,11 +1161,11 @@ namespace OtherTools
 		private void kpEditButton_Click(object sender, EventArgs e)
 		{
 			if (keypressListView.SelectedIndices.Count == 0) {
-				MessageBox.Show("请先选择需要设置键码值的按键。");
+				setNotice(0, "请先选择需要设置键码值的按键。", true, true);
 				return;
 			}
 			if (kpKey0TextBox.Text.Length == 0) {
-				MessageBox.Show("键码值0不得为空。");
+				setNotice(0, "键码值0不得为空。", true, true);
 				return;
 			}
 
@@ -1192,7 +1225,7 @@ namespace OtherTools
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			switchButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectCom ?  "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ?  "打开串口" : "连接设备";
 
@@ -1219,8 +1252,9 @@ namespace OtherTools
 					myConnect.DisConnect();
 				}
 				setConnStatus(ConnectStatus.No);
-				setAllStatusLabel1("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"));
-				setAllStatusLabel2(""); // 断开连接后，设置右侧状态栏为空字符串
+				setNotice(StatusLabel.ALL1, "已" + (isConnectCom ? "关闭串口" : "断开连接") ,false,true ) ;
+				setNotice(StatusLabel.ALL2,"",false,false); // 断开连接后，设置右侧状态栏为空字符串
+
 				myConnect = null;
 
                 // 每次断开连接时，要顺手关闭定时器（若不关闭，则在关闭窗口后，维佳的后台程序仍会调用kpTimer）
@@ -1238,9 +1272,8 @@ namespace OtherTools
 		private void refreshDeviceComboBox()
 		{
 			// 刷新前，先清空列表(也先断开连接：只是保护性再跑一次)
-			disConnect(); // refreshDeviceComboBox
-
-			setAllStatusLabel1("正在搜索设备，请稍候...");
+			disConnect(); // refreshDeviceComboBox			
+			setNotice(StatusLabel.ALL1,"正在搜索设备，请稍候...",false,true);		
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
 			deviceComboBox.SelectedIndex = -1;
@@ -1272,7 +1305,7 @@ namespace OtherTools
 					{
 						NetworkConnect.SearchDevice(ip.ToString());
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);						
+						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);	
 					}					
 				}
 
@@ -1295,13 +1328,12 @@ namespace OtherTools
 			if (deviceComboBox.Items.Count > 0)
 			{								
 				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
+				deviceComboBox.Enabled = true;				
 				deviceConnectButton.Enabled = true;
-				setAllStatusLabel1("已搜到可用设备列表。");						
+				setNotice(StatusLabel.ALL1, "已搜到可用设备列表。", false, true);
 			}
 			else {
-				//MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
-				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
+				setNotice(StatusLabel.ALL1, "未找到可用设备，请检查设备连接后重试。", false, true);
 			}
 			// 无论在何种情况下，只要刷新了列表，说明连接已经断开（先断开），此时应该设置为未连接状态
 			setConnStatus(ConnectStatus.No);
@@ -1310,7 +1342,7 @@ namespace OtherTools
 		//事件：点击《刷新串口|网络》
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
-			refreshDeviceComboBox();  // refreshButton_Click
+			refreshDeviceComboBox();  // refreshButton_Click			
 		}
 
 		/// <summary>
@@ -1334,13 +1366,14 @@ namespace OtherTools
 				try
 				{
 					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
-					MessageBox.Show("已打开串口(" + deviceComboBox.Text + ")");
-					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
+
+					setNotice(StatusLabel.ALL1, "已打开串口", true, true);
 					setConnStatus(ConnectStatus.Normal);
 				}
 				catch (Exception ex) {
-					MessageBox.Show("打开串口失败，原因是：" + ex.Message);
-					setAllStatusLabel1("打开串口失败，原因是：" + ex.Message);
+					setNotice(StatusLabel.ALL1,
+						LanguageHelper.TranslateSentence("打开串口失败，原因是：") + ex.Message , 
+						true, false);
 					setConnStatus(ConnectStatus.No);
 				}
 			}
@@ -1352,39 +1385,16 @@ namespace OtherTools
 				myConnect.Connect( selectedNetworkDevice);
 				if ( myConnect.IsConnected() )
 				{
-					MessageBox.Show("成功连接网络设备(" + deviceName + ")");
-					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")");
+					setNotice(StatusLabel.ALL1, "成功连接网络设备", true, true);
 					setConnStatus(ConnectStatus.Normal);
 				}
 				else {
-					MessageBox.Show("连接网络设备(" + deviceName + ")失败");
-					setAllStatusLabel1("连接网络设备(" + deviceName + ")失败");
+					setNotice(StatusLabel.ALL1, "连接网络设备失败", true, true);
 					setConnStatus(ConnectStatus.No);
 				}
 			}
 		}
-	
-		/// <summary>
-		/// 辅助方法：统一设置左侧的状态栏的显示信息
-		/// </summary>
-		/// <param name="msg"></param>
-		private void setAllStatusLabel1(string msg) {
-			lcToolStripStatusLabel1.Text = msg;
-			ccToolStripStatusLabel1.Text = msg;
-			kpToolStripStatusLabel1.Text = msg;
-		}
-
-		/// <summary>
-		/// 辅助方法：统一设置右侧的状态栏的显示信息
-		/// </summary>
-		/// <param name="msg"></param>
-		private void setAllStatusLabel2(string msg)
-		{
-			lcToolStripStatusLabel2.Text = msg;
-			ccToolStripStatusLabel2.Text = msg;
-			kpToolStripStatusLabel2.Text = msg;
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -1409,8 +1419,8 @@ namespace OtherTools
 		/// <param name="obj"></param>
 		public void LCConnectCompleted(Object obj,string  msg) {
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked ? "-tc" : "") + ")，将自动回读设备内的灯控配置。" );
-				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked?"-tc":"") +")";
+
+				setNotice(StatusLabel.LC2, "已切换成灯控配置(connStatus = lc" + (tcCheckBox.Checked?" - tc":"") +")", true, true);
 				setConnStatus(ConnectStatus.Lc);
 				lcReadButton_Click(null, null);
 			});
@@ -1423,9 +1433,8 @@ namespace OtherTools
 		public void LCConnectError(string msg) {
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("切换灯控配置失败[" + msg + "]");
-				lcToolStripStatusLabel2.Text = "切换灯控配置失败[" + msg + "]";
 				// 切换失败，只给提示，不更改原来的状态
+				setNotice(StatusLabel.LC2, LanguageHelper.TranslateSentence("切换灯控配置失败:") + msg , true, false);				
 			});
 		}
 
@@ -1436,8 +1445,7 @@ namespace OtherTools
 		public void CCConnectCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("已切换成中控配置(connStatus=cc)");
-				ccToolStripStatusLabel2.Text = "已切换成中控配置(connStatus=cc)";
+				setNotice(StatusLabel.CC2, "已切换成中控配置(connStatus=cc)" , true, true);
 				setConnStatus(ConnectStatus.Cc);
 			});
 		}
@@ -1448,9 +1456,8 @@ namespace OtherTools
 		public void CCConnectError(string msg)
 		{
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("切换中控配置失败[" + msg + "]");
-				ccToolStripStatusLabel2.Text = "切换中控配置失败[" + msg + "]";
 				// 切换失败，只给提示，不更改原来的状态
+				setNotice(StatusLabel.CC2, LanguageHelper.TranslateSentence("切换中控配置失败:") + msg, true, false);
 			});
 		}
 
@@ -1487,15 +1494,13 @@ namespace OtherTools
 			Invoke((EventHandler)delegate {
 				if (lcDataTemp == null)
 				{
-					MessageBox.Show("灯控回读配置异常(lcDataTemp==null)");
-					lcToolStripStatusLabel2.Text = "灯控回读配置异常(lcDataTemp==null)";
+					setNotice(StatusLabel.LC2, "灯控回读配置异常(lcDataTemp==null)", true, true);
 					return;
 				}
 
 				lcEntity = lcDataTemp as LightControlData;
-				lcSetForm();
-				MessageBox.Show("成功回读灯控配置");
-				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+				lcSetLoad();
+				setNotice(StatusLabel.LC2, "成功回读灯控配置", true, true);
 			});
 		}
 
@@ -1505,8 +1510,7 @@ namespace OtherTools
 		public void LCReadError(string msg)
 		{
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("回读灯控配置失败[" + msg + "]");
-				lcToolStripStatusLabel2.Text = "回读灯控配置失败[" + msg + "]";
+				setNotice(StatusLabel.LC2, LanguageHelper.TranslateSentence("回读灯控配置失败:") + msg, true, false);
 			});
 		}
 
@@ -1521,14 +1525,12 @@ namespace OtherTools
 				// 同理，若是使用透传模式，则下载成功重启的并非主设备，而是透传的设备，其重启后仍会主动连上主设备，主动点击重连键即可。
 				if (isConnectCom || tcCheckBox.Checked)
 				{
-					MessageBox.Show("灯控配置下载成功,请等待设备重启(约耗时5s)。");
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待设备重启(约耗时5s)...";	
+					setNotice(StatusLabel.LC2, "灯控配置下载成功,请等待设备重启(约耗时5s)", true, true);
 					Thread.Sleep(5000);
 					lcConnectButton_Click(null, null);
 				}
 				else {
-					MessageBox.Show("灯控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。");
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。";					
+					setNotice(StatusLabel.LC2, "灯控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。", true, true);
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
 					networkDeviceRestart();	
@@ -1543,8 +1545,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("灯控配置下载失败["+msg+"]");
-				lcToolStripStatusLabel2.Text = "灯控配置下载失败[" + msg + "]";
+				setNotice(StatusLabel.LC2,  LanguageHelper.TranslateSentence("灯控配置下载失败:") + msg , true, false);
 			});
 		}
 
@@ -1557,14 +1558,12 @@ namespace OtherTools
 			Invoke((EventHandler)delegate {
 				if (isConnectCom)
 				{
-					MessageBox.Show("中控配置下载成功,请等待设备重启(约耗时5s)。");
-					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待设备重启(约耗时5s)...";					
+					setNotice(StatusLabel.CC2, "中控配置下载成功,请等待设备重启(约耗时5s)", true, true);
 					Thread.Sleep(5000);
 					ccConnectButton_Click(null, null);
 				}
 				else {
-					MessageBox.Show("中控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。");
-					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。";					
+					setNotice(StatusLabel.CC2, "中控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。", true, true);
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
 					networkDeviceRestart();
@@ -1579,8 +1578,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("中控配置下载失败["+msg+"]");
-				ccToolStripStatusLabel2.Text = "中控配置下载失败[" + msg + "]";				
+				setNotice(StatusLabel.CC2,  LanguageHelper.TranslateSentence("中控配置下载失败：") + msg, true, false);
 			});
 		}
 
@@ -1592,7 +1590,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{				
-				ccToolStripStatusLabel2.Text = msg ;
+				setNotice(StatusLabel.CC2, msg, false, true);
 				isDecoding = true;
 				ccDecodeButton.Text = "关闭解码" ;
 				ccDecodeRichTextBox.Enabled = true;
@@ -1607,8 +1605,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("灯控解码开启失败["+msg+"]");
-				ccToolStripStatusLabel2.Text = "灯控解码开启失败[" + msg + "]";				
+				setNotice(StatusLabel.CC2, LanguageHelper.TranslateSentence("中控解码开启失败:") + msg, true, false);
 			});
 		}
 
@@ -1629,7 +1626,7 @@ namespace OtherTools
 					}
 					ccDecodeRichTextBox.Text += strTemp + "\n";
 				}
-				ccToolStripStatusLabel2.Text = "灯控解码成功";
+				setNotice(StatusLabel.CC2, "灯控解码成功", false, true);
 			});
 		}
 
@@ -1641,7 +1638,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
+				setNotice(StatusLabel.CC2, "成功关闭中控解码", false, true);
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
 				ccDecodeRichTextBox.Enabled = false ;				
@@ -1651,14 +1648,14 @@ namespace OtherTools
 
 		/// <summary>
 		///  辅助回调方法：结束《中控-调试解码》成功
-		///  TODO: 异步处理，在disconnect方法中调用，避免界面卡死
+		///  异步处理，在disconnect方法中调用，避免界面卡死
 		/// </summary>
 		/// <param name="obj"></param>
 		public void AsynchronousCCStopCompleted(Object obj, string msg)
 		{
 			BeginInvoke((EventHandler)delegate
 			{
-				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
+				setNotice(StatusLabel.CC2, "成功关闭中控解码", false, true);
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
 				ccDecodeRichTextBox.Enabled = false;
@@ -1673,21 +1670,19 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show(msg);
-				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
+				setNotice(StatusLabel.CC2, LanguageHelper.TranslateSentence("关闭中控解码失败:") + msg, true, false);
 			});
 		}
 
 		/// <summary>
 		/// 辅助回调方法：结束《中控-调试解码》失败
-		/// TODO：异步处理，在disConnect方法中调用，避免界面卡死
+		/// 异步处理，在disConnect方法中调用，避免界面卡死
 		/// </summary>
 		public void AsynchronousCCStopError(string msg)
 		{
 			BeginInvoke((EventHandler)delegate
 			{
-				MessageBox.Show(msg);
-				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
+				setNotice(StatusLabel.CC2, LanguageHelper.TranslateSentence("关闭中控解码失败:") + msg, true, false);
 			});
 		}
 
@@ -1753,12 +1748,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("成功连接墙板(connStatus=kp)");
-				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
+				setNotice(StatusLabel.KP2, "成功连接墙板(connStatus=kp)", true, true);
 				setConnStatus(ConnectStatus.Kp);
-
-				//Thread.Sleep(500);								
-				//kpReadButton_Click(null, null);
 
 				Thread.Sleep(500);
 				kpListenButton_Click(null, null);
@@ -1795,7 +1786,7 @@ namespace OtherTools
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
 				deviceConnectButton.Enabled = false;
-				setAllStatusLabel1("请重新搜索并重连网络设备");
+				setNotice(StatusLabel.ALL1, "请重新搜索并连接网络设备", false, true);
 			}
 		}
 
@@ -1832,9 +1823,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("连接墙板失败[" + msg + "]");												
-				kpToolStripStatusLabel2.Text = "连接墙板失败[" + msg + "]";
 				// 切换失败，只给提示，不更改原来的状态
+				setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("连接墙板失败:")+msg ,  true , false);
 			});
 		}
 
@@ -1867,9 +1857,9 @@ namespace OtherTools
 		private void kpReadButton_Click(object sender, EventArgs e)
 		{
 			myConnect.PassThroughKeyPressRead(KPReadCompleted, KPReadError);
-			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候..." ;
-			this.Cursor = Cursors.WaitCursor;
-			this.Enabled = false;
+			setNotice(StatusLabel.KP2, "正在读取墙板码值，请稍候...", false, true);
+			Cursor = Cursors.WaitCursor;
+			Enabled = false;
 		}
 
 		/// <summary>
@@ -1881,14 +1871,13 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				if (obj == null) {
-					kpToolStripStatusLabel2.Text = "异常:执行kpReadCompleted时返回的对象为null";
+					setNotice(StatusLabel.KP2, "异常:执行kpReadCompleted时返回的对象为null", true, true);
 					return;
 				}
 
 				keyEntity = obj as KeyEntity;
 				reloadKeypressListView();
-				MessageBox.Show("读取墙板码值成功");
-				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
+				setNotice(StatusLabel.KP2, "读取墙板码值成功。", true, true);
 				refreshButtons();
 				this.Enabled = true;
 				this.Cursor = Cursors.Default;
@@ -1902,9 +1891,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("读取墙板码值失败["+msg +"]");
-				kpToolStripStatusLabel2.Text = "读取墙板码值失败[" + msg + "]";
-				
+				setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("读取墙板码值失败:") + msg, true, false);
 				this.Enabled = true;
 				this.Cursor = Cursors.Default;
 			});
@@ -1973,12 +1960,11 @@ namespace OtherTools
 					iniFileAst.WriteInt("Position", i + "X", keypressListView.Items[i].Position.X);
 					iniFileAst.WriteInt("Position", i + "Y", keypressListView.Items[i].Position.Y);
 				}
-
-				MessageBox.Show("墙板位置保存成功。");
+				setNotice(StatusLabel.KP2, "墙板位置保存成功。", true, true);
 				return true;
 			}
 			catch (Exception ex) {
-				MessageBox.Show("墙板位置保存失败，原因是:\n" + ex.Message);
+				setNotice(StatusLabel.KP2,LanguageHelper.TranslateSentence("墙板位置保存失败:")+ex.Message, true, false);
 				return false;
 			}
 		}
@@ -2004,7 +1990,7 @@ namespace OtherTools
 			// 1.先验证ini文件是否存在
 			if (!File.Exists(arrangeIniPath))
 			{
-				MessageBox.Show("未找到墙板位置文件，无法读取。");
+				setNotice(StatusLabel.KP2, "未找到墙板位置文件，无法读取。", true, true);
 				return false; 
 			}
 
@@ -2013,14 +1999,14 @@ namespace OtherTools
 			int keyCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (keyCount == 0)
 			{
-				MessageBox.Show("墙板位置文件的按键数量为0，此文件无实际效果。");
+				setNotice(StatusLabel.KP2, "墙板位置文件的按键数量为0，此文件无实际效果。", true, true);
 				return false;
 			}
 
 			//3. 验证灯具数量是否一致
 			if (keyCount != keypressListView.Items.Count)
 			{
-				MessageBox.Show("墙板位置文件的按键数量不匹配，无法读取。");
+				setNotice(StatusLabel.KP2, "墙板位置文件的按键数量不匹配，无法读取。", true, true);
 				return false;
 			}
 
@@ -2036,7 +2022,7 @@ namespace OtherTools
 			}
 
 			keypressListView.EndUpdate();
-			MessageBox.Show("墙板位置读取成功。");
+			setNotice(StatusLabel.KP2, "墙板位置读取成功。", true, true);
 			return true;
 		}
 
@@ -2059,7 +2045,7 @@ namespace OtherTools
 		{
 			string keyPath = keySaveFileDialog.FileName;
 			keyEntity.WriteToFile(keyPath);
-			MessageBox.Show("成功保存墙板配置文件(" + keyPath + ")");			
+			setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("成功保存墙板配置文件:")+keyPath, true, false);
 		}
 
 		/// <summary>
@@ -2080,8 +2066,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("成功下载墙板码值");
-				kpToolStripStatusLabel2.Text = "成功下载墙板码值";				
+				setNotice(StatusLabel.KP2, "成功下载墙板码值", true, true);
 			});
 		}
 
@@ -2092,8 +2077,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("下载墙板码值失败[" + msg + "]");
-				kpToolStripStatusLabel2.Text = "下载墙板码值失败[" + msg + "]";				
+				setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("下载墙板码值失败:")+msg, true, false);
 			});
 		}
 
@@ -2104,8 +2088,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void tcCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			MessageBox.Show("已" + (tcCheckBox.Checked ? "开启" : "关闭") + "透传模式，请重新连接灯控。");
-			lcToolStripStatusLabel2.Text = "已" + (tcCheckBox.Checked?"开启" : "关闭") + "透传模式，请重新连接灯控。";
+			setNotice(StatusLabel.LC2, "已" + (tcCheckBox.Checked ? "开启" : "关闭") + "透传模式，请重新连接灯控。", true, true);
 		}
 
 		/// <summary>
@@ -2133,8 +2116,8 @@ namespace OtherTools
 			}
 			else
 			{
-				deviceConnectButton.Enabled = false;
-				MessageBox.Show("未选中可用设备");
+				deviceConnectButton.Enabled = false;			
+				setNotice(0, "未选中可用设备", true, true);
 			}
 		}
 
@@ -2219,16 +2202,15 @@ namespace OtherTools
 		}
 
 		#endregion
-			   
+
+		#region 几个未启用或测试方法
+
 		/// <summary>
 		///  事件：点击测试按键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bigTestButton2_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show(StringHelper.HexStringToDecimal("ff"));
-		}
+		private void bigTestButton2_Click(object sender, EventArgs e)		{		}
 
 		/// <summary>
 		/// 事件：点击《zwjTest》按钮
@@ -2250,7 +2232,7 @@ namespace OtherTools
 			//Console.WriteLine(tabControl1.SelectedIndex);
 
 		}
-
+			   
 		/// <summary>
 		/// 事件：点击《修改码值》
 		/// </summary>
@@ -2263,5 +2245,45 @@ namespace OtherTools
 
 
 		}
+
+		#endregion
+
+		#region 通用方法
+
+		/// <summary>
+		/// 辅助方法：通用的通知方法（这个Form比较复杂，因为Tab太多了）
+		/// </summary>
+		/// <param name="position">放到底部通知栏的哪一侧，1为左侧，2为右侧</param>
+		/// <param name="msg"></param>
+		/// <param name="isMsgShow"></param>
+		/// <param name="isTranslate"></param>
+		private void setNotice(StatusLabel position, string msg, bool isMsgShow, bool isTranslate) {
+			if (isTranslate)		{	msg = LanguageHelper.TranslateSentence(msg);	}
+			if (isMsgShow)		{	MessageBox.Show(msg);	}
+			switch (position) {
+				case StatusLabel.CC1 :  ccToolStripStatusLabel1.Text = msg;break;
+				case StatusLabel.CC2:   ccToolStripStatusLabel2.Text = msg; break;
+				case StatusLabel.LC1:   lcToolStripStatusLabel1.Text = msg; break;
+				case StatusLabel.LC2:   lcToolStripStatusLabel2.Text = msg; break;
+				case StatusLabel.KP1:   kpToolStripStatusLabel1.Text = msg; break;
+				case StatusLabel.KP2:   kpToolStripStatusLabel2.Text = msg; break;
+				case StatusLabel.ALL1:	lcToolStripStatusLabel1.Text = msg;	ccToolStripStatusLabel1.Text = msg;	kpToolStripStatusLabel1.Text = msg ; break;
+				case StatusLabel.ALL2:	lcToolStripStatusLabel2.Text = msg;	ccToolStripStatusLabel2.Text = msg;kpToolStripStatusLabel2.Text = msg;break;
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：一些Control文本改变时，进行翻译
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someControl_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Control);
+		}
+
+		#endregion
+
+
 	}
 }

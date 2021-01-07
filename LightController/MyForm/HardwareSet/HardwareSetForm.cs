@@ -39,21 +39,22 @@ namespace LightController.MyForm
 			this.iniPath = iniPath;
 			
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
-			if (String.IsNullOrEmpty(iniPath))
+			if (string.IsNullOrEmpty(iniPath))
 			{
 				isNew = true;
-				//isSetDir = false;
 				iniPath = Application.StartupPath + @"\HardwareSet.ini";
-				Text = "硬件配置(未保存)";
-			}// 否则打开相应配置文件，并载入到当前form中
+				Text = LanguageHelper.TranslateSentence("硬件配置(未保存)");
+			}
+			// 否则打开相应配置文件，并载入到当前form中
 			else
 			{
 				isNew = false;
-				//isSetDir = true;
 				this.hsName = hsName;
-				Text = "硬件配置(" + hsName + ")";
+				Text = LanguageHelper.TranslateSentence("硬件配置" )
+					+	"(" + hsName + ")";
 			}
-			readIniFile(iniPath);
+			CSJ_Hardware ch = new CSJ_Hardware(iniPath);
+			SetParamFromDevice(ch);
 		}
 
 		/// <summary>
@@ -64,6 +65,8 @@ namespace LightController.MyForm
 		private void HardwareSetForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			LanguageHelper.InitForm(this);
+
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
 
@@ -95,10 +98,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络配置》内的相关配置；其他输入框暂时没有作用，无需更改；\n" +
-					"2.常规的操作步骤：先从设备回读配置，在修改需要变动的配置后，下载新配置；\n" +
-					"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。",
-				"使用提示或说明",
+			MessageBox.Show(
+				LanguageHelper.TranslateSentence("1.此界面设置，用户需要更改的只有《主控标识》、《优先播放》及《网络配置》等少数配置；其他输入框暂时没有作用，无需更改；\n" +
+											"2.常规的操作步骤为：先从设备回读配置，在修改需要变动的配置后，下载新配置；\n" +
+											"3.下载配置前，软件需在本地生成配置文件(ini)，才能下载到设备中，以避免误操作。"),
+				LanguageHelper.TranslateSentence("提示"),
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
 			e.Cancel = true;
@@ -113,6 +117,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
+			if (! checkAllFormat() ) {
+				setNotice("有异常参数，请校对后重试！", false,true);
+				return;
+			}
+
 			if (isNew)
 			{
 				HardwareSaveForm nhForm = new HardwareSaveForm(this);
@@ -120,9 +129,9 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				Save(iniPath, hsName);
+				SaveAll(iniPath, hsName,true);
 			}
-		}
+		}	
 
 		/// <summary>
 		/// 事件：点击《取消》
@@ -134,23 +143,13 @@ namespace LightController.MyForm
 			this.Dispose();
 			this.mainForm.Activate();
 		}
-
-		/// <summary>
-		/// 辅助方法：通用的方法，供新建(NewHardwareForm)及旧版本的保存
-		/// </summary>
-		/// <param name="hardwareSetForm"></param>
-		internal void Save(String iniPath, string hName)
-		{
-			saveAll(iniPath, hName);
-			MessageBox.Show("成功保存");
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：供Save()使用，主要是当 《（串口或网络）下载 》时，应先保存一遍此ini,此时不要弹出成功保存功能。
 		/// </summary>
 		/// <param name="iniPath"></param>
 		/// <param name="hsName"></param>
-		private void saveAll(String iniPath, string hsName)
+		internal void SaveAll(string iniPath, string hsName,bool msgShow)
 		{
 			this.iniPath = iniPath;
 			this.hsName = hsName;
@@ -180,13 +179,13 @@ namespace LightController.MyForm
 			iniFileAst.WriteString("Other", "DomainName", domainNameTextBox.Text);
 			iniFileAst.WriteString("Other", "DomainServer", domainServerTextBox.Text);
 
-			this.isNew = false;
-			this.Text = "硬件配置(" + hsName + ")";
-			//this.isSetDir = true;
+			isNew = false;
+			Text = "硬件配置(" + hsName + ")";
 
+			setNotice("已成功保存配置。", msgShow, true);
 		}
 			   
-		#region 几个输入监视器
+		#region 几个输入监视器、及格式校验方法
 
 		/// <summary>
 		/// 辅助监听器：只能输入字母或数字及退格键的验证
@@ -219,15 +218,7 @@ namespace LightController.MyForm
 				e.Handled = true;
 			}
 		}
-
-		/// <summary>
-		/// 辅助监听器：验证Mac地址
-		/// </summary>
-		private void validateMac_KeyPress(object sender, KeyPressEventArgs e)
-		{
-
-		}
-
+		
 		/// <summary>
 		/// 辅助监听器:只能输入数字
 		/// </summary>
@@ -251,7 +242,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="s"></param>
 		/// <param name="e"></param>
-		private void numericUpDown_RecoverNum(object s, EventArgs e)
+		private void numericUpDown_Leave(object s, EventArgs e)
 		{
 			var n = (NumericUpDown)s;
 			if (n.Text == "")
@@ -261,39 +252,46 @@ namespace LightController.MyForm
 			}
 		}
 
-		#endregion
-			
 		/// <summary>
-		/// 辅助方法：读取配置文件
+		/// 辅助方法：统一校验各个输入框是否有错误
 		/// </summary>
-		/// <param name="iniPath"></param>
-		private void readIniFile(string iniPath)
-		{
-			IniFileHelper iniFileAst = new IniFileHelper(iniPath);
+		/// <returns></returns>
+		private bool checkAllFormat() {
+			bool result = true;
+			string errorMsg = "配置参数有错误，请重新输入：";
 
-			deviceNameTextBox.Text = iniFileAst.ReadString("Common", "DeviceName", "");
-			addrNumericUpDown.Value = iniFileAst.ReadInt("Common", "Addr", 0);
-			diskFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "DiskFlag", 0);
-			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
-			sumUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "SumUseTimes", 0);
-			currUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "CurrUseTimes", 0);
-			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
-			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
-			baudComboBox.SelectedIndex = iniFileAst.ReadInt("Other", "Baud", 0);
-			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 1);
+			if ( ! StringHelper.IsIP(IPTextBox.Text) ) {
+				errorMsg += "\n【IP地址】格式有误";
+				result = false;
+			}
+			if (!StringHelper.IsIP(netmaskTextBox.Text))
+			{
+				errorMsg += "\n【子网掩码】格式有误";
+				result = false;
+			}
+			if (!StringHelper.IsIP(gatewayTextBox.Text))
+			{
+				errorMsg += "\n【网关】格式有误";
+				result = false;
+			}
+			if (!StringHelper.IsMAC(macTextBox.Text))
+			{
+				errorMsg += "\n【MAC地址】格式有误";
+				result = false;
+			}
 
-			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
-			IPTextBox.Text = iniFileAst.ReadString("Network", "IP", "");
-			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");
-			netmaskTextBox.Text = iniFileAst.ReadString("Network", "NetMask", "");
-			gatewayTextBox.Text = iniFileAst.ReadString("Network", "GateWay", "");
-			macTextBox.Text = iniFileAst.ReadString("Network", "Mac", "");
+			if( IPTextBox.Text.Trim() != "0.0.0.0" && gatewayTextBox.Text.Trim() == "0.0.0.0"  ){
+				errorMsg += "\n未启用DHCP的情况下，【网关不能设为0.0.0.0】";
+				result = false;
+			}
 
-			remoteHostTextBox.Text = iniFileAst.ReadString("Other", "RemoteHost", "");
-			remotePortTextBox.Text = iniFileAst.ReadString("Other", "RemotePort", "");
-			domainNameTextBox.Text = iniFileAst.ReadString("Other", "DomainName", "");
-			domainServerTextBox.Text = iniFileAst.ReadString("Other", "DomainServer", "");
+			if (!result) {
+				MessageBox.Show(errorMsg);
+			}
+			return result;
 		}
+
+		#endregion
 
 		/// <summary>
 		///  辅助方法：通过回读的CSJ_Hardware对象，来填充左侧的所有输入框。
@@ -315,33 +313,26 @@ namespace LightController.MyForm
 				playFlagComboBox.SelectedIndex = ch.PlayFlag;
 
 				linkModeComboBox.SelectedIndex = ch.LinkMode;
-				IPTextBox.Text = ch.IP;
+				IPTextBox.Text = ch.IP ;
 				linkPortTextBox.Text = ch.LinkPort.ToString();
 				netmaskTextBox.Text = ch.NetMask;
 				gatewayTextBox.Text = ch.GateWay;
 				macTextBox.Text = ch.Mac;
-				// 根据回读的配置，主动勾选《DHCP》及《mac》
-				if (ch.IP.Equals("0.0.0.0"))
-				{
-					dhcpCheckBox.Checked = true;
-				}
-				if (ch.Mac.Equals("00-00-00-00-00-00"))
-				{
-					macCheckBox.Checked = true;
-				}
+
+				dhcpCheckBox.Checked = IPTextBox.Text.Trim().Equals("0.0.0.0");
+				macCheckBox.Checked = macTextBox.Text.Trim().Equals("00-00-00-00-00-00");
 
 				remoteHostTextBox.Text = ch.RemoteHost;
 				remotePortTextBox.Text = ch.RemotePort.ToString();
 				domainNameTextBox.Text = ch.DomainName;
-				domainServerTextBox.Text = ch.DomainServer;
-
+				domainServerTextBox.Text = ch.DomainServer;				
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show("回读异常:" + ex.Message);
 			}
 		}
-
+		
 		/// <summary>
 		/// 事件：勾选《启用DHCP》
 		/// </summary>
@@ -386,7 +377,7 @@ namespace LightController.MyForm
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为网络连接" : "切换为串口连接";
+			switchButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
@@ -458,11 +449,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				setNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false);
+				setNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false, true);
 			}
 			else
 			{
-				setNotice("未找到可用设备，请检查设备连接后重试。", false);
+				setNotice("未找到可用设备，请检查设备连接后重试。", false, true);
 			}
 		}
 		
@@ -499,12 +490,12 @@ namespace LightController.MyForm
 					if( (myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text ) ) {
 						isConnected = true;
 						refreshConnectButtons();
-						setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+						setNotice("已打开串口。", true, true);
 					}				
 				}
 				catch (Exception ex)
 				{
-					setNotice("打开串口失败，原因是：\n" + ex.Message, true);
+					setNotice("打开串口失败，原因是：\n" + ex.Message, true, true);
 				}
 			}
 			else
@@ -516,11 +507,11 @@ namespace LightController.MyForm
 				{
 					isConnected = true;
 					refreshConnectButtons();
-					setNotice("成功连接网络设备(" + deviceName + ")。", true);
+					setNotice("成功连接网络设备。", true, true);
 				}
 				else
 				{
-					setNotice("连接网络设备(" + deviceName + ")失败。", true);
+					setNotice("连接网络设备失败。", true, true);
 				}
 			}
 		}
@@ -536,7 +527,7 @@ namespace LightController.MyForm
 				myConnect = null;
 				isConnected = false;
 				refreshConnectButtons();
-				setNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+				setNotice("已" + (isConnectCom ? "关闭串口" : "断开连接"), true, true);
 			}
 		}
 		
@@ -581,7 +572,7 @@ namespace LightController.MyForm
 			{
 				CSJ_Hardware ch = obj as CSJ_Hardware;
 				SetParamFromDevice(ch);
-				setNotice("成功回读硬件配置。", true);
+				setNotice("成功回读硬件配置。", true, true);
 			});
 		}
 
@@ -593,7 +584,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("回读配置失败[" + msg + "]", true);
+				setNotice("回读配置失败[" + msg + "]", true, false);
 			});
 		}	
 
@@ -604,31 +595,23 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void downloadButton_Click(object sender, EventArgs e)
 		{
-			if (isNew)
+			if (!checkAllFormat())
 			{
-				MessageBox.Show("下载之前需先保存配置(设定配置文件名)。");
+				setNotice("有异常参数，请校对后重试！", false, true);
 				return;
 			}
 
-			// 若被去掉了勾选，则需要提示用户
-			if (!autoSaveCheckBox.Checked)
+			if (isNew)
 			{
-				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
-				"继续下载？",
-				MessageBoxButtons.OKCancel,
-				MessageBoxIcon.Warning
-			);
-				if (dr == DialogResult.Cancel)
-				{
-					return;
-				}
-			}
+				setNotice("下载之前需先保存配置(设定配置文件名)。",true, true);
+				return;
+			}		
 
 			// 11.7 保存前，先保存一遍当前数据。
-			saveAll(iniPath, hsName);
+			SaveAll(iniPath, hsName,false);
 
 			// 下载配置			
-			setNotice("正在下载配置，请稍候...",false);
+			setNotice("正在下载配置，请稍候...",false, true);
 			setBusy(true);
 			myConnect.PutParam(iniPath, PutParamCompleted, PutParamError);
 		}
@@ -641,11 +624,11 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("硬件配置下载成功,请等待设备重启(约耗时5s)...", true);
+				setNotice("硬件配置下载成功,请等待设备重启(约耗时5s)...", true, true);
 				Thread.Sleep(5000);
 				if (isConnectCom)
 				{
-					setNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。",true);	
+					setNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。",true, true);	
 				}
 				else
 				{
@@ -654,7 +637,7 @@ namespace LightController.MyForm
 					isConnected = false;
 					disableDeviceComboBox();
 					refreshConnectButtons();					
-					setNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试。", true);					
+					setNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试。", true, true);					
 				}
 				setBusy(false);
 			});
@@ -668,18 +651,34 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("下载配置失败[" + msg + "]", true);
+				setNotice("下载配置失败[" + msg + "]", true, false);
                 setBusy(false);
             });
 		}
+		
+		/// <summary>
+		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// </summary>
+		private void disableDeviceComboBox() {
+			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Text = "";
+			deviceComboBox.Enabled = false;
+		}
+
+		#region 通用方法
 
 		/// <summary>
 		/// 辅助方法：显示信息
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		private void setNotice(string msg, bool messageBoxShow)
+		private void setNotice(string msg, bool messageBoxShow,bool  isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			if (messageBoxShow)
 			{
 				MessageBox.Show(msg);
@@ -692,21 +691,26 @@ namespace LightController.MyForm
 		/// 辅助方法：设定忙时（鼠标的变化）
 		/// </summary>
 		/// <param name="busy"></param>
-		private void setBusy(bool busy) {
-			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;			
+		private void setBusy(bool busy)
+		{
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 			Enabled = !busy;
 			Refresh();
 		}
 
 		/// <summary>
-		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// 某些按键的文字如果发生了变化，就需要重新设置
 		/// </summary>
-		private void disableDeviceComboBox() {
-			deviceComboBox.Items.Clear();
-			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Text = "";
-			deviceComboBox.Enabled = false;
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someButton_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Button);
 		}
+
+		#endregion
+
+
 	}
 
 }

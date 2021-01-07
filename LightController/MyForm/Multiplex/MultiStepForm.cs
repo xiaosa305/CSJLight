@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using LightController.MyForm.Multiplex;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace LightController.MyForm
 			this.stepWrapperList = stepWrapperList;
 
 			InitializeComponent();
+			Text = LanguageHelper.TranslateSentence(Text);
 			Text += "【" + mainForm.LightAstList[lightIndex].LightType + ":" + mainForm.LightAstList[lightIndex].LightAddr  + "】";
 
 			#region 初始化自定义数组等
@@ -116,8 +118,8 @@ namespace LightController.MyForm
 
 		private void MultiStepForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-			//Location = MousePosition;
+			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>
@@ -242,7 +244,7 @@ namespace LightController.MyForm
 
 			if (endStep < startStep)
 			{
-				MessageBox.Show("结束步不可大于起始步");
+				MessageBox.Show(LanguageHelper.TranslateSentence("结束步不可大于起始步"));
 				endNumericUpDown.Value = startStep;
 				return false;
 			}
@@ -255,7 +257,7 @@ namespace LightController.MyForm
 					}
 				}
 				if (tdIndexList.Count == 0) {
-					MessageBox.Show("请选择至少一个通道。");
+					MessageBox.Show(LanguageHelper.TranslateSentence("请选择至少一个通道。"));
 					return false;
 				}
 				else
@@ -342,7 +344,7 @@ namespace LightController.MyForm
 				Dictionary<int, List<int>> tdDict = new Dictionary<int, List<int>>();
 				tdDict.Add(lightIndex, tdIndexList);
 
-				new DetailMultiPageForm(mainForm, tdDict ).ShowDialog(); 
+				new DetailMultiPageForm(mainForm, tdDict).ShowDialog(); 
 			}
 		}
 

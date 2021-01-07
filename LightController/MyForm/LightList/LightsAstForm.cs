@@ -25,7 +25,7 @@ namespace LightController
 		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
 		{
 			if (startNum >= LightsForm.MAX_TD) {
-				MessageBox.Show("当前初始地址已经到达DMX512地址上限，请谨慎设置");
+				MessageBox.Show(LanguageHelper.TranslateSentence("当前初始地址已经到达DMX512地址上限，请谨慎设置"));
 				startNum = 512;
 			}
 
@@ -40,8 +40,8 @@ namespace LightController
 
         private void LightsAstForm_Load(object sender, EventArgs e)
         {
-            //this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
         // 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
@@ -69,12 +69,12 @@ namespace LightController
             int lastEndAddr = firstStartAddr + addLightCount * tdCount - 1;  
         
 			if ( lastEndAddr > LightsForm.MAX_TD) {
-				MessageBox.Show("添加灯具的最后地址超过了DMX512灯具的地址上限(512)，\n，请重新设置起始地址或灯具数量。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("添加灯具的最后地址超过了DMX512灯具的地址上限(512)，\n，请重新设置起始地址或灯具数量。"));
 				return;
 			}
 
             if ( ! lightsForm.CheckAddrAvailale(-1, decimal.ToInt32(startAddrNumericUpDown.Value), lastEndAddr) ){
-                MessageBox.Show("检测到您添加的灯具部分地址已被占用，\n请重新设置起始地址或灯具数量。");
+                MessageBox.Show( LanguageHelper.TranslateSentence("检测到您添加的灯具部分地址已被占用，\n请重新设置起始地址或灯具数量。"));
                 return; 
             }
 

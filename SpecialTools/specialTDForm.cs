@@ -229,7 +229,7 @@ namespace SpecialTools
 			//只在确认导出时，才填入StepInc;
 			lcb.StepInc = decimal.ToInt32(stepIncNUD.Value);
 			LightConfigBean.WriteToFile(exportPath, lcb);
-			setNotice("已成功导出文件(" + exportPath + "LightConfig.bin)。", false);
+			setNotice("已成功导出文件(" + exportPath + @"\LightConfig.bin)。", false);
 			dr = MessageBox.Show("已成功导出文件，是否打开导出目录？",
 				"打开导出目录？",
 				MessageBoxButtons.OKCancel,
@@ -306,7 +306,7 @@ namespace SpecialTools
 				decimal dd = nud.Value + nud.Increment;
 				if (dd <= nud.Maximum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 			// 向下滚
@@ -315,7 +315,7 @@ namespace SpecialTools
 				decimal dd = nud.Value - nud.Increment;
 				if (dd >= nud.Minimum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 		}

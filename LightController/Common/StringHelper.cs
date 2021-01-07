@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LightController.Common
 {
@@ -115,5 +116,45 @@ namespace LightController.Common
 			}
 		}
 
+		/// <summary>
+		/// 判断传入的文件名，是否为png、jpg、bmp三种图片格式(ico不算在内)
+		/// </summary>
+		/// <param name="picName"></param>
+		/// <returns></returns>
+		public static bool IsPicFile(string picName) {
+			return 
+				picName.ToLower().EndsWith(".jpg") || 
+				picName.ToLower().EndsWith(".png") || 
+				picName.ToLower().EndsWith(".bmp");
+		}
+
+		/// <summary>
+		/// 判断传入的字符串是否合法的IP
+		/// </summary>
+		/// <param name="ip"></param>
+		/// <returns></returns>
+		public static bool IsIP(string ip) {
+			ip = ip.Trim();
+			if (string.IsNullOrEmpty(ip)) {
+				return false;
+			}
+			string pattern = @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$";
+			return Regex.IsMatch(ip, pattern);
+		}
+
+		/// <summary>
+		/// 判断传入的字符串是否合法的MAC地址
+		/// </summary>
+		/// <param name="mac"></param>
+		/// <returns></returns>
+		public static bool IsMAC(string mac) {
+			mac = mac.Trim();			
+			if (string.IsNullOrEmpty( mac ))
+			{
+				return false;
+			}
+			string pattern = @"^([0-9a-fA-F]{2})(([/\s:-][0-9a-fA-F]{2}){5})$";
+			return Regex.IsMatch(mac, pattern);
+		}
 	}
 }

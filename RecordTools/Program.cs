@@ -1,5 +1,4 @@
-﻿using RecordTools.test;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,8 +15,8 @@ namespace RecordTools
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new RecordSetForm());
-			Application.Run(new XiaosaTestForm());
+			//Application.Run(new RecordSetForm());
+			Application.Run(new NewForm());
 		}
 	}
 }

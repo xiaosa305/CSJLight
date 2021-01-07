@@ -22,7 +22,7 @@ namespace LightController.Ast
 
 			if (isEncrypt)
 			{
-				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5("Dickov" + dbFile));
+				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5_UTF8("Dickov" + dbFile));
 			}
 			else
 			{

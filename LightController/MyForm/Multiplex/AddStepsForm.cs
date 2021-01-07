@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,8 +26,8 @@ namespace LightController.MyForm.Multiplex
 
 		private void AddStepsForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
 		/// <summary>
@@ -57,7 +58,6 @@ namespace LightController.MyForm.Multiplex
 			Dispose();
 			mainForm.Activate();
 		}
-
-		
+				
 	}
 }

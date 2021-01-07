@@ -79,7 +79,7 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup>
-    <ApplicationIcon>f3.ico</ApplicationIcon>
+    <ApplicationIcon>灯库软件.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
@@ -119,6 +119,9 @@
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
@@ -166,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\Entity\ReturnDTO.cs" />
+    <Compile Include="Ast\Entity\TranslateResult.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\GroupAst.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
@@ -176,6 +180,7 @@
     <Compile Include="Common\HttpHelper.cs" />
     <Compile Include="Common\IniFileHelper.cs" />
     <Compile Include="Common\IniFileHelper_UTF8.cs" />
+    <Compile Include="Common\LanguageHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
@@ -203,35 +208,17 @@
     <Compile Include="MyForm\LightEditor\NewLightEditorForm.Designer.cs">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\LightRemarkForm.cs">
+    <Compile Include="MyForm\MainFormAst\LightRemarksForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\LightRemarkForm.Designer.cs">
-      <DependentUpon>LightRemarkForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\LightRemarksForm.Designer.cs">
+      <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Ast\TongdaoWrapper.cs" />
-    <Compile Include="MyForm\LightEditor\old\LightEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\LightEditor\old\LightEditorForm.designer.cs">
-      <DependentUpon>LightEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\LightEditor\old\SAForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\LightEditor\old\SAForm.Designer.cs">
-      <DependentUpon>SAForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\LightEditor\Tools\OneLightOneStep.cs" />
-    <Compile Include="MyForm\LightEditor\old\WaySetForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\LightEditor\old\WaySetForm.Designer.cs">
-      <DependentUpon>WaySetForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\Multiplex\ActionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,6 +231,12 @@
     <Compile Include="MyForm\Multiplex\AddStepsForm.Designer.cs">
       <DependentUpon>AddStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\ColorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\ColorForm.Designer.cs">
+      <DependentUpon>ColorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Multiplex\DeleteStepsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,12 +248,6 @@
     </Compile>
     <Compile Include="MyForm\Multiplex\DetailMultiAstForm.Designer.cs">
       <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.Designer.cs">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\DetailMultiPageForm.cs">
       <SubType>Form</SubType>
@@ -285,12 +272,6 @@
     </Compile>
     <Compile Include="MyForm\Multiplex\MultiplexForm.Designer.cs">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\OldDetailMultiForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\OldDetailMultiForm.Designer.cs">
-      <DependentUpon>OldDetailMultiForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
@@ -432,12 +413,6 @@
     <Compile Include="MyForm\MainFormAst\OpenForm.Designer.cs">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\OldToolsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\OtherTools\OldToolsForm.Designer.cs">
-      <DependentUpon>OldToolsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\HardwareSet\HardwareUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -450,11 +425,11 @@
     <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.Designer.cs">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\UseFrameForm.cs">
+    <Compile Include="MyForm\MainFormAst\CopyFrameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\UseFrameForm.Designer.cs">
-      <DependentUpon>UseFrameForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\CopyFrameForm.Designer.cs">
+      <DependentUpon>CopyFrameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\GlobalSet\YMSetForm.cs">
       <SubType>Form</SubType>
@@ -516,26 +491,22 @@
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
+    <Content Include="灯库软件.ico" />
+    <Content Include="Language\en-US.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\灯光图.png" />
     <Content Include="安装说明.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="更新日志\更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="MyForm\LightEditor\old\LightEditorForm.resx">
-      <DependentUpon>LightEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightEditor\NewLightEditorForm.resx">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightEditor\old\SAForm.resx">
-      <DependentUpon>SAForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightEditor\old\WaySetForm.resx">
-      <DependentUpon>WaySetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\LightRemarkForm.resx">
-      <DependentUpon>LightRemarkForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\LightRemarksForm.resx">
+      <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
@@ -546,14 +517,14 @@
     <EmbeddedResource Include="MyForm\Multiplex\AddStepsForm.resx">
       <DependentUpon>AddStepsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\ColorForm.resx">
+      <DependentUpon>ColorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DetailMultiAstForm.resx">
       <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm.resx">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DetailMultiPageForm.resx">
       <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
@@ -566,9 +537,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\OldDetailMultiForm.resx">
-      <DependentUpon>OldDetailMultiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>
@@ -637,17 +605,14 @@
     <EmbeddedResource Include="MyForm\MainFormAst\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\OldToolsForm.resx">
-      <DependentUpon>OldToolsForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\HardwareSet\HardwareUpdateForm.resx">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\UseFrameForm.resx">
-      <DependentUpon>UseFrameForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\CopyFrameForm.resx">
+      <DependentUpon>CopyFrameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
@@ -665,118 +630,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="f3.ico" />
-    <Content Include="i2.ico" />
-    <Content Include="LightPic\1.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\10.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\11.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\12.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\13.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\14.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\15.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\16.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\17.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\18.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\19.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\2.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\20.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\21.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\22.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\23.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\24.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\25.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\27.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\28.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\29.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\3.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\30.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\31.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\4.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\5.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\6.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\7.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\8.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\9.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\ledpar.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\RGB.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\二合一.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\二合一50.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\帕灯.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\灯带.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LightPic\魔球.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1088,7 +941,6 @@
     <None Include="Resources\浏览效果前.png" />
     <None Include="Resources\实时调试.png" />
     <None Include="Resources\实时调试02.png" />
-    <None Include="Resources\灯光图.png" />
     <None Include="Resources\圆角矩形 4.png" />
     <None Include="Resources\椭圆 1.png" />
     <None Include="Resources\初始值.png" />

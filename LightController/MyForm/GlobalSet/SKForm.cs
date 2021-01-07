@@ -50,11 +50,11 @@ namespace LightController.MyForm
 		private void SKForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-			//Location = MousePosition;
+			LanguageHelper.InitForm(this);			
 		}
 
 		/// <summary>
-		///  事件：点击《保存》
+		///  事件：点击《保存设置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -63,7 +63,10 @@ namespace LightController.MyForm
 			iniAst.WriteInt("SK", frame + "ST", frameStepTimeNumericUpDown.Value / eachStepTime2);
 			iniAst.WriteInt("SK", frame + "JG", jgtNumericUpDown.Value);
 			iniAst.WriteString("SK", frame + "LK", mFrameLKTextBox.Text);
-			MessageBox.Show("设置保存成功");
+			MessageBox.Show(LanguageHelper.TranslateSentence("设置保存成功"));
+
+			Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -73,7 +76,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void cancelSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -84,7 +87,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void SKForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -144,6 +147,13 @@ namespace LightController.MyForm
 			{
 				e.Handled = true;
 			}
+		}
+
+		// 事件：点击提示
+		private void SKForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show(LanguageHelper.TranslateSentence("请在文本框内输入每一次音频触发时执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为0或空字符串，则表示该场景不执行声控模式；链表数量不可超过20个。") );
+			e.Cancel = true;
 		}
 	}
 }

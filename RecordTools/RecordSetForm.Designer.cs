@@ -38,7 +38,6 @@
 			this.pageLabel = new System.Windows.Forms.Label();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.checkBoxDemo = new System.Windows.Forms.CheckBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.setFilePathButton = new System.Windows.Forms.Button();
 			this.recordPathLabel = new System.Windows.Forms.Label();
@@ -55,6 +54,9 @@
 			this.minusButton = new System.Windows.Forms.Button();
 			this.plusButton = new System.Windows.Forms.Button();
 			this.saveFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.frameComboBox = new System.Windows.Forms.ComboBox();
+			this.saveConfigButton = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
 			this.myStatusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).BeginInit();
@@ -93,11 +95,11 @@
 			// saveButton
 			// 
 			this.saveButton.BackColor = System.Drawing.Color.MistyRose;
-			this.saveButton.Location = new System.Drawing.Point(697, 59);
+			this.saveButton.Location = new System.Drawing.Point(540, 59);
 			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(75, 37);
+			this.saveButton.Size = new System.Drawing.Size(63, 37);
 			this.saveButton.TabIndex = 41;
-			this.saveButton.Text = "保存\r\n配置文件";
+			this.saveButton.Text = "保存\r\n音频文件";
 			this.saveButton.UseVisualStyleBackColor = false;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
@@ -109,7 +111,7 @@
 			this.loadOldButton.Name = "loadOldButton";
 			this.loadOldButton.Size = new System.Drawing.Size(75, 37);
 			this.loadOldButton.TabIndex = 42;
-			this.loadOldButton.Text = "打开\r\n配置文件";
+			this.loadOldButton.Text = "打开\r\n音频文件";
 			this.loadOldButton.UseVisualStyleBackColor = false;
 			this.loadOldButton.Click += new System.EventHandler(this.loadButton_Click);
 			// 
@@ -119,7 +121,7 @@
 			this.pageLabel.BackColor = System.Drawing.Color.LightGray;
 			this.pageLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.pageLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.pageLabel.Location = new System.Drawing.Point(683, 425);
+			this.pageLabel.Location = new System.Drawing.Point(682, 425);
 			this.pageLabel.Name = "pageLabel";
 			this.pageLabel.Size = new System.Drawing.Size(31, 14);
 			this.pageLabel.TabIndex = 46;
@@ -143,15 +145,12 @@
 			this.myStatusLabel.Size = new System.Drawing.Size(0, 17);
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// checkBoxDemo
+			// openFileDialog
 			// 
-			this.checkBoxDemo.Location = new System.Drawing.Point(703, 68);
-			this.checkBoxDemo.Name = "checkBoxDemo";
-			this.checkBoxDemo.Size = new System.Drawing.Size(72, 24);
-			this.checkBoxDemo.TabIndex = 39;
-			this.checkBoxDemo.Text = "通道512";
-			this.checkBoxDemo.UseVisualStyleBackColor = true;
-			this.checkBoxDemo.Visible = false;
+			this.openFileDialog.DefaultExt = "bin";
+			this.openFileDialog.FileName = "M*.bin";
+			this.openFileDialog.Filter = "(*.bin)|*.bin";
+			this.openFileDialog.Title = "请打开格式为M*.bin的文件，否则程序可能出错！";
 			// 
 			// setFilePathButton
 			// 
@@ -166,9 +165,9 @@
 			// 
 			// recordPathLabel
 			// 
-			this.recordPathLabel.Location = new System.Drawing.Point(100, 62);
+			this.recordPathLabel.Location = new System.Drawing.Point(98, 62);
 			this.recordPathLabel.Name = "recordPathLabel";
-			this.recordPathLabel.Size = new System.Drawing.Size(288, 30);
+			this.recordPathLabel.Size = new System.Drawing.Size(242, 30);
 			this.recordPathLabel.TabIndex = 74;
 			this.recordPathLabel.Text = "请选择存放目录。";
 			this.recordPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -176,7 +175,7 @@
 			// nameLabel
 			// 
 			this.nameLabel.AutoSize = true;
-			this.nameLabel.Location = new System.Drawing.Point(398, 71);
+			this.nameLabel.Location = new System.Drawing.Point(348, 71);
 			this.nameLabel.Name = "nameLabel";
 			this.nameLabel.Size = new System.Drawing.Size(65, 12);
 			this.nameLabel.TabIndex = 76;
@@ -185,7 +184,7 @@
 			// binLabel
 			// 
 			this.binLabel.AutoSize = true;
-			this.binLabel.Location = new System.Drawing.Point(498, 71);
+			this.binLabel.Location = new System.Drawing.Point(448, 71);
 			this.binLabel.Name = "binLabel";
 			this.binLabel.Size = new System.Drawing.Size(29, 12);
 			this.binLabel.TabIndex = 75;
@@ -193,7 +192,7 @@
 			// 
 			// sceneNoTextBox
 			// 
-			this.sceneNoTextBox.Location = new System.Drawing.Point(467, 67);
+			this.sceneNoTextBox.Location = new System.Drawing.Point(417, 67);
 			this.sceneNoTextBox.MaxLength = 3;
 			this.sceneNoTextBox.Name = "sceneNoTextBox";
 			this.sceneNoTextBox.Size = new System.Drawing.Size(28, 21);
@@ -205,11 +204,11 @@
 			// 
 			this.mLKTextBox.BackColor = System.Drawing.Color.White;
 			this.mLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mLKTextBox.Location = new System.Drawing.Point(553, 16);
+			this.mLKTextBox.Location = new System.Drawing.Point(547, 16);
 			this.mLKTextBox.MaxLength = 20;
 			this.mLKTextBox.Multiline = true;
 			this.mLKTextBox.Name = "mLKTextBox";
-			this.mLKTextBox.Size = new System.Drawing.Size(219, 22);
+			this.mLKTextBox.Size = new System.Drawing.Size(225, 22);
 			this.mLKTextBox.TabIndex = 82;
 			this.mLKTextBox.Text = "1";
 			this.mLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mLKTextBox_KeyPress);
@@ -217,7 +216,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(285, 21);
+			this.label1.Location = new System.Drawing.Point(277, 21);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(125, 12);
 			this.label1.TabIndex = 78;
@@ -234,7 +233,7 @@
 			// 
 			// jgtNumericUpDown
 			// 
-			this.jgtNumericUpDown.Location = new System.Drawing.Point(403, 17);
+			this.jgtNumericUpDown.Location = new System.Drawing.Point(395, 17);
 			this.jgtNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -258,7 +257,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(489, 21);
+			this.label2.Location = new System.Drawing.Point(478, 21);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(65, 12);
 			this.label2.TabIndex = 78;
@@ -268,7 +267,7 @@
 			// 
 			// minusButton
 			// 
-			this.minusButton.Location = new System.Drawing.Point(660, 62);
+			this.minusButton.Location = new System.Drawing.Point(507, 62);
 			this.minusButton.Name = "minusButton";
 			this.minusButton.Size = new System.Drawing.Size(25, 31);
 			this.minusButton.TabIndex = 84;
@@ -278,7 +277,7 @@
 			// 
 			// plusButton
 			// 
-			this.plusButton.Location = new System.Drawing.Point(633, 62);
+			this.plusButton.Location = new System.Drawing.Point(478, 62);
 			this.plusButton.Name = "plusButton";
 			this.plusButton.Size = new System.Drawing.Size(25, 31);
 			this.plusButton.TabIndex = 83;
@@ -291,12 +290,44 @@
 			this.saveFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.saveFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ";
 			// 
+			// frameComboBox
+			// 
+			this.frameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.frameComboBox.FormattingEnabled = true;
+			this.frameComboBox.Location = new System.Drawing.Point(619, 76);
+			this.frameComboBox.Name = "frameComboBox";
+			this.frameComboBox.Size = new System.Drawing.Size(82, 20);
+			this.frameComboBox.TabIndex = 85;
+			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
+			// 
+			// saveConfigButton
+			// 
+			this.saveConfigButton.BackColor = System.Drawing.Color.MistyRose;
+			this.saveConfigButton.Location = new System.Drawing.Point(710, 59);
+			this.saveConfigButton.Name = "saveConfigButton";
+			this.saveConfigButton.Size = new System.Drawing.Size(61, 37);
+			this.saveConfigButton.TabIndex = 41;
+			this.saveConfigButton.Text = "保存\r\n全局配置";
+			this.saveConfigButton.UseVisualStyleBackColor = false;
+			this.saveConfigButton.Click += new System.EventHandler(this.saveConfigButton_Click);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(619, 59);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(65, 12);
+			this.label3.TabIndex = 86;
+			this.label3.Text = "开机场景：";
+			// 
 			// RecordSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(784, 441);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.minusButton);
 			this.Controls.Add(this.plusButton);
 			this.Controls.Add(this.mLKTextBox);
@@ -311,11 +342,11 @@
 			this.Controls.Add(this.nextButton);
 			this.Controls.Add(this.previousButton);
 			this.Controls.Add(this.bigFLP);
+			this.Controls.Add(this.saveConfigButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.loadOldButton);
 			this.Controls.Add(this.pageLabel);
 			this.Controls.Add(this.myStatusStrip);
-			this.Controls.Add(this.checkBoxDemo);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label36);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -325,6 +356,7 @@
 			this.MinimumSize = new System.Drawing.Size(800, 480);
 			this.Name = "RecordSetForm";
 			this.Text = "录播文件·音频通道选择器";
+			this.Load += new System.EventHandler(this.RecordSetForm_Load);
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).EndInit();
@@ -343,7 +375,6 @@
 		private System.Windows.Forms.Label pageLabel;
 		private System.Windows.Forms.StatusStrip myStatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
-		private System.Windows.Forms.CheckBox checkBoxDemo;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.Button setFilePathButton;
 		private System.Windows.Forms.Label recordPathLabel;
@@ -360,6 +391,9 @@
 		private System.Windows.Forms.Button minusButton;
 		private System.Windows.Forms.Button plusButton;
 		private System.Windows.Forms.FolderBrowserDialog saveFolderBrowserDialog;
+		private System.Windows.Forms.ComboBox frameComboBox;
+		private System.Windows.Forms.Button saveConfigButton;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

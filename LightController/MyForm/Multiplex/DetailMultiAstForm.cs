@@ -19,14 +19,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
-
-			// 处理编组
-			for (int groupIndex = 0; groupIndex < mainForm.GroupList.Count; groupIndex++)
-			{
-				groupComboBox.Items.Add(mainForm.GroupList[groupIndex].GroupName);
-			}
-			groupComboBox.SelectedIndex = 0;
-
+			
 			// 初始化时，所有的灯具都要生成相应面板（但显示与否由 load内决定）【这样之前的勾选可以保留】
 			for (int lightIndex = 0; lightIndex < mainForm.LightAstList.Count; lightIndex++)
 			{
@@ -109,11 +102,12 @@ namespace LightController.MyForm.Multiplex
 		private void DetailMultiAstForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 200);
+			LanguageHelper.InitForm(this);
 
-			// 在load中决定哪些灯具要进行显示		
+			// 决定哪些灯具要进行显示		
 			for (int lightIndex = 0; lightIndex < mainForm.LightAstList.Count; lightIndex++)
 			{
-				LightStepWrapper lsWrapper = mainForm.LightWrapperList[lightIndex].LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
+				LightStepWrapper lsWrapper = mainForm.LightWrapperList[lightIndex].LightStepWrapperList[mainForm.CurrentScene, mainForm.CurrentMode];
 				if (lsWrapper != null && lsWrapper.StepWrapperList != null && lsWrapper.StepWrapperList.Count > 0)
 				{
 					bigFLP.Controls[lightIndex + 1].Show(); 
@@ -122,6 +116,15 @@ namespace LightController.MyForm.Multiplex
 					bigFLP.Controls[lightIndex + 1].Hide() ; 
 				}
 			}
+
+			// 处理编组
+			groupComboBox.Items.Clear();
+			groupComboBox.Items.Add(LanguageHelper.TranslateWord("请选择编组") );
+			for (int groupIndex = 0; groupIndex < mainForm.GroupList.Count; groupIndex++)
+			{
+				groupComboBox.Items.Add(mainForm.GroupList[groupIndex].GroupName);
+			}
+			groupComboBox.SelectedIndex = 0;
 		}
 
 		/// <summary>
@@ -140,7 +143,7 @@ namespace LightController.MyForm.Multiplex
 			// 取出groupIndex，若<0则return,否则开始勾选组内的灯具
 			int groupIndex = groupComboBox.SelectedIndex - 1;
 			if (groupIndex < 0) {
-				setNotice("已清空编组。", false);
+				setNotice("已清空编组。", false,true);
 				return;
 			}
 			// 如果选项不为空，则勾选上组内成员
@@ -225,13 +228,13 @@ namespace LightController.MyForm.Multiplex
 			}
 
 			if (tdCount == 0) {
-				setNotice("请至少选择一个通道，才可进行多步联调。", true);
+				setNotice("请至少选择一个通道，才可进行多步联调。", true,true);
 				return;
 			}
 
 			if (tdCount > 50)
 			{
-				setNotice("因操作系统限制，无法添加超过50个通道，请取消选择部分通道后重试。", true);
+				setNotice("因操作系统限制，无法添加超过50个通道，请取消选择部分通道后重试。", true, true);
 				return;
 			}
 			
@@ -260,8 +263,12 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
+		private void setNotice(string msg, bool msgBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgBoxShow)
 			{

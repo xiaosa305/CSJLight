@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,10 +33,19 @@ namespace LightController.MyForm
 
 		private void LightsEditForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
 			Location = MousePosition;
+			LanguageHelper.InitForm(this);
 		}
 
+		/// <summary>
+		///  点击《我知道了》按钮，会隐藏noticePanel
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void iSeeButton_Click(object sender, EventArgs e)
+		{
+			noticePanel.Hide();
+		}
 
 		/// <summary>
 		///  点击《修改》键=》应该回调LightsForm的方法
@@ -48,36 +58,27 @@ namespace LightController.MyForm
             int endAddr = startAddr + lightAst.Count - 1;
             if (!lightsForm.CheckAddrAvailale( lightIndex,  startAddr , endAddr))
             {
-                MessageBox.Show("检测到您修改的新灯具地址中，有部分地址已被其他灯具占用，\n请重新设置起始地址后重试。");
+                MessageBox.Show(LanguageHelper.TranslateSentence("检测到您修改的新灯具地址中，有部分地址已被其他灯具占用，\n请重新设置起始地址后重试。"));
                 return;
             }
 
             bool editResult = lightsForm.UpdateLight(lightIndex, startAddr);
 			if (editResult) {
-				this.Dispose();
+				Dispose();
 				lightsForm.Activate();
 			}
 		}
 
 		/// <summary>
-		/// 事件：点击《放弃修改》按钮
+		/// 事件：点击《放弃修改|取消》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			lightsForm.Activate();
 		}
 
-		/// <summary>
-		///  点击《我知道了》按钮，会隐藏noticePanel
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void iSeeButton_Click(object sender, EventArgs e)
-		{
-			noticePanel.Hide();
-		}
 	}
 }

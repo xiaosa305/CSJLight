@@ -48,10 +48,10 @@
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(91, 30);
+			this.textBox1.Location = new System.Drawing.Point(115, 31);
 			this.textBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(139, 21);
+			this.textBox1.Size = new System.Drawing.Size(129, 21);
 			this.textBox1.TabIndex = 1;
 			// 
 			// enterButton
@@ -78,7 +78,7 @@
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(130, 71);
+			this.frameComboBox.Location = new System.Drawing.Point(133, 71);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(100, 20);
 			this.frameComboBox.TabIndex = 5;
@@ -98,7 +98,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(255, 152);
+			this.ClientSize = new System.Drawing.Size(265, 152);
 			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.frameLabel);
 			this.Controls.Add(this.cancelButton);
@@ -111,7 +111,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "NewForm";
-			this.Text = "新建工程";
+			this.Text = "新建工程 ";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.NewForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.NewForm_Load);
 			this.ResumeLayout(false);

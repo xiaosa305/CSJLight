@@ -2,7 +2,6 @@
 using LightController.Common;
 using LightController.MyForm;
 using LightEditor.Ast;
-using LightEditor.MyForm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace LightEditor
 		private MainFormBase mainForm;	
 
 		private string softwareName;  //动态更改软件名
-		private string savePath;  //软件各项功能保存的路径(软件目录或C:\Temp)
 		private string picDirectory;     // 图片目录
 		private string lightDirectory;   // ini保存目录
 
@@ -41,7 +39,7 @@ namespace LightEditor
 		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
 		//调试相关变量
-		private OneLightOneStep player; // 灯具测试的实例
+		private OneLightOneStep player; // 调试工具类的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
 		private bool isConnect = false; // 辅助变量：是否连接设备
 				
@@ -55,11 +53,11 @@ namespace LightEditor
 			InitializeComponent();
 
 			softwareName = mainForm.SoftwareName + " Light Editor";
-			Text = softwareName;
-			savePath = mainForm.SavePath;
-			picDirectory = @savePath + @"\LightPic";
+			Text = softwareName ;
+			
+			picDirectory = mainForm.SavePath + @"\LightPic";
 			openImageDialog.InitialDirectory = picDirectory; //图片加载路径使用当前软件所在文件夹
-			lightDirectory = @savePath + @"\LightLibrary";
+			lightDirectory = mainForm.SavePath + @"\LightLibrary";
 			openFileDialog.InitialDirectory = lightDirectory;  //灯具目录				
 
 			// 动态添加通道预选名称
@@ -93,7 +91,7 @@ namespace LightEditor
 					Font = tdLabelDemo.Font,
 					Location = tdLabelDemo.Location,
 					Size = tdLabelDemo.Size,
-					Text = "通道" + (tdIndex + 1),
+					Text = LanguageHelper.TranslateWord("通道") + (tdIndex + 1),
 					TextAlign = tdLabelDemo.TextAlign,
 					ForeColor = tdLabelDemo.ForeColor
 				};
@@ -149,6 +147,7 @@ namespace LightEditor
 		private void NewLightEditorForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 40, mainForm.Location.Y + 60);
+			LanguageHelper.InitForm(this);
 		}
 		
 		/// <summary>
@@ -175,7 +174,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void newLightButton_Click(object sender, EventArgs e)
 		{
-			if (RequestSaveLight("新建灯具前，是否保存当前灯具？"))
+			if (RequestSaveLight(
+				LanguageHelper.TranslateSentence("新建灯具前，是否保存当前灯具？")) )
 			{
 				countComboBox.SelectedIndex = 0;
 				tongdaoCount = 0;				
@@ -207,7 +207,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
-			if (RequestSaveLight("打开灯具前，是否保存当前灯具？"))
+			if (RequestSaveLight(  
+				LanguageHelper.TranslateSentence("打开灯具前，是否保存当前灯具？")))
 			{
 				openFileDialog.ShowDialog();
 			}
@@ -237,7 +238,7 @@ namespace LightEditor
 				// 无论如何，灯具tongdaoList应该有至少一个值！
 				if (lineCount < 5)
 				{
-					MessageBox.Show("打开的ini文件格式有误");
+					setNotice("打开的ini文件格式有误",true,true);
 					return;
 				}
 
@@ -246,7 +247,7 @@ namespace LightEditor
 				string imagePath = lineList[2].ToString().Substring(4);
 				if (imagePath != null && !imagePath.Trim().Equals(""))
 				{
-					this.setImage(picDirectory + "\\" + imagePath);
+					setImage(picDirectory + "\\" + imagePath);
 				}
 
 				tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取			
@@ -286,7 +287,8 @@ namespace LightEditor
 			checkGenerateEnable();
 
 			showAllPanels();
-			enableRename(false);				
+			enableRename(false);
+			refreshPlayGroupBox();
 		}
 
 		/// <summary>
@@ -310,9 +312,15 @@ namespace LightEditor
 		/// 辅助方法：不管什么情况（打开或新建灯具），都把隐藏的界面打开
 		/// </summary>
 		private void showAllPanels() {
-			lightGroupBox.Show();
-			playGroupBox.Show();			
+			lightGroupBox.Show();			
 			saFLPDemo.Show();
+		}
+
+		/// <summary>
+		///  辅助方法：根据tongdaoList，来确定是否显示调试面板；
+		/// </summary>
+		private void refreshPlayGroupBox() {
+			playGroupBox.Visible = tongdaoList != null && tongdaoList.Count > 0;
 		}
 
 		/// <summary>
@@ -329,7 +337,7 @@ namespace LightEditor
 			for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 			{
 				tdTextBoxes[tdIndex].Text =  tongdaoList[tdIndex].TongdaoName;
-				tdLabels[tdIndex].Text = "通道" + (tdIndex + 1);
+				tdLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (tdIndex + 1);
 				tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].CurrentValue;				
 				tdNUDs[tdIndex].Value = tongdaoList[tdIndex].CurrentValue;
 
@@ -338,7 +346,6 @@ namespace LightEditor
 				{
 					tdRemark += "\n" + sa.SAName + "：" + sa.StartValue + " - " + sa.EndValue;
 				}
-
 				tdPanels[tdIndex].Show();
 			}
 
@@ -388,7 +395,7 @@ namespace LightEditor
 			}
 			else
 			{
-				setNotice("未找到图片，可点击灯具图片框重新选择灯具图片。", true);
+				setNotice("未找到图片，可点击灯具图片框重新选择灯具图片。", true,true);
 			}
 		}
 
@@ -431,7 +438,7 @@ namespace LightEditor
 
 			DialogResult dr = MessageBox.Show(
 				msg,
-				"保存灯具?",
+				LanguageHelper.TranslateSentence("保存灯具?"),
 				MessageBoxButtons.YesNoCancel,
 				 MessageBoxIcon.Question
 			);
@@ -460,7 +467,7 @@ namespace LightEditor
 			// 若修改了通道数后，未点击《生成》，则无法保存(不再有冗余的isGenerated属性，而直接由按键是否可用来判断是否已经生成过TongdaoList)
 			if (generateButton.Enabled)
 			{
-				MessageBox.Show("请先点击《生成》按钮以生成新通道列表");
+				setNotice("请先点击《生成》按钮以生成新通道列表",true,true);
 				return;
 			}
 
@@ -469,22 +476,22 @@ namespace LightEditor
 			string type = typeTextBox.Text.Trim();
 			if (String.IsNullOrEmpty(name))
 			{
-				MessageBox.Show("请输入厂家名。");
+				setNotice("请输入厂家名。",true,true);
 				return;
 			}
 			if (!FileHelper.CheckFileName(name))
 			{
-				MessageBox.Show("厂家名含有非法字符，无法保存。");
+				setNotice("厂家名含有非法字符，无法保存。",true,true);
 				return;
 			}
 			if (String.IsNullOrEmpty(type))
 			{
-				MessageBox.Show("请输入型号名");
+				setNotice("请输入型号名",true,true);
 				return;
 			}
 			if (!FileHelper.CheckFileName(type))
 			{
-				MessageBox.Show("型号名含有非法字符，无法保存。");
+				setNotice("型号名含有非法字符，无法保存。", true, true);
 				return;
 			}
 
@@ -495,10 +502,11 @@ namespace LightEditor
 			{
 				if (isNew)
 				{
-					DialogResult dr = MessageBox.Show("检查到系统中已存在同名灯具，是否覆盖？",
-					"覆盖灯具？",
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Question);
+					DialogResult dr = MessageBox.Show(
+						LanguageHelper.TranslateSentence("检查到系统中已存在同名灯具，是否覆盖？"),
+						LanguageHelper.TranslateSentence("覆盖灯具？"),
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question);
 					//选中否（不覆盖），则退出本方法
 					if (dr == DialogResult.No)
 					{
@@ -553,7 +561,7 @@ namespace LightEditor
 				}
 			}
 			enableRename(false);
-			MessageBox.Show("已成功保存灯具。");
+			setNotice("已成功保存灯具。",true,true);
 		}
 
 		/// <summary>
@@ -590,6 +598,7 @@ namespace LightEditor
 			checkGenerateEnable();
 			showTds();
 			handleTongdaoCount();
+			refreshPlayGroupBox();
 		}
 
 		/// <summary>
@@ -615,7 +624,7 @@ namespace LightEditor
 				{
 					tongdaoList.Add(new TongdaoWrapper()
 					{
-						TongdaoName = "通道" + (tdIndex + 1),
+						TongdaoName = LanguageHelper.TranslateWord("通道") + (tdIndex + 1),
 						Address = tdIndex + 1,
 						InitValue = 0,
 						CurrentValue = 0
@@ -640,7 +649,7 @@ namespace LightEditor
 					{
 						tongdaoList.Add(new TongdaoWrapper()
 						{
-							TongdaoName = "通道" + (tdIndex + 1),
+							TongdaoName = LanguageHelper.TranslateWord("通道") + (tdIndex + 1),
 							Address = tdIndex + 1,
 							InitValue = 0,
 							CurrentValue = 0
@@ -707,16 +716,16 @@ namespace LightEditor
 				{					
 					comComboBox.Enabled = false;
 					refreshButton.Enabled = false;
-					connectButton.Text = "断开连接";
-					isConnect = true;					
-					setNotice("成功打开串口(" + comComboBox.Text+")，并进入调试模式。" ,false);
+					connectButton.Text = LanguageHelper.TranslateSentence("断开连接");
+					isConnect = true;
+					setNotice(LanguageHelper.TranslateSentence("成功打开串口，并进入调试模式。"), false, true);
 					if (isConnect) {
 						oneLightOneStep();
 					}
 				}
 				else
 				{
-					setNotice("串口：" + comComboBox.Text + " 连接失败。"  , true);
+					setNotice("串口连接失败。"  , true,true);
 				}
 			}
 			//否则断开连接: --> 《选择串口》设为可用
@@ -727,7 +736,7 @@ namespace LightEditor
 				refreshButton.Enabled = true;				
 				connectButton.Text = "连接设备";
 				isConnect = false;
-				setNotice("成功断开连接，并退出调试模式。", false);
+				setNotice("成功断开连接，并退出调试模式。", false, true);
 			}
 		}
 
@@ -761,7 +770,7 @@ namespace LightEditor
 			firstTDValue = decimal.ToInt32(firstTDNumericUpDown.Value);
 			for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 			{
-				tdLabels[tdIndex].Text = "通道" + (firstTDValue + tdIndex);
+				tdLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (firstTDValue + tdIndex);
 				if (selectedTextBox != null) {
 					tdTextBoxSelected();
 				}
@@ -842,7 +851,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void setCurrentToInitButton_Click(object sender, EventArgs e)
 		{
-			DialogResult dr = MessageBox.Show("确定要把当前所有通道数值，设为此灯具的默认值吗？",
+			DialogResult dr = MessageBox.Show(
+				LanguageHelper.TranslateSentence("确定要把当前所有通道数值，设为此灯具的默认值吗？"),
 				"",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
@@ -882,8 +892,8 @@ namespace LightEditor
 
 			if (tb.Text.Trim() == "")
 			{
-				setNotice("请输入通道名，否则系统将自动为您生成名称。", true);
-				tb.Text = "通道" + (tdIndex+1)  ;
+				setNotice("请输入通道名，否则系统将自动为您生成名称。", true, true);
+				tb.Text = LanguageHelper.TranslateWord("通道") + (tdIndex+1)  ;
 			}
 			
 			tongdaoList[tdIndex].TongdaoName = tb.Text.Trim(); //更改为最新的名称					
@@ -1048,18 +1058,18 @@ namespace LightEditor
 			if (selectedTextBox == null)
 			{							
 				clearTdRelated(true);
-				setNotice("尚未选择通道（selectedTextBox == null）。", true);
+				setNotice("尚未选择通道（selectedTextBox == null）。", true, true);
 				return;
 			}
 			selectedTdIndex = MathHelper.GetIndexNum(selectedTextBox.Name, -1);
 			if (selectedTdIndex == -1)
 			{				
 				clearTdRelated(true);
-				setNotice("尚未选择通道（selectedTDIndex==-1）。", true);
+				setNotice("尚未选择通道（selectedTDIndex == -1）。", true, true);
 				return;	
 			}
 
-			tdNumLabel.Text = "已选中: " + tdLabels[selectedTdIndex].Text + "(" + (selectedTdIndex + 1) + ")" + " - " + tdTextBoxes[selectedTdIndex].Text;
+			tdNumLabel.Text =LanguageHelper.TranslateSentence("已选中: ") + tdLabels[selectedTdIndex].Text + "(" + (selectedTdIndex + 1) + ")" + " - " + tdTextBoxes[selectedTdIndex].Text;
 
 			// 若不存在saDict，则生成
 			if (saDict == null)
@@ -1113,7 +1123,7 @@ namespace LightEditor
 			}
 			else
 			{
-				setNotice("请先选择通道名称文本框。", false);
+				setNotice("请先选择通道名称文本框。", false,true);
 			}
 		}
 
@@ -1132,7 +1142,7 @@ namespace LightEditor
 			saBigPanel.Enabled = !clear;
 			saTitlePanel2.Visible= !clear;
 			if ( clear ) {				
-				noticeLabel.Text = "请选择通道";
+				noticeLabel.Text = LanguageHelper.TranslateSentence( "请选择通道");
 			}
 		}
 			   
@@ -1162,7 +1172,7 @@ namespace LightEditor
 
 			if (selectedTdIndex == -1 || !saDict.ContainsKey(selectedTdIndex))
 			{
-				setNotice("未选中通道或saDict内没有该通道的FLP数据。", true);
+				setNotice("未选中通道或saDict内没有该通道的FLP数据。", true,true);
 				return;
 			}
 			saDict[selectedTdIndex].Controls.Clear();
@@ -1187,7 +1197,7 @@ namespace LightEditor
 				Size = saTextBoxDemo.Size,
 				TextAlign = saTextBoxDemo.TextAlign,
 				MaxLength = saTextBoxDemo.MaxLength,
-				Text = newSa?  "子属性"+saIndex : sawArray[tdIndex].SaList[saIndex].SAName
+				Text = newSa?  LanguageHelper.TranslateWord("子属性") + saIndex : sawArray[tdIndex].SaList[saIndex].SAName
 			};
 
 			NumericUpDown saStartNUDTemp = new NumericUpDown
@@ -1236,7 +1246,7 @@ namespace LightEditor
 			if (newSa) {
 				sawArray[selectedTdIndex].SaList.Add(new SA
 				{
-					SAName = "子属性" + saIndex,
+					SAName = LanguageHelper.TranslateSentence("子属性") + saIndex,
 					StartValue = startEndValue,
 					EndValue = startEndValue,
 				});
@@ -1256,8 +1266,8 @@ namespace LightEditor
 			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(tb.Parent);
 			if (tb.Text.Trim() == "")
 			{
-				setNotice("请输入子属性名，否则系统将自动为您生成名称。", true);
-				tb.Text = "子属性" + (saIndex + 1); 
+				setNotice("请输入子属性名，否则系统将自动为您生成名称。", true,true);
+				tb.Text = LanguageHelper.TranslateWord("子属性") + (saIndex + 1); 
 			}
 			sawArray[selectedTdIndex].SaList[saIndex].SAName = tb.Text.Trim();
 		}
@@ -1283,7 +1293,6 @@ namespace LightEditor
 		{
 			NumericUpDown nud = sender as NumericUpDown;
 			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(nud.Parent);
-			//Console.WriteLine("现在ValueChanged的是" + selectedTdIndex + " -- " + saIndex + " ++ " + nud.Name);
 
 			if (nud.Name == "saStartNUD")
 			{
@@ -1304,7 +1313,6 @@ namespace LightEditor
 		{
 			Button btn = sender as Button;
 			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(btn.Parent);
-			//Console.WriteLine("现在删除的是" + selectedTdIndex + " -- " + saDict[selectedTdIndex].Controls.IndexOf(btn.Parent) );
 
 			// 两个地方都要删除：控件 及 sawArray
 			saDict[selectedTdIndex].Controls.RemoveAt(saIndex);
@@ -1334,7 +1342,7 @@ namespace LightEditor
 				decimal dd = nud.Value + nud.Increment;
 				if (dd <= nud.Maximum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 			// 向下滚
@@ -1343,7 +1351,7 @@ namespace LightEditor
 				decimal dd = nud.Value - nud.Increment;
 				if (dd >= nud.Minimum)
 				{
-					nud.Value = decimal.ToInt32(dd);
+					nud.Value = dd;
 				}
 			}
 		}
@@ -1352,8 +1360,12 @@ namespace LightEditor
 		/// 辅助方法：显示提示
 		/// </summary>
 		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
+		private void setNotice(string msg, bool msgBoxShow, bool isTranslate)
 		{
+			if (isTranslate) {
+				msg = LanguageHelper.TranslateSentence(msg);
+			}
+
 			myStatusLabel.Text = msg;
 			if (msgBoxShow)
 			{

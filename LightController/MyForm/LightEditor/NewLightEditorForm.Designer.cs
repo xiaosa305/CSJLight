@@ -165,10 +165,10 @@
 			// generateButton
 			// 
 			this.generateButton.Enabled = false;
-			this.generateButton.Location = new System.Drawing.Point(377, 94);
+			this.generateButton.Location = new System.Drawing.Point(372, 92);
 			this.generateButton.Margin = new System.Windows.Forms.Padding(2);
 			this.generateButton.Name = "generateButton";
-			this.generateButton.Size = new System.Drawing.Size(52, 22);
+			this.generateButton.Size = new System.Drawing.Size(70, 24);
 			this.generateButton.TabIndex = 21;
 			this.generateButton.Text = "生成";
 			this.generateButton.UseVisualStyleBackColor = true;
@@ -240,7 +240,7 @@
 			this.countComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.countComboBox.Font = new System.Drawing.Font("宋体", 10F);
 			this.countComboBox.FormattingEnabled = true;
-			this.countComboBox.Location = new System.Drawing.Point(377, 54);
+			this.countComboBox.Location = new System.Drawing.Point(375, 55);
 			this.countComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.countComboBox.Name = "countComboBox";
 			this.countComboBox.Size = new System.Drawing.Size(52, 21);

@@ -34,6 +34,7 @@
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.switchButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
+			this.versionButton = new System.Windows.Forms.Button();
 			this.updateButton = new System.Windows.Forms.Button();
 			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
@@ -47,7 +48,6 @@
 			// 
 			// openFileDialog
 			// 
-			this.openFileDialog.FileName = "openFileDialog";
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
@@ -74,6 +74,7 @@
 			this.connectPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.connectPanel.Controls.Add(this.switchButton);
 			this.connectPanel.Controls.Add(this.refreshButton);
+			this.connectPanel.Controls.Add(this.versionButton);
 			this.connectPanel.Controls.Add(this.updateButton);
 			this.connectPanel.Controls.Add(this.deviceConnectButton);
 			this.connectPanel.Controls.Add(this.deviceComboBox);
@@ -90,20 +91,37 @@
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(88, 59);
 			this.switchButton.TabIndex = 34;
-			this.switchButton.Text = "切换为\r\n网络连接";
+			this.switchButton.Text = "以网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.TextChanged += new System.EventHandler(this.someButtton_TextChanged);
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
 			// refreshButton
 			// 
-			this.refreshButton.Location = new System.Drawing.Point(167, 63);
+			this.refreshButton.Location = new System.Drawing.Point(149, 63);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(107, 26);
+			this.refreshButton.Size = new System.Drawing.Size(93, 26);
 			this.refreshButton.TabIndex = 32;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.TextChanged += new System.EventHandler(this.someButtton_TextChanged);
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			// 
+			// versionButton
+			// 
+			this.versionButton.BackColor = System.Drawing.Color.Silver;
+			this.versionButton.Enabled = false;
+			this.versionButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.versionButton.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.versionButton.Location = new System.Drawing.Point(385, 29);
+			this.versionButton.Name = "versionButton";
+			this.versionButton.Size = new System.Drawing.Size(66, 59);
+			this.versionButton.TabIndex = 12;
+			this.versionButton.Text = "获取\r\n当前版本";
+			this.versionButton.UseVisualStyleBackColor = false;
+			this.versionButton.Visible = false;
+			this.versionButton.Click += new System.EventHandler(this.versionButton_Click);
 			// 
 			// updateButton
 			// 
@@ -111,7 +129,7 @@
 			this.updateButton.Enabled = false;
 			this.updateButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.updateButton.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.updateButton.Location = new System.Drawing.Point(453, 30);
+			this.updateButton.Location = new System.Drawing.Point(468, 30);
 			this.updateButton.Name = "updateButton";
 			this.updateButton.Size = new System.Drawing.Size(81, 59);
 			this.updateButton.TabIndex = 12;
@@ -122,13 +140,14 @@
 			// deviceConnectButton
 			// 
 			this.deviceConnectButton.Enabled = false;
-			this.deviceConnectButton.Location = new System.Drawing.Point(304, 63);
+			this.deviceConnectButton.Location = new System.Drawing.Point(273, 63);
 			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceConnectButton.Name = "deviceConnectButton";
-			this.deviceConnectButton.Size = new System.Drawing.Size(109, 26);
+			this.deviceConnectButton.Size = new System.Drawing.Size(88, 26);
 			this.deviceConnectButton.TabIndex = 31;
 			this.deviceConnectButton.Text = "打开串口";
 			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.TextChanged += new System.EventHandler(this.someButtton_TextChanged);
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
 			// deviceComboBox
@@ -136,10 +155,10 @@
 			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.deviceComboBox.Enabled = false;
 			this.deviceComboBox.FormattingEnabled = true;
-			this.deviceComboBox.Location = new System.Drawing.Point(167, 30);
+			this.deviceComboBox.Location = new System.Drawing.Point(142, 30);
 			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceComboBox.Name = "deviceComboBox";
-			this.deviceComboBox.Size = new System.Drawing.Size(246, 20);
+			this.deviceComboBox.Size = new System.Drawing.Size(226, 20);
 			this.deviceComboBox.TabIndex = 29;
 			// 
 			// statusStrip1
@@ -160,7 +179,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(286, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(367, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -194,7 +213,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "HardwareUpdateForm";
-			this.Text = "硬件升级(固件更新)";
+			this.Text = "固件升级";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareUpdateForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
@@ -220,5 +239,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.ToolStripProgressBar myProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel progressStatusLabel;
+		private System.Windows.Forms.Button versionButton;
 	}
 }

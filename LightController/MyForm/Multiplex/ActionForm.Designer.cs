@@ -73,7 +73,6 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.sqLiteCommandBuilder1 = new System.Data.SQLite.SQLiteCommandBuilder();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.actionTabControl.SuspendLayout();
@@ -106,12 +105,13 @@
 			// previewButton
 			// 
 			this.previewButton.BackColor = System.Drawing.Color.SandyBrown;
-			this.previewButton.Location = new System.Drawing.Point(45, 375);
+			this.previewButton.Location = new System.Drawing.Point(53, 375);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(75, 37);
 			this.previewButton.TabIndex = 0;
 			this.previewButton.Text = "预览";
 			this.previewButton.UseVisualStyleBackColor = false;
+			this.previewButton.TextChanged += new System.EventHandler(this.previewButton_TextChanged);
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
 			// actionTabControl
@@ -721,7 +721,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(181, 375);
+			this.enterButton.Location = new System.Drawing.Point(184, 375);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 37);
 			this.enterButton.TabIndex = 0;
@@ -732,18 +732,13 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(261, 375);
+			this.cancelButton.Location = new System.Drawing.Point(264, 375);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 37);
 			this.cancelButton.TabIndex = 0;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
-			// sqLiteCommandBuilder1
-			// 
-			this.sqLiteCommandBuilder1.DataAdapter = null;
-			this.sqLiteCommandBuilder1.QuoteSuffix = "]";
 			// 
 			// statusStrip1
 			// 
@@ -782,7 +777,7 @@
 			this.Name = "ActionForm";
 			this.Text = "使用内置动作";
 			this.Activated += new System.EventHandler(this.ActionForm_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ActionForm_FormClosing);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ActionForm_FormClosed);
 			this.Load += new System.EventHandler(this.ActionForm_Load);
 			this.actionTabControl.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
@@ -839,7 +834,6 @@
 		private System.Windows.Forms.NumericUpDown lineY1NumericUpDown;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
-		private System.Data.SQLite.SQLiteCommandBuilder sqLiteCommandBuilder1;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.NumericUpDown circleYNumericUpDown;

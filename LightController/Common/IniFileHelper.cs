@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace LightController.Common
 {
@@ -69,7 +70,6 @@ namespace LightController.Common
 		{
 			StringBuilder vRetSb = new StringBuilder(2048);
 			GetPrivateProfileString(section, name, def, vRetSb, 2048, this.filePath);
-			//Console.WriteLine( " -----" +  vRetSb .ToString() );
 			return vRetSb.ToString();
 		}
 		
@@ -85,8 +85,7 @@ namespace LightController.Common
 			GetPrivateProfileString(section, name, "", strSb, 256, this.filePath);
 			return strSb.ToString();
 		}
-
-
+		
 		/// <summary>
 		/// [扩展]写入Int数值，如果不存在 节-键，则会自动创建
 		/// </summary>
@@ -158,40 +157,75 @@ namespace LightController.Common
 			WritePrivateProfileString(section, name, value, this.filePath);
 		}
 
+		#region 自定义的一些辅助方法：
+
 		/// <summary>
 		/// 辅助方法：直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
 		/// </summary>
 		/// <returns></returns>
-		public static string GetSavePath(string appPathStr) {
-
+		public static string GetSavePath(string appPathStr)
+		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  
-			if (appPath.Trim().ToLower().Equals("true"))
-			{
-				return appPathStr;
-			}
-			else
-			{
-				return iniFileAst.ReadString("SavePath", "otherPath", "");
-			} 
+			return iniFileAst.GetSavePath(  ) ;
 		}
 
 		/// <summary>
-		/// 辅助方法：取出是否显示按钮
+		/// 辅助方法：(避免重复读取Ini文件)，直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
+		/// </summary>
+		/// <returns></returns>
+		public string GetSavePath() {
+			string appPath = ReadString("SavePath", "useAppPath", "false");
+			if (appPath.Trim().ToLower().Equals("true"))
+			{
+				return Application.StartupPath ;
+			}
+			else
+			{
+				return ReadString("SavePath", "otherPath", "");
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：取出是否显示按钮；默认不显示，比较安全。
 		/// </summary>
 		/// <returns></returns>
 		public static bool GetControlShow(string appPathStr, string controlName)
 		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			string isShow = iniFileAst.ReadString("Show", controlName, "false");
-			if (isShow.Trim().ToLower().Equals("true")){
-				return true;
-			}
-			else {
-				return false;
-			}
+			return iniFileAst.GetControlShow(controlName);
 		}
 
+		/// <summary>
+		/// 辅助方法：取出是否显示按钮(非静态)；默认不显示，比较安全。
+		/// </summary>
+		/// <returns></returns>
+		public bool GetControlShow( string controlName)
+		{
+			string isShow = ReadString("Show", controlName, "false");
+			return isShow.Trim().ToLower().Equals("true");
+		}
+
+		/// <summary>
+		/// 辅助方法：取出是否提示(静态)；默认为提示，比较安全。
+		/// </summary>
+		/// <param name="controlName"></param>
+		/// <returns></returns>
+		public static bool GetIsNotice(string appPathStr , string controlName)
+		{
+			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
+			return iniFileAst.GetIsNotice(controlName);			
+		}
+
+		/// <summary>
+		/// 辅助方法：取出是否提示；默认为提示，比较安全。
+		/// </summary>
+		/// <param name="controlName"></param>
+		/// <returns></returns>
+		public bool GetIsNotice(string controlName) {
+			string isNotice = ReadString("Show", controlName, "true");
+			return isNotice.Trim().ToLower().Equals("true");
+		}
+		
 		/// <summary>
 		/// 辅助方法：取出是否关联外部的软件
 		/// </summary>
@@ -199,15 +233,17 @@ namespace LightController.Common
 		public static bool GetIsLink(string appPathStr, string appName)
 		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			string isLink = iniFileAst.ReadString("Link", appName, "false");
-			if (isLink.Trim().ToLower().Equals("true"))
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return iniFileAst.GetIsLink(appName);
+		}
+
+		/// <summary>
+		/// 辅助方法：(非静态)取出是否关联外部的软件
+		/// </summary>
+		/// <returns></returns>
+		public bool GetIsLink( string appName)
+		{
+			string isLink = ReadString("Link", appName, "false");
+			return isLink.Trim().ToLower().Equals("true");
 		}
 
 		/// <summary>
@@ -216,18 +252,30 @@ namespace LightController.Common
 		/// <param name="startupPath"></param>
 		/// <param name="v"></param>
 		/// <returns></returns>
-		public static int GetSystemCount(string appPathStr, string attrName)
+		public static int GetSystemCount(string appPathStr, string attrName, int defaultValue)
 		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.ReadInt("System", attrName, 0);
+			return iniFileAst.GetSystemCount( attrName , defaultValue);
 		}
 
+		/// <summary>
+		/// 辅助方法：取出系统的一些数值
+		/// </summary>
+		/// <param name="startupPath"></param>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public int GetSystemCount( string attrName, int defaultValue)
+		{
+			return ReadInt("System", attrName, defaultValue);
+		}
+		
 		//与ini交互必须统一编码格式
 		private static byte[] getBytes(string s, string encodingName)
 		{
 			return null == s ? null : Encoding.GetEncoding(encodingName).GetBytes(s);
 		}
 
-	
+		#endregion
+
 	}
 }

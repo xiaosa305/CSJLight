@@ -58,7 +58,7 @@
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 23);
 			this.enterButton.TabIndex = 6;
-			this.enterButton.Text = "确认";
+			this.enterButton.Text = "确定";
 			this.enterButton.UseVisualStyleBackColor = true;
 			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 

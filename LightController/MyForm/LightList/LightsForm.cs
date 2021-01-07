@@ -75,8 +75,10 @@ namespace LightController
 		/// <param name="e"></param>
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-			this.lightsListView.HideSelection = true;
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			lightsListView.HideSelection = true;
+			LanguageHelper.InitForm(this);
+			LanguageHelper.InitListView(lightsListView);
 		}
 
 		/// <summary>
@@ -110,9 +112,9 @@ namespace LightController
 		/// <param name="e"></param>
 		private void addLightButton_Click(object sender, EventArgs e)
 		{
-			if (skinTreeView1.SelectedNode == null)
+			if (skinTreeView1.SelectedNode == null || skinTreeView1.SelectedNode.Level == 0)
 			{
-				MessageBox.Show("请先选择灯具！");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请先选择灯具。"));
 			} else {
 				if (skinTreeView1.SelectedNode.Parent != null)
 				{
@@ -144,11 +146,11 @@ namespace LightController
 		{
 			if (lightsListView.SelectedIndices.Count == 0)
 			{
-				MessageBox.Show("请先选择要删除的灯具");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请先选择要删除的灯具。"));
 			}
 			else
 			{
-				// 多灯情况下的删除方法：通过item来删除数据
+				// 选择多个灯具情况下的删除方法：通过item来删除数据
 				foreach (ListViewItem item in lightsListView.SelectedItems)
 				{
 					lightAstList.RemoveAt(item.Index);
@@ -174,7 +176,7 @@ namespace LightController
 			mainForm.Activate();
 
 			//3.修改灯具列表后，提示保存工程
-			mainForm.RequestSaveProject("修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）",true);
+			mainForm.RequestSaveProject(LanguageHelper.TranslateSentence("修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）？"),true);
 		}	
 
 		/// <summary>
@@ -211,7 +213,7 @@ namespace LightController
 			// 3.设置minNum的值 			
 			minNum = endNum + 1;
 			if( minNum>512 ) {
-				MessageBox.Show("当前工程已经到达DMX512地址上限，请谨慎设置");
+				MessageBox.Show(LanguageHelper.TranslateSentence("当前工程已经到达DMX512地址上限，请谨慎设置！"));
 				minNum = 512;
 			}
 		}
@@ -225,7 +227,7 @@ namespace LightController
 		{
 			int endNum = startNum + lightAstList[lightIndex].Count - 1;
 			if (endNum > MAX_TD) {
-				MessageBox.Show("设置后的最后地址超过了DMX512的上限值，请重新设置。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("设置后的最后地址超过了DMX512的上限值，请重新设置。"));
 				return false;
 			}
 			else

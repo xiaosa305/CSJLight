@@ -17,25 +17,26 @@ namespace LightController.MyForm
 		private MainFormBase mainForm;
 		private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
 		private bool isJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除
-		//private string savePath;   // 辅助变量，获取软件的存储目录。
+		private string savePath;   // 辅助变量，获取软件的存储目录。
 		private string selectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单		
 		private SortMethodEnum sortMethod = SortMethodEnum.LAST_WRITE_TIME; //每次排序时按这个全局变量进行排序，可通过右侧三个按钮更改此变量；默认设为最后写入时间	
 
 		public OpenForm(MainFormBase mainForm, int currentFrame , string currentProjectName)
 		{
 			InitializeComponent();
-		
+				
 			this.mainForm = mainForm;
 			this.currentProjectName = currentProjectName;
+			this.savePath = mainForm.SavePath ;
 			
-			changeWorkspaceButton.Visible = IniFileHelper.GetControlShow(Application.StartupPath, "useExportProject"); //是否支持打开导出工程
+			changeWorkspaceButton.Visible = IniFileHelper.GetControlShow(Application.StartupPath, "useExportProject"); //是否支持更改工作目录
 
 			//MARK 只开单场景：00.1 OpenForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 				frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
 			}
-			frameComboBox.SelectedIndex = currentFrame;	
+			frameComboBox.SelectedIndex = currentFrame;
 
 			RefreshDirTreeView();
 		}
@@ -47,7 +48,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void OpenForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);			
+			LanguageHelper.InitForm(this);
+
+			LanguageHelper.TranslateMenuStrip( myContextMenuStrip );
 		}
 
 		/// <summary>
@@ -92,9 +96,9 @@ namespace LightController.MyForm
 		{
 			DialogResult dr = wsFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.OK)
-			{
-				string workspacePath = wsFolderBrowserDialog.SelectedPath;
-				mainForm.SavePath = workspacePath;
+			{			
+				//ＭARK1124: 只是在打开工程时更改工作目录，不应该直接应用到mainForm中，应该当真正打开工程才执行此项操作
+				savePath = wsFolderBrowserDialog.SelectedPath;
 				RefreshDirTreeView();
 			}
 		}
@@ -109,7 +113,7 @@ namespace LightController.MyForm
 			// 1.先验证是否刚删除项目 或 空选项
 			if (isJustDelete  || projectTreeView.SelectedNode == null)
 			{
-				MessageBox.Show("请选择正确的项目名");
+				MessageBox.Show(LanguageHelper.TranslateSentence(LanguageHelper.TranslateSentence("请选择要打开的工程")));
 				return;
 			}
 
@@ -119,11 +123,11 @@ namespace LightController.MyForm
 				this.Dispose();
 				mainForm.Activate();
 				//MARK 只开单场景：01.0 OpenForm点确定时，只打开单个场景，故传入frameIndex
-				mainForm.OpenProject(projectName,frameComboBox.SelectedIndex);
+				mainForm.OpenProject(  savePath , projectName , frameComboBox.SelectedIndex );
 			}
 			else
 			{
-				MessageBox.Show("请选择正确的项目名");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请选择要打开的工程"));
 				return;
 			}			
 		}
@@ -150,7 +154,7 @@ namespace LightController.MyForm
 		{
 			// 1.先验证是否刚删除项目
 			if (isJustDelete || projectTreeView.SelectedNode == null) {
-				MessageBox.Show("请选择要删除的工程:");
+				MessageBox.Show(LanguageHelper.TranslateSentence("请选择要删除的工程:"));
 				return;
 			}
 
@@ -159,22 +163,21 @@ namespace LightController.MyForm
 
 			// 8.21 验证是否当前项目，若是则不可删除
 			if (projectName.Equals(currentProjectName)) {
-				MessageBox.Show("无法删除正在使用的工程！");
+				MessageBox.Show(LanguageHelper.TranslateSentence("无法删除正在使用的工程！"));
 				return;
 			}
 
 			// 1. 弹出是否删除的确认框
-			DialogResult dr = MessageBox.Show(
-				"确定删除此工程吗？", 
-				"删除工程？",
+			if ( MessageBox.Show(
+				LanguageHelper.TranslateSentence("确定删除此工程吗？"), 
+				LanguageHelper.TranslateSentence("删除工程？"),
 				MessageBoxButtons.OKCancel,
-				MessageBoxIcon.Question);
-			if (dr == DialogResult.Cancel)
+				MessageBoxIcon.Warning) == DialogResult.Cancel )
 			{
 				return;
 			}
 
-			string directoryPath = mainForm.SavePath +  @"\LightProject\" + projectName;
+			string directoryPath = savePath +  @"\LightProject\" + projectName;
 			DirectoryInfo di = new DirectoryInfo(directoryPath);
 
 			// 2.删除目录
@@ -242,11 +245,11 @@ namespace LightController.MyForm
 		{
 			if (selectedProjectName.Equals(currentProjectName))
 			{
-				MessageBox.Show("无法重命名当前打开的工程。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("无法重命名当前打开的工程。"));
 			}
 			else {
 				// 这里用到了形参默认值的方法，在没有设置的情况下，copy值默认为false（重命名）
-				new ProjectRenameOrCopyForm(this, mainForm.SavePath ,selectedProjectName).ShowDialog();
+				new ProjectRenameOrCopyForm(this, savePath ,selectedProjectName).ShowDialog();
 			}
 		}	
 
@@ -257,7 +260,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void copyProjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new ProjectRenameOrCopyForm(this, mainForm.SavePath,selectedProjectName,true).ShowDialog();
+			new ProjectRenameOrCopyForm(this, savePath,selectedProjectName,true).ShowDialog();
 		}
 
 		/// <summary>
@@ -266,7 +269,7 @@ namespace LightController.MyForm
 		internal void RefreshDirTreeView()
 		{
 			projectTreeView.Nodes.Clear();
-			string path = mainForm.SavePath + @"\LightProject";
+			string path = savePath + @"\LightProject";
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);
@@ -283,7 +286,6 @@ namespace LightController.MyForm
 				
 				foreach (DirectoryInfo di in diArray)
 				{
-					//Console.WriteLine("di:"+di.Name+"["+di.CreationTime+" | "+di.LastWriteTime+"]");
 					TreeNode treeNode = new TreeNode(di.Name);					
 					projectTreeView.Nodes.Add(treeNode);				
 				}

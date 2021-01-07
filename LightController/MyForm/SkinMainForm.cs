@@ -22,6 +22,7 @@ using OtherTools;
 using LightEditor.Ast;
 using LightController.PeripheralDevice;
 using LightController.MyForm.Multiplex;
+using Newtonsoft.Json;
 
 namespace LightController.MyForm
 {
@@ -34,16 +35,22 @@ namespace LightController.MyForm
 		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
 		private SkinComboBox[] tdChangeModeComboBoxes = new SkinComboBox[32];
 		private NumericUpDown[] tdStepTimeNumericUpDowns = new NumericUpDown[32];	
-		private Panel[] saPanels = new Panel[32];
+		private Panel[] saPanels = new Panel[32];		
 
 		public SkinMainForm()
 		{
 			initGeneralControls();
 			InitializeComponent();
 
+			// 定义标题栏文字+Icon
+			string iconPath = Application.StartupPath + @"\favicon.ico";
+			if (File.Exists(iconPath))
+			{
+				Icon = Icon.ExtractAssociatedIcon(iconPath);
+			}
 			Text = SoftwareName;
-			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;
-			oldToolsSkinButton.Visible = IsLinkOldTools;
+
+			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;			
 			testGroupBox.Visible = IsShowTestButton;
 			bigTestButton.Visible = IsShowTestButton;
 
@@ -94,20 +101,20 @@ namespace LightController.MyForm
 					Location = tdTrackBarDemo.Location,
 					Maximum = tdTrackBarDemo.Maximum,
 					Orientation = tdTrackBarDemo.Orientation,
-					Size = tdTrackBarDemo.Size,				
+					Size = tdTrackBarDemo.Size,
 					TickStyle = tdTrackBarDemo.TickStyle,
-					Track = tdTrackBarDemo.Track,
+					Track = tdTrackBarDemo.Track,					
 				};
-
 
 				tdValueNumericUpDowns[tdIndex] = new NumericUpDown
 				{
-					Name = "tdValueNUD" + (tdIndex + 1) ,
+					Name = "tdValueNUD" + (tdIndex + 1),
 					Font = tdValueNUDDemo.Font,
 					TextAlign = tdValueNUDDemo.TextAlign,
 					Size = tdValueNUDDemo.Size,
 					Location = tdValueNUDDemo.Location,
 					Maximum = tdValueNUDDemo.Maximum,
+					Tag = 0,
 				};
 
 				tdChangeModeComboBoxes[tdIndex] = new SkinComboBox
@@ -118,11 +125,17 @@ namespace LightController.MyForm
 					BorderColor = tdChangeModeComboBoxDemo.BorderColor,
 					DrawMode = tdChangeModeComboBoxDemo.DrawMode,
 					FormattingEnabled = tdChangeModeComboBoxDemo.FormattingEnabled,
-					ItemBorderColor = tdChangeModeComboBoxDemo.ItemBorderColor,					
+					ItemBorderColor = tdChangeModeComboBoxDemo.ItemBorderColor,
 					Location = tdChangeModeComboBoxDemo.Location,
 					Size = tdChangeModeComboBoxDemo.Size,
+					DropDownStyle = tdChangeModeComboBoxDemo.DropDownStyle,
+					Tag = 1
 				};
-				tdChangeModeComboBoxes[tdIndex].Items.AddRange(new object[] {"跳变","渐变","屏蔽"});
+				tdChangeModeComboBoxes[tdIndex].Items.AddRange(new object[] {
+					LanguageHelper.TranslateWord("跳变"),
+					LanguageHelper.TranslateWord("渐变"),
+					LanguageHelper.TranslateWord("屏蔽")
+				});
 
 				tdStepTimeNumericUpDowns[tdIndex] = new NumericUpDown
 				{
@@ -133,6 +146,7 @@ namespace LightController.MyForm
 					Location = tdStepTimeNUDDemo.Location,
 					DecimalPlaces = tdStepTimeNUDDemo.DecimalPlaces,
 					Maximum = tdStepTimeNUDDemo.Maximum,
+					Tag = 2
 				};
 
 				tdPanels[tdIndex].Controls.Add(tdNameLabels[tdIndex]); //插入的先后顺序很重要；顺序不对时，会造成label文字被遮挡
@@ -155,13 +169,17 @@ namespace LightController.MyForm
 
 				tdValueNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
 				tdValueNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
-				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);				
 
 				tdChangeModeComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
 
 				tdStepTimeNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
 				tdStepTimeNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
 				tdStepTimeNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+
+				tdValueNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
+				tdChangeModeComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
+				tdStepTimeNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
 
 				#endregion
 
@@ -195,7 +213,10 @@ namespace LightController.MyForm
 			frameSkinComboBox.SelectedIndex = 0;
 
 			//模式选项框
-			modeSkinComboBox.Items.AddRange(new object[] { "常规模式", "音频模式" });
+			modeSkinComboBox.Items.AddRange(new object[] {
+				LanguageHelper.TranslateWord("常规模式"),
+				LanguageHelper.TranslateWord("音频模式")
+			});
 			modeSkinComboBox.SelectedIndex = 0;
 						
 			#endregion
@@ -211,15 +232,19 @@ namespace LightController.MyForm
 			// 添加子属性按键组是否显示的菜单
 			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
 
+			//  动态加载灯具图片列表
+			lightsSkinListView.LargeImageList = lightImageList ; 
+			RefreshLightImageList(); //SkinMainForm构造函数
+
+			// 刷新为设置的语言
+			LanguageHelper.InitForm(this);
+			LanguageHelper.TranslateMenuStrip( mySkinContextMenuStrip);
+
 			isInit = true;
 		}
-		
+
 		private void SkinMainForm_Load(object sender, EventArgs e)
-		{
-			// 启动时刷新可用串口列表;
-			deviceRefresh(); //SkinMainForm_Load
-			SetNotice("", false);
-			
+		{					
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
 			lightsSkinListView.HideSelection = true;
 
@@ -228,6 +253,11 @@ namespace LightController.MyForm
 			{
 				panel.Hide();
 			}
+
+			// 每次启动后，可以切换到上一次软件打开时连接的方式
+			isConnectCom = Properties.Settings.Default.IsConnectCom;
+			refreshConnectMethod();	
+
 		}
 
 		/// <summary>
@@ -274,13 +304,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《硬件升级》按钮
+		///  事件：点击《固件升级》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void hardwareUpdateButton_Click(object sender, EventArgs e)
+		private void firewareButton_Click(object sender, EventArgs e)
 		{
-			hardwareUpdateClick();
+			firmwareButtonClick();
 		}
 
 		/// <summary>
@@ -292,22 +322,7 @@ namespace LightController.MyForm
 		{
 			newToolClick();
 		}
-
-		/// <summary>
-		/// 事件：点击《旧版外设配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void otherToolsSkinButton2_Click(object sender, EventArgs e)
-		{
-			// 若要进入《其他工具》，应该先将连接断开
-			if (IsConnected)
-			{
-				connectSkinButton_Click(null, null);
-			}
-			new OldToolsForm(this).ShowDialog();
-		}
-
+			
 		/// <summary>
 		///  事件：点击《退出程序》
 		/// </summary>
@@ -319,14 +334,29 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《使用说明》
+		/// 事件：点击《使用说明》->导航功能
 		/// </summary>
 		/// <param name="noticeText"></param>
-		private void helpSkinButton_Click(object sender, EventArgs e)
+		private void helpSkinButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：鼠标左右键按下《使用说明》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void helpSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			helpButtonClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				helpButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				updateLogButtonClick();
+			}
 		}
-		
+
+
 		#endregion
 
 		#region 工具按钮组 - 工程相关
@@ -522,23 +552,22 @@ namespace LightController.MyForm
 				lightsSkinListView.Items.Add(new ListViewItem(
 						LightAstList[i].LightType +"\n(" 
 						+ LightAstList[i].LightAddr +")"
-						+ LightAstList[i].Remark
-						,
-					lightLargeImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
+						+ LightAstList[i].Remark	,
+					lightImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
 				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
 				);
 			}
-			Refresh(); 
+			Refresh();
 		}
 		
 		/// <summary>
 		///  辅助方法：设定是否显示《 （调试区域的N个按钮）panel》
 		/// </summary>
 		/// <param name="visible"></param>
-		protected override void showPlayPanel(bool visible)
+		protected override void enablePlayPanel(bool enable)
 		{
-			playFlowLayoutPanel.Visible = visible;
+			playFlowLayoutPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -556,9 +585,9 @@ namespace LightController.MyForm
 		//MARK 只开单场景：02.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
-			CurrentFrame = frameIndex;
+			CurrentScene = frameIndex;
 			frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
-			frameSkinComboBox.SelectedIndex = CurrentFrame;
+			frameSkinComboBox.SelectedIndex = CurrentScene;
 			frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 		}
 
@@ -575,11 +604,10 @@ namespace LightController.MyForm
 		{
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsSkinListView.SelectedIndices[0];
-				//disposeSauForm();
+				selectedIndex = lightsSkinListView.SelectedIndices[0];				
 				if (generateNow)
 				{					
-					generateLightData();	
+					generateLightData();    //lightsSkinListView_SelectedIndexChanged
 				}
 			}
 		}
@@ -597,12 +625,12 @@ namespace LightController.MyForm
 				lightRemarkLabel.Text = null;
 				return;
 			}
-			
-			currentLightPictureBox.Image =lightLargeImageList.Images[la.LightPic]!=null ? lightLargeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
-			lightNameLabel.Text = "灯具厂商：" + la.LightName;
-			lightTypeLabel.Text = "灯具型号：" + la.LightType;
-			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
-			lightRemarkLabel.Text = "灯具备注：" + la.Remark;
+
+			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic):global::LightController.Properties.Resources.灯光图;
+			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
 		
 		}
 
@@ -703,10 +731,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：初始化灯具数据。
-		/// 0.先查看当前内存是否已有此数据 
-		/// 1.若还未有，则取出相关的ini进行渲染
-		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
+		/// 辅助方法：使能《stepPanel》
 		/// </summary>
 		/// <param name="la"></param>
 		protected override void enableStepPanel(bool enable)
@@ -752,7 +777,11 @@ namespace LightController.MyForm
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
-				hideAllTDPanels();
+				for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+				{
+					tdPanels[tdIndex].Hide();
+					saPanels[tdIndex].Hide();
+				}
 				labelPanel.Hide();
 			}
 			//2.将dataWrappers的内容渲染到起VScrollBar中
@@ -766,13 +795,12 @@ namespace LightController.MyForm
 					tdChangeModeComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
 					tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
 
-					tdNoLabels[i].Text = "通道" + (startNum + i);
+					tdNoLabels[i].Text = LanguageHelper.TranslateWord("通道") + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
 					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
-
 					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
 					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
 
@@ -793,18 +821,6 @@ namespace LightController.MyForm
 					generateSaPanels();
 				}
 			}
-		}
-
-		/// <summary>
-		/// 辅助方法：隐藏所有tdPanels,因为所有panels为空了，则《统一调整框》enabled应设为false
-		/// </summary>
-		protected override void hideAllTDPanels()
-		{
-			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
-			{
-				tdPanels[tdIndex].Hide();
-				saPanels[tdIndex].Hide();
-			}			
 		}
 
 		/// <summary>
@@ -886,10 +902,6 @@ namespace LightController.MyForm
 			foreach (var lightPath in lightPathHashSet)
 			{
 				string picStr = IniFileHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
-				if (String.IsNullOrEmpty(picStr))
-				{
-					picStr = "灯光图.png";
-				}
 				lightDict.Add(lightPath, picStr);
 			}
 
@@ -897,9 +909,8 @@ namespace LightController.MyForm
 			{
 				string tempPicStr = lightDict[LightAstList[lightIndex].LightPath];
 				LightAstList[lightIndex].LightPic = tempPicStr;
-				lightsSkinListView.Items[lightIndex].ImageKey = tempPicStr;
+				lightsSkinListView.Items[lightIndex].ImageKey = lightImageList.Images.ContainsKey(tempPicStr) ? tempPicStr: "灯光图.png";				
 			}
-
 		}
 
 		// 这个别忘了
@@ -991,7 +1002,7 @@ namespace LightController.MyForm
 			isAutoArrange = autoArrangeToolStripMenuItem.Checked;
 			lightsSkinListView.AllowDrop = !isAutoArrange;
 			lightsSkinListView.AutoArrange = isAutoArrange;
-			autoEnableSLArrange();			
+			autoEnableSLArrange(); //autoArrangeToolStripMenuItem_Click
 		}
 
 		/// <summary>
@@ -1043,9 +1054,9 @@ namespace LightController.MyForm
 				iniFileAst.WriteInt("Position", i + "X", lightsSkinListView.Items[i].Position.X);
 				iniFileAst.WriteInt("Position", i + "Y", lightsSkinListView.Items[i].Position.Y);
 			}
-			autoEnableSLArrange();
+			autoEnableSLArrange(); //saveArrangeToolStripMenuItem_Click
 
-			MessageBox.Show("灯具位置保存成功。");
+			SetNotice("灯具位置保存成功。",true, true);
 		}
 
 		/// <summary>
@@ -1100,7 +1111,7 @@ namespace LightController.MyForm
 		/// <param name="enable"></param>
 		protected override void enableRefreshPic(bool enable)
 		{
-			refreshPicToolStripMenuItem.Enabled = enable;
+			refreshPicToolStripMenuItem.Enabled = enable;			
 		}
 
 		/// <summary>
@@ -1120,28 +1131,24 @@ namespace LightController.MyForm
 		private void hideMenuPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			menuSkinPanel.Visible = !menuSkinPanel.Visible;
-			hideMenuPanelToolStripMenuItem.Text = menuSkinPanel.Visible ? "隐藏主菜单面板" : "显示主菜单面板";
 			hideMenuPanelToolStripMenuItem2.Text = menuSkinPanel.Visible ? "隐藏主菜单面板" : "显示主菜单面板";
 		}
 
 		private void hideProjectPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			projectSkinPanel.Visible = !projectSkinPanel.Visible;
-			hideProjectPanelToolStripMenuItem.Text = projectSkinPanel.Visible ? "隐藏工程面板" : "显示工程面板";
 			hideProjectPanelToolStripMenuItem2.Text = projectSkinPanel.Visible ? "隐藏工程面板" : "显示工程面板";
 		}
 
 		private void hideAstPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			astSkinPanel.Visible = !astSkinPanel.Visible;
-			hideAstPanelToolStripMenuItem.Text = astSkinPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
 			hideAstPanelToolStripMenuItem2.Text = astSkinPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
 		}
 
 		private void hidePlayPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			playPanel.Visible = !playPanel.Visible;
-			hidePlayPanelToolStripMenuItem.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 			hidePlayPanelToolStripMenuItem2.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 		}
 
@@ -1172,17 +1179,17 @@ namespace LightController.MyForm
 
 			//若选中项与当前项相同，则不再往下执行
 			int tempFrame = frameSkinComboBox.SelectedIndex;
-			if (tempFrame == CurrentFrame) {
+			if (tempFrame == CurrentScene) {
 				return;
 			}
 
 			setBusy(true);
-			SetNotice("正在切换场景,请稍候...", false);			
+			SetNotice("正在切换场景,请稍候...", false,true);			
 
 			// 只要更改了场景，直接结束预览
 			endview();
 
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentFrame] + ")？",
+			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentScene] + ")？",
 				"保存场景?",
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
@@ -1190,21 +1197,23 @@ namespace LightController.MyForm
 			{
 				saveFrameClick();
 				//MARK 只开单场景：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[CurrentFrame] = false;				
+				frameSaveArray[CurrentScene] = false;				
 			}
 
-			CurrentFrame = frameSkinComboBox.SelectedIndex;
+			CurrentScene = frameSkinComboBox.SelectedIndex;
 			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-			if (!frameLoadArray[CurrentFrame])
+			if (!frameLoadArray[CurrentScene])
 			{
-				generateFrameData(CurrentFrame);
+				generateFrameData(CurrentScene);
 			}
 			//MARK 只开单场景：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-			frameSaveArray[CurrentFrame] = true;
+			frameSaveArray[CurrentScene] = true;
 
-			changeFrameMode();
+			changeSceneMode();
 			setBusy(false);
-			SetNotice("成功切换为场景(" + AllFrameList[CurrentFrame] + ")", false);
+			SetNotice( 
+				LanguageHelper.TranslateSentence("成功切换为场景(" )
+				+ AllFrameList[CurrentScene] + ")",	false,false);
 		}
 
 		/// <summary>
@@ -1214,40 +1223,50 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			CurrentMode = modeSkinComboBox.SelectedIndex;
-
 			//11.13 若未初始化，直接return；
 			if (!isInit)
 			{
 				return;
 			}
+
+			SetNotice("正在切换模式...",false,true);
+			CurrentMode = modeSkinComboBox.SelectedIndex;		
 			
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
 			// 3.所有步时间值的调节，改为enabled=false						
 			if (CurrentMode == 1)
-			{
+			{			
 				for (int i = 0; i < FrameCount; i++)
 				{
-					this.tdChangeModeComboBoxes[i].Items.Clear();
-					this.tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
-					this.tdStepTimeNumericUpDowns[i].Hide();
-				}			
+					tdChangeModeComboBoxes[i].Items.Clear();
+					tdChangeModeComboBoxes[i].Items.AddRange(new object[] {
+						LanguageHelper.TranslateWord("屏蔽"),
+						LanguageHelper.TranslateWord("跳变")
+					});
+					tdStepTimeNumericUpDowns[i].Hide();					
+				}
+				thirdLabel.Hide();				
 			}
 			else //mode=0，常规模式
 			{
 				for (int i = 0; i < FrameCount; i++)
 				{
-					this.tdChangeModeComboBoxes[i].Items.Clear();
-					this.tdChangeModeComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-					this.tdStepTimeNumericUpDowns[i].Show();
+					tdChangeModeComboBoxes[i].Items.Clear();
+					tdChangeModeComboBoxes[i].Items.AddRange(new object[] {
+						LanguageHelper.TranslateWord("跳变"),
+						LanguageHelper.TranslateWord("渐变"),
+						LanguageHelper.TranslateWord("屏蔽")
+					});
+					tdStepTimeNumericUpDowns[i].Show();					
 				}
-            }
+				thirdLabel.Show();
+			}
 
-			changeFrameMode();
-			SetNotice("成功切换模式", false);
-		}
+			changeSceneMode();
+			SetNotice("成功切换模式", false, true);
+		}	
 
 		/// <summary>
 		/// 事件：点击切换《多灯模式|单灯模式》。
@@ -1264,68 +1283,59 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiLightSkinButton_Click(object sender, EventArgs e)
 		{
+			enterMultiMode(!IsMultiMode);			
+		}
+
+		/// <summary>
+		/// 辅助方法：进入|退出多灯模式的子类实现（某些情况需要自己判断退出还是进入，故得自己传参）
+		/// </summary>
+		protected override void enterMultiMode(bool enter) {
+
 			// 进入多灯模式
-			if (!IsMultiMode)
+			if (enter)
 			{
-				enterMultiMode();
+				if (lightsSkinListView.SelectedIndices.Count < 2)
+				{
+					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
+					return;
+				}
+				if (!checkSameLights())
+				{
+					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+					return;
+				}
+				SelectedIndices = new List<int>();
+				foreach (int item in lightsSkinListView.SelectedIndices)
+				{
+					SelectedIndices.Add(item);
+				}
+				new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
+
 			}
 			// 退出多灯模式
-			else
-			{
-				exitMultiMode();
-			}
-		}
+			else {
 
-		/// <summary>
-		/// 辅助方法：进入多灯模式的子类实现
-		/// </summary>
-		protected override void enterMultiMode() {
-
-			if (lightsSkinListView.SelectedIndices.Count < 2)
-			{
-				MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-				return;
-			}
-			if (!checkSameLights())
-			{
-				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-				return;
-			}
-			SelectedIndices = new List<int>();
-			foreach (int item in lightsSkinListView.SelectedIndices)
-			{
-				SelectedIndices.Add(item);
-			}
-			new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：退出多灯模式的子类实现
-		/// </summary>
-		protected override void exitMultiMode() {
-
-			foreach (ListViewItem item in lightsSkinListView.Items)
-			{
-				item.BackColor = Color.White;
-			}
-			RefreshMultiModeButtons(false);
-
-			try
-			{
-				for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+				foreach (ListViewItem item in lightsSkinListView.Items)
 				{
-					lightsSkinListView.Items[i].Selected = i == selectedIndex;
+					item.BackColor = Color.White;
 				}
-				lightsSkinListView.Select();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-			}
+				RefreshMultiModeButtons(false);
 
+				try
+				{
+					for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+					{
+						lightsSkinListView.Items[i].Selected = i == selectedIndex;
+					}
+					lightsSkinListView.Select();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
+				}
+			}		
 		}
-
-
+		
 		/// <summary>
 		///  事件：点击《上一步》
 		///  先判断currentStep，再调用chooseStep(stepValue)
@@ -1492,7 +1502,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				rgbButtonClick();
+				colorButtonClick();
 			}
 		}
 
@@ -1524,8 +1534,7 @@ namespace LightController.MyForm
 		{
 			pasteStepClick();
 		}
-
-
+		
 		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
@@ -1643,7 +1652,8 @@ namespace LightController.MyForm
 		public override void EnterSyncMode(bool isSyncMode)
 		{
 			this.isSyncMode = isSyncMode;
-			syncSkinButton.Text = isSyncMode? "退出同步":"进入同步";
+			syncSkinButton.Text = isSyncMode ? "退出同步" : "进入同步";			
+			SetNotice(isSyncMode ? "已进入同步模式。" : "已退出同步模式。", false, true);
 		}	
 
 		/// <summary>
@@ -1790,8 +1800,7 @@ namespace LightController.MyForm
             //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
             changeScrollValue(tongdaoIndex, tdValue);
         }
-
-
+		
         /// <summary>
         /// 事件：鼠标进入通道值输入框时，切换焦点;
         /// </summary>
@@ -1919,7 +1928,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -1936,13 +1945,23 @@ namespace LightController.MyForm
 		private void tdNameNumLabels_Click(object sender, EventArgs e)
 		{
 			tdNameNumLabelClick(sender);
-		}		
+		}
+
+		/// <summary>
+		///   事件：通道相关的按键点击事件：设为该输入框的值（a为当前通道所有步、s为当前步所有通道）
+		///  </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyTd_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			unifyTdKeyPress(sender, e);
+		}
 		
 		#endregion
 
 		//MARK：SkinMainForm统一调整框各事件处理
 		#region 统一调整框的组件及事件绑定
-		
+
 		/// <summary>
 		/// 事件：点击《灯具编组》
 		/// </summary>
@@ -1979,7 +1998,7 @@ namespace LightController.MyForm
 		private void multiButton_Click(object sender, EventArgs e){  }
 
 		/// <summary>
-		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// 事件：左右键点击《多步调节》：右键暂无作用
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -2003,7 +2022,7 @@ namespace LightController.MyForm
 		private void detailMultiButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
-		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// 事件：左右键点击《多步调节》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -2027,7 +2046,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
         {
-           new SKForm(this, CurrentFrame, frameSkinComboBox.Text).ShowDialog();  
+           new SKForm(this, CurrentScene, frameSkinComboBox.Text).ShowDialog();  
         }
 
         /// <summary>
@@ -2153,13 +2172,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodSkinButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式,请稍候...", false);
-			isConnectCom = !isConnectCom;
+			changeConnectMethodButtonClick();
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新几个按键的文本
+		/// </summary>
+		protected override void refreshConnectMethod()
+		{
 			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
-
-			deviceRefresh(); //changeConnectMethodSkinButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
 		}
 
 		/// <summary>
@@ -2175,12 +2197,12 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新设备
 		/// </summary>
-		protected override void deviceRefresh() {
+		protected override void deviceRefresh() {			
 
 			deviceRefreshSkinButton.Enabled = false;
 
 			//	 刷新前，先清空按键等
-			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
+			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false, true);
 			deviceSkinComboBox.Items.Clear();
 			deviceSkinComboBox.Text = "";
 			deviceSkinComboBox.SelectedIndex = -1;
@@ -2237,11 +2259,11 @@ namespace LightController.MyForm
 				deviceSkinComboBox.SelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
 				deviceConnectSkinButton.Enabled = true;				
-				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
+				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false, true);
 			}
 			else
 			{
-				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
+				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false, true);
 			}
 
 			deviceRefreshSkinButton.Enabled = true;
@@ -2261,7 +2283,7 @@ namespace LightController.MyForm
 			else
 			{
 				deviceConnectSkinButton.Enabled = false;
-				MessageBox.Show("未选中可用设备");
+				SetNotice("未选中可用设备" , false, true);
 			}
 		}
 		
@@ -2335,14 +2357,18 @@ namespace LightController.MyForm
 
 			if (IsConnected)
 			{
-				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
-				deviceConnectSkinButton.Text = "断开连接";
+				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;				
+				deviceConnectSkinButton.Text = "断开连接";				
 			}
 			else
 			{                
                 deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				deviceConnectSkinButton.Text = "连接设备";
 			}
+						
+			LanguageHelper.TranslateControl(deviceConnectSkinButton);
+			
+
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
@@ -2353,21 +2379,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
-		/// </summary>
-		protected override void oneStepWork()
-		{
-			base.oneStepWork();            
-        }
-
-		/// <summary>
 		/// 辅助方法：根据入参，调整《预览效果|停止预览》按键的显示
 		/// </summary>
 		/// <param name="preview"></param>
 		public override void SetPreview(bool preview)
 		{
 			previewSkinButton.Image = preview ? Properties.Resources.浏览效果后 : Properties.Resources.浏览效果前;
-			previewSkinButton.Text = preview ? "停止预览" : "预览效果";
+			previewSkinButton.Text = preview ? "停止预览" : "预览效果";			
 		}
 
 		/// <summary>
@@ -2388,8 +2406,12 @@ namespace LightController.MyForm
 		/// 辅助方法：设置提醒 - 实现基类的纯虚函数
 		/// </summary>
 		/// <param name="notice"></param>
-		public override void SetNotice(string notice, bool msgBoxShow)
+		public override void SetNotice(string notice, bool msgBoxShow,bool isTranslate)
 		{
+			if (isTranslate) {
+				notice = LanguageHelper.TranslateSentence(notice);
+			}
+
 			noticeLabel.Text = notice;
 			noticeStatusStrip.Refresh();
 			if (msgBoxShow) {
@@ -2477,134 +2499,33 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bigTestButton_Click(object sender, EventArgs e)
-		{
-			XiaosaTest.GetInstance().Test();
+		private void bigTestButton_Click(object sender, EventArgs e)	{
+
+			LanguageHelper.SetLanguage("en-US");
+
 		}
 
-
-
-
+		#endregion
 
 		/// <summary>
-		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
-		///  --9.4禁用此功能，即无论是否屏蔽，
-		/// </summary>
-		/// <param name="tongdaoIndex">tongdaoList的Index</param>
-		/// <param name="shielded">是否被屏蔽</param>
-		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-		//{
-		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//}
-
-		/// <summary>
-		/// 事件：点击《实时调试》按钮
+		/// 部分Control文本更新，需要进行翻译
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		//private void realtimeSkinButton_Click(object sender, EventArgs e)
-		//{
-		//// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-		//if (!isRealtime)
-		//{
-		//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
-		//	realtimeSkinButton.Text = "关闭实时";
-		//	isRealtime = true;
-		//	if (!isConnectCom)
-		//	{
-		//		playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-		//	}
-		//	RefreshStep();
-		//	SetNotice("已开启实时调试。");
-		//}
-		//else //否则( 按钮显示为“断开连接”）断开连接
-		//{
-		//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-		//	realtimeSkinButton.Text = "实时调试";
-		//	isRealtime = false;
-		//	playTools.ResetDebugDataToEmpty();
-		//	SetNotice("已退出实时调试。");
-		//}
-		//}
+		private void someControl_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateControl(sender as Control);
+		}
 
 		/// <summary>
-		///   事件：tdSkinFlowLayoutPanel的paint事件
-		///  </summary>
+		///  部分MenuItem需要在文本发生变化时，进行翻译
+		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		//private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
-		//{
-		//	if (!isPainting)
-		//	{
-		//		repaintTDPanels();
-		//	}
-		//}
-
-		///// <summary>
-		/////  辅助方法：重绘tdPanels
-		///// </summary>
-		//private void repaintTDPanels()
-		//{
-		//	// 1. j是tdPanels中在第一列的panel的数量，
-		//	int j = 0;
-		//	foreach (var tdPanel in tdPanels)
-		//	{
-		//		if (tdPanel.Visible && tdPanel.Location.X == 3)
-		//		{
-		//			j++;
-		//		}
-		//	}
-		//	showLabelPanels(j);
-
-		//	// 2. 设置滚动条的位置
-		//	labelFlowLayoutPanel.AutoScrollPosition = new Point(0, -tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
-		//}
-
-		///// <summary>
-		/////  辅助方法：通过实时计算tdPanels占用的行数，来显示相同行数的labelPanels
-		///// </summary>
-		///// <param name="j"></param>
-		//private void showLabelPanels(int j)
-		//{
-		//	switch (j)
-		//	{
-		//		case 0:
-		//			labelPanel1.Hide();
-		//			labelPanel2.Hide();
-		//			labelPanel3.Hide();
-		//			break;
-		//		case 1:
-		//			labelPanel1.Show();
-		//			labelPanel2.Hide();
-		//			labelPanel3.Hide();
-		//			break;
-		//		case 2:
-		//			labelPanel1.Show();
-		//			labelPanel2.Show();
-		//			labelPanel3.Hide();
-		//			break;
-		//		case 3:
-		//			labelPanel1.Show();
-		//			labelPanel2.Show();
-		//			labelPanel3.Show();
-		//			break;
-		//	}
-		//}
-
-		///// <summary>
-		/////  事件：拦截labelFlowLayoutPanel的鼠标滚动。
-		///// </summary>
-		///// <param name="sender"></param>
-		///// <param name="e"></param>
-		//private void labelFlowLayoutPanel_MouseWheel(object sender, MouseEventArgs e)
-		//{
-		//	Point oldPoint = labelFlowLayoutPanel.AutoScrollPosition;
-		//	labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
-		//}
-
-		#endregion		
+		private void someMenuItem_TextChanged(object sender, EventArgs e)
+		{
+			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
+		}
 	}
 	   
 }

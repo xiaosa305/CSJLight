@@ -702,10 +702,20 @@
             0,
             0,
             0});
+			this.StNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			this.StNumericUpDown.Name = "StNumericUpDown";
 			this.StNumericUpDown.Size = new System.Drawing.Size(66, 21);
 			this.StNumericUpDown.TabIndex = 2;
 			this.StNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.StNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			this.StNumericUpDown.ValueChanged += new System.EventHandler(this.lineStNumericUpDown_ValueChanged);
 			// 
 			// label4

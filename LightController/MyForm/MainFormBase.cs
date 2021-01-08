@@ -392,7 +392,7 @@ namespace LightController.MyForm
 					}
 					else
 					{
-						group.CaptainIndex = retainDict[0];  // 如果组长已经被删了，则直接设为保留下来的第一个灯具
+						group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
 					}
 					group.LightIndexList = newIndexList;
 					newGroupList.Add(group);

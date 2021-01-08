@@ -15,7 +15,7 @@ namespace LightController.MyForm.Multiplex
 	public partial class ColorForm : Form
 	{
 		private MainFormBase mainForm;
-		private int selectedPanelIndex = -1 ;				
+		private int selectedPanelIndex = -1 ;
 		private decimal eachStepTime = .04m;
 		private int mode = 0;
 		private int soundStepTime = 10; 
@@ -67,6 +67,7 @@ namespace LightController.MyForm.Multiplex
 					decimal oldValue = stNUD.Value / eachStepTime ;
 										
 					stNUD.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2 ;
+					stNUD.Minimum = mainForm.EachStepTime2; // 步时间如果为0，则毫无意义
 					stNUD.Increment = mainForm.EachStepTime2;
 					stNUD.Value = mainForm.EachStepTime2 * oldValue ; 
 				}
@@ -125,7 +126,6 @@ namespace LightController.MyForm.Multiplex
 				return;
 			}
 
-			Console.WriteLine(myColorDialog.Color.R + " - " + myColorDialog.Color.G + " - " + myColorDialog.Color.B);
 			Panel colorPanel = new Panel()
 			{
 				Size = colorPanelDemo.Size,
@@ -143,6 +143,7 @@ namespace LightController.MyForm.Multiplex
 				TextAlign = stNUDDemo.TextAlign,
 				DecimalPlaces = stNUDDemo.DecimalPlaces,
 				Maximum = stNUDDemo.Maximum * eachStepTime,
+				Minimum = eachStepTime ,
 				Increment = eachStepTime,
 				Value = mainForm.EachStepTime2 * commonStepTime,
 				Visible = mode == 0,

@@ -49,6 +49,7 @@ namespace LightController.MyForm.Multiplex
 			previewButton.Visible = mainForm.IsConnected; 
 
 			StNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2;
+			StNumericUpDown.Minimum =  mainForm.EachStepTime2;
 			StNumericUpDown.Increment = mainForm.EachStepTime2;
 			StNumericUpDown.Value = mainForm.EachStepTime2 * commonStepTime;
 		}

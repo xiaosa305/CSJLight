@@ -53,8 +53,7 @@
 			this.pathLabel.TabIndex = 13;
 			// 
 			// folderBrowserDialog
-			// 
-			this.folderBrowserDialog.Description = "请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。";
+			// 			
 			this.folderBrowserDialog.ShowNewFolderButton = false;
 			// 
 			// fileOpenButton

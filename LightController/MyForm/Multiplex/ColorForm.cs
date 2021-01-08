@@ -24,7 +24,12 @@ namespace LightController.MyForm.Multiplex
 		private int tongdaoCount = 4;
 		private int stepCount = 0;
 		private TongdaoWrapper[,] tongdaoList ;
-		private IList<string> tdNameList = new List<string> { "总调光", "红", "绿", "蓝" }; // 为tdNameList赋值；此列表是固定的
+		private IList<string> tdNameList ;
+		private string dimmerStr = LanguageHelper.TranslateWord("总调光");
+		private string rStr = LanguageHelper.TranslateWord("红");
+		private string gStr = LanguageHelper.TranslateWord("绿");
+		private string bStr = LanguageHelper.TranslateWord("蓝");
+
 		private MaterialAst material; 
 		
 		public ColorForm(MainFormBase mainForm)
@@ -32,6 +37,7 @@ namespace LightController.MyForm.Multiplex
 			this.mainForm = mainForm;		
 
 			InitializeComponent();
+			tdNameList = new List<string> { dimmerStr , rStr, gStr,bStr } ; // 为tdNameList赋值；此列表是固定的
 
 			tgNUD.MouseWheel += someNUD_MouseWheel;
 			tgTrackBar.MouseWheel += someTrackBar_MouseWheel;
@@ -347,10 +353,10 @@ namespace LightController.MyForm.Multiplex
 						int stepTime = mode == 0 ? decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime) : soundStepTime;
 						int changeMode = mode == 0 ? ( (colorPanel.Controls[1] as CheckBox).Checked ? 1 : 0 ) : 1;								
 
-						tongdaoList[panelIndex - 1, 0] = new TongdaoWrapper("总调光", tgTrackBar.Value, stepTime, changeMode);
-						tongdaoList[panelIndex - 1, 1] = new TongdaoWrapper("红", colorPanel.BackColor.R, stepTime, changeMode);
-						tongdaoList[panelIndex - 1, 2] = new TongdaoWrapper("绿", colorPanel.BackColor.G, stepTime, changeMode);
-						tongdaoList[panelIndex - 1, 3] = new TongdaoWrapper("蓝", colorPanel.BackColor.B, stepTime, changeMode);
+						tongdaoList[panelIndex - 1, 0] = new TongdaoWrapper(dimmerStr, tgTrackBar.Value, stepTime, changeMode);
+						tongdaoList[panelIndex - 1, 1] = new TongdaoWrapper(rStr, colorPanel.BackColor.R, stepTime, changeMode);
+						tongdaoList[panelIndex - 1, 2] = new TongdaoWrapper(gStr, colorPanel.BackColor.G, stepTime, changeMode);
+						tongdaoList[panelIndex - 1, 3] = new TongdaoWrapper(bStr, colorPanel.BackColor.B, stepTime, changeMode);
 
 						material = new MaterialAst
 						{
@@ -388,10 +394,10 @@ namespace LightController.MyForm.Multiplex
 			Color bColor = colorPanel.BackColor;
 			int stepTime = decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / eachStepTime);
 			
-			tongdaoList[0, 0] = new TongdaoWrapper("总调光", tgTrackBar.Value, 50, 0);
-			tongdaoList[0, 1] = new TongdaoWrapper("红", bColor.R,  stepTime, 0);
-			tongdaoList[0, 2] = new TongdaoWrapper("绿", bColor.G, stepTime, 0);
-			tongdaoList[0, 3] = new TongdaoWrapper("蓝", bColor.B, stepTime, 0);
+			tongdaoList[0, 0] = new TongdaoWrapper(dimmerStr, tgTrackBar.Value, 50, 0);
+			tongdaoList[0, 1] = new TongdaoWrapper(rStr, bColor.R,  stepTime, 0);
+			tongdaoList[0, 2] = new TongdaoWrapper(gStr, bColor.G, stepTime, 0);
+			tongdaoList[0, 3] = new TongdaoWrapper(bStr, bColor.B, stepTime, 0);
 
 			material = new MaterialAst
 			{

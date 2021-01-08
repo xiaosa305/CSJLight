@@ -44,8 +44,7 @@
 			this.noticeLabel.Name = "noticeLabel";
 			this.noticeLabel.Size = new System.Drawing.Size(326, 62);
 			this.noticeLabel.TabIndex = 10;
-			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长。在多灯模式界面中，将只展示组长的通道数据。若勾选了“是否统一设为组长数据”，则所有选中的灯具，会将其当前模式及场景下的所有步数" +
-    "都设为与组长一样的数据。\r\n\r\n";
+			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长。在多灯模式界面中，将只展示组长的通道数据。若勾选了“是否统一设为组长数据”，则所有选中的灯具，会将其当前模式及场景下的所有步数都设为与组长一样的数据。";
 			// 
 			// copyAllCheckBox
 			// 

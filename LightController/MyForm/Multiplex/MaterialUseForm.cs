@@ -129,8 +129,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("确认删除素材【" + materialTreeView.SelectedNode.FullPath + "】吗？",
-				"删除素材？",
+			if (MessageBox.Show(				
+				LanguageHelper.TranslateSentence("确认删除素材")+"【" + materialTreeView.SelectedNode.FullPath + "】？",
+				LanguageHelper.TranslateSentence("删除素材？"),
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Warning) == DialogResult.Cancel)
 			{

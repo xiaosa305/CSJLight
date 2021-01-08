@@ -62,7 +62,7 @@ namespace LightController.MyForm.Multiplex
 				captainIndex = lightsListView.SelectedIndices[0];
 			}
 
-			string result = mainForm.CreateGroup(groupName, captainIndex);
+			string result = mainForm.MakeGroup(groupName, captainIndex);
 			if (result == null)
 			{
 				MessageBox.Show(LanguageHelper.TranslateSentence("编组成功"));

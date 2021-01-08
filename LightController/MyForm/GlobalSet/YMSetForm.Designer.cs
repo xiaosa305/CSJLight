@@ -49,16 +49,16 @@ namespace LightController.MyForm
 			this.label33 = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.allCheckBox = new System.Windows.Forms.CheckBox();
-			this.commonZXNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.commonJGNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.unifyZXNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.unifyJGNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.skGroupBox = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel3.SuspendLayout();
 			this.panel27.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.commonZXNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.commonJGNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyZXNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyJGNumericUpDown)).BeginInit();
 			this.skGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -243,23 +243,23 @@ namespace LightController.MyForm
 			// 
 			// commonZXNumericUpDown
 			// 
-			this.commonZXNumericUpDown.Location = new System.Drawing.Point(499, 524);
-			this.commonZXNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.commonZXNumericUpDown.Maximum = new decimal(new int[] {
+			this.unifyZXNumericUpDown.Location = new System.Drawing.Point(499, 524);
+			this.unifyZXNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyZXNumericUpDown.Maximum = new decimal(new int[] {
             60,
             0,
             0,
             0});
-			this.commonZXNumericUpDown.Minimum = new decimal(new int[] {
+			this.unifyZXNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.commonZXNumericUpDown.Name = "commonZXNumericUpDown";
-			this.commonZXNumericUpDown.Size = new System.Drawing.Size(44, 21);
-			this.commonZXNumericUpDown.TabIndex = 7;
-			this.commonZXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.commonZXNumericUpDown.Value = new decimal(new int[] {
+			this.unifyZXNumericUpDown.Name = "commonZXNumericUpDown";
+			this.unifyZXNumericUpDown.Size = new System.Drawing.Size(44, 21);
+			this.unifyZXNumericUpDown.TabIndex = 7;
+			this.unifyZXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.unifyZXNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -267,23 +267,23 @@ namespace LightController.MyForm
 			// 
 			// commonJGNumericUpDown
 			// 
-			this.commonJGNumericUpDown.Location = new System.Drawing.Point(275, 524);
-			this.commonJGNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.commonJGNumericUpDown.Maximum = new decimal(new int[] {
+			this.unifyJGNumericUpDown.Location = new System.Drawing.Point(275, 524);
+			this.unifyJGNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyJGNumericUpDown.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-			this.commonJGNumericUpDown.Minimum = new decimal(new int[] {
+			this.unifyJGNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.commonJGNumericUpDown.Name = "commonJGNumericUpDown";
-			this.commonJGNumericUpDown.Size = new System.Drawing.Size(44, 21);
-			this.commonJGNumericUpDown.TabIndex = 5;
-			this.commonJGNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.commonJGNumericUpDown.Value = new decimal(new int[] {
+			this.unifyJGNumericUpDown.Name = "commonJGNumericUpDown";
+			this.unifyJGNumericUpDown.Size = new System.Drawing.Size(44, 21);
+			this.unifyJGNumericUpDown.TabIndex = 5;
+			this.unifyJGNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.unifyJGNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -298,8 +298,8 @@ namespace LightController.MyForm
 			this.skGroupBox.Controls.Add(this.flowLayoutPanel2);
 			this.skGroupBox.Controls.Add(this.flowLayoutPanel1);
 			this.skGroupBox.Controls.Add(this.allCheckBox);
-			this.skGroupBox.Controls.Add(this.commonZXNumericUpDown);
-			this.skGroupBox.Controls.Add(this.commonJGNumericUpDown);
+			this.skGroupBox.Controls.Add(this.unifyZXNumericUpDown);
+			this.skGroupBox.Controls.Add(this.unifyJGNumericUpDown);
 			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.skGroupBox.Location = new System.Drawing.Point(0, 0);
 			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
@@ -328,8 +328,8 @@ namespace LightController.MyForm
 			this.panel3.PerformLayout();
 			this.panel27.ResumeLayout(false);
 			this.panel27.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.commonZXNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.commonJGNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyZXNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyJGNumericUpDown)).EndInit();
 			this.skGroupBox.ResumeLayout(false);
 			this.skGroupBox.PerformLayout();
 			this.ResumeLayout(false);
@@ -341,11 +341,11 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;	
 		private System.Windows.Forms.CheckBox allCheckBox;
-		private System.Windows.Forms.NumericUpDown commonZXNumericUpDown;
-		private System.Windows.Forms.NumericUpDown commonJGNumericUpDown;		
+		private System.Windows.Forms.NumericUpDown unifyZXNumericUpDown;
+		private System.Windows.Forms.NumericUpDown unifyJGNumericUpDown;		
 
-		private Panel[] framePanels;
-		private Label[] frameLabels;
+		private Panel[] scenePanels;
+		private Label[] sceneLabels;
 		private CheckBox[] ymCheckBoxes = new CheckBox[24];
 		private NumericUpDown[] zxNumericUpDowns = new NumericUpDown[24];
 		private NumericUpDown[] jgNumericUpDowns = new NumericUpDown[24];

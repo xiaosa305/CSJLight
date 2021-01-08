@@ -15,8 +15,8 @@ namespace RecordTools
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new RecordSetForm());
-			//Application.Run(new NewForm());
+			//Application.Run(new RecordSetForm());
+			Application.Run(new NewForm());
 		}
 	}
 }

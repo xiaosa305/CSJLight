@@ -16,13 +16,16 @@ namespace LightController.MyForm.Multiplex
 		private MainFormBase mainForm;
 		private MaterialAst material;
 		private int commonStepTime = 50;
-		IList<string> tdNameList = new List<string> { "X轴", "Y轴" }; // 为tdNameList赋值；此列表是固定的
+		private string xStr = LanguageHelper.TranslateWord("X轴");
+		private string yStr = LanguageHelper.TranslateWord("Y轴");
+		IList<string> tdNameList ; 
 
 		public ActionForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 
-			InitializeComponent();			
+			InitializeComponent();
+			tdNameList = new List<string> { xStr, yStr };// 为tdNameList赋值；此列表是固定的
 		}
 
 		/// <summary>
@@ -167,15 +170,15 @@ namespace LightController.MyForm.Multiplex
 			TongdaoWrapper[,] tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
 
 			// X轴值固定，无需处理相位
-			tongdaoList[0, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
-			tongdaoList[1, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
-			tongdaoList[2, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
-			tongdaoList[3, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
+			tongdaoList[0, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoList[1, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoList[2, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoList[3, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
 						
-			tongdaoList[(0+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value, commonStepTime);
-			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value / 2, commonStepTime);
-			tongdaoList[(2+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value, commonStepTime);
-			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value / 2, commonStepTime);
+			tongdaoList[(0+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value, commonStepTime);
+			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value / 2, commonStepTime);
+			tongdaoList[(2+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value, commonStepTime);
+			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value / 2, commonStepTime);
 
 			material = new MaterialAst
 			{
@@ -230,16 +233,16 @@ namespace LightController.MyForm.Multiplex
 			// 为tongdaoList赋值 
 			TongdaoWrapper[,] tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
 
-			tongdaoList[(0+ phase) % stepCount, 0] = new TongdaoWrapper("X轴", 0, commonStepTime);
-		    tongdaoList[(1 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", xValue / 2, commonStepTime);
-			tongdaoList[(2 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", xValue , commonStepTime);
-			tongdaoList[(3 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", xValue /2 , commonStepTime);
+			tongdaoList[(0+ phase) % stepCount, 0] = new TongdaoWrapper(xStr, 0, commonStepTime);
+		    tongdaoList[(1 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, xValue / 2, commonStepTime);
+			tongdaoList[(2 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, xValue , commonStepTime);
+			tongdaoList[(3 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, xValue /2 , commonStepTime);
 
 			//　Y轴每步都一样，无需处理相位。
-			tongdaoList[0, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[1, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[2, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[3, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
+			tongdaoList[0, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[1, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[2, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[3, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
 
 
 			material = new MaterialAst
@@ -267,16 +270,16 @@ namespace LightController.MyForm.Multiplex
 			TongdaoWrapper[,] tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
 
 			// 其实和圆的代码完全相同，区别只在于圆的X轴 转向需要超过170（而半圆必须小于170）
-			tongdaoList[(0 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", 0, commonStepTime);
-			tongdaoList[(1 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", xValue / 2, commonStepTime);
-			tongdaoList[(2 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
-			tongdaoList[(3 + phase) % stepCount, 0] = new TongdaoWrapper("X轴", xValue / 2, commonStepTime);
+			tongdaoList[(0 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, 0, commonStepTime);
+			tongdaoList[(1 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, xValue / 2, commonStepTime);
+			tongdaoList[(2 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoList[(3 + phase) % stepCount, 0] = new TongdaoWrapper(xStr, xValue / 2, commonStepTime);
 
 			//Y轴每步都一样，无需处理相位。
-			tongdaoList[0, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[1, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[2, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[3, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
+			tongdaoList[0, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[1, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[2, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[3, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
 
 			material = new MaterialAst
 			{
@@ -308,11 +311,11 @@ namespace LightController.MyForm.Multiplex
 			// 为tongdaoList赋值 
 			TongdaoWrapper[,] tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
 
-			tongdaoList[0, 0] = new TongdaoWrapper("X轴", x1Value, commonStepTime * times);
-			tongdaoList[1, 0] = new TongdaoWrapper("X轴", x1Value + x2Value, commonStepTime * times);
+			tongdaoList[0, 0] = new TongdaoWrapper(xStr, x1Value, commonStepTime * times);
+			tongdaoList[1, 0] = new TongdaoWrapper(xStr, x1Value + x2Value, commonStepTime * times);
 
-			tongdaoList[0, 1] = new TongdaoWrapper("Y轴", y1Value, commonStepTime );
-			tongdaoList[1, 1] = new TongdaoWrapper("Y轴", y1Value + y2Value, commonStepTime );
+			tongdaoList[0, 1] = new TongdaoWrapper(yStr, y1Value, commonStepTime );
+			tongdaoList[1, 1] = new TongdaoWrapper(yStr, y1Value + y2Value, commonStepTime );
 
 			material = new MaterialAst
 			{
@@ -364,15 +367,15 @@ namespace LightController.MyForm.Multiplex
 			// 为tongdaoList赋值 
 			TongdaoWrapper[,] tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
 						
-			tongdaoList[(0 + phase) % stepCount,  0] = new TongdaoWrapper("X轴", 0, commonStepTime);
-			tongdaoList[(1 + phase)  % stepCount, 0] = new TongdaoWrapper("X轴", 85 , commonStepTime);
-			tongdaoList[(2 + phase)  % stepCount,  0] = new TongdaoWrapper("X轴", 85, commonStepTime);
-			tongdaoList[(3 + phase)  % stepCount,  0] = new TongdaoWrapper("X轴", 0, commonStepTime);
+			tongdaoList[(0 + phase) % stepCount,  0] = new TongdaoWrapper(xStr, 0, commonStepTime);
+			tongdaoList[(1 + phase)  % stepCount, 0] = new TongdaoWrapper(xStr, 85 , commonStepTime);
+			tongdaoList[(2 + phase)  % stepCount,  0] = new TongdaoWrapper(xStr, 85, commonStepTime);
+			tongdaoList[(3 + phase)  % stepCount,  0] = new TongdaoWrapper(xStr, 0, commonStepTime);
 
-			tongdaoList[(0 + phase) % stepCount, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[(1 + phase) % stepCount, 1] = new TongdaoWrapper("Y轴", yValue, commonStepTime);
-			tongdaoList[(2 + phase) % stepCount, 1] = new TongdaoWrapper("Y轴", 255-yValue, commonStepTime);
-			tongdaoList[(3 + phase) % stepCount, 1] = new TongdaoWrapper("Y轴", 255 - yValue, commonStepTime);
+			tongdaoList[(0 + phase) % stepCount, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[(1 + phase) % stepCount, 1] = new TongdaoWrapper(yStr, yValue, commonStepTime);
+			tongdaoList[(2 + phase) % stepCount, 1] = new TongdaoWrapper(yStr, 255-yValue, commonStepTime);
+			tongdaoList[(3 + phase) % stepCount, 1] = new TongdaoWrapper(yStr, 255 - yValue, commonStepTime);
 
 			material = new MaterialAst
 			{

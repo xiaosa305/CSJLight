@@ -57,6 +57,7 @@
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.tdCheckBox = new System.Windows.Forms.CheckBox();
 			this.myStatusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).BeginInit();
@@ -288,6 +289,7 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.tdCheckBox);
 			this.groupBox1.Controls.Add(this.tdFLP);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.groupBox1.Location = new System.Drawing.Point(0, 256);
@@ -329,6 +331,17 @@
 			this.saveFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.saveFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ";
 			// 
+			// tdCheckBox
+			// 
+			this.tdCheckBox.AutoSize = true;
+			this.tdCheckBox.Location = new System.Drawing.Point(701, 1);
+			this.tdCheckBox.Name = "tdCheckBox";
+			this.tdCheckBox.Size = new System.Drawing.Size(78, 16);
+			this.tdCheckBox.TabIndex = 45;
+			this.tdCheckBox.Text = "全选(512)";
+			this.tdCheckBox.UseVisualStyleBackColor = true;
+			this.tdCheckBox.CheckedChanged += new System.EventHandler(this.tdCheckBox_CheckedChanged);
+			// 
 			// NewForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -369,6 +382,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNumericUpDown)).EndInit();
 			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -405,5 +419,6 @@
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.FolderBrowserDialog saveFolderBrowserDialog;
+		private System.Windows.Forms.CheckBox tdCheckBox;
 	}
 }

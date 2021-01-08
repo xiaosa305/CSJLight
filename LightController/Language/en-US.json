@@ -188,9 +188,11 @@
   "是否开启": "Turn ON",
   "摇麦间隔时间(分)": "KeepTime(M)",
   "摇麦执行时间(秒)": "PlayTime(S)",
+  "摇麦": "ON",
   "全部开启": "All ON",
   "统一摇麦间隔时间": "Unify KeepTime",
   "统一摇麦执行时间": "Unify PlayTime",
+
 
   // 硬件配置
   "新建硬件配置名称": "Save New HardwareSet",
@@ -311,6 +313,7 @@
   "步时间(S):": "StepTime(s):",
   "是否渐变：": "Gradient:",
   "应用颜色": "Apply",
+  "总调光": "Dimmer",
   "红": "R",
   "绿": "G",
   "蓝": "B",
@@ -336,7 +339,9 @@
   "序号": "No.",
   "编组名：": "GroupName:",
   "是否统一设为组长数据": "Copy Captain To All",
-
+  "请选择其中的一个灯具做为编组的组长。在多灯模式界面中，将只展示组长的通道数据。若勾选了“是否统一设为组长数据”，则所有选中的灯具，会将其当前模式及场景下的所有步数都设为与组长一样的数据。":"Select one of the lights as the captain. In the multiMode, only the channel data of the captain will be displayed.",
+  "请选择其中的一个灯具做为编组的组长。在多灯模式界面中，将只展示组长的通道数据。若未选择，默认使用编组的第一个灯具作为组长。": "Select one of the lights as the captain. In the multiMode, only the channel data of the captain will be displayed. If not selected, the first light will be captain as default.",
+  
   // 多步复用
   "多步复用（非同步）": "Multiplex Duplicate Steps(Not SyncMode)",
   "多步复用（同步）": "Multiplex Duplicate Steps(SyncMode)",

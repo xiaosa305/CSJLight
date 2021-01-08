@@ -15,8 +15,7 @@ namespace LightController.MyForm
 	{
 		private MainFormBase mainForm;
 		private IniFileHelper iniFileAst;
-		private int frameCount = 0;
-
+		
 		public YMSetForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
@@ -25,17 +24,17 @@ namespace LightController.MyForm
 
 			#region 初始化几个数组			
 
-			frameCount = MainFormBase.AllFrameList.Count;
+			//sceneCount = MainFormBase.SceneCount;
 
-			framePanels = new Panel[frameCount]; 
-			frameLabels = new Label[frameCount];
-			ymCheckBoxes = new CheckBox[frameCount];
-			zxNumericUpDowns = new NumericUpDown[frameCount];
-			jgNumericUpDowns = new NumericUpDown[frameCount];
+			scenePanels = new Panel[MainFormBase.SceneCount]; 
+			sceneLabels = new Label[MainFormBase.SceneCount];
+			ymCheckBoxes = new CheckBox[MainFormBase.SceneCount];
+			zxNumericUpDowns = new NumericUpDown[MainFormBase.SceneCount];
+			jgNumericUpDowns = new NumericUpDown[MainFormBase.SceneCount];
 
-			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
+			for (int frameIndex = 0; frameIndex < MainFormBase.SceneCount; frameIndex++)
 			{
-				addFramePanel(frameIndex,MainFormBase.AllFrameList[frameIndex]);
+				addScenePanel(frameIndex,MainFormBase.AllFrameList[frameIndex]);
 			}
 
 			#endregion
@@ -44,51 +43,51 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：添加每个场景的相关设置到FlowLayout中去
 		/// </summary>
-		private void addFramePanel(int frameIndex , string frameName) {
+		private void addScenePanel(int sceneIndex , string sceneName) {
 			
 			// 
 			// 容器
 			// 
-			framePanels[frameIndex] = new Panel
+			scenePanels[sceneIndex] = new Panel
 			{
 				Location = new System.Drawing.Point(3, 3),
-				Name = "panel" + (frameIndex + 1),
+				Name = "panel" + (sceneIndex + 1),
 				Size = new System.Drawing.Size(66, 141),
 			};
 
 			// 
 			// 场景名
 			// 
-			frameLabels[frameIndex] = new Label
+			sceneLabels[sceneIndex] = new Label
 			{
 				AutoSize = true,
 				Font = new System.Drawing.Font("黑体", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
 				Location = new System.Drawing.Point(8, 20),
 				Margin = new System.Windows.Forms.Padding(2, 0, 2, 0),
-				Name = "frameLabel" + (frameIndex + 1),
+				Name = "frameLabel" + (sceneIndex + 1),
 				Size = new System.Drawing.Size(45, 14),
-				Text = frameName
+				Text = sceneName
 			};
-			myToolTip.SetToolTip(frameLabels[frameIndex], frameName);
+			myToolTip.SetToolTip(sceneLabels[sceneIndex], sceneName);
 
 			// 
 			// 选中与否
 			// 
-			ymCheckBoxes[frameIndex] = new CheckBox
+			ymCheckBoxes[sceneIndex] = new CheckBox
 			{
 				AutoSize = true,
 				Location = new System.Drawing.Point(11, 47),
 				Margin = new System.Windows.Forms.Padding(2),
-				Name = "checkBox" + (frameIndex + 1),
+				Name = "checkBox" + (sceneIndex + 1),
 				Size = new System.Drawing.Size(48, 16),
-				Text = "摇麦",
+				Text = LanguageHelper.TranslateWord("摇麦"),
 				UseVisualStyleBackColor = true
 			};
 
 			// 
 			// jgNumericUpDown12
 			// 
-			jgNumericUpDowns[frameIndex] = new NumericUpDown
+			jgNumericUpDowns[sceneIndex] = new NumericUpDown
 			{
 				Location = new System.Drawing.Point(11, 74),
 				Margin = new System.Windows.Forms.Padding(2),
@@ -102,7 +101,7 @@ namespace LightController.MyForm
 			// 
 			// zxNumericUpDown12
 			// 
-			zxNumericUpDowns[frameIndex] = new NumericUpDown
+			zxNumericUpDowns[sceneIndex] = new NumericUpDown
 			{
 				Location = new System.Drawing.Point(11, 106),
 				Margin = new System.Windows.Forms.Padding(2),
@@ -116,12 +115,12 @@ namespace LightController.MyForm
 			// 
 			// flowLayoutPanel1
 			// 
-			framePanels[frameIndex].Controls.Add(ymCheckBoxes[frameIndex]);
-			framePanels[frameIndex].Controls.Add(frameLabels[frameIndex]);
-			framePanels[frameIndex].Controls.Add(jgNumericUpDowns[frameIndex]);
-			framePanels[frameIndex].Controls.Add(zxNumericUpDowns[frameIndex]);
+			scenePanels[sceneIndex].Controls.Add(ymCheckBoxes[sceneIndex]);
+			scenePanels[sceneIndex].Controls.Add(sceneLabels[sceneIndex]);
+			scenePanels[sceneIndex].Controls.Add(jgNumericUpDowns[sceneIndex]);
+			scenePanels[sceneIndex].Controls.Add(zxNumericUpDowns[sceneIndex]);
 
-			this.flowLayoutPanel1.Controls.Add(framePanels[frameIndex]);
+			this.flowLayoutPanel1.Controls.Add(scenePanels[sceneIndex]);
 		}
 
 		/// <summary>
@@ -144,7 +143,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private void loadAll()
 		{
-			for (int i = 0; i <frameCount; i++)
+			for (int i = 0; i < MainFormBase.SceneCount; i++)
 			{
 				ymCheckBoxes[i].Checked = ( iniFileAst.ReadInt("YM", i + "CK", 0) == 1);
 				jgNumericUpDowns[i].Value = iniFileAst.ReadInt("YM", i + "JG", 1);
@@ -153,17 +152,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击统一间隔时间按钮
+		///  辅助方法：点击《统一间隔时间》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void unifyJGButton_Click(object sender, EventArgs e)
 		{
-			int tempValue = Convert.ToInt32(Double.Parse(commonJGNumericUpDown.Text));
-			commonJGNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in jgNumericUpDowns)
 			{
-				item.Value  =  tempValue;
+				item.Value  =  unifyJGNumericUpDown.Value;
 			}
 		}
 
@@ -174,11 +171,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyZXButton_Click(object sender, EventArgs e)
 		{
-			int tempValue = Convert.ToInt32(Double.Parse(commonZXNumericUpDown.Text));
-			commonZXNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in zxNumericUpDowns)
 			{
-				item.Value = tempValue;
+				item.Value = unifyZXNumericUpDown.Value;
 			}
 		}
 
@@ -189,7 +184,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void ymSaveButton_Click(object sender, EventArgs e)
 		{
-			for (int i = 0; i < frameCount; i++)
+			for (int i = 0; i < MainFormBase.SceneCount ; i++)
 			{
 				iniFileAst.WriteInt("YM", i + "CK", ymCheckBoxes[i].Checked?1:0);
 				iniFileAst.WriteString("YM", i + "JG", jgNumericUpDowns[i].Text );

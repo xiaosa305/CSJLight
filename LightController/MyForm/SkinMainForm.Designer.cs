@@ -130,7 +130,7 @@ namespace LightController.MyForm
 			this.appendSkinButton = new CCWin.SkinControl.SkinButton();
 			this.insertSkinButton = new CCWin.SkinControl.SkinButton();
 			this.backStepSkinButton = new CCWin.SkinControl.SkinButton();
-			this.frameSkinComboBox = new CCWin.SkinControl.SkinComboBox();
+			this.sceneSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.frameLabel = new CCWin.SkinControl.SkinLabel();
 			this.tdTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.tdSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
@@ -1480,7 +1480,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Controls.Add(this.appendSkinButton);
 			this.stepSkinPanel.Controls.Add(this.insertSkinButton);
 			this.stepSkinPanel.Controls.Add(this.backStepSkinButton);
-			this.stepSkinPanel.Controls.Add(this.frameSkinComboBox);
+			this.stepSkinPanel.Controls.Add(this.sceneSkinComboBox);
 			this.stepSkinPanel.Controls.Add(this.frameLabel);
 			this.stepSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.stepSkinPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2084,17 +2084,17 @@ namespace LightController.MyForm
 			// 
 			// frameSkinComboBox
 			// 
-			this.frameSkinComboBox.BaseColor = System.Drawing.Color.Gray;
-			this.frameSkinComboBox.BorderColor = System.Drawing.Color.Gray;
-			this.frameSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.frameSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.frameSkinComboBox.FormattingEnabled = true;
-			this.frameSkinComboBox.Location = new System.Drawing.Point(57, 14);
-			this.frameSkinComboBox.Name = "frameSkinComboBox";
-			this.frameSkinComboBox.Size = new System.Drawing.Size(84, 25);
-			this.frameSkinComboBox.TabIndex = 1;
-			this.frameSkinComboBox.WaterText = "";
-			this.frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			this.sceneSkinComboBox.BaseColor = System.Drawing.Color.Gray;
+			this.sceneSkinComboBox.BorderColor = System.Drawing.Color.Gray;
+			this.sceneSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.sceneSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.sceneSkinComboBox.FormattingEnabled = true;
+			this.sceneSkinComboBox.Location = new System.Drawing.Point(57, 14);
+			this.sceneSkinComboBox.Name = "frameSkinComboBox";
+			this.sceneSkinComboBox.Size = new System.Drawing.Size(84, 25);
+			this.sceneSkinComboBox.TabIndex = 1;
+			this.sceneSkinComboBox.WaterText = "";
+			this.sceneSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.sceneSkinComboBox_SelectedIndexChanged);
 			// 
 			// frameLabel
 			// 
@@ -2478,7 +2478,7 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinPanel astSkinPanel;
 		private CCWin.SkinControl.SkinPanel stepSkinPanel;
 		private CCWin.SkinControl.SkinComboBox modeSkinComboBox;
-		private CCWin.SkinControl.SkinComboBox frameSkinComboBox;
+		private CCWin.SkinControl.SkinComboBox sceneSkinComboBox;
 		private CCWin.SkinControl.SkinButton backStepSkinButton;
 		private CCWin.SkinControl.SkinButton deleteSkinButton;
 		private CCWin.SkinControl.SkinButton appendSkinButton;

@@ -34,10 +34,12 @@ namespace LightController.MyForm
 		public ProjectUpdateForm(MainFormBase mainForm, string globalSetPath, string projectPath)
 		{
 			InitializeComponent();
-			this.mainForm = mainForm;
-			//this.dbWrapper = dbWrapper;
+			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。");
+
+			this.mainForm = mainForm;		
 			this.globalSetPath = globalSetPath;
 			this.projectPath = projectPath;
+
 			pathLabel.Text = projectPath;
 		}
 

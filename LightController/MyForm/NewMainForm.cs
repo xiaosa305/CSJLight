@@ -199,8 +199,8 @@ namespace LightController.MyForm
 			{
 				sceneComboBox.Items.Add(frame);
 			}
-			FrameCount = AllFrameList.Count;
-			if (FrameCount == 0)
+			SceneCount = AllFrameList.Count;
+			if (SceneCount == 0)
 			{
 				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
 				exit();
@@ -594,7 +594,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveFrameButton_Click(object sender, EventArgs e)
 		{
-			saveFrameClick();
+			saveSceneClick();
 		}
 
 		/// <summary>
@@ -732,13 +732,13 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 只开单场景：02.0.1 (NewMainForm)改变当前Frame
-		protected override void changeCurrentFrame(int frameIndex)
+		//MARK 只开单场景：02.0.1 (NewMainForm)单纯地改变当前场景
+		protected override void changeCurrentScene(int sceneIndex)
 		{
-			CurrentScene = frameIndex;
-			sceneComboBox.SelectedIndexChanged -= new System.EventHandler(this.sceneComboBox_SelectedIndexChanged);
+			CurrentScene = sceneIndex;
+			sceneComboBox.SelectedIndexChanged -= sceneComboBox_SelectedIndexChanged;
 			sceneComboBox.SelectedIndex = CurrentScene;
-			sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.sceneComboBox_SelectedIndexChanged);
+			sceneComboBox.SelectedIndexChanged += sceneComboBox_SelectedIndexChanged;
 		}
 
 		#endregion
@@ -889,37 +889,7 @@ namespace LightController.MyForm
 		protected override void enableStepPanel(bool enable)
 		{
 			stepPanel.Enabled = enable;			
-		}
-
-		/// <summary>
-		/// 辅助方法: 确认选中灯具是否否同一种灯具：是则返回true,否则返回false。
-		/// 验证方法：取出第一个选中灯具的名字，若后面的灯具的全名（Tag =lightName + ":" + lightType)与它不同，说明不是同种灯具。（只要一个不同即可判断）
-		/// </summary>
-		/// <returns></returns>
-		private bool checkSameLights()
-		{
-			if (lightsListView.SelectedItems.Count == 0)
-			{
-				return false;
-			}
-			if (lightsListView.SelectedItems.Count == 1)
-			{
-				return true;
-			}
-
-			bool result = true;
-			string firstTag = lightsListView.SelectedItems[0].Tag.ToString();
-			for (int i = 1; i < lightsListView.SelectedItems.Count; i++) // 从第二个选中灯具开始比对
-			{
-				string tempTag = lightsListView.SelectedItems[i].Tag.ToString();
-				if (!firstTag.Equals(tempTag))
-				{
-					result = false;
-					break;
-				}
-			}
-			return result;
-		}
+		}		
 		
 		/// <summary>
 		/// 辅助方法：通过传来的数值，生成通道列表的数据
@@ -1113,47 +1083,14 @@ namespace LightController.MyForm
 		#region stepPanel相关的事件和辅助方法
 
 		/// <summary>
-		/// 事件：更改《选择场景》选项后
+		/// 更改《选择场景》选项后
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void sceneComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//11.13 若未初始化，直接return；
-			if (!isInit)
-			{
-				return;
-			}
-			setBusy(true);
-			SetNotice("正在切换场景,请稍候...",false,true);
-
-			// 只要更改了场景，直接结束预览
-			endview();
-
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentScene] + ")？",
-				"保存场景?",
-				MessageBoxButtons.YesNo,
-				MessageBoxIcon.Question);
-			if (dr == DialogResult.Yes)
-			{
-				saveFrameClick();
-				//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[CurrentScene] = false;
-			}
-
-			CurrentScene = sceneComboBox.SelectedIndex;
-			//MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-			if (!frameLoadArray[CurrentScene])
-			{
-				generateFrameData(CurrentScene);
-			}
-			//MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-			frameSaveArray[CurrentScene] = true;
-
-			changeSceneMode();
-			setBusy(false);
-			SetNotice("成功切换为场景(" + AllFrameList[CurrentScene] + ")" ,false, true);
-		}
+			sceneSelectedChanged( sceneComboBox.SelectedIndex );
+		}		
 
 		/// <summary>
 		/// 事件：更改《选择模式》选项后
@@ -1162,50 +1099,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//11.13 若未初始化，直接return；
-			if (!isInit)
-			{
-				return;
-			}
-
-			SetNotice("正在切换模式", false, true);
-			CurrentMode = modeComboBox.SelectedIndex;
-
-			// 若模式为声控模式mode=1
-			// 1.改变几个label的Text; 
-			// 2.改变跳变渐变-->是否声控；
-			// 3.所有步时间值的调节，改为enabled=false						
-			if (CurrentMode == 1)
-			{
-				for (int i = 0; i < FrameCount; i++)
-				{
-					this.tdCmComboBoxes[i].Items.Clear();
-					this.tdCmComboBoxes[i].Items.AddRange(new object[] {
-						LanguageHelper.TranslateWord("屏蔽"),
-						LanguageHelper.TranslateWord("跳变")
-					});
-					this.tdStNumericUpDowns[i].Hide();					
-				}
-				this.thirdLabel.Hide();
-			}
-			else //mode=0，常规模式
-			{
-				for (int i = 0; i < FrameCount; i++)
-				{
-					this.tdCmComboBoxes[i].Items.Clear();
-					this.tdCmComboBoxes[i].Items.AddRange(new object[] {
-						LanguageHelper.TranslateWord("跳变"),
-						LanguageHelper.TranslateWord("渐变"),
-						LanguageHelper.TranslateWord("屏蔽")
-					});
-					this.tdStNumericUpDowns[i].Show();
-					this.thirdLabel.Show();
-				}
-			}
-
-			changeSceneMode();
-			SetNotice("成功切换模式", false, true);
-		}
+			modeSelectedChanged( modeComboBox.SelectedIndex ,
+				tdCmComboBoxes,	
+				tdStNumericUpDowns,	
+				thirdLabel );
+		}		
 
 		/// <summary>
 		/// 事件：点击切换《多灯模式|单灯模式》
@@ -1222,56 +1120,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiLightButton_Click(object sender, EventArgs e)
 		{
-			enterMultiMode(!IsMultiMode);		
-		}
-
-		/// <summary>
-		/// 辅助方法：进入同步模式的子类实现
-		/// </summary>
-		protected override void enterMultiMode( bool enter)
-		{
-			// 进入多灯
-			if (enter)
-			{
-				if (lightsListView.SelectedIndices.Count < 2)
-				{
-					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-					return;
-				}
-				if (!checkSameLights())
-				{
-					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-					return;
-				}
-				SelectedIndices = new List<int>();
-				foreach (int item in lightsListView.SelectedIndices)
-				{
-					SelectedIndices.Add(item);
-				}
-				new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
-			}
-			// 退出多灯
-			else {
-				foreach (ListViewItem item in lightsListView.Items)
-				{
-					item.BackColor = Color.White;
-				}
-				RefreshMultiModeButtons(false);
-
-				try
-				{
-					for (int i = 0; i < lightsListView.Items.Count; i++)
-					{
-						lightsListView.Items[i].Selected = i == selectedIndex;
-					}
-					lightsListView.Select();
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-				}
-			}			
-		}
+			enterMultiMode(!IsMultiMode , lightsListView);		
+		}	
 
 		/// <summary>
 		///  事件：点击《上一步》
@@ -1630,8 +1480,8 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 
-			// 6. 《内置动作》是否可用
-			actionButton.Enabled = CurrentMode == 0;
+			// 6. 《内置动作》是否可用：因为需要一直有效，所以只能在点击时进行判断了
+			//actionButton.Enabled = CurrentMode == 0;
 		}
 
 		#endregion
@@ -1901,25 +1751,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupButton_Click(object sender, EventArgs e)
 		{
-			if (lightsListView.SelectedIndices.Count < 1)
-			{
-				MessageBox.Show("请选择至少一个灯具，否则无法进行编组。");
-				return;
-			}
-
-			if ( !checkSameLights())
-			{
-				MessageBox.Show("未选中灯具或选中的灯具并非同一类型，无法进行编组；请再次选择后重试。");
-				return;
-			}
-
-			SelectedIndices = new List<int>();
-			foreach (int item in lightsListView.SelectedIndices)
-			{
-				SelectedIndices.Add(item);
-			}
-			new GroupForm(this, LightAstList, SelectedIndices).ShowDialog();
-		}
+			groupButtonClick(lightsListView);
+		}		
 
 		/// <summary>
 		/// 事件：点击《音频链表》
@@ -1982,7 +1815,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupInButton_Click(object sender, EventArgs e)
 		{
-			groupInButtonClick(sender);
+			groupInButtonClick(sender,lightsListView);
 		}
 
 		/// <summary>

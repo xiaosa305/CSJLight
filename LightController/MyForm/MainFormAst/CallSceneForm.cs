@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	public partial class UseFrameForm : Form
+	public partial class CallSceneForm : Form
 	{
 		private MainFormBase mainForm;	
 		private IList<int> frameIndexList  = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
 
-		public UseFrameForm(MainFormBase mainForm, int currentFrameIndex)
+		public CallSceneForm(MainFormBase mainForm, int currentFrameIndex)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -54,8 +54,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{			
-			mainForm.UseOtherForm(getFrameIndex()); 
-			this.Dispose();
+			mainForm.CallOtherScene(getFrameIndex()); 
+			Dispose();
 			mainForm.Activate();
 		}
 

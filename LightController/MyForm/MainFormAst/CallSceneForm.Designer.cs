@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class UseFrameForm
+	partial class CallSceneForm
 	{
 		/// <summary>
 		/// Required designer variable.

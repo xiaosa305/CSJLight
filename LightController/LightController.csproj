@@ -425,11 +425,11 @@
     <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.Designer.cs">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\CopyFrameForm.cs">
+    <Compile Include="MyForm\MainFormAst\CallSceneForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\CopyFrameForm.Designer.cs">
-      <DependentUpon>CopyFrameForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\CallSceneForm.Designer.cs">
+      <DependentUpon>CallSceneForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\GlobalSet\YMSetForm.cs">
       <SubType>Form</SubType>
@@ -611,8 +611,8 @@
     <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\CopyFrameForm.resx">
-      <DependentUpon>CopyFrameForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\CallSceneForm.resx">
+      <DependentUpon>CallSceneForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>

@@ -4266,14 +4266,14 @@ namespace LightController.MyForm
 					nextStepNotice = LanguageHelper.TranslateWord(nextStepNotice);
 			}
 
-			// 各通道跳渐变下拉框显示数组的初始化
-			normalCMArray = new object[] {
-				LanguageHelper.TranslateWord("屏蔽"),
-				LanguageHelper.TranslateWord("跳变") };
-			soundCMArray = new object[] {
+			// 各通道跳渐变下拉框显示数组的初始化			
+			 normalCMArray = new object[] {
 				LanguageHelper.TranslateWord("跳变"),
 				LanguageHelper.TranslateWord("渐变"),
 				LanguageHelper.TranslateWord("屏蔽")	};
+			soundCMArray = new object[] {
+				LanguageHelper.TranslateWord("屏蔽"),
+				LanguageHelper.TranslateWord("跳变") };
 		}   
 	
 		/// <summary>

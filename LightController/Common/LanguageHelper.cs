@@ -13,14 +13,14 @@ namespace LightController.Common
 {
 	public class LanguageHelper
 	{
-		public static string Language = "zh-CN";
+		public static string Language = "zh";
 		private static Dictionary<string, string> wordDict;
 		private static Dictionary<string, string> sentenceDict;  // 先试着把相关的翻译数据从硬盘中读出来，每次查到新的词，则需要追加到json中；并保存到文件中（实时保存否则文件可能出错）
 
 		private static string url = "https://api.fanyi.baidu.com/api/trans/vip/translate";
 		private static string appid = "20201230000659237"; //荣华
 		private static string salt = "2650224"; // 自定义的盐	
-		private static string key = "6nwB5RbeKVMQSJ5qboue"; //荣华
+		private static string key = "6nwB5RbeKVMQSJ5qboue"; //荣华		
 
 		private static string sentenceJsonPath;
 		private static int addCount = 0;
@@ -31,7 +31,7 @@ namespace LightController.Common
 		/// </summary>
 		public static void SetLanguage(string lang) {
 
-			if (lang == "zh-CN") {
+			if (lang == "zh") {
 				return ;
 			}
 
@@ -62,7 +62,7 @@ namespace LightController.Common
 		// 初始化语言
 		public static void InitForm(Form form)
 		{
-			if (Language == "zh-CN")
+			if (Language == "zh")
 			{
 				return;
 			}
@@ -75,7 +75,7 @@ namespace LightController.Common
 		// 翻译常规Control
 		public static void TranslateControl( Control ctrl)
 		{
-			if (Language == "zh-CN" || ctrl == null)
+			if (Language == "zh" || ctrl == null)
 			{
 				return;
 			}
@@ -106,7 +106,7 @@ namespace LightController.Common
 		/// <param name="listView"></param>
 		public static void TranslateListView(ListView listView)
 		{
-			if (Language == "zh-CN")
+			if (Language == "zh")
 			{
 				return;
 			}
@@ -126,7 +126,7 @@ namespace LightController.Common
 		/// <param name="ms"></param>		
 		public static void TranslateMenuStrip( ContextMenuStrip ms ) {
 
-			if (Language == "zh-CN")
+			if (Language == "zh")
 			{
 				return;
 			}
@@ -151,7 +151,7 @@ namespace LightController.Common
 		/// <param name="mi"></param>
 		public static void TranslateMenuItem(ToolStripMenuItem mi) {
 
-			if (Language == "zh-CN")
+			if (Language == "zh")
 			{
 				return;
 			}
@@ -179,7 +179,7 @@ namespace LightController.Common
 		/// <param name="word"></param>
 		/// <returns></returns>
 		public static string TranslateWord(string word) {
-			if (Language == "zh-CN")
+			if (Language == "zh")
 			{
 				return word;
 			}
@@ -200,7 +200,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static string TranslateSentence(string sentence) {
 
-			if (Language == "zh-CN")
+			if (Language == "zh")
 			{
 				return sentence;
 			}
@@ -212,8 +212,8 @@ namespace LightController.Common
 			else {
 				Dictionary<string, string> postParam = new Dictionary<string, string>();
 				postParam.Add("q", sentence);
-				postParam.Add("from", "zh");
-				postParam.Add("to", "en");
+				postParam.Add("from", "auto"); // 原语言会自动检测
+				postParam.Add("to", Language); // 目标语言得进行设置
 				postParam.Add("appid", appid);
 				postParam.Add("salt", salt);
 				postParam.Add("sign", MD5Helper.MD5_UTF8(appid + sentence + salt + key));
@@ -249,7 +249,7 @@ namespace LightController.Common
 		/// </summary>
 		private static void saveSentenceDict()
 		{
-			if ( Language == "zh-CN")
+			if ( Language == "zh")
 			{
 				return;
 			}

@@ -267,6 +267,12 @@
     <Compile Include="MyForm\Multiplex\GroupForm.Designer.cs">
       <DependentUpon>GroupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\MaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\MaterialForm.Designer.cs">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Multiplex\MultiplexForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -534,6 +540,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
       <DependentUpon>GroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\MaterialForm.resx">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>

@@ -184,7 +184,6 @@ namespace LightController.MyForm.Multiplex
 			material = new MaterialAst
 			{
 				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};
@@ -249,7 +248,6 @@ namespace LightController.MyForm.Multiplex
 			material = new MaterialAst
 			{
 				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};
@@ -285,7 +283,6 @@ namespace LightController.MyForm.Multiplex
 			material = new MaterialAst
 			{
 				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};
@@ -321,7 +318,6 @@ namespace LightController.MyForm.Multiplex
 			material = new MaterialAst
 			{
 				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};
@@ -381,7 +377,6 @@ namespace LightController.MyForm.Multiplex
 			material = new MaterialAst
 			{
 				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};

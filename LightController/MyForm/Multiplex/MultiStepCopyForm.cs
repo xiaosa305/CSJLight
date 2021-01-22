@@ -167,7 +167,6 @@ namespace LightController.MyForm
 			{
 				Mode = mode,
 				StepCount = selectedStepCount,
-				TongdaoCount = selectedTongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};

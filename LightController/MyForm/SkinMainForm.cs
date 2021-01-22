@@ -1225,7 +1225,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(getTotalStep());
+				chooseStep(getCurrentTotalStep());
 			}
 		}
 

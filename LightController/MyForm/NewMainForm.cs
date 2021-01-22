@@ -1169,7 +1169,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(getTotalStep());
+				chooseStep(getCurrentTotalStep());
 			}
 		}
 
@@ -1784,7 +1784,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				
+				//目前没有进行任何关联
 			}
 		}
 
@@ -1792,7 +1792,7 @@ namespace LightController.MyForm
 		private void detailMultiButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
-		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// 事件：左右键点击《多步联调》右键进入之前选过的联调界面
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

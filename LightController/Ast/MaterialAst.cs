@@ -13,7 +13,6 @@ namespace LightController.Ast
 		/// </summary>
 		public int Mode { get; set; }
 		public int StepCount { set; get; }
-		public int TongdaoCount { set; get; }
 		public IList<string> TdNameList { set; get; }
 		/// <summary>
 		/// 左步数，右通道数
@@ -58,11 +57,64 @@ namespace LightController.Ast
 
 			return new MaterialAst() {
 				StepCount = stepCount,
-				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList
 			};
 		}
 
+		/// <summary>
+		/// 辅助方法：
+		/// </summary>
+		/// <param name="materialPath"></param>
+		/// <returns></returns>
+		public static MaterialAst ProcessMaterialAst( MaterialAst ma1 ,	Dictionary<string,int> tdDict) {
+			// 若tdDict没有数据，则直接返回ma1
+			if (tdDict == null || tdDict.Count==0) {
+				return ma1;
+			}
+
+			IList<string> ma2TdNameList = new List<string>(ma1.TdNameList);
+			foreach (string tdName in tdDict.Keys)
+			{
+				if (!ma1.TdNameList.Contains(tdName))
+				{
+					ma2TdNameList.Add(tdName);
+				}
+			}
+			//若没有多出的通道，则直接返回ma1
+			if (ma2TdNameList.Count == ma1.TdNameList.Count) {
+				return ma1;
+			}
+
+			TongdaoWrapper[,] ma2TongdaoList = new TongdaoWrapper[ ma1.StepCount , ma2TdNameList.Count ] ;
+			for(int stepIndex=0; stepIndex< ma1.StepCount; stepIndex++)
+			{
+				for (int tongdaoIndex = 0; tongdaoIndex < ma2TdNameList.Count ; tongdaoIndex++)
+				{
+					ma2TongdaoList[stepIndex, tongdaoIndex] = new TongdaoWrapper
+					{
+						TongdaoName = ma2TdNameList[tongdaoIndex],
+						ScrollValue = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoList[stepIndex, tongdaoIndex].ScrollValue : tdDict[ma2TdNameList[tongdaoIndex]],
+						ChangeMode = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoList[stepIndex, tongdaoIndex].ChangeMode : 1 ,//不论哪种模式，默认都是1（渐变、跳变）
+						StepTime = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoList[stepIndex, tongdaoIndex].StepTime : 50 // 默认0.04*50 = 2S
+					};
+				}
+			}
+
+			MaterialAst ma2 = new MaterialAst
+			{
+				Mode = ma1.Mode,
+				StepCount = ma1.StepCount,
+				TdNameList = ma2TdNameList,
+				TongdaoList = ma2TongdaoList
+			};
+
+			return ma2;
+		}
+
+
+
+
 	}
 }
+ 

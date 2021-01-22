@@ -1,4 +1,5 @@
 ﻿using DMX512;
+using LightController.Common;
 using LightController.MyForm;
 using System;
 using System.Collections.Generic;
@@ -131,7 +132,53 @@ namespace LightController.Ast
 				}
 			}
 		}
+		
+		/// <summary>
+		/// 辅助方法：检测当前灯具是否存在X、Y轴
+		/// </summary>
+		/// <returns></returns>
+		public static bool CheckXY(StepWrapper stepWrapper)
+		{
+			bool existX = false;
+			bool existY = false;
+			IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
+			foreach (TongdaoWrapper td in tongdaoList)
+			{
+				if (td.TongdaoName == LanguageHelper.TranslateWord("X轴"))
+				{
+					existX = true;
+				}
+				else if (td.TongdaoName == LanguageHelper.TranslateWord("Y轴"))
+				{
+					existY = true;
+				}
+			}
+			return existX && existY;					
+		}
 
+		/// <summary>
+		/// 辅助方法：检测当前灯具是否存在RGB及总调光
+		/// </summary>
+		/// <returns></returns>
+		public static bool CheckRGB(StepWrapper stepWrapper)
+		{
+			HashSet<string> existSet = new HashSet<string>();
+			string[] rgbStrList = {
+					LanguageHelper.TranslateWord("总调光"),
+					LanguageHelper.TranslateWord("红"),
+					LanguageHelper.TranslateWord("绿"),
+					LanguageHelper.TranslateWord("蓝")
+			};
+			IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
+			foreach (TongdaoWrapper td in tongdaoList)
+			{
+				if (rgbStrList.Contains(td.TongdaoName))
+				{
+					existSet.Add(td.TongdaoName);
+				}
+			}
+			return existSet.Count == 4;						
+		}
 
 	}
 }

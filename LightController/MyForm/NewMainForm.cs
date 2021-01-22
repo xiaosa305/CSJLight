@@ -1272,7 +1272,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void actionButton_Click(object sender, EventArgs e)	{	}
+		private void actionButton_Click(object sender, EventArgs e)	{}		
 
 		/// <summary>
 		/// 事件：鼠标（左|右键）按下《内置动作》

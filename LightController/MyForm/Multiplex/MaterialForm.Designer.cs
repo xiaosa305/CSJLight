@@ -29,22 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.colorTab = new System.Windows.Forms.TabPage();
-			this.label21 = new System.Windows.Forms.Label();
-			this.tgNUD = new System.Windows.Forms.NumericUpDown();
-			this.addButton = new System.Windows.Forms.Button();
-			this.editButton = new System.Windows.Forms.Button();
-			this.stLabel = new System.Windows.Forms.Label();
-			this.astLabel = new System.Windows.Forms.Label();
-			this.colorFLP = new System.Windows.Forms.FlowLayoutPanel();
-			this.colorPanelDemo = new System.Windows.Forms.Panel();
-			this.cmCBDemo = new System.Windows.Forms.CheckBox();
-			this.stNUDDemo = new System.Windows.Forms.NumericUpDown();
-			this.modeLabel = new System.Windows.Forms.Label();
-			this.tgTrackBar = new System.Windows.Forms.TrackBar();
-			this.astPanel = new System.Windows.Forms.Panel();
-			this.clearButton = new System.Windows.Forms.Button();
-			this.deleteButton = new System.Windows.Forms.Button();
 			this.tdTab = new System.Windows.Forms.TabPage();
 			this.tdAddButton = new System.Windows.Forms.Button();
 			this.tdClearButton = new System.Windows.Forms.Button();
@@ -54,8 +38,11 @@
 			this.tdLabelDemo = new System.Windows.Forms.Label();
 			this.tdNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.tdDelButtonDemo = new System.Windows.Forms.Button();
+			this.materialTab = new System.Windows.Forms.TabPage();
+			this.materialTreeView = new System.Windows.Forms.TreeView();
 			this.actionTab = new System.Windows.Forms.TabPage();
 			this.StNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label19 = new System.Windows.Forms.Label();
 			this.actionTabControl = new System.Windows.Forms.TabControl();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.linePhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -96,28 +83,36 @@
 			this.eightYNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label14 = new System.Windows.Forms.Label();
 			this.label15 = new System.Windows.Forms.Label();
+			this.colorTab = new System.Windows.Forms.TabPage();
+			this.label21 = new System.Windows.Forms.Label();
+			this.tgNUD = new System.Windows.Forms.NumericUpDown();
+			this.addButton = new System.Windows.Forms.Button();
+			this.editButton = new System.Windows.Forms.Button();
+			this.stLabel = new System.Windows.Forms.Label();
+			this.astLabel = new System.Windows.Forms.Label();
+			this.colorFLP = new System.Windows.Forms.FlowLayoutPanel();
+			this.colorPanelDemo = new System.Windows.Forms.Panel();
+			this.cmCBDemo = new System.Windows.Forms.CheckBox();
+			this.stNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.modeLabel = new System.Windows.Forms.Label();
+			this.tgTrackBar = new System.Windows.Forms.TrackBar();
+			this.astPanel = new System.Windows.Forms.Panel();
+			this.clearButton = new System.Windows.Forms.Button();
+			this.deleteButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
-			this.label19 = new System.Windows.Forms.Label();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.actionCB = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
-			this.materialTab = new System.Windows.Forms.TabPage();
-			this.materialTreeView = new System.Windows.Forms.TreeView();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tabControl1.SuspendLayout();
-			this.colorTab.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).BeginInit();
-			this.colorFLP.SuspendLayout();
-			this.colorPanelDemo.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tgTrackBar)).BeginInit();
 			this.tdTab.SuspendLayout();
 			this.tdFLP.SuspendLayout();
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
+			this.materialTab.SuspendLayout();
 			this.actionTab.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.StNumericUpDown)).BeginInit();
 			this.actionTabControl.SuspendLayout();
@@ -143,7 +138,12 @@
 			this.tabPage6.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eightPhaseNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.eightYNumericUpDown)).BeginInit();
-			this.materialTab.SuspendLayout();
+			this.colorTab.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).BeginInit();
+			this.colorFLP.SuspendLayout();
+			this.colorPanelDemo.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tgTrackBar)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -159,181 +159,6 @@
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(450, 407);
 			this.tabControl1.TabIndex = 80;
-			// 
-			// colorTab
-			// 
-			this.colorTab.Controls.Add(this.label21);
-			this.colorTab.Controls.Add(this.tgNUD);
-			this.colorTab.Controls.Add(this.addButton);
-			this.colorTab.Controls.Add(this.editButton);
-			this.colorTab.Controls.Add(this.stLabel);
-			this.colorTab.Controls.Add(this.astLabel);
-			this.colorTab.Controls.Add(this.colorFLP);
-			this.colorTab.Controls.Add(this.modeLabel);
-			this.colorTab.Controls.Add(this.tgTrackBar);
-			this.colorTab.Controls.Add(this.astPanel);
-			this.colorTab.Controls.Add(this.clearButton);
-			this.colorTab.Controls.Add(this.deleteButton);
-			this.colorTab.Location = new System.Drawing.Point(4, 22);
-			this.colorTab.Name = "colorTab";
-			this.colorTab.Padding = new System.Windows.Forms.Padding(3);
-			this.colorTab.Size = new System.Drawing.Size(442, 381);
-			this.colorTab.TabIndex = 0;
-			this.colorTab.Text = "调色";
-			this.colorTab.UseVisualStyleBackColor = true;
-			// 
-			// label21
-			// 
-			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(301, 50);
-			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(53, 12);
-			this.label21.TabIndex = 71;
-			this.label21.Text = "总调光：";
-			// 
-			// tgNUD
-			// 
-			this.tgNUD.Location = new System.Drawing.Point(360, 46);
-			this.tgNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.tgNUD.Name = "tgNUD";
-			this.tgNUD.Size = new System.Drawing.Size(57, 21);
-			this.tgNUD.TabIndex = 70;
-			this.tgNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// addButton
-			// 
-			this.addButton.Location = new System.Drawing.Point(19, 22);
-			this.addButton.Name = "addButton";
-			this.addButton.Size = new System.Drawing.Size(50, 45);
-			this.addButton.TabIndex = 64;
-			this.addButton.Text = "添加";
-			this.addButton.UseVisualStyleBackColor = true;
-			// 
-			// editButton
-			// 
-			this.editButton.Enabled = false;
-			this.editButton.Location = new System.Drawing.Point(94, 22);
-			this.editButton.Name = "editButton";
-			this.editButton.Size = new System.Drawing.Size(50, 45);
-			this.editButton.TabIndex = 63;
-			this.editButton.Text = "修改";
-			this.editButton.UseVisualStyleBackColor = true;
-			// 
-			// stLabel
-			// 
-			this.stLabel.AutoSize = true;
-			this.stLabel.Location = new System.Drawing.Point(19, 176);
-			this.stLabel.Name = "stLabel";
-			this.stLabel.Size = new System.Drawing.Size(65, 12);
-			this.stLabel.TabIndex = 66;
-			this.stLabel.Text = "步时间(S):";
-			this.stLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// astLabel
-			// 
-			this.astLabel.AutoSize = true;
-			this.astLabel.Location = new System.Drawing.Point(19, 95);
-			this.astLabel.Name = "astLabel";
-			this.astLabel.Size = new System.Drawing.Size(53, 12);
-			this.astLabel.TabIndex = 0;
-			this.astLabel.Text = "未选中步";
-			// 
-			// colorFLP
-			// 
-			this.colorFLP.AutoScroll = true;
-			this.colorFLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.colorFLP.Controls.Add(this.colorPanelDemo);
-			this.colorFLP.Location = new System.Drawing.Point(93, 79);
-			this.colorFLP.Name = "colorFLP";
-			this.colorFLP.Size = new System.Drawing.Size(338, 168);
-			this.colorFLP.TabIndex = 65;
-			this.colorFLP.WrapContents = false;
-			// 
-			// colorPanelDemo
-			// 
-			this.colorPanelDemo.Controls.Add(this.cmCBDemo);
-			this.colorPanelDemo.Controls.Add(this.stNUDDemo);
-			this.colorPanelDemo.Location = new System.Drawing.Point(1, 1);
-			this.colorPanelDemo.Margin = new System.Windows.Forms.Padding(1);
-			this.colorPanelDemo.Name = "colorPanelDemo";
-			this.colorPanelDemo.Size = new System.Drawing.Size(58, 138);
-			this.colorPanelDemo.TabIndex = 68;
-			this.colorPanelDemo.Visible = false;
-			// 
-			// cmCBDemo
-			// 
-			this.cmCBDemo.AutoSize = true;
-			this.cmCBDemo.BackColor = System.Drawing.Color.MintCream;
-			this.cmCBDemo.Location = new System.Drawing.Point(21, 119);
-			this.cmCBDemo.Name = "cmCBDemo";
-			this.cmCBDemo.Size = new System.Drawing.Size(15, 14);
-			this.cmCBDemo.TabIndex = 1;
-			this.cmCBDemo.UseVisualStyleBackColor = false;
-			// 
-			// stNUDDemo
-			// 
-			this.stNUDDemo.DecimalPlaces = 2;
-			this.stNUDDemo.Location = new System.Drawing.Point(4, 92);
-			this.stNUDDemo.Maximum = new decimal(new int[] {
-            250,
-            0,
-            0,
-            0});
-			this.stNUDDemo.Name = "stNUDDemo";
-			this.stNUDDemo.Size = new System.Drawing.Size(50, 21);
-			this.stNUDDemo.TabIndex = 0;
-			this.stNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// modeLabel
-			// 
-			this.modeLabel.AutoSize = true;
-			this.modeLabel.Location = new System.Drawing.Point(19, 201);
-			this.modeLabel.Name = "modeLabel";
-			this.modeLabel.Size = new System.Drawing.Size(65, 12);
-			this.modeLabel.TabIndex = 67;
-			this.modeLabel.Text = "是否渐变：";
-			this.modeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tgTrackBar
-			// 
-			this.tgTrackBar.BackColor = System.Drawing.Color.White;
-			this.tgTrackBar.Location = new System.Drawing.Point(286, 17);
-			this.tgTrackBar.Maximum = 255;
-			this.tgTrackBar.Name = "tgTrackBar";
-			this.tgTrackBar.Size = new System.Drawing.Size(145, 45);
-			this.tgTrackBar.TabIndex = 69;
-			this.tgTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-			// 
-			// astPanel
-			// 
-			this.astPanel.Location = new System.Drawing.Point(19, 122);
-			this.astPanel.Name = "astPanel";
-			this.astPanel.Size = new System.Drawing.Size(68, 24);
-			this.astPanel.TabIndex = 73;
-			// 
-			// clearButton
-			// 
-			this.clearButton.Enabled = false;
-			this.clearButton.Location = new System.Drawing.Point(206, 22);
-			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(50, 45);
-			this.clearButton.TabIndex = 72;
-			this.clearButton.Text = "清空";
-			this.clearButton.UseVisualStyleBackColor = true;
-			// 
-			// deleteButton
-			// 
-			this.deleteButton.Enabled = false;
-			this.deleteButton.Location = new System.Drawing.Point(150, 22);
-			this.deleteButton.Name = "deleteButton";
-			this.deleteButton.Size = new System.Drawing.Size(50, 45);
-			this.deleteButton.TabIndex = 72;
-			this.deleteButton.Text = "删除";
-			this.deleteButton.UseVisualStyleBackColor = true;
 			// 
 			// tdTab
 			// 
@@ -351,7 +176,7 @@
 			// 
 			// tdAddButton
 			// 
-			this.tdAddButton.Location = new System.Drawing.Point(326, 6);
+			this.tdAddButton.Location = new System.Drawing.Point(319, 6);
 			this.tdAddButton.Name = "tdAddButton";
 			this.tdAddButton.Size = new System.Drawing.Size(55, 27);
 			this.tdAddButton.TabIndex = 2;
@@ -360,7 +185,7 @@
 			// 
 			// tdClearButton
 			// 
-			this.tdClearButton.Location = new System.Drawing.Point(387, 6);
+			this.tdClearButton.Location = new System.Drawing.Point(381, 6);
 			this.tdClearButton.Name = "tdClearButton";
 			this.tdClearButton.Size = new System.Drawing.Size(55, 27);
 			this.tdClearButton.TabIndex = 3;
@@ -430,6 +255,26 @@
 			this.tdDelButtonDemo.UseVisualStyleBackColor = true;
 			this.tdDelButtonDemo.Visible = false;
 			// 
+			// materialTab
+			// 
+			this.materialTab.Controls.Add(this.materialTreeView);
+			this.materialTab.Location = new System.Drawing.Point(4, 22);
+			this.materialTab.Name = "materialTab";
+			this.materialTab.Padding = new System.Windows.Forms.Padding(3);
+			this.materialTab.Size = new System.Drawing.Size(442, 381);
+			this.materialTab.TabIndex = 4;
+			this.materialTab.Text = "素材";
+			this.materialTab.UseVisualStyleBackColor = true;
+			// 
+			// materialTreeView
+			// 
+			this.materialTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.materialTreeView.Location = new System.Drawing.Point(3, 3);
+			this.materialTreeView.Margin = new System.Windows.Forms.Padding(2);
+			this.materialTreeView.Name = "materialTreeView";
+			this.materialTreeView.Size = new System.Drawing.Size(436, 375);
+			this.materialTreeView.TabIndex = 1;
+			// 
 			// actionTab
 			// 
 			this.actionTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -466,6 +311,17 @@
             0,
             0,
             0});
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.BackColor = System.Drawing.Color.Transparent;
+			this.label19.ForeColor = System.Drawing.SystemColors.Window;
+			this.label19.Location = new System.Drawing.Point(74, 338);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(119, 12);
+			this.label19.TabIndex = 5;
+			this.label19.Text = "变化速率(步时间S)：";
 			// 
 			// actionTabControl
 			// 
@@ -1044,6 +900,181 @@
 			this.label15.TabIndex = 10;
 			this.label15.Text = "Y轴幅度(值越小8字越大)：";
 			// 
+			// colorTab
+			// 
+			this.colorTab.Controls.Add(this.label21);
+			this.colorTab.Controls.Add(this.tgNUD);
+			this.colorTab.Controls.Add(this.addButton);
+			this.colorTab.Controls.Add(this.editButton);
+			this.colorTab.Controls.Add(this.stLabel);
+			this.colorTab.Controls.Add(this.astLabel);
+			this.colorTab.Controls.Add(this.colorFLP);
+			this.colorTab.Controls.Add(this.modeLabel);
+			this.colorTab.Controls.Add(this.tgTrackBar);
+			this.colorTab.Controls.Add(this.astPanel);
+			this.colorTab.Controls.Add(this.clearButton);
+			this.colorTab.Controls.Add(this.deleteButton);
+			this.colorTab.Location = new System.Drawing.Point(4, 22);
+			this.colorTab.Name = "colorTab";
+			this.colorTab.Padding = new System.Windows.Forms.Padding(3);
+			this.colorTab.Size = new System.Drawing.Size(442, 381);
+			this.colorTab.TabIndex = 0;
+			this.colorTab.Text = "调色";
+			this.colorTab.UseVisualStyleBackColor = true;
+			// 
+			// label21
+			// 
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(301, 50);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(53, 12);
+			this.label21.TabIndex = 71;
+			this.label21.Text = "总调光：";
+			// 
+			// tgNUD
+			// 
+			this.tgNUD.Location = new System.Drawing.Point(360, 46);
+			this.tgNUD.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.tgNUD.Name = "tgNUD";
+			this.tgNUD.Size = new System.Drawing.Size(57, 21);
+			this.tgNUD.TabIndex = 70;
+			this.tgNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// addButton
+			// 
+			this.addButton.Location = new System.Drawing.Point(19, 22);
+			this.addButton.Name = "addButton";
+			this.addButton.Size = new System.Drawing.Size(50, 45);
+			this.addButton.TabIndex = 64;
+			this.addButton.Text = "添加";
+			this.addButton.UseVisualStyleBackColor = true;
+			// 
+			// editButton
+			// 
+			this.editButton.Enabled = false;
+			this.editButton.Location = new System.Drawing.Point(94, 22);
+			this.editButton.Name = "editButton";
+			this.editButton.Size = new System.Drawing.Size(50, 45);
+			this.editButton.TabIndex = 63;
+			this.editButton.Text = "修改";
+			this.editButton.UseVisualStyleBackColor = true;
+			// 
+			// stLabel
+			// 
+			this.stLabel.AutoSize = true;
+			this.stLabel.Location = new System.Drawing.Point(19, 176);
+			this.stLabel.Name = "stLabel";
+			this.stLabel.Size = new System.Drawing.Size(65, 12);
+			this.stLabel.TabIndex = 66;
+			this.stLabel.Text = "步时间(S):";
+			this.stLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// astLabel
+			// 
+			this.astLabel.AutoSize = true;
+			this.astLabel.Location = new System.Drawing.Point(19, 95);
+			this.astLabel.Name = "astLabel";
+			this.astLabel.Size = new System.Drawing.Size(53, 12);
+			this.astLabel.TabIndex = 0;
+			this.astLabel.Text = "未选中步";
+			// 
+			// colorFLP
+			// 
+			this.colorFLP.AutoScroll = true;
+			this.colorFLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.colorFLP.Controls.Add(this.colorPanelDemo);
+			this.colorFLP.Location = new System.Drawing.Point(93, 79);
+			this.colorFLP.Name = "colorFLP";
+			this.colorFLP.Size = new System.Drawing.Size(338, 168);
+			this.colorFLP.TabIndex = 65;
+			this.colorFLP.WrapContents = false;
+			// 
+			// colorPanelDemo
+			// 
+			this.colorPanelDemo.Controls.Add(this.cmCBDemo);
+			this.colorPanelDemo.Controls.Add(this.stNUDDemo);
+			this.colorPanelDemo.Location = new System.Drawing.Point(1, 1);
+			this.colorPanelDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.colorPanelDemo.Name = "colorPanelDemo";
+			this.colorPanelDemo.Size = new System.Drawing.Size(58, 138);
+			this.colorPanelDemo.TabIndex = 68;
+			this.colorPanelDemo.Visible = false;
+			// 
+			// cmCBDemo
+			// 
+			this.cmCBDemo.AutoSize = true;
+			this.cmCBDemo.BackColor = System.Drawing.Color.MintCream;
+			this.cmCBDemo.Location = new System.Drawing.Point(21, 119);
+			this.cmCBDemo.Name = "cmCBDemo";
+			this.cmCBDemo.Size = new System.Drawing.Size(15, 14);
+			this.cmCBDemo.TabIndex = 1;
+			this.cmCBDemo.UseVisualStyleBackColor = false;
+			// 
+			// stNUDDemo
+			// 
+			this.stNUDDemo.DecimalPlaces = 2;
+			this.stNUDDemo.Location = new System.Drawing.Point(4, 92);
+			this.stNUDDemo.Maximum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+			this.stNUDDemo.Name = "stNUDDemo";
+			this.stNUDDemo.Size = new System.Drawing.Size(50, 21);
+			this.stNUDDemo.TabIndex = 0;
+			this.stNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// modeLabel
+			// 
+			this.modeLabel.AutoSize = true;
+			this.modeLabel.Location = new System.Drawing.Point(19, 201);
+			this.modeLabel.Name = "modeLabel";
+			this.modeLabel.Size = new System.Drawing.Size(65, 12);
+			this.modeLabel.TabIndex = 67;
+			this.modeLabel.Text = "是否渐变：";
+			this.modeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tgTrackBar
+			// 
+			this.tgTrackBar.BackColor = System.Drawing.Color.White;
+			this.tgTrackBar.Location = new System.Drawing.Point(286, 17);
+			this.tgTrackBar.Maximum = 255;
+			this.tgTrackBar.Name = "tgTrackBar";
+			this.tgTrackBar.Size = new System.Drawing.Size(145, 45);
+			this.tgTrackBar.TabIndex = 69;
+			this.tgTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
+			// astPanel
+			// 
+			this.astPanel.Location = new System.Drawing.Point(19, 122);
+			this.astPanel.Name = "astPanel";
+			this.astPanel.Size = new System.Drawing.Size(68, 24);
+			this.astPanel.TabIndex = 73;
+			// 
+			// clearButton
+			// 
+			this.clearButton.Enabled = false;
+			this.clearButton.Location = new System.Drawing.Point(206, 22);
+			this.clearButton.Name = "clearButton";
+			this.clearButton.Size = new System.Drawing.Size(50, 45);
+			this.clearButton.TabIndex = 72;
+			this.clearButton.Text = "清空";
+			this.clearButton.UseVisualStyleBackColor = true;
+			// 
+			// deleteButton
+			// 
+			this.deleteButton.Enabled = false;
+			this.deleteButton.Location = new System.Drawing.Point(150, 22);
+			this.deleteButton.Name = "deleteButton";
+			this.deleteButton.Size = new System.Drawing.Size(50, 45);
+			this.deleteButton.TabIndex = 72;
+			this.deleteButton.Text = "删除";
+			this.deleteButton.UseVisualStyleBackColor = true;
+			// 
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -1063,17 +1094,6 @@
 			this.enterButton.Text = "应用";
 			this.enterButton.UseVisualStyleBackColor = true;
 			// 
-			// label19
-			// 
-			this.label19.AutoSize = true;
-			this.label19.BackColor = System.Drawing.Color.Transparent;
-			this.label19.ForeColor = System.Drawing.SystemColors.Window;
-			this.label19.Location = new System.Drawing.Point(74, 338);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(119, 12);
-			this.label19.TabIndex = 5;
-			this.label19.Text = "变化速率(步时间S)：";
-			// 
 			// previewButton
 			// 
 			this.previewButton.BackColor = System.Drawing.Color.SandyBrown;
@@ -1087,7 +1107,7 @@
 			// actionCB
 			// 
 			this.actionCB.AutoSize = true;
-			this.actionCB.Location = new System.Drawing.Point(57, 432);
+			this.actionCB.Location = new System.Drawing.Point(188, 440);
 			this.actionCB.Name = "actionCB";
 			this.actionCB.Size = new System.Drawing.Size(72, 16);
 			this.actionCB.TabIndex = 81;
@@ -1097,7 +1117,7 @@
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(188, 432);
+			this.checkBox2.Location = new System.Drawing.Point(319, 440);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(72, 16);
 			this.checkBox2.TabIndex = 81;
@@ -1107,32 +1127,12 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(344, 432);
+			this.checkBox3.Location = new System.Drawing.Point(54, 440);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(48, 16);
 			this.checkBox3.TabIndex = 81;
 			this.checkBox3.Text = "素材";
 			this.checkBox3.UseVisualStyleBackColor = true;
-			// 
-			// materialTab
-			// 
-			this.materialTab.Controls.Add(this.materialTreeView);
-			this.materialTab.Location = new System.Drawing.Point(4, 22);
-			this.materialTab.Name = "materialTab";
-			this.materialTab.Padding = new System.Windows.Forms.Padding(3);
-			this.materialTab.Size = new System.Drawing.Size(442, 381);
-			this.materialTab.TabIndex = 4;
-			this.materialTab.Text = "素材";
-			this.materialTab.UseVisualStyleBackColor = true;
-			// 
-			// materialTreeView
-			// 
-			this.materialTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.materialTreeView.Location = new System.Drawing.Point(3, 3);
-			this.materialTreeView.Margin = new System.Windows.Forms.Padding(2);
-			this.materialTreeView.Name = "materialTreeView";
-			this.materialTreeView.Size = new System.Drawing.Size(436, 375);
-			this.materialTreeView.TabIndex = 1;
 			// 
 			// statusStrip1
 			// 
@@ -1170,19 +1170,12 @@
 			this.Text = "调用素材";
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tabControl1.ResumeLayout(false);
-			this.colorTab.ResumeLayout(false);
-			this.colorTab.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).EndInit();
-			this.colorFLP.ResumeLayout(false);
-			this.colorPanelDemo.ResumeLayout(false);
-			this.colorPanelDemo.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tgTrackBar)).EndInit();
 			this.tdTab.ResumeLayout(false);
 			this.tdFLP.ResumeLayout(false);
 			this.tdPanelDemo.ResumeLayout(false);
 			this.tdPanelDemo.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
+			this.materialTab.ResumeLayout(false);
 			this.actionTab.ResumeLayout(false);
 			this.actionTab.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.StNumericUpDown)).EndInit();
@@ -1214,7 +1207,14 @@
 			this.tabPage6.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eightPhaseNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.eightYNumericUpDown)).EndInit();
-			this.materialTab.ResumeLayout(false);
+			this.colorTab.ResumeLayout(false);
+			this.colorTab.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tgNUD)).EndInit();
+			this.colorFLP.ResumeLayout(false);
+			this.colorPanelDemo.ResumeLayout(false);
+			this.colorPanelDemo.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tgTrackBar)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);

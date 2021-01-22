@@ -52,8 +52,10 @@ namespace LightController.MyForm
 		protected string deleteNotice = "右击可删除多步";
 		protected string backStepNotice ="右击可跳转至第一步";
 		protected string nextStepNotice = "右击可跳转至最后一步";
-		protected object[] normalCMArray ;
-		protected object[] soundCMArray;
+
+		// 跳渐变
+		protected object[] normalCMArray ; 
+		protected object[] soundCMArray; 
 
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME; //网络搜索时的通用暂停时间
@@ -77,6 +79,7 @@ namespace LightController.MyForm
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
 		public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
+		protected MaterialForm materialForm = null; // 存储一个materialForm界面的实例，初次使用时新建
 
 		// 程序运行后，动态变化的变量
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
@@ -829,7 +832,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				StepWrapper stepTemplate = getCurrentStepTemplate();
+				StepWrapper stepTemplate = GetCurrentStepTemplate();
 				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
 				if (sameTDIndexList.Count == 0)
 				{
@@ -890,7 +893,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				StepWrapper stepTemplate = getCurrentStepTemplate();
+				StepWrapper stepTemplate = GetCurrentStepTemplate();
 				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
 				if (sameTDIndexList.Count == 0)
 				{
@@ -1007,8 +1010,24 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-		
-		#region 获取各种当前（步数、灯具）等的辅助方法
+
+		//MARK 0. MainFormBase() 获取各种当前（步数、灯具）等的辅助方法 
+		#region  MainFormBase() 获取各种当前（步数、灯具）等的辅助方法 
+
+		/// <summary>
+		/// 辅助方法：返回当前工程的当前灯具的LightAst项
+		/// </summary>
+		/// <returns></returns>
+		public string GetCurrentLightType() {
+			if (LightAstList != null && LightAstList.Count > 0 && selectedIndex != -1)
+			{
+				LightAst la = LightAstList[selectedIndex];
+				return @"\"+la.LightName+@"\"+la.LightType;
+			}
+			else {
+				return null;
+			}
+		}
 
 		/// <summary>
 		///  辅助方法：获取当前选中的LightWrapper（此灯具全部数据）
@@ -1179,7 +1198,7 @@ namespace LightController.MyForm
 		///  辅助方法：获取当前灯具的StepTemplate，用于还未生成步数时调用
 		/// </summary>
 		/// <returns></returns>
-		protected StepWrapper getCurrentStepTemplate()
+		public StepWrapper GetCurrentStepTemplate()
 		{
 			return getSelectedLightStepTemplate(selectedIndex);
 		}
@@ -2704,11 +2723,11 @@ namespace LightController.MyForm
 			StepWrapper newStep;
 			if (insertBefore)
 			{
-				newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getCurrentStepTemplate() : getSelectedLightSelectedStepWrapper(selectedIndex, stepIndex - 1), CurrentMode);
+				newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? GetCurrentStepTemplate() : getSelectedLightSelectedStepWrapper(selectedIndex, stepIndex - 1), CurrentMode);
 			}
 			else
 			{
-				newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getCurrentStepTemplate() : getCurrentStepWrapper(), CurrentMode);
+				newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? GetCurrentStepTemplate() : getCurrentStepWrapper(), CurrentMode);
 			}
 			lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
@@ -2809,7 +2828,7 @@ namespace LightController.MyForm
 			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
 			//2.否则使用本灯当前最大步的数据			 
 			bool addTemplate = getCurrentTotalStep() == 0;
-			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), CurrentMode);			
+			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? GetCurrentStepTemplate() : getCurrentLightLastStepWrapper(), CurrentMode);			
 			getCurrentLightStepWrapper().AddStep(newStep);				
 
 			if (isSyncMode)
@@ -2951,7 +2970,7 @@ namespace LightController.MyForm
 		protected void actionButtonClick()
 		{
 			//检查是否有X、Y轴；
-			if (!checkXY())
+			if (! StepWrapper.CheckXY(GetCurrentStepTemplate() ))
 			{
 				SetNotice("检测到当前灯具无X/Y轴，无法使用内置动作功能。",true, true);
 				return;
@@ -2973,38 +2992,7 @@ namespace LightController.MyForm
 				actionForm = new ActionForm(this);
 			}
 			actionForm.ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：监测当前灯具是否存在X、Y轴
-		/// </summary>
-		/// <returns></returns>
-		protected bool checkXY()
-		{
-			try
-			{
-				bool existX = false;
-				bool existY = false;
-				IList<TongdaoWrapper> tongdaoList = LightWrapperList[selectedIndex].StepTemplate.TongdaoList;
-				foreach (TongdaoWrapper td in tongdaoList)
-				{
-					if (td.TongdaoName ==LanguageHelper.TranslateWord("X轴"))
-					{
-						existX = true;
-					}
-					else if (td.TongdaoName == LanguageHelper.TranslateWord("Y轴"))
-					{
-						existY = true;
-					}
-				}
-				return existX && existY;
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("监测灯具是否有XY轴时出现异常：\n" + ex.Message);
-				return false;
-			}
-		}
+		}	
 
 		/// <summary>
 		/// 辅助方法：右键点击《内置动作》时，进入RGB调整界面
@@ -3012,7 +3000,7 @@ namespace LightController.MyForm
 		protected void colorButtonClick()
 		{
 			//检查是否有RGB及总调光；
-			if (!checkRGB())
+			if (!StepWrapper.CheckRGB( GetCurrentStepTemplate() ))
 			{
 				SetNotice("检测到当前灯具无RGB或总调光通道，无法使用快速调色功能。", true, true);
 				return;
@@ -3030,39 +3018,7 @@ namespace LightController.MyForm
 			}
 			colorForm.ShowDialog();
 		}
-
-		/// <summary>
-		/// 辅助方法：检测当前灯具是否存在RGB及总调光
-		/// </summary>
-		/// <returns></returns>
-		protected bool checkRGB() {
-			try
-			{
-				HashSet<string> existSet = new HashSet<string>();
-				string[] rgbStrList = {
-					LanguageHelper.TranslateWord("总调光"),
-					LanguageHelper.TranslateWord("红"),
-					LanguageHelper.TranslateWord("绿"),
-					LanguageHelper.TranslateWord("蓝")
-				};
-				IList<TongdaoWrapper> tongdaoList = LightWrapperList[selectedIndex].StepTemplate.TongdaoList;
-				foreach (TongdaoWrapper td in tongdaoList)
-				{
-					if (rgbStrList .Contains( td.TongdaoName) )
-					{
-						existSet.Add(td.TongdaoName);
-					}
-				}
-				return existSet.Count == 4;
-			}
-			catch (Exception ex)
-			{
-				SetNotice("监测是否RGB灯具时发生异常:"+ex.Message, true,false);
-				return false;
-			}	
-
-	}
-
+		
 		/// <summary>
 		/// 辅助方法：点击《复制步》
 		/// </summary>
@@ -3165,12 +3121,18 @@ namespace LightController.MyForm
 				PreviewButtonClick(null);
 			}
 
-			LightAst la = LightAstList[selectedIndex];
-			new MaterialUseForm(this, 
-				CurrentMode,
-				la.LightName,
-				la.LightType
-			).ShowDialog();
+			//DOTO useMaterial()
+			//LightAst la = LightAstList[selectedIndex];
+			//new MaterialUseForm(this, 
+			//	CurrentMode,
+			//	la.LightName,
+			//	la.LightType
+			//).ShowDialog();
+
+			if (materialForm == null) {
+				materialForm = new MaterialForm(this);
+			}
+			materialForm.ShowDialog();
 		}
 
 		/// <summary>

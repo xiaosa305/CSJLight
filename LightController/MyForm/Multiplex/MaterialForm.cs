@@ -13,10 +13,63 @@ namespace LightController.MyForm.Multiplex
 {
 	public partial class MaterialForm : Form
 	{
-		public MaterialForm()
+		private MainFormBase mainForm ;
+
+		private int oldMode  = -1;
+		private string oldLightType; 
+
+		private StepWrapper stepTemplate ;
+
+		private string generalStr = @"\通用\";
+		private string specialStr;   
+		private string materialPath;				
+
+		public MaterialForm(MainFormBase mainForm)
 		{
-			InitializeComponent();
+			this.mainForm = mainForm;
+			InitializeComponent();			
 		}
+
+		private void MaterialForm_Load(object sender, EventArgs e)
+		{
+			Location = MousePosition;
+			string newLightType = mainForm.GetCurrentLightType();
+
+			// 灯具发生变化时，刷新tdTab(tdCB)
+			if (oldLightType != newLightType)
+			{
+				refreshTdTab();
+			}
+			// 灯具 或 模式发生变化时，刷新其余的Tab
+			if (oldLightType != newLightType || oldMode != mainForm.CurrentMode)
+			{
+				refreshMaterialTab();
+				refreshActionTab();
+				refreshColorTab();
+			}
+
+			oldMode = mainForm.CurrentMode ;
+			oldLightType = newLightType ;
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新tdTab
+		/// </summary>
+		private void refreshTdTab() {			
+
+			tdCB.Items.Clear();
+			foreach (TongdaoWrapper td in mainForm.GetCurrentStepTemplate().TongdaoList)
+			{
+				tdCB.Items.Add(td.TongdaoName);
+			}
+			tdCB.SelectedIndex = 0;
+
+		}
+		private void refreshMaterialTab() { }
+		private void refreshActionTab() {	}
+		private void refreshColorTab() {   }
+
+		#region 内置动作
 
 		private void lineY1NumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
@@ -32,6 +85,8 @@ namespace LightController.MyForm.Multiplex
 		{
 
 		}
+
+		#endregion
 
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
@@ -58,12 +113,6 @@ namespace LightController.MyForm.Multiplex
 
 		}		
 
-		private void MaterialForm_Load(object sender, EventArgs e)
-		{
-
-		}
-
-		private StepWrapper stepWrapper;
 		#region 固定通道
 
 		/// <summary>
@@ -95,7 +144,7 @@ namespace LightController.MyForm.Multiplex
 				Maximum = tdNUDDemo.Maximum,
 				Size = tdNUDDemo.Size,
 				TextAlign = tdNUDDemo.TextAlign,
-				Value = stepWrapper.TongdaoList[tdCB.SelectedIndex].ScrollValue,
+				Value =stepTemplate.TongdaoList[tdCB.SelectedIndex].ScrollValue,
 			};
 
 			Label tdLabel = new Label

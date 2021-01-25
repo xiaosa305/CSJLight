@@ -475,7 +475,13 @@
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
-    <Compile Include="Tools\Test.cs" />
+    <Compile Include="Tools\Test\DmxRecordTest.cs" />
+    <Compile Include="Tools\Test\XiaosaTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Test\XiaosaTestForm.Designer.cs">
+      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\XiaosaTest.cs" />
     <Compile Include="Utils\CommandLogUtils.cs" />
     <Compile Include="Utils\LightConfig\LightConfigBean.cs" />
@@ -495,6 +501,9 @@
     <Content Include="Language\en-US.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Tools\Test\XiaosaTestForm.resx">
+      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Resources\灯光图.png" />
     <Content Include="安装说明.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

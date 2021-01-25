@@ -1358,6 +1358,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
+                this.CommandFailed(ex.Message);
                 LogTools.Error(Constant.TAG_XIAOSA, "下载协议数据到中控设备失败", ex);
             }
         }

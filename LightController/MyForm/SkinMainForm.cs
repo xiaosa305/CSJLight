@@ -160,25 +160,24 @@ namespace LightController.MyForm
 
 				#region 各监听器
 
-				tdNoLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
-				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
+				tdNoLabels[tdIndex].Click += tdNameNumLabels_Click;
+				tdNameLabels[tdIndex].Click += tdNameNumLabels_Click;
 
-				tdTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
-				tdTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
-				tdTrackBars[tdIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+				tdTrackBars[tdIndex].MouseEnter += tdTrackBars_MouseEnter;
+				tdTrackBars[tdIndex].MouseWheel += tdSkinTrackBars_MouseWheel;
+				tdTrackBars[tdIndex].ValueChanged += tdSkinTrackBars_ValueChanged;
 
-				tdValueNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
-				tdValueNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
-				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);				
-
-				tdCmComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-
-				tdStNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
-				tdStNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
-				tdStNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
-
+				tdValueNumericUpDowns[tdIndex].MouseEnter += tdValueNumericUpDowns_MouseEnter;
+				tdValueNumericUpDowns[tdIndex].MouseWheel += tdValueNumericUpDowns_MouseWheel;
+				tdValueNumericUpDowns[tdIndex].ValueChanged += tdValueNumericUpDowns_ValueChanged;
 				tdValueNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
+
+				tdCmComboBoxes[tdIndex].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
 				tdCmComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
+
+				tdStNumericUpDowns[tdIndex].MouseEnter += tdStepTimeNumericUpDowns_MouseEnter;
+				tdStNumericUpDowns[tdIndex].MouseWheel += tdStepTimeNumericUpDowns_MouseWheel;
+				tdStNumericUpDowns[tdIndex].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;				
 				tdStNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
 
 				#endregion
@@ -258,7 +257,6 @@ namespace LightController.MyForm
 			// 每次启动后，可以切换到上一次软件打开时连接的方式
 			isConnectCom = Properties.Settings.Default.IsConnectCom;
 			refreshConnectMethod();	
-
 		}
 
 		/// <summary>
@@ -763,10 +761,10 @@ namespace LightController.MyForm
 				labelPanel.Show();
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
-					tdTrackBars[i].ValueChanged -= new System.EventHandler(tdSkinTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
-					tdCmComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStNumericUpDowns[i].ValueChanged -= new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[i].ValueChanged -= tdSkinTrackBars_ValueChanged;
+					tdValueNumericUpDowns[i].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
+					tdCmComboBoxes[i].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+					tdStNumericUpDowns[i].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
 
 					tdNoLabels[i].Text = LanguageHelper.TranslateWord("通道") + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
@@ -777,10 +775,10 @@ namespace LightController.MyForm
 					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
 					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
 
-					tdTrackBars[i].ValueChanged += new System.EventHandler(tdSkinTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
-					tdCmComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStNumericUpDowns[i].ValueChanged += new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[i].ValueChanged += tdSkinTrackBars_ValueChanged;
+					tdValueNumericUpDowns[i].ValueChanged += tdValueNumericUpDowns_ValueChanged;
+					tdCmComboBoxes[i].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+					tdStNumericUpDowns[i].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;
 
 					tdPanels[i].Show();
 				}
@@ -1589,7 +1587,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
 				if (dd <= tdTrackBars[tdIndex].Maximum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
+					tdTrackBars[tdIndex].Value = decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1598,7 +1596,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
 				if (dd >= tdTrackBars[tdIndex].Minimum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
+					tdTrackBars[tdIndex].Value = decimal.ToInt32(dd);
 				}
 			}
 		}
@@ -1617,9 +1615,9 @@ namespace LightController.MyForm
 
             //2.把滚动条的值赋给tdValueNumericUpDowns
             // 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
-            tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
             tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
-            tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged += tdValueNumericUpDowns_ValueChanged;
 
             //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
             changeScrollValue(tongdaoIndex, tdValue);
@@ -1632,16 +1630,15 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
         {
-            //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
             // 1. 找出对应的index
             int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-            int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
+            int tdValue = decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
             // 2.调整相应的vScrollBar的数值；
             // 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
-            tdTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+            tdTrackBars[tongdaoIndex].ValueChanged -= tdSkinTrackBars_ValueChanged;
             tdTrackBars[tongdaoIndex].Value = tdValue;
-            tdTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+            tdTrackBars[tongdaoIndex].ValueChanged += tdSkinTrackBars_ValueChanged;
 
             //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
             changeScrollValue(tongdaoIndex, tdValue);
@@ -1654,7 +1651,6 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
 			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
@@ -1666,7 +1662,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
 			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)

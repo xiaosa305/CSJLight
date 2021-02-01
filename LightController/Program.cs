@@ -81,10 +81,8 @@ namespace LightController
 			{
 				MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");
 				Application.Exit();
-			}
-
-			Console.WriteLine(InsertMethod.APPEND);
-
+			}			
 		}
+		
 	}
 }

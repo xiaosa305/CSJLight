@@ -845,7 +845,7 @@ namespace LightController.MyForm
 				{
 					newStep = StepWrapper.GenerateNewStep(stepTemplate, CurrentMode);
 					// 改造下newStep,将素材值赋给newStep 
-					changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+					changeStepFromMaterial(materialAst.TongdaoArray, stepIndex, sameTDIndexList, newStep);
 					// 使用后插法：避免当前无数据的情况下调用素材失败
 					lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 				}
@@ -860,7 +860,7 @@ namespace LightController.MyForm
 							for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 							{
 								newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), CurrentMode);
-								changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+								changeStepFromMaterial(materialAst.TongdaoArray, stepIndex, sameTDIndexList, newStep);
 								getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
 							}
 						}
@@ -920,7 +920,7 @@ namespace LightController.MyForm
 				// 在步数都已经存在的情况下，用素材替换掉相关步（相应通道）
 				for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
 				{
-					changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
+					changeStepFromMaterial(materialAst.TongdaoArray, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
 					//newStep = lsWrapper.StepWrapperList[stepIndex];
 				}
 
@@ -941,7 +941,7 @@ namespace LightController.MyForm
 							// 在步数都已经存在的情况下，用素材替换掉相关步（相应通道）
 							for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
 							{
-								changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, getSelectedLightSelectedStepWrapper(lightIndex, stepIndex));
+								changeStepFromMaterial(materialAst.TongdaoArray, materialStepIndex, sameTDIndexList, getSelectedLightSelectedStepWrapper(lightIndex, stepIndex));
 							}
 						}
 					}
@@ -1015,14 +1015,14 @@ namespace LightController.MyForm
 		#region  MainFormBase() 获取各种当前（步数、灯具）等的辅助方法 
 
 		/// <summary>
-		/// 辅助方法：返回当前工程的当前灯具的LightAst项
+		/// 辅助方法：返回当前工程的当前灯具的具体名称，形式为 "lightName\lightType"
 		/// </summary>
 		/// <returns></returns>
 		public string GetCurrentLightType() {
 			if (LightAstList != null && LightAstList.Count > 0 && selectedIndex != -1)
 			{
 				LightAst la = LightAstList[selectedIndex];
-				return @"\"+la.LightName+@"\"+la.LightType;
+				return la.LightName+@"\"+la.LightType;
 			}
 			else {
 				return null;
@@ -3123,13 +3123,14 @@ namespace LightController.MyForm
 
 			//DOTO useMaterial()
 			//LightAst la = LightAstList[selectedIndex];
-			//new MaterialUseForm(this, 
+			//new MaterialUseForm(this,
 			//	CurrentMode,
 			//	la.LightName,
 			//	la.LightType
 			//).ShowDialog();
 
-			if (materialForm == null) {
+			if (materialForm == null)
+			{
 				materialForm = new MaterialForm(this);
 			}
 			materialForm.ShowDialog();
@@ -3889,7 +3890,7 @@ namespace LightController.MyForm
 						IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
 						foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
 						{
-							stepBytes[ tdList[ mi.CurrentTDIndex].Address - 1 ] =(byte) material.TongdaoList[0, mi.MaterialTDIndex].ScrollValue ;
+							stepBytes[ tdList[ mi.CurrentTDIndex].Address - 1 ] =(byte) material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue ;
 						}						
 					}
 				}
@@ -3997,9 +3998,9 @@ namespace LightController.MyForm
 												LightIndex = dbLightList[lightIndex].StartID,
 												LightID = tdList[mi.CurrentTDIndex].Address , 												
 											},
-											ScrollValue = material.TongdaoList[stepIndex, mi.MaterialTDIndex].ScrollValue,
-											StepTime = material.TongdaoList[stepIndex, mi.MaterialTDIndex].StepTime,
-											ChangeMode = material.TongdaoList[stepIndex, mi.MaterialTDIndex].ChangeMode,
+											ScrollValue = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ScrollValue,
+											StepTime = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].StepTime,
+											ChangeMode = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ChangeMode,
 										};
 										valueList.Add(value);
 									}

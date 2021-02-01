@@ -168,7 +168,7 @@ namespace LightController.MyForm
 				Mode = mode,
 				StepCount = selectedStepCount,
 				TdNameList = tdNameList,
-				TongdaoList = tongdaoList
+				TongdaoArray = tongdaoList
 			};
 
 			MessageBox.Show("成功复制多步。");

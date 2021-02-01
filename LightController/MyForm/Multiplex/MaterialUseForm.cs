@@ -166,7 +166,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			if ( !mainForm.IsConnected) {
+			if ( ! mainForm.IsConnected ) {
 				setNotice("尚未连接设备",true,true);
 				return;
 			}
@@ -181,7 +181,7 @@ namespace LightController.MyForm
 				string iniPath = getIniPath();
 				if (iniPath != null)
 				{
-					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);					
+					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(mainForm.CurrentMode,iniPath);					
 					mainForm.PreviewButtonClick(materialAst);
 					previewButton.Text = "停止预览";
 					setNotice( LanguageHelper.TranslateSentence("正在预览素材")+"【"+materialTreeView.SelectedNode.Text+"】...", false, false);
@@ -199,7 +199,7 @@ namespace LightController.MyForm
 			string iniPath = getIniPath();
 			if (iniPath != null)
 			{
-				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
+				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(mainForm.CurrentMode, iniPath);
 				Button btn = sender as Button;			
 				InsertMethod insMethod;
 				if (btn.Name == "insertButton")

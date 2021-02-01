@@ -168,24 +168,24 @@ namespace LightController.MyForm.Multiplex
 			int tongdaoCount = 2;
 						
 			// 为tongdaoList赋值 
-			TongdaoWrapper[,] tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
+			TongdaoWrapper[,] tongdaoArray = new TongdaoWrapper[stepCount, tongdaoCount];
 
 			// X轴值固定，无需处理相位
-			tongdaoList[0, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
-			tongdaoList[1, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
-			tongdaoList[2, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
-			tongdaoList[3, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoArray[0, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoArray[1, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoArray[2, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
+			tongdaoArray[3, 0] = new TongdaoWrapper(xStr, xValue, commonStepTime);
 						
-			tongdaoList[(0+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value, commonStepTime);
-			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value / 2, commonStepTime);
-			tongdaoList[(2+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value, commonStepTime);
-			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value / 2, commonStepTime);
+			tongdaoArray[(0+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value, commonStepTime);
+			tongdaoArray[(1+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value / 2, commonStepTime);
+			tongdaoArray[(2+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value, commonStepTime);
+			tongdaoArray[(3+phase) % stepCount , 1] = new TongdaoWrapper(yStr, y1Value + y2Value / 2, commonStepTime);
 
 			material = new MaterialAst
 			{
 				StepCount = stepCount,
 				TdNameList = tdNameList,
-				TongdaoList = tongdaoList
+				TongdaoArray = tongdaoArray
 			};
 		}
 				
@@ -249,7 +249,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				StepCount = stepCount,
 				TdNameList = tdNameList,
-				TongdaoList = tongdaoList
+				TongdaoArray = tongdaoList
 			};
 		}
 
@@ -284,7 +284,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				StepCount = stepCount,
 				TdNameList = tdNameList,
-				TongdaoList = tongdaoList
+				TongdaoArray = tongdaoList
 			};
 		}
 
@@ -319,7 +319,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				StepCount = stepCount,
 				TdNameList = tdNameList,
-				TongdaoList = tongdaoList
+				TongdaoArray = tongdaoList
 			};
 
 		}
@@ -378,7 +378,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				StepCount = stepCount,
 				TdNameList = tdNameList,
-				TongdaoList = tongdaoList
+				TongdaoArray = tongdaoList
 			};
 
 		}

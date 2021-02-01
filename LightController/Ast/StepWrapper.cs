@@ -132,9 +132,9 @@ namespace LightController.Ast
 				}
 			}
 		}
-		
+
 		/// <summary>
-		/// 辅助方法：检测当前灯具是否存在X、Y轴
+		/// 辅助方法：检测当前灯具是否存在X、Y轴；存在则返回true
 		/// </summary>
 		/// <returns></returns>
 		public static bool CheckXY(StepWrapper stepWrapper)
@@ -157,7 +157,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 辅助方法：检测当前灯具是否存在RGB及总调光
+		/// 辅助方法：检测当前灯具是否存在RGB及总调光；存在则返回true
 		/// </summary>
 		/// <returns></returns>
 		public static bool CheckRGB(StepWrapper stepWrapper)

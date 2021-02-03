@@ -64,51 +64,37 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 辅助方法：通过传入的Dictionary，生成相应的MaterialAst
-		/// </summary>
-		/// <param name="tdDict"></param>
-		/// <returns></returns>
-		public static MaterialAst GenerateMaterialAst(int mode, Dictionary<string, int> tdDict)
-		{
-			// 当tdDict为空时，返回null
-			if (tdDict == null || tdDict.Count == 0){
-				return null;
-			}
-
-			IList<string> tdNameList = tdDict.Keys.ToList(); 
-			TongdaoWrapper[,] tongdaoArray = new TongdaoWrapper[ 1 ,tdDict.Count];
-
-			for(int tdIndex=0; tdIndex<tdNameList.Count; tdIndex++)
-			{
-				string tdName = tdNameList[tdIndex];
-				tongdaoArray[0, tdIndex] = new TongdaoWrapper(tdName, tdDict[tdName], 50,1);	
-			}
-
-			return new MaterialAst()
-			{
-				Mode = mode,
-				StepCount = 1,
-				TdNameList = tdNameList,
-				TongdaoArray = tongdaoArray
-			};
-		}
-
-		/// <summary>
 		/// 辅助方法：通过传入的tdDict，加工旧的material，并返回新material
 		/// </summary>
 		/// <param name="materialPath"></param>
 		/// <returns></returns>
-		public static MaterialAst ProcessMaterialAst( MaterialAst ma1 ,	Dictionary<string,int> tdDict) {
-			// 若tdDict没有数据，则直接返回ma1
-			if (tdDict == null || tdDict.Count==0) {
-				return ma1;
+		public static MaterialAst ProcessMaterialAst( MaterialAst ma1 ,	Dictionary<string,int> tdDict ,int mode) {
+
+			// 若ma1为空，则可以为tdDict生成相应的单步materialAst
+			if (ma1 == null)
+			{
+				IList<string> tdNameList = tdDict.Keys.ToList();
+				TongdaoWrapper[,] tongdaoArray = new TongdaoWrapper[1, tdDict.Count];
+
+				for (int tdIndex = 0; tdIndex < tdNameList.Count; tdIndex++)
+				{
+					string tdName = tdNameList[tdIndex];
+					tongdaoArray[0, tdIndex] = new TongdaoWrapper(tdName, tdDict[tdName], 50, 1);
+				}
+
+				return new MaterialAst()
+				{
+					Mode = mode,
+					StepCount = 1,
+					TdNameList = tdNameList,
+					TongdaoArray = tongdaoArray
+				};
 			}
 
-			//DOTO  ProcessMaterialAst
-			// 若ma1为空，则可以为tdDict生成合适materialAst(单步)
-			if (ma1 == null) {
-				return null; 
-			}
+			// 若tdDict没有数据，则直接返回ma1
+			if (tdDict == null || tdDict.Count == 0) {
+				return ma1;
+			}			
 
 			IList<string> ma2TdNameList = new List<string>(ma1.TdNameList);
 			foreach (string tdName in tdDict.Keys)
@@ -123,12 +109,13 @@ namespace LightController.Ast
 				return ma1;
 			}
 
-			TongdaoWrapper[,] ma2TongdaoList = new TongdaoWrapper[ ma1.StepCount , ma2TdNameList.Count ] ;
+			// 此处开始为核心代码，用几个三目运算符来取值
+			TongdaoWrapper[,] tdArray = new TongdaoWrapper[ ma1.StepCount , ma2TdNameList.Count ] ;
 			for(int stepIndex=0; stepIndex< ma1.StepCount; stepIndex++)
 			{
 				for (int tongdaoIndex = 0; tongdaoIndex < ma2TdNameList.Count ; tongdaoIndex++)
 				{
-					ma2TongdaoList[stepIndex, tongdaoIndex] = new TongdaoWrapper
+					tdArray[stepIndex, tongdaoIndex] = new TongdaoWrapper
 					{
 						TongdaoName = ma2TdNameList[tongdaoIndex],
 						ScrollValue = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoArray[stepIndex, tongdaoIndex].ScrollValue : tdDict[ma2TdNameList[tongdaoIndex]],
@@ -137,16 +124,14 @@ namespace LightController.Ast
 					};
 				}
 			}
-
-			MaterialAst ma2 = new MaterialAst
+			
+			return new MaterialAst
 			{
 				Mode = ma1.Mode,
 				StepCount = ma1.StepCount,
 				TdNameList = ma2TdNameList,
-				TongdaoArray = ma2TongdaoList
-			};
-
-			return ma2;
+				TongdaoArray = tdArray
+			}; ;
 		}
 
 		/// <summary>
@@ -186,12 +171,13 @@ namespace LightController.Ast
 				{
 					for (int tdIndex = 0;  tdIndex < newTdNameList.Count; tdIndex++)
 					{
-						if (tdIndex < complexMaterial.TdNameList.Count )
+						if (tdIndex < complexMaterial.TdNameList.Count ) 
 						{
-							tdArray[stepIndex, tdIndex] = TongdaoWrapper.GetTongdaoFromArray(complexMaterial.TongdaoArray, stepIndex, tdIndex, complexMaterial.Mode);
-						}
+							tdArray[stepIndex, tdIndex] = TongdaoWrapper.GetFromMaterial(complexMaterial, stepIndex, tdIndex);
+						}						
 						else {
-							tdArray[stepIndex, tdIndex] = TongdaoWrapper.GetTongdaoFromArray( newMaterial.TongdaoArray, stepIndex , addTdDict[newTdNameList[tdIndex]], newMaterial.Mode);
+							//DOTO  检查addTdDict[newTdNameList[tdIndex]]
+							tdArray[stepIndex, tdIndex] = TongdaoWrapper.GetFromMaterial( newMaterial, stepIndex , addTdDict[newTdNameList[tdIndex]] );
 						}
 					}
 				}

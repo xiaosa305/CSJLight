@@ -761,7 +761,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MaterialSaveForm";
-			this.Text = "保存素材 ";
+			this.Text = "保存·用户素材 ";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MaterialSaveForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);

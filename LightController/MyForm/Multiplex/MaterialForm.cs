@@ -15,10 +15,7 @@ namespace LightController.MyForm.Multiplex
 	public partial class MaterialForm : Form
 	{
 		private MainFormBase mainForm ;
-
 		private MaterialAst complexMaterial;  // 复合的素材，预览及调用时使用（结合了四个小项素材后的情况）
-		//private int stepCount = 0;
-		//private int tongdaoCount = 0;
 
 		// 为一些数据设置一些默认值，使得初次进来时，可以渲染各个Tab页 及 其它的输入项（步时间等）
 		private int oldMode  = -1; 
@@ -30,27 +27,27 @@ namespace LightController.MyForm.Multiplex
 		// 调用素材相关
 		private string generalStr = @"\通用\";
 		private string specialStr;
-		private string materialPath;		
+		private string materialPath;
 
-		// 调色素材相关
-		private MaterialAst colorMat;           
+		// 调色素材相关		
+		private int soundStepTime = 10; 
+		private MaterialAst colorMaterial ;  
+		private MaterialAst singleColorMat;  // singleColorMat，才能保存之前的数据
 		private IList<string> colorTdNameList;     
 		private string dimmerStr = LanguageHelper.TranslateWord("总调光");
 		private string rStr = LanguageHelper.TranslateWord("红");
 		private string gStr = LanguageHelper.TranslateWord("绿");
-		private string bStr = LanguageHelper.TranslateWord("蓝");
-		private int soundStepTime = 10;
-		private int colorStepCount = 0;
-		private int colorSelectedIndex = -1;				
-		private TongdaoWrapper[,] colorTongdaoArray;
+		private string bStr = LanguageHelper.TranslateWord("蓝");					
+		private int colorCount = 0; //这个值不会轻易被改变，只有在【增删】Color块时才会发生变化；且因为其值=Controls.Count - 1, 不保存为专用变量，则引用容易出错。
+		private int colorSelectedIndex = -1; //选中的色块，只有在【选增删】Color块时才会发生变化；其值因为由1开始（有个隐藏的panelDemo）,刚好符合明面的色块序号。
 
 		// 动作素材相关
+		private int commonStepTime = 50;
 		private MaterialAst actionMaterial ;
 		IList<string> actionTdNameList;
 		private string xStr = LanguageHelper.TranslateWord("X轴");
 		private string yStr = LanguageHelper.TranslateWord("Y轴");		
-		private int commonStepTime = 50;		
-
+		
 		public MaterialForm(MainFormBase mainForm)
 		{			
 			InitializeComponent();
@@ -67,8 +64,8 @@ namespace LightController.MyForm.Multiplex
 		{
 			Location = MousePosition;
 			stepTemplate = mainForm.GetCurrentStepTemplate(); 
-			string newLightType = mainForm.GetCurrentLightType();		
-
+			string newLightType = mainForm.GetCurrentLightType();
+	
 			// 灯具发生变化时，刷新tdTab(tdCB)
 			if (oldLightType != newLightType)
 			{
@@ -77,9 +74,9 @@ namespace LightController.MyForm.Multiplex
 			// 灯具 或 模式发生变化时，刷新其余的Tab
 			if (oldLightType != newLightType || oldMode != mainForm.CurrentMode)
 			{
-				refreshMaterialTab(newLightType);
+				refreshMaterialTab();
 				refreshActionTab();
-				refreshColorTab();
+				refreshColorTab();				
 			}
 
 			// 若mainForm的时间因子发生变化，则相应的步时间也发生变化
@@ -107,12 +104,11 @@ namespace LightController.MyForm.Multiplex
 			oldMode = mainForm.CurrentMode ;
 			oldLightType = newLightType ;
 			oldEachStepTime = mainForm.EachStepTime2;
-
-			// 显示预览
+						
 			materialTreeView.ExpandAll(); // 不论渲染成什么样，都要主动展开树，否则winForm会自己收纳起来。
-			previewButton.Visible = mainForm.IsConnected & mainForm.CurrentMode == 0;			
+			previewButton.Visible = mainForm.IsConnected & mainForm.CurrentMode == 0; // 音频模式就不要预览了，没有意义
 
-			oneStepPlay(false);  //MaterialForm_Load
+			oneStepPlay(true);  //MaterialForm_Load：色块有可能发生变化，基于花销，直接传true(之前计划使用一个局部bool colorChanged，但可能会出现在预览过程中更改了色块，重新load时仍可能出现不匹配的问题)
 		}
 			   
 		/// <summary>
@@ -136,37 +132,11 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		/// <summary>
-		/// 事件：关闭界面：停止预览
+		/// 辅助方法：刷新素材列表（最好不要有入参，而实时从主界面取出）
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cancelButton_Click(object sender, EventArgs e)
-		{
-			Hide();
-			mainForm.Activate();
-		}
-
-
-		/// <summary>
-		/// 辅助方法：刷新tdTab
-		/// </summary>
-		private void refreshTdTab() {
-
-			tdComboBox.Items.Clear();
-			foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
-			{
-				tdComboBox.Items.Add(td.TongdaoName);
-			}
-			tdComboBox.SelectedIndex = 0;
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新素材列表
-		/// </summary>
-		private void refreshMaterialTab(string newLightType) {
+		private void refreshMaterialTab() {
 
 			materialTreeView.Nodes.Clear();
-
 			materialPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\" + (mainForm.CurrentMode == 0 ? "Normal" : "Sound");
 
 			// 添加通用的素材
@@ -174,7 +144,6 @@ namespace LightController.MyForm.Multiplex
 			if (Directory.Exists(generalPath))
 			{
 				TreeNode generalTreeNode = new TreeNode(LanguageHelper.TranslateSentence("通用素材"));
-
 				string[] filePaths = Directory.GetFiles(generalPath);
 				foreach (string filePath in filePaths)
 				{
@@ -191,12 +160,13 @@ namespace LightController.MyForm.Multiplex
 				materialTreeView.Nodes.Add(generalTreeNode);
 			}
 
+			string lightType = mainForm.GetCurrentLightType();
 			// 添加该灯的素材
-			specialStr = @"\"  + newLightType +  @"\";
+			specialStr = @"\"  + lightType +  @"\";
 			string specialPath = materialPath + specialStr;
 			if (Directory.Exists(specialPath))
 			{
-				TreeNode specialTreeNode = new TreeNode(newLightType );
+				TreeNode specialTreeNode = new TreeNode(lightType );
 				string[] filePaths = Directory.GetFiles(specialPath);
 				foreach (string filePath in filePaths)
 				{
@@ -211,8 +181,8 @@ namespace LightController.MyForm.Multiplex
 					}
 				}
 				materialTreeView.Nodes.Add(specialTreeNode);
-			}			
-
+			}
+			materialTreeView.ExpandAll(); // 刷新后树会自动收起来
 		}
 
 		/// <summary>
@@ -232,11 +202,7 @@ namespace LightController.MyForm.Multiplex
 		private void refreshColorTab() {
 			
 			if (StepWrapper.CheckRGB( stepTemplate) )
-			{
-
-
-
-
+			{				
 				colorTab.Parent = tabControl1;
 				colorCB.Visible = true;
 
@@ -260,58 +226,58 @@ namespace LightController.MyForm.Multiplex
 			// 当并非RGB灯具时，直接隐藏快速调色功能
 			else {
 				colorTab.Parent = null;
-				colorCB.Visible = false;
+				colorCB.Visible = false;				
 			}
 		}
-
+		
+		/// <summary>
+		/// 辅助方法：刷新tdTab
+		/// </summary>
+		private void refreshTdTab()
+		{
+			tdComboBox.Items.Clear();
+			foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
+			{
+				tdComboBox.Items.Add(td.TongdaoName);
+			}
+			tdComboBox.SelectedIndex = 0;
+		}
+		
 		/// <summary>
 		/// 辅助方法：已连接且非预览中时,根据当前色块及固定通道，直接在灯具上显示颜色		
 		/// </summary>
 		private void oneStepPlay(bool colorChanged)
 		{
 			if (mainForm.IsConnected && !mainForm.IsPreviewing)
-			{
-				MaterialAst singleMat = null ;
-				Dictionary<string, int> tdDict = generateTdDict(); //下列两个方法都会用到此tdDict，直接算出来即可（此tdDict不会为null，下面无需做null值判断）
-
-				if (colorSelectedIndex <= 0)
-				{
-					// 当没有选中色块时（本Form中等同于没有任何色块），只有当tdDict不为空，才需要单独生成只有固定通道数据的singleMat
-					if (tdDict.Count > 0)
+			{								
+				// 一旦颜色模块发生任何变化，则处理singleColorMat：先设为null，再根据是否启用颜色来决定是否生成颜色块（）
+				if (colorChanged) { 
+					singleColorMat = null;
+					if (colorTab.Parent != null && colorSelectedIndex > -1)
 					{
-						singleMat = MaterialAst.GenerateMaterialAst(mainForm.CurrentMode , tdDict);
-					}
-				}
-				// 当选中了某个色块时，先生成该色块的单步素材，再混合一下tdDict后，进行单步预览
-				else {
-					// 当色块发生变化时，才重新生成colorMat（避免资源浪费）
-					if (colorChanged) { 
-						colorTongdaoArray = new TongdaoWrapper[1, colorTdNameList.Count];
-
 						Panel colorPanel = colorFLP.Controls[colorSelectedIndex] as Panel;
 						Color bColor = colorPanel.BackColor;
-						int stepTime = decimal.ToInt32((colorPanel.Controls[0] as NumericUpDown).Value / oldEachStepTime);
 
-						colorTongdaoArray[0, 0] = new TongdaoWrapper(dimmerStr, tgTrackBar.Value, 50, 0);
-						colorTongdaoArray[0, 1] = new TongdaoWrapper(rStr, bColor.R, stepTime, 0);
-						colorTongdaoArray[0, 2] = new TongdaoWrapper(gStr, bColor.G, stepTime, 0);
-						colorTongdaoArray[0, 3] = new TongdaoWrapper(bStr, bColor.B, stepTime, 0);
+						//因为是单步数据，某些内容直接写死即可
+						TongdaoWrapper[,] tdArray = new TongdaoWrapper[1, 4]; 
+						tdArray[0, 0] = new TongdaoWrapper(dimmerStr, tgTrackBar.Value, 50);
+						tdArray[0, 1] = new TongdaoWrapper(rStr, bColor.R, 50);
+						tdArray[0, 2] = new TongdaoWrapper(gStr, bColor.G, 50);
+						tdArray[0, 3] = new TongdaoWrapper(bStr, bColor.B, 50);
 
-						colorMat = new MaterialAst
+						singleColorMat = new MaterialAst
 						{
 							StepCount = 1,
 							TdNameList = colorTdNameList,
-							TongdaoArray = colorTongdaoArray,
+							TongdaoArray = tdArray,
 						};
-					}					
-
-					singleMat = MaterialAst.ProcessMaterialAst(colorMat, tdDict);
-				}
-
+					}
+				}				
+				MaterialAst singleMat  = MaterialAst.ProcessMaterialAst( singleColorMat , generateTdDict() , mainForm.CurrentMode );	 
 				mainForm.OneStepPlay(singleMat);
-				previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览";
+				previewButton.Text = "预览"; 
 			}
-		}
+		}		
 
 		/// <summary>
 		///  事件：点击《预览|停止预览》
@@ -331,13 +297,13 @@ namespace LightController.MyForm.Multiplex
 			{
 				endView();
 				// 停止预览后，恢复 单灯单步 
-				oneStepPlay(false);   //previewButton_Click() 内 停止预览
+				oneStepPlay(true); //previewButton_Click() 内 停止预览(在预览过程中，可能更改了一些相应的颜色数据，所以最好的方式是直接传入true)
 				setNotice("已停止预览。", false, true);
 			}
 			else if (generateComplexMaterial())
 			{
 				mainForm.PreviewButtonClick(complexMaterial);
-				previewButton.Text = "停止预览";
+				previewButton.Text = "停止预览"; 
 				setNotice("正在预览复合素材", false, true);
 			}
 		}
@@ -368,8 +334,8 @@ namespace LightController.MyForm.Multiplex
 			}
 
 			// 生成调色素材（与动作同级，谁先谁后皆可）
-			if (  generateColorComplexMaterial() ){
-				complexMaterial = MaterialAst.ComplexMaterialAst(complexMaterial, colorMat);				
+			if (  generateColorMaterial() ){
+				complexMaterial = MaterialAst.ComplexMaterialAst(complexMaterial, colorMaterial);				
 			}
 
 			if (complexMaterial == null)
@@ -379,7 +345,7 @@ namespace LightController.MyForm.Multiplex
 			}
 			else
 			{				
-				complexMaterial = MaterialAst.ProcessMaterialAst(complexMaterial , generateTdDict() );
+				complexMaterial = MaterialAst.ProcessMaterialAst(complexMaterial , generateTdDict(), mainForm.CurrentMode );
 				return true;
 			}
 		}
@@ -404,14 +370,71 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-
+			if (generateComplexMaterial()) {
+				InsertMethod insMethod = InsertMethod.APPEND;
+				mainForm.InsertOrCoverMaterial( complexMaterial , insMethod, false);
+			}			
 		}
 
 		#region 生成外部素材相关
 
+		/// <summary>
+		/// 事件：点击《刷新列表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void materialRefreshButton_Click(object sender, EventArgs e)
+		{
+			refreshMaterialTab( ) ; 
+		}
+
+		/// <summary>
+		/// 事件：点击素材节点，确定要处理的素材
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void materialTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
+			materialTreeView.SelectedNode = e.Node;
+			enableComplexButtons(); // materialTreeView_NodeMouseClick：不好判断发生了什么变化，故应该执行
+		}
 
+		/// <summary>
+		/// 事件：点击《删除(素材)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void materialDeleteButton_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show(
+				LanguageHelper.TranslateSentence("确认删除素材") + "【" + materialTreeView.SelectedNode.FullPath + "】？",
+				LanguageHelper.TranslateSentence("删除素材？"),
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Warning) == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			string iniPath = getIniPath();
+			if (iniPath != null)
+			{
+				// 1.删除文件
+				try
+				{
+					File.Delete(iniPath);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+					return;
+				}
+
+				// 2.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免用户误操作
+				materialTreeView.SelectedNode.Remove();
+				materialTreeView.SelectedNode = null; // 需主动设置为null，才不会选到被删节点的兄弟节点；但仍会选中第一个节点（如“通用”）
+							
+				enableComplexButtons(); //materialDeleteButton_Click：大概率发生变化，因为将选中项置为空了（连续删除不变）
+			}		
 		}
 
 		/// <summary>
@@ -448,7 +471,7 @@ namespace LightController.MyForm.Multiplex
 			return iniPath;
 		}
 		
-		#endregion	
+		#endregion
 
 		#region 生成actionMaterial相关
 
@@ -721,11 +744,11 @@ namespace LightController.MyForm.Multiplex
 		/// 辅助方法：生成所有颜色组合的【素材】
 		/// </summary>
 		/// <returns></returns>
-		private bool generateColorComplexMaterial()
+		private bool generateColorMaterial()
 		{
 			if (colorCB.Visible && colorCB.Checked)
 			{
-				if (colorStepCount == 0)
+				if (colorCount == 0)
 				{
 					setNotice("尚未添加颜色块。", true, true);
 					return false;
@@ -734,8 +757,8 @@ namespace LightController.MyForm.Multiplex
 				{
 					try
 					{
-						colorTongdaoArray = new TongdaoWrapper[colorStepCount, colorTdNameList.Count];
-						for (int panelIndex = 1; panelIndex <= colorStepCount; panelIndex++)
+						TongdaoWrapper[,] colorTongdaoArray = new TongdaoWrapper[colorCount, colorTdNameList.Count];
+						for (int panelIndex = 1; panelIndex <= colorCount; panelIndex++)
 						{
 							Panel colorPanel = colorFLP.Controls[panelIndex] as Panel;
 
@@ -748,9 +771,9 @@ namespace LightController.MyForm.Multiplex
 							colorTongdaoArray[panelIndex - 1, 2] = new TongdaoWrapper(gStr, colorPanel.BackColor.G, stepTime, changeMode);
 							colorTongdaoArray[panelIndex - 1, 3] = new TongdaoWrapper(bStr, colorPanel.BackColor.B, stepTime, changeMode);
 
-							colorMat = new MaterialAst
+							colorMaterial = new MaterialAst
 							{
-								StepCount = colorStepCount,
+								StepCount = colorCount,
 								TdNameList = colorTdNameList,
 								TongdaoArray = colorTongdaoArray,
 							};
@@ -826,7 +849,8 @@ namespace LightController.MyForm.Multiplex
 			colorSelectedIndex = colorFLP.Controls.IndexOf(colorPanel);
 
 			selectColorPanel(); //addButton_Click
-
+			if (colorCount == 1)  enableComplexButtons(); // colorAddButton_Click；因为增加是逐一的，故当且仅当colorCount==1，表示从无到有
+			
 		}
 
 		/// <summary>
@@ -857,7 +881,10 @@ namespace LightController.MyForm.Multiplex
 		{
 			colorFLP.Controls.RemoveAt(colorSelectedIndex);
 			colorSelectedIndex = -1;
-			selectColorPanel(); //deleteButton_Click
+			selectColorPanel(); //colorDeleteButton_Click
+			
+			if (colorCount == 0)  enableComplexButtons(); // colorDeleteButton_Click；因为删除是逐一的，故当且仅当colorCount==0，表示从有到无
+			
 		}
 
 		/// <summary>
@@ -873,6 +900,8 @@ namespace LightController.MyForm.Multiplex
 			}
 			colorSelectedIndex = -1;
 			selectColorPanel(); //clearButton_Click
+
+			enableComplexButtons(); // colorClearButton_Click；colorCount必然发生有到无的变化
 		}
 
 		/// <summary>
@@ -882,8 +911,11 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void colorPanel_Click(object sender, EventArgs e)
 		{
-			colorSelectedIndex = colorFLP.Controls.IndexOf(sender as Panel);
-			selectColorPanel(); //colorPanel_Click
+			// 当且仅当选中色块与内存内的数据不同时，才继续执行
+			if ( colorSelectedIndex != colorFLP.Controls.IndexOf(sender as Panel)) {
+				colorSelectedIndex = colorFLP.Controls.IndexOf(sender as Panel);
+				selectColorPanel(); //colorPanel_Click：在此方法内有进行是否更改色块的判断
+			}			
 		}
 
 		/// <summary>
@@ -896,10 +928,10 @@ namespace LightController.MyForm.Multiplex
 			editButton.Enabled = colorSelectedIndex > 0;
 			colorDeleteButton.Enabled = colorSelectedIndex > 0;
 
-			colorStepCount = colorFLP.Controls.Count - 1;
-			clearButton.Enabled = colorStepCount > 0;
-			
-			oneStepPlay(true); //selectColorPanel
+			colorCount = colorFLP.Controls.Count - 1;
+			clearButton.Enabled = colorCount > 0;
+
+			oneStepPlay(true); //selectColorPanel()：所有调用selectColorPanel的方法，都有经过筛选，能保证一定是更改了色块，故传入true
 		}
 		
 		/// <summary>
@@ -926,6 +958,7 @@ namespace LightController.MyForm.Multiplex
 		private void tgNUD_ValueChanged(object sender, EventArgs e)
 		{
 			NumericUpDown nud = sender as NumericUpDown;
+
 			tgTrackBar.ValueChanged -= tgTrackBar_ValueChanged;
 			tgTrackBar.Value = decimal.ToInt32(nud.Value);
 			tgTrackBar.ValueChanged += tgTrackBar_ValueChanged;
@@ -940,12 +973,11 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void stNUD_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (colorStepCount > 1 && (e.KeyChar == 'a' || e.KeyChar == 'A'))
+			if (colorCount > 1 && (e.KeyChar == 'a' || e.KeyChar == 'A'))
 			{
-
 				decimal unifySt = (sender as NumericUpDown).Value;
 
-				// 设置了提示，且用户点击了取消，则return。否则继续往下走
+				// 用户点击取消，则return；否则继续往下走
 				if (mainForm.IsNoticeUnifyTd)
 				{
 					if (DialogResult.Cancel == MessageBox.Show(
@@ -972,12 +1004,12 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void cmCheckBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (colorStepCount > 1 && (e.KeyChar == 'a' || e.KeyChar == 'A'))
+			if (colorCount > 1 && (e.KeyChar == 'a' || e.KeyChar == 'A'))
 			{
 				bool unifyCM = (sender as CheckBox).Checked;
 				string cmStr = unifyCM ? "渐变" : "跳变";
 
-				// 设置了提示，且用户点击了取消，则return。否则继续往下走
+				// 用户点击取消，则return；否则继续往下走
 				if (mainForm.IsNoticeUnifyTd)
 				{
 					if (DialogResult.Cancel == MessageBox.Show(
@@ -1067,7 +1099,7 @@ namespace LightController.MyForm.Multiplex
 			tdFLP.Controls.Add(tdPanel);
 
 			enableTdAddButton();
-			oneStepPlay(false); // tdAddButton_Click() 
+			oneStepPlay(false); //tdAddButton_Click() 
 		}
 
 		/// <summary>
@@ -1242,7 +1274,41 @@ namespace LightController.MyForm.Multiplex
 		}
 
 
+
+
 		#endregion
-				
+		
+		/// <summary>
+		///  事件：几个素材来源的复选框，[更改选中项]或者[隐藏显示事件]
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void materialCB_Changed(object sender, EventArgs e)
+		{
+			enableComplexButtons();  // materialCB_Changed：必然产生变化
+		}
+
+		/// <summary>
+		/// 辅助方法：传入bool值，使能预览及应用按键；
+		/// </summary>
+		/// <param name="enable"></param>
+		private void enableComplexButtons()
+		{
+			// 设定《删除(素材)》是否可用	
+			bool materialSelected = materialTreeView.SelectedNode!=null && materialTreeView.SelectedNode.Level > 0;
+			materialDeleteButton.Enabled = materialSelected ;
+
+			// 计算《预览》、《应用》等是否可用
+			bool enable = (materialCB.Checked && materialSelected) 
+				|| (actionCB.Visible && actionCB.Checked ) 
+				|| (colorCB.Visible && colorCB.Checked && colorCount >0 );
+
+			previewButton.Enabled = enable;
+			enterButton.Enabled = enable;			
+			
+			//insertButton.Enabled = enable;
+			//coverButton.Enabled = enable;
+			//appendButton.Enabled = enable;
+		}
 	}
 }

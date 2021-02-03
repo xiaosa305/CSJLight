@@ -31,7 +31,8 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.materialTab = new System.Windows.Forms.TabPage();
 			this.materialHelpButton = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
+			this.materialRefreshButton = new System.Windows.Forms.Button();
+			this.materialDeleteButton = new System.Windows.Forms.Button();
 			this.materialTreeView = new System.Windows.Forms.TreeView();
 			this.actionTab = new System.Windows.Forms.TabPage();
 			this.StNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -167,35 +168,47 @@
 			// materialTab
 			// 
 			this.materialTab.Controls.Add(this.materialHelpButton);
-			this.materialTab.Controls.Add(this.button1);
+			this.materialTab.Controls.Add(this.materialRefreshButton);
+			this.materialTab.Controls.Add(this.materialDeleteButton);
 			this.materialTab.Controls.Add(this.materialTreeView);
 			this.materialTab.Location = new System.Drawing.Point(4, 22);
 			this.materialTab.Name = "materialTab";
 			this.materialTab.Padding = new System.Windows.Forms.Padding(3);
 			this.materialTab.Size = new System.Drawing.Size(436, 381);
 			this.materialTab.TabIndex = 4;
-			this.materialTab.Text = "素材";
+			this.materialTab.Text = "用户素材";
 			this.materialTab.UseVisualStyleBackColor = true;
 			// 
 			// materialHelpButton
 			// 
 			this.materialHelpButton.Enabled = false;
-			this.materialHelpButton.Location = new System.Drawing.Point(351, 91);
+			this.materialHelpButton.Location = new System.Drawing.Point(342, 331);
 			this.materialHelpButton.Name = "materialHelpButton";
-			this.materialHelpButton.Size = new System.Drawing.Size(67, 27);
+			this.materialHelpButton.Size = new System.Drawing.Size(75, 30);
 			this.materialHelpButton.TabIndex = 4;
 			this.materialHelpButton.Text = "提示";
 			this.materialHelpButton.UseVisualStyleBackColor = true;
 			// 
-			// button1
+			// materialRefreshButton
 			// 
-			this.button1.Enabled = false;
-			this.button1.Location = new System.Drawing.Point(351, 37);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(67, 27);
-			this.button1.TabIndex = 4;
-			this.button1.Text = "删除";
-			this.button1.UseVisualStyleBackColor = true;
+			this.materialRefreshButton.Location = new System.Drawing.Point(342, 33);
+			this.materialRefreshButton.Name = "materialRefreshButton";
+			this.materialRefreshButton.Size = new System.Drawing.Size(75, 30);
+			this.materialRefreshButton.TabIndex = 4;
+			this.materialRefreshButton.Text = "刷新列表";
+			this.materialRefreshButton.UseVisualStyleBackColor = true;
+			this.materialRefreshButton.Click += new System.EventHandler(this.materialRefreshButton_Click);
+			// 
+			// materialDeleteButton
+			// 
+			this.materialDeleteButton.Enabled = false;
+			this.materialDeleteButton.Location = new System.Drawing.Point(342, 88);
+			this.materialDeleteButton.Name = "materialDeleteButton";
+			this.materialDeleteButton.Size = new System.Drawing.Size(75, 30);
+			this.materialDeleteButton.TabIndex = 4;
+			this.materialDeleteButton.Text = "删除";
+			this.materialDeleteButton.UseVisualStyleBackColor = true;
+			this.materialDeleteButton.Click += new System.EventHandler(this.materialDeleteButton_Click);
 			// 
 			// materialTreeView
 			// 
@@ -205,6 +218,7 @@
 			this.materialTreeView.Name = "materialTreeView";
 			this.materialTreeView.Size = new System.Drawing.Size(317, 375);
 			this.materialTreeView.TabIndex = 1;
+			this.materialTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.materialTreeView_NodeMouseClick);
 			// 
 			// actionTab
 			// 
@@ -1118,17 +1132,17 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(352, 495);
+			this.cancelButton.Location = new System.Drawing.Point(342, 495);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 37);
 			this.cancelButton.TabIndex = 3;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(272, 495);
+			this.enterButton.Enabled = false;
+			this.enterButton.Location = new System.Drawing.Point(259, 495);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 37);
 			this.enterButton.TabIndex = 4;
@@ -1139,6 +1153,7 @@
 			// previewButton
 			// 
 			this.previewButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.previewButton.Enabled = false;
 			this.previewButton.Location = new System.Drawing.Point(26, 495);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(75, 37);
@@ -1156,6 +1171,8 @@
 			this.actionCB.TabIndex = 81;
 			this.actionCB.Text = "内置动作";
 			this.actionCB.UseVisualStyleBackColor = true;
+			this.actionCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+			this.actionCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
 			// 
 			// colorCB
 			// 
@@ -1166,6 +1183,8 @@
 			this.colorCB.TabIndex = 81;
 			this.colorCB.Text = "快速调色";
 			this.colorCB.UseVisualStyleBackColor = true;
+			this.colorCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+			this.colorCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
 			// 
 			// materialCB
 			// 
@@ -1174,8 +1193,10 @@
 			this.materialCB.Name = "materialCB";
 			this.materialCB.Size = new System.Drawing.Size(72, 16);
 			this.materialCB.TabIndex = 81;
-			this.materialCB.Text = "已有素材";
+			this.materialCB.Text = "用户素材";
 			this.materialCB.UseVisualStyleBackColor = true;
+			this.materialCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+			this.materialCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
 			// 
 			// statusStrip1
 			// 
@@ -1214,6 +1235,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(444, 581);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.statusStrip1);
@@ -1225,8 +1247,10 @@
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.cancelButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MaterialForm";
-			this.Text = "调用素材";
+			this.Text = "使用·复合素材";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MaterialForm_FormClosed);
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tabControl1.ResumeLayout(false);
@@ -1364,8 +1388,9 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.Button materialHelpButton;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button materialDeleteButton;
 		private System.Windows.Forms.ColorDialog myColorDialog;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button materialRefreshButton;
 	}
 }

@@ -53,15 +53,47 @@ namespace LightController.MyForm.Multiplex
 			InitializeComponent();
 			this.mainForm = mainForm;
 
+			// 内置动作和调色的tdNameList，是固定的。
 			actionTdNameList = new List<string> { xStr, yStr };
-			colorTdNameList = new List<string> { dimmerStr, rStr, gStr, bStr }; // 为tdNameList赋值；此列表是固定的
+			colorTdNameList = new List<string> { dimmerStr, rStr, gStr, bStr }; 
+
+			#region 为各个固定的NUD或TrackBar添加滚轮监听
+
 			tgNUD.MouseWheel += someNUD_MouseWheel ;
 			tgTrackBar.MouseWheel += someTrackBar_MouseWheel ;
 			
+			StNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			
+			lineXNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			lineY1NumericUpDown.MouseWheel += someNUD_MouseWheel;
+			lineY2NumericUpDown.MouseWheel += someNUD_MouseWheel;
+			linePhaseNumericUpDown.MouseWheel += someNUD_MouseWheel;
+
+			circleXNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			circleYNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			circlePhaseNumericUpDown.MouseWheel += someNUD_MouseWheel;
+
+			scXNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			scYNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			scPhaseNumericUpDown.MouseWheel += someNUD_MouseWheel;
+
+			waveX1NumericUpDown.MouseWheel += someNUD_MouseWheel;
+			waveX2NumericUpDown.MouseWheel += someNUD_MouseWheel;
+			waveY1NumericUpDown.MouseWheel += someNUD_MouseWheel;
+			waveY2NumericUpDown.MouseWheel += someNUD_MouseWheel;
+			waveTimesNumericUpDown.MouseWheel += someNUD_MouseWheel;
+
+			eightYNumericUpDown.MouseWheel += someNUD_MouseWheel;
+			eightPhaseNumericUpDown.MouseWheel += someNUD_MouseWheel;
+
+			#endregion
+
 		}
 
 		private void MaterialForm_Load(object sender, EventArgs e)
 		{
+			LanguageHelper.InitForm(this);
+
 			Location = MousePosition;
 			stepTemplate = mainForm.GetCurrentStepTemplate(); 
 			string newLightType = mainForm.GetCurrentLightType();
@@ -101,6 +133,13 @@ namespace LightController.MyForm.Multiplex
 				}				
 			}
 
+			// 不论以下几个old变量是否发生了变动，都不影响soundStepTime可能发生变动；模式为1时，则有需要读取这个数据；
+			if (mainForm.CurrentMode == 1)
+			{
+				IniFileHelper iniHelper = new IniFileHelper(mainForm.GlobalIniPath);
+				soundStepTime = iniHelper.ReadInt("SK", mainForm.CurrentScene + "ST", 10);
+			}
+
 			oldMode = mainForm.CurrentMode ;
 			oldLightType = newLightType ;
 			oldEachStepTime = mainForm.EachStepTime2;
@@ -118,17 +157,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void MaterialForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (mainForm.IsConnected)
-			{
-				if (mainForm.IsPreviewing)
-				{
-					endView();
-				}
-				else
-				{
-					mainForm.OneStepPlay(null);
-				}
-			}
+			endView();
 		}
 
 		/// <summary>
@@ -215,13 +244,6 @@ namespace LightController.MyForm.Multiplex
 				stLabel.Visible = mainForm.CurrentMode == 0;
 				modeLabel.Visible = mainForm.CurrentMode == 0;
 
-				// DOTO 考虑是否有更合适的地方可以放（目前是当灯具或当场景发生变化时，才进行处理：实际应在应用颜色时读取，其它地方用不上）
-				// 虽然不显示，但应用颜色时，仍需用到这些数据
-				if (mainForm.CurrentMode == 1)
-				{
-					IniFileHelper iniHelper = new IniFileHelper(mainForm.GlobalIniPath);
-					soundStepTime = iniHelper.ReadInt("SK", mainForm.CurrentScene + "ST", 10);
-				}
 			}
 			// 当并非RGB灯具时，直接隐藏快速调色功能
 			else {
@@ -304,7 +326,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				mainForm.PreviewButtonClick(complexMaterial);
 				previewButton.Text = "停止预览"; 
-				setNotice("正在预览复合素材", false, true);
+				setNotice("正在预览复合素材...", false, true);
 			}
 		}
 
@@ -368,11 +390,26 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void enterButton_Click(object sender, EventArgs e)
+		private void useMaterialButton_Click(object sender, EventArgs e)
 		{
 			if (generateComplexMaterial()) {
-				InsertMethod insMethod = InsertMethod.APPEND;
-				mainForm.InsertOrCoverMaterial( complexMaterial , insMethod, false);
+
+				InsertMethod insMethod;
+				Button btn = sender as Button;
+				if (btn.Name == "insertButton")	{
+					insMethod = InsertMethod.INSERT;
+				}
+				else if (btn.Name == "coverButton")
+				{
+					insMethod = clearCB.Checked ?InsertMethod.CLEAR_COVER: InsertMethod.COVER;
+				}
+				else
+				{
+					insMethod = InsertMethod.APPEND;
+				}				
+				mainForm.UseMaterial( complexMaterial , insMethod, false);				
+				endView();// 使用素材后要关闭界面，若正在预览，需要主动结束预览(Hide不会主动触发FormClosed方法！)
+				Hide();
 			}			
 		}
 
@@ -611,7 +648,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			int xValue = decimal.ToInt32(scXNumericUpDown.Value);
 			int yValue = decimal.ToInt32(scYNumericUpDown.Value);
-			int phase = decimal.ToInt32(semicirclePhaseNumericUpDown.Value) - 1;
+			int phase = decimal.ToInt32(scPhaseNumericUpDown.Value) - 1;
 
 			int stepCount = 4;
 			int tongdaoCount = 2;
@@ -1082,7 +1119,8 @@ namespace LightController.MyForm.Multiplex
 				TextAlign = tdNUDDemo.TextAlign,
 				Value = stepTemplate.TongdaoList[tdComboBox.SelectedIndex].ScrollValue,
 			};
-			tdNUD.ValueChanged += tdNUD_ValueChanged;	
+			tdNUD.ValueChanged += tdNUD_ValueChanged;
+			tdNUD.MouseWheel += someNUD_MouseWheel;
 
 			Button tdDelButton = new Button
 			{
@@ -1304,11 +1342,9 @@ namespace LightController.MyForm.Multiplex
 				|| (colorCB.Visible && colorCB.Checked && colorCount >0 );
 
 			previewButton.Enabled = enable;
-			enterButton.Enabled = enable;			
-			
-			//insertButton.Enabled = enable;
-			//coverButton.Enabled = enable;
-			//appendButton.Enabled = enable;
+			insertButton.Enabled = enable;
+			coverButton.Enabled = enable;
+			appendButton.Enabled = enable;
 		}
 	}
 }

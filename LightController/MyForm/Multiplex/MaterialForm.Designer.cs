@@ -30,7 +30,6 @@
 		{
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.materialTab = new System.Windows.Forms.TabPage();
-			this.materialHelpButton = new System.Windows.Forms.Button();
 			this.materialRefreshButton = new System.Windows.Forms.Button();
 			this.materialDeleteButton = new System.Windows.Forms.Button();
 			this.materialTreeView = new System.Windows.Forms.TreeView();
@@ -55,7 +54,7 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.semicirclePhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.scPhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label18 = new System.Windows.Forms.Label();
 			this.scXNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.scYNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -103,7 +102,7 @@
 			this.tdNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.tdDelButtonDemo = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.enterButton = new System.Windows.Forms.Button();
+			this.coverButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.actionCB = new System.Windows.Forms.CheckBox();
 			this.colorCB = new System.Windows.Forms.CheckBox();
@@ -112,6 +111,10 @@
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myColorDialog = new System.Windows.Forms.ColorDialog();
 			this.label1 = new System.Windows.Forms.Label();
+			this.appendButton = new System.Windows.Forms.Button();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.clearCB = new System.Windows.Forms.CheckBox();
+			this.insertButton = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.materialTab.SuspendLayout();
 			this.actionTab.SuspendLayout();
@@ -127,7 +130,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
 			this.tabPage4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.semicirclePhaseNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.scPhaseNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.scXNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.scYNumericUpDown)).BeginInit();
 			this.tabPage5.SuspendLayout();
@@ -150,6 +153,7 @@
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
 			this.statusStrip1.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -167,7 +171,6 @@
 			// 
 			// materialTab
 			// 
-			this.materialTab.Controls.Add(this.materialHelpButton);
 			this.materialTab.Controls.Add(this.materialRefreshButton);
 			this.materialTab.Controls.Add(this.materialDeleteButton);
 			this.materialTab.Controls.Add(this.materialTreeView);
@@ -179,21 +182,11 @@
 			this.materialTab.Text = "用户素材";
 			this.materialTab.UseVisualStyleBackColor = true;
 			// 
-			// materialHelpButton
-			// 
-			this.materialHelpButton.Enabled = false;
-			this.materialHelpButton.Location = new System.Drawing.Point(342, 331);
-			this.materialHelpButton.Name = "materialHelpButton";
-			this.materialHelpButton.Size = new System.Drawing.Size(75, 30);
-			this.materialHelpButton.TabIndex = 4;
-			this.materialHelpButton.Text = "提示";
-			this.materialHelpButton.UseVisualStyleBackColor = true;
-			// 
 			// materialRefreshButton
 			// 
 			this.materialRefreshButton.Location = new System.Drawing.Point(342, 33);
 			this.materialRefreshButton.Name = "materialRefreshButton";
-			this.materialRefreshButton.Size = new System.Drawing.Size(75, 30);
+			this.materialRefreshButton.Size = new System.Drawing.Size(75, 37);
 			this.materialRefreshButton.TabIndex = 4;
 			this.materialRefreshButton.Text = "刷新列表";
 			this.materialRefreshButton.UseVisualStyleBackColor = true;
@@ -202,9 +195,9 @@
 			// materialDeleteButton
 			// 
 			this.materialDeleteButton.Enabled = false;
-			this.materialDeleteButton.Location = new System.Drawing.Point(342, 88);
+			this.materialDeleteButton.Location = new System.Drawing.Point(342, 94);
 			this.materialDeleteButton.Name = "materialDeleteButton";
-			this.materialDeleteButton.Size = new System.Drawing.Size(75, 30);
+			this.materialDeleteButton.Size = new System.Drawing.Size(75, 37);
 			this.materialDeleteButton.TabIndex = 4;
 			this.materialDeleteButton.Text = "删除";
 			this.materialDeleteButton.UseVisualStyleBackColor = true;
@@ -521,7 +514,7 @@
 			// tabPage4
 			// 
 			this.tabPage4.BackColor = System.Drawing.Color.MintCream;
-			this.tabPage4.Controls.Add(this.semicirclePhaseNumericUpDown);
+			this.tabPage4.Controls.Add(this.scPhaseNumericUpDown);
 			this.tabPage4.Controls.Add(this.label18);
 			this.tabPage4.Controls.Add(this.scXNumericUpDown);
 			this.tabPage4.Controls.Add(this.scYNumericUpDown);
@@ -533,24 +526,24 @@
 			this.tabPage4.TabIndex = 2;
 			this.tabPage4.Text = "半圆";
 			// 
-			// semicirclePhaseNumericUpDown
+			// scPhaseNumericUpDown
 			// 
-			this.semicirclePhaseNumericUpDown.Location = new System.Drawing.Point(286, 168);
-			this.semicirclePhaseNumericUpDown.Maximum = new decimal(new int[] {
+			this.scPhaseNumericUpDown.Location = new System.Drawing.Point(286, 168);
+			this.scPhaseNumericUpDown.Maximum = new decimal(new int[] {
             4,
             0,
             0,
             0});
-			this.semicirclePhaseNumericUpDown.Minimum = new decimal(new int[] {
+			this.scPhaseNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.semicirclePhaseNumericUpDown.Name = "semicirclePhaseNumericUpDown";
-			this.semicirclePhaseNumericUpDown.Size = new System.Drawing.Size(66, 21);
-			this.semicirclePhaseNumericUpDown.TabIndex = 21;
-			this.semicirclePhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.semicirclePhaseNumericUpDown.Value = new decimal(new int[] {
+			this.scPhaseNumericUpDown.Name = "scPhaseNumericUpDown";
+			this.scPhaseNumericUpDown.Size = new System.Drawing.Size(66, 21);
+			this.scPhaseNumericUpDown.TabIndex = 21;
+			this.scPhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.scPhaseNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -914,7 +907,7 @@
 			// stLabel
 			// 
 			this.stLabel.AutoSize = true;
-			this.stLabel.Location = new System.Drawing.Point(19, 180);
+			this.stLabel.Location = new System.Drawing.Point(12, 180);
 			this.stLabel.Name = "stLabel";
 			this.stLabel.Size = new System.Drawing.Size(65, 12);
 			this.stLabel.TabIndex = 66;
@@ -924,7 +917,7 @@
 			// astLabel
 			// 
 			this.astLabel.AutoSize = true;
-			this.astLabel.Location = new System.Drawing.Point(19, 99);
+			this.astLabel.Location = new System.Drawing.Point(12, 99);
 			this.astLabel.Name = "astLabel";
 			this.astLabel.Size = new System.Drawing.Size(53, 12);
 			this.astLabel.TabIndex = 0;
@@ -980,7 +973,7 @@
 			// modeLabel
 			// 
 			this.modeLabel.AutoSize = true;
-			this.modeLabel.Location = new System.Drawing.Point(19, 205);
+			this.modeLabel.Location = new System.Drawing.Point(12, 205);
 			this.modeLabel.Name = "modeLabel";
 			this.modeLabel.Size = new System.Drawing.Size(65, 12);
 			this.modeLabel.TabIndex = 67;
@@ -1000,7 +993,7 @@
 			// 
 			// astPanel
 			// 
-			this.astPanel.Location = new System.Drawing.Point(19, 126);
+			this.astPanel.Location = new System.Drawing.Point(12, 126);
 			this.astPanel.Name = "astPanel";
 			this.astPanel.Size = new System.Drawing.Size(68, 24);
 			this.astPanel.TabIndex = 73;
@@ -1132,42 +1125,44 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(342, 495);
+			this.cancelButton.Location = new System.Drawing.Point(355, 495);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 37);
 			this.cancelButton.TabIndex = 3;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
-			// enterButton
+			// coverButton
 			// 
-			this.enterButton.Enabled = false;
-			this.enterButton.Location = new System.Drawing.Point(259, 495);
-			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(75, 37);
-			this.enterButton.TabIndex = 4;
-			this.enterButton.Text = "应用";
-			this.enterButton.UseVisualStyleBackColor = true;
-			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
+			this.coverButton.Enabled = false;
+			this.coverButton.Location = new System.Drawing.Point(354, 441);
+			this.coverButton.Name = "coverButton";
+			this.coverButton.Size = new System.Drawing.Size(75, 37);
+			this.coverButton.TabIndex = 4;
+			this.coverButton.Text = "覆盖";
+			this.coverButton.UseVisualStyleBackColor = true;
+			this.coverButton.Click += new System.EventHandler(this.useMaterialButton_Click);
 			// 
 			// previewButton
 			// 
 			this.previewButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.previewButton.Enabled = false;
-			this.previewButton.Location = new System.Drawing.Point(26, 495);
+			this.previewButton.Location = new System.Drawing.Point(181, 441);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(75, 37);
 			this.previewButton.TabIndex = 6;
 			this.previewButton.Text = "预览";
 			this.previewButton.UseVisualStyleBackColor = false;
+			this.previewButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
 			// actionCB
 			// 
 			this.actionCB.AutoSize = true;
-			this.actionCB.Location = new System.Drawing.Point(236, 440);
+			this.actionCB.Location = new System.Drawing.Point(3, 27);
 			this.actionCB.Name = "actionCB";
-			this.actionCB.Size = new System.Drawing.Size(72, 16);
+			this.actionCB.Padding = new System.Windows.Forms.Padding(1);
+			this.actionCB.Size = new System.Drawing.Size(74, 18);
 			this.actionCB.TabIndex = 81;
 			this.actionCB.Text = "内置动作";
 			this.actionCB.UseVisualStyleBackColor = true;
@@ -1177,9 +1172,10 @@
 			// colorCB
 			// 
 			this.colorCB.AutoSize = true;
-			this.colorCB.Location = new System.Drawing.Point(345, 440);
+			this.colorCB.Location = new System.Drawing.Point(3, 51);
 			this.colorCB.Name = "colorCB";
-			this.colorCB.Size = new System.Drawing.Size(72, 16);
+			this.colorCB.Padding = new System.Windows.Forms.Padding(1);
+			this.colorCB.Size = new System.Drawing.Size(74, 18);
 			this.colorCB.TabIndex = 81;
 			this.colorCB.Text = "快速调色";
 			this.colorCB.UseVisualStyleBackColor = true;
@@ -1189,9 +1185,10 @@
 			// materialCB
 			// 
 			this.materialCB.AutoSize = true;
-			this.materialCB.Location = new System.Drawing.Point(127, 440);
+			this.materialCB.Location = new System.Drawing.Point(3, 3);
 			this.materialCB.Name = "materialCB";
-			this.materialCB.Size = new System.Drawing.Size(72, 16);
+			this.materialCB.Padding = new System.Windows.Forms.Padding(1);
+			this.materialCB.Size = new System.Drawing.Size(74, 18);
 			this.materialCB.TabIndex = 81;
 			this.materialCB.Text = "用户素材";
 			this.materialCB.UseVisualStyleBackColor = true;
@@ -1225,11 +1222,54 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(27, 442);
+			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label1.Location = new System.Drawing.Point(21, 430);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.Size = new System.Drawing.Size(70, 12);
 			this.label1.TabIndex = 83;
 			this.label1.Text = "素材来源：";
+			// 
+			// appendButton
+			// 
+			this.appendButton.Enabled = false;
+			this.appendButton.Location = new System.Drawing.Point(268, 495);
+			this.appendButton.Name = "appendButton";
+			this.appendButton.Size = new System.Drawing.Size(75, 37);
+			this.appendButton.TabIndex = 4;
+			this.appendButton.Text = "追加";
+			this.appendButton.UseVisualStyleBackColor = true;
+			this.appendButton.Click += new System.EventHandler(this.useMaterialButton_Click);
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.Controls.Add(this.materialCB);
+			this.flowLayoutPanel1.Controls.Add(this.actionCB);
+			this.flowLayoutPanel1.Controls.Add(this.colorCB);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(20, 455);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(122, 77);
+			this.flowLayoutPanel1.TabIndex = 84;
+			// 
+			// clearCB
+			// 
+			this.clearCB.AutoSize = true;
+			this.clearCB.Location = new System.Drawing.Point(280, 446);
+			this.clearCB.Name = "clearCB";
+			this.clearCB.Size = new System.Drawing.Size(60, 28);
+			this.clearCB.TabIndex = 85;
+			this.clearCB.Text = "覆盖前\r\n清空步";
+			this.clearCB.UseVisualStyleBackColor = true;
+			// 
+			// insertButton
+			// 
+			this.insertButton.Enabled = false;
+			this.insertButton.Location = new System.Drawing.Point(181, 495);
+			this.insertButton.Name = "insertButton";
+			this.insertButton.Size = new System.Drawing.Size(75, 37);
+			this.insertButton.TabIndex = 4;
+			this.insertButton.Text = "插入";
+			this.insertButton.UseVisualStyleBackColor = true;
+			this.insertButton.Click += new System.EventHandler(this.useMaterialButton_Click);
 			// 
 			// MaterialForm
 			// 
@@ -1237,14 +1277,15 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(444, 581);
+			this.Controls.Add(this.clearCB);
 			this.Controls.Add(this.label1);
+			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.statusStrip1);
-			this.Controls.Add(this.materialCB);
-			this.Controls.Add(this.colorCB);
-			this.Controls.Add(this.actionCB);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.previewButton);
-			this.Controls.Add(this.enterButton);
+			this.Controls.Add(this.insertButton);
+			this.Controls.Add(this.appendButton);
+			this.Controls.Add(this.coverButton);
 			this.Controls.Add(this.cancelButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
@@ -1272,7 +1313,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
 			this.tabPage4.ResumeLayout(false);
 			this.tabPage4.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.semicirclePhaseNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.scPhaseNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.scXNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.scYNumericUpDown)).EndInit();
 			this.tabPage5.ResumeLayout(false);
@@ -1301,6 +1342,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1354,7 +1397,7 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.TabPage tabPage4;
-		private System.Windows.Forms.NumericUpDown semicirclePhaseNumericUpDown;
+		private System.Windows.Forms.NumericUpDown scPhaseNumericUpDown;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.NumericUpDown scXNumericUpDown;
 		private System.Windows.Forms.NumericUpDown scYNumericUpDown;
@@ -1377,7 +1420,7 @@
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.Button cancelButton;
-		private System.Windows.Forms.Button enterButton;
+		private System.Windows.Forms.Button coverButton;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.CheckBox actionCB;
@@ -1387,10 +1430,13 @@
 		private System.Windows.Forms.TreeView materialTreeView;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
-		private System.Windows.Forms.Button materialHelpButton;
 		private System.Windows.Forms.Button materialDeleteButton;
 		private System.Windows.Forms.ColorDialog myColorDialog;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button materialRefreshButton;
+		private System.Windows.Forms.Button appendButton;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.CheckBox clearCB;
+		private System.Windows.Forms.Button insertButton;
 	}
 }

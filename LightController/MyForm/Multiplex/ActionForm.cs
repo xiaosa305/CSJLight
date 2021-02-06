@@ -96,7 +96,7 @@ namespace LightController.MyForm.Multiplex
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			if ( generateAction() ) {
-				mainForm.InsertOrCoverMaterial(material,  InsertMethod.INSERT , false);
+				mainForm.UseMaterial(material,  InsertMethod.INSERT , false);
 				if (mainForm.IsPreviewing)
 				{
 					mainForm.PreviewButtonClick(null);

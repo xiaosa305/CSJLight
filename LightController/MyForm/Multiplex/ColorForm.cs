@@ -279,7 +279,7 @@ namespace LightController.MyForm.Multiplex
 
 				if (generateComplexMaterial() )
 				{					
-					mainForm.InsertOrCoverMaterial( material,   insMethod,  shieldCheckBox.Checked);
+					mainForm.UseMaterial( material,   insMethod,  shieldCheckBox.Checked);
 					if (mainForm.IsPreviewing)
 					{
 						mainForm.PreviewButtonClick(null);

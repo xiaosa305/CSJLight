@@ -798,12 +798,18 @@ namespace LightController.MyForm
 		/// 辅助方法:调用素材
 		/// </summary>
 		/// <param name="materialAst"></param>
-		/// <param name="method"></param>
-		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, InsertMethod method , bool isShieldOthers)
+		/// <param name="insMethod"></param>
+		public virtual void UseMaterial(MaterialAst materialAst, InsertMethod insMethod , bool isShieldOthers)
 		{
 			if (materialAst == null) {
 				SetNotice("素材调用失败(material为空)",true, true);
 				return;
+			}
+
+			//21.2.4 添加一个CLEAR_COVER枚举，需要先清空步，再设为插入(覆盖、追加都行，效果一样)。
+			if (insMethod == InsertMethod.CLEAR_COVER) {
+				clearSteps();
+				insMethod = InsertMethod.INSERT;
 			}
 			
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
@@ -812,18 +818,18 @@ namespace LightController.MyForm
 			int addStepCount = materialAst.StepCount;
 
 			// 选择《追加》时，不更改核心代码 : 而是先选择最后步(0步则不走这个)，再设置method = insert
-			if (method == InsertMethod.APPEND) {
+			if (insMethod == InsertMethod.APPEND) {
 				if (totalStep != 0 && currentStep!=totalStep) {
 					chooseStep(totalStep);
 				}
-				method = InsertMethod.INSERT;
+				insMethod = InsertMethod.INSERT;
 			}
 
 			//DOTO : 1222 使用素材核心代码
 
 			// 选择《插入》时的操作：后插法（往当前步后加数据）
 			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
-			if (method == InsertMethod.INSERT || totalStep == 0)
+			if (insMethod == InsertMethod.INSERT || totalStep == 0)
 			{
 				int finalStep = totalStep + addStepCount;  // 选择插入多步时，这里的finalStep是指最终的总
 				if (finalStep > MAX_STEP)
@@ -883,7 +889,7 @@ namespace LightController.MyForm
 			}
 			// 选择覆盖时的操作：后插法
 			//（当前步也要被覆盖，除非没有当前步-》totalStep == currentStep == 0）
-			else if (method == InsertMethod.COVER)
+			else if (insMethod == InsertMethod.COVER)
 			{
 				int finalStep = (currentStep - 1) + addStepCount;// finalStep为覆盖后最后一步的序列，而非所有步的数量
 
@@ -961,8 +967,9 @@ namespace LightController.MyForm
 				}
 				chooseStep(finalStep);  // 此处不适用RefreshStep()，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。但相应的，因为计算公式不同，chooseStep反而有效。
 			}
-
 		}
+
+	
 
 		/// <summary>
 		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)
@@ -1542,7 +1549,7 @@ namespace LightController.MyForm
 		/// <param name="insMethod"></param>
 		public void MultiStepPaste(InsertMethod insMethod)
 		{
-			InsertOrCoverMaterial(TempMaterialAst, insMethod, false );
+			UseMaterial(TempMaterialAst, insMethod, false );
 		}
 
 		/// <summary>
@@ -2920,7 +2927,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：删除指定步（起始步和总步数）
+		///  辅助方法：删除指定步（起始步和要删除的总步数）
 		/// </summary>
 		/// <param name="firstStep"></param>
 		/// <param name="stepCount"></param>
@@ -2961,6 +2968,18 @@ namespace LightController.MyForm
 			catch (Exception ex)
 			{
 				return ex.Message;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：删除所有步（根据当前状态来决定删除哪些灯具的数据）
+		/// </summary>
+		private void clearSteps()
+		{
+			int totalStep = getCurrentTotalStep();
+			// 当总步数为0时，无需任何操作; 当总步数超过0时，firstStep一定是1；
+			if ( totalStep   > 0) {
+				DeleteSteps(1, totalStep);
 			}
 		}
 
@@ -3613,30 +3632,30 @@ namespace LightController.MyForm
 
 			if (GroupList == null || GroupList.Count == 0)
 			{
-				MessageBox.Show("当前工程groupList为空，无法使用编组。");
+				SetNotice("当前工程groupList为空，无法使用编组。",true,true);
 				return;
 			}
 			if (groupIndex >= GroupList.Count)
 			{
-				MessageBox.Show("groupIndex大于groupList的大小，无法使用编组。");
+				SetNotice("groupIndex大于groupList的大小，无法使用编组。",true,true);
 				return;
 			}
 			GroupAst group = GroupList[groupIndex];
 			if (group.LightIndexList == null || group.LightIndexList.Count < 1)
 			{
-				MessageBox.Show("选中编组的组员数量小于1，无法使用编组。");
+				SetNotice("选中编组的组员数量小于1，无法使用编组。",true,true);
 				return;
 			}
 
 			if (!checkIndexAllInLightList(group.LightIndexList))
 			{
-				MessageBox.Show("编组内的部分灯具索引超过了当前工程的灯具数量，无法使用编组。");
+				SetNotice("编组内的部分灯具索引超过了当前工程的灯具数量，无法使用编组。",true,true);
 				return;
 			}
 			
 			if (!checkSameLightsAndSteps(group.LightIndexList))
 			{
-				MessageBox.Show("编组内的灯具并非同一类型或步数不一致，无法使用编组。");
+				SetNotice("编组内的灯具并非同一类型或步数不一致，无法使用编组。",true,true);
 				return;
 			}	
 

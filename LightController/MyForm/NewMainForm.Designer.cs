@@ -979,11 +979,11 @@ namespace LightController.MyForm
 			this.exportButton.Click += new System.EventHandler(this.exportProjectButton_Click);
 			this.exportButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportProjectButton_MouseDown);
 			// 
-			// useFrameButton
+			// copyFrameButton
 			// 
 			this.copyFrameButton.Enabled = false;
 			this.copyFrameButton.Location = new System.Drawing.Point(10, 124);
-			this.copyFrameButton.Name = "useFrameButton";
+			this.copyFrameButton.Name = "copyFrameButton";
 			this.copyFrameButton.Size = new System.Drawing.Size(74, 40);
 			this.copyFrameButton.TabIndex = 49;
 			this.copyFrameButton.Text = "调用场景";

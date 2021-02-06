@@ -213,7 +213,7 @@ namespace LightController.MyForm
 				else {
 					insMethod = InsertMethod.APPEND;
 				}
-				mainForm.InsertOrCoverMaterial(materialAst, insMethod, false);
+				mainForm.UseMaterial(materialAst, insMethod, false);
 				Dispose();
 				mainForm.Activate();
 			}

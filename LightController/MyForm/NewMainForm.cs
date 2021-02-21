@@ -1264,34 +1264,7 @@ namespace LightController.MyForm
 				deleteSomeStepClick();
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击《内置动作》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void actionButton_Click(object sender, EventArgs e)	{}		
-
-		/// <summary>
-		/// 事件：鼠标（左|右键）按下《内置动作》
-		///  1.获取当前步，当前步对应的stepIndex
-		///  2.通过stepIndex，DeleteStep(index);
-		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void actionButton_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-			{
-				actionButtonClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				colorButtonClick();
-			}
-		}	
-
+		
 		/// <summary>
 		/// 事件：点击《复制步》
 		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
@@ -1320,23 +1293,7 @@ namespace LightController.MyForm
 		private void pasteStepButton_Click(object sender, EventArgs e)
 		{
 			pasteStepClick();
-		}
-
-		/// <summary>
-		/// 事件：点击《复制多步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiCopyButton_Click(object sender, EventArgs e)	{ multiCopyClick(); }
-		
-		/// <summary>
-		/// 事件：点击《粘贴多步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiPasteButton_Click(object sender, EventArgs e) {
-			multiPasteClick();
-		}
+		}	
 		
 		/// <summary>
 		/// 事件：点击《保存素材》
@@ -1345,7 +1302,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveMaterialButton_Click(object sender, EventArgs e)
 		{
-			saveMaterial();
+			saveMaterialClick();
 		}
 
 		/// <summary>
@@ -1355,7 +1312,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void useMaterialButton_Click(object sender, EventArgs e)
 		{
-			useMaterial();
+			useMaterialClick();
 		}
 
 		/// <summary>
@@ -1459,9 +1416,8 @@ namespace LightController.MyForm
 			// 3. 设定《复制(多)步》是否可用
 			copyStepButton.Enabled = currentStep > 0;
 			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
-
-			multiCopyButton.Enabled = currentStep > 0;
-			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == CurrentMode;
+			
+			saveMaterialButton.Enabled = currentStep > 0;
 
 			multiplexButton.Enabled = currentStep > 0;
 

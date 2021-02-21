@@ -23,6 +23,7 @@
 
   // 素材、动作、颜色
   "保存素材 ": "Save Material",
+  "保存": "Save",
   "请勾选要保存的通道": "Choose Channels",
   "灯具名称：": "Light:",
   "请选择要保存的步数": "Input Steps' Numbers",
@@ -33,11 +34,10 @@
   "插入": "Insert",
   "覆盖": "Cover",
   "追加": "Append",
-
-  // 复合素材
   "使用·复合素材": "Use Complex Material",
   "刷新列表": "Refresh Tree",
-  "用户素材": "User Materials",
+  "临时素材": "Temp Material",
+  "用户素材": "User Material",
   "固定通道": "Fixed Channels",
   "内置动作": "Action",
   "素材来源：": "Material Source:",
@@ -97,12 +97,12 @@
   "删除步": "Delete",
   "动作|颜色": "Action|Color",
 
-  "复制步": "Copy",
-  "粘贴步": "Paste",
+  "复制步": "Copy Step",
+  "粘贴步": "Paste Step",
   "复制多步": "MultCopy",
   "粘贴多步": "MuitPaste",
-  "保存素材": "SaveMat",
-  "使用素材": "Use Mat",
+  "保存素材": "Save Material",
+  "使用素材": "Use Material",
   "进入同步": "SyncMode",
   "退出同步": "ExitSync",
   "多步复用": "Multiplex",

@@ -1325,27 +1325,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		/// <summary>
-		/// 事件：点击《内置动作》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void actionButton_Click(object sender, EventArgs e)	{}
 
-		/// <summary>
-		/// 事件：左右键点击《内置动作》（右键为《RGB调光》）
-		/// </summary>
-		private void actionButton_MouseDown(object sender, MouseEventArgs e) {
-
-			if (e.Button == MouseButtons.Left)
-			{
-				actionButtonClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				colorButtonClick();
-			}
-		}
 
 		/// <summary>
 		/// 事件：点击《复制步》
@@ -1374,27 +1354,7 @@ namespace LightController.MyForm
 		private void pasteStepSkinButton_Click(object sender, EventArgs e)
 		{
 			pasteStepClick();
-		}
-		
-		/// <summary>		
-		///  事件：点击《复制多步》：弹出类似于保存素材的form
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiCopySkinButton_Click(object sender, EventArgs e)
-		{
-			multiCopyClick();
-		}
-
-		/// <summary>	
-		///  事件：点击《粘贴多步》：弹出类似于保存素材的form
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiPasteSkinButton_Click(object sender, EventArgs e)
-		{
-			multiPasteClick();
-		}
+		}	
 
 		/// <summary>
 		///  事件：点击《保存素材》
@@ -1403,7 +1363,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			saveMaterial();
+			saveMaterialClick();
 		}
 
 		/// <summary>
@@ -1413,7 +1373,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void useMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			useMaterial();
+			useMaterialClick();
 		}
 
 		/// <summary>
@@ -1524,10 +1484,8 @@ namespace LightController.MyForm
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
-			multiCopySkinButton.Enabled = currentStep > 0;
-			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == CurrentMode;
-
-			multiplexSkinButton.Enabled = currentStep > 0;
+			saveMaterialSkinButton.Enabled = currentStep > 0; // 当前步不为0时才能保存素材；但无论什么情况都能使用素材，故不做判断
+			multiplexSkinButton.Enabled = currentStep > 0;						
 
 			// 4.设定统一调整区是否可用
 			groupButton.Enabled = LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击

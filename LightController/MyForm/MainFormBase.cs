@@ -79,7 +79,7 @@ namespace LightController.MyForm
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
 		public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
-		protected MaterialForm materialForm = null; // 存储一个materialForm界面的实例，初次使用时新建
+		protected MaterialUseForm materialUseForm = null; // 存储一个materialForm界面的实例，初次使用时新建
 
 		// 程序运行后，动态变化的变量
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
@@ -2982,61 +2982,6 @@ namespace LightController.MyForm
 				DeleteSteps(1, totalStep);
 			}
 		}
-
-		/// <summary>
-		/// 辅助方法：点击《内置动作》
-		/// </summary>
-		protected void actionButtonClick()
-		{
-			//检查是否有X、Y轴；
-			if (! StepWrapper.CheckXY(GetCurrentStepTemplate() ))
-			{
-				SetNotice("检测到当前灯具无X/Y轴，无法使用内置动作功能。",true, true);
-				return;
-			}
-
-			// 检查当前模式（音频模式很少用到动作，更多的是亮灭，故暂时不给音频模式做动作）
-			if (CurrentMode != 0) {
-				SetNotice("检测到当前模式不是常规模式，无法使用内置动作。",true, true);
-				return;
-			}
-			
-			// 若正在预览，则先停止预览
-			if (IsPreviewing)
-			{
-				PreviewButtonClick(null);
-			}
-
-			if (actionForm == null) {
-				actionForm = new ActionForm(this);
-			}
-			actionForm.ShowDialog();
-		}	
-
-		/// <summary>
-		/// 辅助方法：右键点击《内置动作》时，进入RGB调整界面
-		/// </summary>
-		protected void colorButtonClick()
-		{
-			//检查是否有RGB及总调光；
-			if (!StepWrapper.CheckRGB( GetCurrentStepTemplate() ))
-			{
-				SetNotice("检测到当前灯具无RGB或总调光通道，无法使用快速调色功能。", true, true);
-				return;
-			}
-
-			// 若正在预览，则先停止预览
-			if (IsPreviewing)
-			{
-				PreviewButtonClick(null);
-			}
-
-			if (colorForm == null)
-			{
-				colorForm = new ColorForm(this);
-			}
-			colorForm.ShowDialog();
-		}
 		
 		/// <summary>
 		/// 辅助方法：点击《复制步》
@@ -3092,47 +3037,30 @@ namespace LightController.MyForm
 			//4.刷新当前步
 			RefreshStep();
 		}
-
+		
 		/// <summary>
-		/// 辅助方法：点击《复制多步》
+		/// 辅助方法：点击《保存素材》
 		/// </summary>
-		protected void multiCopyClick()
+		protected void saveMaterialClick()
 		{
 			LightAst la = LightAstList[selectedIndex];
-			if (la == null) {
-				MessageBox.Show("未选中灯具，无法复制多步");
+			if (la == null)
+			{
+				MessageBox.Show(LanguageHelper.TranslateSentence("未选中灯具，无法保存素材。"));
 				return;
 			}
 
-			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, CurrentMode, la, getCurrentStep());
-			if (mscForm != null && !mscForm.IsDisposed)
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, CurrentMode, la , getCurrentStep());
+			if (materialForm != null && !materialForm.IsDisposed)
 			{
-				mscForm.ShowDialog();
+				materialForm.ShowDialog();
 			}
 		}
-
-		/// <summary>
-		/// 辅助方法：点击《粘贴多步》
-		/// </summary>
-		protected void multiPasteClick()
-		{
-			if (TempMaterialAst == null)
-			{
-				MessageBox.Show("还未复制多步，无法粘贴。");
-				return;
-			}
-			if (TempMaterialAst.Mode != CurrentMode)
-			{
-				MessageBox.Show("复制的多步与当前模式不同，无法粘贴。");
-				return;
-			}
-			new MultiStepPasteForm(this).ShowDialog();
-		}
-
+		
 		/// <summary>
 		///  辅助方法：点击《使用素材》
 		/// </summary>
-		protected void useMaterial()
+		protected void useMaterialClick()
 		{
 			// 若正在预览，则先停止预览
 			if (IsPreviewing)
@@ -3140,34 +3068,13 @@ namespace LightController.MyForm
 				PreviewButtonClick(null);
 			}
 
-			//DOTO useMaterial()
-			//LightAst la = LightAstList[selectedIndex];
-			//new MaterialUseForm(this,
-			//	CurrentMode,
-			//	la.LightName,
-			//	la.LightType
-			//).ShowDialog();
-
-			if (materialForm == null)
+			if (materialUseForm == null)
 			{
-				materialForm = new MaterialForm(this);
+				materialUseForm = new MaterialUseForm(this);
 			}
-			materialForm.ShowDialog();
+			materialUseForm.ShowDialog();
 		}
-
-		/// <summary>
-		/// 辅助方法：点击《保存素材》
-		/// </summary>
-		protected void saveMaterial()
-		{
-			LightAst lightAst = LightAstList[selectedIndex];
-			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, CurrentMode, lightAst.LightName, lightAst.LightType);
-			if (materialForm != null && !materialForm.IsDisposed)
-			{
-				materialForm.ShowDialog();
-			}
-		}
-
+			
 		/// <summary>
 		///  辅助方法：点击《进入|退出同步》
 		/// </summary>
@@ -3316,7 +3223,6 @@ namespace LightController.MyForm
 			changeSceneMode();
 			SetNotice("成功切换模式", false, true);
 		}
-
 
 		/// <summary>
 		/// 辅助方法：初始化灯具数据。

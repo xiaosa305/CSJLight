@@ -128,14 +128,11 @@ namespace LightController.MyForm
 			this.syncButton = new System.Windows.Forms.Button();
 			this.multiLightButton = new System.Windows.Forms.Button();
 			this.backStepButton = new System.Windows.Forms.Button();
-			this.multiPasteButton = new System.Windows.Forms.Button();
 			this.insertButton = new System.Windows.Forms.Button();
 			this.nextStepButton = new System.Windows.Forms.Button();
-			this.actionButton = new System.Windows.Forms.Button();
 			this.useMaterialButton = new System.Windows.Forms.Button();
 			this.deleteButton = new System.Windows.Forms.Button();
 			this.multiplexButton = new System.Windows.Forms.Button();
-			this.multiCopyButton = new System.Windows.Forms.Button();
 			this.appendButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
@@ -713,9 +710,9 @@ namespace LightController.MyForm
 			// 
 			// copyStepButton
 			// 
-			this.copyStepButton.Location = new System.Drawing.Point(678, 16);
+			this.copyStepButton.Location = new System.Drawing.Point(678, 17);
 			this.copyStepButton.Name = "copyStepButton";
-			this.copyStepButton.Size = new System.Drawing.Size(75, 23);
+			this.copyStepButton.Size = new System.Drawing.Size(80, 23);
 			this.copyStepButton.TabIndex = 49;
 			this.copyStepButton.Text = "复制步";
 			this.copyStepButton.UseVisualStyleBackColor = true;
@@ -725,7 +722,7 @@ namespace LightController.MyForm
 			// 
 			this.pasteStepButton.Location = new System.Drawing.Point(678, 47);
 			this.pasteStepButton.Name = "pasteStepButton";
-			this.pasteStepButton.Size = new System.Drawing.Size(75, 23);
+			this.pasteStepButton.Size = new System.Drawing.Size(80, 23);
 			this.pasteStepButton.TabIndex = 49;
 			this.pasteStepButton.Text = "粘贴步";
 			this.pasteStepButton.UseVisualStyleBackColor = true;
@@ -1089,14 +1086,11 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.syncButton);
 			this.stepPanel.Controls.Add(this.multiLightButton);
 			this.stepPanel.Controls.Add(this.backStepButton);
-			this.stepPanel.Controls.Add(this.multiPasteButton);
 			this.stepPanel.Controls.Add(this.insertButton);
 			this.stepPanel.Controls.Add(this.nextStepButton);
-			this.stepPanel.Controls.Add(this.actionButton);
 			this.stepPanel.Controls.Add(this.useMaterialButton);
 			this.stepPanel.Controls.Add(this.deleteButton);
 			this.stepPanel.Controls.Add(this.multiplexButton);
-			this.stepPanel.Controls.Add(this.multiCopyButton);
 			this.stepPanel.Controls.Add(this.appendButton);
 			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(84, 0);
@@ -1108,7 +1102,7 @@ namespace LightController.MyForm
 			// chooseStepButton
 			// 
 			this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepButton.Location = new System.Drawing.Point(595, 16);
+			this.chooseStepButton.Location = new System.Drawing.Point(550, 49);
 			this.chooseStepButton.Name = "chooseStepButton";
 			this.chooseStepButton.Size = new System.Drawing.Size(47, 23);
 			this.chooseStepButton.TabIndex = 54;
@@ -1118,9 +1112,9 @@ namespace LightController.MyForm
 			// 
 			// saveMaterialButton
 			// 
-			this.saveMaterialButton.Location = new System.Drawing.Point(849, 16);
+			this.saveMaterialButton.Location = new System.Drawing.Point(767, 17);
 			this.saveMaterialButton.Name = "saveMaterialButton";
-			this.saveMaterialButton.Size = new System.Drawing.Size(75, 23);
+			this.saveMaterialButton.Size = new System.Drawing.Size(90, 23);
 			this.saveMaterialButton.TabIndex = 49;
 			this.saveMaterialButton.Text = "保存素材";
 			this.saveMaterialButton.UseVisualStyleBackColor = true;
@@ -1173,7 +1167,7 @@ namespace LightController.MyForm
 			// 
 			// chooseStepNumericUpDown
 			// 
-			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(546, 17);
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(550, 17);
 			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
 			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(47, 21);
 			this.chooseStepNumericUpDown.TabIndex = 52;
@@ -1198,9 +1192,9 @@ namespace LightController.MyForm
 			this.syncButton.FlatAppearance.BorderSize = 0;
 			this.syncButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.syncButton.ImageKey = "复制步.png";
-			this.syncButton.Location = new System.Drawing.Point(934, 16);
+			this.syncButton.Location = new System.Drawing.Point(866, 17);
 			this.syncButton.Name = "syncButton";
-			this.syncButton.Size = new System.Drawing.Size(75, 23);
+			this.syncButton.Size = new System.Drawing.Size(80, 23);
 			this.syncButton.TabIndex = 49;
 			this.syncButton.Text = "进入同步";
 			this.syncButton.UseVisualStyleBackColor = false;
@@ -1234,16 +1228,6 @@ namespace LightController.MyForm
 			this.backStepButton.Click += new System.EventHandler(this.backStepButton_Click);
 			this.backStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.backStepButton_MouseDown);
 			// 
-			// multiPasteButton
-			// 
-			this.multiPasteButton.Location = new System.Drawing.Point(763, 48);
-			this.multiPasteButton.Name = "multiPasteButton";
-			this.multiPasteButton.Size = new System.Drawing.Size(75, 23);
-			this.multiPasteButton.TabIndex = 49;
-			this.multiPasteButton.Text = "粘贴多步";
-			this.multiPasteButton.UseVisualStyleBackColor = true;
-			this.multiPasteButton.Click += new System.EventHandler(this.multiPasteButton_Click);
-			// 
 			// insertButton
 			// 
 			this.insertButton.Location = new System.Drawing.Point(290, 48);
@@ -1266,22 +1250,11 @@ namespace LightController.MyForm
 			this.nextStepButton.Click += new System.EventHandler(this.nextStepButton_Click);
 			this.nextStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepButton_MouseDown);
 			// 
-			// actionButton
-			// 
-			this.actionButton.Location = new System.Drawing.Point(546, 48);
-			this.actionButton.Name = "actionButton";
-			this.actionButton.Size = new System.Drawing.Size(94, 23);
-			this.actionButton.TabIndex = 49;
-			this.actionButton.Text = "动作|颜色";
-			this.actionButton.UseVisualStyleBackColor = true;
-			this.actionButton.Click += new System.EventHandler(this.actionButton_Click);
-			this.actionButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.actionButton_MouseDown);
-			// 
 			// useMaterialButton
 			// 
-			this.useMaterialButton.Location = new System.Drawing.Point(849, 48);
+			this.useMaterialButton.Location = new System.Drawing.Point(767, 47);
 			this.useMaterialButton.Name = "useMaterialButton";
-			this.useMaterialButton.Size = new System.Drawing.Size(75, 23);
+			this.useMaterialButton.Size = new System.Drawing.Size(90, 23);
 			this.useMaterialButton.TabIndex = 49;
 			this.useMaterialButton.Text = "使用素材";
 			this.useMaterialButton.UseVisualStyleBackColor = true;
@@ -1301,23 +1274,13 @@ namespace LightController.MyForm
 			// multiplexButton
 			// 
 			this.multiplexButton.Enabled = false;
-			this.multiplexButton.Location = new System.Drawing.Point(934, 48);
+			this.multiplexButton.Location = new System.Drawing.Point(866, 47);
 			this.multiplexButton.Name = "multiplexButton";
-			this.multiplexButton.Size = new System.Drawing.Size(75, 23);
+			this.multiplexButton.Size = new System.Drawing.Size(80, 23);
 			this.multiplexButton.TabIndex = 49;
 			this.multiplexButton.Text = "多步复用";
 			this.multiplexButton.UseVisualStyleBackColor = true;
 			this.multiplexButton.Click += new System.EventHandler(this.multiplexButton_Click);
-			// 
-			// multiCopyButton
-			// 
-			this.multiCopyButton.Location = new System.Drawing.Point(763, 16);
-			this.multiCopyButton.Name = "multiCopyButton";
-			this.multiCopyButton.Size = new System.Drawing.Size(75, 23);
-			this.multiCopyButton.TabIndex = 49;
-			this.multiCopyButton.Text = "复制多步";
-			this.multiCopyButton.UseVisualStyleBackColor = true;
-			this.multiCopyButton.Click += new System.EventHandler(this.multiCopyButton_Click);
 			// 
 			// appendButton
 			// 
@@ -1490,12 +1453,10 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button syncButton;
 		private System.Windows.Forms.Button multiLightButton;
 		private System.Windows.Forms.Button backStepButton;
-		private System.Windows.Forms.Button multiPasteButton;
 		private System.Windows.Forms.Button insertButton;
 		private System.Windows.Forms.Button nextStepButton;
 		private System.Windows.Forms.Button useMaterialButton;
 		private System.Windows.Forms.Button deleteButton;
-		private System.Windows.Forms.Button multiCopyButton;
 		private System.Windows.Forms.Button copyStepButton;
 		private System.Windows.Forms.Button appendButton;
 		private System.Windows.Forms.Button pasteStepButton;
@@ -1547,7 +1508,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private ToolStripMenuItem projectUpdateToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem2;
-		private Button actionButton;
 		private Panel saPanelDemo;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem showSaPanelsToolStripMenuItem;

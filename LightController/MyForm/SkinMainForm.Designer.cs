@@ -1332,7 +1332,7 @@ namespace LightController.MyForm
 			// tytzLabel
 			// 
 			this.tytzLabel.AutoSize = true;
-			this.tytzLabel.Location = new System.Drawing.Point(95, 8);
+			this.tytzLabel.Location = new System.Drawing.Point(83, 7);
 			this.tytzLabel.Name = "tytzLabel";
 			this.tytzLabel.Size = new System.Drawing.Size(53, 12);
 			this.tytzLabel.TabIndex = 0;
@@ -1405,7 +1405,7 @@ namespace LightController.MyForm
 			// dqdjLabel
 			// 
 			this.dqdjLabel.AutoSize = true;
-			this.dqdjLabel.Location = new System.Drawing.Point(93, 7);
+			this.dqdjLabel.Location = new System.Drawing.Point(83, 8);
 			this.dqdjLabel.Name = "dqdjLabel";
 			this.dqdjLabel.Size = new System.Drawing.Size(53, 12);
 			this.dqdjLabel.TabIndex = 0;

@@ -71,7 +71,7 @@
   "关闭工程": "Close",
 
   // 辅助面板
-  "当前灯具": "Current Light",
+  "当前灯具": "Current Light(s)",
   "统一调整": "Unify Panel",
   "灯具编组": "MakeGroup",
   "多步调节": "MultiAdjust",
@@ -474,6 +474,5 @@
   "显示调试面板": "Show Play Panel",
   "隐藏子属性面板": "Hide  Subattribute Panels",
   "显示子属性面板": "Show  SubAttribute(SA) Panels"
-
-
+    
 }

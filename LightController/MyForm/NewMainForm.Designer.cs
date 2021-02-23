@@ -283,7 +283,6 @@ namespace LightController.MyForm
 			// 
 			// projectUpdateToolStripMenuItem
 			// 
-			this.projectUpdateToolStripMenuItem.Enabled = false;
 			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
 			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.projectUpdateToolStripMenuItem.Text = "工程更新";

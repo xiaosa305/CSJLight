@@ -51,9 +51,10 @@
 			this.pathLabel.Name = "pathLabel";
 			this.pathLabel.Size = new System.Drawing.Size(311, 33);
 			this.pathLabel.TabIndex = 13;
+			this.pathLabel.TextChanged += new System.EventHandler(this.pathLabel_TextChanged);
 			// 
 			// folderBrowserDialog
-			// 			
+			// 
 			this.folderBrowserDialog.ShowNewFolderButton = false;
 			// 
 			// fileOpenButton

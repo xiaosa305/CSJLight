@@ -380,7 +380,6 @@ namespace LightController.MyForm
 			this.projectUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.projectUpdateSkinButton.DownBack = null;
 			this.projectUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.projectUpdateSkinButton.Enabled = false;
 			this.projectUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.projectUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.projectUpdateSkinButton.ForeColorSuit = true;

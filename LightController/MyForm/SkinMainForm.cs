@@ -521,8 +521,7 @@ namespace LightController.MyForm
 			// 菜单栏相关按钮
 			lightListSkinButton.Enabled = enable;
 			globalSetSkinButton.Enabled = enable;
-			ymSkinButton.Enabled = enable;
-			projectUpdateSkinButton.Enabled = enable;
+			ymSkinButton.Enabled = enable;			
 		}
 
 		/// <summary>

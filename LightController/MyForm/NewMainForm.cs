@@ -190,8 +190,8 @@ namespace LightController.MyForm
 
 			#endregion
 
-			// 场景选项框		
-			//添加FramList.txt中的场景列表
+			// 场景选项框
+			// 添加FramList.txt中的场景列表
 			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
 			foreach (string frame in AllFrameList)
 			{
@@ -200,7 +200,7 @@ namespace LightController.MyForm
 			SceneCount = AllFrameList.Count;
 			if (SceneCount == 0)
 			{
-				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
+				MessageBox.Show(LanguageHelper.TranslateSentence("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。"));
 				exit();
 			}
 			sceneComboBox.SelectedIndex = 0;
@@ -278,7 +278,7 @@ namespace LightController.MyForm
 
 			// 根据之前打开时存在Settings内的数据，设置皮肤
 			if (isUseSkin) {
-				skinComboBox.SelectedIndex = Properties.Settings.Default.IrisSkinIndex; ; // 触发skinComboBox_SelectedIndexChanged事件				
+				skinComboBox.SelectedIndex = Properties.Settings.Default.IrisSkinIndex;  // 触发skinComboBox_SelectedIndexChanged事件				
 			}
 
 			// 根据之前打开时存在Settings内的数据，设置连接方式
@@ -671,8 +671,7 @@ namespace LightController.MyForm
 			// 菜单栏相关按钮组			
 			lightListToolStripMenuItem.Enabled = enable;
 			globalSetToolStripMenuItem.Enabled = enable;
-			ymSetToolStripMenuItem.Enabled = enable;
-			projectUpdateToolStripMenuItem.Enabled = enable;
+			ymSetToolStripMenuItem.Enabled = enable;			
 		}
 
 		/// <summary>

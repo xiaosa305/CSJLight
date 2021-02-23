@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.filePathLabel = new System.Windows.Forms.Label();
+			this.pathLabel = new System.Windows.Forms.Label();
 			this.fileOpenButton = new System.Windows.Forms.Button();
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.switchButton = new System.Windows.Forms.Button();
@@ -49,14 +49,11 @@
 			// openFileDialog
 			// 
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
-			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
 			// filePathLabel
 			// 
-			this.filePathLabel.Location = new System.Drawing.Point(152, 19);
-			this.filePathLabel.Name = "filePathLabel";
-			this.filePathLabel.Size = new System.Drawing.Size(387, 33);
-			this.filePathLabel.TabIndex = 11;
+			this.pathLabel.Location = new System.Drawing.Point(152, 19);			
+			this.pathLabel.Size = new System.Drawing.Size(387, 33);			
 			// 
 			// fileOpenButton
 			// 
@@ -206,7 +203,7 @@
 			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.fileOpenButton);
-			this.Controls.Add(this.filePathLabel);
+			this.Controls.Add(this.pathLabel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -227,7 +224,7 @@
 
 		#endregion
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
-		private System.Windows.Forms.Label filePathLabel;
+		private System.Windows.Forms.Label pathLabel;
 		private System.Windows.Forms.Button fileOpenButton;
 		private System.Windows.Forms.Panel connectPanel;
 		private System.Windows.Forms.Button switchButton;

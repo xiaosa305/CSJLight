@@ -84,12 +84,11 @@ namespace LightController.MyForm
 		// 程序运行后，动态变化的变量
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
-		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
-		protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。		
-	
+		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。		
+
 		// 工程相关的变量（只在工程载入后才用到的变量）
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
-		protected string projectPath; //存放当前工程所在目录
+		protected string currentProjectPath; //存放当前工程所在目录
 		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
 		protected bool isEncrypt = false; //是否加密				
@@ -192,24 +191,7 @@ namespace LightController.MyForm
 		#endregion
 
 		#region 存储一些供其他Form使用的变量，比如已打开的升级文件、工程文件等
-
-		/// <summary>
-		/// 辅助方法：当xbin文件选中后，让mainForm留一个xbin路径的备份，下次重新打开《硬件升级》时可以用到，避免重复打开。
-		/// </summary>
-		/// <param name="binPath"></param>
-		internal void SetBinPath(string binPath)
-		{
-			this.binPath = binPath;
-		}
-
-		/// <summary>
-		/// 辅助方法：记录导出工程文件夹，供下载工程使用。
-		/// </summary>
-		/// <param name="binPath"></param>
-		internal void SetProjectPath(string projectPath) {
-			tempProjectPath = projectPath;
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：（供DetailMultiForm等调用）返回当前灯具某个通道的封装类；
 		/// </summary>
@@ -242,7 +224,7 @@ namespace LightController.MyForm
 				string destPath = SavePath + @"\Source\LightProject\" + currentProjectName;
 				di = new DirectoryInfo(destPath);
 				di.Create();
-				DirectoryHelper.CopyDirectory(projectPath, destPath);
+				DirectoryHelper.CopyDirectory(currentProjectPath, destPath);
 
 				if (LightAstList != null && LightAstList.Count > 0) {
 					string lightLibPath = SavePath + @"\Source\LightLibrary";
@@ -1647,13 +1629,13 @@ namespace LightController.MyForm
 
 			// 1.全局设置
 			currentProjectName = projectName;
-			projectPath = SavePath + @"\LightProject\" + projectName;
-			GlobalIniPath = projectPath + @"\global.ini";
-			dbFilePath = projectPath + @"\data.db3";
+			currentProjectPath = SavePath + @"\LightProject\" + projectName;
+			GlobalIniPath = currentProjectPath + @"\global.ini";
+			dbFilePath = currentProjectPath + @"\data.db3";
 			Text = SoftwareName + "("+ LanguageHelper.TranslateSentence("当前工程：") + projectName + ")";
 
 			//1.1设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
-			arrangeIniPath = projectPath + @"\arrange.ini";			
+			arrangeIniPath = currentProjectPath + @"\arrange.ini";			
 
 			//1.2 读取时间因子
 			IniFileHelper iniAst = new IniFileHelper(GlobalIniPath);
@@ -1662,7 +1644,7 @@ namespace LightController.MyForm
 			initStNumericUpDowns();  // InitProject : 更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
 
 			// 1.3 加载groupList : 初始化时检查文件是否存在，不存在，则直接把默认文件拷贝过去；加载到内存后，通过相应的groupList刷新按钮
-			groupIniPath = projectPath + @"\groupList.ini";
+			groupIniPath = currentProjectPath + @"\groupList.ini";
 			if (!File.Exists(groupIniPath)) {
 				File.Copy(Application.StartupPath + @"\groupList.ini", groupIniPath);
 			}
@@ -1708,6 +1690,8 @@ namespace LightController.MyForm
 			disConnect(); //clearAllData() 【原来的代码只是停止预览，用断开连接更完善】
 
 			currentProjectName = null;
+			currentProjectPath = null;
+			GlobalIniPath = null;
 
 			dbLightList = null;
 			dbFineTuneList = null;
@@ -2268,11 +2252,11 @@ namespace LightController.MyForm
 			{
 				try
 				{
-					FileUtils.ExportProjectFile(exportPath);
-					Console.WriteLine("导出结束时间" + DateTime.Now.ToLocalTime().ToString() );
+					FileUtils.ExportProjectFile(exportPath);					
 				}
 				catch (Exception ex) {
-					DialogResult dialogResult = MessageBox.Show("拷贝工程文件失败，原因为：\n" + ex.Message + "\n请在处理完成后点击《重试》或《取消》拷贝。",
+					DialogResult dialogResult = 
+						MessageBox.Show("拷贝工程文件失败，原因为：\n" + ex.Message + "\n请在处理完成后点击《重试》或《取消》拷贝。",
 						"是否重试？",
 						MessageBoxButtons.RetryCancel,
 						MessageBoxIcon.Error);
@@ -2281,7 +2265,7 @@ namespace LightController.MyForm
 						CopyProject(exportPath, success); //若点击重试，则再跑一遍本方法						
 					}
 					else {
-						//若点击取消，则直接把忙时设为false，因为不会再往下走了，没有机会进行更改操作了。
+						//若点击取消，则直接把忙时设为false，因为不会再往下走了;
 						setBusy(false);
 					}
 					return; //只要出现异常，就一定要退出本方法；
@@ -2297,19 +2281,16 @@ namespace LightController.MyForm
 					SetNotice("已成功压缩源文件(Source.zip)。", false, true);
 				}
 
-				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
-						"打开导出文件夹？",
+				DialogResult dr = MessageBox.Show(
+						LanguageHelper.TranslateSentence("导出工程成功,是否打开导出文件夹？"),
+						LanguageHelper.TranslateSentence("打开导出文件夹？"),
 						MessageBoxButtons.OKCancel,
 						MessageBoxIcon.Question);
 				if (dr == DialogResult.OK)
 				{
 					System.Diagnostics.Process.Start(exportPath);
 				}
-			}
-			else
-			{
-				MessageBox.Show("导出工程出错。");
-			}
+			}		
 
 			setBusy(false);
 			SetNotice("导出工程" + (success ? "成功" : "出错"), false, true);
@@ -2568,7 +2549,7 @@ namespace LightController.MyForm
 		protected void projectUpdateClick()
 		{
 			disConnect(); //projectUpdateClick()
-			new ProjectUpdateForm(this,  GlobalIniPath, tempProjectPath).ShowDialog();
+			new ProjectUpdateForm(this).ShowDialog();
 		}
 
 		#endregion
@@ -2588,7 +2569,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void firmwareButtonClick()
 		{
-			new HardwareUpdateForm(this, binPath).ShowDialog();
+			new HardwareUpdateForm(this).ShowDialog();
 		}
 
 		/// <summary>

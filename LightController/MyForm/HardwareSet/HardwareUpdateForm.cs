@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -22,19 +23,28 @@ namespace LightController.MyForm
 	public partial class HardwareUpdateForm : Form
 	{
 		private MainFormBase mainForm;
-		private string binPath; 	
+		private string xbinPath; 	 
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
 		private bool isConnected = false; //是否连接
 		private bool isConnectCom = true; //是否串口连接
 		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表		
 
-		public HardwareUpdateForm(MainFormBase mainForm , string binPath) 
+		public HardwareUpdateForm(MainFormBase mainForm ) 
 		{
 			InitializeComponent();
-			this.mainForm = mainForm;
-			this.binPath = binPath;
-			setPathLabel();
+			this.mainForm = mainForm;		
+			
+			xbinPath = Properties.Settings.Default.xbinPath;			
+			if (File.Exists(xbinPath))
+			{
+				pathLabel.Text = xbinPath;
+			}
+			else {
+				xbinPath = null;
+				Properties.Settings.Default.xbinPath = xbinPath;
+				Properties.Settings.Default.Save();
+			}
 		}
 
 		private void UpdateForm_Load(object sender, EventArgs e)
@@ -87,31 +97,17 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void fileOpenButton_Click(object sender, EventArgs e)
 		{
-			openFileDialog.ShowDialog();
+			if (DialogResult.OK == openFileDialog.ShowDialog())
+			{
+				xbinPath = openFileDialog.FileName;
+				Properties.Settings.Default.xbinPath = xbinPath;
+				Properties.Settings.Default.Save();
+
+				pathLabel.Text = xbinPath;
+				updateButton.Enabled = isConnected && !string.IsNullOrEmpty(xbinPath);
+			}
 		}
-
-		/// <summary>
-		///  事件：在《选择升级文件》对话框内选择文件，并点击确认时
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void openFileDialog_FileOk(object sender, CancelEventArgs e)
-		{
-			binPath = openFileDialog.FileName;
-			setPathLabel();		
-		}
-
-		/// <summary>
-		///  辅助方法：设置label及其他选项
-		/// </summary>
-		/// <param name="binPath"></param>
-		private void setPathLabel() {
-
-			filePathLabel.Text =  binPath ;
-			mainForm.SetBinPath(binPath);
-			updateButton.Enabled = !string.IsNullOrEmpty(binPath) && isConnected;	
-		}		
-			   
+					   
 		/// <summary>
 		/// 事件：点击《更换连接方式》
 		/// </summary>
@@ -232,11 +228,11 @@ namespace LightController.MyForm
 		private void refreshConnectButtons()
 		{
 			switchButton.Enabled = !isConnected;
-			deviceComboBox.Enabled = deviceComboBox.Items.Count > 0 && !isConnected;
+			deviceComboBox.Enabled = !isConnected && deviceComboBox.Items.Count > 0;
 			refreshButton.Enabled = !isConnected;
 			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0;
 			versionButton.Enabled = isConnected;
-			updateButton.Enabled = !string.IsNullOrEmpty(binPath) && isConnected;
+			updateButton.Enabled = isConnected && !string.IsNullOrEmpty(xbinPath);
 
 			if (isConnectCom)
 			{
@@ -322,7 +318,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateButton_Click(object sender, EventArgs e)
 		{
-			if ( string.IsNullOrEmpty(binPath) )
+			if ( string.IsNullOrEmpty(xbinPath) )
 			{
 				SetNotice("尚未选择xbin文件，请在选择后重试。",true, true);
 				return;
@@ -334,7 +330,7 @@ namespace LightController.MyForm
 			}
 
 			SetBusy(true);			
-			myConnect.UpdateDeviceSystem(binPath, UpdateCompleted, UpdateError, DrawProgress);		
+			myConnect.UpdateDeviceSystem(xbinPath, UpdateCompleted, UpdateError, DrawProgress);		
 		}
 			
 		/// <summary>

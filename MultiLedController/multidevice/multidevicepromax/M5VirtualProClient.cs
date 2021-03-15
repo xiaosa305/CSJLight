@@ -1,6 +1,5 @@
 ﻿using MultiLedController.utils;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,7 +9,7 @@ using System.Threading;
 
 namespace MultiLedController.multidevice.multidevicepromax
 {
-    public class VirtualProClient
+    public class M5VirtualProClient
     {
         private const int ARTNET_PORT = 6454;
         private String ArtNetServerIP { get; set; }
@@ -20,23 +19,24 @@ namespace MultiLedController.multidevice.multidevicepromax
         private Thread ArtNetClientReceive { get; set; }
         private UdpClient ArtNetReceiveClient { get; set; }
         private bool IsReceive { get; set; }
-        private DMXDataManager Manager { get; set; }
+        private M5DMXDataManager Manager { get; set; }
         private int ClientIndex { get; set; }
 
-        public delegate void DMXDataManager(int cliendIndex,int port,List<byte> dmxData);
+        public delegate void M5DMXDataManager(int port, List<byte> dmxData);
 
-        private VirtualProClient()
+        private M5VirtualProClient()
         {
+
         }
 
-        public static VirtualProClient Build(int clientIndex,String localIP,int portCount, DMXDataManager manager)
+        public static M5VirtualProClient Build(int clientIndex, String localIP, int portCount, M5DMXDataManager manager)
         {
-            return VirtualProClient.Build(clientIndex,localIP, localIP, portCount, manager);
+            return M5VirtualProClient.Build(clientIndex, localIP, localIP, portCount, manager);
         }
 
-        public static VirtualProClient Build(int clientIndex, String localIP,String ArtNetServerIP,int portCount, DMXDataManager manager)
+        public static M5VirtualProClient Build(int clientIndex, String localIP, String ArtNetServerIP, int portCount, M5DMXDataManager manager)
         {
-            VirtualProClient client = new VirtualProClient()
+            M5VirtualProClient client = new M5VirtualProClient()
             {
                 LocalIP = localIP,
                 ArtNetServerIP = ArtNetServerIP,
@@ -114,15 +114,15 @@ namespace MultiLedController.multidevice.multidevicepromax
                         {
                             byte[] DMXDataBuff = new byte[dataLength];
                             Array.Copy(receiveBuff, 18, DMXDataBuff, 0, dataLength);
-                            this.Manager(this.ClientIndex,port, new List<byte>(DMXDataBuff));
+                            this.Manager(port, new List<byte>(DMXDataBuff));
                         }
                     }
                     else if (receiveBuff.Length > 10 && receiveBuff[8] == 0x00 && receiveBuff[9] == 0x20)
                     {
-                        int index = 1;
-                        for (int startPort = 0; startPort < this.OutPortCount; startPort += 4)
+                        int index = 0;
+                        for (int startPort = 1024 * this.ClientIndex; startPort < this.ClientIndex * 1024 + this.OutPortCount; startPort += 4)
                         {
-                            this.ReplyServer(startPort, index);
+                            this.ReplyServer(startPort, this.ClientIndex * 64 + index);
                             index++;
                         }
                     }
@@ -135,9 +135,9 @@ namespace MultiLedController.multidevice.multidevicepromax
             }
         }
 
-        private void ReplyServer(int startPort,int bindIndex)
+        private void ReplyServer(int startPort, int bindIndex)
         {
-            byte[] souce = Constant.GetReceiveDataBySerchDeviceOrder();
+            byte[] souce = Constant.GetM5ReceiveDataBySerchDeviceOrder();
             byte[] data = new byte[souce.Length];
             Array.Copy(souce, data, souce.Length);
             string[] iPAddress = this.LocalIP.Split('.');
@@ -147,12 +147,12 @@ namespace MultiLedController.multidevice.multidevicepromax
             data[13] = Convert.ToByte(Convert.ToInt16(iPAddress[3]));
 
 
-            ////Test
-            //data[18] = Convert.ToByte(0x01);//高字节空间编号
-            //data[207] = Convert.ToByte(Convert.ToInt16(iPAddress[0]));//绑定IP地址
-            //data[208] = Convert.ToByte(Convert.ToInt16(iPAddress[1]));
-            //data[209] = Convert.ToByte(Convert.ToInt16(iPAddress[2]));
-            //data[210] = Convert.ToByte(Convert.ToInt16(iPAddress[3]));
+            //Test
+            data[18] = Convert.ToByte((startPort >> 8 ) & 0xFF);//高字节空间编号
+            data[207] = Convert.ToByte(Convert.ToInt16(iPAddress[0]));//绑定IP地址
+            data[208] = Convert.ToByte(Convert.ToInt16(iPAddress[1]));
+            data[209] = Convert.ToByte(Convert.ToInt16(iPAddress[2]));
+            data[210] = Convert.ToByte(Convert.ToInt16(iPAddress[3]));
 
             //修改空间编号
             for (int i = 0; i < 4; i++)
@@ -164,7 +164,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                 }
                 else
                 {
-                    data[190 + i] = data[186 + i] = Convert.ToByte(startPort + i);
+                    data[190 + i] = data[186 + i] = Convert.ToByte((startPort + i) & 0xFF);
                 }
             }
             //data[190] = data[186] = Convert.ToByte(startPort);

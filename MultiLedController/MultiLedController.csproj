@@ -109,6 +109,8 @@
     <Compile Include="multidevice\impl\TransactionManager.cs" />
     <Compile Include="multidevice\impl\VirtualClient.cs" />
     <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
+    <Compile Include="multidevice\multidevicepromax\M5VirtualProClient.cs" />
+    <Compile Include="multidevice\multidevicepromax\M5VirtualProClientsManager.cs" />
     <Compile Include="multidevice\multidevicepromax\VirtualProClient.cs" />
     <Compile Include="multidevice\multidevicepromax\VirtualProClientsManager.cs" />
     <Compile Include="multidevice\newmultidevice\NewVirtualClient.cs" />
@@ -185,6 +187,9 @@
     <Compile Include="utils\IFileUtils.cs" />
     <Compile Include="utils\impl\LogTools.cs" />
     <Compile Include="utils\lbdconfigtor\BaseFunctionalModule.cs" />
+    <Compile Include="utils\lbdconfigtor\Conf\CSJConf.cs" />
+    <Compile Include="utils\lbdconfigtor\Conf\HCXConf.cs" />
+    <Compile Include="utils\lbdconfigtor\Conf\IConf.cs" />
     <Compile Include="utils\lbdconfigtor\NetCommunitor.cs" />
     <Compile Include="utils\StringHelper.cs" />
     <Compile Include="utils\XiaosaTest.cs" />

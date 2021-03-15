@@ -1,16 +1,23 @@
-﻿using System;
+﻿using LBDConfigTool.utils.conf;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Timers;
 
-namespace MultiLedController.utils.lbdconfigtor
+namespace LBDConfigTool.utils.communication
 {
     public abstract class BaseFunctionalModule
     {
+        [DllImport("winmm.dll")] internal static extern uint timeBeginPeriod(uint period);
+        [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
         protected const int TIME_OUT_COUNT = 5000;
+        private const int PACKSIZE = 256;
+
         protected System.Timers.Timer TimeOut { get; set; }
         private System.Timers.Timer TaskTimer { get; set; }
         private Module CurrentModule { get; set; }
@@ -21,26 +28,40 @@ namespace MultiLedController.utils.lbdconfigtor
         private Error Error_Event { get; set; }
         protected ConcurrentQueue<List<byte>> MessageQueue { get; set; }
         private System.Timers.Timer MessageTransaction { get; set; }
+        private void ThreadSleep(int time)
+        {
+            timeBeginPeriod(1);
+            Thread.Sleep(time);
+            timeEndPeriod(1);
+        }
+
+        private int PacketIntervalTime { get; set; }
+        private int PacketIntervalTimeBySPAN { get; set; }
+        private int SPANCount { get; set; }
+
         protected abstract void Send(byte[] data);
         protected void SendCompleted()
         {
             switch (CurrentModule)
             {
-                case Module.SearchDevice:
                 case Module.ReadDeviceId:
                 case Module.WriteEncrypt:
+                case Module.WriteData:
+                case Module.IsEncrypt:
+                    this.StartTimeOutTask();
+                    break;
+                case Module.SearchDevice:
                 case Module.UpdateFPGA256:
                 case Module.UpdataMCU256:
-                case Module.WriteData:
                 case Module.WriteParam:
-                case Module.IsEncrypt:
-                case Module.SetArtNetSpaceNumber:
-                    this.StartTimeOutTask();
                     break;
             }
         }
         protected void Init()
         {
+            this.SPANCount = 1024 * 4;
+            this.PacketIntervalTime = 5;
+            this.PacketIntervalTimeBySPAN = 50;
             this.MessageTransaction = new System.Timers.Timer() { AutoReset = false };
             this.MessageTransaction.Elapsed += this.MessageTransactionTask;
             this.MessageQueue = new ConcurrentQueue<List<byte>>();
@@ -49,6 +70,18 @@ namespace MultiLedController.utils.lbdconfigtor
             this.CurrentModule = Module.Null;
             this.IsSending = false;
             this.MessageTransaction.Start();
+        }
+        public void SetPacketIntervalTime(int time)
+        {
+            this.PacketIntervalTime = time;
+        }
+        public void SetPacketIntervalTimeBySPAN (int time)
+        {
+            this.PacketIntervalTimeBySPAN = time;
+        }
+        public void SetSPANCount(int cout)
+        {
+            this.SPANCount = cout;
         }
         private void InitParam()
         {
@@ -81,8 +114,9 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             if (this.Completed_Event != null)
             {
-                this.Completed_Event(obj, msg);
                 this.InitParam();
+                this.StopTimeOutTask();
+                this.Completed_Event(obj, msg);
             }
         }
         protected void TaskError()
@@ -93,11 +127,12 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             if (this.Error_Event != null)
             {
-                this.Error_Event(msg);
                 this.TaskTimer.Stop();
                 this.InitParam();
+                this.Error_Event(msg);
             }
         }
+        //消息事务管理器
         private void MessageTransactionTask(Object obj, ElapsedEventArgs e)
         {
             while (this.MessageTransaction.Enabled)
@@ -113,6 +148,7 @@ namespace MultiLedController.utils.lbdconfigtor
                 }
             }
         }
+        //搜索设备
         public void SearchDevice(Completed completed,Error error)
         {
             this.Completed_Event = completed;
@@ -123,12 +159,9 @@ namespace MultiLedController.utils.lbdconfigtor
                 {
                     this.IsSending = true;
                     this.CurrentModule = Module.SearchDevice;
-                    this.TaskTimer = new System.Timers.Timer
-                    {
-                        AutoReset = false
-                    };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => SearchDeviceTask(s, e));
-                    this.TaskTimer.Start();
+                    byte[] data = new byte[] { 0xAA, 0xBB, 0x01, 0x01 };
+                    this.Send(data);
+                    this.IsSending = false;
                 }
             }
             catch (Exception ex)
@@ -142,7 +175,7 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             try
             {
-
+               
             }
             catch (Exception ex)
             {
@@ -151,6 +184,7 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
+        //读取设备信息TODO
         public void ReadDeviceId(Completed completed, Error error)
         {
             this.Completed_Event = completed;
@@ -189,6 +223,7 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
+        //加密
         public void WriteEncrypt(Completed completed, Error error)
         {
             this.Completed_Event = completed;
@@ -199,12 +234,8 @@ namespace MultiLedController.utils.lbdconfigtor
                 {
                     this.IsSending = true;
                     this.CurrentModule = Module.WriteEncrypt;
-                    this.TaskTimer = new System.Timers.Timer
-                    {
-                        AutoReset = false
-                    };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => WriteEncryptTask(s, e));
-                    this.TaskTimer.Start();
+                    byte[] data = new byte[] { 0xAA, 0xBB, 0x04, 0x04 };
+                    this.Send(data);
                 }
             }
             catch (Exception ex)
@@ -214,20 +245,32 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        private void WriteEncryptTask(Object obj, ElapsedEventArgs e)
+        private void WriteEncryptTask(byte[] sourceData)
         {
             try
             {
-
+                byte[] desData = new byte[12];
+                //加密
+                ;
+                //发送
+                List<byte> buff = new List<byte>();
+                buff.Add(0xAA);
+                buff.Add(0xBB);
+                buff.Add(0x05);
+                buff.Add(0x05);
+                buff.AddRange(desData);
+                this.Send(buff.ToArray());
+                this.WriteEncryptCompleted();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                this.TaskError();
+                this.WriteEncryptError();
             }
         }
-        public void UpdateFPGA256(Completed completed, Error error)
+        //升级FPGA
+        public void UpdateFPGA256(string filePath,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -241,7 +284,7 @@ namespace MultiLedController.utils.lbdconfigtor
                     {
                         AutoReset = false
                     };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdateFPGA256Task(s, e));
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdateFPGA256Task(filePath,s, e));
                     this.TaskTimer.Start();
                 }
             }
@@ -252,11 +295,56 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        private void UpdateFPGA256Task(Object obj, ElapsedEventArgs e)
+        private void UpdateFPGA256Task(string filePath, Object obj, ElapsedEventArgs e)
         {
             try
             {
-
+                using (FileStream file = new FileStream(filePath, FileMode.Open))
+                {
+                    int seek = 0;
+                    long length = file.Length;
+                    bool flag = file.Length % PACKSIZE == 0;
+                    int lastPackageSize = flag ? PACKSIZE : (int)(length % PACKSIZE);
+                    int packetCount = (int)(length / PACKSIZE);
+                    List<byte> buff = new List<byte>();
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x02, 0x02, 0xA1 };
+                    byte[] readBuff = new byte[PACKSIZE];
+                    for (int i = 0; i < packetCount; i++)
+                    {
+                        buff.AddRange(packetHead);
+                        buff.Add(0xFF);
+                        buff.Add(0x00);
+                        seek = PACKSIZE * i;
+                        buff.Add(Convert.ToByte(seek & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        file.Read(readBuff, 0, PACKSIZE);
+                        buff.AddRange(readBuff);
+                        this.Send(buff.ToArray());
+                        if (seek % this.SPANCount == 0)
+                        {
+                            this.ThreadSleep(this.PacketIntervalTimeBySPAN);
+                        }
+                        else
+                        {
+                            this.ThreadSleep(this.PacketIntervalTime);
+                        }
+                        buff.Clear();
+                    }
+                    buff.AddRange(packetHead);
+                    buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
+                    buff.Add(Convert.ToByte((lastPackageSize >> 8) & 0xFF));
+                    seek = PACKSIZE * packetCount;
+                    buff.Add(Convert.ToByte(seek & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                    readBuff = new byte[lastPackageSize];
+                    file.Read(readBuff, 0, lastPackageSize);
+                    buff.AddRange(readBuff);
+                    this.Send(buff.ToArray());
+                    this.Send(Encoding.Default.GetBytes("SendEnd"));
+                    this.TaskCompleted();
+                }
             }
             catch (Exception ex)
             {
@@ -265,7 +353,8 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        public void UpdataMCU256(Completed completed, Error error)
+        //升级MCU
+        public void UpdataMCU256(string filePath,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -279,7 +368,7 @@ namespace MultiLedController.utils.lbdconfigtor
                     {
                         AutoReset = false
                     };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdataMCU256Task(s, e));
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdataMCU256Task(filePath,s, e));
                     this.TaskTimer.Start();
                 }
             }
@@ -290,11 +379,56 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        private void UpdataMCU256Task(Object obj, ElapsedEventArgs e)
+        private void UpdataMCU256Task(string filePath, Object obj, ElapsedEventArgs e)
         {
             try
             {
-
+                using (FileStream file = new FileStream(filePath, FileMode.Open))
+                {
+                    int seek = 0;
+                    long length = file.Length;
+                    bool flag = file.Length % PACKSIZE == 0;
+                    int lastPackageSize = flag ? PACKSIZE : (int)(length % PACKSIZE);
+                    int packetCount = (int)(length / PACKSIZE);
+                    List<byte> buff = new List<byte>();
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x02, 0x02, 0xA1 };
+                    byte[] readBuff = new byte[PACKSIZE];
+                    for (int i = 0; i < packetCount; i++)
+                    {
+                        buff.AddRange(packetHead);
+                        buff.Add(0xFF);
+                        buff.Add(0x00);
+                        seek = PACKSIZE * i;
+                        buff.Add(Convert.ToByte(seek & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        file.Read(readBuff, 0, PACKSIZE);
+                        buff.AddRange(readBuff);
+                        this.Send(buff.ToArray());
+                        if (seek % this.SPANCount == 0)
+                        {
+                            this.ThreadSleep(this.PacketIntervalTimeBySPAN);
+                        }
+                        else
+                        {
+                            this.ThreadSleep(this.PacketIntervalTime);
+                        }
+                        buff.Clear();
+                    }
+                    buff.AddRange(packetHead);
+                    buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
+                    buff.Add(Convert.ToByte((lastPackageSize >> 8) & 0xFF));
+                    seek = PACKSIZE * packetCount;
+                    buff.Add(Convert.ToByte(seek & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                    readBuff = new byte[lastPackageSize];
+                    file.Read(readBuff, 0, lastPackageSize);
+                    buff.AddRange(readBuff);
+                    this.Send(buff.ToArray());
+                    this.Send(Encoding.Default.GetBytes("SendEnd"));
+                    this.TaskCompleted();
+                }
             }
             catch (Exception ex)
             {
@@ -303,7 +437,54 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        public void WriteData(Completed completed, Error error)
+        //写入参数
+        public void WriteParam(CSJConf conf,Completed completed, Error error)
+        {
+            this.Completed_Event = completed;
+            this.Error_Event = error;
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CurrentModule = Module.WriteParam;
+                    this.TaskTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => WriteParamTask(conf,s, e));
+                    this.TaskTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.TaskError();
+            }
+        }
+        private void WriteParamTask(CSJConf conf,Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                byte[] sourceData = conf.GetData();
+                byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA0, Convert.ToByte((sourceData.Length + 5) & 0xFF), Convert.ToByte(((sourceData.Length + 5) >> 8) & 0xFF), Convert.ToByte((sourceData.Length + 10) & 0xFF), Convert.ToByte(((sourceData.Length + 10) >> 8) & 0xFF), Convert.ToByte(((sourceData.Length + 5) >> 16) & 0xFF) };
+                List<byte> buff = new List<byte>();
+                buff.AddRange(data);
+                buff.AddRange(sourceData);
+                this.Send(buff.ToArray());
+                this.WriteParamCompleted();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.TaskError();
+            }
+        }
+
+
+        private void WriteData(Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -341,45 +522,7 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        public void WriteParam(Completed completed, Error error)
-        {
-            this.Completed_Event = completed;
-            this.Error_Event = error;
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CurrentModule = Module.WriteParam;
-                    this.TaskTimer = new System.Timers.Timer
-                    {
-                        AutoReset = false
-                    };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => WriteParamTask(s, e));
-                    this.TaskTimer.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
-        }
-        private void WriteParamTask(Object obj, ElapsedEventArgs e)
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
-        }
-        public void IsEncrypt(Completed completed, Error error)
+        private void IsEncrypt(Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -417,44 +560,8 @@ namespace MultiLedController.utils.lbdconfigtor
                 this.TaskError();
             }
         }
-        public void SetArtNetSpaceNumber(Completed completed, Error error)
-        {
-            this.Completed_Event = completed;
-            this.Error_Event = error;
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CurrentModule = Module.SetArtNetSpaceNumber;
-                    this.TaskTimer = new System.Timers.Timer
-                    {
-                        AutoReset = false
-                    };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => SetArtNetSpaceNumberTask(s, e));
-                    this.TaskTimer.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
-        }
-        private void SetArtNetSpaceNumberTask(Object obj, ElapsedEventArgs e)
-        {
-            try
-            {
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
-        }
+
         protected void ReceiveManage(List<byte> recData)
         {
             switch (this.CurrentModule)
@@ -468,12 +575,6 @@ namespace MultiLedController.utils.lbdconfigtor
                 case Module.WriteEncrypt:
                     this.WriteEncryptReceiveManage(recData);
                     break;
-                case Module.UpdateFPGA256:
-                    this.UpdateFPGA256ReceiveManage(recData);
-                    break;
-                case Module.UpdataMCU256:
-                    this.UpdataMCU256ReceiveManage(recData);
-                    break;
                 case Module.WriteData:
                     this.WriteDataReceiveManage(recData);
                     break;
@@ -483,26 +584,30 @@ namespace MultiLedController.utils.lbdconfigtor
                 case Module.IsEncrypt:
                     this.IsEncryptReceiveManage(recData);
                     break;
-                case Module.SetArtNetSpaceNumber:
-                    this.SetArtNetSpaceNumberReceiveManage(recData);
-                    break;
             }
         }
         private void SearchDeviceReceiveManage(List<byte> recData)
         {
-            bool flag = false;
-            if (flag)
+            try
             {
-                this.SearchDeviceCompleted();
+                CSJConf conf = CSJConf.Build(recData.ToArray());
+                this.SearchDeviceCompleted(conf);
+
             }
-            else
+            catch (Exception)
             {
                 this.SearchDeviceError();
             }
         }
-        private void SearchDeviceCompleted()
+        private void SearchDeviceCompleted(Object obj)
         {
-            this.TaskCompleted();
+            if (obj != null)
+            {
+                this.TaskCompleted(obj,"read config success");
+            }else
+            {
+                this.TaskError("read config failed");
+            }
         }
         private void SearchDeviceError()
         {
@@ -530,15 +635,7 @@ namespace MultiLedController.utils.lbdconfigtor
         }
         private void WriteEncryptReceiveManage(List<byte> recData)
         {
-            bool flag = false;
-            if (flag)
-            {
-                this.WriteEncryptCompleted();
-            }
-            else
-            {
-                this.WriteEncryptError();
-            }
+            this.WriteEncryptTask(recData.ToArray());
         }
         private void WriteEncryptCompleted()
         {
@@ -548,46 +645,7 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             this.TaskError();
         }
-        private void UpdateFPGA256ReceiveManage(List<byte> recData)
-        {
-            bool flag = false;
-            if (flag)
-            {
-                this.UpdateFPGA256Completed();
-            }
-            else
-            {
-                this.UpdateFPGA256Error();
-            }
-        }
-        private void UpdateFPGA256Completed()
-        {
-            this.TaskCompleted();
-        }
-        private void UpdateFPGA256Error()
-        {
-            this.TaskError();
-        }
-        private void UpdataMCU256ReceiveManage(List<byte> recData)
-        {
-            bool flag = false;
-            if (flag)
-            {
-                this.UpdataMCU256Completed();
-            }
-            else
-            {
-                this.UpdataMCU256Error();
-            }
-        }
-        private void UpdataMCU256Completed()
-        {
-            this.TaskCompleted();
-        }
-        private void UpdataMCU256Error()
-        {
-            this.TaskError();
-        }
+
         private void WriteDataReceiveManage(List<byte> recData)
         {
             bool flag = false;
@@ -608,6 +666,7 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             this.TaskError();
         }
+
         private void WriteParamReceiveManage(List<byte> recData)
         {
             bool flag = false;
@@ -628,6 +687,7 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             this.TaskError();
         }
+
         private void IsEncryptReceiveManage(List<byte> recData)
         {
             bool flag = false;
@@ -648,26 +708,7 @@ namespace MultiLedController.utils.lbdconfigtor
         {
             this.TaskError();
         }
-        private void SetArtNetSpaceNumberReceiveManage(List<byte> recData)
-        {
-            bool flag = false;
-            if (flag)
-            {
-                this.SetArtNetSpaceNumberCompleted();
-            }
-            else
-            {
-                this.SetArtNetSpaceNumberError();
-            }
-        }
-        private void SetArtNetSpaceNumberCompleted()
-        {
-            this.TaskCompleted();
-        }
-        private void SetArtNetSpaceNumberError()
-        {
-            this.TaskError();
-        }
+
         protected enum Module
         {
             SearchDevice,
@@ -678,7 +719,6 @@ namespace MultiLedController.utils.lbdconfigtor
             WriteData,
             WriteParam,
             IsEncrypt,
-            SetArtNetSpaceNumber,
             Null
         }
     }

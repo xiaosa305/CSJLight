@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace MultiLedController.multidevice.multidevicepromax
 {
-    public class VirtualProClientsManager
+    public class M5VirtualProClientsManager
     {
         [DllImport("winmm.dll")] internal static extern uint timeBeginPeriod(uint period);
         [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
@@ -37,7 +37,7 @@ namespace MultiLedController.multidevice.multidevicepromax
         private string FilePath { get; set; }
         private string ConfigPath { get; set; }
         private List<string> VirtualIPS { get; set; }
-        private List<VirtualProClient> VirtualClients { get; set; }
+        private List<M5VirtualProClient> VirtualClients { get; set; }
 
 
         private ConcurrentDictionary<int, List<byte>> SpaceDmxData { get; set; }
@@ -71,7 +71,7 @@ namespace MultiLedController.multidevice.multidevicepromax
         private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
 
-        public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber)
+        public M5VirtualProClientsManager(string localIP, string artnetServerIP, List<String> virtualIP, int ledSpaceNumber, int ledInterfaceNumber, int ledControlNumber)
         {
             this.localIP = localIP;
             this.ArtNetServerIP = artnetServerIP;
@@ -82,19 +82,19 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.Init();
             this.InitLedServer();
             //createVirtualClient
-            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
+            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 1024 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 1024 == 0 ? 0 : 1);
             for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
             {
                 int portCount = 0;
                 if (clientIndex == clientCount - 1)
                 {
-                    portCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber - clientIndex * 256;
+                    portCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber - clientIndex * 1024;
                 }
                 else
                 {
-                    portCount = 256;
+                    portCount = 1024;
                 }
-                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager));
+                this.VirtualClients.Add(M5VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager));
             }
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
@@ -109,7 +109,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
             this.DebugDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
             this.RecordDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
-            this.VirtualClients = new List<VirtualProClient>();
+            this.VirtualClients = new List<M5VirtualProClient>();
             this.SYNCHROLOCK_KEY = new object();
             this.DebugFrameCount = 0;
             this.RecordFrameCount = 0;
@@ -151,14 +151,6 @@ namespace MultiLedController.multidevice.multidevicepromax
                 Console.WriteLine(ex.StackTrace);
             }
         }
-
-
-        public static void Test()
-        {
-            //VirtualProClient.Build("192.168.50.44","192.168.50.43", 256, Manager);
-            //VirtualProClient.Build("192.168.50.45", "192.168.50.43", 256, Manager);
-        }
-
         public void Close()
         {
             try
@@ -173,7 +165,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                 Thread.Sleep(100);
                 this.IsFirstFrame = true;
                 this.IsFirstFrameByRecord = true;
-                foreach (VirtualProClient client in this.VirtualClients)
+                foreach (M5VirtualProClient client in this.VirtualClients)
                 {
                     client.Close();
                 }
@@ -201,19 +193,19 @@ namespace MultiLedController.multidevice.multidevicepromax
             }
         }
 
-        public VirtualProClientsManager Start()
+        public M5VirtualProClientsManager Start()
         {
             this.IsStartReceiveDmxDataStatus = true;
             return this;
         }
 
-        public VirtualProClientsManager Stop()
+        public M5VirtualProClientsManager Stop()
         {
             this.IsStartReceiveDmxDataStatus = false;
             return this;
         }
 
-        public VirtualProClientsManager StartDebug(GetDebugFrameCount getDebugFrameCount)
+        public M5VirtualProClientsManager StartDebug(GetDebugFrameCount getDebugFrameCount)
         {
             this.DebugFrameCount = 0;
             this.IsDebugDmxData = true;
@@ -221,7 +213,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             return this;
         }
 
-        public VirtualProClientsManager StopDebug()
+        public M5VirtualProClientsManager StopDebug()
         {
             this.IsDebugDmxData = false;
             this.GetDebugFrameCount_Event = null;
@@ -229,7 +221,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             return this;
         }
 
-        public VirtualProClientsManager StartRecord(String filePath,String config, GetRecordFrameCount getRecordFrameCount)
+        public M5VirtualProClientsManager StartRecord(String filePath, String config, GetRecordFrameCount getRecordFrameCount)
         {
             try
             {
@@ -259,7 +251,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             return this;
         }
 
-        public VirtualProClientsManager StopRecord()
+        public M5VirtualProClientsManager StopRecord()
         {
             this.IsRecordDmxData = false;
             this.GetRecordFrameCount_Event = null;
@@ -267,9 +259,8 @@ namespace MultiLedController.multidevice.multidevicepromax
             return this;
         }
 
-        private void Manager(int clientIndex,int space,List<byte> dmxData)
+        private void Manager(int port, List<byte> dmxData)
         {
-            int port = clientIndex * 256 + space;
             try
             {
                 lock (this.SYNCHROLOCK_KEY)
@@ -287,7 +278,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                             frameIntervalTIme = (nowTime - this.LastFrameReceiveTime) / 10000;
                             this.LastFrameReceiveTime = nowTime;
                         }
-                        if (frameIntervalTIme > 5 && this.IsFirstFrame)
+                        if (frameIntervalTIme > 3 && this.IsFirstFrame)
                         {
                             this.IsFirstFrame = false;
                             foreach (int spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
@@ -298,10 +289,10 @@ namespace MultiLedController.multidevice.multidevicepromax
                                 }
                             }
                         }
-                        else if (frameIntervalTIme > 5 && ! this.IsFirstFrame)
+                        else if (frameIntervalTIme > 3 && !this.IsFirstFrame)
                         {
                             int nowPacketSequence = 0;
-                            foreach (int  spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
+                            foreach (int spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
                             {
                                 if (this.SpaceDmxDataReceiveStatus[spaceIndex])
                                 {
@@ -423,7 +414,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             }
         }
 
-        private void DebugTask(ConcurrentDictionary<int,List<byte>> dmxData)
+        private void DebugTask(ConcurrentDictionary<int, List<byte>> dmxData)
         {
             IPEndPoint iPEnd = new IPEndPoint(IPAddress.Broadcast, PORT);
 
@@ -525,10 +516,10 @@ namespace MultiLedController.multidevice.multidevicepromax
                     while (dataBuff[controlNo].Count > 0)
                     {
                         this.DebugServer.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
-                        for (int i = 0; i < 60000; i++)
-                        {
-                            ;
-                        }
+                        //for (int i = 0; i < 5000; i++)
+                        //{
+                        //    ;
+                        //}
                     }
                 }
                 this.DebugServer.SendTo(PACKAGE_END.ToArray(), iPEnd);

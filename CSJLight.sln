@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightEditor", "LightEditor\LightEditor.csproj", "{AA0D4DDD-F307-47A1-8D40-BB0CCEA2EC05}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialTools", "SpecialTools\SpecialTools.csproj", "{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordTools", "RecordTools\RecordTools.csproj", "{7C56D7EE-834D-481A-81D6-62D645CF985D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBDConfigTool", "LBDConfigTool\LBDConfigTool.csproj", "{F331A9BC-893E-4567-8636-F30ED702DB5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,18 @@ Global
 		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x64.Build.0 = Release|Any CPU
 		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x86.ActiveCfg = Release|Any CPU
 		{7C56D7EE-834D-481A-81D6-62D645CF985D}.Release|x86.Build.0 = Release|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Debug|x64.Build.0 = Debug|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Debug|x86.Build.0 = Debug|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Release|x64.ActiveCfg = Release|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Release|x64.Build.0 = Release|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F331A9BC-893E-4567-8636-F30ED702DB5E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

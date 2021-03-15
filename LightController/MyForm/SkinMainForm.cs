@@ -2269,9 +2269,7 @@ namespace LightController.MyForm
 		{
 			int buttonIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
 			Console.WriteLine(buttonIndex);
-			Tools.Test test = new Tools.Test(GetDBWrapper(true), this, GlobalIniPath);
 			//Test test = new Test(GetDBWrapper(true) );
-			test.Start(buttonIndex);
 		}
 
 		/// <summary>

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace LBDConfigTool.utils.conf
 {
+    [Serializable]
     public class CSJConf:IConf
     {
-        public const byte Flag = 0xFF;//标记位 u8
+        private const byte Flag = 0xFF;//标记位 u8
         public string MIA_HAO { get; set; }//密码  u8[6]
         public int Addr { get; set; }//地址 u16
         public int Baud { get; set; }//(0-4)9600,19200,38400,57600,115200 u8
@@ -42,7 +43,7 @@ namespace LBDConfigTool.utils.conf
         public int Art_Net_td_len { get; set; }//通道长度  u16
         public int Art_Net_fk_id { get; set; }//分控号   u8
         public int SumUseTimes { get; set; }//总使用次数   u32
-        public byte[] CRC { get; set; }//CRC校验码  u32
+        private byte[] CRC { get; set; }//CRC校验码  u32
         public int CurrUseTimes { get; set; }//当前使用次数  不参与CRC校验
 
         public static CSJConf Build(byte[] data)

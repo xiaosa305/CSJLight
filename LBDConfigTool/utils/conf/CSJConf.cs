@@ -50,11 +50,62 @@ namespace LBDConfigTool.utils.conf
             CSJConf conf = null;
             try
             {
-
+                conf = new CSJConf();
+                List<byte> buff = new List<byte>();
+                for (int i = 1; i < 7; i++)
+                {
+                    buff.Add(data[i]);
+                }
+                conf.MIA_HAO = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                conf.Addr = (int)((data[7] & 0xFF) | ((data[8] << 8) & 0xFF));
+                conf.Baud = (int)(data[9] & 0xFF);
+                conf.IsSetBad = ((int)(data[10] & 0xFF)) == 1;
+                conf.Play_Mod = (int)(data[9] & 0xFF);
+                conf.DiskFlag = (int)(data[11] & 0xFF);
+                for (int i = 0; i < 16; i++)
+                {
+                    buff.Add(data[12 + i]);
+                }
+                conf.LedName = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                for (int i = 0; i < 16; i++)
+                {
+                    buff.Add(data[28 + i]);
+                }
+                conf.Ver = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                conf.Max_scan_dot = (int)((data[44] & 0xFF) | ((data[45] << 8) & 0xFF));
+                conf.CardType = (int)(data[46] & 0xFF);
+                conf.Led_out_type = (int)(data[47] & 0xFF);
+                conf.Led_fx = (int)(data[48] & 0xFF);
+                conf.RGB_Type = (int)(data[49] & 0xFF);
+                conf.IC_Type = (int)(data[50] & 0xFF);
+                conf.Play_hz = (int)(data[51] & 0xFF);
+                conf.Clk_shzhong = (int)((data[52] & 0xFF) | ((data[53] << 8) & 0xFF));
+                conf.Led_gam = (int)(data[54] & 0xFF);
+                conf.Led_ld = (int)(data[55] & 0xFF);
+                conf.R_LD = (int)(data[56] & 0xFF);
+                conf.G_LD = (int)(data[57] & 0xFF);
+                conf.B_LD = (int)(data[58] & 0xFF);
+                conf.W_LD = (int)(data[59] & 0xFF);
+                conf.Mac = data[60].ToString("X2") + "-" + data[61].ToString("X2") + "-" + data[62].ToString("X2") + "-" + data[63].ToString("X2") + "-" + data[64].ToString("X2") + "-" + data[65].ToString("X2");
+                conf.Ip = data[66].ToString("X2") + "." + data[67].ToString("X2") + "." + data[68].ToString("X2") + "." + data[69].ToString("X2");
+                conf.Fk_lushu = (int)(data[70] & 0xFF);
+                conf.Jl_fk_num = (int)(data[71] & 0xFF);
+                conf.Art_Net_Start_Space = (int)((data[72] & 0xFF) | ((data[73] << 8) & 0xFF));
+                conf.Art_Net_Pre = (int)(data[74] & 0xFF);
+                conf.Art_Net_td_len = (int)((data[75] & 0xFF) | ((data[76] << 8) & 0xFF));
+                conf.Art_Net_fk_id = (int)(data[77] & 0xFF);
+                conf.SumUseTimes = (int)((data[78] & 0xFF) | ((data[79] << 8) & 0xFF) | ((data[80] << 16) & 0xFF) | ((data[81] << 24) & 0xFF));
+                conf.CurrUseTimes = (int)((data[86] & 0xFF) | ((data[87] << 8) & 0xFF) | ((data[88] << 16) & 0xFF) | ((data[89] << 24) & 0xFF));
+                return conf;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                Console.WriteLine("读取CSJ配置参数失败");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
             return conf;
         }
@@ -201,9 +252,11 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte((this.CurrUseTimes >> 24) & 0xFF));
                 data = buff.ToArray();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine("生成配置参数数据");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
             return data;
         }

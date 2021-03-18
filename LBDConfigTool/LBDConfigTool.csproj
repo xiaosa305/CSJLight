@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PacketDotNet, Version=0.13.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sharp_Pcap.4.2.0\lib\PacketDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpPcap, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sharp_Pcap.4.2.0\lib\SharpPcap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,6 +65,8 @@
     <Compile Include="utils\conf\HCXConf.cs" />
     <Compile Include="utils\conf\IConf.cs" />
     <Compile Include="utils\crc\CRC16Tools.cs" />
+    <Compile Include="utils\record\CaptureTool.cs" />
+    <Compile Include="utils\record\DMXManager.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -71,6 +79,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

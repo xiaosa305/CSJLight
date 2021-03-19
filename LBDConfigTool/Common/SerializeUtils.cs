@@ -9,18 +9,18 @@ namespace LBDConfigTool.Common
 {
 	class SerializeUtils
 	{
-		private static string binPath = @"C:\Temp\user.bin";
+		//private static string binPath = @"C:\Temp\user.bin";
 
-		/// <summary>
-		/// 可更改binPath
-		/// </summary>
-		/// <param name="binPath"></param>
-		public static void SetBinPath(string binPath ) {
-			SerializeUtils.binPath = binPath;
-		}
+		///// <summary>
+		///// 可更改binPath
+		///// </summary>
+		///// <param name="binPath"></param>
+		//public static void SetBinPath(string binPath ) {
+		//	SerializeUtils.binPath = binPath;
+		//}
 
 		//序列化操作
-		public static void SerializeObject(object obj)
+		public static void SerializeObject(string binPath , object obj)
 		{
 			using (FileStream fs = new FileStream(binPath, FileMode.Create))
 			{
@@ -31,7 +31,7 @@ namespace LBDConfigTool.Common
 		}
 
 		//反序列化操作
-		public static object ReserializeMethod()
+		public static object DeserializeToObject(string binPath)
 		{
 			using (FileStream fs = new FileStream(binPath, FileMode.Open))
 			{

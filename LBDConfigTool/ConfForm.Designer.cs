@@ -103,6 +103,10 @@
 			this.label36 = new System.Windows.Forms.Label();
 			this.label37 = new System.Windows.Forms.Label();
 			this.testButton = new System.Windows.Forms.Button();
+			this.loadButton = new System.Windows.Forms.Button();
+			this.abinOpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.button1 = new System.Windows.Forms.Button();
+			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -135,7 +139,7 @@
 			// 
 			// readButton
 			// 
-			this.readButton.Location = new System.Drawing.Point(642, 420);
+			this.readButton.Location = new System.Drawing.Point(645, 419);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 42);
 			this.readButton.TabIndex = 3;
@@ -145,7 +149,7 @@
 			// 
 			// writeButton
 			// 
-			this.writeButton.Location = new System.Drawing.Point(753, 420);
+			this.writeButton.Location = new System.Drawing.Point(748, 419);
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(91, 42);
 			this.writeButton.TabIndex = 3;
@@ -296,7 +300,6 @@
 			this.addrTB.Name = "addrTB";
 			this.addrTB.Size = new System.Drawing.Size(107, 21);
 			this.addrTB.TabIndex = 1;
-			this.addrTB.Text = "1234567890123456";
 			// 
 			// pswTB
 			// 
@@ -891,12 +894,42 @@
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
+			// loadButton
+			// 
+			this.loadButton.Location = new System.Drawing.Point(409, 419);
+			this.loadButton.Name = "loadButton";
+			this.loadButton.Size = new System.Drawing.Size(91, 42);
+			this.loadButton.TabIndex = 28;
+			this.loadButton.Text = "加载配置";
+			this.loadButton.UseVisualStyleBackColor = true;
+			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+			// 
+			// abinOpenDialog
+			// 
+			this.abinOpenDialog.Filter = "abin配置文件|*.abin";
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(512, 419);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(91, 42);
+			this.button1.TabIndex = 28;
+			this.button1.Text = "保存配置\r\n";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.saveButton_Click);
+			// 
+			// abinSaveDialog
+			// 
+			this.abinSaveDialog.Filter = "abin配置文件|*.abin";
+			// 
 			// ConfForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.SlateGray;
 			this.ClientSize = new System.Drawing.Size(878, 512);
+			this.Controls.Add(this.button1);
+			this.Controls.Add(this.loadButton);
 			this.Controls.Add(this.testButton);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
@@ -999,5 +1032,9 @@
 		private System.Windows.Forms.TextBox aFKLSTB;
 		private System.Windows.Forms.ComboBox outTypeCB;
 		private System.Windows.Forms.ComboBox rgbCB;
+		private System.Windows.Forms.Button loadButton;
+		private System.Windows.Forms.OpenFileDialog abinOpenDialog;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.SaveFileDialog abinSaveDialog;
 	}
 }

@@ -443,14 +443,14 @@ namespace OtherTools
 			// 
 			this.kpToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
 			this.kpToolStripStatusLabel1.Name = "kpToolStripStatusLabel1";
-			this.kpToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.kpToolStripStatusLabel1.Size = new System.Drawing.Size(572, 17);
 			this.kpToolStripStatusLabel1.Spring = true;
 			// 
 			// kpToolStripStatusLabel2
 			// 
 			this.kpToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
 			this.kpToolStripStatusLabel2.Name = "kpToolStripStatusLabel2";
-			this.kpToolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
+			this.kpToolStripStatusLabel2.Size = new System.Drawing.Size(572, 17);
 			this.kpToolStripStatusLabel2.Spring = true;
 			// 
 			// kpReadButton
@@ -726,7 +726,7 @@ namespace OtherTools
 			// 
 			this.lcToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
 			this.lcToolStripStatusLabel1.Name = "lcToolStripStatusLabel1";
-			this.lcToolStripStatusLabel1.Size = new System.Drawing.Size(572, 17);
+			this.lcToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
 			this.lcToolStripStatusLabel1.Spring = true;
 			// 
 			// lcToolStripStatusLabel2

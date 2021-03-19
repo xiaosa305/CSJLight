@@ -4,6 +4,7 @@ using PacketDotNet;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LBDConfigTool.utils.conf;
 
 namespace LBDConfigTool.utils.record
 {
@@ -21,7 +22,7 @@ namespace LBDConfigTool.utils.record
             this.IsFirstFrame = true;
         }
 
-        private CaptureTool(FrameSync frameSync,DMXDataCaptureed dataCaptureed)
+        private CaptureTool(CSJConf conf ,FrameSync frameSync,DMXDataCaptureed dataCaptureed)
         {
             this.FrameSync_Event = frameSync;
             this.DMXDataCaptureed_Event = dataCaptureed;

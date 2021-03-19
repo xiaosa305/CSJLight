@@ -201,7 +201,7 @@ namespace LBDConfigTool
 				setNotice("参数格式有误" + ex.Message, true);
 				return null;
 			}
-			return cc;
+			return cc; 
 		}
 
 		/// <summary>

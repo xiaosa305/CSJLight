@@ -215,13 +215,12 @@ namespace LBDConfigTool.utils.conf
                 {
                     try
                     {
-                        int value = int.Parse(ipBuff[i],System.Globalization.NumberStyles.HexNumber);
+                        int value = int.Parse(ipBuff[i]);
                         buff.Add(Convert.ToByte(value));
                     }
                     catch (Exception)
                     {
                         buff.Add(0x00);
-                        throw;
                     }
                 }
                 //fk_lushu

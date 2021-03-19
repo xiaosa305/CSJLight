@@ -246,6 +246,7 @@ namespace LBDConfigTool
 				verTB.Text = cc.Ver; //上限为16，,无下限
 				maxDotTB.Text = cc.Max_scan_dot+"";
 				cardRB1.Checked = cc.CardType == 0;
+				cardRB2.Checked = cc.CardType == 2;
 				outTypeCB.SelectedIndex = cc.Led_out_type;
 				fxTB.Text = cc.Led_fx+"";
 				rgbCB.SelectedIndex = cc.RGB_Type;

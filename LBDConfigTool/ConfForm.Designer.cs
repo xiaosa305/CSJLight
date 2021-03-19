@@ -132,8 +132,9 @@
 			// 
 			// toolStripStatusLabel1
 			// 
+			this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.Window;
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(863, 17);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(832, 17);
 			this.toolStripStatusLabel1.Spring = true;
 			this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -149,12 +150,14 @@
 			// 
 			// writeButton
 			// 
+			this.writeButton.BackColor = System.Drawing.Color.Tomato;
+			this.writeButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.writeButton.Location = new System.Drawing.Point(748, 419);
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(91, 42);
 			this.writeButton.TabIndex = 3;
 			this.writeButton.Text = "下载参数";
-			this.writeButton.UseVisualStyleBackColor = true;
+			this.writeButton.UseVisualStyleBackColor = false;
 			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
 			// 
 			// icTB

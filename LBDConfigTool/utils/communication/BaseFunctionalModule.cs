@@ -114,9 +114,9 @@ namespace LBDConfigTool.utils.communication
         {
             if (this.Completed_Event != null)
             {
-                this.InitParam();
                 this.StopTimeOutTask();
                 this.Completed_Event(obj, msg);
+                this.InitParam();
             }
         }
         protected void TaskError()

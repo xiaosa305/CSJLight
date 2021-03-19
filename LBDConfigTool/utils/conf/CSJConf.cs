@@ -196,7 +196,7 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte(this.W_LD));
                 /*ArtNet*/
                 //MAC
-                string[] macbuff = this.Mac.Split(';');
+                string[] macbuff = this.Mac.Split('-');
                 for (int i = 0; i < 6; i++)
                 {
                     try

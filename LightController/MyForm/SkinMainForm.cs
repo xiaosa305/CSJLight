@@ -33,8 +33,8 @@ namespace LightController.MyForm
 		private Label[] tdNameLabels = new Label[32];
 		private SkinTrackBar[] tdTrackBars = new SkinTrackBar[32];
 		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
-		private SkinComboBox[] tdChangeModeComboBoxes = new SkinComboBox[32];
-		private NumericUpDown[] tdStepTimeNumericUpDowns = new NumericUpDown[32];	
+		private SkinComboBox[] tdCmComboBoxes = new SkinComboBox[32];
+		private NumericUpDown[] tdStNumericUpDowns = new NumericUpDown[32];	
 		private Panel[] saPanels = new Panel[32];		
 
 		public SkinMainForm()
@@ -117,7 +117,7 @@ namespace LightController.MyForm
 					Tag = 0,
 				};
 
-				tdChangeModeComboBoxes[tdIndex] = new SkinComboBox
+				tdCmComboBoxes[tdIndex] = new SkinComboBox
 				{
 					Name = "tdCmComboBox" + (tdIndex + 1),
 					ArrowColor = tdChangeModeComboBoxDemo.ArrowColor,
@@ -131,13 +131,13 @@ namespace LightController.MyForm
 					DropDownStyle = tdChangeModeComboBoxDemo.DropDownStyle,
 					Tag = 1
 				};
-				tdChangeModeComboBoxes[tdIndex].Items.AddRange(new object[] {
+				tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
 					LanguageHelper.TranslateWord("跳变"),
 					LanguageHelper.TranslateWord("渐变"),
 					LanguageHelper.TranslateWord("屏蔽")
 				});
 
-				tdStepTimeNumericUpDowns[tdIndex] = new NumericUpDown
+				tdStNumericUpDowns[tdIndex] = new NumericUpDown
 				{
 					Name = "tdStNUD" + (tdIndex + 1),
 					Font = tdStepTimeNUDDemo.Font,
@@ -153,33 +153,32 @@ namespace LightController.MyForm
 				tdPanels[tdIndex].Controls.Add(tdNoLabels[tdIndex]);
 				tdPanels[tdIndex].Controls.Add(tdTrackBars[tdIndex]);
 				tdPanels[tdIndex].Controls.Add(tdValueNumericUpDowns[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(tdChangeModeComboBoxes[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(tdStepTimeNumericUpDowns[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdCmComboBoxes[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdStNumericUpDowns[tdIndex]);
 
 				tdSkinFlowLayoutPanel.Controls.Add(tdPanels[tdIndex]);
 
 				#region 各监听器
 
-				tdNoLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
-				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
+				tdNoLabels[tdIndex].Click += tdNameNumLabels_Click;
+				tdNameLabels[tdIndex].Click += tdNameNumLabels_Click;
 
-				tdTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
-				tdTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
-				tdTrackBars[tdIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+				tdTrackBars[tdIndex].MouseEnter += tdTrackBars_MouseEnter;
+				tdTrackBars[tdIndex].MouseWheel += tdSkinTrackBars_MouseWheel;
+				tdTrackBars[tdIndex].ValueChanged += tdSkinTrackBars_ValueChanged;
 
-				tdValueNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
-				tdValueNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
-				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);				
-
-				tdChangeModeComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-
-				tdStepTimeNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
-				tdStepTimeNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
-				tdStepTimeNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
-
+				tdValueNumericUpDowns[tdIndex].MouseEnter += tdValueNumericUpDowns_MouseEnter;
+				tdValueNumericUpDowns[tdIndex].MouseWheel += tdValueNumericUpDowns_MouseWheel;
+				tdValueNumericUpDowns[tdIndex].ValueChanged += tdValueNumericUpDowns_ValueChanged;
 				tdValueNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
-				tdChangeModeComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
-				tdStepTimeNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
+
+				tdCmComboBoxes[tdIndex].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+				tdCmComboBoxes[tdIndex].KeyPress += unifyTd_KeyPress;
+
+				tdStNumericUpDowns[tdIndex].MouseEnter += tdStepTimeNumericUpDowns_MouseEnter;
+				tdStNumericUpDowns[tdIndex].MouseWheel += tdStepTimeNumericUpDowns_MouseWheel;
+				tdStNumericUpDowns[tdIndex].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;				
+				tdStNumericUpDowns[tdIndex].KeyPress += unifyTd_KeyPress;
 
 				#endregion
 
@@ -203,14 +202,14 @@ namespace LightController.MyForm
 			// 场景选项框			
 			foreach (string frame in AllFrameList)
 			{
-				frameSkinComboBox.Items.Add(frame);
+				sceneSkinComboBox.Items.Add(frame);
 			}
-			FrameCount = AllFrameList.Count;
-			if (FrameCount == 0) {
+			SceneCount = AllFrameList.Count;
+			if (SceneCount == 0) {
 				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
 				exit();
 			}
-			frameSkinComboBox.SelectedIndex = 0;
+			sceneSkinComboBox.SelectedIndex = 0;
 
 			//模式选项框
 			modeSkinComboBox.Items.AddRange(new object[] {
@@ -222,12 +221,13 @@ namespace LightController.MyForm
 			#endregion
 
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(useFrameSkinButton, useFrameNotice);
-			myToolTip.SetToolTip(chooseStepSkinButton, chooseStepNotice);
+			myToolTip.SetToolTip(copyFrameSkinButton, copyFrameNotice);			
 			myToolTip.SetToolTip(keepSkinButton, keepNotice);
 			myToolTip.SetToolTip(insertSkinButton, insertNotice);
+			myToolTip.SetToolTip(appendSkinButton, appendNotice);
+			myToolTip.SetToolTip(deleteSkinButton, deleteNotice);
 			myToolTip.SetToolTip(backStepSkinButton, backStepNotice);
-			myToolTip.SetToolTip(nextStepSkinButton, nextStepNotice);
+			myToolTip.SetToolTip(nextStepSkinButton,nextStepNotice);
 
 			// 添加子属性按键组是否显示的菜单
 			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
@@ -257,7 +257,6 @@ namespace LightController.MyForm
 			// 每次启动后，可以切换到上一次软件打开时连接的方式
 			isConnectCom = Properties.Settings.Default.IsConnectCom;
 			refreshConnectMethod();	
-
 		}
 
 		/// <summary>
@@ -444,7 +443,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void frameSaveSkinButton_Click(object sender, EventArgs e)
 		{
-			saveFrameClick();
+			saveSceneClick();
 		}
 
 		/// <summary>
@@ -517,13 +516,12 @@ namespace LightController.MyForm
 			closeSkinButton.Enabled = enable;
 
 			// 不同MainForm在不同位置的按钮
-			useFrameSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
+			copyFrameSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 
 			// 菜单栏相关按钮
 			lightListSkinButton.Enabled = enable;
 			globalSetSkinButton.Enabled = enable;
-			ymSkinButton.Enabled = enable;
-			projectUpdateSkinButton.Enabled = enable;
+			ymSkinButton.Enabled = enable;			
 		}
 
 		/// <summary>
@@ -577,18 +575,18 @@ namespace LightController.MyForm
 		{			
 			for (int i = 0; i < 32; i++)
 			{
-				tdStepTimeNumericUpDowns[i].Maximum = EachStepTime2 * MAX_StTimes;
-				tdStepTimeNumericUpDowns[i].Increment = EachStepTime2;
+				tdStNumericUpDowns[i].Maximum = EachStepTime2 * MAX_StTimes;
+				tdStNumericUpDowns[i].Increment = EachStepTime2;
 			}
 		}
 
-		//MARK 只开单场景：02.0.2 (SkinMainForm)改变当前Frame
-		protected override void changeCurrentFrame(int frameIndex)
+		//MARK 只开单场景：02.0.2 (SkinMainForm)改变当前Scene
+		protected override void changeCurrentScene(int sceneIndex)
 		{
-			CurrentScene = frameIndex;
-			frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
-			frameSkinComboBox.SelectedIndex = CurrentScene;
-			frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			CurrentScene = sceneIndex;
+			sceneSkinComboBox.SelectedIndexChanged -= sceneSkinComboBox_SelectedIndexChanged;
+			sceneSkinComboBox.SelectedIndex = CurrentScene;
+			sceneSkinComboBox.SelectedIndexChanged += sceneSkinComboBox_SelectedIndexChanged;
 		}
 
 		#endregion
@@ -737,35 +735,7 @@ namespace LightController.MyForm
 		protected override void enableStepPanel(bool enable)
 		{
 			stepSkinPanel.Enabled = enable;
-		}
-
-		/// <summary>
-		/// 辅助方法: 确认选中灯具是否否同一种灯具：是则返回true,否则返回false。
-		/// 验证方法：取出第一个选中灯具的名字，若后面的灯具的全名（Tag =lightName + ":" + lightType)与它不同，说明不是同种灯具。（只要一个不同即可判断）
-		/// </summary>
-		/// <returns></returns>
-		private bool checkSameLights()
-		{
-			if (lightsSkinListView.SelectedItems.Count == 0) {
-				return false;
-			}
-			if (lightsSkinListView.SelectedItems.Count == 1) {
-				return true;
-			}
-
-			bool result = true;
-			string firstTag = lightsSkinListView.SelectedItems[0].Tag.ToString();
-			for (int i = 1; i < lightsSkinListView.SelectedItems.Count; i++) // 从第二个选中灯具开始比对
-			{
-				string tempTag = lightsSkinListView.SelectedItems[i].Tag.ToString();
-				if (!firstTag.Equals(tempTag))
-				{
-					result = false;
-					break;
-				}
-			}
-			return result;
-		}
+		}		
 
 		/// <summary>
 		/// 辅助方法：通过传来的数值，生成通道列表的数据
@@ -790,24 +760,24 @@ namespace LightController.MyForm
 				labelPanel.Show();
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
-					tdTrackBars[i].ValueChanged -= new System.EventHandler(tdSkinTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
-					tdChangeModeComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[i].ValueChanged -= tdSkinTrackBars_ValueChanged;
+					tdValueNumericUpDowns[i].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
+					tdCmComboBoxes[i].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+					tdStNumericUpDowns[i].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
 
 					tdNoLabels[i].Text = LanguageHelper.TranslateWord("通道") + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
 					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
-					tdChangeModeComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
+					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
-					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
+					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
 
-					tdTrackBars[i].ValueChanged += new System.EventHandler(tdSkinTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
-					tdChangeModeComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[i].ValueChanged += tdSkinTrackBars_ValueChanged;
+					tdValueNumericUpDowns[i].ValueChanged += tdValueNumericUpDowns_ValueChanged;
+					tdCmComboBoxes[i].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+					tdStNumericUpDowns[i].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;
 
 					tdPanels[i].Show();
 				}
@@ -1169,51 +1139,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void sceneSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//11.13 若未初始化，直接return；
-			if (!isInit)
-			{
-				return;
-			}
-
-			//若选中项与当前项相同，则不再往下执行
-			int tempFrame = frameSkinComboBox.SelectedIndex;
-			if (tempFrame == CurrentScene) {
-				return;
-			}
-
-			setBusy(true);
-			SetNotice("正在切换场景,请稍候...", false,true);			
-
-			// 只要更改了场景，直接结束预览
-			endview();
-
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentScene] + ")？",
-				"保存场景?",
-				MessageBoxButtons.YesNo,
-				MessageBoxIcon.Question);
-			if (dr == DialogResult.Yes)
-			{
-				saveFrameClick();
-				//MARK 只开单场景：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[CurrentScene] = false;				
-			}
-
-			CurrentScene = frameSkinComboBox.SelectedIndex;
-			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-			if (!frameLoadArray[CurrentScene])
-			{
-				generateFrameData(CurrentScene);
-			}
-			//MARK 只开单场景：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-			frameSaveArray[CurrentScene] = true;
-
-			changeSceneMode();
-			setBusy(false);
-			SetNotice( 
-				LanguageHelper.TranslateSentence("成功切换为场景(" )
-				+ AllFrameList[CurrentScene] + ")",	false,false);
+			sceneSelectedChanged( sceneSkinComboBox.SelectedIndex);
 		}
 
 		/// <summary>
@@ -1223,50 +1151,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//11.13 若未初始化，直接return；
-			if (!isInit)
-			{
-				return;
-			}
-
-			SetNotice("正在切换模式...",false,true);
-			CurrentMode = modeSkinComboBox.SelectedIndex;		
-			
-			// 若模式为声控模式mode=1
-			// 1.改变几个label的Text; 
-			// 2.改变跳变渐变-->是否声控；
-			// 3.所有步时间值的调节，改为enabled=false						
-			if (CurrentMode == 1)
-			{			
-				for (int i = 0; i < FrameCount; i++)
-				{
-					tdChangeModeComboBoxes[i].Items.Clear();
-					tdChangeModeComboBoxes[i].Items.AddRange(new object[] {
-						LanguageHelper.TranslateWord("屏蔽"),
-						LanguageHelper.TranslateWord("跳变")
-					});
-					tdStepTimeNumericUpDowns[i].Hide();					
-				}
-				thirdLabel.Hide();				
-			}
-			else //mode=0，常规模式
-			{
-				for (int i = 0; i < FrameCount; i++)
-				{
-					tdChangeModeComboBoxes[i].Items.Clear();
-					tdChangeModeComboBoxes[i].Items.AddRange(new object[] {
-						LanguageHelper.TranslateWord("跳变"),
-						LanguageHelper.TranslateWord("渐变"),
-						LanguageHelper.TranslateWord("屏蔽")
-					});
-					tdStepTimeNumericUpDowns[i].Show();					
-				}
-				thirdLabel.Show();
-			}
-
-			changeSceneMode();
-			SetNotice("成功切换模式", false, true);
-		}	
+			modeSelectedChanged(
+				modeSkinComboBox.SelectedIndex,
+				tdCmComboBoxes,
+				tdStNumericUpDowns,
+				thirdLabel);
+		}
 
 		/// <summary>
 		/// 事件：点击切换《多灯模式|单灯模式》。
@@ -1283,57 +1173,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiLightSkinButton_Click(object sender, EventArgs e)
 		{
-			enterMultiMode(!IsMultiMode);			
-		}
-
-		/// <summary>
-		/// 辅助方法：进入|退出多灯模式的子类实现（某些情况需要自己判断退出还是进入，故得自己传参）
-		/// </summary>
-		protected override void enterMultiMode(bool enter) {
-
-			// 进入多灯模式
-			if (enter)
-			{
-				if (lightsSkinListView.SelectedIndices.Count < 2)
-				{
-					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-					return;
-				}
-				if (!checkSameLights())
-				{
-					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-					return;
-				}
-				SelectedIndices = new List<int>();
-				foreach (int item in lightsSkinListView.SelectedIndices)
-				{
-					SelectedIndices.Add(item);
-				}
-				new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
-
-			}
-			// 退出多灯模式
-			else {
-
-				foreach (ListViewItem item in lightsSkinListView.Items)
-				{
-					item.BackColor = Color.White;
-				}
-				RefreshMultiModeButtons(false);
-
-				try
-				{
-					for (int i = 0; i < lightsSkinListView.Items.Count; i++)
-					{
-						lightsSkinListView.Items[i].Selected = i == selectedIndex;
-					}
-					lightsSkinListView.Select();
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-				}
-			}		
+			enterMultiMode(  !IsMultiMode , lightsSkinListView );			
 		}
 		
 		/// <summary>
@@ -1382,7 +1222,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(getTotalStep());
+				chooseStep(getCurrentTotalStep());
 			}
 		}
 
@@ -1484,27 +1324,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		/// <summary>
-		/// 事件：点击《内置动作》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void actionButton_Click(object sender, EventArgs e)	{}
 
-		/// <summary>
-		/// 事件：左右键点击《内置动作》（右键为《RGB调光》）
-		/// </summary>
-		private void actionButton_MouseDown(object sender, MouseEventArgs e) {
-
-			if (e.Button == MouseButtons.Left)
-			{
-				actionButtonClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				colorButtonClick();
-			}
-		}
 
 		/// <summary>
 		/// 事件：点击《复制步》
@@ -1533,27 +1353,7 @@ namespace LightController.MyForm
 		private void pasteStepSkinButton_Click(object sender, EventArgs e)
 		{
 			pasteStepClick();
-		}
-		
-		/// <summary>		
-		///  事件：点击《复制多步》：弹出类似于保存素材的form
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiCopySkinButton_Click(object sender, EventArgs e)
-		{
-			multiCopyClick();
-		}
-
-		/// <summary>	
-		///  事件：点击《粘贴多步》：弹出类似于保存素材的form
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiPasteSkinButton_Click(object sender, EventArgs e)
-		{
-			multiPasteClick();
-		}
+		}	
 
 		/// <summary>
 		///  事件：点击《保存素材》
@@ -1562,7 +1362,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			saveMaterial();
+			saveMaterialClick();
 		}
 
 		/// <summary>
@@ -1572,7 +1372,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void useMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			useMaterial();
+			useMaterialClick();
 		}
 
 		/// <summary>
@@ -1638,9 +1438,9 @@ namespace LightController.MyForm
 			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
 			lightListSkinButton.Enabled = !isMultiMode;
 			lightsSkinListView.Enabled = !isMultiMode;
-			frameSkinComboBox.Enabled = !isMultiMode;
+			sceneSkinComboBox.Enabled = !isMultiMode;
 			modeSkinComboBox.Enabled = !isMultiMode;
-			useFrameSkinButton.Enabled = !isMultiMode;
+			copyFrameSkinButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
 			multiLightSkinButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
@@ -1668,11 +1468,11 @@ namespace LightController.MyForm
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
 
 			// 2.1 设定《删除步》按钮是否可用
-			deleteStepSkinButton.Enabled = totalStep != 0;
+			deleteSkinButton.Enabled = totalStep != 0;
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
-			addStepSkinButton.Enabled = insertEnabled;
+			appendSkinButton.Enabled = insertEnabled;
 			insertSkinButton.Enabled = insertEnabled ;
 
 			// 2.3 设定《上一步》《下一步》是否可用			
@@ -1683,10 +1483,8 @@ namespace LightController.MyForm
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
-			multiCopySkinButton.Enabled = currentStep > 0;
-			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == CurrentMode;
-
-			multiplexSkinButton.Enabled = currentStep > 0;
+			saveMaterialSkinButton.Enabled = currentStep > 0; // 当前步不为0时才能保存素材；但无论什么情况都能使用素材，故不做判断
+			multiplexSkinButton.Enabled = currentStep > 0;						
 
 			// 4.设定统一调整区是否可用
 			groupButton.Enabled = LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
@@ -1700,7 +1498,10 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
-			
+
+			//6.内置动作是否可用：因为需要一直有效，所以只能在点击时进行判断了
+			//actionButton.Enabled = CurrentMode == 0;
+
 		}
 
 		#endregion
@@ -1743,7 +1544,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
 				if (dd <= tdTrackBars[tdIndex].Maximum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
+					tdTrackBars[tdIndex].Value = decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1752,7 +1553,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
 				if (dd >= tdTrackBars[tdIndex].Minimum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
+					tdTrackBars[tdIndex].Value = decimal.ToInt32(dd);
 				}
 			}
 		}
@@ -1771,9 +1572,9 @@ namespace LightController.MyForm
 
             //2.把滚动条的值赋给tdValueNumericUpDowns
             // 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
-            tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
             tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
-            tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged += tdValueNumericUpDowns_ValueChanged;
 
             //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
             changeScrollValue(tongdaoIndex, tdValue);
@@ -1786,16 +1587,15 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
         {
-            //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
             // 1. 找出对应的index
             int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-            int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
+            int tdValue = decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
             // 2.调整相应的vScrollBar的数值；
             // 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
-            tdTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+            tdTrackBars[tongdaoIndex].ValueChanged -= tdSkinTrackBars_ValueChanged;
             tdTrackBars[tongdaoIndex].Value = tdValue;
-            tdTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+            tdTrackBars[tongdaoIndex].ValueChanged += tdSkinTrackBars_ValueChanged;
 
             //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
             changeScrollValue(tongdaoIndex, tdValue);
@@ -1808,7 +1608,6 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
 			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
@@ -1820,7 +1619,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
 			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
@@ -1862,8 +1660,8 @@ namespace LightController.MyForm
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
-			int changeMode = tdChangeModeComboBoxes[tdIndex].SelectedIndex;
-			step.TongdaoList[tdIndex].ChangeMode = tdChangeModeComboBoxes[tdIndex].SelectedIndex;
+			int changeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
+			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
 			if (IsMultiMode) {
@@ -1880,7 +1678,7 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
 			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			tdStepTimeNumericUpDowns[tdIndex].Select();
+			tdStNumericUpDowns[tdIndex].Select();
 		}
 
 		/// <summary>
@@ -1898,18 +1696,18 @@ namespace LightController.MyForm
 			}
 			if (e.Delta > 0)
 			{
-				decimal dd = tdStepTimeNumericUpDowns[tdIndex].Value + tdStepTimeNumericUpDowns[tdIndex].Increment;
-				if (dd <= tdStepTimeNumericUpDowns[tdIndex].Maximum)
+				decimal dd = tdStNumericUpDowns[tdIndex].Value + tdStNumericUpDowns[tdIndex].Increment;
+				if (dd <= tdStNumericUpDowns[tdIndex].Maximum)
 				{
-					tdStepTimeNumericUpDowns[tdIndex].Value = dd;
+					tdStNumericUpDowns[tdIndex].Value = dd;
 				}
 			}
 			else if (e.Delta < 0)
 			{
-				decimal dd = tdStepTimeNumericUpDowns[tdIndex].Value - tdStepTimeNumericUpDowns[tdIndex].Increment;
-				if (dd >= tdStepTimeNumericUpDowns[tdIndex].Minimum)
+				decimal dd = tdStNumericUpDowns[tdIndex].Value - tdStNumericUpDowns[tdIndex].Increment;
+				if (dd >= tdStNumericUpDowns[tdIndex].Minimum)
 				{
-					tdStepTimeNumericUpDowns[tdIndex].Value = dd;
+					tdStNumericUpDowns[tdIndex].Value = dd;
 				}
 			}
 		}
@@ -1928,9 +1726,9 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
-			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
+			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (IsMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
@@ -1969,24 +1767,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupSkinButton_Click(object sender, EventArgs e)
 		{
-			if (lightsSkinListView.SelectedIndices.Count < 1)
-			{
-				MessageBox.Show("请选择至少一个灯具，否则无法进行编组。");
-				return;
-			}
-
-			if ( !checkSameLights())
-			{
-				MessageBox.Show("未选中灯具或选中的灯具并非同一类型的，无法进行编组；请再次选择后重试。");
-				return;
-			}
-
-			SelectedIndices = new List<int>();
-			foreach (int item in lightsSkinListView.SelectedIndices)
-			{
-				SelectedIndices.Add(item);
-			}
-			new GroupForm(this, LightAstList, SelectedIndices).ShowDialog();
+			groupButtonClick(lightsSkinListView);
 		}
 
 		/// <summary>
@@ -2037,8 +1818,7 @@ namespace LightController.MyForm
 				DetailMultiButtonClick(true);
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 事件：点击《音频链表》
 		/// </summary>
@@ -2046,7 +1826,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
         {
-           new SKForm(this, CurrentScene, frameSkinComboBox.Text).ShowDialog();  
+           new SKForm(this, CurrentScene, sceneSkinComboBox.Text).ShowDialog();  
         }
 
         /// <summary>
@@ -2056,7 +1836,7 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void groupInButton_Click(object sender, EventArgs e)
 		{
-			groupInButtonClick(sender);
+			groupInButtonClick(sender,lightsSkinListView);
 		}
 			
 		/// <summary>

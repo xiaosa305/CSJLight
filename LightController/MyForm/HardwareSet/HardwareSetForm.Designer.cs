@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm
+﻿using LightController.Common;
+
+namespace LightController.MyForm
 {
 	partial class HardwareSetForm
 	{
@@ -135,9 +137,10 @@
 			this.playFlagComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.playFlagComboBox.FormattingEnabled = true;
 			this.playFlagComboBox.Items.AddRange(new object[] {
-            "录播文件",
-            "程序文件"});
-			this.playFlagComboBox.Location = new System.Drawing.Point(339, 203);
+				LanguageHelper.TranslateWord("录播文件"),
+				LanguageHelper.TranslateWord("程序文件")
+			});
+			this.playFlagComboBox.Location = new System.Drawing.Point(339, 193);
 			this.playFlagComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.playFlagComboBox.Name = "playFlagComboBox";
 			this.playFlagComboBox.Size = new System.Drawing.Size(80, 20);
@@ -145,7 +148,7 @@
 			// 
 			// addrNumericUpDown
 			// 
-			this.addrNumericUpDown.Location = new System.Drawing.Point(339, 40);
+			this.addrNumericUpDown.Location = new System.Drawing.Point(339, 28);
 			this.addrNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.addrNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -168,7 +171,7 @@
             "38400",
             "57600",
             "115200"});
-			this.baudComboBox.Location = new System.Drawing.Point(121, 203);
+			this.baudComboBox.Location = new System.Drawing.Point(121, 193);
 			this.baudComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.baudComboBox.Name = "baudComboBox";
 			this.baudComboBox.Size = new System.Drawing.Size(82, 20);
@@ -177,7 +180,7 @@
 			// currUseTimeNumericUpDown
 			// 
 			this.currUseTimeNumericUpDown.Enabled = false;
-			this.currUseTimeNumericUpDown.Location = new System.Drawing.Point(339, 137);
+			this.currUseTimeNumericUpDown.Location = new System.Drawing.Point(339, 127);
 			this.currUseTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.currUseTimeNumericUpDown.Maximum = new decimal(new int[] {
             100000,
@@ -203,7 +206,7 @@
 			// sumUseTimeNumericUpDown
 			// 
 			this.sumUseTimeNumericUpDown.Enabled = false;
-			this.sumUseTimeNumericUpDown.Location = new System.Drawing.Point(121, 137);
+			this.sumUseTimeNumericUpDown.Location = new System.Drawing.Point(121, 127);
 			this.sumUseTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.sumUseTimeNumericUpDown.Maximum = new decimal(new int[] {
             100000,
@@ -229,7 +232,7 @@
 			// heartbeatCycleNumericUpDown
 			// 
 			this.heartbeatCycleNumericUpDown.Enabled = false;
-			this.heartbeatCycleNumericUpDown.Location = new System.Drawing.Point(339, 170);
+			this.heartbeatCycleNumericUpDown.Location = new System.Drawing.Point(339, 160);
 			this.heartbeatCycleNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.heartbeatCycleNumericUpDown.Maximum = new decimal(new int[] {
             100000,
@@ -250,7 +253,7 @@
             "SD卡",
             "U盘",
             "内部存储"});
-			this.diskFlagComboBox.Location = new System.Drawing.Point(121, 104);
+			this.diskFlagComboBox.Location = new System.Drawing.Point(121, 94);
 			this.diskFlagComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.diskFlagComboBox.Name = "diskFlagComboBox";
 			this.diskFlagComboBox.Size = new System.Drawing.Size(82, 20);
@@ -259,7 +262,7 @@
 			// heartbeatTextBox
 			// 
 			this.heartbeatTextBox.Enabled = false;
-			this.heartbeatTextBox.Location = new System.Drawing.Point(121, 170);
+			this.heartbeatTextBox.Location = new System.Drawing.Point(121, 160);
 			this.heartbeatTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.heartbeatTextBox.MaxLength = 8;
 			this.heartbeatTextBox.Name = "heartbeatTextBox";
@@ -293,14 +296,14 @@
 			this.label3.Location = new System.Drawing.Point(244, 32);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(59, 12);
+			this.label3.Size = new System.Drawing.Size(65, 12);
 			this.label3.TabIndex = 0;
-			this.label3.Text = "硬件地址:";
+			this.label3.Text = "硬件地址：";
 			// 
 			// hardwareIDTextBox
 			// 
 			this.hardwareIDTextBox.Enabled = false;
-			this.hardwareIDTextBox.Location = new System.Drawing.Point(121, 71);
+			this.hardwareIDTextBox.Location = new System.Drawing.Point(121, 61);
 			this.hardwareIDTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.hardwareIDTextBox.MaxLength = 16;
 			this.hardwareIDTextBox.Name = "hardwareIDTextBox";
@@ -350,7 +353,7 @@
 			// 
 			// deviceNameTextBox
 			// 
-			this.deviceNameTextBox.Location = new System.Drawing.Point(121, 38);
+			this.deviceNameTextBox.Location = new System.Drawing.Point(121, 28);
 			this.deviceNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceNameTextBox.MaxLength = 16;
 			this.deviceNameTextBox.Name = "deviceNameTextBox";
@@ -408,7 +411,7 @@
 			// dhcpCheckBox
 			// 
 			this.dhcpCheckBox.AutoSize = true;
-			this.dhcpCheckBox.Location = new System.Drawing.Point(253, 36);
+			this.dhcpCheckBox.Location = new System.Drawing.Point(244, 36);
 			this.dhcpCheckBox.Name = "dhcpCheckBox";
 			this.dhcpCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.dhcpCheckBox.TabIndex = 4;
@@ -450,7 +453,7 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(251, 77);
+			this.label9.Location = new System.Drawing.Point(248, 77);
 			this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(53, 12);
@@ -460,7 +463,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(251, 113);
+			this.label5.Location = new System.Drawing.Point(248, 113);
 			this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(41, 12);
@@ -479,7 +482,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(34, 149);
+			this.label10.Location = new System.Drawing.Point(31, 149);
 			this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(59, 12);
@@ -517,7 +520,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(30, 113);
+			this.label7.Location = new System.Drawing.Point(31, 113);
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(65, 12);

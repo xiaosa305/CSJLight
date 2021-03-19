@@ -41,7 +41,7 @@
 			// 
 			// nameTextBox
 			// 
-			this.nameTextBox.Location = new System.Drawing.Point(108, 361);
+			this.nameTextBox.Location = new System.Drawing.Point(108, 389);
 			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameTextBox.MaxLength = 8;
 			this.nameTextBox.Name = "nameTextBox";
@@ -51,7 +51,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(37, 365);
+			this.label1.Location = new System.Drawing.Point(37, 393);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(53, 12);
@@ -61,7 +61,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(146, 400);
+			this.cancelButton.Location = new System.Drawing.Point(146, 425);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(89, 24);
 			this.cancelButton.TabIndex = 4;
@@ -71,7 +71,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(36, 400);
+			this.enterButton.Location = new System.Drawing.Point(36, 425);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(89, 24);
 			this.enterButton.TabIndex = 5;
@@ -119,7 +119,7 @@
 			this.noticeLabel.Margin = new System.Windows.Forms.Padding(2);
 			this.noticeLabel.Name = "noticeLabel";
 			this.noticeLabel.Padding = new System.Windows.Forms.Padding(3);
-			this.noticeLabel.Size = new System.Drawing.Size(269, 51);
+			this.noticeLabel.Size = new System.Drawing.Size(269, 93);
 			this.noticeLabel.TabIndex = 16;
 			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长。在多灯模式界面中，将只展示组长的通道数据。若未选择，默认使用编组的第一个灯具作为组长。";
 			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -130,7 +130,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.MenuBar;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(274, 442);
+			this.ClientSize = new System.Drawing.Size(274, 468);
 			this.Controls.Add(this.noticeLabel);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.cancelButton);

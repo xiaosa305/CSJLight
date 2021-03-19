@@ -94,7 +94,7 @@ namespace LightController
 				// SQLiteHelper.SetPassword(dbFile);
 				//MARK 只开单场景：01.1 NewForm点确定时，传入frameIndex
 				mainForm.NewProject(projectName,frameComboBox.SelectedIndex);				
-				this.Dispose();
+				Dispose();
 				mainForm.IsCreateSuccess = true;
 				mainForm.Activate();					
 			}	

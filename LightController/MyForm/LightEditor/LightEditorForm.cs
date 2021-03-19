@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace LightEditor
 {
-	public partial class NewLightEditorForm : Form
+	public partial class LightEditorForm : Form
 	{
 		private MainFormBase mainForm;	
 
@@ -47,12 +47,12 @@ namespace LightEditor
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
 		private int selectedTdIndex = -1 ;
 
-		public NewLightEditorForm(MainFormBase mainForm)
+		public LightEditorForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
 
-			softwareName = mainForm.SoftwareName + " Light Editor";
+			softwareName = mainForm.SoftwareName + " LightLib Editor";
 			Text = softwareName ;
 			
 			picDirectory = mainForm.SavePath + @"\LightPic";

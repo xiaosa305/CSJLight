@@ -28,85 +28,85 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.startCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.nameTypeLabel = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
+			this.startNUD = new System.Windows.Forms.NumericUpDown();
+			this.addrLabel2 = new System.Windows.Forms.Label();
+			this.nameLabel2 = new System.Windows.Forms.Label();
+			this.nameLabel = new System.Windows.Forms.Label();
+			this.oldAddrLabel = new System.Windows.Forms.Label();
 			this.addrLabel = new System.Windows.Forms.Label();
 			this.noticePanel = new System.Windows.Forms.Panel();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.label3 = new System.Windows.Forms.Label();
+			this.noticeLabel = new System.Windows.Forms.Label();
 			this.iSeeButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton2 = new System.Windows.Forms.Button();
-			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.startNUD)).BeginInit();
 			this.noticePanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// startCountNumericUpDown
+			// startNUD
 			// 
-			this.startCountNumericUpDown.Location = new System.Drawing.Point(149, 108);
-			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
+			this.startNUD.Location = new System.Drawing.Point(149, 108);
+			this.startNUD.Margin = new System.Windows.Forms.Padding(2);
+			this.startNUD.Maximum = new decimal(new int[] {
             512,
             0,
             0,
             0});
-			this.startCountNumericUpDown.Minimum = new decimal(new int[] {
+			this.startNUD.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.startCountNumericUpDown.Name = "startCountNumericUpDown";
-			this.startCountNumericUpDown.Size = new System.Drawing.Size(82, 21);
-			this.startCountNumericUpDown.TabIndex = 8;
-			this.startCountNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.startCountNumericUpDown.Value = new decimal(new int[] {
+			this.startNUD.Name = "startNUD";
+			this.startNUD.Size = new System.Drawing.Size(82, 21);
+			this.startNUD.TabIndex = 8;
+			this.startNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.startNUD.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
 			// 
-			// label2
+			// addrLabel2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(32, 108);
-			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(65, 12);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "起始地址：";
+			this.addrLabel2.AutoSize = true;
+			this.addrLabel2.Location = new System.Drawing.Point(32, 108);
+			this.addrLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.addrLabel2.Name = "addrLabel2";
+			this.addrLabel2.Size = new System.Drawing.Size(65, 12);
+			this.addrLabel2.TabIndex = 4;
+			this.addrLabel2.Text = "起始地址：";
 			// 
-			// label1
+			// nameLabel2
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(32, 30);
-			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 12);
-			this.label1.TabIndex = 4;
-			this.label1.Text = "灯具信息：";
+			this.nameLabel2.AutoSize = true;
+			this.nameLabel2.Location = new System.Drawing.Point(32, 30);
+			this.nameLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.nameLabel2.Name = "nameLabel2";
+			this.nameLabel2.Size = new System.Drawing.Size(65, 12);
+			this.nameLabel2.TabIndex = 4;
+			this.nameLabel2.Text = "灯具信息：";
 			// 
-			// nameTypeLabel
+			// nameLabel
 			// 
-			this.nameTypeLabel.AutoSize = true;
-			this.nameTypeLabel.Location = new System.Drawing.Point(149, 30);
-			this.nameTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.nameTypeLabel.Name = "nameTypeLabel";
-			this.nameTypeLabel.Size = new System.Drawing.Size(41, 12);
-			this.nameTypeLabel.TabIndex = 9;
-			this.nameTypeLabel.Text = "label3";
+			this.nameLabel.AutoSize = true;
+			this.nameLabel.Location = new System.Drawing.Point(122, 30);
+			this.nameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.nameLabel.Name = "nameLabel";
+			this.nameLabel.Size = new System.Drawing.Size(41, 12);
+			this.nameLabel.TabIndex = 9;
+			this.nameLabel.Text = "label3";
 			// 
-			// label4
+			// oldAddrLabel
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(32, 69);
-			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(77, 12);
-			this.label4.TabIndex = 4;
-			this.label4.Text = "原灯具地址：";
+			this.oldAddrLabel.AutoSize = true;
+			this.oldAddrLabel.Location = new System.Drawing.Point(32, 69);
+			this.oldAddrLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.oldAddrLabel.Name = "oldAddrLabel";
+			this.oldAddrLabel.Size = new System.Drawing.Size(77, 12);
+			this.oldAddrLabel.TabIndex = 4;
+			this.oldAddrLabel.Text = "原灯具地址：";
 			// 
 			// addrLabel
 			// 
@@ -122,7 +122,7 @@
 			// 
 			this.noticePanel.BackColor = System.Drawing.Color.Transparent;
 			this.noticePanel.Controls.Add(this.cancelButton);
-			this.noticePanel.Controls.Add(this.label3);
+			this.noticePanel.Controls.Add(this.noticeLabel);
 			this.noticePanel.Controls.Add(this.iSeeButton);
 			this.noticePanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.noticePanel.Location = new System.Drawing.Point(0, 0);
@@ -141,17 +141,17 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
-			// label3
+			// noticeLabel
 			// 
-			this.label3.BackColor = System.Drawing.Color.Transparent;
-			this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.label3.Font = new System.Drawing.Font("黑体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label3.Location = new System.Drawing.Point(0, 0);
-			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(287, 120);
-			this.label3.TabIndex = 0;
-			this.label3.Text = "若改变了灯具通道地址，基于原地址编辑的步数信息将会消失，请谨慎操作！";
+			this.noticeLabel.BackColor = System.Drawing.Color.Transparent;
+			this.noticeLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.noticeLabel.Font = new System.Drawing.Font("黑体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.noticeLabel.Location = new System.Drawing.Point(0, 0);
+			this.noticeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.noticeLabel.Name = "noticeLabel";
+			this.noticeLabel.Size = new System.Drawing.Size(287, 120);
+			this.noticeLabel.TabIndex = 0;
+			this.noticeLabel.Text = "若改变了灯具通道地址，基于原地址编辑的步数信息将会消失，请谨慎操作！";
 			// 
 			// iSeeButton
 			// 
@@ -191,12 +191,12 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(287, 211);
 			this.Controls.Add(this.noticePanel);
+			this.Controls.Add(this.startNUD);
+			this.Controls.Add(this.oldAddrLabel);
+			this.Controls.Add(this.nameLabel);
+			this.Controls.Add(this.nameLabel2);
 			this.Controls.Add(this.addrLabel);
-			this.Controls.Add(this.nameTypeLabel);
-			this.Controls.Add(this.startCountNumericUpDown);
-			this.Controls.Add(this.label4);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.label2);
+			this.Controls.Add(this.addrLabel2);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.cancelButton2);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -204,7 +204,7 @@
 			this.Name = "LightsEditForm";
 			this.Text = "修改灯具地址";
 			this.Load += new System.EventHandler(this.LightsEditForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.startNUD)).EndInit();
 			this.noticePanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -213,14 +213,14 @@
 
 		#endregion
 
-		private System.Windows.Forms.NumericUpDown startCountNumericUpDown;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label nameTypeLabel;
-		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.NumericUpDown startNUD;
+		private System.Windows.Forms.Label addrLabel2;
+		private System.Windows.Forms.Label nameLabel2;
+		private System.Windows.Forms.Label nameLabel;
+		private System.Windows.Forms.Label oldAddrLabel;
 		private System.Windows.Forms.Label addrLabel;
 		private System.Windows.Forms.Panel noticePanel;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label noticeLabel;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton2;
 		private System.Windows.Forms.Button iSeeButton;

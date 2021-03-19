@@ -64,7 +64,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			Location = MousePosition;
 			LanguageHelper.InitForm(this);
-			LanguageHelper.InitListView(lightsListView);
+			LanguageHelper.TranslateListView(lightsListView);
 
 			lightsListView.HideSelection = true;    //主动设置一下这个属性，避免被VS吃掉设置
 			

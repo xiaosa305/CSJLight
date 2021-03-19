@@ -58,5 +58,29 @@ namespace LightController.Properties {
                 this["IsConnectCom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string xbinPath {
+            get {
+                return ((string)(this["xbinPath"]));
+            }
+            set {
+                this["xbinPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string exportProjectPath {
+            get {
+                return ((string)(this["exportProjectPath"]));
+            }
+            set {
+                this["exportProjectPath"] = value;
+            }
+        }
     }
 }

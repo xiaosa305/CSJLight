@@ -1,6 +1,6 @@
 ﻿namespace LightEditor
 {
-	partial class NewLightEditorForm
+	partial class LightEditorForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewLightEditorForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LightEditorForm));
 			this.renameButton = new System.Windows.Forms.Button();
 			this.saveLightButton = new System.Windows.Forms.Button();
 			this.openLightButton = new System.Windows.Forms.Button();
@@ -460,9 +460,9 @@
 			this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.label1.Location = new System.Drawing.Point(7, 45);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.Size = new System.Drawing.Size(53, 12);
 			this.label1.TabIndex = 3;
-			this.label1.Text = "子属性名  ";
+			this.label1.Text = "子属性名";
 			// 
 			// tdNumLabel
 			// 
@@ -805,7 +805,7 @@
 			this.mainPanel.Size = new System.Drawing.Size(791, 234);
 			this.mainPanel.TabIndex = 30;
 			// 
-			// NewLightEditorForm
+			// LightEditorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -817,7 +817,8 @@
 			this.Controls.Add(this.saBigPanel);
 			this.Controls.Add(this.myStatusStrip);
 			this.MinimizeBox = false;
-			this.Name = "NewLightEditorForm";
+			this.MinimumSize = new System.Drawing.Size(1200, 730);
+			this.Name = "LightEditorForm";
 			this.Text = " ";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewLightEditorForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewLightEditorForm_Load);

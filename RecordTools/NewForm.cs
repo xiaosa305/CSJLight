@@ -77,9 +77,10 @@ namespace RecordTools
 			{
 				Button pageBtn = new Button
 				{
-					Text = (pageIndex + 1).ToString(),
+					Text = (pageIndex + 1) + "\n" + (pageIndex * 16 + 1),
 					Size = tdButtonDemo.Size,
 					ForeColor = tdButtonDemo.ForeColor,
+					Tag = pageIndex + 1,
 					Visible = true,
 				};
 				pageFLP.Controls.Add(pageBtn);
@@ -110,7 +111,7 @@ namespace RecordTools
 		/// <param name="e"></param>
 		private void pageBtn_Click(object sender, EventArgs e)
 		{
-			currentPage = int.Parse((sender as Button).Text);
+			currentPage = (int)((sender as Button).Tag);
 			refreshPage();
 		}
 
@@ -136,6 +137,25 @@ namespace RecordTools
 				tdBtn.ForeColor = SystemColors.ControlText;
 				tdSet.Remove(tdIndex);
 			}
+		}
+
+		/// <summary>
+		/// 事件：勾选或取消《全选》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (tdCheckBox.Checked)
+			{
+				for (int tdNum = 1; tdNum <= 512; tdNum++) {
+					tdSet.Add(tdNum);
+				}
+			}
+			else {
+				tdSet.Clear();
+			}
+			refreshPage();
 		}
 
 		/// <summary>
@@ -333,9 +353,7 @@ namespace RecordTools
 					{
 						sceneNo = tempSceneNo;
 						setSceneNo(false);
-					}
-
-					
+					}					
 
 					setNotice("已成功打开文件：" + fileName, true);
 				}
@@ -465,5 +483,6 @@ namespace RecordTools
 
 		#endregion
 
+		
 	}
 }

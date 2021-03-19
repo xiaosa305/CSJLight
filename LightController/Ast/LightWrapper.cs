@@ -20,7 +20,7 @@ namespace LightController.Ast
 		/// </summary>
 		public LightWrapper()
 		{
-			LightStepWrapperList = new LightStepWrapper[MainFormBase.FrameCount , 2];
+			LightStepWrapperList = new LightStepWrapper[MainFormBase.SceneCount , 2];
 		}
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace LightController.Ast
 		{
 			LightWrapper newLight = new LightWrapper();
 			newLight.StepTemplate = selectedLight.StepTemplate;
-			for (int frame = 0; frame < MainFormBase.FrameCount; frame++) {
+			for (int frame = 0; frame < MainFormBase.SceneCount; frame++) {
 				for (int mode = 0; mode < 2; mode++)
 				{
 					if (tempLight.LightStepWrapperList[frame, mode] != null) {

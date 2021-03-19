@@ -38,7 +38,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 			LanguageHelper.InitForm(this);
-			LanguageHelper.InitListView(lightsListView);
+			LanguageHelper.TranslateListView(lightsListView);
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace LightController.MyForm.Multiplex
 				captainIndex = lightsListView.SelectedIndices[0];
 			}
 
-			string result = mainForm.CreateGroup(groupName, captainIndex);
+			string result = mainForm.MakeGroup(groupName, captainIndex);
 			if (result == null)
 			{
 				MessageBox.Show(LanguageHelper.TranslateSentence("编组成功"));

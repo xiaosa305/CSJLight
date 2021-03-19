@@ -173,8 +173,8 @@ namespace OtherTools
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			LanguageHelper.InitForm(this);
-			LanguageHelper.InitListView(protocolListView);
-			LanguageHelper.InitListView(keypressListView);
+			LanguageHelper.TranslateListView(protocolListView);
+			LanguageHelper.TranslateListView(keypressListView);
 
 			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;

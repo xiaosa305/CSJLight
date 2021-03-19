@@ -22,23 +22,30 @@ namespace LightController.MyForm
 {
 	public partial class ProjectUpdateForm : Form
 	{
-		private MainFormBase mainForm; 		
-		private string projectPath;   // 已有工程的路径（选到CSJ这一层）		
-		private string globalSetPath;   // 全局配置路径
+		private string exportProjectPath; // 
+		private MainFormBase mainForm;		
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
 		private bool isConnected = false; //是否连接
 		private bool isConnectCom = true; //是否串口连接
 		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
 
-		public ProjectUpdateForm(MainFormBase mainForm, string globalSetPath, string projectPath)
+		public ProjectUpdateForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			//this.dbWrapper = dbWrapper;
-			this.globalSetPath = globalSetPath;
-			this.projectPath = projectPath;
-			pathLabel.Text = projectPath;
+
+			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。");
+
+			exportProjectPath = Properties.Settings.Default.exportProjectPath ;
+			if (Directory.Exists(exportProjectPath)) {
+				pathLabel.Text = exportProjectPath;
+			}
+			else{
+				exportProjectPath = null;
+				Properties.Settings.Default.exportProjectPath = null;
+				Properties.Settings.Default.Save();
+			}				
 		}
 
 		private void ProjectUpdateForm_Load(object sender, EventArgs e)
@@ -76,10 +83,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void fileOpenSkinButton_Click(object sender, EventArgs e)
 		{
-			DialogResult dr = folderBrowserDialog.ShowDialog();
-			projectPath = folderBrowserDialog.SelectedPath;
-			pathLabel.Text = projectPath;
-			mainForm.SetProjectPath(projectPath);
+			if (DialogResult.OK == folderBrowserDialog.ShowDialog()) {
+				pathLabel.Text = folderBrowserDialog.SelectedPath;
+			}						
 		}
 
 		/// <summary>
@@ -89,9 +95,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void clearSkinButton_Click(object sender, EventArgs e)
 		{
-			projectPath = null;
-			pathLabel.Text = null;
-			mainForm.SetProjectPath(null);
+			pathLabel.Text = null;			
 		}								   	
 		
 		/// <summary>
@@ -202,31 +206,10 @@ namespace LightController.MyForm
 				myConnect.DisConnect();
 				myConnect = null;
 				isConnected = false;
-				refreshConnectButtons();
+				refreshConnectButtons(); //disConnect()
 				SetNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true, true);
 			}
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新按键[可用性]及[显示的文字]
-		/// </summary>
-		private void refreshConnectButtons()
-		{
-			switchButton.Enabled = !isConnected;
-			deviceComboBox.Enabled = deviceComboBox.Items.Count > 0 && !isConnected;
-			refreshButton.Enabled = !isConnected;
-			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0;
-			updateButton.Enabled = isConnected;
-
-			if (isConnectCom)
-			{
-				deviceConnectButton.Text = isConnected ? "关闭串口" : "打开串口";
-			}
-			else
-			{
-				deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
-			}
-		}
+		}	
 
 		/// <summary>
 		/// 事件：点击《打开串口|关闭串口 | 连接设备|断开连接》
@@ -251,8 +234,8 @@ namespace LightController.MyForm
 					if ((myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text))
 					{
 						isConnected = true;
-						refreshConnectButtons();
-						SetNotice("已打开串口", true, true);
+						refreshConnectButtons(); //deviceConnectButton_Click【串口连接】
+						SetNotice("已打开串口", true, true); 
 					}
 				}
 				catch (Exception ex)
@@ -268,13 +251,34 @@ namespace LightController.MyForm
 				if (myConnect.Connect(selectedNetworkDevice))
 				{
 					isConnected = true;
-					refreshConnectButtons();
+					refreshConnectButtons(); //deviceConnectButton_Click【网络连接】
 					SetNotice("成功连接网络设备。", true, true);
 				}
 				else
 				{
 					SetNotice("连接网络设备失败。", true, true);
 				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新按键[可用性]及[显示的文字]
+		/// </summary>
+		private void refreshConnectButtons()
+		{
+			switchButton.Enabled = !isConnected;
+			deviceComboBox.Enabled = deviceComboBox.Items.Count > 0 && !isConnected;
+			refreshButton.Enabled = !isConnected;
+			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0;
+			updateButton.Enabled = isConnected && (!string.IsNullOrEmpty(mainForm.GlobalIniPath) || !string.IsNullOrEmpty(exportProjectPath));
+
+			if (isConnectCom)
+			{
+				deviceConnectButton.Text = isConnected ? "关闭串口" : "打开串口";
+			}
+			else
+			{
+				deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
 			}
 		}
 
@@ -289,7 +293,7 @@ namespace LightController.MyForm
 			bool generateNow = false;
 			DBWrapper dbWrapper = mainForm.GetDBWrapper(false);
 
-			if (String.IsNullOrEmpty(projectPath))
+			if (string.IsNullOrEmpty(exportProjectPath))
 			{
 				DialogResult dr = MessageBox.Show(
 					LanguageHelper.TranslateSentence("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
@@ -324,7 +328,7 @@ namespace LightController.MyForm
 			//若用户选择了已存在目录，则需要验证是否空目录
 			else
 			{
-				if (Directory.GetFiles(projectPath).Length == 0)
+				if (Directory.GetFiles(exportProjectPath).Length == 0)
 				{
 					SetNotice("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。",true,true);
 					SetBusy(false);
@@ -341,11 +345,11 @@ namespace LightController.MyForm
 			if (generateNow)
 			{
 				SetNotice("正在实时生成工程数据，请耐心等待...", false, true);
-				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this));
+				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, mainForm.GlobalIniPath, new GenerateProjectCallBack(this));
 			}
 			else
 			{
-				FileUtils.CopyFileToDownloadDir(projectPath);
+				FileUtils.CopyFileToDownloadDir(exportProjectPath);
 				DownloadProject();
 			}
 		}
@@ -458,6 +462,20 @@ namespace LightController.MyForm
 		{
 			LanguageHelper.TranslateControl(sender as Button);
 		}
+
+		/// <summary>
+		///  当pathLable发生变化后，更改exportProjectPath的值(保存在注册表中)；并刷新各个按键的可用性
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void pathLabel_TextChanged(object sender, EventArgs e)
+		{
+			exportProjectPath = pathLabel.Text;
+			Properties.Settings.Default.exportProjectPath = exportProjectPath;
+			Properties.Settings.Default.Save();
+			refreshConnectButtons(); //pathLabel_TextChanged
+		}
+
 	}
 
 	public class GenerateProjectCallBack : ISaveProjectCallBack
@@ -494,5 +512,4 @@ namespace LightController.MyForm
 			puForm.SetNotice( LanguageHelper.TranslateSentence("正在生成工程文件")+"(" + name + ")" ,false, false);
 		}
 	}
-
 }

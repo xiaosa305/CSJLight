@@ -39,7 +39,7 @@ namespace LightController.MyForm
 		{
 			Location = MousePosition;
 			LanguageHelper.InitForm(this);
-			LanguageHelper.InitListView(lightsListView);
+			LanguageHelper.TranslateListView(lightsListView);
 		}
 
 		/// <summary>

@@ -114,6 +114,7 @@ namespace LBDConfigTool.utils.communication
         {
             if (this.Completed_Event != null)
             {
+                this.IsSending = false;
                 this.StopTimeOutTask();
                 this.Completed_Event(obj, msg);
                 this.InitParam();
@@ -127,6 +128,7 @@ namespace LBDConfigTool.utils.communication
         {
             if (this.Error_Event != null)
             {
+                this.IsSending = false;
                 this.TaskTimer.Stop();
                 this.InitParam();
                 this.Error_Event(msg);
@@ -240,6 +242,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
@@ -264,6 +267,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.WriteEncryptError();
@@ -290,6 +294,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
@@ -348,6 +353,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
@@ -374,6 +380,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
@@ -432,6 +439,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
@@ -458,6 +466,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
@@ -477,6 +486,7 @@ namespace LBDConfigTool.utils.communication
             }
             catch (Exception ex)
             {
+                this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();

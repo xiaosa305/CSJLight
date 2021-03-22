@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LBDConfigTool.utils.conf;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -18,26 +19,16 @@ namespace LBDConfigTool.utils.record
         [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
 
         private const int THREAD_SLEEP_TIME = 1;
-        private const int PORT = 4115;
         private const int SHOW_FRAME_COUNT_INTERVALTIME = 100;
-
-        private static byte[] PACKAGE_END = new byte[] { 0x00, 0x00, 0x78, 0x78 };
-
         private Object SYNCHROLOCK_KEY { get; set; }
-
         private int LedInterfaceNumber { get; set; }
         private int LedSpaceNumber { get; set; }
         private int LedControlNumber { get; set; }
-        private int LastFramePacketSequence { get; set; }
-        private int DebugFrameCount { get; set; }
         private int RecordFrameCount { get; set; }
 
-        private string ArtNetServerIP { get; set; }
-        private string localIP { get; set; }
         private string FilePath { get; set; }
         private string ConfigPath { get; set; }
-        private List<string> VirtualIPS { get; set; }
-
+        private CaptureTool CaptureTool { get; set; }
 
         private ConcurrentDictionary<int, List<byte>> SpaceDmxData { get; set; }
         private ConcurrentDictionary<int, bool> SpaceDmxDataReceiveStatus { get; set; }
@@ -46,11 +37,9 @@ namespace LBDConfigTool.utils.record
 
         private bool RecordDmxTaskStatus { get; set; }
         private bool IsRecordDmxData { get; set; }
-        private bool IsFirstFrame { get; set; }
         private bool IsFirstFrameByRecord { get; set; }
         private bool IsStartReceiveDmxDataStatus { get; set; }
 
-        private ConcurrentQueue<ConcurrentDictionary<int, List<byte>>> DebugDmxDataQueue { get; set; }
         private ConcurrentQueue<ConcurrentDictionary<int, List<byte>>> RecordDmxDataQueue { get; set; }
 
         private System.Timers.Timer ShowFrameCountTask { get; set; }
@@ -58,31 +47,15 @@ namespace LBDConfigTool.utils.record
         public delegate void GetDebugFrameCount(int frameCount);
         public delegate void GetRecordFrameCount(int frameCount);
 
-        private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
 
-        public DMXManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber)
+        public DMXManager(CSJConf conf)
         {
-            this.localIP = localIP;
-            this.ArtNetServerIP = artnetServerIP;
-            this.VirtualIPS = virtualIP;
-            this.LedSpaceNumber = ledSpaceNumber;
-            this.LedInterfaceNumber = ledInterfaceNumber;
-            this.LedControlNumber = ledControlNumber;
             this.Init();
-            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
-            for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
-            {
-                int portCount = 0;
-                if (clientIndex == clientCount - 1)
-                {
-                    portCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber - clientIndex * 256;
-                }
-                else
-                {
-                    portCount = 256;
-                }
-            }
+            this.LedControlNumber = 1;
+            this.LedInterfaceNumber = conf.Fk_lushu;
+            this.LedSpaceNumber = conf.Art_Net_Pre;
+            this.CaptureTool = new CaptureTool(conf, this.FrameSync, this.Manager);
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
                 this.SpaceDmxData.TryAdd(i, new List<byte>());
@@ -94,15 +67,11 @@ namespace LBDConfigTool.utils.record
         {
             this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
             this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
-            this.DebugDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
             this.RecordDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
             this.SYNCHROLOCK_KEY = new object();
-            this.DebugFrameCount = 0;
             this.RecordFrameCount = 0;
-            this.LastFramePacketSequence = 0;
             this.IsStartReceiveDmxDataStatus = false;
             this.IsRecordDmxData = false;
-            this.IsFirstFrame = true;
             this.ShowFrameCountTask = new System.Timers.Timer(SHOW_FRAME_COUNT_INTERVALTIME) { AutoReset = true };
             this.ShowFrameCountTask.Elapsed += this.ShowFrameCountListen;
             this.IsFirstFrameByRecord = true;
@@ -112,23 +81,20 @@ namespace LBDConfigTool.utils.record
             this.ShowFrameCountTask.Start();
         }
 
-
         public void Close()
         {
             try
             {
+                this.Stop();
                 this.ShowFrameCountTask.Stop();
                 this.IsStartReceiveDmxDataStatus = false;
                 this.IsRecordDmxData = false;
                 this.RecordDmxTaskStatus = false;
                 Thread.Sleep(100);
-                this.IsFirstFrame = true;
                 this.IsFirstFrameByRecord = true;
                 this.SpaceDmxData = null;
                 this.SpaceDmxDataReceiveStatus = null;
-                this.DebugDmxDataQueue = null;
                 this.RecordDmxDataQueue = null;
-                this.VirtualIPS = null;
             }
             catch (Exception ex)
             {
@@ -140,12 +106,20 @@ namespace LBDConfigTool.utils.record
         public DMXManager Start()
         {
             this.IsStartReceiveDmxDataStatus = true;
+            if (this.CaptureTool != null)
+            {
+                this.CaptureTool.Start();
+            }
             return this;
         }
 
         public DMXManager Stop()
         {
             this.IsStartReceiveDmxDataStatus = false;
+            if (this.CaptureTool != null)
+            {
+                this.CaptureTool.Stop();
+            }
             return this;
         }
 

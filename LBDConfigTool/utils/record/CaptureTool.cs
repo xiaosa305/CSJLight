@@ -13,21 +13,23 @@ namespace LBDConfigTool.utils.record
         private ICaptureDevice CurrentDevice { get; set; }
         private bool IsFirstFrame { get; set; }
         public delegate void FrameSync();
-        public delegate void DMXDataCaptureed(int port,byte[] data);
+        public delegate void DMXDataCaptureed(int port,List<byte> data);
         private FrameSync FrameSync_Event { get; set; }
         private DMXDataCaptureed DMXDataCaptureed_Event { get; set; }
+        private int StartSpace { get; set; }
 
         private void Init()
         {
             this.IsFirstFrame = true;
         }
 
-        private CaptureTool(CSJConf conf ,FrameSync frameSync,DMXDataCaptureed dataCaptureed)
+        public CaptureTool(CSJConf conf ,FrameSync frameSync,DMXDataCaptureed dataCaptureed)
         {
             this.FrameSync_Event = frameSync;
             this.DMXDataCaptureed_Event = dataCaptureed;
+            this.StartSpace = conf.Art_Net_Start_Space;
             this.Init();
-            this.Start();
+            //this.Start();
         }
         public void Reset()
         {
@@ -89,7 +91,7 @@ namespace LBDConfigTool.utils.record
                     {
                         byte[] DMXDataBuff = new byte[dataLength];
                         Array.Copy(data, 18, DMXDataBuff, 0, dataLength);
-                        this.DMXDataCaptureed_Event(port, DMXDataBuff);
+                        this.DMXDataCaptureed_Event(port - this.StartSpace + 1, new List<byte>(DMXDataBuff));
                     }
                 }
                 else if (data[0] == 0x4D && data[1] == 0x61 && data[2] == 0x64 && data[3] == 0x72 && data[4] == 0x69 && data[5] == 0x78 && data[6] == 0x4E && data[7] == 0x00 && data[8] == 0x02 && data[9] == 0x52 && data[10] == 0x00 && data[11] == 0x0E && data[12] == 0xC5)

@@ -161,7 +161,7 @@ namespace LBDConfigTool.utils.communication
                 {
                     this.IsSending = true;
                     this.CurrentModule = Module.SearchDevice;
-                    byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
+                    byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA1 };
                     this.Send(order);
                     this.IsSending = false;
                 }
@@ -306,15 +306,14 @@ namespace LBDConfigTool.utils.communication
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
-                    byte[] order = new byte[] { 0xAA,0xBB,0x00,0x00,0xC0};
-                    this.Send(order);
+                   
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % PACKSIZE == 0;
                     int lastPackageSize = flag ? PACKSIZE : (int)(length % PACKSIZE);
                     int packetCount = (int)(length / PACKSIZE);
                     List<byte> buff = new List<byte>();
-                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x02, 0x02, 0xA1 };
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xC0 };
                     byte[] readBuff = new byte[PACKSIZE];
                     for (int i = 0; i < packetCount; i++)
                     {
@@ -325,6 +324,14 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        if (i == 0)
+                        {
+                            buff.Add(Convert.ToByte(length & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        }
                         file.Read(readBuff, 0, PACKSIZE);
                         buff.AddRange(readBuff);
                         this.Send(buff.ToArray());
@@ -394,15 +401,13 @@ namespace LBDConfigTool.utils.communication
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
-                    byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
-                    this.Send(order);
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % PACKSIZE == 0;
                     int lastPackageSize = flag ? PACKSIZE : (int)(length % PACKSIZE);
                     int packetCount = (int)(length / PACKSIZE);
                     List<byte> buff = new List<byte>();
-                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x02, 0x02, 0xA1 };
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
                     byte[] readBuff = new byte[PACKSIZE];
                     for (int i = 0; i < packetCount; i++)
                     {
@@ -413,6 +418,14 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        if (i == 0)
+                        {
+                            buff.Add(Convert.ToByte(length & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        }
                         file.Read(readBuff, 0, PACKSIZE);
                         buff.AddRange(readBuff);
                         this.Send(buff.ToArray());

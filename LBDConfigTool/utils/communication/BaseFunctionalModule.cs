@@ -324,6 +324,14 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        if (i == 0)
+                        {
+                            buff.Add(Convert.ToByte(length & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        }
                         file.Read(readBuff, 0, PACKSIZE);
                         buff.AddRange(readBuff);
                         this.Send(buff.ToArray());
@@ -410,6 +418,14 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        if (i == 0)
+                        {
+                            buff.Add(Convert.ToByte(length & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        }
                         file.Read(readBuff, 0, PACKSIZE);
                         buff.AddRange(readBuff);
                         this.Send(buff.ToArray());

@@ -85,7 +85,7 @@ namespace LBDConfigTool.utils.record
         {
             try
             {
-                this.Stop();
+                this.StopRecord();
                 this.ShowFrameCountTask.Stop();
                 this.IsStartReceiveDmxDataStatus = false;
                 this.IsRecordDmxData = false;
@@ -103,7 +103,7 @@ namespace LBDConfigTool.utils.record
             }
         }
 
-        public DMXManager Start()
+        private DMXManager Start()
         {
             this.IsStartReceiveDmxDataStatus = true;
             if (this.CaptureTool != null)
@@ -113,7 +113,7 @@ namespace LBDConfigTool.utils.record
             return this;
         }
 
-        public DMXManager Stop()
+        private DMXManager Stop()
         {
             this.IsStartReceiveDmxDataStatus = false;
             if (this.CaptureTool != null)
@@ -127,6 +127,7 @@ namespace LBDConfigTool.utils.record
         {
             try
             {
+                this.Start();
                 this.FilePath = filePath;
                 this.ConfigPath = config;
 
@@ -155,6 +156,7 @@ namespace LBDConfigTool.utils.record
 
         public DMXManager StopRecord()
         {
+            this.Stop();
             this.IsRecordDmxData = false;
             this.GetRecordFrameCount_Event = null;
             this.RecordFrameCount = 0;

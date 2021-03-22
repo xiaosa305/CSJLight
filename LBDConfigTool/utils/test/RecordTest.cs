@@ -23,8 +23,6 @@ namespace LBDConfigTool.utils.test
         }
         public void Test()
         {
-            DMXManager manager = new DMXManager(null);
-            manager.Start();
         }
     }
 }

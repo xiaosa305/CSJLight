@@ -161,8 +161,8 @@ namespace LBDConfigTool.utils.communication
                 {
                     this.IsSending = true;
                     this.CurrentModule = Module.SearchDevice;
-                    byte[] data = new byte[] { 0xAA, 0xBB, 0x01, 0x01 };
-                    this.Send(data);
+                    byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
+                    this.Send(order);
                     this.IsSending = false;
                 }
             }
@@ -306,6 +306,8 @@ namespace LBDConfigTool.utils.communication
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
+                    byte[] order = new byte[] { 0xAA,0xBB,0x00,0x00,0xC0};
+                    this.Send(order);
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % PACKSIZE == 0;
@@ -392,6 +394,8 @@ namespace LBDConfigTool.utils.communication
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
+                    byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
+                    this.Send(order);
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % PACKSIZE == 0;

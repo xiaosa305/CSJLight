@@ -187,6 +187,8 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte((this.Clk_shzhong >> 8) & 0xFF));//HI
                 //Led_gam
                 buff.Add(Convert.ToByte(this.Led_gam));
+                //Led_LD
+                buff.Add(Convert.ToByte(this.Led_ld));
                 //R_LD;
                 buff.Add(Convert.ToByte(this.R_LD));
                 //G_LD;

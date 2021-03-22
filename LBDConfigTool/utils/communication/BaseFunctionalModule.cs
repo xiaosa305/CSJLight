@@ -306,6 +306,7 @@ namespace LBDConfigTool.utils.communication
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
+                    byte[] order = new byte[] { 0xAA,0xBB,0x00,0x00,0xC0};
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % PACKSIZE == 0;

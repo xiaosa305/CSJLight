@@ -44,7 +44,6 @@ namespace LBDConfigTool.utils.record
 
         private System.Timers.Timer ShowFrameCountTask { get; set; }
 
-        public delegate void GetDebugFrameCount(int frameCount);
         public delegate void GetRecordFrameCount(int frameCount);
 
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
@@ -55,6 +54,7 @@ namespace LBDConfigTool.utils.record
             this.LedControlNumber = 1;
             this.LedInterfaceNumber = conf.Fk_lushu;
             this.LedSpaceNumber = conf.Art_Net_Pre;
+
             this.CaptureTool = new CaptureTool(conf, this.FrameSync, this.Manager);
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {

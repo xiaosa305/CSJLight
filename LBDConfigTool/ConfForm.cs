@@ -1,6 +1,7 @@
 ﻿using LBDConfigTool.Common;
 using LBDConfigTool.utils.communication;
 using LBDConfigTool.utils.conf;
+using LBDConfigTool.utils.test;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -100,8 +101,8 @@ namespace LBDConfigTool
 		{
 			//User u1 = new User("Dickov", 31, "A93");
 			//SerializeMethod(u1);
-			//setNotice("序列化成功",true);		
-			
+			//setNotice("序列化成功",true);	
+			RecordTest.GetInstance().Test();
 		}
 		
 		/// <summary>

@@ -29,7 +29,6 @@ namespace LBDConfigTool.utils.record
             this.DMXDataCaptureed_Event = dataCaptureed;
             this.StartSpace = conf.Art_Net_Start_Space;
             this.Init();
-            //this.Start();
         }
         public void Reset()
         {
@@ -44,10 +43,10 @@ namespace LBDConfigTool.utils.record
                 if (@interface.FriendlyName.Equals("以太网"))
                 {
                     this.CurrentDevice = device;
+                    this.StartCapture();
                     return;
                 }
             }
-            this.StartCapture();
         }
         public CaptureTool Stop()
         {
@@ -83,18 +82,18 @@ namespace LBDConfigTool.utils.record
             if (udpPacket != null && udpPacket.DestinationPort == 6454)
             {
                 byte[] data = packet.Bytes;
-                if (!this.IsFirstFrame && data[0] == 0x41 && data[1] == 0x72 && data[2] == 0x74 && data[3] == 0x2D && data[4] == 0x4E && data[5] == 0x65 && data[6] == 0x74 && data[7] == 0x00 && data.Length > 18 && data[8] == 0x00 && data[9] == 0x50)
+                if (!this.IsFirstFrame && data[42+0] == 0x41 && data[42 + 1] == 0x72 && data[42 + 2] == 0x74 && data[42 + 3] == 0x2D && data[42 + 4] == 0x4E && data[42 + 5] == 0x65 && data[42 + 6] == 0x74 && data[42 + 7] == 0x00 && data.Length > 18 && data[42 + 8] == 0x00 && data[42 + 9] == 0x50)
                 {
-                    int port = (int)((data[14] & 0xFF) | ((data[15] & 0xFF) << 8));
-                    int dataLength = (int)(data[17] & 0xFF) | ((data[16] & 0xFF) << 8);
-                    if (dataLength != 0 && data.Length == (dataLength + 18))
+                    int port = (int)((data[42 + 14] & 0xFF) | ((data[42 + 15] & 0xFF) << 8));
+                    int dataLength = (int)(data[42 + 17] & 0xFF) | ((data[42 + 16] & 0xFF) << 8);
+                    if (dataLength != 0 && data.Length == (dataLength + 18 + 42))
                     {
                         byte[] DMXDataBuff = new byte[dataLength];
-                        Array.Copy(data, 18, DMXDataBuff, 0, dataLength);
+                        Array.Copy(data, 42 + 18, DMXDataBuff, 0, dataLength);
                         this.DMXDataCaptureed_Event(port - this.StartSpace + 1, new List<byte>(DMXDataBuff));
                     }
                 }
-                else if (data[0] == 0x4D && data[1] == 0x61 && data[2] == 0x64 && data[3] == 0x72 && data[4] == 0x69 && data[5] == 0x78 && data[6] == 0x4E && data[7] == 0x00 && data[8] == 0x02 && data[9] == 0x52 && data[10] == 0x00 && data[11] == 0x0E && data[12] == 0xC5)
+                else if (data[42 + 0] == 0x4D && data[42 + 1] == 0x61 && data[42 + 2] == 0x64 && data[42 + 3] == 0x72 && data[42 + 4] == 0x69 && data[42 + 5] == 0x78 && data[42 + 6] == 0x4E && data[42 + 7] == 0x00 && data[42 + 8] == 0x02 && data[42 + 9] == 0x52 && data[42 + 10] == 0x00)
                 {
                     this.IsFirstFrame = false;
                     this.FrameSync_Event();

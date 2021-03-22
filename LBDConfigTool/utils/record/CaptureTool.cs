@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LBDConfigTool.utils.conf;
+using System.Threading;
+using System.Timers;
 
 namespace LBDConfigTool.utils.record
 {
@@ -17,6 +19,7 @@ namespace LBDConfigTool.utils.record
         private FrameSync FrameSync_Event { get; set; }
         private DMXDataCaptureed DMXDataCaptureed_Event { get; set; }
         private int StartSpace { get; set; }
+        private System.Timers.Timer CaptureTimer { get; set; }
 
         private void Init()
         {
@@ -57,6 +60,7 @@ namespace LBDConfigTool.utils.record
                     this.CurrentDevice.StopCapture();
                     this.CurrentDevice = null;
                     this.Reset();
+                    this.CaptureTimer.Stop();
                 }
                 catch (Exception ex)
                 {
@@ -70,11 +74,18 @@ namespace LBDConfigTool.utils.record
         {
             if (this.CurrentDevice != null)
             {
-                this.CurrentDevice.OnPacketArrival += new PacketArrivalEventHandler(CaptureData);
-                this.CurrentDevice.Open(DeviceMode.Normal,1000);
-                this.CurrentDevice.Capture();
+                CaptureTimer = new System.Timers.Timer() { AutoReset = false };
+                CaptureTimer.Elapsed += this.CaptureTask;
+                CaptureTimer.Start();
             }
         }
+        private void CaptureTask(object sender, ElapsedEventArgs e)
+        {
+            this.CurrentDevice.OnPacketArrival += new PacketArrivalEventHandler(CaptureData);
+            this.CurrentDevice.Open(DeviceMode.Normal, 1000);
+            this.CurrentDevice.Capture();
+        }
+
         private void CaptureData(object sender, CaptureEventArgs e)
         {
             Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);

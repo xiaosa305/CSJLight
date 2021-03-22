@@ -6,9 +6,9 @@ using System.Text;
 
 namespace LBDConfigTool.utils.crc
 {
-    public class CRC16Tools
+    public class CRC16Tool
     {
-        private static CRC16Tools Instance { get; set; }
+        private static CRC16Tool Instance { get; set; }
         // CRC 高位字节值表
         private static readonly byte[] chCRCHTable = {
 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
@@ -59,11 +59,11 @@ namespace LBDConfigTool.utils.crc
 0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83,
 0x41, 0x81, 0x80, 0x40
 };
-        public static CRC16Tools GetInstance()
+        public static CRC16Tool GetInstance()
         {
             if (Instance == null)
             {
-                Instance = new CRC16Tools();
+                Instance = new CRC16Tool();
             }
             return Instance;
         }

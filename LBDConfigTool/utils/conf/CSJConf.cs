@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Crc32C;
 
 namespace LBDConfigTool.utils.conf
 {
@@ -243,8 +244,11 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte((this.SumUseTimes >> 16) & 0xFF));
                 buff.Add(Convert.ToByte((this.SumUseTimes >> 24) & 0xFF));
                 //crc
-                byte[] crc = new byte[4];
-                buff.AddRange(crc);
+                uint crcValue = Crc32CAlgorithm.Compute(buff.ToArray());
+                buff.Add(Convert.ToByte(crcValue & 0xFF));
+                buff.Add(Convert.ToByte((crcValue >> 8) & 0xFF));
+                buff.Add(Convert.ToByte((crcValue >> 16) & 0xFF));
+                buff.Add(Convert.ToByte((crcValue >> 24) & 0xFF));
                 //CurrUseTimes
                 buff.Add(Convert.ToByte(this.CurrUseTimes & 0xFF));
                 buff.Add(Convert.ToByte((this.CurrUseTimes >> 8) & 0xFF));

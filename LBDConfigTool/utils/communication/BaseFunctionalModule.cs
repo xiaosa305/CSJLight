@@ -1,4 +1,5 @@
-﻿using LBDConfigTool.utils.conf;
+﻿using Crc32C;
+using LBDConfigTool.utils.conf;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -325,7 +326,13 @@ namespace LBDConfigTool.utils.communication
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
-                   
+                    uint crc = 0;
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                    {
+                        byte[] data = new byte[fileStream.Length];
+                        fileStream.Read(data, 0, data.Length);
+                        crc = Crc32CAlgorithm.Compute(data);
+                    }
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % PACKSIZE == 0;
@@ -350,6 +357,11 @@ namespace LBDConfigTool.utils.communication
                             buff.Add(Convert.ToByte((length >> 8) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 16) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                            //crc
+                            buff.Add(Convert.ToByte(crc & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
                         }
                         file.Read(readBuff, 0, PACKSIZE);
                         buff.AddRange(readBuff);
@@ -418,6 +430,13 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
+                uint crc = 0;
+                using (FileStream fileStream = new FileStream(filePath,FileMode.Open))
+                {
+                    byte[] data = new byte[fileStream.Length];
+                    fileStream.Read(data, 0, data.Length);
+                    crc = Crc32CAlgorithm.Compute(data);
+                }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
                     int seek = 0;
@@ -444,6 +463,11 @@ namespace LBDConfigTool.utils.communication
                             buff.Add(Convert.ToByte((length >> 8) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 16) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                            //crc
+                            buff.Add(Convert.ToByte(crc & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
                         }
                         file.Read(readBuff, 0, PACKSIZE);
                         buff.AddRange(readBuff);

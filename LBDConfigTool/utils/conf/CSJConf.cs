@@ -10,9 +10,6 @@ namespace LBDConfigTool.utils.conf
     public class CSJConf:IConf
     {
         private const byte Flag = 0xFF;//标记位 u8
-
-        private string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
-
         public string MIA_HAO { get; set; }//密码  u8[6]
         public int Addr { get; set; }//地址 u16
         public int Baud { get; set; }//(0-4)9600,19200,38400,57600,115200 u8
@@ -36,7 +33,6 @@ namespace LBDConfigTool.utils.conf
         public int G_LD { get; set; }//绿亮度   u8
         public int B_LD { get; set; }//蓝亮度   u8
         public int W_LD { get; set; }//白亮度   u8
-
         //ArtNetConf
         public string Mac { get; set; }//MAC地址   u8[6]
         public string Ip { get; set; }//IP地址   u32
@@ -49,6 +45,8 @@ namespace LBDConfigTool.utils.conf
         public int SumUseTimes { get; set; }//总使用次数   u32
         private byte[] CRC { get; set; }//CRC校验码  u32
         public int CurrUseTimes { get; set; }//当前使用次数  不参与CRC校验
+
+        private string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
 
         public static CSJConf Build(byte[] data)
         {

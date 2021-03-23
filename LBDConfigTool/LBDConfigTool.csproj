@@ -81,6 +81,7 @@
     <Compile Include="utils\conf\CSJConf.cs" />
     <Compile Include="utils\conf\HCXConf.cs" />
     <Compile Include="utils\conf\IConf.cs" />
+    <Compile Include="utils\entity\ParamEntity.cs" />
     <Compile Include="utils\record\CaptureTool.cs" />
     <Compile Include="utils\record\DMXManager.cs" />
     <Compile Include="utils\test\RecordTest.cs" />

@@ -1,4 +1,6 @@
-﻿using LBDConfigTool.utils.conf;
+﻿using Crc32C;
+using LBDConfigTool.utils.conf;
+using LBDConfigTool.utils.entity;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,7 +18,6 @@ namespace LBDConfigTool.utils.communication
         [DllImport("winmm.dll")] internal static extern uint timeBeginPeriod(uint period);
         [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
         protected const int TIME_OUT_COUNT = 5000;
-        private const int PACKSIZE = 256;
 
         protected System.Timers.Timer TimeOut { get; set; }
         private System.Timers.Timer TaskTimer { get; set; }
@@ -34,10 +35,6 @@ namespace LBDConfigTool.utils.communication
             Thread.Sleep(time);
             timeEndPeriod(1);
         }
-
-        private int PacketIntervalTime { get; set; }
-        private int PacketIntervalTimeBySPAN { get; set; }
-        private int SPANCount { get; set; }
 
         protected abstract void Send(byte[] data);
         protected void SendCompleted()
@@ -59,9 +56,6 @@ namespace LBDConfigTool.utils.communication
         }
         protected void Init()
         {
-            this.SPANCount = 1024 * 4;
-            this.PacketIntervalTime = 5;
-            this.PacketIntervalTimeBySPAN = 50;
             this.MessageTransaction = new System.Timers.Timer() { AutoReset = false };
             this.MessageTransaction.Elapsed += this.MessageTransactionTask;
             this.MessageQueue = new ConcurrentQueue<List<byte>>();
@@ -71,18 +65,7 @@ namespace LBDConfigTool.utils.communication
             this.IsSending = false;
             this.MessageTransaction.Start();
         }
-        public void SetPacketIntervalTime(int time)
-        {
-            this.PacketIntervalTime = time;
-        }
-        public void SetPacketIntervalTimeBySPAN (int time)
-        {
-            this.PacketIntervalTimeBySPAN = time;
-        }
-        public void SetSPANCount(int cout)
-        {
-            this.SPANCount = cout;
-        }
+      
         private void InitParam()
         {
             this.TaskTimer = null;
@@ -100,7 +83,26 @@ namespace LBDConfigTool.utils.communication
         }
         protected void TimeOutTask(object sender, ElapsedEventArgs e)
         {
-            this.TaskError("通信超时");
+            string value = "";
+            switch (this.CurrentModule)
+            {
+                case Module.WriteEncrypt:
+                    value = "加密固件";
+                    break;
+                case Module.UpdateFPGA256:
+                    value = "升级FPGA";
+                    break;
+                case Module.UpdataMCU256:
+                    value = "升级MCU";
+                    break;
+                case Module.WriteData:
+                    break;
+                case Module.WriteParam:
+                    value = "下载配置参数";
+                    break;
+            }
+            value += "失败";
+            this.TaskError(value);
         }
         protected void TaskCompleted()
         {
@@ -274,7 +276,7 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //升级FPGA
-        public void UpdateFPGA256(string filePath,Completed completed, Error error)
+        public void UpdateFPGA256(string filePath,ParamEntity param,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -288,7 +290,7 @@ namespace LBDConfigTool.utils.communication
                     {
                         AutoReset = false
                     };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdateFPGA256Task(filePath,s, e));
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdateFPGA256Task(filePath,param,s, e));
                     this.TaskTimer.Start();
                 }
             }
@@ -300,27 +302,33 @@ namespace LBDConfigTool.utils.communication
                 this.TaskError();
             }
         }
-        private void UpdateFPGA256Task(string filePath, Object obj, ElapsedEventArgs e)
+        private void UpdateFPGA256Task(string filePath, ParamEntity param, Object obj, ElapsedEventArgs e)
         {
             try
             {
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
-                   
+                    uint crc = 0;
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                    {
+                        byte[] data = new byte[fileStream.Length];
+                        fileStream.Read(data, 0, data.Length);
+                        crc = Crc32CAlgorithm.Compute(data);
+                    }
                     int seek = 0;
                     long length = file.Length;
-                    bool flag = file.Length % PACKSIZE == 0;
-                    int lastPackageSize = flag ? PACKSIZE : (int)(length % PACKSIZE);
-                    int packetCount = (int)(length / PACKSIZE);
+                    bool flag = file.Length % param.PacketSize == 0;
+                    int lastPackageSize = flag ? param.PacketSize : (int)(length % param.PacketSize);
+                    int packetCount = (int)(length / param.PacketSize);
                     List<byte> buff = new List<byte>();
                     byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xC0 };
-                    byte[] readBuff = new byte[PACKSIZE];
+                    byte[] readBuff = new byte[param.PacketSize];
                     for (int i = 0; i < packetCount; i++)
                     {
                         buff.AddRange(packetHead);
                         buff.Add(0xFF);
                         buff.Add(0x00);
-                        seek = PACKSIZE * i;
+                        seek = param.PacketSize * i;
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
@@ -331,24 +339,29 @@ namespace LBDConfigTool.utils.communication
                             buff.Add(Convert.ToByte((length >> 8) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 16) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                            //crc
+                            buff.Add(Convert.ToByte(crc & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
                         }
-                        file.Read(readBuff, 0, PACKSIZE);
+                        file.Read(readBuff, 0, param.PacketSize);
                         buff.AddRange(readBuff);
                         this.Send(buff.ToArray());
-                        if (seek % this.SPANCount == 0)
+                        if (seek % param.PartitionIndex == 0)
                         {
-                            this.ThreadSleep(this.PacketIntervalTimeBySPAN);
+                            this.ThreadSleep(param.PacketIntervalTimeByPartitionIndex);
                         }
                         else
                         {
-                            this.ThreadSleep(this.PacketIntervalTime);
+                            this.ThreadSleep(param.PacketIntervalTime);
                         }
                         buff.Clear();
                     }
                     buff.AddRange(packetHead);
                     buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
                     buff.Add(Convert.ToByte((lastPackageSize >> 8) & 0xFF));
-                    seek = PACKSIZE * packetCount;
+                    seek = param.PacketSize * packetCount;
                     buff.Add(Convert.ToByte(seek & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
@@ -357,7 +370,7 @@ namespace LBDConfigTool.utils.communication
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
                     this.Send(Encoding.Default.GetBytes("SendEnd"));
-                    this.TaskCompleted();
+                    this.TaskCompleted("FPGA升级成功");
                 }
             }
             catch (Exception ex)
@@ -365,11 +378,11 @@ namespace LBDConfigTool.utils.communication
                 this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                this.TaskError();
+                this.TaskError("FPGA升级失败");
             }
         }
         //升级MCU
-        public void UpdataMCU256(string filePath,Completed completed, Error error)
+        public void UpdataMCU256(string filePath,ParamEntity param,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -383,7 +396,7 @@ namespace LBDConfigTool.utils.communication
                     {
                         AutoReset = false
                     };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdataMCU256Task(filePath,s, e));
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdataMCU256Task(filePath,param,s, e));
                     this.TaskTimer.Start();
                 }
             }
@@ -395,26 +408,33 @@ namespace LBDConfigTool.utils.communication
                 this.TaskError();
             }
         }
-        private void UpdataMCU256Task(string filePath, Object obj, ElapsedEventArgs e)
+        private void UpdataMCU256Task(string filePath, ParamEntity param, Object obj, ElapsedEventArgs e)
         {
             try
             {
+                uint crc = 0;
+                using (FileStream fileStream = new FileStream(filePath,FileMode.Open))
+                {
+                    byte[] data = new byte[fileStream.Length];
+                    fileStream.Read(data, 0, data.Length);
+                    crc = Crc32CAlgorithm.Compute(data);
+                }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
                     int seek = 0;
                     long length = file.Length;
-                    bool flag = file.Length % PACKSIZE == 0;
-                    int lastPackageSize = flag ? PACKSIZE : (int)(length % PACKSIZE);
-                    int packetCount = (int)(length / PACKSIZE);
+                    bool flag = file.Length % param.PacketSize == 0;
+                    int lastPackageSize = flag ? param.PacketSize : (int)(length % param.PacketSize);
+                    int packetCount = (int)(length / param.PacketSize);
                     List<byte> buff = new List<byte>();
                     byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
-                    byte[] readBuff = new byte[PACKSIZE];
+                    byte[] readBuff = new byte[param.PacketSize];
                     for (int i = 0; i < packetCount; i++)
                     {
                         buff.AddRange(packetHead);
                         buff.Add(0xFF);
                         buff.Add(0x00);
-                        seek = PACKSIZE * i;
+                        seek = param.PacketSize * i;
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
@@ -425,24 +445,29 @@ namespace LBDConfigTool.utils.communication
                             buff.Add(Convert.ToByte((length >> 8) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 16) & 0xFF));
                             buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                            //crc
+                            buff.Add(Convert.ToByte(crc & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
                         }
-                        file.Read(readBuff, 0, PACKSIZE);
+                        file.Read(readBuff, 0, param.PacketSize);
                         buff.AddRange(readBuff);
                         this.Send(buff.ToArray());
-                        if (seek % this.SPANCount == 0)
+                        if (seek % param.PartitionIndex == 0)
                         {
-                            this.ThreadSleep(this.PacketIntervalTimeBySPAN);
+                            this.ThreadSleep(param.PacketIntervalTimeByPartitionIndex);
                         }
                         else
                         {
-                            this.ThreadSleep(this.PacketIntervalTime);
+                            this.ThreadSleep(param.PacketIntervalTime);
                         }
                         buff.Clear();
                     }
                     buff.AddRange(packetHead);
                     buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
                     buff.Add(Convert.ToByte((lastPackageSize >> 8) & 0xFF));
-                    seek = PACKSIZE * packetCount;
+                    seek = param.PacketSize * packetCount;
                     buff.Add(Convert.ToByte(seek & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
@@ -451,7 +476,7 @@ namespace LBDConfigTool.utils.communication
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
                     this.Send(Encoding.Default.GetBytes("SendEnd"));
-                    this.TaskCompleted();
+                    this.TaskCompleted("MCU升级成功");
                 }
             }
             catch (Exception ex)
@@ -459,7 +484,7 @@ namespace LBDConfigTool.utils.communication
                 this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                this.TaskError();
+                this.TaskError("MCU升级失败");
             }
         }
         //写入参数

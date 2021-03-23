@@ -33,7 +33,6 @@ namespace LBDConfigTool.utils.conf
         public int G_LD { get; set; }//绿亮度   u8
         public int B_LD { get; set; }//蓝亮度   u8
         public int W_LD { get; set; }//白亮度   u8
-
         //ArtNetConf
         public string Mac { get; set; }//MAC地址   u8[6]
         public string Ip { get; set; }//IP地址   u32
@@ -46,6 +45,8 @@ namespace LBDConfigTool.utils.conf
         public int SumUseTimes { get; set; }//总使用次数   u32
         private byte[] CRC { get; set; }//CRC校验码  u32
         public int CurrUseTimes { get; set; }//当前使用次数  不参与CRC校验
+
+        private string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
 
         public static CSJConf Build(byte[] data)
         {
@@ -132,6 +133,20 @@ namespace LBDConfigTool.utils.conf
                         buff.Add(0x00);
                     }
                 }
+
+                //OLD_MIA_HAO
+                for (int i = 0; i < (this.OLD_MIA_HAO.Length <= 6 ? this.OLD_MIA_HAO.Length : 6); i++)
+                {
+                    buff.Add(Convert.ToByte(this.OLD_MIA_HAO[i]));
+                }
+                if (this.OLD_MIA_HAO.Length < 6)
+                {
+                    for (int i = this.OLD_MIA_HAO.Length; i < 6; i++)
+                    {
+                        buff.Add(0x00);
+                    }
+                }
+
                 //Addr
                 buff.Add(Convert.ToByte(this.Addr & 0xFF));//LO
                 buff.Add(Convert.ToByte((this.Addr >> 8) & 0xFF));//HI
@@ -245,17 +260,17 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte((this.SumUseTimes >> 8) & 0xFF));
                 buff.Add(Convert.ToByte((this.SumUseTimes >> 16) & 0xFF));
                 buff.Add(Convert.ToByte((this.SumUseTimes >> 24) & 0xFF));
+                //CurrUseTimes
+                buff.Add(Convert.ToByte(this.CurrUseTimes & 0xFF));
+                buff.Add(Convert.ToByte((this.CurrUseTimes >> 8) & 0xFF));
+                buff.Add(Convert.ToByte((this.CurrUseTimes >> 16) & 0xFF));
+                buff.Add(Convert.ToByte((this.CurrUseTimes >> 24) & 0xFF));
                 //crc
                 uint crcValue = Crc32CAlgorithm.Compute(buff.ToArray());
                 buff.Add(Convert.ToByte(crcValue & 0xFF));
                 buff.Add(Convert.ToByte((crcValue >> 8) & 0xFF));
                 buff.Add(Convert.ToByte((crcValue >> 16) & 0xFF));
                 buff.Add(Convert.ToByte((crcValue >> 24) & 0xFF));
-                //CurrUseTimes
-                buff.Add(Convert.ToByte(this.CurrUseTimes & 0xFF));
-                buff.Add(Convert.ToByte((this.CurrUseTimes >> 8) & 0xFF));
-                buff.Add(Convert.ToByte((this.CurrUseTimes >> 16) & 0xFF));
-                buff.Add(Convert.ToByte((this.CurrUseTimes >> 24) & 0xFF));
                 data = buff.ToArray();
             }
             catch (Exception ex)

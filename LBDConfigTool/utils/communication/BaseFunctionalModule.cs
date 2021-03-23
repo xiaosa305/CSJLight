@@ -100,7 +100,26 @@ namespace LBDConfigTool.utils.communication
         }
         protected void TimeOutTask(object sender, ElapsedEventArgs e)
         {
-            this.TaskError("通信超时");
+            string value = "";
+            switch (this.CurrentModule)
+            {
+                case Module.WriteEncrypt:
+                    value = "加密固件";
+                    break;
+                case Module.UpdateFPGA256:
+                    value = "升级FPGA";
+                    break;
+                case Module.UpdataMCU256:
+                    value = "升级MCU";
+                    break;
+                case Module.WriteData:
+                    break;
+                case Module.WriteParam:
+                    value = "下载配置参数";
+                    break;
+            }
+            value += "失败";
+            this.TaskError(value);
         }
         protected void TaskCompleted()
         {
@@ -357,7 +376,7 @@ namespace LBDConfigTool.utils.communication
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
                     this.Send(Encoding.Default.GetBytes("SendEnd"));
-                    this.TaskCompleted();
+                    this.TaskCompleted("FPGA升级成功");
                 }
             }
             catch (Exception ex)
@@ -365,7 +384,7 @@ namespace LBDConfigTool.utils.communication
                 this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                this.TaskError();
+                this.TaskError("FPGA升级失败");
             }
         }
         //升级MCU
@@ -451,7 +470,7 @@ namespace LBDConfigTool.utils.communication
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
                     this.Send(Encoding.Default.GetBytes("SendEnd"));
-                    this.TaskCompleted();
+                    this.TaskCompleted("MCU升级成功");
                 }
             }
             catch (Exception ex)
@@ -459,7 +478,7 @@ namespace LBDConfigTool.utils.communication
                 this.IsSending = false;
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                this.TaskError();
+                this.TaskError("MCU升级失败");
             }
         }
         //写入参数

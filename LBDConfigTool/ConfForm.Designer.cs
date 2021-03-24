@@ -95,6 +95,10 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
 			this.firmwareTab = new System.Windows.Forms.TabPage();
+			this.label23 = new System.Windows.Forms.Label();
+			this.partitionSizeNUD = new System.Windows.Forms.NumericUpDown();
+			this.label20 = new System.Windows.Forms.Label();
+			this.partitionTimeNUD = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.relayTimeNUD = new System.Windows.Forms.NumericUpDown();
@@ -121,6 +125,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.sceneNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNUD)).BeginInit();
 			this.firmwareTab.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
 			this.SuspendLayout();
@@ -821,6 +827,10 @@
 			// 
 			// firmwareTab
 			// 
+			this.firmwareTab.Controls.Add(this.label23);
+			this.firmwareTab.Controls.Add(this.partitionSizeNUD);
+			this.firmwareTab.Controls.Add(this.label20);
+			this.firmwareTab.Controls.Add(this.partitionTimeNUD);
 			this.firmwareTab.Controls.Add(this.label1);
 			this.firmwareTab.Controls.Add(this.label4);
 			this.firmwareTab.Controls.Add(this.relayTimeNUD);
@@ -833,17 +843,82 @@
 			this.firmwareTab.Controls.Add(this.ebinSelectButton);
 			this.firmwareTab.Location = new System.Drawing.Point(4, 34);
 			this.firmwareTab.Name = "firmwareTab";
-			this.firmwareTab.Size = new System.Drawing.Size(870, 580);
+			this.firmwareTab.Size = new System.Drawing.Size(876, 581);
 			this.firmwareTab.TabIndex = 2;
 			this.firmwareTab.Text = "固件升级";
 			this.firmwareTab.UseVisualStyleBackColor = true;
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.BackColor = System.Drawing.Color.Transparent;
+			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label23.Location = new System.Drawing.Point(603, 387);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(89, 12);
+			this.label23.TabIndex = 113;
+			this.label23.Text = "扇区大小(byte)";
+			// 
+			// partitionSizeNUD
+			// 
+			this.partitionSizeNUD.Location = new System.Drawing.Point(735, 383);
+			this.partitionSizeNUD.Maximum = new decimal(new int[] {
+            409600,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.Name = "partitionSizeNUD";
+			this.partitionSizeNUD.Size = new System.Drawing.Size(53, 21);
+			this.partitionSizeNUD.TabIndex = 114;
+			this.partitionSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.partitionSizeNUD.Value = new decimal(new int[] {
+            4096,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.ValueChanged += new System.EventHandler(this.partitionNUD_ValueChanged);
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.BackColor = System.Drawing.Color.Transparent;
+			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label20.Location = new System.Drawing.Point(603, 354);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(101, 12);
+			this.label20.TabIndex = 113;
+			this.label20.Text = "扇区通信延时(ms)";
+			// 
+			// partitionTimeNUD
+			// 
+			this.partitionTimeNUD.Location = new System.Drawing.Point(735, 350);
+			this.partitionTimeNUD.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.partitionTimeNUD.Name = "partitionTimeNUD";
+			this.partitionTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.partitionTimeNUD.TabIndex = 114;
+			this.partitionTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.partitionTimeNUD.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			this.partitionTimeNUD.ValueChanged += new System.EventHandler(this.partitionTimeNUD_ValueChanged);
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label1.Location = new System.Drawing.Point(628, 288);
+			this.label1.Location = new System.Drawing.Point(603, 288);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(77, 12);
 			this.label1.TabIndex = 109;
@@ -854,7 +929,7 @@
 			this.label4.AutoSize = true;
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label4.Location = new System.Drawing.Point(628, 321);
+			this.label4.Location = new System.Drawing.Point(603, 321);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(101, 12);
 			this.label4.TabIndex = 110;
@@ -1006,6 +1081,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNUD)).EndInit();
 			this.firmwareTab.ResumeLayout(false);
 			this.firmwareTab.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
 			this.ResumeLayout(false);
@@ -1095,5 +1172,9 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.NumericUpDown relayTimeNUD;
 		private System.Windows.Forms.NumericUpDown packageSizeNUD;
+		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.NumericUpDown partitionSizeNUD;
+		private System.Windows.Forms.Label label20;
+		private System.Windows.Forms.NumericUpDown partitionTimeNUD;
 	}
 }

@@ -82,5 +82,29 @@ namespace LBDConfigTool.Properties {
                 this["abinPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4096")]
+        public int partitionSize {
+            get {
+                return ((int)(this["partitionSize"]));
+            }
+            set {
+                this["partitionSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int partitionTime {
+            get {
+                return ((int)(this["partitionTime"]));
+            }
+            set {
+                this["partitionTime"] = value;
+            }
+        }
     }
 }

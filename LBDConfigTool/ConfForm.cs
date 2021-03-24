@@ -65,6 +65,8 @@ namespace LBDConfigTool
 						
 			relayTimeNUD.Value = Properties.Settings.Default.relayTime;
 			packageSizeNUD.Value = Properties.Settings.Default.packageSize;
+			partitionTimeNUD.Value = Properties.Settings.Default.partitionTime;
+			partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
 
 			//添加各类监听器
 			dimmerNUD.MouseWheel += someNUD_MouseWheel;
@@ -76,6 +78,8 @@ namespace LBDConfigTool
 			stepTimeNUD.MouseWheel += someNUD_MouseWheel;
 			relayTimeNUD.MouseWheel += someNUD_MouseWheel;
 			packageSizeNUD.MouseWheel += someNUD_MouseWheel;
+			partitionTimeNUD.MouseWheel += someNUD_MouseWheel;
+			partitionSizeNUD.MouseWheel += someNUD_MouseWheel;
 
 			//specialCC,填充默认值
 			makeSpecialCC();
@@ -427,12 +431,7 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
 			{
-				ParamEntity pe = new ParamEntity
-				{
-					PacketSize = decimal.ToInt32(packageSizeNUD.Value),
-					PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value)
-				};
-				cnc.UpdataMCU256(ebinPathLabel.Text, pe,UpdateCompleted, UpdateError);
+				cnc.UpdataMCU256(ebinPathLabel.Text, makePE(),UpdateCompleted, UpdateError);
 				Enabled = false;
 			}
 		}
@@ -459,16 +458,26 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void fpgaUpdateButton_Click(object sender, EventArgs e)
 		{
-			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
+			if (!string.IsNullOrEmpty(fbinPathLabel.Text))
 			{
-				ParamEntity pe = new ParamEntity
-				{
-					PacketSize = decimal.ToInt32(packageSizeNUD.Value),
-					PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value)
-				};
-				cnc.UpdateFPGA256(ebinPathLabel.Text,pe, UpdateCompleted, UpdateError);
+				cnc.UpdateFPGA256(fbinPathLabel.Text, makePE(), UpdateCompleted, UpdateError);
 				Enabled = false;
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：由几个NUD生成ParamEntity
+		/// </summary>
+		/// <returns></returns>
+		private ParamEntity makePE()
+		{
+			return new ParamEntity
+			{
+				PacketSize = decimal.ToInt32(packageSizeNUD.Value),
+				PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value),
+				PacketIntervalTimeByPartitionIndex = decimal.ToInt32(partitionTimeNUD.Value),
+				PartitionIndex = decimal.ToInt32(partitionSizeNUD.Value)
+			};
 		}
 
 		/// <summary>
@@ -533,7 +542,28 @@ namespace LBDConfigTool
 			Properties.Settings.Default.packageSize = decimal.ToInt32(packageSizeNUD.Value);
 			Properties.Settings.Default.Save();
 		}
-	
+
+		/// <summary>
+		/// 更改《扇区通讯延时》后，存储到注册表中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void partitionTimeNUD_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.partitionTime = decimal.ToInt32(partitionTimeNUD.Value);
+			Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
+		/// 更改《扇区大小》后，存储到注册表中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void partitionNUD_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.partitionSize = decimal.ToInt32(partitionSizeNUD.Value);
+			Properties.Settings.Default.Save();
+		}
 	}
 
 }

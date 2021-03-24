@@ -129,9 +129,9 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 618);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 619);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(878, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(884, 22);
 			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 2;
 			this.statusStrip1.Text = "statusStrip2";
@@ -140,7 +140,7 @@
 			// 
 			this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.Window;
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(863, 17);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(869, 17);
 			this.toolStripStatusLabel1.Spring = true;
 			this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -175,7 +175,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(878, 618);
+			this.tabControl1.Size = new System.Drawing.Size(884, 619);
 			this.tabControl1.TabIndex = 27;
 			// 
 			// paramTab
@@ -190,7 +190,7 @@
 			this.paramTab.Location = new System.Drawing.Point(4, 34);
 			this.paramTab.Name = "paramTab";
 			this.paramTab.Padding = new System.Windows.Forms.Padding(3);
-			this.paramTab.Size = new System.Drawing.Size(870, 580);
+			this.paramTab.Size = new System.Drawing.Size(876, 581);
 			this.paramTab.TabIndex = 0;
 			this.paramTab.Text = "参数配置";
 			this.paramTab.DoubleClick += new System.EventHandler(this.paramTab_DoubleClick);
@@ -257,7 +257,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(3, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(864, 473);
+			this.panel1.Size = new System.Drawing.Size(870, 473);
 			this.panel1.TabIndex = 29;
 			// 
 			// label27
@@ -981,9 +981,13 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.SlateGray;
-			this.ClientSize = new System.Drawing.Size(878, 640);
+			this.ClientSize = new System.Drawing.Size(884, 641);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(900, 680);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(900, 680);
 			this.Name = "ConfForm";
 			this.Text = "数据配置器";
 			this.Load += new System.EventHandler(this.ConfForm_Load);

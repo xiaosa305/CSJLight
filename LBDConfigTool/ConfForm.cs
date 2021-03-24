@@ -1,6 +1,7 @@
 ﻿using LBDConfigTool.Common;
 using LBDConfigTool.utils.communication;
 using LBDConfigTool.utils.conf;
+using LBDConfigTool.utils.entity;
 using LBDConfigTool.utils.test;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,11 @@ namespace LBDConfigTool
 	{
 		private CSJNetCommunitor cnc;
 		private bool isSuccessShow = true;
+		private CSJConf specialCC;  // 辅助的cc，在程序初始化后应该设为一个默认值，除非用户进行修改
 
 		public ConfForm()
 		{
-			InitializeComponent();
+			InitializeComponent();			
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
@@ -43,8 +45,7 @@ namespace LBDConfigTool
 
 			if (File.Exists(Properties.Settings.Default.ebinPath))
 			{
-				ebinPathLabel.Text = Properties.Settings.Default.ebinPath;
-				ebinSelectDialog.FileName = Properties.Settings.Default.ebinPath;
+				ebinPathLabel.Text = Properties.Settings.Default.ebinPath;				
 			}
 			else
 			{
@@ -55,7 +56,6 @@ namespace LBDConfigTool
 			if (File.Exists(Properties.Settings.Default.fbinPath))
 			{
 				fbinPathLabel.Text = Properties.Settings.Default.fbinPath;
-				fbinSelectDialog.FileName = Properties.Settings.Default.fbinPath;
 			}
 			else
 			{
@@ -77,10 +77,44 @@ namespace LBDConfigTool
 			relayTimeNUD.MouseWheel += someNUD_MouseWheel;
 			packageSizeNUD.MouseWheel += someNUD_MouseWheel;
 
+			//specialCC,填充默认值
+			makeSpecialCC();
+
 			// 软件启动时，顺手搜索一次设备
 			cnc = CSJNetCommunitor.GetInstance();
 			cnc.Start(); //启动服务
 			cnc.SearchDevice(readCompleted, readError);// 搜设备	
+		}
+
+		/// <summary>
+		/// 辅助方法：填充默认的specialCC
+		/// </summary>
+		private void makeSpecialCC()
+		{
+			specialCC= new CSJConf()
+			{
+				OLD_MIA_HAO = "",
+				MIA_HAO = "",  // 密码限定为6位，不能多不能少				
+				IsSetBad = false,
+				CardType = 0,
+				SumUseTimes = 0,
+				CurrUseTimes = 0
+			};
+		}	
+
+
+		/// <summary>
+		/// 辅助方法：供《SpecialForm》调用，替换当前的specialCC
+		/// </summary>
+		/// <param name="scc"></param>
+		public void SetSpecialCC(CSJConf cc) {
+			
+			specialCC.OLD_MIA_HAO = cc.OLD_MIA_HAO;
+			specialCC.MIA_HAO = cc.MIA_HAO;  
+			specialCC.IsSetBad = cc.IsSetBad;
+			specialCC.CardType = cc.CardType;
+			specialCC.SumUseTimes = cc.SumUseTimes;
+			specialCC.CurrUseTimes = cc.CurrUseTimes;
 		}
 
 		/// <summary>
@@ -148,7 +182,9 @@ namespace LBDConfigTool
 			//User u1 = new User("Dickov", 31, "A93");
 			//SerializeMethod(u1);
 			//setNotice("序列化成功",true);	
-			RecordTest.GetInstance().Test();
+			//RecordTest.GetInstance().Test();
+
+			Console.WriteLine(specialCC);
 		}
 
 		/// <summary>
@@ -158,7 +194,7 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void readButton_Click(object sender, EventArgs e)
 		{
-			cnc.SearchDevice(readCompleted, readError);// 回读参数（并不连接，直接发指令并收数据）					   
+			cnc.SearchDevice(readCompleted, readError);// 回读参数（并不连接，直接发指令并收数据）   
 		}
 
 		/// <summary>
@@ -169,6 +205,7 @@ namespace LBDConfigTool
 		private void readCompleted(object obj, string msg)
 		{
 			CSJConf cc = obj as CSJConf;
+			SetSpecialCC(cc);
 			renderAllControls(cc);
 			setNotice(msg, isSuccessShow);
 		}
@@ -204,22 +241,23 @@ namespace LBDConfigTool
 			CSJConf cc = new CSJConf();
 			try
 			{
-				//cc.MIA_HAO = pswTB.Text;  // 密码限定为6位，不能多不能少
-				if (cc.MIA_HAO.Length != 6)
-				{
-					setNotice("密码必须为6位，请修改后重试", true);
-					return null;
-				}
+				// 先填入specialCC内的数据
+				cc.OLD_MIA_HAO = specialCC.OLD_MIA_HAO;
+				cc.MIA_HAO = specialCC.MIA_HAO;  // 密码限定为6位，不能多不能少				
+				cc.IsSetBad = specialCC.IsSetBad;
+				cc.CardType = specialCC.CardType;
+				cc.SumUseTimes = specialCC.SumUseTimes;
+				cc.CurrUseTimes = specialCC.CurrUseTimes;
+
+				// 普通参数
 				cc.Addr = int.Parse(addrTB.Text);
-				cc.Baud = baudCB.SelectedIndex;
-				//cc.IsSetBad = badCheckBox.Checked;
+				cc.Baud = baudCB.SelectedIndex;				
 				cc.DiskFlag = int.Parse(diskFlagTB.Text);
 				cc.Play_Mod = playModeCB.SelectedIndex;
 				cc.PlayScene = decimal.ToInt32(sceneNUD.Value);
 				cc.LedName = ledNameTB.Text.Trim(); // 上限为16,无下限
 				cc.Ver = verTB.Text.Trim(); //上限为16，,无下限
 				cc.Max_scan_dot = int.Parse(maxDotTB.Text);
-				//cc.CardType = cardRB1.Checked ? 0 : 2;
 				cc.Led_out_type = outTypeCB.SelectedIndex;
 				cc.Led_fx = int.Parse(fxTB.Text);
 				cc.RGB_Type = rgbCB.SelectedIndex;
@@ -241,9 +279,7 @@ namespace LBDConfigTool
 				cc.Art_Net_Start_Space = int.Parse(aStartTB.Text);
 				cc.Art_Net_Pre = int.Parse(aPerTB.Text);
 				cc.Art_Net_td_len = int.Parse(aTdLenTB.Text);
-				cc.Art_Net_fk_id = int.Parse(aFKHTB.Text);
-				//cc.SumUseTimes = int.Parse(aSumTB.Text);
-				//cc.CurrUseTimes = int.Parse(aCurrTB.Text);
+				cc.Art_Net_fk_id = int.Parse(aFKHTB.Text);				
 
 			}
 			catch (Exception ex)
@@ -279,25 +315,17 @@ namespace LBDConfigTool
 		/// <param name="v"></param>
 		private void renderAllControls(CSJConf cc)
 		{
-			//if (cc == null) {
-			//	cc = readFromLocal();
-			//}
-
 			// 根据cc,渲染各个控件
 			if (cc != null)
 			{
-				//pswTB.Text = cc.MIA_HAO ;  // 密码限定为6位，不能多不能少
 				addrTB.Text = cc.Addr + "";
-				baudCB.SelectedIndex = cc.Baud;
-				//badCheckBox.Checked = cc.IsSetBad ;
+				baudCB.SelectedIndex = cc.Baud;				
 				diskFlagTB.Text = cc.DiskFlag + "";
 				playModeCB.SelectedIndex = cc.Play_Mod;
 				sceneNUD.Value = cc.PlayScene;
 				ledNameTB.Text = cc.LedName; // 上限为16,无下限
 				verTB.Text = cc.Ver; //上限为16，,无下限
 				maxDotTB.Text = cc.Max_scan_dot + "";
-				//cardRB1.Checked = cc.CardType == 0;
-				//cardRB2.Checked = cc.CardType == 2;
 				outTypeCB.SelectedIndex = cc.Led_out_type;
 				fxTB.Text = cc.Led_fx + "";
 				rgbCB.SelectedIndex = cc.RGB_Type;
@@ -320,13 +348,11 @@ namespace LBDConfigTool
 				aPerTB.Text = cc.Art_Net_Pre + "";
 				aTdLenTB.Text = cc.Art_Net_td_len + "";
 				aFKHTB.Text = cc.Art_Net_fk_id + "";
-				//aSumTB.Text = cc.SumUseTimes +"";
-				//aCurrTB.Text = cc.CurrUseTimes +"";
 			}
 		}
 
 		/// <summary>
-		/// 事件：点击《加载配置》
+		/// 事件：点击《打开配置文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -338,6 +364,8 @@ namespace LBDConfigTool
 				try
 				{
 					CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject(binPath);
+					// 根据情况，决定是否在加载本地配置后，设置相关的加密的内容；
+					SetSpecialCC(cc);
 					renderAllControls(cc);
 					setNotice("成功加载本地配置文件(" + abinOpenDialog.SafeFileName + ")。", isSuccessShow);
 				}
@@ -349,7 +377,7 @@ namespace LBDConfigTool
 		}
 
 		/// <summary>
-		/// 事件：点击《保存配置(到本地)》
+		/// 事件：点击《保存配置文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -357,8 +385,8 @@ namespace LBDConfigTool
 		{
 			if (DialogResult.OK == abinSaveDialog.ShowDialog())
 			{
-
 				CSJConf cc = makeCC();
+							   
 				if (cc != null)
 				{
 					try
@@ -399,13 +427,18 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
 			{
-				cnc.UpdataMCU256(ebinPathLabel.Text, UpdateCompleted, UpdateError);
+				ParamEntity pe = new ParamEntity
+				{
+					PacketSize = decimal.ToInt32(packageSizeNUD.Value),
+					PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value)
+				};
+				cnc.UpdataMCU256(ebinPathLabel.Text, pe,UpdateCompleted, UpdateError);
 				Enabled = false;
 			}
 		}
 
 		/// <summary>
-		///  
+		///  事件：点击《选择fpga升级包》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -428,7 +461,12 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
 			{
-				cnc.UpdateFPGA256(ebinPathLabel.Text, UpdateCompleted, UpdateError);
+				ParamEntity pe = new ParamEntity
+				{
+					PacketSize = decimal.ToInt32(packageSizeNUD.Value),
+					PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value)
+				};
+				cnc.UpdateFPGA256(ebinPathLabel.Text,pe, UpdateCompleted, UpdateError);
 				Enabled = false;
 			}
 		}
@@ -462,16 +500,20 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void paramTab_DoubleClick(object sender, EventArgs e)
 		{
+			if (string.IsNullOrEmpty(specialCC.OLD_MIA_HAO)) {
+				return;
+			}			
+
 			clickTime++;
 			if (clickTime == 3)
 			{
-				new SpecialForm(this).ShowDialog();
+				new SpecialForm(this,specialCC).ShowDialog();
 				clickTime = 0;
 			}
 		}
 
 		/// <summary>
-		/// 更改延时时间后，存储到注册表中
+		/// 更改《延时时间ms》后，存储到注册表中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -482,7 +524,7 @@ namespace LBDConfigTool
 		}
 
 		/// <summary>
-		/// 更改包大小后，存储到注册表中
+		/// 更改《数据包大小byte》后，存储到注册表中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -491,6 +533,7 @@ namespace LBDConfigTool
 			Properties.Settings.Default.packageSize = decimal.ToInt32(packageSizeNUD.Value);
 			Properties.Settings.Default.Save();
 		}
+	
 	}
 
 }

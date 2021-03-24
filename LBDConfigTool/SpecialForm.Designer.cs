@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
-			this.pswTB = new System.Windows.Forms.TextBox();
+			this.newPswTB = new System.Windows.Forms.TextBox();
 			this.aCurrTB = new System.Windows.Forms.TextBox();
 			this.badCheckBox = new System.Windows.Forms.CheckBox();
 			this.label37 = new System.Windows.Forms.Label();
@@ -37,7 +37,7 @@
 			this.aSumTB = new System.Windows.Forms.TextBox();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.oldPswTB = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.cardRB2 = new System.Windows.Forms.RadioButton();
@@ -55,13 +55,14 @@
 			this.label1.TabIndex = 66;
 			this.label1.Text = "新密码";
 			// 
-			// pswTB
+			// newPswTB
 			// 
-			this.pswTB.Location = new System.Drawing.Point(140, 66);
-			this.pswTB.Name = "pswTB";
-			this.pswTB.Size = new System.Drawing.Size(107, 21);
-			this.pswTB.TabIndex = 68;
-			this.pswTB.UseSystemPasswordChar = true;
+			this.newPswTB.Location = new System.Drawing.Point(140, 66);
+			this.newPswTB.MaxLength = 6;
+			this.newPswTB.Name = "newPswTB";
+			this.newPswTB.Size = new System.Drawing.Size(107, 21);
+			this.newPswTB.TabIndex = 68;
+			this.newPswTB.UseSystemPasswordChar = true;
 			// 
 			// aCurrTB
 			// 
@@ -116,6 +117,7 @@
 			this.enterButton.TabIndex = 74;
 			this.enterButton.Text = "确定";
 			this.enterButton.UseVisualStyleBackColor = true;
+			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
 			// cancelButton
 			// 
@@ -126,13 +128,14 @@
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
-			// textBox1
+			// oldPswTB
 			// 
-			this.textBox1.Location = new System.Drawing.Point(140, 24);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(107, 21);
-			this.textBox1.TabIndex = 68;
-			this.textBox1.UseSystemPasswordChar = true;
+			this.oldPswTB.Location = new System.Drawing.Point(140, 24);
+			this.oldPswTB.MaxLength = 6;
+			this.oldPswTB.Name = "oldPswTB";
+			this.oldPswTB.Size = new System.Drawing.Size(107, 21);
+			this.oldPswTB.TabIndex = 68;
+			this.oldPswTB.UseSystemPasswordChar = true;
 			// 
 			// label2
 			// 
@@ -200,9 +203,9 @@
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.oldPswTB);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.pswTB);
+			this.Controls.Add(this.newPswTB);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.aCurrTB);
 			this.Controls.Add(this.badCheckBox);
@@ -221,7 +224,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox pswTB;
+		private System.Windows.Forms.TextBox newPswTB;
 		private System.Windows.Forms.TextBox aCurrTB;
 		private System.Windows.Forms.CheckBox badCheckBox;
 		private System.Windows.Forms.Label label37;
@@ -229,7 +232,7 @@
 		private System.Windows.Forms.TextBox aSumTB;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox oldPswTB;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.RadioButton cardRB2;

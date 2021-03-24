@@ -94,11 +94,11 @@
 			this.testButton = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
+			this.firmwareTab = new System.Windows.Forms.TabPage();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.relayTimeNUD = new System.Windows.Forms.NumericUpDown();
 			this.packageSizeNUD = new System.Windows.Forms.NumericUpDown();
-			this.firmwareTab = new System.Windows.Forms.TabPage();
 			this.fbinPathLabel = new System.Windows.Forms.Label();
 			this.ebinPathLabel = new System.Windows.Forms.Label();
 			this.fpgaUpdateButton = new System.Windows.Forms.Button();
@@ -120,9 +120,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.dimmerNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sceneNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNUD)).BeginInit();
+			this.firmwareTab.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
-			this.firmwareTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -132,6 +132,7 @@
 			this.statusStrip1.Location = new System.Drawing.Point(0, 618);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(878, 22);
+			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 2;
 			this.statusStrip1.Text = "statusStrip2";
 			// 
@@ -145,7 +146,7 @@
 			// 
 			// readButton
 			// 
-			this.readButton.Location = new System.Drawing.Point(630, 505);
+			this.readButton.Location = new System.Drawing.Point(623, 505);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 42);
 			this.readButton.TabIndex = 3;
@@ -157,7 +158,7 @@
 			// 
 			this.writeButton.BackColor = System.Drawing.Color.Tomato;
 			this.writeButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.writeButton.Location = new System.Drawing.Point(740, 505);
+			this.writeButton.Location = new System.Drawing.Point(736, 505);
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(91, 42);
 			this.writeButton.TabIndex = 3;
@@ -186,10 +187,6 @@
 			this.paramTab.Controls.Add(this.loadButton);
 			this.paramTab.Controls.Add(this.readButton);
 			this.paramTab.Controls.Add(this.writeButton);
-			this.paramTab.Controls.Add(this.label1);
-			this.paramTab.Controls.Add(this.label4);
-			this.paramTab.Controls.Add(this.relayTimeNUD);
-			this.paramTab.Controls.Add(this.packageSizeNUD);
 			this.paramTab.Location = new System.Drawing.Point(4, 34);
 			this.paramTab.Name = "paramTab";
 			this.paramTab.Padding = new System.Windows.Forms.Padding(3);
@@ -794,7 +791,7 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(297, 506);
+			this.testButton.Location = new System.Drawing.Point(40, 503);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(75, 41);
 			this.testButton.TabIndex = 28;
@@ -804,7 +801,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(150, 503);
+			this.button1.Location = new System.Drawing.Point(438, 505);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(91, 42);
 			this.button1.TabIndex = 28;
@@ -814,7 +811,7 @@
 			// 
 			// loadButton
 			// 
-			this.loadButton.Location = new System.Drawing.Point(40, 503);
+			this.loadButton.Location = new System.Drawing.Point(324, 505);
 			this.loadButton.Name = "loadButton";
 			this.loadButton.Size = new System.Drawing.Size(91, 42);
 			this.loadButton.TabIndex = 28;
@@ -822,71 +819,12 @@
 			this.loadButton.UseVisualStyleBackColor = true;
 			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.label1.Location = new System.Drawing.Point(410, 506);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(77, 12);
-			this.label1.TabIndex = 95;
-			this.label1.Text = "通讯延迟(ms)";
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.label4.Location = new System.Drawing.Point(410, 539);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(101, 12);
-			this.label4.TabIndex = 96;
-			this.label4.Text = "数据包大小(byte)";
-			// 
-			// relayTimeNUD
-			// 
-			this.relayTimeNUD.Location = new System.Drawing.Point(516, 502);
-			this.relayTimeNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.relayTimeNUD.Name = "relayTimeNUD";
-			this.relayTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.relayTimeNUD.TabIndex = 108;
-			this.relayTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.relayTimeNUD.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			this.relayTimeNUD.ValueChanged += new System.EventHandler(this.relayTimeNUD_ValueChanged);
-			// 
-			// packageSizeNUD
-			// 
-			this.packageSizeNUD.Location = new System.Drawing.Point(517, 535);
-			this.packageSizeNUD.Maximum = new decimal(new int[] {
-            1024,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.Minimum = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.Name = "packageSizeNUD";
-			this.packageSizeNUD.Size = new System.Drawing.Size(53, 21);
-			this.packageSizeNUD.TabIndex = 104;
-			this.packageSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.packageSizeNUD.Value = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.ValueChanged += new System.EventHandler(this.packageSizeNUD_ValueChanged);
-			// 
 			// firmwareTab
 			// 
+			this.firmwareTab.Controls.Add(this.label1);
+			this.firmwareTab.Controls.Add(this.label4);
+			this.firmwareTab.Controls.Add(this.relayTimeNUD);
+			this.firmwareTab.Controls.Add(this.packageSizeNUD);
 			this.firmwareTab.Controls.Add(this.fbinPathLabel);
 			this.firmwareTab.Controls.Add(this.ebinPathLabel);
 			this.firmwareTab.Controls.Add(this.fpgaUpdateButton);
@@ -899,6 +837,71 @@
 			this.firmwareTab.TabIndex = 2;
 			this.firmwareTab.Text = "固件升级";
 			this.firmwareTab.UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
+			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label1.Location = new System.Drawing.Point(628, 288);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(77, 12);
+			this.label1.TabIndex = 109;
+			this.label1.Text = "通讯延迟(ms)";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
+			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label4.Location = new System.Drawing.Point(628, 321);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(101, 12);
+			this.label4.TabIndex = 110;
+			this.label4.Text = "数据包大小(byte)";
+			// 
+			// relayTimeNUD
+			// 
+			this.relayTimeNUD.Location = new System.Drawing.Point(734, 284);
+			this.relayTimeNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.relayTimeNUD.Name = "relayTimeNUD";
+			this.relayTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.relayTimeNUD.TabIndex = 112;
+			this.relayTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.relayTimeNUD.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			this.relayTimeNUD.ValueChanged += new System.EventHandler(this.relayTimeNUD_ValueChanged);
+			// 
+			// packageSizeNUD
+			// 
+			this.packageSizeNUD.Location = new System.Drawing.Point(735, 317);
+			this.packageSizeNUD.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.Name = "packageSizeNUD";
+			this.packageSizeNUD.Size = new System.Drawing.Size(53, 21);
+			this.packageSizeNUD.TabIndex = 111;
+			this.packageSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.packageSizeNUD.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.ValueChanged += new System.EventHandler(this.packageSizeNUD_ValueChanged);
 			// 
 			// fbinPathLabel
 			// 
@@ -942,7 +945,7 @@
 			this.fbinSelectButton.Name = "fbinSelectButton";
 			this.fbinSelectButton.Size = new System.Drawing.Size(112, 39);
 			this.fbinSelectButton.TabIndex = 0;
-			this.fbinSelectButton.Text = "选择FPGA\r\n升级文件路径";
+			this.fbinSelectButton.Text = "选择FPGA升级包";
 			this.fbinSelectButton.UseVisualStyleBackColor = true;
 			this.fbinSelectButton.Click += new System.EventHandler(this.fbinSelectButton_Click);
 			// 
@@ -952,7 +955,7 @@
 			this.ebinSelectButton.Name = "ebinSelectButton";
 			this.ebinSelectButton.Size = new System.Drawing.Size(112, 39);
 			this.ebinSelectButton.TabIndex = 0;
-			this.ebinSelectButton.Text = "选择Ebin\r\n升级文件路径";
+			this.ebinSelectButton.Text = "选择Ebin升级包";
 			this.ebinSelectButton.UseVisualStyleBackColor = true;
 			this.ebinSelectButton.Click += new System.EventHandler(this.ebinSelectButton_Click);
 			// 
@@ -988,7 +991,6 @@
 			this.statusStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.paramTab.ResumeLayout(false);
-			this.paramTab.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.wNUD)).EndInit();
@@ -998,9 +1000,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.dimmerNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sceneNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNUD)).EndInit();
+			this.firmwareTab.ResumeLayout(false);
+			this.firmwareTab.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
-			this.firmwareTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

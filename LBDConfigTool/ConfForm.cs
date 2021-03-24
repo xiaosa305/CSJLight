@@ -102,6 +102,7 @@ namespace LBDConfigTool
 			//User u1 = new User("Dickov", 31, "A93");
 			//SerializeMethod(u1);
 			//setNotice("序列化成功",true);	
+			CSJConf conf = new CSJConf();
 			RecordTest.GetInstance().Test();
 		}
 		

@@ -519,7 +519,7 @@ namespace LBDConfigTool.utils.communication
             try
             {
                 byte[] sourceData = conf.GetData();
-                byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA0, Convert.ToByte((sourceData.Length + 5) & 0xFF), Convert.ToByte(((sourceData.Length + 5) >> 8) & 0xFF), Convert.ToByte((sourceData.Length + 10) & 0xFF), Convert.ToByte(((sourceData.Length + 10) >> 8) & 0xFF), Convert.ToByte(((sourceData.Length + 5) >> 16) & 0xFF) };
+                byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA0, Convert.ToByte((sourceData.Length + 5) & 0xFF), Convert.ToByte(((sourceData.Length + 5) >> 8) & 0xFF), 0x0B,0x00,0x00,0x00 };
                 List<byte> buff = new List<byte>();
                 buff.AddRange(data);
                 buff.AddRange(sourceData);

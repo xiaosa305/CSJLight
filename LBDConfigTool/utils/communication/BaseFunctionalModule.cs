@@ -306,15 +306,15 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
+                uint crc = 0;
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                {
+                    byte[] data = new byte[fileStream.Length];
+                    fileStream.Read(data, 0, data.Length);
+                    crc = Crc32CAlgorithm.Compute(data);
+                }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
-                    uint crc = 0;
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-                    {
-                        byte[] data = new byte[fileStream.Length];
-                        fileStream.Read(data, 0, data.Length);
-                        crc = Crc32CAlgorithm.Compute(data);
-                    }
                     int seek = 0;
                     long length = file.Length;
                     bool flag = file.Length % param.PacketSize == 0;

@@ -365,6 +365,19 @@ namespace LBDConfigTool.utils.communication
                     buff.Add(Convert.ToByte(seek & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                    if (length < param.PacketSize)
+                    {
+                        buff.Add(Convert.ToByte(length & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        //crc
+                        buff.Add(Convert.ToByte(crc & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
+                    }
                     readBuff = new byte[lastPackageSize];
                     file.Read(readBuff, 0, lastPackageSize);
                     buff.AddRange(readBuff);
@@ -471,6 +484,19 @@ namespace LBDConfigTool.utils.communication
                     buff.Add(Convert.ToByte(seek & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                     buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                    if (length < param.PacketSize)
+                    {
+                        buff.Add(Convert.ToByte(length & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        //crc
+                        buff.Add(Convert.ToByte(crc & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
+                    }
                     readBuff = new byte[lastPackageSize];
                     file.Read(readBuff, 0, lastPackageSize);
                     buff.AddRange(readBuff);

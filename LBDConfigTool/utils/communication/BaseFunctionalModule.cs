@@ -132,8 +132,8 @@ namespace LBDConfigTool.utils.communication
             {
                 this.IsSending = false;
                 this.TaskTimer.Stop();
-                this.InitParam();
                 this.Error_Event(msg);
+                this.InitParam();
             }
         }
         //消息事务管理器

@@ -35,6 +35,14 @@ namespace LBDConfigTool
 			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			Text += " v" + appFileVersion;
 
+			// 芯片类型处理
+			IniUtils iniUtils = new IniUtils(Application.StartupPath + @"\CtrlType.ini");
+			for (int typeIndex = 0; typeIndex <= 55; typeIndex++)
+			{
+				icCB.Items.Add(iniUtils.ReadString("main", "EN" + typeIndex, ""));
+			}
+			icCB.SelectedIndex = 0;
+
 			// 添加上次存储的固件升级包、传输配置等; 先做非空确认
 			if ( File.Exists(Properties.Settings.Default.abinPath) ){
 				abinOpenDialog.FileName = Properties.Settings.Default.abinPath;				
@@ -111,8 +119,7 @@ namespace LBDConfigTool
 		/// 辅助方法：供《SpecialForm》调用，替换当前的specialCC
 		/// </summary>
 		/// <param name="scc"></param>
-		public void SetSpecialCC(CSJConf cc) {
-			
+		public void SetSpecialCC(CSJConf cc) {			
 			specialCC.OLD_MIA_HAO = cc.OLD_MIA_HAO;
 			specialCC.MIA_HAO = cc.MIA_HAO;  
 			specialCC.IsSetBad = cc.IsSetBad;
@@ -259,9 +266,9 @@ namespace LBDConfigTool
 				cc.Ver = verTB.Text.Trim(); //上限为16，,无下限
 				cc.Max_scan_dot = int.Parse(maxDotTB.Text);
 				cc.Led_out_type = outTypeCB.SelectedIndex;
-				cc.Led_fx = int.Parse(fxTB.Text);
+				cc.Led_fx = fxCheckBox.Checked ? 1:0; 
 				cc.RGB_Type = rgbCB.SelectedIndex;
-				cc.IC_Type = int.Parse(icTB.Text);
+				cc.IC_Type = icCB.SelectedIndex;
 				cc.Play_hz = decimal.ToInt32(stepTimeNUD.Value);
 				cc.Clk_shzhong = int.Parse(clockTB.Text);
 				cc.Led_gam = int.Parse(ledGamTB.Text);
@@ -327,9 +334,9 @@ namespace LBDConfigTool
 				verTB.Text = cc.Ver; //上限为16，,无下限
 				maxDotTB.Text = cc.Max_scan_dot + "";
 				outTypeCB.SelectedIndex = cc.Led_out_type;
-				fxTB.Text = cc.Led_fx + "";
+				fxCheckBox.Checked = cc.Led_fx == 1;
 				rgbCB.SelectedIndex = cc.RGB_Type;
-				icTB.Text = cc.IC_Type + "";
+				icCB.SelectedIndex = cc.IC_Type;
 				stepTimeNUD.Value = cc.Play_hz;
 				clockTB.Text = cc.Clk_shzhong + "";
 				ledGamTB.Text = cc.Led_gam + "";

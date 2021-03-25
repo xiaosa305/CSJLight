@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\IniUtils.cs" />
     <Compile Include="Common\SerializeUtils.cs" />
     <Compile Include="ConfForm.cs">
       <SubType>Form</SubType>
@@ -108,6 +109,9 @@
       <DependentUpon>SpecialForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <Content Include="CtrlType.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

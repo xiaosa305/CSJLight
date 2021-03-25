@@ -183,11 +183,7 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			//User u1 = new User("Dickov", 31, "A93");
-			//SerializeMethod(u1);
-			//setNotice("序列化成功",true);	
 			//RecordTest.GetInstance().Test();
-
 			Console.WriteLine(specialCC);
 		}
 

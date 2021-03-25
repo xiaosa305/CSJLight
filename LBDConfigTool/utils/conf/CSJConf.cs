@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Crc32C;
+using LBDConfigTool.utils.crc;
 
 namespace LBDConfigTool.utils.conf
 {
@@ -43,7 +44,6 @@ namespace LBDConfigTool.utils.conf
         public int Art_Net_td_len { get; set; }//通道长度  u16
         public int Art_Net_fk_id { get; set; }//分控号   u8
         public int SumUseTimes { get; set; }//总使用次数   u32
-        private byte[] CRC { get; set; }//CRC校验码  u32
         public int CurrUseTimes { get; set; }//当前使用次数  不参与CRC校验
 
         private string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
@@ -66,42 +66,43 @@ namespace LBDConfigTool.utils.conf
                 conf.IsSetBad = ((int)(data[10] & 0xFF)) == 1;
                 conf.DiskFlag = (int)(data[11] & 0xFF);
                 conf.Play_Mod = (int)(data[12] & 0xFF);
+                conf.PlayScene = (int)(data[13] & 0xFF);
                 for (int i = 0; i < 16; i++)
                 {
-                    buff.Add(data[13 + i]);
+                    buff.Add(data[14 + i]);
                 }
                 conf.LedName = Encoding.Default.GetString(buff.ToArray());
                 buff.Clear();
                 for (int i = 0; i < 16; i++)
                 {
-                    buff.Add(data[29 + i]);
+                    buff.Add(data[30 + i]);
                 }
                 conf.Ver = Encoding.Default.GetString(buff.ToArray());
                 buff.Clear();
-                conf.Max_scan_dot = (int)((data[45] & 0xFF) | ((data[46] << 8) & 0xFF));
-                conf.CardType = (int)(data[47] & 0xFF);
-                conf.Led_out_type = (int)(data[48] & 0xFF);
-                conf.Led_fx = (int)(data[49] & 0xFF);
-                conf.RGB_Type = (int)(data[50] & 0xFF);
-                conf.IC_Type = (int)(data[51] & 0xFF);
-                conf.Play_hz = (int)(data[52] & 0xFF);
-                conf.Clk_shzhong = (int)((data[53] & 0xFF) | ((data[54] << 8) & 0xFF));
-                conf.Led_gam = (int)(data[55] & 0xFF);
-                conf.Led_ld = (int)(data[56] & 0xFF);
-                conf.R_LD = (int)(data[57] & 0xFF);
-                conf.G_LD = (int)(data[58] & 0xFF);
-                conf.B_LD = (int)(data[59] & 0xFF);
-                conf.W_LD = (int)(data[60] & 0xFF);
-                conf.Mac = data[61].ToString("X2") + "-" + data[62].ToString("X2") + "-" + data[63].ToString("X2") + "-" + data[64].ToString("X2") + "-" + data[65].ToString("X2") + "-" + data[66].ToString("X2");
-                conf.Ip = data[67].ToString("X2") + "." + data[68].ToString("X2") + "." + data[69].ToString("X2") + "." + data[70].ToString("X2");
-                conf.Fk_lushu = (int)(data[71] & 0xFF);
-                conf.Jl_fk_num = (int)(data[72] & 0xFF);
-                conf.Art_Net_Start_Space = (int)((data[73] & 0xFF) | ((data[74] << 8) & 0xFF));
-                conf.Art_Net_Pre = (int)(data[75] & 0xFF);
-                conf.Art_Net_td_len = (int)((data[76] & 0xFF) | ((data[77] << 8) & 0xFF));
-                conf.Art_Net_fk_id = (int)(data[78] & 0xFF);
-                conf.SumUseTimes = (int)((data[79] & 0xFF) | ((data[80] << 8) & 0xFF) | ((data[81] << 16) & 0xFF) | ((data[82] << 24) & 0xFF));
-                conf.CurrUseTimes = (int)((data[87] & 0xFF) | ((data[88] << 8) & 0xFF) | ((data[89] << 16) & 0xFF) | ((data[90] << 24) & 0xFF));
+                conf.Max_scan_dot = (int)((data[46] & 0xFF) | ((data[47] << 8) & 0xFF));
+                conf.CardType = (int)(data[48] & 0xFF);
+                conf.Led_out_type = (int)(data[49] & 0xFF);
+                conf.Led_fx = (int)(data[50] & 0xFF);
+                conf.RGB_Type = (int)(data[51] & 0xFF);
+                conf.IC_Type = (int)(data[52] & 0xFF);
+                conf.Play_hz = (int)(data[53] & 0xFF);
+                conf.Clk_shzhong = (int)((data[54] & 0xFF) | ((data[55] << 8) & 0xFF));
+                conf.Led_gam = (int)(data[56] & 0xFF);
+                conf.Led_ld = (int)(data[57] & 0xFF);
+                conf.R_LD = (int)(data[58] & 0xFF);
+                conf.G_LD = (int)(data[59] & 0xFF);
+                conf.B_LD = (int)(data[60] & 0xFF);
+                conf.W_LD = (int)(data[61] & 0xFF);
+                conf.Mac = data[62].ToString("X2") + "-" + data[63].ToString("X2") + "-" + data[64].ToString("X2") + "-" + data[65].ToString("X2") + "-" + data[66].ToString("X2") + "-" + data[67].ToString("X2");
+                conf.Ip = data[68].ToString("X2") + "." + data[69].ToString("X2") + "." + data[70].ToString("X2") + "." + data[71].ToString("X2");
+                conf.Fk_lushu = (int)(data[72] & 0xFF);
+                conf.Jl_fk_num = (int)(data[73] & 0xFF);
+                conf.Art_Net_Start_Space = (int)((data[74] & 0xFF) | ((data[75] << 8) & 0xFF));
+                conf.Art_Net_Pre = (int)(data[76] & 0xFF);
+                conf.Art_Net_td_len = (int)((data[77] & 0xFF) | ((data[78] << 8) & 0xFF));
+                conf.Art_Net_fk_id = (int)(data[79] & 0xFF);
+                conf.SumUseTimes = (int)((data[80] & 0xFF) | ((data[81] << 8) & 0xFF) | ((data[82] << 16) & 0xFF) | ((data[83] << 24) & 0xFF));
+                conf.CurrUseTimes = (int)((data[84] & 0xFF) | ((data[85] << 8) & 0xFF) | ((data[86] << 16) & 0xFF) | ((data[87] << 24) & 0xFF));
                 return conf;
             }
             catch (Exception ex)
@@ -158,6 +159,8 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte(this.DiskFlag));
                 //Play_Mod
                 buff.Add(Convert.ToByte(this.Play_Mod));
+                //Play_Scene
+                buff.Add(Convert.ToByte(this.PlayScene));
                 //LedName
                 for (int i = 0; i < (this.LedName.Length <= 16 ? this.LedName.Length : 16); i++)
                 {
@@ -266,7 +269,8 @@ namespace LBDConfigTool.utils.conf
                 buff.Add(Convert.ToByte((this.CurrUseTimes >> 16) & 0xFF));
                 buff.Add(Convert.ToByte((this.CurrUseTimes >> 24) & 0xFF));
                 //crc
-                uint crcValue = Crc32CAlgorithm.Compute(buff.ToArray());
+                //uint crcValue = Crc32CAlgorithm.Compute(buff.ToArray());
+                uint crcValue = Crc32SUM.GetSumCRC(buff.ToArray());
                 buff.Add(Convert.ToByte(crcValue & 0xFF));
                 buff.Add(Convert.ToByte((crcValue >> 8) & 0xFF));
                 buff.Add(Convert.ToByte((crcValue >> 16) & 0xFF));

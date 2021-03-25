@@ -237,7 +237,7 @@ namespace LBDConfigTool.utils.communication
                 {
                     this.IsSending = true;
                     this.CurrentModule = Module.WriteEncrypt;
-                    byte[] data = new byte[] { 0xAA, 0xBB, 0x04, 0x04 };
+                    byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00,0xD0 };
                     this.Send(data);
                 }
             }
@@ -310,7 +310,6 @@ namespace LBDConfigTool.utils.communication
                 {
                     byte[] data = new byte[fileStream.Length];
                     fileStream.Read(data, 0, data.Length);
-                    //crc = Crc32CAlgorithm.Compute(data);
                     crc = Crc32SUM.GetSumCRC(data);
                 }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
@@ -430,7 +429,6 @@ namespace LBDConfigTool.utils.communication
                 {
                     byte[] data = new byte[fileStream.Length];
                     fileStream.Read(data, 0, data.Length);
-                    //crc = Crc32CAlgorithm.Compute(data);
                     crc = Crc32SUM.GetSumCRC(data);
                 }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))

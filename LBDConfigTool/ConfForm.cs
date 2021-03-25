@@ -446,10 +446,14 @@ namespace LBDConfigTool
 		/// <param name="progress"></param>
 		private void DrawProgress(int progressPercent)
 		{
+			if (progressPercent == 100)
+			{
+				Enabled = true;
+				return;
+			}
 			setNotice("正在升级固件(mcu)，请稍候...", false);
 			mcuProgressBar.Show();
-			mcuProgressBar.Value = progressPercent;
-			if (progressPercent == 100)	Enabled = true;
+			mcuProgressBar.Value = progressPercent;			
 		}
 
 		/// <summary>
@@ -488,10 +492,14 @@ namespace LBDConfigTool
 		/// <param name="progress"></param>
 		private void fpgaDrawProgress(int progressPercent)
 		{
+			if (progressPercent == 100) {
+				Enabled = true;
+				return;
+			}
 			setNotice("正在升级固件(fpga)，请稍候...", false);
 			fpgaProgressBar.Show();
 			fpgaProgressBar.Value = progressPercent;
-			if (progressPercent == 100) Enabled = true;
+			
 		}
 
 		/// <summary>

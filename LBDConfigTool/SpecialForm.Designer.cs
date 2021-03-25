@@ -196,7 +196,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.GrayText;
-			this.ClientSize = new System.Drawing.Size(269, 340);
+			this.ClientSize = new System.Drawing.Size(269, 341);
 			this.Controls.Add(this.cardRB2);
 			this.Controls.Add(this.cardRB1);
 			this.Controls.Add(this.label20);
@@ -213,6 +213,10 @@
 			this.Controls.Add(this.label31);
 			this.Controls.Add(this.aSumTB);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(285, 380);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(285, 380);
 			this.Name = "SpecialForm";
 			this.Text = "加密";
 			this.Load += new System.EventHandler(this.SpecialForm_Load);

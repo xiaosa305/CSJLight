@@ -78,7 +78,6 @@
     <Compile Include="SpecialForm.Designer.cs">
       <DependentUpon>SpecialForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="User.cs" />
     <Compile Include="utils\communication\BaseFunctionalModule.cs" />
     <Compile Include="utils\communication\CSJNetCommunitor.cs" />
     <Compile Include="utils\communication\HCXNetCommunitor.cs" />

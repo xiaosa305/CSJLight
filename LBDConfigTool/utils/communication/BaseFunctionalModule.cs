@@ -1,5 +1,6 @@
 ﻿using Crc32C;
 using LBDConfigTool.utils.conf;
+using LBDConfigTool.utils.crc;
 using LBDConfigTool.utils.entity;
 using System;
 using System.Collections.Concurrent;
@@ -35,7 +36,6 @@ namespace LBDConfigTool.utils.communication
             Thread.Sleep(time);
             timeEndPeriod(1);
         }
-
         protected abstract void Send(byte[] data);
         protected void SendCompleted()
         {
@@ -65,7 +65,6 @@ namespace LBDConfigTool.utils.communication
             this.IsSending = false;
             this.MessageTransaction.Start();
         }
-      
         private void InitParam()
         {
             this.TaskTimer = null;
@@ -311,7 +310,8 @@ namespace LBDConfigTool.utils.communication
                 {
                     byte[] data = new byte[fileStream.Length];
                     fileStream.Read(data, 0, data.Length);
-                    crc = Crc32CAlgorithm.Compute(data);
+                    //crc = Crc32CAlgorithm.Compute(data);
+                    crc = Crc32SUM.GetSumCRC(data);
                 }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
@@ -430,7 +430,8 @@ namespace LBDConfigTool.utils.communication
                 {
                     byte[] data = new byte[fileStream.Length];
                     fileStream.Read(data, 0, data.Length);
-                    crc = Crc32CAlgorithm.Compute(data);
+                    //crc = Crc32CAlgorithm.Compute(data);
+                    crc = Crc32SUM.GetSumCRC(data);
                 }
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {

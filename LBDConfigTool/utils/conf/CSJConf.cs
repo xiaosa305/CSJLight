@@ -9,7 +9,7 @@ namespace LBDConfigTool.utils.conf
     [Serializable]
     public class CSJConf:IConf
     {
-        private const byte Flag = 0xFF;//标记位 u8
+        private const byte Flag = 0xEA;//标记位 u8
         public string MIA_HAO { get; set; }//密码  u8[6]
         public int Addr { get; set; }//地址 u16
         public int Baud { get; set; }//(0-4)9600,19200,38400,57600,115200 u8

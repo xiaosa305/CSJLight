@@ -387,11 +387,11 @@ namespace LBDConfigTool.utils.communication
                     file.Read(readBuff, 0, lastPackageSize);
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
-                    byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
-                    this.Send(endPacket);
-                    this.Progress_Event(100);
-                    this.TaskCompleted("FPGA升级成功");
                 }
+                byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
+                this.Send(endPacket);
+                this.Progress_Event(100);
+                this.TaskCompleted("FPGA升级成功");
             }
             catch (Exception ex)
             {
@@ -511,11 +511,11 @@ namespace LBDConfigTool.utils.communication
                     file.Read(readBuff, 0, lastPackageSize);
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
-                    byte[] endPacket = new byte[] { 0xAA,0xBB,0x00,0x00,0xFF};
-                    this.Send(endPacket);
-                    this.Progress_Event(100);
-                    this.TaskCompleted("MCU升级成功");
                 }
+                byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
+                this.Send(endPacket);
+                this.Progress_Event(100);
+                this.TaskCompleted("MCU升级成功");
             }
             catch (Exception ex)
             {

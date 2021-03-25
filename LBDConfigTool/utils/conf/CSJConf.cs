@@ -46,7 +46,7 @@ namespace LBDConfigTool.utils.conf
         public int SumUseTimes { get; set; }//总使用次数   u32
         public int CurrUseTimes { get; set; }//当前使用次数  不参与CRC校验
 
-        private string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
+        public string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
 
         public static CSJConf Build(byte[] data)
         {

@@ -449,6 +449,7 @@ namespace LBDConfigTool
 			setNotice("正在升级固件(mcu)，请稍候...", false);
 			mcuProgressBar.Show();
 			mcuProgressBar.Value = progressPercent;
+			if (progressPercent == 100)	Enabled = true;
 		}
 
 		/// <summary>
@@ -490,6 +491,7 @@ namespace LBDConfigTool
 			setNotice("正在升级固件(fpga)，请稍候...", false);
 			fpgaProgressBar.Show();
 			fpgaProgressBar.Value = progressPercent;
+			if (progressPercent == 100) Enabled = true;
 		}
 
 		/// <summary>

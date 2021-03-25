@@ -26,8 +26,10 @@ namespace LBDConfigTool.utils.communication
         private bool IsSending { get; set; }
         public delegate void Completed(Object obj, string msg);
         public delegate void Error(string msg);
+        public delegate void Progress(int value);
         private Completed Completed_Event { get; set; }
         private Error Error_Event { get; set; }
+        private Progress Progress_Event { get; set; }
         protected ConcurrentQueue<List<byte>> MessageQueue { get; set; }
         private System.Timers.Timer MessageTransaction { get; set; }
         private void ThreadSleep(int time)
@@ -70,6 +72,7 @@ namespace LBDConfigTool.utils.communication
             this.TaskTimer = null;
             this.Error_Event = null;
             this.Completed_Event = null;
+            this.Progress_Event = null;
             this.CurrentModule = Module.Null;
         }
         protected void StartTimeOutTask()
@@ -275,10 +278,11 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //升级FPGA
-        public void UpdateFPGA256(string filePath,ParamEntity param,Completed completed, Error error)
+        public void UpdateFPGA256(string filePath,ParamEntity param,Progress progress,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
+            this.Progress_Event = progress;
             try
             {
                 if (!this.IsSending)
@@ -356,6 +360,8 @@ namespace LBDConfigTool.utils.communication
                             this.ThreadSleep(param.PacketIntervalTime);
                         }
                         buff.Clear();
+                        double progress = ((i + 1) * param.PacketSize * 100) / (1.0 * length);
+                        this.Progress_Event((int)Math.Floor(progress));
                     }
                     buff.AddRange(packetHead);
                     buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
@@ -383,6 +389,7 @@ namespace LBDConfigTool.utils.communication
                     this.Send(buff.ToArray());
                     byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
                     this.Send(endPacket);
+                    this.Progress_Event(100);
                     this.TaskCompleted("FPGA升级成功");
                 }
             }
@@ -395,10 +402,11 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //升级MCU
-        public void UpdataMCU256(string filePath,ParamEntity param,Completed completed, Error error)
+        public void UpdataMCU256(string filePath,ParamEntity param,Progress progress,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
+            this.Progress_Event = progress;
             try
             {
                 if (!this.IsSending)
@@ -476,6 +484,8 @@ namespace LBDConfigTool.utils.communication
                             this.ThreadSleep(param.PacketIntervalTime);
                         }
                         buff.Clear();
+                        double progress = ((i + 1) * param.PacketSize * 100) / (1.0 * length);
+                        this.Progress_Event((int)Math.Floor(progress));
                     }
                     buff.AddRange(packetHead);
                     buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
@@ -503,6 +513,7 @@ namespace LBDConfigTool.utils.communication
                     this.Send(buff.ToArray());
                     byte[] endPacket = new byte[] { 0xAA,0xBB,0x00,0x00,0xFF};
                     this.Send(endPacket);
+                    this.Progress_Event(100);
                     this.TaskCompleted("MCU升级成功");
                 }
             }

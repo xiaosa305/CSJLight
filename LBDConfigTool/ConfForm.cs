@@ -434,9 +434,21 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
 			{
-				cnc.UpdataMCU256(ebinPathLabel.Text, makePE(),UpdateCompleted, UpdateError);
+				cnc.UpdataMCU256(ebinPathLabel.Text, makePE(), DrawProgress,UpdateCompleted, UpdateError);
 				Enabled = false;
 			}
+		}
+
+		/// <summary>
+		/// 辅助回调方法：写进度条
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="progress"></param>
+		private void DrawProgress(int progressPercent)
+		{
+			setNotice("正在升级固件(mcu)，请稍候...", false);
+			mcuProgressBar.Show();
+			mcuProgressBar.Value = progressPercent;
 		}
 
 		/// <summary>
@@ -463,9 +475,21 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(fbinPathLabel.Text))
 			{
-				cnc.UpdateFPGA256(fbinPathLabel.Text, makePE(), UpdateCompleted, UpdateError);
+				cnc.UpdateFPGA256(fbinPathLabel.Text, makePE(), fpgaDrawProgress, UpdateCompleted, UpdateError);
 				Enabled = false;
 			}
+		}
+
+		/// <summary>
+		/// 辅助回调方法：写进度条
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="progress"></param>
+		private void fpgaDrawProgress(int progressPercent)
+		{
+			setNotice("正在升级固件(fpga)，请稍候...", false);
+			fpgaProgressBar.Show();
+			fpgaProgressBar.Value = progressPercent;
 		}
 
 		/// <summary>
@@ -490,6 +514,8 @@ namespace LBDConfigTool
 		private void UpdateError(string msg)
 		{
 			setNotice(msg, isSuccessShow);
+			fpgaProgressBar.Value = 0;
+			fpgaProgressBar.Value = 0;
 			Enabled = true;
 		}
 
@@ -501,6 +527,10 @@ namespace LBDConfigTool
 		private void UpdateCompleted(object obj, string msg)
 		{
 			setNotice(msg, true);
+			mcuProgressBar.Value = 0;
+			mcuProgressBar.Hide();
+			fpgaProgressBar.Value = 0;
+			fpgaProgressBar.Hide();
 			Enabled = true;
 		}
 

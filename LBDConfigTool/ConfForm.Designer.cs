@@ -35,6 +35,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.paramTab = new System.Windows.Forms.TabPage();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.fxCheckBox = new System.Windows.Forms.CheckBox();
 			this.label27 = new System.Windows.Forms.Label();
 			this.label29 = new System.Windows.Forms.Label();
 			this.aTdLenTB = new System.Windows.Forms.TextBox();
@@ -112,7 +113,8 @@
 			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ebinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
-			this.fxCheckBox = new System.Windows.Forms.CheckBox();
+			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
+			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -265,6 +267,16 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(870, 473);
 			this.panel1.TabIndex = 29;
+			// 
+			// fxCheckBox
+			// 
+			this.fxCheckBox.AutoSize = true;
+			this.fxCheckBox.Location = new System.Drawing.Point(418, 157);
+			this.fxCheckBox.Name = "fxCheckBox";
+			this.fxCheckBox.Size = new System.Drawing.Size(48, 16);
+			this.fxCheckBox.TabIndex = 128;
+			this.fxCheckBox.Text = "取反";
+			this.fxCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// label27
 			// 
@@ -822,6 +834,8 @@
 			// 
 			// firmwareTab
 			// 
+			this.firmwareTab.Controls.Add(this.fpgaProgressBar);
+			this.firmwareTab.Controls.Add(this.mcuProgressBar);
 			this.firmwareTab.Controls.Add(this.label23);
 			this.firmwareTab.Controls.Add(this.partitionSizeNUD);
 			this.firmwareTab.Controls.Add(this.label20);
@@ -848,7 +862,7 @@
 			this.label23.AutoSize = true;
 			this.label23.BackColor = System.Drawing.Color.Transparent;
 			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label23.Location = new System.Drawing.Point(603, 387);
+			this.label23.Location = new System.Drawing.Point(633, 496);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(89, 12);
 			this.label23.TabIndex = 113;
@@ -856,7 +870,7 @@
 			// 
 			// partitionSizeNUD
 			// 
-			this.partitionSizeNUD.Location = new System.Drawing.Point(735, 383);
+			this.partitionSizeNUD.Location = new System.Drawing.Point(765, 492);
 			this.partitionSizeNUD.Maximum = new decimal(new int[] {
             409600,
             0,
@@ -883,7 +897,7 @@
 			this.label20.AutoSize = true;
 			this.label20.BackColor = System.Drawing.Color.Transparent;
 			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label20.Location = new System.Drawing.Point(603, 354);
+			this.label20.Location = new System.Drawing.Point(633, 463);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(101, 12);
 			this.label20.TabIndex = 113;
@@ -891,7 +905,7 @@
 			// 
 			// partitionTimeNUD
 			// 
-			this.partitionTimeNUD.Location = new System.Drawing.Point(735, 350);
+			this.partitionTimeNUD.Location = new System.Drawing.Point(765, 459);
 			this.partitionTimeNUD.Minimum = new decimal(new int[] {
             10,
             0,
@@ -913,7 +927,7 @@
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label1.Location = new System.Drawing.Point(603, 288);
+			this.label1.Location = new System.Drawing.Point(633, 397);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(77, 12);
 			this.label1.TabIndex = 109;
@@ -924,7 +938,7 @@
 			this.label4.AutoSize = true;
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label4.Location = new System.Drawing.Point(603, 321);
+			this.label4.Location = new System.Drawing.Point(633, 430);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(101, 12);
 			this.label4.TabIndex = 110;
@@ -932,7 +946,7 @@
 			// 
 			// relayTimeNUD
 			// 
-			this.relayTimeNUD.Location = new System.Drawing.Point(734, 284);
+			this.relayTimeNUD.Location = new System.Drawing.Point(764, 393);
 			this.relayTimeNUD.Minimum = new decimal(new int[] {
             1,
             0,
@@ -951,7 +965,7 @@
 			// 
 			// packageSizeNUD
 			// 
-			this.packageSizeNUD.Location = new System.Drawing.Point(735, 317);
+			this.packageSizeNUD.Location = new System.Drawing.Point(765, 426);
 			this.packageSizeNUD.Maximum = new decimal(new int[] {
             1024,
             0,
@@ -975,25 +989,25 @@
 			// 
 			// fbinPathLabel
 			// 
-			this.fbinPathLabel.Location = new System.Drawing.Point(194, 152);
+			this.fbinPathLabel.Location = new System.Drawing.Point(199, 224);
 			this.fbinPathLabel.Name = "fbinPathLabel";
-			this.fbinPathLabel.Size = new System.Drawing.Size(511, 27);
+			this.fbinPathLabel.Size = new System.Drawing.Size(628, 27);
 			this.fbinPathLabel.TabIndex = 1;
 			this.fbinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// ebinPathLabel
 			// 
-			this.ebinPathLabel.Location = new System.Drawing.Point(194, 67);
+			this.ebinPathLabel.Location = new System.Drawing.Point(199, 67);
 			this.ebinPathLabel.Name = "ebinPathLabel";
-			this.ebinPathLabel.Size = new System.Drawing.Size(511, 27);
+			this.ebinPathLabel.Size = new System.Drawing.Size(628, 27);
 			this.ebinPathLabel.TabIndex = 1;
 			this.ebinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// fpgaUpdateButton
 			// 
-			this.fpgaUpdateButton.Location = new System.Drawing.Point(736, 146);
+			this.fpgaUpdateButton.Location = new System.Drawing.Point(51, 283);
 			this.fpgaUpdateButton.Name = "fpgaUpdateButton";
-			this.fpgaUpdateButton.Size = new System.Drawing.Size(91, 39);
+			this.fpgaUpdateButton.Size = new System.Drawing.Size(112, 39);
 			this.fpgaUpdateButton.TabIndex = 0;
 			this.fpgaUpdateButton.Text = "FPGA升级";
 			this.fpgaUpdateButton.UseVisualStyleBackColor = true;
@@ -1001,9 +1015,9 @@
 			// 
 			// mcuUpdateButton
 			// 
-			this.mcuUpdateButton.Location = new System.Drawing.Point(736, 61);
+			this.mcuUpdateButton.Location = new System.Drawing.Point(51, 116);
 			this.mcuUpdateButton.Name = "mcuUpdateButton";
-			this.mcuUpdateButton.Size = new System.Drawing.Size(91, 39);
+			this.mcuUpdateButton.Size = new System.Drawing.Size(112, 39);
 			this.mcuUpdateButton.TabIndex = 0;
 			this.mcuUpdateButton.Text = "MCU升级";
 			this.mcuUpdateButton.UseVisualStyleBackColor = true;
@@ -1011,7 +1025,7 @@
 			// 
 			// fbinSelectButton
 			// 
-			this.fbinSelectButton.Location = new System.Drawing.Point(51, 146);
+			this.fbinSelectButton.Location = new System.Drawing.Point(51, 218);
 			this.fbinSelectButton.Name = "fbinSelectButton";
 			this.fbinSelectButton.Size = new System.Drawing.Size(112, 39);
 			this.fbinSelectButton.TabIndex = 0;
@@ -1046,15 +1060,21 @@
 			this.fbinSelectDialog.Filter = "fpga升级包|*.bin";
 			this.fbinSelectDialog.Title = "请谨慎选择升级包，如果选错可能造成严重后果！！！";
 			// 
-			// fxCheckBox
+			// mcuProgressBar
 			// 
-			this.fxCheckBox.AutoSize = true;
-			this.fxCheckBox.Location = new System.Drawing.Point(418, 157);
-			this.fxCheckBox.Name = "fxCheckBox";
-			this.fxCheckBox.Size = new System.Drawing.Size(48, 16);
-			this.fxCheckBox.TabIndex = 128;
-			this.fxCheckBox.Text = "取反";
-			this.fxCheckBox.UseVisualStyleBackColor = true;
+			this.mcuProgressBar.Location = new System.Drawing.Point(199, 124);
+			this.mcuProgressBar.Name = "mcuProgressBar";
+			this.mcuProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.mcuProgressBar.TabIndex = 115;
+			this.mcuProgressBar.Visible = false;
+			// 
+			// fpgaProgressBar
+			// 
+			this.fpgaProgressBar.Location = new System.Drawing.Point(199, 291);
+			this.fpgaProgressBar.Name = "fpgaProgressBar";
+			this.fpgaProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.fpgaProgressBar.TabIndex = 115;
+			this.fpgaProgressBar.Visible = false;
 			// 
 			// ConfForm
 			// 
@@ -1181,5 +1201,7 @@
 		private System.Windows.Forms.NumericUpDown partitionTimeNUD;
 		private System.Windows.Forms.ComboBox icCB;
 		private System.Windows.Forms.CheckBox fxCheckBox;
+		private System.Windows.Forms.ProgressBar fpgaProgressBar;
+		private System.Windows.Forms.ProgressBar mcuProgressBar;
 	}
 }

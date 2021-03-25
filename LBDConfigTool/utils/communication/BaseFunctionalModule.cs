@@ -381,7 +381,8 @@ namespace LBDConfigTool.utils.communication
                     file.Read(readBuff, 0, lastPackageSize);
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
-                    this.Send(Encoding.Default.GetBytes("SendEnd"));
+                    byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
+                    this.Send(endPacket);
                     this.TaskCompleted("FPGA升级成功");
                 }
             }

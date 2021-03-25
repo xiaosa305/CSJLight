@@ -95,6 +95,8 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
 			this.firmwareTab = new System.Windows.Forms.TabPage();
+			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
+			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
 			this.label23 = new System.Windows.Forms.Label();
 			this.partitionSizeNUD = new System.Windows.Forms.NumericUpDown();
 			this.label20 = new System.Windows.Forms.Label();
@@ -113,8 +115,6 @@
 			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ebinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
-			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
-			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -857,6 +857,20 @@
 			this.firmwareTab.Text = "固件升级";
 			this.firmwareTab.UseVisualStyleBackColor = true;
 			// 
+			// fpgaProgressBar
+			// 
+			this.fpgaProgressBar.Location = new System.Drawing.Point(199, 291);
+			this.fpgaProgressBar.Name = "fpgaProgressBar";
+			this.fpgaProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.fpgaProgressBar.TabIndex = 115;
+			// 
+			// mcuProgressBar
+			// 
+			this.mcuProgressBar.Location = new System.Drawing.Point(199, 124);
+			this.mcuProgressBar.Name = "mcuProgressBar";
+			this.mcuProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.mcuProgressBar.TabIndex = 115;
+			// 
 			// label23
 			// 
 			this.label23.AutoSize = true;
@@ -1059,22 +1073,6 @@
 			// 
 			this.fbinSelectDialog.Filter = "fpga升级包|*.bin";
 			this.fbinSelectDialog.Title = "请谨慎选择升级包，如果选错可能造成严重后果！！！";
-			// 
-			// mcuProgressBar
-			// 
-			this.mcuProgressBar.Location = new System.Drawing.Point(199, 124);
-			this.mcuProgressBar.Name = "mcuProgressBar";
-			this.mcuProgressBar.Size = new System.Drawing.Size(628, 23);
-			this.mcuProgressBar.TabIndex = 115;
-			this.mcuProgressBar.Visible = false;
-			// 
-			// fpgaProgressBar
-			// 
-			this.fpgaProgressBar.Location = new System.Drawing.Point(199, 291);
-			this.fpgaProgressBar.Name = "fpgaProgressBar";
-			this.fpgaProgressBar.Size = new System.Drawing.Size(628, 23);
-			this.fpgaProgressBar.TabIndex = 115;
-			this.fpgaProgressBar.Visible = false;
 			// 
 			// ConfForm
 			// 

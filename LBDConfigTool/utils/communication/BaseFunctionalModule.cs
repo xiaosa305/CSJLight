@@ -326,8 +326,8 @@ namespace LBDConfigTool.utils.communication
                     for (int i = 0; i < packetCount; i++)
                     {
                         buff.AddRange(packetHead);
-                        buff.Add(0xFF);
                         buff.Add(0x00);
+                        buff.Add(0x01);
                         seek = param.PacketSize * i;
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
@@ -446,8 +446,8 @@ namespace LBDConfigTool.utils.communication
                     for (int i = 0; i < packetCount; i++)
                     {
                         buff.AddRange(packetHead);
-                        buff.Add(0xFF);
                         buff.Add(0x00);
+                        buff.Add(0x01);
                         seek = param.PacketSize * i;
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
@@ -502,7 +502,8 @@ namespace LBDConfigTool.utils.communication
                     file.Read(readBuff, 0, lastPackageSize);
                     buff.AddRange(readBuff);
                     this.Send(buff.ToArray());
-                    this.Send(Encoding.Default.GetBytes("SendEnd"));
+                    byte[] endPacket = new byte[] { 0xAA,0xBB,0x00,0x00,0xFF};
+                    this.Send(endPacket);
                     this.TaskCompleted("MCU升级成功");
                 }
             }

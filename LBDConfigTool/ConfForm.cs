@@ -42,6 +42,7 @@ namespace LBDConfigTool
 				icCB.Items.Add(iniUtils.ReadString("main", "EN" + typeIndex, ""));
 			}
 			icCB.SelectedIndex = 0;
+			baudCB.SelectedIndex = 3;		
 
 			// 添加上次存储的固件升级包、传输配置等; 先做非空确认
 			if ( File.Exists(Properties.Settings.Default.abinPath) ){
@@ -113,7 +114,6 @@ namespace LBDConfigTool
 				CurrUseTimes = 0
 			};
 		}	
-
 
 		/// <summary>
 		/// 辅助方法：供《SpecialForm》调用，替换当前的specialCC

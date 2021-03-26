@@ -62,32 +62,22 @@
 			this.dimmerNUD = new System.Windows.Forms.NumericUpDown();
 			this.sceneNUD = new System.Windows.Forms.NumericUpDown();
 			this.playModeCB = new System.Windows.Forms.ComboBox();
-			this.baudCB = new System.Windows.Forms.ComboBox();
 			this.stepTimeNUD = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label24 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
 			this.label22 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
 			this.label21 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
 			this.addrTB = new System.Windows.Forms.TextBox();
-			this.ledGamTB = new System.Windows.Forms.TextBox();
 			this.clockTB = new System.Windows.Forms.TextBox();
-			this.ledNameTB = new System.Windows.Forms.TextBox();
 			this.verTB = new System.Windows.Forms.TextBox();
-			this.diskFlagTB = new System.Windows.Forms.TextBox();
 			this.label12 = new System.Windows.Forms.Label();
-			this.maxDotTB = new System.Windows.Forms.TextBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.label14 = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
-			this.label15 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
@@ -115,6 +105,25 @@
 			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ebinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.label25 = new System.Windows.Forms.Label();
+			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.label26 = new System.Windows.Forms.Label();
+			this.artnetGroupBox = new System.Windows.Forms.GroupBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.iniTab = new System.Windows.Forms.TabPage();
+			this.baudCB = new System.Windows.Forms.ComboBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.ledGamTB = new System.Windows.Forms.TextBox();
+			this.ledNameTB = new System.Windows.Forms.TextBox();
+			this.diskFlagTB = new System.Windows.Forms.TextBox();
+			this.maxDotTB = new System.Windows.Forms.TextBox();
+			this.label15 = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -131,13 +140,20 @@
 			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+			this.artnetGroupBox.SuspendLayout();
+			this.groupBox1.SuspendLayout();
+			this.iniTab.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 619);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 639);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(884, 22);
 			this.statusStrip1.SizingGrip = false;
@@ -154,7 +170,7 @@
 			// 
 			// readButton
 			// 
-			this.readButton.Location = new System.Drawing.Point(623, 505);
+			this.readButton.Location = new System.Drawing.Point(623, 524);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 42);
 			this.readButton.TabIndex = 3;
@@ -166,7 +182,7 @@
 			// 
 			this.writeButton.BackColor = System.Drawing.Color.Tomato;
 			this.writeButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.writeButton.Location = new System.Drawing.Point(736, 505);
+			this.writeButton.Location = new System.Drawing.Point(736, 524);
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(91, 42);
 			this.writeButton.TabIndex = 3;
@@ -177,13 +193,14 @@
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.paramTab);
+			this.tabControl1.Controls.Add(this.iniTab);
 			this.tabControl1.Controls.Add(this.firmwareTab);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.ItemSize = new System.Drawing.Size(60, 30);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(884, 619);
+			this.tabControl1.Size = new System.Drawing.Size(884, 639);
 			this.tabControl1.TabIndex = 27;
 			// 
 			// paramTab
@@ -198,7 +215,7 @@
 			this.paramTab.Location = new System.Drawing.Point(4, 34);
 			this.paramTab.Name = "paramTab";
 			this.paramTab.Padding = new System.Windows.Forms.Padding(3);
-			this.paramTab.Size = new System.Drawing.Size(876, 581);
+			this.paramTab.Size = new System.Drawing.Size(876, 601);
 			this.paramTab.TabIndex = 0;
 			this.paramTab.Text = "参数配置";
 			this.paramTab.DoubleClick += new System.EventHandler(this.paramTab_DoubleClick);
@@ -206,72 +223,20 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.panel1.Controls.Add(this.fxCheckBox);
-			this.panel1.Controls.Add(this.label27);
-			this.panel1.Controls.Add(this.label29);
-			this.panel1.Controls.Add(this.aTdLenTB);
-			this.panel1.Controls.Add(this.aPerTB);
-			this.panel1.Controls.Add(this.aStartTB);
-			this.panel1.Controls.Add(this.aJLFKSTB);
-			this.panel1.Controls.Add(this.aFKHTB);
-			this.panel1.Controls.Add(this.aMacTB);
-			this.panel1.Controls.Add(this.aFKLSTB);
-			this.panel1.Controls.Add(this.label30);
-			this.panel1.Controls.Add(this.aIpTB);
-			this.panel1.Controls.Add(this.label32);
-			this.panel1.Controls.Add(this.label33);
-			this.panel1.Controls.Add(this.label35);
-			this.panel1.Controls.Add(this.label38);
-			this.panel1.Controls.Add(this.label36);
-			this.panel1.Controls.Add(this.icCB);
-			this.panel1.Controls.Add(this.rgbCB);
-			this.panel1.Controls.Add(this.outTypeCB);
-			this.panel1.Controls.Add(this.wNUD);
-			this.panel1.Controls.Add(this.bNUD);
-			this.panel1.Controls.Add(this.gNUD);
-			this.panel1.Controls.Add(this.rNUD);
-			this.panel1.Controls.Add(this.dimmerNUD);
-			this.panel1.Controls.Add(this.sceneNUD);
-			this.panel1.Controls.Add(this.playModeCB);
-			this.panel1.Controls.Add(this.baudCB);
-			this.panel1.Controls.Add(this.stepTimeNUD);
-			this.panel1.Controls.Add(this.label6);
-			this.panel1.Controls.Add(this.label2);
-			this.panel1.Controls.Add(this.label24);
-			this.panel1.Controls.Add(this.label7);
-			this.panel1.Controls.Add(this.label3);
-			this.panel1.Controls.Add(this.label22);
-			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label21);
-			this.panel1.Controls.Add(this.label9);
-			this.panel1.Controls.Add(this.label5);
-			this.panel1.Controls.Add(this.label11);
-			this.panel1.Controls.Add(this.label10);
-			this.panel1.Controls.Add(this.addrTB);
-			this.panel1.Controls.Add(this.ledGamTB);
-			this.panel1.Controls.Add(this.clockTB);
-			this.panel1.Controls.Add(this.ledNameTB);
-			this.panel1.Controls.Add(this.verTB);
-			this.panel1.Controls.Add(this.diskFlagTB);
-			this.panel1.Controls.Add(this.label12);
-			this.panel1.Controls.Add(this.maxDotTB);
-			this.panel1.Controls.Add(this.label13);
-			this.panel1.Controls.Add(this.label14);
-			this.panel1.Controls.Add(this.label19);
-			this.panel1.Controls.Add(this.label15);
-			this.panel1.Controls.Add(this.label18);
-			this.panel1.Controls.Add(this.label16);
-			this.panel1.Controls.Add(this.label17);
+			this.panel1.Controls.Add(this.artnetGroupBox);
+			this.panel1.Controls.Add(this.groupBox3);
+			this.panel1.Controls.Add(this.groupBox2);
+			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(3, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(870, 473);
+			this.panel1.Size = new System.Drawing.Size(870, 482);
 			this.panel1.TabIndex = 29;
 			// 
 			// fxCheckBox
 			// 
 			this.fxCheckBox.AutoSize = true;
-			this.fxCheckBox.Location = new System.Drawing.Point(418, 157);
+			this.fxCheckBox.Location = new System.Drawing.Point(112, 115);
 			this.fxCheckBox.Name = "fxCheckBox";
 			this.fxCheckBox.Size = new System.Drawing.Size(48, 16);
 			this.fxCheckBox.TabIndex = 128;
@@ -281,7 +246,7 @@
 			// label27
 			// 
 			this.label27.AutoSize = true;
-			this.label27.Location = new System.Drawing.Point(41, 328);
+			this.label27.Location = new System.Drawing.Point(41, 43);
 			this.label27.Name = "label27";
 			this.label27.Size = new System.Drawing.Size(47, 12);
 			this.label27.TabIndex = 111;
@@ -290,7 +255,7 @@
 			// label29
 			// 
 			this.label29.AutoSize = true;
-			this.label29.Location = new System.Drawing.Point(320, 328);
+			this.label29.Location = new System.Drawing.Point(320, 43);
 			this.label29.Name = "label29";
 			this.label29.Size = new System.Drawing.Size(41, 12);
 			this.label29.TabIndex = 112;
@@ -298,49 +263,49 @@
 			// 
 			// aTdLenTB
 			// 
-			this.aTdLenTB.Location = new System.Drawing.Point(717, 363);
+			this.aTdLenTB.Location = new System.Drawing.Point(418, 156);
 			this.aTdLenTB.Name = "aTdLenTB";
 			this.aTdLenTB.Size = new System.Drawing.Size(108, 21);
 			this.aTdLenTB.TabIndex = 125;
 			// 
 			// aPerTB
 			// 
-			this.aPerTB.Location = new System.Drawing.Point(418, 402);
+			this.aPerTB.Location = new System.Drawing.Point(418, 117);
 			this.aPerTB.Name = "aPerTB";
 			this.aPerTB.Size = new System.Drawing.Size(108, 21);
 			this.aPerTB.TabIndex = 124;
 			// 
 			// aStartTB
 			// 
-			this.aStartTB.Location = new System.Drawing.Point(418, 363);
+			this.aStartTB.Location = new System.Drawing.Point(418, 78);
 			this.aStartTB.Name = "aStartTB";
 			this.aStartTB.Size = new System.Drawing.Size(108, 21);
 			this.aStartTB.TabIndex = 123;
 			// 
 			// aJLFKSTB
 			// 
-			this.aJLFKSTB.Location = new System.Drawing.Point(139, 402);
+			this.aJLFKSTB.Location = new System.Drawing.Point(139, 117);
 			this.aJLFKSTB.Name = "aJLFKSTB";
 			this.aJLFKSTB.Size = new System.Drawing.Size(108, 21);
 			this.aJLFKSTB.TabIndex = 122;
 			// 
 			// aFKHTB
 			// 
-			this.aFKHTB.Location = new System.Drawing.Point(717, 402);
+			this.aFKHTB.Location = new System.Drawing.Point(139, 156);
 			this.aFKHTB.Name = "aFKHTB";
 			this.aFKHTB.Size = new System.Drawing.Size(108, 21);
 			this.aFKHTB.TabIndex = 126;
 			// 
 			// aMacTB
 			// 
-			this.aMacTB.Location = new System.Drawing.Point(139, 324);
+			this.aMacTB.Location = new System.Drawing.Point(139, 39);
 			this.aMacTB.Name = "aMacTB";
 			this.aMacTB.Size = new System.Drawing.Size(108, 21);
 			this.aMacTB.TabIndex = 114;
 			// 
 			// aFKLSTB
 			// 
-			this.aFKLSTB.Location = new System.Drawing.Point(139, 363);
+			this.aFKLSTB.Location = new System.Drawing.Point(139, 78);
 			this.aFKLSTB.Name = "aFKLSTB";
 			this.aFKLSTB.Size = new System.Drawing.Size(108, 21);
 			this.aFKLSTB.TabIndex = 121;
@@ -348,7 +313,7 @@
 			// label30
 			// 
 			this.label30.AutoSize = true;
-			this.label30.Location = new System.Drawing.Point(619, 367);
+			this.label30.Location = new System.Drawing.Point(320, 160);
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(53, 12);
 			this.label30.TabIndex = 119;
@@ -356,7 +321,7 @@
 			// 
 			// aIpTB
 			// 
-			this.aIpTB.Location = new System.Drawing.Point(418, 324);
+			this.aIpTB.Location = new System.Drawing.Point(418, 39);
 			this.aIpTB.Name = "aIpTB";
 			this.aIpTB.Size = new System.Drawing.Size(108, 21);
 			this.aIpTB.TabIndex = 113;
@@ -364,7 +329,7 @@
 			// label32
 			// 
 			this.label32.AutoSize = true;
-			this.label32.Location = new System.Drawing.Point(41, 367);
+			this.label32.Location = new System.Drawing.Point(41, 82);
 			this.label32.Name = "label32";
 			this.label32.Size = new System.Drawing.Size(53, 12);
 			this.label32.TabIndex = 115;
@@ -373,7 +338,7 @@
 			// label33
 			// 
 			this.label33.AutoSize = true;
-			this.label33.Location = new System.Drawing.Point(619, 406);
+			this.label33.Location = new System.Drawing.Point(41, 160);
 			this.label33.Name = "label33";
 			this.label33.Size = new System.Drawing.Size(41, 12);
 			this.label33.TabIndex = 120;
@@ -382,7 +347,7 @@
 			// label35
 			// 
 			this.label35.AutoSize = true;
-			this.label35.Location = new System.Drawing.Point(41, 406);
+			this.label35.Location = new System.Drawing.Point(41, 121);
 			this.label35.Name = "label35";
 			this.label35.Size = new System.Drawing.Size(65, 12);
 			this.label35.TabIndex = 116;
@@ -391,7 +356,7 @@
 			// label38
 			// 
 			this.label38.AutoSize = true;
-			this.label38.Location = new System.Drawing.Point(320, 406);
+			this.label38.Location = new System.Drawing.Point(320, 121);
 			this.label38.Name = "label38";
 			this.label38.Size = new System.Drawing.Size(65, 12);
 			this.label38.TabIndex = 118;
@@ -400,7 +365,7 @@
 			// label36
 			// 
 			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(320, 367);
+			this.label36.Location = new System.Drawing.Point(320, 82);
 			this.label36.Name = "label36";
 			this.label36.Size = new System.Drawing.Size(89, 12);
 			this.label36.TabIndex = 117;
@@ -410,9 +375,9 @@
 			// 
 			this.icCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.icCB.FormattingEnabled = true;
-			this.icCB.Location = new System.Drawing.Point(139, 266);
+			this.icCB.Location = new System.Drawing.Point(112, 35);
 			this.icCB.Name = "icCB";
-			this.icCB.Size = new System.Drawing.Size(387, 20);
+			this.icCB.Size = new System.Drawing.Size(370, 20);
 			this.icCB.TabIndex = 110;
 			// 
 			// rgbCB
@@ -422,7 +387,7 @@
 			this.rgbCB.Items.AddRange(new object[] {
             "RGB",
             "RGBW"});
-			this.rgbCB.Location = new System.Drawing.Point(418, 190);
+			this.rgbCB.Location = new System.Drawing.Point(401, 74);
 			this.rgbCB.Name = "rgbCB";
 			this.rgbCB.Size = new System.Drawing.Size(80, 20);
 			this.rgbCB.TabIndex = 110;
@@ -434,14 +399,14 @@
 			this.outTypeCB.Items.AddRange(new object[] {
             "TTL",
             "差分"});
-			this.outTypeCB.Location = new System.Drawing.Point(418, 118);
+			this.outTypeCB.Location = new System.Drawing.Point(112, 74);
 			this.outTypeCB.Name = "outTypeCB";
 			this.outTypeCB.Size = new System.Drawing.Size(80, 20);
 			this.outTypeCB.TabIndex = 109;
 			// 
 			// wNUD
 			// 
-			this.wNUD.Location = new System.Drawing.Point(717, 262);
+			this.wNUD.Location = new System.Drawing.Point(128, 191);
 			this.wNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -454,7 +419,7 @@
 			// 
 			// bNUD
 			// 
-			this.bNUD.Location = new System.Drawing.Point(717, 226);
+			this.bNUD.Location = new System.Drawing.Point(128, 153);
 			this.bNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -467,7 +432,7 @@
 			// 
 			// gNUD
 			// 
-			this.gNUD.Location = new System.Drawing.Point(717, 190);
+			this.gNUD.Location = new System.Drawing.Point(128, 115);
 			this.gNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -480,7 +445,7 @@
 			// 
 			// rNUD
 			// 
-			this.rNUD.Location = new System.Drawing.Point(717, 154);
+			this.rNUD.Location = new System.Drawing.Point(128, 77);
 			this.rNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -493,7 +458,7 @@
 			// 
 			// dimmerNUD
 			// 
-			this.dimmerNUD.Location = new System.Drawing.Point(717, 118);
+			this.dimmerNUD.Location = new System.Drawing.Point(128, 39);
 			this.dimmerNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -506,7 +471,7 @@
 			// 
 			// sceneNUD
 			// 
-			this.sceneNUD.Location = new System.Drawing.Point(139, 189);
+			this.sceneNUD.Location = new System.Drawing.Point(127, 107);
 			this.sceneNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -525,25 +490,10 @@
             "单播",
             "循环播放",
             "定时播放"});
-			this.playModeCB.Location = new System.Drawing.Point(139, 153);
+			this.playModeCB.Location = new System.Drawing.Point(127, 69);
 			this.playModeCB.Name = "playModeCB";
 			this.playModeCB.Size = new System.Drawing.Size(80, 20);
 			this.playModeCB.TabIndex = 100;
-			// 
-			// baudCB
-			// 
-			this.baudCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.baudCB.FormattingEnabled = true;
-			this.baudCB.Items.AddRange(new object[] {
-            "9600",
-            "19200",
-            "38400",
-            "57600",
-            "115200"});
-			this.baudCB.Location = new System.Drawing.Point(139, 66);
-			this.baudCB.Name = "baudCB";
-			this.baudCB.Size = new System.Drawing.Size(80, 20);
-			this.baudCB.TabIndex = 99;
 			// 
 			// stepTimeNUD
 			// 
@@ -552,7 +502,7 @@
             0,
             0,
             0});
-			this.stepTimeNUD.Location = new System.Drawing.Point(418, 225);
+			this.stepTimeNUD.Location = new System.Drawing.Point(128, 146);
 			this.stepTimeNUD.Maximum = new decimal(new int[] {
             200,
             0,
@@ -568,7 +518,7 @@
 			this.stepTimeNUD.TabIndex = 98;
 			this.stepTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.stepTimeNUD.Value = new decimal(new int[] {
-            10,
+            30,
             0,
             0,
             0});
@@ -576,7 +526,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(41, 157);
+			this.label6.Location = new System.Drawing.Point(29, 73);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(53, 12);
 			this.label6.TabIndex = 68;
@@ -585,16 +535,16 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(41, 34);
+			this.label2.Location = new System.Drawing.Point(41, 199);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(53, 12);
+			this.label2.Size = new System.Drawing.Size(65, 12);
 			this.label2.TabIndex = 75;
-			this.label2.Text = "硬件地址";
+			this.label2.Text = "DMX512地址";
 			// 
 			// label24
 			// 
 			this.label24.AutoSize = true;
-			this.label24.Location = new System.Drawing.Point(619, 266);
+			this.label24.Location = new System.Drawing.Point(27, 195);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(41, 12);
 			this.label24.TabIndex = 96;
@@ -603,43 +553,25 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(41, 193);
+			this.label7.Location = new System.Drawing.Point(29, 112);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(77, 12);
 			this.label7.TabIndex = 74;
 			this.label7.Text = "开机播放场景";
 			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(41, 70);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(41, 12);
-			this.label3.TabIndex = 73;
-			this.label3.Text = "波特率";
-			// 
 			// label22
 			// 
 			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(619, 194);
+			this.label22.Location = new System.Drawing.Point(30, 119);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(41, 12);
 			this.label22.TabIndex = 97;
 			this.label22.Text = "绿亮度";
 			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(41, 229);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(65, 12);
-			this.label8.TabIndex = 72;
-			this.label8.Text = "显示屏标识";
-			// 
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(619, 230);
+			this.label21.Location = new System.Drawing.Point(30, 157);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(41, 12);
 			this.label21.TabIndex = 95;
@@ -648,101 +580,55 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(320, 31);
+			this.label9.Location = new System.Drawing.Point(29, 34);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(41, 12);
 			this.label9.TabIndex = 71;
 			this.label9.Text = "版本号";
 			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(41, 121);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(53, 12);
-			this.label5.TabIndex = 70;
-			this.label5.Text = "硬盘标识";
-			// 
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(619, 158);
+			this.label11.Location = new System.Drawing.Point(30, 81);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(41, 12);
 			this.label11.TabIndex = 94;
 			this.label11.Text = "红亮度";
 			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(320, 71);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(65, 12);
-			this.label10.TabIndex = 69;
-			this.label10.Text = "最大扫描点";
-			// 
 			// addrTB
 			// 
-			this.addrTB.Location = new System.Drawing.Point(139, 30);
+			this.addrTB.Location = new System.Drawing.Point(139, 195);
 			this.addrTB.Name = "addrTB";
 			this.addrTB.Size = new System.Drawing.Size(108, 21);
 			this.addrTB.TabIndex = 80;
 			// 
-			// ledGamTB
-			// 
-			this.ledGamTB.Location = new System.Drawing.Point(717, 67);
-			this.ledGamTB.Name = "ledGamTB";
-			this.ledGamTB.Size = new System.Drawing.Size(108, 21);
-			this.ledGamTB.TabIndex = 92;
-			// 
 			// clockTB
 			// 
-			this.clockTB.Location = new System.Drawing.Point(717, 31);
+			this.clockTB.Location = new System.Drawing.Point(401, 113);
 			this.clockTB.Name = "clockTB";
-			this.clockTB.Size = new System.Drawing.Size(108, 21);
+			this.clockTB.Size = new System.Drawing.Size(80, 21);
 			this.clockTB.TabIndex = 90;
-			// 
-			// ledNameTB
-			// 
-			this.ledNameTB.Location = new System.Drawing.Point(139, 225);
-			this.ledNameTB.Name = "ledNameTB";
-			this.ledNameTB.Size = new System.Drawing.Size(108, 21);
-			this.ledNameTB.TabIndex = 79;
 			// 
 			// verTB
 			// 
-			this.verTB.Location = new System.Drawing.Point(418, 27);
+			this.verTB.Location = new System.Drawing.Point(127, 30);
 			this.verTB.Name = "verTB";
 			this.verTB.Size = new System.Drawing.Size(108, 21);
 			this.verTB.TabIndex = 78;
 			// 
-			// diskFlagTB
-			// 
-			this.diskFlagTB.Location = new System.Drawing.Point(139, 117);
-			this.diskFlagTB.Name = "diskFlagTB";
-			this.diskFlagTB.Size = new System.Drawing.Size(108, 21);
-			this.diskFlagTB.TabIndex = 77;
-			// 
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(41, 271);
+			this.label12.Location = new System.Drawing.Point(27, 39);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(53, 12);
 			this.label12.TabIndex = 88;
 			this.label12.Text = "芯片类型";
 			// 
-			// maxDotTB
-			// 
-			this.maxDotTB.Location = new System.Drawing.Point(418, 67);
-			this.maxDotTB.Name = "maxDotTB";
-			this.maxDotTB.Size = new System.Drawing.Size(108, 21);
-			this.maxDotTB.TabIndex = 76;
-			// 
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(619, 122);
+			this.label13.Location = new System.Drawing.Point(30, 43);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(53, 12);
 			this.label13.TabIndex = 87;
@@ -751,7 +637,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(320, 194);
+			this.label14.Location = new System.Drawing.Point(303, 78);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(29, 12);
 			this.label14.TabIndex = 86;
@@ -760,25 +646,16 @@
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(320, 229);
+			this.label19.Location = new System.Drawing.Point(29, 151);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(77, 12);
 			this.label19.TabIndex = 89;
-			this.label19.Text = "播放速度(ms)";
-			// 
-			// label15
-			// 
-			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(619, 71);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(47, 12);
-			this.label15.TabIndex = 85;
-			this.label15.Text = "Led_gam";
+			this.label19.Text = "播放帧率(hz)";
 			// 
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(320, 122);
+			this.label18.Location = new System.Drawing.Point(27, 78);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(53, 12);
 			this.label18.TabIndex = 82;
@@ -787,7 +664,7 @@
 			// label16
 			// 
 			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(320, 158);
+			this.label16.Location = new System.Drawing.Point(27, 117);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(53, 12);
 			this.label16.TabIndex = 84;
@@ -796,7 +673,7 @@
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(619, 35);
+			this.label17.Location = new System.Drawing.Point(303, 117);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(53, 12);
 			this.label17.TabIndex = 83;
@@ -804,7 +681,7 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(40, 503);
+			this.testButton.Location = new System.Drawing.Point(40, 522);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(75, 41);
 			this.testButton.TabIndex = 28;
@@ -814,7 +691,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(438, 505);
+			this.button1.Location = new System.Drawing.Point(438, 524);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(91, 42);
 			this.button1.TabIndex = 28;
@@ -824,7 +701,7 @@
 			// 
 			// loadButton
 			// 
-			this.loadButton.Location = new System.Drawing.Point(324, 505);
+			this.loadButton.Location = new System.Drawing.Point(324, 524);
 			this.loadButton.Name = "loadButton";
 			this.loadButton.Size = new System.Drawing.Size(91, 42);
 			this.loadButton.TabIndex = 28;
@@ -836,11 +713,15 @@
 			// 
 			this.firmwareTab.Controls.Add(this.fpgaProgressBar);
 			this.firmwareTab.Controls.Add(this.mcuProgressBar);
+			this.firmwareTab.Controls.Add(this.label26);
+			this.firmwareTab.Controls.Add(this.numericUpDown2);
 			this.firmwareTab.Controls.Add(this.label23);
 			this.firmwareTab.Controls.Add(this.partitionSizeNUD);
 			this.firmwareTab.Controls.Add(this.label20);
 			this.firmwareTab.Controls.Add(this.partitionTimeNUD);
+			this.firmwareTab.Controls.Add(this.label25);
 			this.firmwareTab.Controls.Add(this.label1);
+			this.firmwareTab.Controls.Add(this.numericUpDown1);
 			this.firmwareTab.Controls.Add(this.label4);
 			this.firmwareTab.Controls.Add(this.relayTimeNUD);
 			this.firmwareTab.Controls.Add(this.packageSizeNUD);
@@ -852,7 +733,7 @@
 			this.firmwareTab.Controls.Add(this.ebinSelectButton);
 			this.firmwareTab.Location = new System.Drawing.Point(4, 34);
 			this.firmwareTab.Name = "firmwareTab";
-			this.firmwareTab.Size = new System.Drawing.Size(876, 581);
+			this.firmwareTab.Size = new System.Drawing.Size(876, 601);
 			this.firmwareTab.TabIndex = 2;
 			this.firmwareTab.Text = "固件升级";
 			this.firmwareTab.UseVisualStyleBackColor = true;
@@ -876,7 +757,7 @@
 			this.label23.AutoSize = true;
 			this.label23.BackColor = System.Drawing.Color.Transparent;
 			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label23.Location = new System.Drawing.Point(633, 496);
+			this.label23.Location = new System.Drawing.Point(633, 495);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(89, 12);
 			this.label23.TabIndex = 113;
@@ -884,7 +765,7 @@
 			// 
 			// partitionSizeNUD
 			// 
-			this.partitionSizeNUD.Location = new System.Drawing.Point(765, 492);
+			this.partitionSizeNUD.Location = new System.Drawing.Point(765, 491);
 			this.partitionSizeNUD.Maximum = new decimal(new int[] {
             409600,
             0,
@@ -911,7 +792,7 @@
 			this.label20.AutoSize = true;
 			this.label20.BackColor = System.Drawing.Color.Transparent;
 			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label20.Location = new System.Drawing.Point(633, 463);
+			this.label20.Location = new System.Drawing.Point(633, 462);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(101, 12);
 			this.label20.TabIndex = 113;
@@ -919,7 +800,7 @@
 			// 
 			// partitionTimeNUD
 			// 
-			this.partitionTimeNUD.Location = new System.Drawing.Point(765, 459);
+			this.partitionTimeNUD.Location = new System.Drawing.Point(765, 458);
 			this.partitionTimeNUD.Minimum = new decimal(new int[] {
             10,
             0,
@@ -941,7 +822,7 @@
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label1.Location = new System.Drawing.Point(633, 397);
+			this.label1.Location = new System.Drawing.Point(633, 396);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(77, 12);
 			this.label1.TabIndex = 109;
@@ -952,7 +833,7 @@
 			this.label4.AutoSize = true;
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label4.Location = new System.Drawing.Point(633, 430);
+			this.label4.Location = new System.Drawing.Point(633, 429);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(101, 12);
 			this.label4.TabIndex = 110;
@@ -960,7 +841,7 @@
 			// 
 			// relayTimeNUD
 			// 
-			this.relayTimeNUD.Location = new System.Drawing.Point(764, 393);
+			this.relayTimeNUD.Location = new System.Drawing.Point(765, 392);
 			this.relayTimeNUD.Minimum = new decimal(new int[] {
             1,
             0,
@@ -979,7 +860,7 @@
 			// 
 			// packageSizeNUD
 			// 
-			this.packageSizeNUD.Location = new System.Drawing.Point(765, 426);
+			this.packageSizeNUD.Location = new System.Drawing.Point(765, 425);
 			this.packageSizeNUD.Maximum = new decimal(new int[] {
             1024,
             0,
@@ -1074,18 +955,276 @@
 			this.fbinSelectDialog.Filter = "fpga升级包|*.bin";
 			this.fbinSelectDialog.Title = "请谨慎选择升级包，如果选错可能造成严重后果！！！";
 			// 
+			// numericUpDown1
+			// 
+			this.numericUpDown1.Location = new System.Drawing.Point(765, 359);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(53, 21);
+			this.numericUpDown1.TabIndex = 112;
+			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.numericUpDown1.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+			this.numericUpDown1.ValueChanged += new System.EventHandler(this.relayTimeNUD_ValueChanged);
+			// 
+			// label25
+			// 
+			this.label25.AutoSize = true;
+			this.label25.BackColor = System.Drawing.Color.Transparent;
+			this.label25.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label25.Location = new System.Drawing.Point(633, 363);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(77, 12);
+			this.label25.TabIndex = 109;
+			this.label25.Text = "首包延时(ms)";
+			// 
+			// numericUpDown2
+			// 
+			this.numericUpDown2.Location = new System.Drawing.Point(765, 524);
+			this.numericUpDown2.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Name = "numericUpDown2";
+			this.numericUpDown2.Size = new System.Drawing.Size(53, 21);
+			this.numericUpDown2.TabIndex = 114;
+			this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.numericUpDown2.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+			this.numericUpDown2.ValueChanged += new System.EventHandler(this.partitionNUD_ValueChanged);
+			// 
+			// label26
+			// 
+			this.label26.AutoSize = true;
+			this.label26.BackColor = System.Drawing.Color.Transparent;
+			this.label26.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label26.Location = new System.Drawing.Point(633, 528);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(95, 12);
+			this.label26.TabIndex = 113;
+			this.label26.Text = "FPGA等待时间(s)";
+			// 
+			// artnetGroupBox
+			// 
+			this.artnetGroupBox.Controls.Add(this.label27);
+			this.artnetGroupBox.Controls.Add(this.addrTB);
+			this.artnetGroupBox.Controls.Add(this.label29);
+			this.artnetGroupBox.Controls.Add(this.label2);
+			this.artnetGroupBox.Controls.Add(this.aTdLenTB);
+			this.artnetGroupBox.Controls.Add(this.label36);
+			this.artnetGroupBox.Controls.Add(this.aPerTB);
+			this.artnetGroupBox.Controls.Add(this.label38);
+			this.artnetGroupBox.Controls.Add(this.aStartTB);
+			this.artnetGroupBox.Controls.Add(this.label35);
+			this.artnetGroupBox.Controls.Add(this.aJLFKSTB);
+			this.artnetGroupBox.Controls.Add(this.label33);
+			this.artnetGroupBox.Controls.Add(this.aFKHTB);
+			this.artnetGroupBox.Controls.Add(this.label32);
+			this.artnetGroupBox.Controls.Add(this.aMacTB);
+			this.artnetGroupBox.Controls.Add(this.aIpTB);
+			this.artnetGroupBox.Controls.Add(this.aFKLSTB);
+			this.artnetGroupBox.Controls.Add(this.label30);
+			this.artnetGroupBox.Location = new System.Drawing.Point(282, 218);
+			this.artnetGroupBox.Name = "artnetGroupBox";
+			this.artnetGroupBox.Size = new System.Drawing.Size(571, 239);
+			this.artnetGroupBox.TabIndex = 129;
+			this.artnetGroupBox.TabStop = false;
+			this.artnetGroupBox.Text = "ArtNet";
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.label12);
+			this.groupBox1.Controls.Add(this.fxCheckBox);
+			this.groupBox1.Controls.Add(this.label17);
+			this.groupBox1.Controls.Add(this.icCB);
+			this.groupBox1.Controls.Add(this.label16);
+			this.groupBox1.Controls.Add(this.rgbCB);
+			this.groupBox1.Controls.Add(this.label18);
+			this.groupBox1.Controls.Add(this.outTypeCB);
+			this.groupBox1.Controls.Add(this.label14);
+			this.groupBox1.Controls.Add(this.clockTB);
+			this.groupBox1.Location = new System.Drawing.Point(16, 12);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(556, 186);
+			this.groupBox1.TabIndex = 129;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "主要配置";
+			// 
+			// iniTab
+			// 
+			this.iniTab.Controls.Add(this.baudCB);
+			this.iniTab.Controls.Add(this.label3);
+			this.iniTab.Controls.Add(this.label8);
+			this.iniTab.Controls.Add(this.label5);
+			this.iniTab.Controls.Add(this.label10);
+			this.iniTab.Controls.Add(this.ledGamTB);
+			this.iniTab.Controls.Add(this.ledNameTB);
+			this.iniTab.Controls.Add(this.diskFlagTB);
+			this.iniTab.Controls.Add(this.maxDotTB);
+			this.iniTab.Controls.Add(this.label15);
+			this.iniTab.Location = new System.Drawing.Point(4, 34);
+			this.iniTab.Name = "iniTab";
+			this.iniTab.Padding = new System.Windows.Forms.Padding(3);
+			this.iniTab.Size = new System.Drawing.Size(876, 601);
+			this.iniTab.TabIndex = 3;
+			this.iniTab.Text = "以后放到ini的配置";
+			this.iniTab.UseVisualStyleBackColor = true;
+			// 
+			// baudCB
+			// 
+			this.baudCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.baudCB.FormattingEnabled = true;
+			this.baudCB.Items.AddRange(new object[] {
+            "9600",
+            "19200",
+            "38400",
+            "57600",
+            "115200"});
+			this.baudCB.Location = new System.Drawing.Point(175, 37);
+			this.baudCB.Name = "baudCB";
+			this.baudCB.Size = new System.Drawing.Size(80, 20);
+			this.baudCB.TabIndex = 109;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(77, 40);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(41, 12);
+			this.label3.TabIndex = 103;
+			this.label3.Text = "波特率";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(77, 72);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(65, 12);
+			this.label8.TabIndex = 102;
+			this.label8.Text = "显示屏标识";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(75, 168);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(53, 12);
+			this.label5.TabIndex = 101;
+			this.label5.Text = "存储类型";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(77, 102);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(65, 12);
+			this.label10.TabIndex = 100;
+			this.label10.Text = "最大扫描点";
+			// 
+			// ledGamTB
+			// 
+			this.ledGamTB.Location = new System.Drawing.Point(175, 132);
+			this.ledGamTB.Name = "ledGamTB";
+			this.ledGamTB.Size = new System.Drawing.Size(108, 21);
+			this.ledGamTB.TabIndex = 108;
+			this.ledGamTB.Text = "1";
+			// 
+			// ledNameTB
+			// 
+			this.ledNameTB.Location = new System.Drawing.Point(175, 68);
+			this.ledNameTB.Name = "ledNameTB";
+			this.ledNameTB.Size = new System.Drawing.Size(108, 21);
+			this.ledNameTB.TabIndex = 106;
+			// 
+			// diskFlagTB
+			// 
+			this.diskFlagTB.Location = new System.Drawing.Point(175, 164);
+			this.diskFlagTB.Name = "diskFlagTB";
+			this.diskFlagTB.Size = new System.Drawing.Size(108, 21);
+			this.diskFlagTB.TabIndex = 105;
+			this.diskFlagTB.Text = "0";
+			// 
+			// maxDotTB
+			// 
+			this.maxDotTB.Location = new System.Drawing.Point(175, 98);
+			this.maxDotTB.Name = "maxDotTB";
+			this.maxDotTB.Size = new System.Drawing.Size(108, 21);
+			this.maxDotTB.TabIndex = 104;
+			this.maxDotTB.Text = "1024";
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Location = new System.Drawing.Point(75, 135);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(47, 12);
+			this.label15.TabIndex = 107;
+			this.label15.Text = "Led_gam";
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.label6);
+			this.groupBox2.Controls.Add(this.label19);
+			this.groupBox2.Controls.Add(this.verTB);
+			this.groupBox2.Controls.Add(this.label7);
+			this.groupBox2.Controls.Add(this.stepTimeNUD);
+			this.groupBox2.Controls.Add(this.label9);
+			this.groupBox2.Controls.Add(this.playModeCB);
+			this.groupBox2.Controls.Add(this.sceneNUD);
+			this.groupBox2.Location = new System.Drawing.Point(597, 12);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(256, 186);
+			this.groupBox2.TabIndex = 130;
+			this.groupBox2.TabStop = false;
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.label13);
+			this.groupBox3.Controls.Add(this.label11);
+			this.groupBox3.Controls.Add(this.label21);
+			this.groupBox3.Controls.Add(this.wNUD);
+			this.groupBox3.Controls.Add(this.label22);
+			this.groupBox3.Controls.Add(this.bNUD);
+			this.groupBox3.Controls.Add(this.label24);
+			this.groupBox3.Controls.Add(this.gNUD);
+			this.groupBox3.Controls.Add(this.dimmerNUD);
+			this.groupBox3.Controls.Add(this.rNUD);
+			this.groupBox3.Location = new System.Drawing.Point(16, 218);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(241, 239);
+			this.groupBox3.TabIndex = 131;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "亮度";
+			// 
 			// ConfForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.SlateGray;
-			this.ClientSize = new System.Drawing.Size(884, 641);
+			this.ClientSize = new System.Drawing.Size(884, 661);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
-			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(900, 680);
-			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(900, 680);
 			this.Name = "ConfForm";
 			this.Text = "数据配置器";
 			this.Load += new System.EventHandler(this.ConfForm_Load);
@@ -1094,7 +1233,6 @@
 			this.tabControl1.ResumeLayout(false);
 			this.paramTab.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.wNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.bNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gNUD)).EndInit();
@@ -1108,6 +1246,18 @@
 			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			this.artnetGroupBox.ResumeLayout(false);
+			this.artnetGroupBox.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
+			this.iniTab.ResumeLayout(false);
+			this.iniTab.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1157,32 +1307,22 @@
 		private System.Windows.Forms.NumericUpDown dimmerNUD;
 		private System.Windows.Forms.NumericUpDown sceneNUD;
 		private System.Windows.Forms.ComboBox playModeCB;
-		private System.Windows.Forms.ComboBox baudCB;
 		private System.Windows.Forms.NumericUpDown stepTimeNUD;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label24;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label22;
-		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.TextBox addrTB;
-		private System.Windows.Forms.TextBox ledGamTB;
 		private System.Windows.Forms.TextBox clockTB;
-		private System.Windows.Forms.TextBox ledNameTB;
 		private System.Windows.Forms.TextBox verTB;
-		private System.Windows.Forms.TextBox diskFlagTB;
 		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.TextBox maxDotTB;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Label label19;
-		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Label label17;
@@ -1201,5 +1341,24 @@
 		private System.Windows.Forms.CheckBox fxCheckBox;
 		private System.Windows.Forms.ProgressBar fpgaProgressBar;
 		private System.Windows.Forms.ProgressBar mcuProgressBar;
+		private System.Windows.Forms.Label label25;
+		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.Label label26;
+		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		private System.Windows.Forms.GroupBox artnetGroupBox;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.TabPage iniTab;
+		private System.Windows.Forms.ComboBox baudCB;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.TextBox ledGamTB;
+		private System.Windows.Forms.TextBox ledNameTB;
+		private System.Windows.Forms.TextBox diskFlagTB;
+		private System.Windows.Forms.TextBox maxDotTB;
+		private System.Windows.Forms.Label label15;
 	}
 }

@@ -269,8 +269,8 @@ namespace LBDConfigTool.utils.communication
                     for (int i = 0; i < packetCount; i++)
                     {
                         buff.AddRange(packetHead);
-                        buff.Add(0x00);
-                        buff.Add(0x01);
+                        buff.Add(Convert.ToByte(param.PacketSize & 0xFF));
+                        buff.Add(Convert.ToByte((param.PacketSize >> 8) & 0xFF));
                         seek = param.PacketSize * i;
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
@@ -401,8 +401,9 @@ namespace LBDConfigTool.utils.communication
                     for (int i = 0; i < packetCount; i++)
                     {
                         buff.AddRange(packetHead);
-                        buff.Add(0x00);
-                        buff.Add(0x01);
+                        buff.Add(Convert.ToByte(param.PacketSize & 0xFF));
+                        buff.Add(Convert.ToByte((param.PacketSize >> 8) & 0xFF));
+                    
                         seek = param.PacketSize * i;
                         buff.Add(Convert.ToByte(seek & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));

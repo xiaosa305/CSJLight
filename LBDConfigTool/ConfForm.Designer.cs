@@ -124,6 +124,8 @@
 			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ebinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
+			this.pswTB = new System.Windows.Forms.TextBox();
+			this.label28 = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -206,6 +208,8 @@
 			// paramTab
 			// 
 			this.paramTab.BackColor = System.Drawing.Color.SlateGray;
+			this.paramTab.Controls.Add(this.label28);
+			this.paramTab.Controls.Add(this.pswTB);
 			this.paramTab.Controls.Add(this.panel1);
 			this.paramTab.Controls.Add(this.testButton);
 			this.paramTab.Controls.Add(this.button1);
@@ -762,11 +766,11 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(40, 522);
+			this.testButton.Location = new System.Drawing.Point(185, 525);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(75, 41);
 			this.testButton.TabIndex = 28;
-			this.testButton.Text = "测试";
+			this.testButton.Text = "加密";
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
@@ -977,7 +981,6 @@
             0,
             0,
             0});
-			this.fpgaWaitTimeNUD.ValueChanged += new System.EventHandler(this.saveNUD_ValueChanged);
 			// 
 			// label23
 			// 
@@ -1012,7 +1015,6 @@
             0,
             0,
             0});
-			this.partitionSizeNUD.ValueChanged += new System.EventHandler(this.saveNUD_ValueChanged);
 			// 
 			// label20
 			// 
@@ -1042,7 +1044,6 @@
             0,
             0,
             0});
-			this.partitionTimeNUD.ValueChanged += new System.EventHandler(this.saveNUD_ValueChanged);
 			// 
 			// label25
 			// 
@@ -1088,7 +1089,6 @@
             0,
             0,
             0});
-			this.firstRelayNUD.ValueChanged += new System.EventHandler(this.saveNUD_ValueChanged);
 			// 
 			// label4
 			// 
@@ -1118,7 +1118,6 @@
             0,
             0,
             0});
-			this.relayTimeNUD.ValueChanged += new System.EventHandler(this.saveNUD_ValueChanged);
 			// 
 			// packageSizeNUD
 			// 
@@ -1142,7 +1141,6 @@
             0,
             0,
             0});
-			this.packageSizeNUD.ValueChanged += new System.EventHandler(this.saveNUD_ValueChanged);
 			// 
 			// fbinPathLabel
 			// 
@@ -1217,6 +1215,24 @@
 			this.fbinSelectDialog.Filter = "fpga升级包|*.bin";
 			this.fbinSelectDialog.Title = "请谨慎选择升级包，如果选错可能造成严重后果！！！";
 			// 
+			// pswTB
+			// 
+			this.pswTB.Location = new System.Drawing.Point(19, 545);
+			this.pswTB.MaxLength = 16;
+			this.pswTB.Name = "pswTB";
+			this.pswTB.Size = new System.Drawing.Size(125, 21);
+			this.pswTB.TabIndex = 30;
+			// 
+			// label28
+			// 
+			this.label28.AutoSize = true;
+			this.label28.ForeColor = System.Drawing.Color.Snow;
+			this.label28.Location = new System.Drawing.Point(19, 527);
+			this.label28.Name = "label28";
+			this.label28.Size = new System.Drawing.Size(125, 12);
+			this.label28.TabIndex = 31;
+			this.label28.Text = "加密文本(一定要16位)";
+			// 
 			// ConfForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1232,6 +1248,7 @@
 			this.statusStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.paramTab.ResumeLayout(false);
+			this.paramTab.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.artnetGroupBox.ResumeLayout(false);
 			this.artnetGroupBox.PerformLayout();
@@ -1360,5 +1377,7 @@
 		private System.Windows.Forms.TextBox diskFlagTB;
 		private System.Windows.Forms.TextBox maxDotTB;
 		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.Label label28;
+		private System.Windows.Forms.TextBox pswTB;
 	}
 }

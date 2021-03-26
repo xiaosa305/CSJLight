@@ -124,6 +124,9 @@
     <EmbeddedResource Include="SpecialForm.resx">
       <DependentUpon>SpecialForm.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="default.abin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <Content Include="CtrlType.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

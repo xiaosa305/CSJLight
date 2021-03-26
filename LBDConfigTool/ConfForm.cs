@@ -97,6 +97,8 @@ namespace LBDConfigTool
 			//specialCC,填充默认值
 			makeSpecialCC();
 
+			Console.WriteLine("++++++++++++++++++++++初始化");
+
 			// 软件启动时，顺手搜索一次设备
 			cnc = CSJNetCommunitor.GetInstance();
 			cnc.Start(); //启动服务
@@ -137,7 +139,23 @@ namespace LBDConfigTool
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ConfForm_Load(object sender, EventArgs e)	{	}
+		private void ConfForm_Load(object sender, EventArgs e)	{
+
+			Console.WriteLine("++++++++++++++++++++++Load");
+
+			// 每次启动后，加载默认的配置			
+			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject( Application.StartupPath + @"\default.abin");			
+			SetSpecialCC(cc);
+			renderAllControls(cc);
+
+			// 监听在最后加，避免自循环后修改并保存内容
+			firstRelayNUD.ValueChanged += saveNUD_ValueChanged;
+			relayTimeNUD.ValueChanged += saveNUD_ValueChanged;
+			packageSizeNUD.ValueChanged += saveNUD_ValueChanged;
+			partitionSizeNUD.ValueChanged += saveNUD_ValueChanged;
+			partitionTimeNUD.ValueChanged += saveNUD_ValueChanged;
+			fpgaWaitTimeNUD.ValueChanged += saveNUD_ValueChanged;
+		}
 
 		#region 通用方法
 
@@ -194,8 +212,11 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-            RecordTest.GetInstance().Test();
-            //Console.WriteLine(specialCC);
+			//RecordTest.GetInstance().Test();
+			//Console.WriteLine(specialCC);
+
+			cnc.WriteEncrypt(pswTB.Text, null, null);
+
 		}
 
 		/// <summary>
@@ -564,6 +585,8 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void saveNUD_ValueChanged(object sender, EventArgs e)
 		{
+			Console.WriteLine("saveNUD_ValueChanged");
+
 			Properties.Settings.Default.firstRelayTime = decimal.ToInt32(firstRelayNUD.Value);
 			Properties.Settings.Default.relayTime = decimal.ToInt32(relayTimeNUD.Value);
 			Properties.Settings.Default.packageSize = decimal.ToInt32(packageSizeNUD.Value);

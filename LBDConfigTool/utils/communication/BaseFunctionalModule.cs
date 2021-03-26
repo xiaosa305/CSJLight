@@ -429,7 +429,14 @@ namespace LBDConfigTool.utils.communication
                         }
                         else
                         {
-                            this.ThreadSleep(param.PacketIntervalTime);
+                            if (i == 0)
+                            {
+                                this.ThreadSleep(param.FirstPacketIntervalTime);
+                            }
+                            else
+                            {
+                                this.ThreadSleep(param.PacketIntervalTime);
+                            }
                         }
                         buff.Clear();
                         double progress = ((i + 1) * param.PacketSize * 100) / (1.0 * length);
@@ -462,6 +469,7 @@ namespace LBDConfigTool.utils.communication
                 }
                 byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
                 this.Send(endPacket);
+                this.ThreadSleep(param.FPGAUpdateCompletedIntervalTime);
                 this.Progress_Event(100);
                 this.TaskCompleted("MCU升级成功");
             }

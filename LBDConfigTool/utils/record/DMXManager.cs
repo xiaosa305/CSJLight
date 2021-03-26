@@ -52,9 +52,10 @@ namespace LBDConfigTool.utils.record
         {
             this.Init();
             this.LedControlNumber = 1;
-            this.LedInterfaceNumber = conf.Fk_lushu;
-            this.LedSpaceNumber = conf.Art_Net_Pre;
-
+            //this.LedInterfaceNumber = conf.Fk_lushu;
+            //this.LedSpaceNumber = conf.Art_Net_Pre;
+            this.LedInterfaceNumber = 8;
+            this.LedSpaceNumber = 6;
             this.CaptureTool = new CaptureTool(conf, this.FrameSync, this.Manager);
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
@@ -171,6 +172,7 @@ namespace LBDConfigTool.utils.record
                 {
                     if (this.IsStartReceiveDmxDataStatus)
                     {
+                        Console.WriteLine("收到 ：" + port);
                         this.SpaceDmxData[port] = dmxData;
                         this.SpaceDmxDataReceiveStatus[port] = true;
                     }
@@ -191,6 +193,7 @@ namespace LBDConfigTool.utils.record
                 {
                     if (this.IsRecordDmxData)
                     {
+                        Console.WriteLine("同步一帧");
                         lock (this.RecordDmxDataQueue)
                         {
                             this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);

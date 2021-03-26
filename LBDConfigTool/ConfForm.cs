@@ -190,8 +190,8 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			//RecordTest.GetInstance().Test();
-			Console.WriteLine(specialCC);
+            RecordTest.GetInstance().Test();
+            //Console.WriteLine(specialCC);
 		}
 
 		/// <summary>

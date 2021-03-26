@@ -30,7 +30,9 @@ namespace LBDConfigTool.utils.record
         {
             this.FrameSync_Event = frameSync;
             this.DMXDataCaptureed_Event = dataCaptureed;
-            this.StartSpace = conf.Art_Net_Start_Space;
+            //this.StartSpace = conf.Art_Net_Start_Space;
+            this.StartSpace = 1;
+
             this.Init();
         }
         public void Reset()

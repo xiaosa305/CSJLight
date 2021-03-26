@@ -190,47 +190,8 @@ namespace LBDConfigTool.utils.communication
                 this.TaskError();
             }
         }
-        //读取设备信息TODO
-        public void ReadDeviceId(Completed completed, Error error)
-        {
-            this.Completed_Event = completed;
-            this.Error_Event = error;
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CurrentModule = Module.ReadDeviceId;
-                    this.TaskTimer = new System.Timers.Timer
-                    {
-                        AutoReset = false
-                    };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => ReadDeviceIdTask(s, e));
-                    this.TaskTimer.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
-        }
-        private void ReadDeviceIdTask(Object obj, ElapsedEventArgs e)
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
-        }
         //加密
-        public void WriteEncrypt(Completed completed, Error error)
+        public void WriteEncrypt(string pwd,Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -241,7 +202,10 @@ namespace LBDConfigTool.utils.communication
                     this.IsSending = true;
                     this.CurrentModule = Module.WriteEncrypt;
                     byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00,0xD0 };
-                    this.Send(data);
+                    List<byte> buff = new List<byte>();
+                    buff.AddRange(data);
+                    buff.AddRange(Encoding.Default.GetBytes(pwd));
+                    this.Send(buff.ToArray());
                 }
             }
             catch (Exception ex)
@@ -252,31 +216,7 @@ namespace LBDConfigTool.utils.communication
                 this.TaskError();
             }
         }
-        private void WriteEncryptTask(byte[] sourceData)
-        {
-            try
-            {
-                byte[] desData = new byte[12];
-                //加密
-                ;
-                //发送
-                List<byte> buff = new List<byte>();
-                buff.Add(0xAA);
-                buff.Add(0xBB);
-                buff.Add(0x05);
-                buff.Add(0x05);
-                buff.AddRange(desData);
-                this.Send(buff.ToArray());
-                this.WriteEncryptCompleted();
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.WriteEncryptError();
-            }
-        }
+        
         //升级FPGA
         public void UpdateFPGA256(string filePath,ParamEntity param,Progress progress,Completed completed, Error error)
         {
@@ -357,7 +297,14 @@ namespace LBDConfigTool.utils.communication
                         }
                         else
                         {
-                            this.ThreadSleep(param.PacketIntervalTime);
+                            if (i == 0)
+                            {
+                                this.ThreadSleep(param.FirstPacketIntervalTime);
+                            }
+                            else
+                            {
+                                this.ThreadSleep(param.PacketIntervalTime);
+                            }
                         }
                         buff.Clear();
                         double progress = ((i + 1) * param.PacketSize * 100) / (1.0 * length);
@@ -390,6 +337,7 @@ namespace LBDConfigTool.utils.communication
                 }
                 byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
                 this.Send(endPacket);
+                this.ThreadSleep(param.FPGAUpdateCompletedIntervalTime);
                 this.Progress_Event(100);
                 this.TaskCompleted("FPGA升级成功");
             }
@@ -557,7 +505,7 @@ namespace LBDConfigTool.utils.communication
             try
             {
                 byte[] sourceData = conf.GetData();
-                byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA0, Convert.ToByte((sourceData.Length + 5) & 0xFF), Convert.ToByte(((sourceData.Length + 5) >> 8) & 0xFF), 0x00,0x00,0x00,0x00 };
+                byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA0, Convert.ToByte((sourceData.Length) & 0xFF), Convert.ToByte(((sourceData.Length) >> 8) & 0xFF), 0x00,0x00,0x00,0x00 };
                 List<byte> buff = new List<byte>();
                 buff.AddRange(data);
                 buff.AddRange(sourceData);
@@ -725,7 +673,7 @@ namespace LBDConfigTool.utils.communication
         }
         private void WriteEncryptReceiveManage(List<byte> recData)
         {
-            this.WriteEncryptTask(recData.ToArray());
+
         }
         private void WriteEncryptCompleted()
         {

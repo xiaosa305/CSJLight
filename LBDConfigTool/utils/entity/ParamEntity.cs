@@ -11,5 +11,7 @@ namespace LBDConfigTool.utils.entity
         public int PacketIntervalTime { get; set; }
         public int PacketIntervalTimeByPartitionIndex { get; set; }
         public int PartitionIndex { get; set; }
+        public int FirstPacketIntervalTime { get; set; }
+        public int FPGAUpdateCompletedIntervalTime { get; set; }
     }
 }

@@ -47,6 +47,14 @@ namespace LBDConfigTool.utils.conf
         public int CurrUseTimes { get; set; }//当前使用次数  不参与CRC校验
 
         public string OLD_MIA_HAO { get; set; }// 旧密码 u8[6]
+        public CSJConf()
+        {
+            this.Max_scan_dot = 1024;
+            this.Baud = 3;
+            this.Led_gam = 1;
+            this.DiskFlag = 0;
+            this.LedName = "";
+        }
 
         public static CSJConf Build(byte[] data)
         {

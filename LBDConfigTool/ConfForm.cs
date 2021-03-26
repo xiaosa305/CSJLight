@@ -508,7 +508,7 @@ namespace LBDConfigTool
 				PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value),
 				PacketIntervalTimeByPartitionIndex = decimal.ToInt32(partitionTimeNUD.Value),
 				PartitionIndex = decimal.ToInt32(partitionSizeNUD.Value),
-				FPGAUpdateCompletedIntervalTime = decimal.ToInt32(fpgaWaitTimeNUD.Value),
+				FPGAUpdateCompletedIntervalTime = decimal.ToInt32(fpgaWaitTimeNUD.Value) * 1000,
 			};
 		}
 

@@ -42,6 +42,7 @@ namespace LBDConfigTool
 				icCB.Items.Add(iniUtils.ReadString("main", "EN" + typeIndex, ""));
 			}
 			icCB.SelectedIndex = 0;
+			baudCB.SelectedIndex = 3;		
 
 			// 添加上次存储的固件升级包、传输配置等; 先做非空确认
 			if ( File.Exists(Properties.Settings.Default.abinPath) ){
@@ -70,11 +71,13 @@ namespace LBDConfigTool
 				Properties.Settings.Default.fbinPath = null;
 				Properties.Settings.Default.Save();
 			}
-						
+					
+			firstRelayNUD.Value = Properties.Settings.Default.firstRelayTime;
 			relayTimeNUD.Value = Properties.Settings.Default.relayTime;
 			packageSizeNUD.Value = Properties.Settings.Default.packageSize;
 			partitionTimeNUD.Value = Properties.Settings.Default.partitionTime;
 			partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
+			fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
 
 			//添加各类监听器
 			dimmerNUD.MouseWheel += someNUD_MouseWheel;
@@ -84,10 +87,12 @@ namespace LBDConfigTool
 			wNUD.MouseWheel += someNUD_MouseWheel;
 			sceneNUD.MouseWheel += someNUD_MouseWheel;
 			stepTimeNUD.MouseWheel += someNUD_MouseWheel;
+			firstRelayNUD.MouseWheel += someNUD_MouseWheel;
 			relayTimeNUD.MouseWheel += someNUD_MouseWheel;
 			packageSizeNUD.MouseWheel += someNUD_MouseWheel;
 			partitionTimeNUD.MouseWheel += someNUD_MouseWheel;
 			partitionSizeNUD.MouseWheel += someNUD_MouseWheel;
+			fpgaWaitTimeNUD.MouseWheel += someNUD_MouseWheel;
 
 			//specialCC,填充默认值
 			makeSpecialCC();
@@ -113,7 +118,6 @@ namespace LBDConfigTool
 				CurrUseTimes = 0
 			};
 		}	
-
 
 		/// <summary>
 		/// 辅助方法：供《SpecialForm》调用，替换当前的specialCC
@@ -499,10 +503,12 @@ namespace LBDConfigTool
 		{
 			return new ParamEntity
 			{
+				FirstPacketIntervalTime = decimal.ToInt32(firstRelayNUD.Value),
 				PacketSize = decimal.ToInt32(packageSizeNUD.Value),
 				PacketIntervalTime = decimal.ToInt32(relayTimeNUD.Value),
 				PacketIntervalTimeByPartitionIndex = decimal.ToInt32(partitionTimeNUD.Value),
-				PartitionIndex = decimal.ToInt32(partitionSizeNUD.Value)
+				PartitionIndex = decimal.ToInt32(partitionSizeNUD.Value),
+				FPGAUpdateCompletedIntervalTime = decimal.ToInt32(fpgaWaitTimeNUD.Value) * 1000,
 			};
 		}
 
@@ -552,48 +558,21 @@ namespace LBDConfigTool
 		}
 
 		/// <summary>
-		/// 更改《延时时间ms》后，存储到注册表中
+		/// 只要更改《6个发送参数》，就把所有值都存储到注册表中（消耗多一点资源但更有效率）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void relayTimeNUD_ValueChanged(object sender, EventArgs e)
+		private void saveNUD_ValueChanged(object sender, EventArgs e)
 		{
+			Properties.Settings.Default.firstRelayTime = decimal.ToInt32(firstRelayNUD.Value);
 			Properties.Settings.Default.relayTime = decimal.ToInt32(relayTimeNUD.Value);
-			Properties.Settings.Default.Save();
-		}
-
-		/// <summary>
-		/// 更改《数据包大小byte》后，存储到注册表中
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void packageSizeNUD_ValueChanged(object sender, EventArgs e)
-		{
 			Properties.Settings.Default.packageSize = decimal.ToInt32(packageSizeNUD.Value);
-			Properties.Settings.Default.Save();
-		}
-
-		/// <summary>
-		/// 更改《扇区通讯延时》后，存储到注册表中
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void partitionTimeNUD_ValueChanged(object sender, EventArgs e)
-		{
 			Properties.Settings.Default.partitionTime = decimal.ToInt32(partitionTimeNUD.Value);
-			Properties.Settings.Default.Save();
-		}
-
-		/// <summary>
-		/// 更改《扇区大小》后，存储到注册表中
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void partitionNUD_ValueChanged(object sender, EventArgs e)
-		{
 			Properties.Settings.Default.partitionSize = decimal.ToInt32(partitionSizeNUD.Value);
+			Properties.Settings.Default.fpgaWaitTime = decimal.ToInt32(fpgaWaitTimeNUD.Value);
 			Properties.Settings.Default.Save();
-		}
+		}	
+
 	}
 
 }

@@ -566,9 +566,9 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void paramTab_DoubleClick(object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty(specialCC.OLD_MIA_HAO)) {
-				return;
-			}			
+			//if (string.IsNullOrEmpty(specialCC.OLD_MIA_HAO)) {
+			//	return;
+			//}			
 
 			clickTime++;
 			if (clickTime == 3)

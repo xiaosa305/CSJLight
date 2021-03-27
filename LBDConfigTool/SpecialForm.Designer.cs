@@ -104,7 +104,7 @@
 			// 
 			// aSumTB
 			// 
-			this.aSumTB.Location = new System.Drawing.Point(140, 145);
+			this.aSumTB.Location = new System.Drawing.Point(141, 145);
 			this.aSumTB.Name = "aSumTB";
 			this.aSumTB.Size = new System.Drawing.Size(107, 21);
 			this.aSumTB.TabIndex = 72;

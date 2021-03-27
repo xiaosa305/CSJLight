@@ -46,12 +46,12 @@ namespace LBDConfigTool
 				return;
 			}
 			
-			if (oldPswTB.Text != oldPassword) {
-				if (DialogResult.No == MessageBox.Show("检测到您输入的旧密码有误，可能无法更改相关设置，是否继续？", "继续操作？", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
-				{
-					return;
-				}
-			}
+			//if (oldPswTB.Text != oldPassword) {
+			//	if (DialogResult.No == MessageBox.Show("检测到您输入的旧密码有误，可能无法更改相关设置，是否继续？", "继续操作？", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+			//	{
+			//		return;
+			//	}
+			//}
 
 			try
 			{

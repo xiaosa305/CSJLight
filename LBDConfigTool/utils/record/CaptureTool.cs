@@ -30,8 +30,8 @@ namespace LBDConfigTool.utils.record
         {
             this.FrameSync_Event = frameSync;
             this.DMXDataCaptureed_Event = dataCaptureed;
-            //this.StartSpace = conf.Art_Net_Start_Space;
-            this.StartSpace = 1;
+            this.StartSpace = conf.Art_Net_Start_Space;
+            //this.StartSpace = 1;
 
             this.Init();
         }
@@ -108,8 +108,15 @@ namespace LBDConfigTool.utils.record
                 }
                 else if (data[42 + 0] == 0x4D && data[42 + 1] == 0x61 && data[42 + 2] == 0x64 && data[42 + 3] == 0x72 && data[42 + 4] == 0x69 && data[42 + 5] == 0x78 && data[42 + 6] == 0x4E && data[42 + 7] == 0x00 && data[42 + 8] == 0x02 && data[42 + 9] == 0x52 && data[42 + 10] == 0x00)
                 {
-                    this.IsFirstFrame = false;
-                    this.FrameSync_Event();
+                    if (this.IsFirstFrame)
+                    {
+                        this.IsFirstFrame = false;
+                    }
+                    else
+                    {
+                        this.IsFirstFrame = false;
+                        this.FrameSync_Event();
+                    }
                 }
             }
         }

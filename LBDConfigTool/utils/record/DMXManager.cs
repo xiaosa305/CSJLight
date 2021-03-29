@@ -52,10 +52,10 @@ namespace LBDConfigTool.utils.record
         {
             this.Init();
             this.LedControlNumber = 1;
-            //this.LedInterfaceNumber = conf.Fk_lushu;
-            //this.LedSpaceNumber = conf.Art_Net_Pre;
-            this.LedInterfaceNumber = 8;
-            this.LedSpaceNumber = 6;
+            this.LedInterfaceNumber = conf.Fk_lushu;
+            this.LedSpaceNumber = conf.Art_Net_Pre;
+            //this.LedInterfaceNumber = 8;
+            //this.LedSpaceNumber = 6;
             this.CaptureTool = new CaptureTool(conf, this.FrameSync, this.Manager);
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
@@ -172,7 +172,6 @@ namespace LBDConfigTool.utils.record
                 {
                     if (this.IsStartReceiveDmxDataStatus)
                     {
-                        Console.WriteLine("收到 ：" + port);
                         this.SpaceDmxData[port] = dmxData;
                         this.SpaceDmxDataReceiveStatus[port] = true;
                     }
@@ -193,7 +192,6 @@ namespace LBDConfigTool.utils.record
                 {
                     if (this.IsRecordDmxData)
                     {
-                        Console.WriteLine("同步一帧");
                         lock (this.RecordDmxDataQueue)
                         {
                             this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
@@ -371,18 +369,26 @@ namespace LBDConfigTool.utils.record
                 #region 写参数包
                 FileStream stream;
                 int frameDataLength = 0;
+                
                 if (this.IsFirstFrameByRecord)
                 {
-                    this.IsFirstFrameByRecord = false;
-                    this.CreateConfigFile(dmxData);
-                    byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-                    if (File.Exists(this.FilePath))
+                    for (int i = 0; i < dmxData.Count; i++)
                     {
-                        File.Delete(this.FilePath);
-                    }
-                    using (stream = new FileStream(FilePath, FileMode.CreateNew))
-                    {
-                        stream.Write(paramPackage, 0, paramPackage.Length);
+                        if (dmxData[i].Count > 0)
+                        {
+                            this.IsFirstFrameByRecord = false;
+                            this.CreateConfigFile(dmxData);
+                            byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                            if (File.Exists(this.FilePath))
+                            {
+                                File.Delete(this.FilePath);
+                            }
+                            using (stream = new FileStream(FilePath, FileMode.CreateNew))
+                            {
+                                stream.Write(paramPackage, 0, paramPackage.Length);
+                            }
+                            break;
+                        }
                     }
                 }
                 #endregion

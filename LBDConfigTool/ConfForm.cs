@@ -594,8 +594,12 @@ namespace LBDConfigTool
 			Properties.Settings.Default.partitionSize = decimal.ToInt32(partitionSizeNUD.Value);
 			Properties.Settings.Default.fpgaWaitTime = decimal.ToInt32(fpgaWaitTimeNUD.Value);
 			Properties.Settings.Default.Save();
-		}	
+		}
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            RecordTest.GetInstance().Test();
+        }
 	}
 
 }

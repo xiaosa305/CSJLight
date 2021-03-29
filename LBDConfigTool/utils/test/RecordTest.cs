@@ -29,7 +29,7 @@ namespace LBDConfigTool.utils.test
         }
         private void Count(int value)
         {
-            Console.WriteLine(value);
+            //Console.WriteLine(value);
         }
     }
 }

@@ -90,6 +90,8 @@ namespace LBDConfigTool
 			partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
 			fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
 
+			secureTB.Text = Properties.Settings.Default.secureStr;
+
 			#endregion
 
 			//添加各类监听器
@@ -228,13 +230,16 @@ namespace LBDConfigTool
 		{
 			//RecordTest.GetInstance().Test();
 			//Console.WriteLine(specialCC);
-			if (pswTB.Text.Trim().Length != 16) {
-				setNotice(1, "加密文本必须是16位。", true);
-				return;
-			}
 
-			cnc.WriteEncrypt(pswTB.Text, null, null);
+			//if (pswTB.Text.Trim().Length != 16) {
+			//	setNotice(1, "加密文本必须是16位。", true);
+			//	return;
+			//}
 
+			cnc.WriteEncrypt(secureTB.Text, null, null);
+
+			Properties.Settings.Default.secureStr = secureTB.Text;
+			Properties.Settings.Default.Save();
 		}
 
 		/// <summary>

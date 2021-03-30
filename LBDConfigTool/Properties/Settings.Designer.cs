@@ -142,5 +142,17 @@ namespace LBDConfigTool.Properties {
                 this["recordPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string secureStr {
+            get {
+                return ((string)(this["secureStr"]));
+            }
+            set {
+                this["secureStr"] = value;
+            }
+        }
     }
 }

@@ -32,5 +32,8 @@
     <Setting Name="recordPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Temp\CSJ_SC</Value>
     </Setting>
+    <Setting Name="secureStr" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

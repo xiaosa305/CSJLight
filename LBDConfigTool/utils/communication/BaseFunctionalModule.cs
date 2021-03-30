@@ -215,7 +215,6 @@ namespace LBDConfigTool.utils.communication
                             buff.Add(0x00);
                         }
                     }
-                    buff.AddRange(Encoding.Default.GetBytes(pwd));
                     this.Send(buff.ToArray());
                     this.IsSending = false;
                 }

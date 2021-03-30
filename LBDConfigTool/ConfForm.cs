@@ -2,6 +2,7 @@
 using LBDConfigTool.utils.communication;
 using LBDConfigTool.utils.conf;
 using LBDConfigTool.utils.entity;
+using LBDConfigTool.utils.record;
 using LBDConfigTool.utils.test;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,12 @@ namespace LBDConfigTool
 		private bool isSuccessShow = true;
 		private CSJConf specialCC;  // 辅助的cc，在程序初始化后应该设为一个默认值，除非用户进行修改
 
+		private string deviceIP ;  // 必须是从设备回读的信息，才能设为true。即必须是readCompleted方法：
+		private bool isRecording = false; //正在录制时，设为true；
+		private DMXManager simulator;  //
+		private string dirPath ; //录制文件存储路径
+		//private int recordIndex = 0; //录制文件序号
+
 		public ConfForm()
 		{
 			InitializeComponent();			
@@ -42,9 +49,10 @@ namespace LBDConfigTool
 				icCB.Items.Add(iniUtils.ReadString("main", "EN" + typeIndex, ""));
 			}
 			icCB.SelectedIndex = 0;
-			baudCB.SelectedIndex = 3;		
+			baudCB.SelectedIndex = 3;
 
-			// 添加上次存储的固件升级包、传输配置等; 先做非空确认
+			#region  添加上次更改的各种配置
+
 			if ( File.Exists(Properties.Settings.Default.abinPath) ){
 				abinOpenDialog.FileName = Properties.Settings.Default.abinPath;				
 			}else {
@@ -71,13 +79,18 @@ namespace LBDConfigTool
 				Properties.Settings.Default.fbinPath = null;
 				Properties.Settings.Default.Save();
 			}
-					
+
+			dirPath = Properties.Settings.Default.recordPath;
+			setRecordPathLabel();
+
 			firstRelayNUD.Value = Properties.Settings.Default.firstRelayTime;
 			relayTimeNUD.Value = Properties.Settings.Default.relayTime;
 			packageSizeNUD.Value = Properties.Settings.Default.packageSize;
 			partitionTimeNUD.Value = Properties.Settings.Default.partitionTime;
 			partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
 			fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
+
+			#endregion
 
 			//添加各类监听器
 			dimmerNUD.MouseWheel += someNUD_MouseWheel;
@@ -164,9 +177,10 @@ namespace LBDConfigTool
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="isMsbShow"></param>
-		private void setNotice(string msg, bool isMsbShow)
+		private void setNotice(int labelPos, string msg, bool isMsbShow)
 		{
-			toolStripStatusLabel1.Text = msg;
+			if (labelPos == 1)myStatusLabel1.Text = msg;
+			else	myStatusLabel2.Text = msg;			
 			if (isMsbShow) MessageBox.Show(msg);
 		}
 
@@ -214,6 +228,10 @@ namespace LBDConfigTool
 		{
 			//RecordTest.GetInstance().Test();
 			//Console.WriteLine(specialCC);
+			if (pswTB.Text.Trim().Length != 16) {
+				setNotice(1, "加密文本必须是16位。", true);
+				return;
+			}
 
 			cnc.WriteEncrypt(pswTB.Text, null, null);
 
@@ -239,7 +257,7 @@ namespace LBDConfigTool
 			CSJConf cc = obj as CSJConf;
 			SetSpecialCC(cc);
 			renderAllControls(cc);
-			setNotice(msg, isSuccessShow);
+			setNotice(1,msg, isSuccessShow);
 		}
 
 		/// <summary>
@@ -248,7 +266,7 @@ namespace LBDConfigTool
 		/// <param name="msg"></param>
 		private void readError(string msg)
 		{
-			setNotice(msg, true);
+			setNotice(1, msg, true);
 		}
 
 		/// <summary>
@@ -316,7 +334,7 @@ namespace LBDConfigTool
 			}
 			catch (Exception ex)
 			{
-				setNotice("参数格式有误" + ex.Message, true);
+				setNotice(1, "参数格式有误" + ex.Message, true);
 				return null;
 			}
 			return cc;
@@ -329,7 +347,7 @@ namespace LBDConfigTool
 		/// <param name="msg"></param>
 		private void writeCompleted(object obj, string msg)
 		{
-			setNotice("参数下载成功", isSuccessShow);
+			setNotice(1, "参数下载成功", isSuccessShow);
 		}
 
 		/// <summary>
@@ -338,7 +356,7 @@ namespace LBDConfigTool
 		/// <param name="msg"></param>
 		private void writeError(string msg)
 		{
-			setNotice("参数下载失败", true);
+			setNotice(1, "参数下载失败", true);
 		}
 
 		/// <summary>
@@ -399,11 +417,11 @@ namespace LBDConfigTool
 					// 根据情况，决定是否在加载本地配置后，设置相关的加密的内容；
 					SetSpecialCC(cc);
 					renderAllControls(cc);
-					setNotice("成功加载本地配置文件(" + abinOpenDialog.SafeFileName + ")。", isSuccessShow);
+					setNotice(1, "成功加载本地配置文件(" + abinOpenDialog.SafeFileName + ")。", isSuccessShow);
 				}
 				catch (Exception ex)
 				{
-					setNotice("加载配置文件时发生异常：" + ex.Message, true);
+					setNotice(1, "加载配置文件时发生异常：" + ex.Message, true);
 				}
 			}
 		}
@@ -425,11 +443,11 @@ namespace LBDConfigTool
 					{
 						string binPath = abinSaveDialog.FileName;
 						SerializeUtils.SerializeObject(binPath, cc);
-						setNotice("成功保存配置到本地。", isSuccessShow);
+						setNotice(1,"成功保存配置到本地。", isSuccessShow);
 					}
 					catch (Exception ex)
 					{
-						setNotice("保存配置时发生异常：" + ex.Message, true);
+						setNotice(1,"保存配置时发生异常：" + ex.Message, true);
 					}
 				}
 			}
@@ -471,7 +489,7 @@ namespace LBDConfigTool
 		/// <param name="progress"></param>
 		private void DrawProgress(int progressPercent)
 		{
-			setNotice("正在升级固件(mcu)，请稍候...", false);
+			setNotice(1,"正在升级固件(mcu)，请稍候...", false);
 			mcuProgressBar.Value = progressPercent;			
 		}
 
@@ -511,7 +529,7 @@ namespace LBDConfigTool
 		/// <param name="progress"></param>
 		private void fpgaDrawProgress(int progressPercent)
 		{
-			setNotice("正在升级固件(fpga)，请稍候...", false);
+			setNotice(1,"正在升级固件(fpga)，请稍候...", false);
 			fpgaProgressBar.Value = progressPercent;
 			
 		}
@@ -539,7 +557,7 @@ namespace LBDConfigTool
 		/// <param name="msg"></param>
 		private void UpdateError(string msg)
 		{
-			setNotice(msg, isSuccessShow);
+			setNotice(1,msg, isSuccessShow);
 			mcuProgressBar.Value = 0;
 			fpgaProgressBar.Value = 0;
 			Enabled = true;
@@ -552,7 +570,7 @@ namespace LBDConfigTool
 		/// <param name="msg"></param>
 		private void UpdateCompleted(object obj, string msg)
 		{
-			setNotice(msg, true);
+			setNotice(1, msg, true);
 			mcuProgressBar.Value = 0;
 			fpgaProgressBar.Value = 0;
 			Enabled = true;
@@ -600,6 +618,194 @@ namespace LBDConfigTool
         {
             RecordTest.GetInstance().Test();
         }
+
+		private void recordButton_Click(object sender, EventArgs e)
+		{
+			if (simulator == null) {
+				simulator = new DMXManager(makeCC());
+			}
+
+			//停止录制
+			if (isRecording)
+			{
+				simulator.StopRecord();
+				enableRecordButtons(false);				;
+				setNotice(2, "已停止录制。", false);
+				recordButton.Text = "录制数据";
+			}
+			// 开始录制
+			else
+			{
+				if (string.IsNullOrEmpty(dirPath)
+					|| string.IsNullOrEmpty(scuNameTB.Text.Trim()) 
+					|| string.IsNullOrEmpty(fileNameTB.Text.Trim()) 
+					|| string.IsNullOrEmpty(suffixTB.Text.Trim())
+				) {
+					setNotice(2, "路径和文件名都不得为空", true);
+					return; 
+				}
+
+				string configPath = dirPath + @"\" + scuNameTB.Text.Trim() + ".scu";
+				string binPath = dirPath + @"\" + fileNameTB.Text.Trim() + "." + suffixTB.Text.Trim();
+				if (File.Exists(binPath)) {
+					if(DialogResult.No == MessageBox.Show(
+						"检测到存在同名录制文件，是否覆盖？",
+						"覆盖录制文件？" , 
+						 MessageBoxButtons.YesNo,MessageBoxIcon.Asterisk)){
+						return;
+					}
+				}				
+				
+				try
+				{
+					setNotice(2, "正在录制文件...", false);
+					simulator.StartRecord(binPath, configPath, showRecordFrame);
+				}
+				catch (Exception ex)
+				{
+					setNotice(1, "出现异常:" + ex.Message, true);
+				}
+				enableRecordButtons(true);
+				recordButton.Text = "停止录制";
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：设置录制相关控件是否可用
+		/// </summary>
+		/// <param name="recording"></param>
+		private void enableRecordButtons(bool recording)
+		{
+			isRecording = recording;
+			setFilePathButton.Enabled = !recording;
+			scuNameTB.Enabled = !recording;
+			fileNameTB.Enabled = !recording;
+
+			//recordTextBox.Enabled = !recording;
+			//plusButton.Enabled = !recording;
+			//minusButton.Enabled = !recording;
+		}
+
+		///// <summary>
+		///// 事件：点击《+》
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void plusButton_Click(object sender, EventArgs e)
+		//{
+		//	if (recordIndex >= 255)
+		//	{
+		//		setNotice(2, "录制文件序号不得大于255。", true);
+		//		return;
+		//	}
+		//	recordTextBox.Text = transformRecordIndex(++recordIndex);
+		//	setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
+		//}
+
+		///// <summary>
+		///// 事件：点击《-》
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void minusButton_Click(object sender, EventArgs e)
+		//{
+		//	if (recordIndex <= 0)
+		//	{
+		//		setNotice(2, "录制文件序号不得小于000。", true);
+		//		return;
+		//	}
+		//	recordTextBox.Text = transformRecordIndex(--recordIndex);
+		//	setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
+		//}
+
+		///// <summary>
+		///// 辅助方法：处理int型,使之成为两位数的string表示
+		///// </summary>
+		///// <param name="recordIndex"></param>
+		///// <returns></returns>
+		//private string transformRecordIndex(int recordIndex)
+		//{
+		//	if (recordIndex < 0)
+		//	{
+		//		return "000";
+		//	}
+		//	if (recordIndex > 255)
+		//	{
+		//		return "255";
+		//	}
+
+		//	if (recordIndex < 100)
+		//	{
+		//		if (recordIndex < 10)
+		//		{
+		//			return "00" + recordIndex;
+		//		}
+		//		return "0" + recordIndex;
+		//	}
+		//	else
+		//	{
+		//		return recordIndex.ToString();
+		//	}
+		//}
+
+		/// <summary>
+		/// 辅助方法：实现展示录制帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showRecordFrame(int count)
+		{
+			try
+			{
+				setNotice(2, "当前录制帧数：" + count, false);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex.StackTrace);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《设置存放目录》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setFilePathButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == recordFolderBrowserDialog.ShowDialog())
+			{
+				dirPath = recordFolderBrowserDialog.SelectedPath;
+				if ( !dirPath.EndsWith(@"\CSJ_SC"))
+				{
+					dirPath += @"\CSJ_SC";
+				}
+
+				setRecordPathLabel();
+				setNotice(2, "已设置存放目录为：" + dirPath, false);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：根据当前的recordPath，设置label及toolTip
+		/// </summary>
+		private void setRecordPathLabel()
+		{
+			dirPathLabel.Text = dirPath;
+			myToolTip.SetToolTip(dirPathLabel, dirPath);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+		{
+			// 根据判断是否已经回读了设备参数，才允许进行之后的操作
+			if ( string.IsNullOrEmpty(deviceIP) && e.TabPageIndex == 3) {
+				//e.Cancel = true;
+			}			
+		}
 	}
 
 }

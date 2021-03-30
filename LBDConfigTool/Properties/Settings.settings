@@ -29,5 +29,8 @@
     <Setting Name="fpgaWaitTime" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15</Value>
     </Setting>
+    <Setting Name="recordPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Temp\CSJ_SC</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

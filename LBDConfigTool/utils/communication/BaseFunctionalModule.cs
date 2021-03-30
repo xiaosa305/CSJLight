@@ -201,11 +201,22 @@ namespace LBDConfigTool.utils.communication
                 {
                     this.IsSending = true;
                     this.CurrentModule = Module.WriteEncrypt;
-                    byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00,0xD0 };
+                    byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xD0 };
                     List<byte> buff = new List<byte>();
                     buff.AddRange(data);
-                    buff.AddRange(Encoding.Default.GetBytes(pwd));
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (i < pwd.Length)
+                        {
+                            buff.Add(Convert.ToByte(pwd[i]));
+                        }
+                        else
+                        {
+                            buff.Add(0x00);
+                        }
+                    }
                     this.Send(buff.ToArray());
+                    this.IsSending = false;
                 }
             }
             catch (Exception ex)

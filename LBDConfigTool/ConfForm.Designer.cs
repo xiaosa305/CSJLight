@@ -125,6 +125,9 @@
 			this.fbinSelectButton = new System.Windows.Forms.Button();
 			this.ebinSelectButton = new System.Windows.Forms.Button();
 			this.recordTab = new System.Windows.Forms.TabPage();
+			this.label37 = new System.Windows.Forms.Label();
+			this.suffixTB = new System.Windows.Forms.TextBox();
+			this.label34 = new System.Windows.Forms.Label();
 			this.button2 = new System.Windows.Forms.Button();
 			this.fileNameTB = new System.Windows.Forms.TextBox();
 			this.setFilePathButton = new System.Windows.Forms.Button();
@@ -140,9 +143,6 @@
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.label34 = new System.Windows.Forms.Label();
-			this.suffixTB = new System.Windows.Forms.TextBox();
-			this.label37 = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -261,11 +261,11 @@
 			this.label28.TabIndex = 31;
 			this.label28.Text = "加密文本：";
 			// 
-			// pswTB
+			// secureTB
 			// 
 			this.secureTB.Location = new System.Drawing.Point(19, 542);
 			this.secureTB.MaxLength = 16;
-			this.secureTB.Name = "pswTB";
+			this.secureTB.Name = "secureTB";
 			this.secureTB.Size = new System.Drawing.Size(125, 21);
 			this.secureTB.TabIndex = 30;
 			// 
@@ -815,7 +815,7 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(185, 525);
+			this.testButton.Location = new System.Drawing.Point(185, 524);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(75, 41);
 			this.testButton.TabIndex = 28;
@@ -1269,6 +1269,32 @@
 			this.recordTab.Text = "录制";
 			this.recordTab.UseVisualStyleBackColor = true;
 			// 
+			// label37
+			// 
+			this.label37.AutoSize = true;
+			this.label37.Location = new System.Drawing.Point(87, 262);
+			this.label37.Name = "label37";
+			this.label37.Size = new System.Drawing.Size(665, 12);
+			this.label37.TabIndex = 91;
+			this.label37.Text = "提示：录制时，级联分控数、分控路数、每路通道数和ARTNet起始空间得进行相应的配置，否则录制文件可能会不符合预期。";
+			// 
+			// suffixTB
+			// 
+			this.suffixTB.Location = new System.Drawing.Point(375, 162);
+			this.suffixTB.Name = "suffixTB";
+			this.suffixTB.Size = new System.Drawing.Size(60, 21);
+			this.suffixTB.TabIndex = 90;
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label34.Location = new System.Drawing.Point(349, 159);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(23, 24);
+			this.label34.TabIndex = 89;
+			this.label34.Text = ".";
+			// 
 			// button2
 			// 
 			this.button2.Location = new System.Drawing.Point(713, 450);
@@ -1373,32 +1399,6 @@
 			// 
 			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
-			// 
-			// label34
-			// 
-			this.label34.AutoSize = true;
-			this.label34.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label34.Location = new System.Drawing.Point(349, 159);
-			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(23, 24);
-			this.label34.TabIndex = 89;
-			this.label34.Text = ".";
-			// 
-			// suffixTB
-			// 
-			this.suffixTB.Location = new System.Drawing.Point(375, 162);
-			this.suffixTB.Name = "suffixTB";
-			this.suffixTB.Size = new System.Drawing.Size(60, 21);
-			this.suffixTB.TabIndex = 90;
-			// 
-			// label37
-			// 
-			this.label37.AutoSize = true;
-			this.label37.Location = new System.Drawing.Point(87, 262);
-			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(665, 12);
-			this.label37.TabIndex = 91;
-			this.label37.Text = "提示：录制时，级联分控数、分控路数、每路通道数和ARTNet起始空间得进行相应的配置，否则录制文件可能会不符合预期。";
 			// 
 			// ConfForm
 			// 

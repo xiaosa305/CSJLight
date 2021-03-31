@@ -60,7 +60,7 @@ namespace LBDConfigTool.utils.conf
         {
             try
             {
-                int index = 6;
+                int index = 12;
                 CSJConf conf = new CSJConf();
                 List<byte> buff = new List<byte>();
                 for (int j = 0; j < 6; j++)
@@ -108,7 +108,8 @@ namespace LBDConfigTool.utils.conf
                 conf.B_LD = (int)(data[index++] & 0xFF);
                 conf.W_LD = (int)(data[index++] & 0xFF);
                 conf.Mac = data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2");
-                conf.Ip = data[index++].ToString("X2") + "." + data[index++].ToString("X2") + "." + data[index++].ToString("X2") + "." + data[index++].ToString("X2");
+                conf.Ip ="" +  Convert.ToInt32(data[index++]).ToString() + "." + Convert.ToInt32(data[index++]).ToString() + "." + Convert.ToInt32(data[index++]).ToString() + "." + Convert.ToInt32(data[index++]).ToString(); 
+
                 conf.Fk_lushu = (int)(data[index++] & 0xFF);
                 conf.Jl_fk_num = (int)(data[index++] & 0xFF);
                 conf.Art_Net_Start_Space = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));

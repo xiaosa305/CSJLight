@@ -651,7 +651,9 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
-                CSJConf conf = CSJConf.Build(recData.ToArray());
+                //CSJConf conf = CSJConf.Build(recData.ToArray());
+                CSJConf conf = CSJConf.BuildParamEmtity(recData.ToArray());
+
                 this.SearchDeviceCompleted(conf);
 
             }

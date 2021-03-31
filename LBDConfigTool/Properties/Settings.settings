@@ -35,5 +35,14 @@
     <Setting Name="secureStr" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="scuName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="fileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="suffixName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dat</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

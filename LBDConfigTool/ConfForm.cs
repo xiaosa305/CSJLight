@@ -91,6 +91,9 @@ namespace LBDConfigTool
 			fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
 
 			secureTB.Text = Properties.Settings.Default.secureStr;
+			scuNameTB.Text = Properties.Settings.Default.scuName;
+			fileNameTB.Text =  Properties.Settings.Default.fileName;
+			suffixTB.Text = Properties.Settings.Default.suffixName;
 
 			#endregion
 
@@ -111,9 +114,7 @@ namespace LBDConfigTool
 
 			//specialCC,填充默认值
 			makeSpecialCC();
-
-			Console.WriteLine("++++++++++++++++++++++初始化");
-
+			
 			// 软件启动时，顺手搜索一次设备
 			cnc = CSJNetCommunitor.GetInstance();
 			cnc.Start(); //启动服务
@@ -155,8 +156,6 @@ namespace LBDConfigTool
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ConfForm_Load(object sender, EventArgs e)	{
-
-			Console.WriteLine("++++++++++++++++++++++Load");
 
 			// 每次启动后，加载默认的配置			
 			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject( Application.StartupPath + @"\default.abin");			
@@ -665,6 +664,11 @@ namespace LBDConfigTool
 				{
 					setNotice(2, "正在录制文件...", false);
 					simulator.StartRecord(binPath, configPath, showRecordFrame);
+
+					Properties.Settings.Default.scuName = scuNameTB.Text.Trim();
+					Properties.Settings.Default.fileName = fileNameTB.Text.Trim();
+					Properties.Settings.Default.suffixName = suffixTB.Text.Trim();
+					Properties.Settings.Default.Save();
 				}
 				catch (Exception ex)
 				{

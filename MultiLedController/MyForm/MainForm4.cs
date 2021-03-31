@@ -13,6 +13,7 @@ using MultiLedController.Ast;
 using System.Threading;
 using MultiLedController.multidevice.newmultidevice;
 using MultiLedController.multidevice.multidevicepromax;
+using System.Diagnostics;
 
 namespace MultiLedController.MyForm
 {
@@ -41,10 +42,13 @@ namespace MultiLedController.MyForm
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
+			// 读取版本号
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			Text += " v" + appFileVersion + " beta";
+			
 			// 动态从ini文件内读取相应的数据
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
-			string version = iniHelper.ReadString("CommonSet4", "version", "4");
-			Text += " v" + version + " beta";
 			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "interfaceCount4", 0);
 			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "spaceCount4", 0);
 			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet4", "controllerCount4", 1);

@@ -133,7 +133,10 @@ namespace LBDConfigTool.utils.communication
             if (this.Error_Event != null)
             {
                 this.IsSending = false;
-                this.TaskTimer.Stop();
+                if (this.TaskTimer != null)
+                {
+                    this.TaskTimer.Stop();
+                }
                 this.Error_Event(msg);
                 this.InitParam();
             }
@@ -141,7 +144,7 @@ namespace LBDConfigTool.utils.communication
         //消息事务管理器
         private void MessageTransactionTask(Object obj, ElapsedEventArgs e)
         {
-            while (this.MessageTransaction.Enabled)
+            while (true)
             {
                 if (this.MessageQueue.Count > 0)
                 {
@@ -652,8 +655,10 @@ namespace LBDConfigTool.utils.communication
                 this.SearchDeviceCompleted(conf);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
                 this.SearchDeviceError();
             }
         }

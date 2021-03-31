@@ -56,6 +56,77 @@ namespace LBDConfigTool.utils.conf
             this.LedName = "";
         }
 
+        public static CSJConf BuildParamEmtity(byte[] data)
+        {
+            try
+            {
+                int index = 6;
+                CSJConf conf = new CSJConf();
+                List<byte> buff = new List<byte>();
+                for (int j = 0; j < 6; j++)
+                {
+                    buff.Add(data[index++]);
+                }
+                conf.MIA_HAO = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                for (int i = 0; i < 6; i++)
+                {
+                    buff.Add(data[index++]);
+                }
+                conf.OLD_MIA_HAO = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                conf.Addr = (int)((data[index++]) & 0xFF | ((data[index++]) << 8) & 0xFF);
+                conf.Baud = (int)(data[index++] & 0xFF);
+                conf.IsSetBad = ((int)(data[index++] & 0xFF)) == 1;
+                conf.DiskFlag = (int)(data[index++] & 0xFF);
+                conf.Play_Mod = (int)(data[index++] & 0xFF);
+                conf.PlayScene = (int)(data[index++] & 0xFF);
+                for (int i = 0; i < 16; i++)
+                {
+                    buff.Add(data[index++]);
+                }
+                conf.LedName = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                for (int i = 0; i < 16; i++)
+                {
+                    buff.Add(data[index++]);
+                }
+                conf.Ver = Encoding.Default.GetString(buff.ToArray());
+                buff.Clear();
+                conf.Max_scan_dot = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.CardType = (int)(data[index++] & 0xFF);
+                conf.Led_out_type = (int)(data[index++] & 0xFF);
+                conf.Led_fx = (int)(data[index++] & 0xFF);
+                conf.RGB_Type = (int)(data[index++] & 0xFF);
+                conf.IC_Type = (int)(data[index++] & 0xFF);
+                conf.Play_hz = (int)(data[index++] & 0xFF);
+                conf.Clk_shzhong = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.Led_gam = (int)(data[index++] & 0xFF);
+                conf.Led_ld = (int)(data[index++] & 0xFF);
+                conf.R_LD = (int)(data[index++] & 0xFF);
+                conf.G_LD = (int)(data[index++] & 0xFF);
+                conf.B_LD = (int)(data[index++] & 0xFF);
+                conf.W_LD = (int)(data[index++] & 0xFF);
+                conf.Mac = data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2") + "-" + data[index++].ToString("X2");
+                conf.Ip = data[index++].ToString("X2") + "." + data[index++].ToString("X2") + "." + data[index++].ToString("X2") + "." + data[index++].ToString("X2");
+                conf.Fk_lushu = (int)(data[index++] & 0xFF);
+                conf.Jl_fk_num = (int)(data[index++] & 0xFF);
+                conf.Art_Net_Start_Space = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.Art_Net_Pre = (int)(data[index++] & 0xFF);
+                conf.Art_Net_td_len = (int)((data[index++] & 0xFF) | ((data[78] << 8) & 0xFF));
+                conf.Art_Net_fk_id = (int)(data[index++] & 0xFF);
+                conf.SumUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF) | ((data[index++] << 16) & 0xFF) | ((data[index++] << 24) & 0xFF));
+                conf.CurrUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF) | ((data[index++] << 16) & 0xFF) | ((data[index++] << 24) & 0xFF));
+                return conf;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
+            return null;
+        }
+
         public static CSJConf Build(byte[] data)
         {
             CSJConf conf = null;

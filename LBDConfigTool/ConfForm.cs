@@ -32,7 +32,10 @@ namespace LBDConfigTool
 
 		public ConfForm()
 		{
-			InitializeComponent();			
+			InitializeComponent();
+
+			// 加密panel是否显示
+			securePanel.Visible = Properties.Settings.Default.showSecure;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
@@ -114,11 +117,12 @@ namespace LBDConfigTool
 
 			//specialCC,填充默认值
 			makeSpecialCC();
-			
-			// 软件启动时，顺手搜索一次设备
-			cnc = CSJNetCommunitor.GetInstance();
-			cnc.Start(); //启动服务
-			cnc.SearchDevice(readCompleted, readError);// 搜设备	
+
+			// 每次启动后，加载默认的配置			
+			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\default.abin");
+			SetSpecialCC(cc);
+			renderAllControls(cc);
+
 		}
 
 		/// <summary>
@@ -157,11 +161,6 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void ConfForm_Load(object sender, EventArgs e)	{
 
-			// 每次启动后，加载默认的配置			
-			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject( Application.StartupPath + @"\default.abin");			
-			SetSpecialCC(cc);
-			renderAllControls(cc);
-
 			// 监听在最后加，避免自循环后修改并保存内容
 			firstRelayNUD.ValueChanged += saveNUD_ValueChanged;
 			relayTimeNUD.ValueChanged += saveNUD_ValueChanged;
@@ -169,6 +168,12 @@ namespace LBDConfigTool
 			partitionSizeNUD.ValueChanged += saveNUD_ValueChanged;
 			partitionTimeNUD.ValueChanged += saveNUD_ValueChanged;
 			fpgaWaitTimeNUD.ValueChanged += saveNUD_ValueChanged;
+
+			// 软件Load时，搜索一次设备（在加载默认配置之后了）
+			cnc = CSJNetCommunitor.GetInstance();
+			cnc.Start(); //启动服务
+			cnc.SearchDevice(readCompleted, readError);// 搜设备
+
 		}
 
 		#region 通用方法

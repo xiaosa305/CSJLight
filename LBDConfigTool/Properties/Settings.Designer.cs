@@ -190,5 +190,14 @@ namespace LBDConfigTool.Properties {
                 this["suffixName"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showSecure {
+            get {
+                return ((bool)(this["showSecure"]));
+            }
+        }
     }
 }

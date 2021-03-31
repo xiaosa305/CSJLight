@@ -143,6 +143,7 @@
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.securePanel = new System.Windows.Forms.Panel();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -167,6 +168,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
 			this.recordTab.SuspendLayout();
+			this.securePanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -235,10 +237,8 @@
 			// paramTab
 			// 
 			this.paramTab.BackColor = System.Drawing.Color.SlateGray;
-			this.paramTab.Controls.Add(this.label28);
-			this.paramTab.Controls.Add(this.secureTB);
+			this.paramTab.Controls.Add(this.securePanel);
 			this.paramTab.Controls.Add(this.panel1);
-			this.paramTab.Controls.Add(this.testButton);
 			this.paramTab.Controls.Add(this.button1);
 			this.paramTab.Controls.Add(this.loadButton);
 			this.paramTab.Controls.Add(this.readButton);
@@ -255,7 +255,7 @@
 			// 
 			this.label28.AutoSize = true;
 			this.label28.ForeColor = System.Drawing.Color.Snow;
-			this.label28.Location = new System.Drawing.Point(19, 524);
+			this.label28.Location = new System.Drawing.Point(15, 19);
 			this.label28.Name = "label28";
 			this.label28.Size = new System.Drawing.Size(65, 12);
 			this.label28.TabIndex = 31;
@@ -263,7 +263,7 @@
 			// 
 			// secureTB
 			// 
-			this.secureTB.Location = new System.Drawing.Point(19, 542);
+			this.secureTB.Location = new System.Drawing.Point(15, 37);
 			this.secureTB.MaxLength = 16;
 			this.secureTB.Name = "secureTB";
 			this.secureTB.Size = new System.Drawing.Size(125, 21);
@@ -815,7 +815,7 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(185, 524);
+			this.testButton.Location = new System.Drawing.Point(166, 17);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(75, 41);
 			this.testButton.TabIndex = 28;
@@ -1400,6 +1400,17 @@
 			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
 			// 
+			// securePanel
+			// 
+			this.securePanel.Controls.Add(this.label28);
+			this.securePanel.Controls.Add(this.testButton);
+			this.securePanel.Controls.Add(this.secureTB);
+			this.securePanel.Location = new System.Drawing.Point(19, 505);
+			this.securePanel.Name = "securePanel";
+			this.securePanel.Size = new System.Drawing.Size(254, 72);
+			this.securePanel.TabIndex = 32;
+			this.securePanel.Visible = false;
+			// 
 			// ConfForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1415,7 +1426,6 @@
 			this.statusStrip1.PerformLayout();
 			this.tabControl.ResumeLayout(false);
 			this.paramTab.ResumeLayout(false);
-			this.paramTab.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.artnetGroupBox.ResumeLayout(false);
 			this.artnetGroupBox.PerformLayout();
@@ -1444,6 +1454,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
 			this.recordTab.ResumeLayout(false);
 			this.recordTab.PerformLayout();
+			this.securePanel.ResumeLayout(false);
+			this.securePanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1564,5 +1576,6 @@
 		private System.Windows.Forms.TextBox suffixTB;
 		private System.Windows.Forms.Label label34;
 		private System.Windows.Forms.Label label37;
+		private System.Windows.Forms.Panel securePanel;
 	}
 }

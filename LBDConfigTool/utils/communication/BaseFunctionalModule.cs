@@ -668,10 +668,10 @@ namespace LBDConfigTool.utils.communication
         {
             if (obj != null)
             {
-                this.TaskCompleted(obj,"read config success");
+                this.TaskCompleted(obj,"搜索设备成功");
             }else
             {
-                this.TaskError("read config failed");
+                this.TaskError("搜索设备失败");
             }
         }
         private void SearchDeviceError()

@@ -670,6 +670,7 @@ namespace LBDConfigTool
 					setNotice(2, "正在录制文件...", false);
 					simulator.StartRecord(binPath, configPath, showRecordFrame);
 
+					Properties.Settings.Default.recordPath = dirPathLabel.Text.Trim();
 					Properties.Settings.Default.scuName = scuNameTB.Text.Trim();
 					Properties.Settings.Default.fileName = fileNameTB.Text.Trim();
 					Properties.Settings.Default.suffixName = suffixTB.Text.Trim();
@@ -693,74 +694,9 @@ namespace LBDConfigTool
 			isRecording = recording;
 			setFilePathButton.Enabled = !recording;
 			scuNameTB.Enabled = !recording;
-			fileNameTB.Enabled = !recording;
-
-			//recordTextBox.Enabled = !recording;
-			//plusButton.Enabled = !recording;
-			//minusButton.Enabled = !recording;
+			fileNameTB.Enabled = !recording;			
 		}
 
-		///// <summary>
-		///// 事件：点击《+》
-		///// </summary>
-		///// <param name="sender"></param>
-		///// <param name="e"></param>
-		//private void plusButton_Click(object sender, EventArgs e)
-		//{
-		//	if (recordIndex >= 255)
-		//	{
-		//		setNotice(2, "录制文件序号不得大于255。", true);
-		//		return;
-		//	}
-		//	recordTextBox.Text = transformRecordIndex(++recordIndex);
-		//	setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
-		//}
-
-		///// <summary>
-		///// 事件：点击《-》
-		///// </summary>
-		///// <param name="sender"></param>
-		///// <param name="e"></param>
-		//private void minusButton_Click(object sender, EventArgs e)
-		//{
-		//	if (recordIndex <= 0)
-		//	{
-		//		setNotice(2, "录制文件序号不得小于000。", true);
-		//		return;
-		//	}
-		//	recordTextBox.Text = transformRecordIndex(--recordIndex);
-		//	setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
-		//}
-
-		///// <summary>
-		///// 辅助方法：处理int型,使之成为两位数的string表示
-		///// </summary>
-		///// <param name="recordIndex"></param>
-		///// <returns></returns>
-		//private string transformRecordIndex(int recordIndex)
-		//{
-		//	if (recordIndex < 0)
-		//	{
-		//		return "000";
-		//	}
-		//	if (recordIndex > 255)
-		//	{
-		//		return "255";
-		//	}
-
-		//	if (recordIndex < 100)
-		//	{
-		//		if (recordIndex < 10)
-		//		{
-		//			return "00" + recordIndex;
-		//		}
-		//		return "0" + recordIndex;
-		//	}
-		//	else
-		//	{
-		//		return recordIndex.ToString();
-		//	}
-		//}
 
 		/// <summary>
 		/// 辅助方法：实现展示录制帧数的委托
@@ -809,7 +745,7 @@ namespace LBDConfigTool
 		}
 
 		/// <summary>
-		/// 
+		/// 事件：点击最后一Tab时，需要判断是否已经回读网址，才可以进入此tab(否则e.Cancel = true,直接无视此操作)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -818,7 +754,7 @@ namespace LBDConfigTool
 			// 根据判断是否已经回读了设备参数，才允许进行之后的操作
 			if ( string.IsNullOrEmpty(deviceIP) && e.TabPageIndex == 3) {
 				//e.Cancel = true;
-			}			
+			}
 		}
 	}
 

@@ -114,7 +114,7 @@ namespace LBDConfigTool.utils.conf
                 conf.Jl_fk_num = (int)(data[index++] & 0xFF);
                 conf.Art_Net_Start_Space = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
                 conf.Art_Net_Pre = (int)(data[index++] & 0xFF);
-                conf.Art_Net_td_len = (int)((data[index++] & 0xFF) | ((data[78] << 8) & 0xFF));
+                conf.Art_Net_td_len = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
                 conf.Art_Net_fk_id = (int)(data[index++] & 0xFF);
                 conf.SumUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF) | ((data[index++] << 16) & 0xFF) | ((data[index++] << 24) & 0xFF));
                 conf.CurrUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF) | ((data[index++] << 16) & 0xFF) | ((data[index++] << 24) & 0xFF));

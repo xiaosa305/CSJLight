@@ -37,7 +37,7 @@
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.paramTab = new System.Windows.Forms.TabPage();
 			this.label28 = new System.Windows.Forms.Label();
-			this.pswTB = new System.Windows.Forms.TextBox();
+			this.secureTB = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.artnetGroupBox = new System.Windows.Forms.GroupBox();
 			this.label27 = new System.Windows.Forms.Label();
@@ -125,6 +125,9 @@
 			this.fbinSelectButton = new System.Windows.Forms.Button();
 			this.ebinSelectButton = new System.Windows.Forms.Button();
 			this.recordTab = new System.Windows.Forms.TabPage();
+			this.label37 = new System.Windows.Forms.Label();
+			this.suffixTB = new System.Windows.Forms.TextBox();
+			this.label34 = new System.Windows.Forms.Label();
 			this.button2 = new System.Windows.Forms.Button();
 			this.fileNameTB = new System.Windows.Forms.TextBox();
 			this.setFilePathButton = new System.Windows.Forms.Button();
@@ -140,8 +143,7 @@
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.label34 = new System.Windows.Forms.Label();
-			this.suffixTB = new System.Windows.Forms.TextBox();
+			this.securePanel = new System.Windows.Forms.Panel();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.paramTab.SuspendLayout();
@@ -166,6 +168,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
 			this.recordTab.SuspendLayout();
+			this.securePanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -234,10 +237,8 @@
 			// paramTab
 			// 
 			this.paramTab.BackColor = System.Drawing.Color.SlateGray;
-			this.paramTab.Controls.Add(this.label28);
-			this.paramTab.Controls.Add(this.pswTB);
+			this.paramTab.Controls.Add(this.securePanel);
 			this.paramTab.Controls.Add(this.panel1);
-			this.paramTab.Controls.Add(this.testButton);
 			this.paramTab.Controls.Add(this.button1);
 			this.paramTab.Controls.Add(this.loadButton);
 			this.paramTab.Controls.Add(this.readButton);
@@ -254,19 +255,19 @@
 			// 
 			this.label28.AutoSize = true;
 			this.label28.ForeColor = System.Drawing.Color.Snow;
-			this.label28.Location = new System.Drawing.Point(19, 527);
+			this.label28.Location = new System.Drawing.Point(15, 19);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(125, 12);
+			this.label28.Size = new System.Drawing.Size(65, 12);
 			this.label28.TabIndex = 31;
-			this.label28.Text = "加密文本(一定要16位)";
+			this.label28.Text = "加密文本：";
 			// 
-			// pswTB
+			// secureTB
 			// 
-			this.pswTB.Location = new System.Drawing.Point(19, 545);
-			this.pswTB.MaxLength = 16;
-			this.pswTB.Name = "pswTB";
-			this.pswTB.Size = new System.Drawing.Size(125, 21);
-			this.pswTB.TabIndex = 30;
+			this.secureTB.Location = new System.Drawing.Point(15, 37);
+			this.secureTB.MaxLength = 16;
+			this.secureTB.Name = "secureTB";
+			this.secureTB.Size = new System.Drawing.Size(125, 21);
+			this.secureTB.TabIndex = 30;
 			// 
 			// panel1
 			// 
@@ -344,7 +345,7 @@
 			// 
 			// aTdLenTB
 			// 
-			this.aTdLenTB.Location = new System.Drawing.Point(418, 156);
+			this.aTdLenTB.Location = new System.Drawing.Point(429, 156);
 			this.aTdLenTB.Name = "aTdLenTB";
 			this.aTdLenTB.Size = new System.Drawing.Size(108, 21);
 			this.aTdLenTB.TabIndex = 125;
@@ -352,15 +353,16 @@
 			// label36
 			// 
 			this.label36.AutoSize = true;
+			this.label36.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label36.Location = new System.Drawing.Point(320, 82);
 			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(89, 12);
+			this.label36.Size = new System.Drawing.Size(99, 12);
 			this.label36.TabIndex = 117;
 			this.label36.Text = "ArtNet起始空间";
 			// 
 			// aPerTB
 			// 
-			this.aPerTB.Location = new System.Drawing.Point(418, 117);
+			this.aPerTB.Location = new System.Drawing.Point(429, 117);
 			this.aPerTB.Name = "aPerTB";
 			this.aPerTB.Size = new System.Drawing.Size(108, 21);
 			this.aPerTB.TabIndex = 124;
@@ -368,15 +370,16 @@
 			// label38
 			// 
 			this.label38.AutoSize = true;
+			this.label38.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label38.Location = new System.Drawing.Point(320, 121);
 			this.label38.Name = "label38";
-			this.label38.Size = new System.Drawing.Size(65, 12);
+			this.label38.Size = new System.Drawing.Size(70, 12);
 			this.label38.TabIndex = 118;
 			this.label38.Text = "每路通道数";
 			// 
 			// aStartTB
 			// 
-			this.aStartTB.Location = new System.Drawing.Point(418, 78);
+			this.aStartTB.Location = new System.Drawing.Point(429, 78);
 			this.aStartTB.Name = "aStartTB";
 			this.aStartTB.Size = new System.Drawing.Size(108, 21);
 			this.aStartTB.TabIndex = 123;
@@ -384,9 +387,10 @@
 			// label35
 			// 
 			this.label35.AutoSize = true;
+			this.label35.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label35.Location = new System.Drawing.Point(41, 121);
 			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(65, 12);
+			this.label35.Size = new System.Drawing.Size(70, 12);
 			this.label35.TabIndex = 116;
 			this.label35.Text = "级联分控数";
 			// 
@@ -416,9 +420,10 @@
 			// label32
 			// 
 			this.label32.AutoSize = true;
+			this.label32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label32.Location = new System.Drawing.Point(41, 82);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(53, 12);
+			this.label32.Size = new System.Drawing.Size(57, 12);
 			this.label32.TabIndex = 115;
 			this.label32.Text = "分控路数";
 			// 
@@ -431,7 +436,7 @@
 			// 
 			// aIpTB
 			// 
-			this.aIpTB.Location = new System.Drawing.Point(418, 39);
+			this.aIpTB.Location = new System.Drawing.Point(429, 39);
 			this.aIpTB.Name = "aIpTB";
 			this.aIpTB.Size = new System.Drawing.Size(108, 21);
 			this.aIpTB.TabIndex = 113;
@@ -810,7 +815,7 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(185, 525);
+			this.testButton.Location = new System.Drawing.Point(166, 17);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(75, 41);
 			this.testButton.TabIndex = 28;
@@ -1244,6 +1249,7 @@
 			// 
 			// recordTab
 			// 
+			this.recordTab.Controls.Add(this.label37);
 			this.recordTab.Controls.Add(this.suffixTB);
 			this.recordTab.Controls.Add(this.label34);
 			this.recordTab.Controls.Add(this.button2);
@@ -1262,6 +1268,32 @@
 			this.recordTab.TabIndex = 4;
 			this.recordTab.Text = "录制";
 			this.recordTab.UseVisualStyleBackColor = true;
+			// 
+			// label37
+			// 
+			this.label37.AutoSize = true;
+			this.label37.Location = new System.Drawing.Point(87, 262);
+			this.label37.Name = "label37";
+			this.label37.Size = new System.Drawing.Size(665, 12);
+			this.label37.TabIndex = 91;
+			this.label37.Text = "提示：录制时，级联分控数、分控路数、每路通道数和ARTNet起始空间得进行相应的配置，否则录制文件可能会不符合预期。";
+			// 
+			// suffixTB
+			// 
+			this.suffixTB.Location = new System.Drawing.Point(375, 162);
+			this.suffixTB.Name = "suffixTB";
+			this.suffixTB.Size = new System.Drawing.Size(60, 21);
+			this.suffixTB.TabIndex = 90;
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label34.Location = new System.Drawing.Point(349, 159);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(23, 24);
+			this.label34.TabIndex = 89;
+			this.label34.Text = ".";
 			// 
 			// button2
 			// 
@@ -1293,7 +1325,7 @@
 			// nameLabel
 			// 
 			this.nameLabel.AutoSize = true;
-			this.nameLabel.Location = new System.Drawing.Point(85, 165);
+			this.nameLabel.Location = new System.Drawing.Point(87, 165);
 			this.nameLabel.Name = "nameLabel";
 			this.nameLabel.Size = new System.Drawing.Size(107, 12);
 			this.nameLabel.TabIndex = 77;
@@ -1312,7 +1344,7 @@
 			// ScuLabel
 			// 
 			this.ScuLabel.AutoSize = true;
-			this.ScuLabel.Location = new System.Drawing.Point(85, 123);
+			this.ScuLabel.Location = new System.Drawing.Point(87, 123);
 			this.ScuLabel.Name = "ScuLabel";
 			this.ScuLabel.Size = new System.Drawing.Size(107, 12);
 			this.ScuLabel.TabIndex = 85;
@@ -1324,7 +1356,6 @@
 			this.dirPathLabel.Name = "dirPathLabel";
 			this.dirPathLabel.Size = new System.Drawing.Size(480, 30);
 			this.dirPathLabel.TabIndex = 75;
-			this.dirPathLabel.Text = "请选择工程存放目录，程序会自动为您创建子文件夹，用以区分不同的控制器。";
 			this.dirPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// scuNameTB
@@ -1337,8 +1368,8 @@
 			// recordButton
 			// 
 			this.recordButton.BackColor = System.Drawing.Color.Red;
-			this.recordButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.recordButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+			this.recordButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.recordButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.recordButton.Location = new System.Drawing.Point(713, 111);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(93, 72);
@@ -1369,22 +1400,16 @@
 			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
 			// 
-			// label34
+			// securePanel
 			// 
-			this.label34.AutoSize = true;
-			this.label34.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label34.Location = new System.Drawing.Point(349, 159);
-			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(23, 24);
-			this.label34.TabIndex = 89;
-			this.label34.Text = ".";
-			// 
-			// suffixTB
-			// 
-			this.suffixTB.Location = new System.Drawing.Point(375, 162);
-			this.suffixTB.Name = "suffixTB";
-			this.suffixTB.Size = new System.Drawing.Size(60, 21);
-			this.suffixTB.TabIndex = 90;
+			this.securePanel.Controls.Add(this.label28);
+			this.securePanel.Controls.Add(this.testButton);
+			this.securePanel.Controls.Add(this.secureTB);
+			this.securePanel.Location = new System.Drawing.Point(19, 505);
+			this.securePanel.Name = "securePanel";
+			this.securePanel.Size = new System.Drawing.Size(254, 72);
+			this.securePanel.TabIndex = 32;
+			this.securePanel.Visible = false;
 			// 
 			// ConfForm
 			// 
@@ -1401,7 +1426,6 @@
 			this.statusStrip1.PerformLayout();
 			this.tabControl.ResumeLayout(false);
 			this.paramTab.ResumeLayout(false);
-			this.paramTab.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.artnetGroupBox.ResumeLayout(false);
 			this.artnetGroupBox.PerformLayout();
@@ -1430,6 +1454,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
 			this.recordTab.ResumeLayout(false);
 			this.recordTab.PerformLayout();
+			this.securePanel.ResumeLayout(false);
+			this.securePanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1533,7 +1559,7 @@
 		private System.Windows.Forms.TextBox maxDotTB;
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.Label label28;
-		private System.Windows.Forms.TextBox pswTB;
+		private System.Windows.Forms.TextBox secureTB;
 		private System.Windows.Forms.TabPage recordTab;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel2;
 		private System.Windows.Forms.Button recordButton;
@@ -1549,5 +1575,7 @@
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.TextBox suffixTB;
 		private System.Windows.Forms.Label label34;
+		private System.Windows.Forms.Label label37;
+		private System.Windows.Forms.Panel securePanel;
 	}
 }

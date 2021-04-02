@@ -40,13 +40,14 @@ namespace MultiLedController.MyForm
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
+			// 从Settings内读取版本信息
+			Text += " v" + Properties.Settings.Default.version3 + " beta";
+
 			// 动态从ini文件内读取相应的数据
-			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
-			string version = iniHelper.ReadString("CommonSet", "version", "3");
-			Text += " v" + version + " beta";			
-			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt( "CommonSet", "interfaceCount",0);
-			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet", "spaceCount", 0);
-			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet", "controllerCount", 1);
+			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet3.ini");			
+			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt( "CommonSet3", "interfaceCount",0);
+			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet3", "spaceCount", 0);
+			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet3", "controllerCount", 1);
 			autosetControllerCountNUDMaxinum();
 		}
 
@@ -453,9 +454,9 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		private void saveLastSet()
 		{
-			iniHelper.WriteInt("CommonSet", "interfaceCount", interfaceCountComboBox.SelectedIndex);
-			iniHelper.WriteInt("CommonSet", "spaceCount", spaceCountComboBox.SelectedIndex);
-			iniHelper.WriteInt("CommonSet", "controllerCount", controllerCountNUD.Value);
+			iniHelper.WriteInt("CommonSet3", "interfaceCount", interfaceCountComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet3", "spaceCount", spaceCountComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet3", "controllerCount", controllerCountNUD.Value);
 			setNotice(2, "成功保存当前配置", false);
 		}
 

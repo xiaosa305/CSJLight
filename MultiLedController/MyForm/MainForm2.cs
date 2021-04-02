@@ -43,9 +43,8 @@ namespace MultiLedController.MyForm
 		{
 			InitializeComponent();
 
-			// 为软件添加版本号显示(记录【程序集版本】，单设备版本则采用【文件版本】，便于区分)
-			string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			Text += " v" + version +" beta";
+			// 从Settings内读取版本信息
+			Text += " v" + Properties.Settings.Default.version2 + " beta";
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;

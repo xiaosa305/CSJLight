@@ -28,10 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.myToolTip = new System.Windows.Forms.ToolTip();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.label3 = new System.Windows.Forms.Label();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.bottomPanel = new System.Windows.Forms.Panel();
@@ -46,6 +47,7 @@
 			this.binLabel = new System.Windows.Forms.Label();
 			this.recordTextBox = new System.Windows.Forms.TextBox();
 			this.topPanel = new System.Windows.Forms.Panel();
+			this.label4 = new System.Windows.Forms.Label();
 			this.virtualIPListView = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -247,6 +249,7 @@
 			// 
 			// topPanel
 			// 
+			this.topPanel.Controls.Add(this.label4);
 			this.topPanel.Controls.Add(this.virtualIPListView);
 			this.topPanel.Controls.Add(this.netcardComboBox);
 			this.topPanel.Controls.Add(this.panel1);
@@ -258,6 +261,14 @@
 			this.topPanel.Size = new System.Drawing.Size(704, 446);
 			this.topPanel.TabIndex = 80;
 			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(387, 368);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(305, 48);
+			this.label4.TabIndex = 79;
+			this.label4.Text = "说明：发送灯光数据的软件需要与带有IP地址的物理设备连接；设置虚拟IP的作用，正是为了模拟这些设备，用以捕获灯光数据（每个虚拟IP代表一台物理设备）。";
+			// 
 			// virtualIPListView
 			// 
 			this.virtualIPListView.BackColor = System.Drawing.Color.LightBlue;
@@ -265,13 +276,12 @@
             this.columnHeader1,
             this.columnHeader4,
             this.columnHeader5});
-			this.virtualIPListView.Dock = System.Windows.Forms.DockStyle.Right;
 			this.virtualIPListView.FullRowSelect = true;
 			this.virtualIPListView.GridLines = true;
 			this.virtualIPListView.HideSelection = false;
-			this.virtualIPListView.Location = new System.Drawing.Point(385, 0);
+			this.virtualIPListView.Location = new System.Drawing.Point(387, 12);
 			this.virtualIPListView.Name = "virtualIPListView";
-			this.virtualIPListView.Size = new System.Drawing.Size(319, 446);
+			this.virtualIPListView.Size = new System.Drawing.Size(306, 337);
 			this.virtualIPListView.TabIndex = 63;
 			this.virtualIPListView.UseCompatibleStateImageBehavior = false;
 			this.virtualIPListView.View = System.Windows.Forms.View.Details;
@@ -539,6 +549,10 @@
 			this.Controls.Add(this.topPanel);
 			this.Controls.Add(this.bottomPanel);
 			this.Controls.Add(this.statusStrip);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(720, 620);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(720, 620);
 			this.Name = "MainForm4";
 			this.Text = "幻彩灯带控制器(广播版)";
 			this.Activated += new System.EventHandler(this.MainForm4_Activated);
@@ -603,5 +617,6 @@
 		private System.Windows.Forms.Label ipLabel2;
 		private System.Windows.Forms.Label ipLabel;
 		private System.Windows.Forms.Button refreshNetcardButton;
+		private System.Windows.Forms.Label label4;
 	}
 }

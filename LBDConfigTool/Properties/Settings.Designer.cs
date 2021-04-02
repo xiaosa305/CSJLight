@@ -142,5 +142,62 @@ namespace LBDConfigTool.Properties {
                 this["recordPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string secureStr {
+            get {
+                return ((string)(this["secureStr"]));
+            }
+            set {
+                this["secureStr"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string scuName {
+            get {
+                return ((string)(this["scuName"]));
+            }
+            set {
+                this["scuName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string fileName {
+            get {
+                return ((string)(this["fileName"]));
+            }
+            set {
+                this["fileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dat")]
+        public string suffixName {
+            get {
+                return ((string)(this["suffixName"]));
+            }
+            set {
+                this["suffixName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showSecure {
+            get {
+                return ((bool)(this["showSecure"]));
+            }
+        }
     }
 }

@@ -381,7 +381,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <param name="progress"></param>
-		public void DrawProgress(int progressPercent)
+		public void DrawProgress(string fileName, int progressPercent)
 		{
 			SetNotice( "正在升级硬件，请稍候..." , false, true);			
 			myProgressBar.Value = progressPercent;

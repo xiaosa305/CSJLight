@@ -75,7 +75,7 @@ namespace LBDConfigTool.utils.conf
                 }
                 conf.OLD_MIA_HAO = Encoding.Default.GetString(buff.ToArray());
                 buff.Clear();
-                conf.Addr = (int)((data[index++]) & 0xFF | ((data[index++]) << 8) & 0xFF);
+                conf.Addr = (int)(((data[index++]) & 0xFF) | (((data[index++]) & 0xFF) << 8));
                 conf.Baud = (int)(data[index++] & 0xFF);
                 conf.IsSetBad = ((int)(data[index++] & 0xFF)) == 1;
                 conf.DiskFlag = (int)(data[index++] & 0xFF);
@@ -93,14 +93,14 @@ namespace LBDConfigTool.utils.conf
                 }
                 conf.Ver = Encoding.Default.GetString(buff.ToArray());
                 buff.Clear();
-                conf.Max_scan_dot = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.Max_scan_dot = (int)(((data[index++]) & 0xFF) | (((data[index++]) & 0xFF) << 8));
                 conf.CardType = (int)(data[index++] & 0xFF);
                 conf.Led_out_type = (int)(data[index++] & 0xFF);
                 conf.Led_fx = (int)(data[index++] & 0xFF);
                 conf.RGB_Type = (int)(data[index++] & 0xFF);
                 conf.IC_Type = (int)(data[index++] & 0xFF);
                 conf.Play_hz = (int)(data[index++] & 0xFF);
-                conf.Clk_shzhong = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.Clk_shzhong = (int)(((data[index++]) & 0xFF) | (((data[index++]) & 0xFF) << 8));
                 conf.Led_gam = (int)(data[index++] & 0xFF);
                 conf.Led_ld = (int)(data[index++] & 0xFF);
                 conf.R_LD = (int)(data[index++] & 0xFF);
@@ -112,12 +112,12 @@ namespace LBDConfigTool.utils.conf
 
                 conf.Fk_lushu = (int)(data[index++] & 0xFF);
                 conf.Jl_fk_num = (int)(data[index++] & 0xFF);
-                conf.Art_Net_Start_Space = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.Art_Net_Start_Space = (int)(((data[index++]) & 0xFF) | (((data[index++]) & 0xFF) << 8));
                 conf.Art_Net_Pre = (int)(data[index++] & 0xFF);
-                conf.Art_Net_td_len = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF));
+                conf.Art_Net_td_len = (int)(((data[index++]) & 0xFF) | (((data[index++]) & 0xFF) << 8));
                 conf.Art_Net_fk_id = (int)(data[index++] & 0xFF);
-                conf.SumUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF) | ((data[index++] << 16) & 0xFF) | ((data[index++] << 24) & 0xFF));
-                conf.CurrUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] << 8) & 0xFF) | ((data[index++] << 16) & 0xFF) | ((data[index++] << 24) & 0xFF));
+                conf.SumUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] & 0xFF) << 8) | ((data[index++] & 0xFF) << 16) | ((data[index++] & 0xFF) << 24));
+                conf.CurrUseTimes = (int)((data[index++] & 0xFF) | ((data[index++] & 0xFF) << 8) | ((data[index++] & 0xFF) << 16) | ((data[index++] & 0xFF) << 24));
                 return conf;
             }
             catch (Exception ex)

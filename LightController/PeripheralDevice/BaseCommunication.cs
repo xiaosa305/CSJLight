@@ -59,7 +59,8 @@ namespace LightController.PeripheralDevice
         //910灯控新增参数
         protected const int PACKAGESIZE = 512;//数据包大小
         protected System.Timers.Timer TransactionTimer { get; set; }//灯控操作执行定时器
-        public delegate void Progress(string filename, int progress);//进度更新事件委托
+        //public delegate void Progress(string filename, int progress);//进度更新事件委托
+        public delegate void Progress(int progress);//进度更新事件委托
         protected event Progress ProgressEvent;//进度更新事件
         protected long DownloadFileToTalSize { get; set; }//工程项目文件总大小
         protected long CurrentDownloadCompletedSize { get; set; }//当前文件大小
@@ -111,7 +112,8 @@ namespace LightController.PeripheralDevice
                 if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
                 {
                     int progress = Convert.ToInt32(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
-                    this.ProgressEvent(this.CurrentFileName, progress);
+                    //this.ProgressEvent(this.CurrentFileName, progress);
+                    this.ProgressEvent(progress);
                 }
             }
         }

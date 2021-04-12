@@ -23,6 +23,7 @@ using LightEditor.Ast;
 using LightController.PeripheralDevice;
 using LightController.MyForm.Multiplex;
 using Newtonsoft.Json;
+using LightController.MyForm.HardwareSet;
 
 namespace LightController.MyForm
 {
@@ -299,7 +300,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void hardwareSetSkinButton_Click(object sender, EventArgs e)
 		{
-			new HardwareSetChooseForm(this).ShowDialog();
+			//MARK0412  修改《硬件设置》点击事件
+			//new HardwareSetChooseForm(this).ShowDialog();
+					   
+			if (MyConnect != null && MyConnect.IsConnected() ) {								
+				new NewHardwareSetForm(this).ShowDialog();
+			}
 		}
 
 		/// <summary>
@@ -1960,8 +1966,8 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void refreshConnectMethod()
 		{
-			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
-			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
+			//changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
+			//deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 		}
 
 		/// <summary>

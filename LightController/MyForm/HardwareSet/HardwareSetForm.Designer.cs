@@ -137,9 +137,8 @@ namespace LightController.MyForm
 			this.playFlagComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.playFlagComboBox.FormattingEnabled = true;
 			this.playFlagComboBox.Items.AddRange(new object[] {
-				LanguageHelper.TranslateWord("录播文件"),
-				LanguageHelper.TranslateWord("程序文件")
-			});
+            "录播文件",
+            "程序文件"});
 			this.playFlagComboBox.Location = new System.Drawing.Point(339, 193);
 			this.playFlagComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.playFlagComboBox.Name = "playFlagComboBox";
@@ -560,7 +559,6 @@ namespace LightController.MyForm
 			// 
 			// remotePortTextBox
 			// 
-			this.remotePortTextBox.Enabled = false;
 			this.remotePortTextBox.Location = new System.Drawing.Point(314, 32);
 			this.remotePortTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.remotePortTextBox.Name = "remotePortTextBox";
@@ -570,7 +568,6 @@ namespace LightController.MyForm
 			// 
 			// domainServerTextBox
 			// 
-			this.domainServerTextBox.Enabled = false;
 			this.domainServerTextBox.Location = new System.Drawing.Point(313, 69);
 			this.domainServerTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.domainServerTextBox.Name = "domainServerTextBox";
@@ -600,7 +597,6 @@ namespace LightController.MyForm
 			// 
 			// remoteHostTextBox
 			// 
-			this.remoteHostTextBox.Enabled = false;
 			this.remoteHostTextBox.Location = new System.Drawing.Point(96, 32);
 			this.remoteHostTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.remoteHostTextBox.Name = "remoteHostTextBox";
@@ -620,7 +616,6 @@ namespace LightController.MyForm
 			// 
 			// domainNameTextBox
 			// 
-			this.domainNameTextBox.Enabled = false;
 			this.domainNameTextBox.Location = new System.Drawing.Point(96, 69);
 			this.domainNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.domainNameTextBox.MaxLength = 32;

@@ -803,7 +803,6 @@ namespace LightController.MyForm
 			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
-			this.playFlowLayoutPanel.Enabled = false;
 			this.playFlowLayoutPanel.Location = new System.Drawing.Point(204, 1);
 			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
 			this.playFlowLayoutPanel.Size = new System.Drawing.Size(658, 100);
@@ -826,6 +825,7 @@ namespace LightController.MyForm
 			this.changeConnectMethodSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.changeConnectMethodSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.changeConnectMethodSkinButton.DownBack = null;
+			this.changeConnectMethodSkinButton.Enabled = false;
 			this.changeConnectMethodSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.changeConnectMethodSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.changeConnectMethodSkinButton.ForeColorSuit = true;
@@ -845,6 +845,7 @@ namespace LightController.MyForm
 			this.changeConnectMethodSkinButton.Text = "以网络连接";
 			this.changeConnectMethodSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.changeConnectMethodSkinButton.UseVisualStyleBackColor = false;
+			this.changeConnectMethodSkinButton.Visible = false;
 			this.changeConnectMethodSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.changeConnectMethodSkinButton.Click += new System.EventHandler(this.changeConnectMethodSkinButton_Click);
 			// 
@@ -871,7 +872,7 @@ namespace LightController.MyForm
 			this.deviceRefreshSkinButton.RoundStyle = CCWin.SkinClass.RoundStyle.All;
 			this.deviceRefreshSkinButton.Size = new System.Drawing.Size(86, 34);
 			this.deviceRefreshSkinButton.TabIndex = 17;
-			this.deviceRefreshSkinButton.Text = "刷新串口";
+			this.deviceRefreshSkinButton.Text = "刷新列表";
 			this.deviceRefreshSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.deviceRefreshSkinButton.UseVisualStyleBackColor = false;
 			this.deviceRefreshSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);

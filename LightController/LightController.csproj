@@ -202,6 +202,12 @@
     <Compile Include="Ast\Entity\DB_FineTune.cs" />
     <Compile Include="Ast\Entity\CCEntity.cs" />
     <Compile Include="Ast\Entity\KeyEntity.cs" />
+    <Compile Include="MyForm\HardwareSet\NewHardwareSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\HardwareSet\NewHardwareSetForm.Designer.cs">
+      <DependentUpon>NewHardwareSetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\LightEditor\LightEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -490,6 +496,9 @@
     <Content Include="Language\en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="MyForm\HardwareSet\NewHardwareSetForm.resx">
+      <DependentUpon>NewHardwareSetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tools\Test\XiaosaTestForm.resx">
       <DependentUpon>XiaosaTestForm.cs</DependentUpon>
     </EmbeddedResource>

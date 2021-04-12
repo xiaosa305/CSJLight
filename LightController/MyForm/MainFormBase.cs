@@ -139,9 +139,9 @@ namespace LightController.MyForm
 		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
 		// 调试变量
-		protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
+		public BaseCommunication MyConnect;  // 与设备的连接（串口、网口）
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
-		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
+		protected bool isConnectCom = false; //默认情况下，用串口连接设备。 --》 去掉COM口
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
@@ -3717,10 +3717,10 @@ namespace LightController.MyForm
 						return;
 					}
 					
-					myConnect = new NetworkConnect();					
-					if (myConnect.Connect(networkDeviceList[deviceSelectedIndex]))
+					MyConnect = new NetworkConnect();					
+					if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
-						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
+						playTools.StartInternetPreview( MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
 						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false, true);						
 					}
 					else
@@ -3767,39 +3767,43 @@ namespace LightController.MyForm
 			byte[] stepBytes = new byte[512];
 			int currentStep = getCurrentStep();
 
-			for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++) {
+			if (currentProjectName != null) {
 
-				if (lightIndex == selectedIndex // 当前灯具一定会动
-					|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
-					|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
-					|| isSyncMode  // 同步状态下，所有灯一起动
-					)
+				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 				{
-					StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
-					if (stepWrapper != null)
+					if (lightIndex == selectedIndex // 当前灯具一定会动
+						|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
+						|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
+						|| isSyncMode  // 同步状态下，所有灯一起动
+						)
 					{
-						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+						StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
+						if (stepWrapper != null)
 						{
-							stepBytes[td.Address - 1] = (byte)td.ScrollValue;			
+							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+							{
+								stepBytes[td.Address - 1] = (byte)td.ScrollValue;
+							}
 						}
 					}
 				}
-			}
 
-			//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
-			if (material != null)
-			{
-				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+				//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
+				if (material != null)
 				{
-					if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex) ){
-
-						IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
-						foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+					{
+						if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
 						{
-							stepBytes[ tdList[ mi.CurrentTDIndex].Address - 1 ] =(byte) material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue ;
-						}						
+
+							IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+							foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+							{
+								stepBytes[tdList[mi.CurrentTDIndex].Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
+							}
+						}
 					}
-				}
+				}			
 			}
 
 			//MARK : 1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）

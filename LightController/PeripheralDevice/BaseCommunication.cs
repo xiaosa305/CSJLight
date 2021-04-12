@@ -2085,7 +2085,7 @@ namespace LightController.PeripheralDevice
         /// <param name="filePath">硬件配置文件路径</param>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void PutParam(string filePath,Completed completed,Error error)
+        public void PutParam(CSJ_Hardware hardware,Completed completed,Error error)
         {
             try
             {
@@ -2099,7 +2099,7 @@ namespace LightController.PeripheralDevice
                     {
                         AutoReset = false
                     };
-                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => PutParamStart(s, e, new PutParamData(filePath)));
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => PutParamStart(s, e, new PutParamData(hardware)));
                     this.TransactionTimer.Start();
                 }
             }
@@ -2121,7 +2121,8 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.PUT_PARAM;
-                ICSJFile hardWareFile = new CSJ_Hardware(putParamData.FilePath);
+                //ICSJFile hardWareFile = new CSJ_Hardware(putParamData.FilePath);
+                ICSJFile hardWareFile = putParamData.Hardware;
                 byte[] data = hardWareFile.GetData();
                 string fileName = @"Hardware.bin";
                 string fileSize = data.Length.ToString();
@@ -2708,10 +2709,15 @@ namespace LightController.PeripheralDevice
     }
     public class PutParamData
     {
-        public string FilePath { get; set; } 
-        public PutParamData(string filePath)
+        private string FilePath { get; set; } 
+        public CSJ_Hardware Hardware { get; set; }
+        private PutParamData(string filePath)
         {
             this.FilePath = filePath;
+        }
+        public PutParamData(CSJ_Hardware hardware)
+        {
+            this.Hardware = hardware;
         }
     }
     public class UpdateDeviceSystemData

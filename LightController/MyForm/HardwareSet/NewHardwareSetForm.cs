@@ -18,10 +18,11 @@ namespace LightController.MyForm.HardwareSet
 
 		public NewHardwareSetForm(MainFormBase mainForm)
 		{
-			this.mainForm = mainForm;
-			ch = new CSJ_Hardware();
-
+			this.mainForm = mainForm;			
 			InitializeComponent();
+
+			ch = new CSJ_Hardware();
+			SetParamFromCH();
 		}
 
 		private void NewHardwareSet_Load(object sender, EventArgs e)
@@ -55,8 +56,8 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				CSJ_Hardware ch = obj as CSJ_Hardware;
-				SetParamFromDevice(ch);
+				ch = obj as CSJ_Hardware;
+				SetParamFromCH();
 				setNotice("成功回读硬件配置。", true, true);
 			});
 		}

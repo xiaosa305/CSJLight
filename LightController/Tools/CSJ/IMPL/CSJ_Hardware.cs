@@ -107,11 +107,11 @@ namespace LightController.Tools.CSJ.IMPL
             IP = "192.168.2.11";
             NetMask = "255.255.255.0";
             GateWay = "192.168.2.1";
-            RemoteHost = "192.168.31.1";
-            RemotePort = 7070;
+            RemoteHost = "81.68.246.22";
+            RemotePort = 7091;
             Mac = "00-00-00-00-00-00";
             DomainName = "远程服务器";
-            DomainServer = "192.168.31.1";
+            DomainServer = "81.68.246.22";
             HardWareID = "";
             Heartbeat = new byte[] { 0x00 };
         }

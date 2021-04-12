@@ -613,6 +613,7 @@ namespace LightController.MyForm
 			// 下载配置			
 			setNotice("正在下载配置，请稍候...",false, true);
 			setBusy(true);
+			//MARK0412 修改 《写入硬件配置》的入参
 			myConnect.PutParam(iniPath, PutParamCompleted, PutParamError);
 		}
 

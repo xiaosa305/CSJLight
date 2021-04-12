@@ -44,8 +44,6 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.downloadButton = new System.Windows.Forms.Button();
 			this.readButton = new System.Windows.Forms.Button();
-			this.saveButton = new System.Windows.Forms.Button();
-			this.loadButton = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -218,34 +216,12 @@
 			this.readButton.UseVisualStyleBackColor = false;
 			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
-			// saveButton
-			// 
-			this.saveButton.Location = new System.Drawing.Point(37, 231);
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(91, 36);
-			this.saveButton.TabIndex = 30;
-			this.saveButton.Text = "保存配置";
-			this.saveButton.UseVisualStyleBackColor = true;
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// loadButton
-			// 
-			this.loadButton.Location = new System.Drawing.Point(149, 231);
-			this.loadButton.Name = "loadButton";
-			this.loadButton.Size = new System.Drawing.Size(91, 36);
-			this.loadButton.TabIndex = 30;
-			this.loadButton.Text = "打开配置";
-			this.loadButton.UseVisualStyleBackColor = true;
-			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
-			// 
 			// NewHardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.ClientSize = new System.Drawing.Size(535, 304);
-			this.Controls.Add(this.loadButton);
-			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.downloadButton);
 			this.Controls.Add(this.readButton);
 			this.Controls.Add(this.panel1);
@@ -280,7 +256,5 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button downloadButton;
 		private System.Windows.Forms.Button readButton;
-		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.Button loadButton;
 	}
 }

@@ -2159,7 +2159,7 @@ namespace LightController.PeripheralDevice
                     {
                         AutoReset = false
                     };
-                    this.TransactionTimer.Elapsed += new PutParamStartOld((s, e) => PutParamStart(s, e, new PutParamData(filePath)));
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => PutParamStartOld(s, e, new PutParamData(filePath)));
                     this.TransactionTimer.Start();
                 }
             }

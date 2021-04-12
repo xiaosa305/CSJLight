@@ -2132,7 +2132,66 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA,"更新硬件配置信息失败",ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置信息失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event(ex.Message);
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：旧版更新硬件配置
+        /// </summary>
+        /// <param name="filePath">硬件配置文件路径</param>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void PutParam(string filePath, Completed completed, Error error)
+        {
+            try
+            {
+                if ((!this.IsSending) && this.IsConnected())
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new PutParamStartOld((s, e) => PutParamStart(s, e, new PutParamData(filePath)));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("更新硬件配置任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：旧版更新硬件配置执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PutParamStartOld(Object obj, ElapsedEventArgs e, PutParamData putParamData)
+        {
+            try
+            {
+                this.SecondOrder = Order.PUT_PARAM;
+                ICSJFile hardWareFile = new CSJ_Hardware(putParamData.FilePath);
+                byte[] data = hardWareFile.GetData();
+                string fileName = @"Hardware.bin";
+                string fileSize = data.Length.ToString();
+                byte[] crcBuff = CRCTools.GetInstance().GetCRC(data);
+                string fileCrc = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
+                this.SendOrder(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置信息失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event(ex.Message);
@@ -2709,9 +2768,9 @@ namespace LightController.PeripheralDevice
     }
     public class PutParamData
     {
-        private string FilePath { get; set; } 
+        public string FilePath { get; set; } 
         public CSJ_Hardware Hardware { get; set; }
-        private PutParamData(string filePath)
+        public PutParamData(string filePath)
         {
             this.FilePath = filePath;
         }

@@ -61,7 +61,7 @@ namespace LightController.Tools
         public const int STATE_INTENETPREVIEW = 1;
         public const int STATE_TEST = 2;
         private int PreviewWayState { get; set; }
-        private bool IsInitIntentDebug { get; set; }
+        public bool IsInitIntentDebug { get; set; }
         private Thread SendEmptyDebugDataThread { get; set; }
 
 

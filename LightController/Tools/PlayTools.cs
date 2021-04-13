@@ -81,7 +81,7 @@ namespace LightController.Tools
             {
                 //TODO XIAOSA：待删除测试
                 this.IsTest = false;
-                this.DebugStatus = false;
+                this.DebugStatus = true;
                 this.MusicDataBuff = new Dictionary<int, byte>();
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 this.TimeFactory = 32;

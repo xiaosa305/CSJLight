@@ -23,6 +23,11 @@ namespace LightController.PeripheralDevice
         private Socket Socket { get; set; }//网络连接套接字
         private byte[] ReceiveBuff { get; set; }//接收缓存区
         private int BuffCount { get; set; }
+        //901灯控功能设备搜索
+        private const int UDP_INTENT_PREVIEW_PORT = 7080;
+        private static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
+        private Socket IntentPreviewUDPSender { get; set; }
+        private static SeachDeviceUtils SeachDeviceUtils { get; set; }
         public NetworkConnect()
         {
             this.Init();
@@ -143,6 +148,14 @@ namespace LightController.PeripheralDevice
                     }
                     this.Socket = null;
                 }
+                if (this.IntentPreviewUDPSender != null)
+                {
+                    lock (this.IntentPreviewUDPSender)
+                    {
+                        this.IntentPreviewUDPSender.Close();
+                        this.IntentPreviewUDPSender = null;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -150,13 +163,7 @@ namespace LightController.PeripheralDevice
             }
         }
 
-        //901灯控功能设备搜索
-        private const int UDP_INTENT_PREVIEW_PORT = 7080;
-        private static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
-        private Socket IntentPreviewUDPSender { get; set; }
-        private static SeachDeviceUtils SeachDeviceUtils { get; set; }
-
-        //发送网络模拟调试数据测试
+        //发送网络模拟调试数据测试·
         /// <summary>
         /// 功能：发送网络模拟调试数据
         /// </summary>
@@ -186,7 +193,6 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "搜索设备失败", ex);
             }
         }
-
         /// <summary>
         /// 功能：获取设备列表
         /// </summary>

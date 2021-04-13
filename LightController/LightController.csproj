@@ -437,12 +437,6 @@
     <Compile Include="MyForm\GlobalSet\YMSetForm.Designer.cs">
       <DependentUpon>YMSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\Test\TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Test\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="PeripheralDevice\BaseCommunication.cs" />
     <Compile Include="PeripheralDevice\NetworkConnect.cs" />
     <Compile Include="PeripheralDevice\OnlineConnect.cs" />
@@ -626,9 +620,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Test\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1005,7 +996,9 @@
     <Content Include="FTD2XX_NET.XML" />
     <Content Include="更新日志\ReadMe.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MyForm\Test\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.110.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net40\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

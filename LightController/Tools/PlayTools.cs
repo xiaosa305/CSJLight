@@ -39,6 +39,7 @@ namespace LightController.Tools
         private int StepListCount { get; set; }
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
+        public bool DebugStatus { get; set; }
 
         
 
@@ -80,7 +81,7 @@ namespace LightController.Tools
             {
                 //TODO XIAOSA：待删除测试
                 this.IsTest = false;
-
+                this.DebugStatus = true;
                 this.MusicDataBuff = new Dictionary<int, byte>();
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 this.TimeFactory = 32;
@@ -419,7 +420,6 @@ namespace LightController.Tools
                 Interlocked.Exchange(ref SendTimerStatus, 0);
             }
         }
-
         public byte[] GetTestData()
         {
             byte[] data = new byte[512];
@@ -429,7 +429,6 @@ namespace LightController.Tools
             }
             return data;
         }
-
         private void Play()
         {
             try
@@ -470,7 +469,7 @@ namespace LightController.Tools
                         }
                         IsInitIntentDebug = false;
                     }
-                    if (this.Communication != null)
+                    if (this.Communication != null && this.DebugStatus)
                     {
                         (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
 						Console.WriteLine(" ---DMX  " + buff[0]);
@@ -548,6 +547,10 @@ namespace LightController.Tools
            
         }
 
+        public void SetDebugStatus(bool status)
+        {
+            this.DebugStatus = status;
+        }
 
 
         //TODO XIAOSA：512测试模块

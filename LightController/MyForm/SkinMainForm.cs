@@ -245,9 +245,6 @@ namespace LightController.MyForm
 
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
-			Console.WriteLine("++++++++++++++++++++++++SkinMainForm_Load");
-
-
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
 			lightsSkinListView.HideSelection = true;
 
@@ -259,6 +256,17 @@ namespace LightController.MyForm
 
 			// 每次启动后，可以切换到上一次软件打开时连接的方式		
 			refreshConnectMethod();	
+		}
+
+		/// <summary>
+		///  每次激活界面时，需要进行的操作，主要是连接部分的处理
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SkinMainForm_Activated(object sender, EventArgs e)
+		{
+			Console.WriteLine("SkinMainForm_Activated");
+			playTools.SetDebugStatus(true);
 		}
 
 		/// <summary>
@@ -321,6 +329,7 @@ namespace LightController.MyForm
 			if (connectForm == null) {
 				connectForm = new ConnectForm(this);
 			}
+			playTools.SetDebugStatus(false);
 			connectForm.ShowDialog();
 		}
 
@@ -1330,8 +1339,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
-
 		/// <summary>
 		/// 事件：点击《复制步》
 		/// </summary>
@@ -2002,35 +2009,19 @@ namespace LightController.MyForm
 		{
 			//MARK 3.0413 EnableConnectedButtons
 
-			//base.EnableConnectedButtons(connected, previewing);
+			base.EnableConnectedButtons(connected, previewing);
+	
+			keepSkinButton.Enabled = IsConnected && !IsPreviewing;
+			previewSkinButton.Enabled = IsConnected;
+			makeSoundSkinButton.Enabled = IsConnected && IsPreviewing;
+			
+			SetPreview(IsPreviewing);
 
-			//// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			//connectPanel.Enabled = !IsConnected;				
-
-			//keepSkinButton.Enabled = IsConnected && !IsPreviewing;			
-			//previewSkinButton.Enabled = IsConnected;
-			//makeSoundSkinButton.Enabled = IsConnected && IsPreviewing;			
-
-			//if (IsConnected)
-			//{
-			//	deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;				
-			//	deviceConnectSkinButton.Text = "断开连接";				
-			//}
-			//else
-			//{                
-			//             deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
-			//	deviceConnectSkinButton.Text = "连接设备";
-			//}
-
-			//LanguageHelper.TranslateControl(deviceConnectSkinButton);			
-
-			//SetPreview(IsPreviewing);
-
-			////721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			//if (IsConnected && !IsPreviewing)
-			//{
-			//	// RefreshStep();
-			//}
+			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
+			if (IsConnected && !IsPreviewing)
+			{
+				RefreshStep();
+			}
 		}
 
 		/// <summary>
@@ -2180,18 +2171,8 @@ namespace LightController.MyForm
 			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
 		}
 
-		private void SkinMainForm_Activated(object sender, EventArgs e)
-		{
-			// 若是连接状态，
-			if (IsConnected  ) {
 
-				playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-
-			}
-
-
-
-		}
+		
 	}
 	   
 }

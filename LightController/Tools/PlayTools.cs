@@ -472,7 +472,7 @@ namespace LightController.Tools
                     if (this.Communication != null && this.DebugStatus)
                     {
                         (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
-						Console.WriteLine(" ---DMX  " + buff[0]);
+						Console.WriteLine(" DMX0 = " + buff[0]);
                     }
                 }
             }

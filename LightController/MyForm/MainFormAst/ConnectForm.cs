@@ -47,14 +47,14 @@ namespace LightController.MyForm.MainFormAst
 		protected void deviceRefresh()
 		{
 			deviceRefreshButton.Enabled = false;
+			deviceConnectButton.Enabled = false;
 
 			//	 刷新前，先清空按键等
 			setNotice("正在搜索设备，请稍候...", false, true);
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
 			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Enabled = false;
-			deviceConnectButton.Enabled = false;
+			deviceComboBox.Enabled = false;			
 
 			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
@@ -111,15 +111,17 @@ namespace LightController.MyForm.MainFormAst
 			}
 			else
 			{
-				if ( deviceComboBox.SelectedIndex < 0)
-				{
-					setNotice("未选中可用设备，请选中后再点击连接。", true, true);
-					return;
-				}
+				// 从源头把问题处理掉，不要再在此处判断
+				//if ( deviceComboBox.SelectedIndex < 0)
+				//{
+				//	setNotice("未选中可用设备，请选中后再点击连接。", true, true);
+				//	return;
+				//}
 
 				mainForm.MyConnect = new NetworkConnect();
 				if (mainForm.MyConnect.Connect(networkDeviceList[deviceComboBox.SelectedIndex ]))
 				{
+					mainForm.StartDebug();
 					setNotice("设备连接成功。", false, true);
 				}
 				else
@@ -129,136 +131,214 @@ namespace LightController.MyForm.MainFormAst
 			}
 		}
 
-			///// <summary>
-			///// 事件：改变deviceComboBox的选中项。
-			///// </summary>
-			///// <param name="sender"></param>
-			///// <param name="e"></param>
-			//private void deviceSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
-			//{
-			//	if (!deviceSkinComboBox.Text.Trim().Equals(""))
-			//	{
-			//		deviceConnectSkinButton.Enabled = true;
-			//	}
-			//	else
-			//	{
-			//		deviceConnectSkinButton.Enabled = false;
-			//		SetNotice("未选中可用设备", false, true);
-			//	}
-			//}
+	
 
-			///// <summary>
-			/////  辅助方法：点击《切换连接方式》
-			///// </summary>
-			//protected void changeConnectMethodButtonClick()
-			//{
-			//	SetNotice("正在切换连接模式,请稍候...", false, true);
-			//	isConnectCom = !isConnectCom;
-			//	refreshConnectMethod();
-			//	SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
+		///// <summary>
+		/////  辅助方法：点击《切换连接方式》
+		///// </summary>
+		//protected void changeConnectMethodButtonClick()
+		//{
+		//	SetNotice("正在切换连接模式,请稍候...", false, true);
+		//	isConnectCom = !isConnectCom;
+		//	refreshConnectMethod();
+		//	SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
 
-			//	//保存此连接方式到Settings中
-			//	Properties.Settings.Default.IsConnectCom = isConnectCom;
-			//	Properties.Settings.Default.Save();
+		//	//保存此连接方式到Settings中
+		//	Properties.Settings.Default.IsConnectCom = isConnectCom;
+		//	Properties.Settings.Default.Save();
 
-			//	deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
-			//}
+		//	deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
+		//}
 
-			///// <summary>
-			///// 辅助方法：点击《连接设备 | 断开连接》
-			///// </summary>
-			//protected void connectButtonClick(string deviceName, int deviceSelectedIndex)
-			//{
-			//	// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			//	if (IsConnected)
-			//	{
-			//		disConnect(); //connectButtonClick
-			//	}
-			//	else
-			//	{
-			//		playTools = PlayTools.GetInstance();
-			//		if (isConnectCom)
-			//		{
-			//			if (string.IsNullOrEmpty(deviceName))
-			//			{
-			//				SetNotice("未选中可用串口，请选中后再点击连接。", true, true);
-			//				return;
-			//			}
-			//			if (playTools.ConnectDevice(deviceName))
-			//			{
-			//				SetNotice("设备(以串口方式)连接成功,并进入调试模式。", false, true);
-			//				EnableConnectedButtons(true, false);
-			//			}
-			//			else
-			//			{
-			//				SetNotice("设备连接失败，请刷新串口列表后重试。", true, true);
-			//			}
-			//		}
-			//		else
-			//		{
-			//			if (deviceSelectedIndex < 0)
-			//			{
-			//				SetNotice("未选中可用网络连接，请选中后再点击连接。", true, true);
-			//				return;
-			//			}
+		///// <summary>
+		///// 辅助方法：点击《连接设备 | 断开连接》
+		///// </summary>
+		//protected void connectButtonClick(string deviceName, int deviceSelectedIndex)
+		//{
+		//	// 如果已连接（按钮显示为“连接设备”)，则关闭连接
+		//	if (IsConnected)
+		//	{
+		//		disConnect(); //connectButtonClick
+		//	}
+		//	else
+		//	{
+		//		playTools = PlayTools.GetInstance();
+		//		if (isConnectCom)
+		//		{
+		//			if (string.IsNullOrEmpty(deviceName))
+		//			{
+		//				SetNotice("未选中可用串口，请选中后再点击连接。", true, true);
+		//				return;
+		//			}
+		//			if (playTools.ConnectDevice(deviceName))
+		//			{
+		//				SetNotice("设备(以串口方式)连接成功,并进入调试模式。", false, true);
+		//				EnableConnectedButtons(true, false);
+		//			}
+		//			else
+		//			{
+		//				SetNotice("设备连接失败，请刷新串口列表后重试。", true, true);
+		//			}
+		//		}
+		//		else
+		//		{
+		//			if (deviceSelectedIndex < 0)
+		//			{
+		//				SetNotice("未选中可用网络连接，请选中后再点击连接。", true, true);
+		//				return;
+		//			}
 
-			//			MyConnect = new NetworkConnect();
-			//			if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
-			//			{
-			//				playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-			//				SetNotice("设备(以网络方式)连接成功,并进入调试模式。", false, true);
-			//			}
-			//			else
-			//			{
-			//				SetNotice("设备连接失败，请刷新网络设备列表后重试。", true, true);
-			//			}
-			//		}
-			//	}
-			//}
+		//			MyConnect = new NetworkConnect();
+		//			if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
+		//			{
+		//				playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+		//				SetNotice("设备(以网络方式)连接成功,并进入调试模式。", false, true);
+		//			}
+		//			else
+		//			{
+		//				SetNotice("设备连接失败，请刷新网络设备列表后重试。", true, true);
+		//			}
+		//		}
+		//	}
+		//}
 
-			///// <summary>
-			///// 辅助方法：断开连接
-			///// </summary>
-			//protected void disConnect()
-			//{
+		///// <summary>
+		///// 辅助方法：断开连接
+		///// </summary>
+		//protected void disConnect()
+		//{
 
-			//	if (IsConnected)
-			//	{
-			//		playTools.ResetDebugDataToEmpty();
-			//		playTools.StopSend();
-			//		if (isConnectCom)
-			//		{
-			//			playTools.CloseDevice();
-			//			//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
-			//			MyConnect.DisConnect();
-			//			EnableConnectedButtons(false, false);
-			//		}
-			//		else
-			//		{
-			//			playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
-			//		}
-			//		SetNotice("已断开连接。", false, true);
-			//	}
-			//}
+		//	if (IsConnected)
+		//	{
+		//		playTools.ResetDebugDataToEmpty();
+		//		playTools.StopSend();
+		//		if (isConnectCom)
+		//		{
+		//			playTools.CloseDevice();
+		//			//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
+		//			MyConnect.DisConnect();
+		//			EnableConnectedButtons(false, false);
+		//		}
+		//		else
+		//		{
+		//			playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
+		//		}
+		//		SetNotice("已断开连接。", false, true);
+		//	}
+		//}
 
 
-			/// <summary>
-			/// 辅助方法：刷新几个按键的文本
-			/// </summary>
-			//protected override void refreshConnectMethod()
-			//{
-			//	//changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
-			//	//deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-			//}
+		/// <summary>
+		/// 辅助方法：刷新几个按键的文本
+		/// </summary>
+		//protected override void refreshConnectMethod()
+		//{
+		//	//changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
+		//	//deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
+		//}
 
-			#region 通用方法
 
-			/// <summary>
-			/// 辅助方法：显示信息
-			/// </summary>
-			/// <param name="msg"></param>
-			/// <param name="messageBoxShow">是否在提示盒内提示</param>
-			private void setNotice(string msg, bool messageBoxShow, bool isTranslate)
+		///// <summary>
+		/////  辅助方法：点击《切换连接方式》
+		///// </summary>
+		//protected void changeConnectMethodButtonClick()
+		//{
+		//	SetNotice("正在切换连接模式,请稍候...", false, true);
+		//	isConnectCom = !isConnectCom;
+		//	refreshConnectMethod();
+		//	SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
+
+		//	//保存此连接方式到Settings中
+		//	Properties.Settings.Default.IsConnectCom = isConnectCom;
+		//	Properties.Settings.Default.Save();
+
+		//	deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
+		//}
+
+		/// <summary>
+		/// 辅助方法：点击《连接设备 | 断开连接》
+		/// </summary>
+		//protected void connectButtonClick(string deviceName, int deviceSelectedIndex)
+		//{
+		//	// 如果已连接（按钮显示为“连接设备”)，则关闭连接
+		//	if (IsConnected)
+		//	{
+		//		disConnect(); //connectButtonClick
+		//	}
+		//	else
+		//	{
+		//		playTools = PlayTools.GetInstance();
+		//		if (isConnectCom)
+		//		{
+		//			if (string.IsNullOrEmpty(deviceName))
+		//			{
+		//				SetNotice("未选中可用串口，请选中后再点击连接。", true, true);
+		//				return;
+		//			}
+		//			if (playTools.ConnectDevice(deviceName))
+		//			{
+		//				SetNotice("设备(以串口方式)连接成功,并进入调试模式。", false, true);
+		//				EnableConnectedButtons(true, false);
+		//			}
+		//			else
+		//			{
+		//				SetNotice("设备连接失败，请刷新串口列表后重试。", true, true);
+		//			}
+		//		}
+		//		else
+		//		{
+		//			if (deviceSelectedIndex < 0)
+		//			{
+		//				SetNotice("未选中可用网络连接，请选中后再点击连接。", true, true);
+		//				return;
+		//			}
+
+		//			MyConnect = new NetworkConnect();
+		//			if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
+		//			{
+		//				playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+		//				SetNotice("设备(以网络方式)连接成功,并进入调试模式。", false, true);
+		//			}
+		//			else
+		//			{
+		//				SetNotice("设备连接失败，请刷新网络设备列表后重试。", true, true);
+		//			}
+		//		}
+		//	}
+		//}
+
+		/// <summary>
+		/// 辅助方法：断开连接
+		/// </summary>
+		//protected void disConnect()
+		//{
+		//		if (IsConnected)
+		//		{
+		//			playTools.ResetDebugDataToEmpty();
+		//			playTools.StopSend();
+		//		if (isConnectCom)
+		//		{
+		//			playTools.CloseDevice();
+		//			//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
+		//			MyConnect.DisConnect();
+		//			EnableConnectedButtons(false, false);
+		//		}
+		//		else
+		//		{
+		//			playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
+		//		}
+		//		SetNotice("已断开连接。", false, true);
+		//	}
+		//}
+
+		#region 通用方法
+
+		/// <summary>
+		/// 辅助方法：显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="messageBoxShow">是否在提示盒内提示</param>
+		private void setNotice(string msg, bool messageBoxShow, bool isTranslate)
 		{
 			if (isTranslate)
 			{

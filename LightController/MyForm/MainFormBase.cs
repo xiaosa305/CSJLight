@@ -92,6 +92,9 @@ namespace LightController.MyForm
 		protected string currentProjectPath; //存放当前工程所在目录
 		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
+
+		
+
 		protected bool isEncrypt = false; //是否加密				
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）【不为static的原因是，这个在软件运行时可能会发生改变。】
@@ -1689,8 +1692,9 @@ namespace LightController.MyForm
 		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
 		/// </summary>
 		protected virtual void clearAllData()
-		{	
-			disConnect(); //clearAllData() 【原来的代码只是停止预览，用断开连接更完善】
+		{
+			//MARK 3.0413 clearAllData()-disConnect()
+			//disConnect(); //clearAllData() 【原来的代码只是停止预览，用断开连接更完善】
 
 			currentProjectName = null;
 			currentProjectPath = null;
@@ -2551,7 +2555,8 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void projectUpdateClick()
 		{
-			disConnect(); //projectUpdateClick()
+			// Mark3.0413  projectUpdateClick()-disConnect
+			//disConnect(); //projectUpdateClick()
 			new ProjectUpdateForm(this).ShowDialog();
 		}
 
@@ -2580,7 +2585,8 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void newToolClick()
 		{
-			disConnect(); //newToolClick()
+			// Mark3.0413  newToolClick()-disConnect
+			//disConnect(); //newToolClick()
 			new NewToolsForm(this).ShowDialog();
 		}
 
@@ -3667,94 +3673,9 @@ namespace LightController.MyForm
 
 		#region playPanel相关
 
-		/// <summary>
-		///  辅助方法：点击《切换连接方式》
-		/// </summary>
-		protected void changeConnectMethodButtonClick()
+		public void StartDebug()
 		{
-			SetNotice("正在切换连接模式,请稍候...", false, true);
-			isConnectCom = !isConnectCom;
-			refreshConnectMethod();			
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
-
-			//保存此连接方式到Settings中
-			Properties.Settings.Default.IsConnectCom = isConnectCom;
-			Properties.Settings.Default.Save();
-
-			deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
-		}
-
-		/// <summary>
-		/// 辅助方法：点击《连接设备 | 断开连接》
-		/// </summary>
-		protected void connectButtonClick(string deviceName , int deviceSelectedIndex)
-		{		
-			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			if ( IsConnected)
-			{
-				disConnect(); //connectButtonClick
-			}
-			else {
-				playTools = PlayTools.GetInstance();
-				if (isConnectCom)
-				{
-					if ( string.IsNullOrEmpty(deviceName) )
-					{
-						SetNotice("未选中可用串口，请选中后再点击连接。",true, true);
-						return;
-					}
-					if (playTools.ConnectDevice(deviceName))
-					{
-						SetNotice("设备(以串口方式)连接成功,并进入调试模式。",false, true);
-						EnableConnectedButtons(true, false);
-					}
-					else {
-						SetNotice("设备连接失败，请刷新串口列表后重试。",true, true);
-					}
-				}
-				else
-				{
-					if ( deviceSelectedIndex < 0)
-					{
-						SetNotice("未选中可用网络连接，请选中后再点击连接。",true, true);
-						return;
-					}
-					
-					MyConnect = new NetworkConnect();					
-					if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
-					{
-						playTools.StartInternetPreview( MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false, true);						
-					}
-					else
-					{
-						SetNotice("设备连接失败，请刷新网络设备列表后重试。",true, true);
-					}
-				}
-			}			
-		}
-
-		/// <summary>
-		/// 辅助方法：断开连接
-		/// </summary>
-		protected void disConnect() {
-
-			if (IsConnected) {							   
-				playTools.ResetDebugDataToEmpty();				
-				playTools.StopSend();
-				if (isConnectCom)
-				{
-					playTools.CloseDevice();
-					//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
-					MyConnect.DisConnect();
-					EnableConnectedButtons(false,false);
-				}
-				else
-				{
-					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);					
-				}
-				SetNotice("已断开连接。",false, true);
-			}
+			playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 		}
 
 		/// <summary>

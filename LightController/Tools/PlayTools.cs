@@ -473,6 +473,7 @@ namespace LightController.Tools
                     if (this.Communication != null)
                     {
                         (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
+						Console.WriteLine(" ---DMX  " + buff[0]);
                     }
                 }
             }

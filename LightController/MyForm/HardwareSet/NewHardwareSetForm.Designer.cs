@@ -28,9 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.label5 = new System.Windows.Forms.Label();
 			this.deviceNameTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -44,52 +41,30 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.downloadButton = new System.Windows.Forms.Button();
 			this.readButton = new System.Windows.Forms.Button();
-			this.statusStrip1.SuspendLayout();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.hardwarePage = new System.Windows.Forms.TabPage();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.firmwarePage = new System.Windows.Forms.TabPage();
+			this.fileOpenButton = new System.Windows.Forms.Button();
+			this.pathLabel = new System.Windows.Forms.Label();
+			this.versionButton = new System.Windows.Forms.Button();
+			this.updateButton = new System.Windows.Forms.Button();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.progressStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.tabControl1.SuspendLayout();
+			this.hardwarePage.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.firmwarePage.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// statusStrip1
-			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 282);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(535, 22);
-			this.statusStrip1.SizingGrip = false;
-			this.statusStrip1.TabIndex = 3;
-			this.statusStrip1.Text = "statusStrip1";
-			// 
-			// myStatusLabel
-			// 
-			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(520, 17);
-			this.myStatusLabel.Spring = true;
-			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// panel1
-			// 
-			this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.panel1.Controls.Add(this.label5);
-			this.panel1.Controls.Add(this.deviceNameTextBox);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.macCheckBox);
-			this.panel1.Controls.Add(this.gatewayTextBox);
-			this.panel1.Controls.Add(this.macTextBox);
-			this.panel1.Controls.Add(this.label10);
-			this.panel1.Controls.Add(this.IPTextBox);
-			this.panel1.Controls.Add(this.label6);
-			this.panel1.Controls.Add(this.netmaskTextBox);
-			this.panel1.Controls.Add(this.label7);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel1.Location = new System.Drawing.Point(0, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(535, 216);
-			this.panel1.TabIndex = 4;
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(37, 121);
+			this.label5.Location = new System.Drawing.Point(37, 118);
 			this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(41, 12);
@@ -118,16 +93,17 @@
 			// macCheckBox
 			// 
 			this.macCheckBox.AutoSize = true;
-			this.macCheckBox.Location = new System.Drawing.Point(307, 169);
+			this.macCheckBox.Location = new System.Drawing.Point(294, 159);
 			this.macCheckBox.Name = "macCheckBox";
 			this.macCheckBox.Size = new System.Drawing.Size(114, 16);
 			this.macCheckBox.TabIndex = 15;
 			this.macCheckBox.Text = "自动获取MAC地址";
 			this.macCheckBox.UseVisualStyleBackColor = true;
+			this.macCheckBox.CheckedChanged += new System.EventHandler(this.macCheckBox_CheckedChanged);
 			// 
 			// gatewayTextBox
 			// 
-			this.gatewayTextBox.Location = new System.Drawing.Point(116, 117);
+			this.gatewayTextBox.Location = new System.Drawing.Point(116, 114);
 			this.gatewayTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.gatewayTextBox.Name = "gatewayTextBox";
 			this.gatewayTextBox.Size = new System.Drawing.Size(124, 21);
@@ -136,7 +112,7 @@
 			// 
 			// macTextBox
 			// 
-			this.macTextBox.Location = new System.Drawing.Point(116, 168);
+			this.macTextBox.Location = new System.Drawing.Point(116, 154);
 			this.macTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.macTextBox.MaxLength = 17;
 			this.macTextBox.Name = "macTextBox";
@@ -147,7 +123,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(37, 169);
+			this.label10.Location = new System.Drawing.Point(37, 154);
 			this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(59, 12);
@@ -156,7 +132,7 @@
 			// 
 			// IPTextBox
 			// 
-			this.IPTextBox.Location = new System.Drawing.Point(116, 81);
+			this.IPTextBox.Location = new System.Drawing.Point(116, 78);
 			this.IPTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.IPTextBox.Name = "IPTextBox";
 			this.IPTextBox.Size = new System.Drawing.Size(124, 21);
@@ -166,7 +142,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(37, 85);
+			this.label6.Location = new System.Drawing.Point(37, 82);
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(53, 12);
@@ -175,7 +151,7 @@
 			// 
 			// netmaskTextBox
 			// 
-			this.netmaskTextBox.Location = new System.Drawing.Point(384, 81);
+			this.netmaskTextBox.Location = new System.Drawing.Point(371, 78);
 			this.netmaskTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.netmaskTextBox.Name = "netmaskTextBox";
 			this.netmaskTextBox.Size = new System.Drawing.Size(109, 21);
@@ -185,7 +161,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(305, 85);
+			this.label7.Location = new System.Drawing.Point(292, 82);
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(65, 12);
@@ -194,8 +170,10 @@
 			// 
 			// downloadButton
 			// 
-			this.downloadButton.BackColor = System.Drawing.Color.Transparent;
-			this.downloadButton.Location = new System.Drawing.Point(417, 231);
+			this.downloadButton.BackColor = System.Drawing.Color.Red;
+			this.downloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.downloadButton.ForeColor = System.Drawing.SystemColors.Control;
+			this.downloadButton.Location = new System.Drawing.Point(403, 225);
 			this.downloadButton.Margin = new System.Windows.Forms.Padding(2);
 			this.downloadButton.Name = "downloadButton";
 			this.downloadButton.Size = new System.Drawing.Size(91, 36);
@@ -207,7 +185,7 @@
 			// readButton
 			// 
 			this.readButton.BackColor = System.Drawing.Color.Transparent;
-			this.readButton.Location = new System.Drawing.Point(307, 231);
+			this.readButton.Location = new System.Drawing.Point(297, 225);
 			this.readButton.Margin = new System.Windows.Forms.Padding(2);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 36);
@@ -216,33 +194,174 @@
 			this.readButton.UseVisualStyleBackColor = false;
 			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
+			// tabControl1
+			// 
+			this.tabControl1.Controls.Add(this.hardwarePage);
+			this.tabControl1.Controls.Add(this.firmwarePage);
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(534, 308);
+			this.tabControl1.TabIndex = 30;
+			// 
+			// hardwarePage
+			// 
+			this.hardwarePage.BackColor = System.Drawing.Color.DarkSlateGray;
+			this.hardwarePage.Controls.Add(this.panel1);
+			this.hardwarePage.Controls.Add(this.downloadButton);
+			this.hardwarePage.Controls.Add(this.readButton);
+			this.hardwarePage.Location = new System.Drawing.Point(4, 22);
+			this.hardwarePage.Name = "hardwarePage";
+			this.hardwarePage.Padding = new System.Windows.Forms.Padding(3);
+			this.hardwarePage.Size = new System.Drawing.Size(526, 282);
+			this.hardwarePage.TabIndex = 0;
+			this.hardwarePage.Text = "硬件配置";
+			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.panel1.Controls.Add(this.label5);
+			this.panel1.Controls.Add(this.deviceNameTextBox);
+			this.panel1.Controls.Add(this.label1);
+			this.panel1.Controls.Add(this.macCheckBox);
+			this.panel1.Controls.Add(this.gatewayTextBox);
+			this.panel1.Controls.Add(this.macTextBox);
+			this.panel1.Controls.Add(this.label10);
+			this.panel1.Controls.Add(this.IPTextBox);
+			this.panel1.Controls.Add(this.label6);
+			this.panel1.Controls.Add(this.netmaskTextBox);
+			this.panel1.Controls.Add(this.label7);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel1.Location = new System.Drawing.Point(3, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(520, 200);
+			this.panel1.TabIndex = 4;
+			// 
+			// firmwarePage
+			// 
+			this.firmwarePage.Controls.Add(this.fileOpenButton);
+			this.firmwarePage.Controls.Add(this.pathLabel);
+			this.firmwarePage.Controls.Add(this.versionButton);
+			this.firmwarePage.Controls.Add(this.updateButton);
+			this.firmwarePage.Location = new System.Drawing.Point(4, 22);
+			this.firmwarePage.Name = "firmwarePage";
+			this.firmwarePage.Padding = new System.Windows.Forms.Padding(3);
+			this.firmwarePage.Size = new System.Drawing.Size(526, 282);
+			this.firmwarePage.TabIndex = 1;
+			this.firmwarePage.Text = "固件升级";
+			this.firmwarePage.UseVisualStyleBackColor = true;
+			// 
+			// fileOpenButton
+			// 
+			this.fileOpenButton.Location = new System.Drawing.Point(17, 28);
+			this.fileOpenButton.Name = "fileOpenButton";
+			this.fileOpenButton.Size = new System.Drawing.Size(86, 33);
+			this.fileOpenButton.TabIndex = 40;
+			this.fileOpenButton.Text = "选择升级文件";
+			this.fileOpenButton.UseVisualStyleBackColor = true;
+			this.fileOpenButton.Click += new System.EventHandler(this.fileOpenButton_Click);
+			// 
+			// pathLabel
+			// 
+			this.pathLabel.Location = new System.Drawing.Point(118, 28);
+			this.pathLabel.Name = "pathLabel";
+			this.pathLabel.Size = new System.Drawing.Size(387, 33);
+			this.pathLabel.TabIndex = 43;
+			this.pathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// versionButton
+			// 
+			this.versionButton.BackColor = System.Drawing.Color.Silver;
+			this.versionButton.Enabled = false;
+			this.versionButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.versionButton.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.versionButton.Location = new System.Drawing.Point(347, 169);
+			this.versionButton.Name = "versionButton";
+			this.versionButton.Size = new System.Drawing.Size(66, 59);
+			this.versionButton.TabIndex = 41;
+			this.versionButton.Text = "获取当前\r\n固件版本";
+			this.versionButton.UseVisualStyleBackColor = false;
+			this.versionButton.Visible = false;
+			// 
+			// updateButton
+			// 
+			this.updateButton.BackColor = System.Drawing.Color.OrangeRed;
+			this.updateButton.Enabled = false;
+			this.updateButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.updateButton.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.updateButton.Location = new System.Drawing.Point(424, 169);
+			this.updateButton.Name = "updateButton";
+			this.updateButton.Size = new System.Drawing.Size(81, 59);
+			this.updateButton.TabIndex = 42;
+			this.updateButton.Text = "升级";
+			this.updateButton.UseVisualStyleBackColor = false;
+			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.BackColor = System.Drawing.Color.White;
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.myStatusLabel,
+            this.myProgressBar,
+            this.progressStatusLabel});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 308);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(534, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 38;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// myStatusLabel
+			// 
+			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.myStatusLabel.Name = "myStatusLabel";
+			this.myStatusLabel.Size = new System.Drawing.Size(337, 17);
+			this.myStatusLabel.Spring = true;
+			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// myProgressBar
+			// 
+			this.myProgressBar.BackColor = System.Drawing.Color.Black;
+			this.myProgressBar.Name = "myProgressBar";
+			this.myProgressBar.Size = new System.Drawing.Size(148, 16);
+			this.myProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			// 
+			// progressStatusLabel
+			// 
+			this.progressStatusLabel.AutoSize = false;
+			this.progressStatusLabel.Name = "progressStatusLabel";
+			this.progressStatusLabel.Size = new System.Drawing.Size(32, 17);
+			this.progressStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
+			// 
 			// NewHardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-			this.ClientSize = new System.Drawing.Size(535, 304);
-			this.Controls.Add(this.downloadButton);
-			this.Controls.Add(this.readButton);
-			this.Controls.Add(this.panel1);
+			this.ClientSize = new System.Drawing.Size(534, 330);
+			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
 			this.Name = "NewHardwareSetForm";
-			this.Text = "硬件设置(新)";
+			this.Text = "硬件相关";
 			this.Load += new System.EventHandler(this.NewHardwareSet_Load);
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
+			this.hardwarePage.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			this.firmwarePage.ResumeLayout(false);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
-		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.TextBox deviceNameTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.CheckBox macCheckBox;
@@ -256,5 +375,18 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button downloadButton;
 		private System.Windows.Forms.Button readButton;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage hardwarePage;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.TabPage firmwarePage;
+		private System.Windows.Forms.Button fileOpenButton;
+		private System.Windows.Forms.Label pathLabel;
+		private System.Windows.Forms.Button versionButton;
+		private System.Windows.Forms.Button updateButton;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.ToolStripProgressBar myProgressBar;
+		private System.Windows.Forms.ToolStripStatusLabel progressStatusLabel;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }

@@ -50,10 +50,12 @@
 			// 
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			// 
-			// filePathLabel
+			// pathLabel
 			// 
-			this.pathLabel.Location = new System.Drawing.Point(152, 19);			
-			this.pathLabel.Size = new System.Drawing.Size(387, 33);			
+			this.pathLabel.Location = new System.Drawing.Point(152, 19);
+			this.pathLabel.Name = "pathLabel";
+			this.pathLabel.Size = new System.Drawing.Size(387, 33);
+			this.pathLabel.TabIndex = 39;
 			// 
 			// fileOpenButton
 			// 
@@ -176,7 +178,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(367, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(336, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 

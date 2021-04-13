@@ -182,6 +182,12 @@ namespace LightController.MyForm
 			IsConnected = connected;
 			IsPreviewing = previewing;
 		} //设置《连接按钮组》是否可用	
+
+		public bool IsConnect()
+		{
+			return MyConnect != null && MyConnect.IsConnected();
+		}
+
 		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
 		protected virtual void deviceRefresh() { } //	刷新设备列表
 		protected virtual void refreshConnectMethod() { } //切换连接方式后的相关操作
@@ -802,7 +808,7 @@ namespace LightController.MyForm
 			// 选择《追加》时，不更改核心代码 : 而是先选择最后步(0步则不走这个)，再设置method = insert
 			if (insMethod == InsertMethod.APPEND) {
 				if (totalStep != 0 && currentStep!=totalStep) {
-					chooseStep(totalStep);
+					chooseStep(totalStep); //UseMaterial
 				}
 				insMethod = InsertMethod.INSERT;
 			}
@@ -2670,7 +2676,7 @@ namespace LightController.MyForm
 		protected void backStepClick()
 		{
 			int currentStep = getCurrentStep();
-			chooseStep(currentStep > 1 ? currentStep - 1 : getCurrentTotalStep());
+			chooseStep(currentStep > 1 ? currentStep - 1 : getCurrentTotalStep());  //backStepClick
 		}
 
 		/// <summary>
@@ -2680,7 +2686,7 @@ namespace LightController.MyForm
 		{
 			int currentStep = getCurrentStep();
 			int totalStep = getCurrentTotalStep();
-			chooseStep(currentStep < totalStep ? currentStep + 1 : 1);
+			chooseStep(currentStep < totalStep ? currentStep + 1 : 1); //nextStepClick
 		}
 
 		/// <summary>
@@ -3292,7 +3298,7 @@ namespace LightController.MyForm
 			
 			if (IsConnected && !IsPreviewing )
 			{
-				OneStepPlay(null );
+				OneStepPlay(null ); // chooseStep
 			}
 		}
 
@@ -3720,7 +3726,7 @@ namespace LightController.MyForm
 					MyConnect = new NetworkConnect();					
 					if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
-						playTools.StartInternetPreview( MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
+						playTools.StartInternetPreview( MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false, true);						
 					}
 					else
@@ -3767,7 +3773,8 @@ namespace LightController.MyForm
 			byte[] stepBytes = new byte[512];
 			int currentStep = getCurrentStep();
 
-			if (currentProjectName != null) {
+			//MARK0412 : 只有当前有灯具时，才可能修改相关的stepBytes
+			if (LightWrapperList != null && LightWrapperList.Count > 0) {
 
 				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 				{
@@ -3803,9 +3810,9 @@ namespace LightController.MyForm
 							}
 						}
 					}
-				}			
-			}
-
+				}
+			}		
+			
 			//MARK : 1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
 			string tdValueStr = "";
 			if (tdValues != null && tdValues.Count > 0)
@@ -4169,7 +4176,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public void RefreshStep()
 		{
-			chooseStep(getCurrentStep());
+			chooseStep(getCurrentStep());  // RefreshStep
 		}
 
 		/// <summary>
@@ -4190,7 +4197,7 @@ namespace LightController.MyForm
 			// 是否实时单灯单步
 			if (IsConnected && !IsPreviewing)
 			{
-				OneStepPlay(null);
+				OneStepPlay(null); //changeScrollValue()
 			}
 		}
 

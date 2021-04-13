@@ -1141,7 +1141,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(1);
+				chooseStep(1); //backStepButton_MouseDown
 			}
 		}
 
@@ -1166,7 +1166,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(getCurrentTotalStep());
+				chooseStep(getCurrentTotalStep()); //nextStepButton_MouseDown
 			}
 		}
 
@@ -1182,7 +1182,7 @@ namespace LightController.MyForm
 				MessageBox.Show("不可选择0步");
 				return;
 			}
-			chooseStep(stepNum);	
+			chooseStep(stepNum);     //chooseStepButton_Click
 		}
 
 		/// <summary>

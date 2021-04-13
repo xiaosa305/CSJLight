@@ -589,7 +589,7 @@ namespace LightController.MyForm
 		}	
 
 		/// <summary>
-		/// 事件：点击《下载配置》
+		/// 事件：点击《写入配置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

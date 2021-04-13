@@ -303,7 +303,8 @@ namespace LightController.MyForm
 			//MARK0412  修改《硬件设置》点击事件
 			//new HardwareSetChooseForm(this).ShowDialog();
 					   
-			if (MyConnect != null && MyConnect.IsConnected() ) {								
+			if ( IsConnect() ) {
+				
 				new NewHardwareSetForm(this).ShowDialog();
 			}
 		}
@@ -1203,7 +1204,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(1);
+				chooseStep(1); //backStepSkinButton_MouseDown
 			}
 		}
 
@@ -1228,7 +1229,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				chooseStep(getCurrentTotalStep());
+				chooseStep(getCurrentTotalStep());  // nextStepSkinButton_MouseDown
 			}
 		}
 
@@ -1245,7 +1246,7 @@ namespace LightController.MyForm
 				MessageBox.Show("不可选择0步");
 				return;
 			}
-			chooseStep(step);
+			chooseStep(step);  // chooseStepSkinButton_Click
 		}
 
 		/// <summary>
@@ -2160,7 +2161,7 @@ namespace LightController.MyForm
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
 			if (IsConnected && !IsPreviewing)
 			{
-				RefreshStep();
+				// RefreshStep();
 			}
 		}
 

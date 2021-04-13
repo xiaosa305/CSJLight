@@ -3720,7 +3720,7 @@ namespace LightController.MyForm
 					MyConnect = new NetworkConnect();					
 					if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
-						playTools.StartInternetPreview( MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
+						playTools.StartPreview( MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
 						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false, true);						
 					}
 					else
@@ -3746,7 +3746,7 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
+					playTools.StopPreview(DisconnectCompleted, ConnectAndDisconnectError);
 				}
 				SetNotice("已断开连接。",false, true);
 			}

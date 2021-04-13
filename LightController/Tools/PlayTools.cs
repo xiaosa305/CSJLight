@@ -20,91 +20,55 @@ namespace LightController.Tools
     public class PlayTools
     {
         private static PlayTools Instance { get; set; }
-        private static FTDI Device { get; set; }                    
         private readonly byte[] StartCode = new byte[] { 0x00 };
-        private DBWrapper DBWrapper { get; set; }
-        private string ConfigPath { get; set; }
         private CSJ_Config Config { get; set; }
         private int SceneNo { get; set; }
         private int TimeFactory { get; set; }
         private byte[] PlayData { get; set; }
         private bool IsMusicControl { get; set; }
-        private bool IsSendEmptyData { get; set; }
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
         private int MusicStep { get; set; }
         private int MusicStepTime { get; set; }
-        private PreViewState State { get; set; }
         private int[] StepList { get; set; }
         private int StepListCount { get; set; }
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
-        public bool DebugStatus { get; set; }
-
-        
-
+        private bool DebugStatus { get; set; }
         private static int PreviewTimerStatus = 0;
         private static int MusicControlTimerStatus = 0;
         private static int SendTimerStatus = 0;
-
-
         private System.Timers.Timer PreviewTimer { get; set; }
         private System.Timers.Timer MusicControlTimer { get; set; }
         private System.Timers.Timer SendTimer { get; set; }
-
         private System.Timers.Timer Timer { get; set; }
         private Dictionary<int,byte> MusicDataBuff { get; set; }
         private List<PlayPoint> M_PlayPoints { get; set; }
         private List<PlayPoint> C_PlayPoints { get; set; }
-
-        public const int STATE_SERIALPREVIEW = 0;
-        public const int STATE_INTENETPREVIEW = 1;
-        public const int STATE_TEST = 2;
-        private int PreviewWayState { get; set; }
-        public bool IsInitIntentDebug { get; set; }
-        private Thread SendEmptyDebugDataThread { get; set; }
-
-
-        private BaseCommunication Communication { get; set; }
+        private NetworkConnect Communication { get; set; }
         private BaseCommunication.Completed StartIntentPreviewCompleted { get; set; }
         private BaseCommunication.Error StartIntentPreviewError { get; set; }
-        private BaseCommunication.Completed StopIntentPreviewCompleted { get; set; }
-        private BaseCommunication.Error StopIntentPreviewError { get; set; }
-
-
-        //TODO XIAOSA：待删除测试
-        public bool IsTest { get; set; }
-        private SerialPort TestComDevice { get; set; }
         private PlayTools()
         {
             try
             {
-                //TODO XIAOSA：待删除测试
-                this.IsTest = false;
                 this.DebugStatus = true;
                 this.MusicDataBuff = new Dictionary<int, byte>();
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 this.TimeFactory = 32;
                 this.MusicStepTime = 0;
-                this.State = PreViewState.Null;
-                Device = new FTDI();
-                this.IsSendEmptyData = false;
-
                 this.Timer = new System.Timers.Timer
                 {
                     AutoReset = false,
                 };
                 this.Timer.Elapsed += this.MusicWaitingHandl;
                 this.MusicWaiting = true;
-
-
                 this.PreviewTimer = new System.Timers.Timer
                 {
                     Interval = this.TimeFactory,
                     AutoReset = true
                 };
                 this.PreviewTimer.Elapsed += this.PreviewOnTimer;
-
                 this.SendTimer = new System.Timers.Timer()
                 {
                     Interval = this.TimeFactory,
@@ -118,14 +82,13 @@ namespace LightController.Tools
             }
            
         }
-
-        public void StartInternetPreview(BaseCommunication communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
+        public void StartPreview(NetworkConnect communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
         {
             this.Communication = communication;
             this.StartIntentPreviewCompleted = completed;
             this.StartIntentPreviewError = error;
-            this.PreviewWayState = STATE_INTENETPREVIEW;
-            this.IsInitIntentDebug = true;
+            this.Communication.StartIntentPreview(TimeFactory, StartIntentPreviewCompleted, StartIntentPreviewError);
+            this.DebugStatus = true;
             this.TimeFactory = timeFactory;
             if (!this.SendTimer.Enabled)
             {
@@ -133,15 +96,9 @@ namespace LightController.Tools
             }
         }
 
-        public void StopInternetPreview(BaseCommunication.Completed completed, BaseCommunication.Error error)
+        public void StopPreview()
         {
-            this.StopIntentPreviewCompleted = completed;
-            this.StopIntentPreviewError = error;
-            if (this.Communication != null)
-            {
-                this.Communication.StopIntentPreview(completed, error);
-            }
-            this.IsInitIntentDebug = false;
+            this.DebugStatus = false;
         }
         public static PlayTools GetInstance()
         {
@@ -159,7 +116,6 @@ namespace LightController.Tools
                 this.MusicWaiting = true;
                 this.IsMusicControl = false;
                 this.MusicStepPoint = 0;
-                this.State = PreViewState.Null;
                 this.ResetDebugDataToEmpty();
                 if (!this.SendTimer.Enabled)
                 {
@@ -186,7 +142,7 @@ namespace LightController.Tools
         }
         public void StopSend()
         {
-            this.SendTimer.Stop();
+            this.DebugStatus = false;
         }
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
@@ -197,8 +153,6 @@ namespace LightController.Tools
                     return;
                 }
                 this.MusicData = false;
-                this.DBWrapper = wrapper;
-                this.ConfigPath = configPath;
                 this.SceneNo = sceneNo;
                 this.Config = new CSJ_Config(wrapper, configPath);
                 this.C_PlayPoints = FileUtils.GetCPlayPoints();
@@ -214,14 +168,11 @@ namespace LightController.Tools
                     this.M_PlayPoints = FileUtils.GetMPlayPoints();
                 }
                 this.MusicStep = this.Config.Music_Control_Enable[SceneNo];
-                this.State = PreViewState.PreView;
                 if (this.PreviewTimer.Enabled)
                 {
                     this.PreviewTimer.Stop();
                 }
                 this.PreviewTimer.Interval = this.TimeFactory;
-                //this.PreviewTimer.Interval = 100;
-
                 this.SendTimer.Interval = this.TimeFactory;
                 if (this.SendTimer.Enabled)
                 {
@@ -251,7 +202,6 @@ namespace LightController.Tools
                 {
                     this.TimeFactory = 32;
                 }
-                this.State = PreViewState.OLOSView;
                 lock (this.PlayData)
                 {
                     this.PlayData = data;
@@ -420,15 +370,6 @@ namespace LightController.Tools
                 Interlocked.Exchange(ref SendTimerStatus, 0);
             }
         }
-        public byte[] GetTestData()
-        {
-            byte[] data = new byte[512];
-            lock (this.PlayData)
-            {
-                Array.Copy(this.PlayData, data, 512);
-            }
-            return data;
-        }
         private void Play()
         {
             try
@@ -439,40 +380,9 @@ namespace LightController.Tools
                 {
                     buff.AddRange(this.PlayData);
                 }
-                //Console.WriteLine("X轴：" + buff[1] + "  ------------------" + "X轴微调：" + buff[2] + "  ------------------" + "Y轴：" + buff[3] + "  ------------------" + "Y轴微调：" + buff[4]);
-                if (this.IsTest)
+                if (this.DebugStatus && this.Communication != null)
                 {
-                    this.SendTestData(buff.ToArray());
-                    Thread.Sleep(30);
-                }
-                else if (this.PreviewWayState == STATE_SERIALPREVIEW)
-                {
-                    UInt32 count = 0;
-                    if (Device.IsOpen)
-                    {
-                        Device.SetBreak(true);
-                        Thread.Sleep(0);
-                        Device.SetBreak(false);
-                        Thread.Sleep(0);
-                        Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                        Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
-                        Device.SetBreak(false);
-                    }
-                }
-                else
-                {
-                    if (IsInitIntentDebug)
-                    {
-                        if (this.Communication != null)
-                        {
-                            this.Communication.StartIntentPreview(TimeFactory, StartIntentPreviewCompleted, StartIntentPreviewError);
-                        }
-                        IsInitIntentDebug = false;
-                    }
-                    if (this.Communication != null && this.DebugStatus)
-                    {
-                        (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
-                    }
+                    (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
                 }
             }
             catch (Exception ex)
@@ -483,141 +393,10 @@ namespace LightController.Tools
         }
         public bool ConnectDevice(string comName)
         {
-            try
-            {
-                UInt32 deviceCount = 0;
-                FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-                status = Device.GetNumberOfDevices(ref deviceCount);
-                if (status == FTDI.FT_STATUS.FT_OK)
-                {
-                    if (deviceCount > 0)
-                    {
-                        FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                        status = Device.GetDeviceList(deviceList);
-                        if (status == FTDI.FT_STATUS.FT_OK)
-                        {
-                            for (int i = 0; i < deviceCount; i++)
-                            {
-                                status = Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-                                if (status == FTDI.FT_STATUS.FT_OK)
-                                {
-                                    string portName;
-                                    Device.GetCOMPort(out portName);
-                                    if (portName == null || portName == "" || portName != comName)
-                                    {
-                                        Device.Close();
-                                    }
-                                    else
-                                    {
-                                        Device.SetBaudRate(250000);
-                                        Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
-                                        PreviewWayState = STATE_SERIALPREVIEW;
-                                        return Device.IsOpen;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogTools.Error(Constant.TAG_XIAOSA, "连接DMX串口设备失败", ex);
-            }
             return false;
         }
         public void CloseDevice()
         {
-            try
-            {
-                this.EndView();
-                if (Device != null)
-                {
-                    if (Device.IsOpen)
-                    {
-                        Device.Close();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogTools.Error(Constant.TAG_XIAOSA, "关闭DMX串口设备失败", ex);
-            }
-           
-        }
-
-        public void SetDebugStatus(bool status)
-        {
-            this.DebugStatus = status;
-        }
-
-
-        //TODO XIAOSA：512测试模块
-        public void StartTestMode(string comName)
-        {
-            if (this.TestComDevice == null)
-            {
-                this.TestComDevice = new SerialPort();
-                this.TestComDevice.PortName = comName;
-                //this.TestComDevice.BaudRate = 256000;
-                this.TestComDevice.BaudRate = 115200;
-                this.TestComDevice.DataBits = 8;
-                this.TestComDevice.StopBits = StopBits.One;
-                this.TestComDevice.Parity = Parity.None;
-                this.TestComDevice.DataReceived += new SerialDataReceivedEventHandler(this.TestComDeviceReceive);
-            }
-            if (this.TestComDevice.IsOpen)
-            {
-                this.TestComDevice.Close();
-            }
-            this.TestComDevice.Open();
-            this.IsTest = true;
-        }
-        private void SendTestData(byte[] data)
-        {
-            if (this.TestComDevice != null)
-            {
-                if (this.TestComDevice.IsOpen)
-                {
-                    this.TestComDevice.Write(data, 0, data.Length);
-                }
-            }
-        }
-        public void CloseTestMode()
-        {
-            this.IsTest = false;
-            if (this.TestComDevice != null)
-            {
-                if (this.TestComDevice.IsOpen)
-                {
-                    this.TestComDevice.Close();
-                }
-            }
-        }
-        public string[] GetTestSerialPortNameList()
-        {
-            try
-            {
-                string[] ports = SerialPort.GetPortNames();
-                return ports;
-            }
-            catch (Exception ex)
-            {
-                LogTools.Error(Constant.TAG_XIAOSA, "获取串口列表失败", ex);
-                return null;
-            }
-        }
-        private void TestComDeviceReceive(object sender, SerialDataReceivedEventArgs s)
-        {
-            List<byte> RxBuff = new List<byte>();
-            while (this.IsTest)
-            {
-                RxBuff.Add(Convert.ToByte(TestComDevice.ReadByte()));
-                if (RxBuff.Count == 513) 
-                {
-                    RxBuff.Clear();
-                }
-            }
         }
     }
     enum PreViewState

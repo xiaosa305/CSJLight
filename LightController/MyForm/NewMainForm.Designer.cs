@@ -51,12 +51,7 @@ namespace LightController.MyForm
 			this.使用说明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.更新日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.playPanel = new System.Windows.Forms.Panel();
-			this.changeConnectMethodButton = new System.Windows.Forms.Button();
-			this.deviceRefreshButton = new System.Windows.Forms.Button();
 			this.keepButton = new System.Windows.Forms.Button();
-			this.deviceComboBox = new System.Windows.Forms.ComboBox();
-			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.makeSoundButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
@@ -99,9 +94,6 @@ namespace LightController.MyForm
 			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
-			this.wjTestButton = new System.Windows.Forms.Button();
-			this.testButton2 = new System.Windows.Forms.Button();
-			this.testButton1 = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
@@ -142,7 +134,6 @@ namespace LightController.MyForm
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.mainMenuStrip.SuspendLayout();
-			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
 			this.labelPanel.SuspendLayout();
 			this.tdFlowLayoutPanel.SuspendLayout();
@@ -326,93 +317,26 @@ namespace LightController.MyForm
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
 			// 
-			// playPanel
-			// 
-			this.playPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.playPanel.Controls.Add(this.changeConnectMethodButton);
-			this.playPanel.Controls.Add(this.deviceRefreshButton);
-			this.playPanel.Controls.Add(this.keepButton);
-			this.playPanel.Controls.Add(this.deviceComboBox);
-			this.playPanel.Controls.Add(this.deviceConnectButton);
-			this.playPanel.Controls.Add(this.makeSoundButton);
-			this.playPanel.Controls.Add(this.previewButton);
-			this.playPanel.Enabled = false;
-			this.playPanel.Location = new System.Drawing.Point(364, 0);
-			this.playPanel.Name = "playPanel";
-			this.playPanel.Size = new System.Drawing.Size(549, 68);
-			this.playPanel.TabIndex = 30;
-			// 
-			// changeConnectMethodButton
-			// 
-			this.changeConnectMethodButton.Location = new System.Drawing.Point(17, 7);
-			this.changeConnectMethodButton.Margin = new System.Windows.Forms.Padding(2);
-			this.changeConnectMethodButton.Name = "changeConnectMethodButton";
-			this.changeConnectMethodButton.Size = new System.Drawing.Size(74, 54);
-			this.changeConnectMethodButton.TabIndex = 20;
-			this.changeConnectMethodButton.Text = "以网络连接";
-			this.changeConnectMethodButton.UseVisualStyleBackColor = true;
-			this.changeConnectMethodButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
-			this.changeConnectMethodButton.Click += new System.EventHandler(this.changeConnectMethodButton_Click);
-			// 
-			// deviceRefreshButton
-			// 
-			this.deviceRefreshButton.Location = new System.Drawing.Point(104, 34);
-			this.deviceRefreshButton.Margin = new System.Windows.Forms.Padding(2);
-			this.deviceRefreshButton.Name = "deviceRefreshButton";
-			this.deviceRefreshButton.Size = new System.Drawing.Size(88, 26);
-			this.deviceRefreshButton.TabIndex = 20;
-			this.deviceRefreshButton.Text = "刷新串口";
-			this.deviceRefreshButton.UseVisualStyleBackColor = true;
-			this.deviceRefreshButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
-			this.deviceRefreshButton.Click += new System.EventHandler(this.deviceRefreshButton_Click);
-			// 
 			// keepButton
 			// 
 			this.keepButton.Enabled = false;
-			this.keepButton.Location = new System.Drawing.Point(307, 7);
+			this.keepButton.Location = new System.Drawing.Point(550, 47);
 			this.keepButton.Margin = new System.Windows.Forms.Padding(2);
 			this.keepButton.Name = "keepButton";
-			this.keepButton.Size = new System.Drawing.Size(69, 54);
+			this.keepButton.Size = new System.Drawing.Size(80, 23);
 			this.keepButton.TabIndex = 24;
 			this.keepButton.Text = "保持状态";
 			this.keepButton.UseVisualStyleBackColor = true;
 			this.keepButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
 			this.keepButton.Click += new System.EventHandler(this.keepButton_Click);
 			// 
-			// deviceComboBox
-			// 
-			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.deviceComboBox.Enabled = false;
-			this.deviceComboBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.deviceComboBox.FormattingEnabled = true;
-			this.deviceComboBox.Location = new System.Drawing.Point(101, 8);
-			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.deviceComboBox.Name = "deviceComboBox";
-			this.deviceComboBox.Size = new System.Drawing.Size(196, 20);
-			this.deviceComboBox.TabIndex = 19;
-			this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
-			// 
-			// deviceConnectButton
-			// 
-			this.deviceConnectButton.BackColor = System.Drawing.Color.Transparent;
-			this.deviceConnectButton.Enabled = false;
-			this.deviceConnectButton.Location = new System.Drawing.Point(206, 34);
-			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.deviceConnectButton.Name = "deviceConnectButton";
-			this.deviceConnectButton.Size = new System.Drawing.Size(88, 26);
-			this.deviceConnectButton.TabIndex = 23;
-			this.deviceConnectButton.Text = "连接设备";
-			this.deviceConnectButton.UseVisualStyleBackColor = false;
-			this.deviceConnectButton.TextChanged += new System.EventHandler(this.someButton_TextChanged);
-			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
-			// 
 			// makeSoundButton
 			// 
 			this.makeSoundButton.Enabled = false;
-			this.makeSoundButton.Location = new System.Drawing.Point(465, 7);
+			this.makeSoundButton.Location = new System.Drawing.Point(978, 47);
 			this.makeSoundButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundButton.Name = "makeSoundButton";
-			this.makeSoundButton.Size = new System.Drawing.Size(69, 54);
+			this.makeSoundButton.Size = new System.Drawing.Size(80, 23);
 			this.makeSoundButton.TabIndex = 25;
 			this.makeSoundButton.Text = "触发音频";
 			this.makeSoundButton.UseVisualStyleBackColor = true;
@@ -421,10 +345,10 @@ namespace LightController.MyForm
 			// previewButton
 			// 
 			this.previewButton.Enabled = false;
-			this.previewButton.Location = new System.Drawing.Point(386, 7);
+			this.previewButton.Location = new System.Drawing.Point(978, 16);
 			this.previewButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewButton.Name = "previewButton";
-			this.previewButton.Size = new System.Drawing.Size(69, 54);
+			this.previewButton.Size = new System.Drawing.Size(80, 23);
 			this.previewButton.TabIndex = 24;
 			this.previewButton.Text = "预览效果";
 			this.previewButton.UseVisualStyleBackColor = true;
@@ -858,47 +782,12 @@ namespace LightController.MyForm
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.playBasePanel.Controls.Add(this.wjTestButton);
-			this.playBasePanel.Controls.Add(this.testButton2);
-			this.playBasePanel.Controls.Add(this.testButton1);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
-			this.playBasePanel.Controls.Add(this.playPanel);
 			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.playBasePanel.Location = new System.Drawing.Point(0, 748);
 			this.playBasePanel.Name = "playBasePanel";
 			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
 			this.playBasePanel.TabIndex = 67;
-			// 
-			// wjTestButton
-			// 
-			this.wjTestButton.Location = new System.Drawing.Point(6, 7);
-			this.wjTestButton.Name = "wjTestButton";
-			this.wjTestButton.Size = new System.Drawing.Size(84, 54);
-			this.wjTestButton.TabIndex = 35;
-			this.wjTestButton.Text = "wjTest";
-			this.wjTestButton.UseVisualStyleBackColor = true;
-			this.wjTestButton.Click += new System.EventHandler(this.wjTestButton_Click);
-			// 
-			// testButton2
-			// 
-			this.testButton2.Location = new System.Drawing.Point(1174, 7);
-			this.testButton2.Name = "testButton2";
-			this.testButton2.Size = new System.Drawing.Size(84, 54);
-			this.testButton2.TabIndex = 34;
-			this.testButton2.Text = "Test2";
-			this.testButton2.UseVisualStyleBackColor = true;
-			this.testButton2.Click += new System.EventHandler(this.testButton2_Click);
-			// 
-			// testButton1
-			// 
-			this.testButton1.Location = new System.Drawing.Point(1088, 7);
-			this.testButton1.Name = "testButton1";
-			this.testButton1.Size = new System.Drawing.Size(84, 54);
-			this.testButton1.TabIndex = 34;
-			this.testButton1.Text = "Test1";
-			this.testButton1.UseVisualStyleBackColor = true;
-			this.testButton1.Visible = false;
-			this.testButton1.Click += new System.EventHandler(this.testButton1_Click);
 			// 
 			// myStatusStrip
 			// 
@@ -1072,6 +961,9 @@ namespace LightController.MyForm
 			// stepPanel
 			// 
 			this.stepPanel.BackColor = System.Drawing.Color.Transparent;
+			this.stepPanel.Controls.Add(this.makeSoundButton);
+			this.stepPanel.Controls.Add(this.keepButton);
+			this.stepPanel.Controls.Add(this.previewButton);
 			this.stepPanel.Controls.Add(this.chooseStepButton);
 			this.stepPanel.Controls.Add(this.saveMaterialButton);
 			this.stepPanel.Controls.Add(this.modeComboBox);
@@ -1094,14 +986,14 @@ namespace LightController.MyForm
 			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(84, 0);
 			this.stepPanel.Name = "stepPanel";
-			this.stepPanel.Size = new System.Drawing.Size(1035, 83);
+			this.stepPanel.Size = new System.Drawing.Size(1071, 83);
 			this.stepPanel.TabIndex = 65;
 			this.stepPanel.Tag = "";
 			// 
 			// chooseStepButton
 			// 
 			this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepButton.Location = new System.Drawing.Point(550, 49);
+			this.chooseStepButton.Location = new System.Drawing.Point(603, 16);
 			this.chooseStepButton.Name = "chooseStepButton";
 			this.chooseStepButton.Size = new System.Drawing.Size(47, 23);
 			this.chooseStepButton.TabIndex = 54;
@@ -1368,7 +1260,6 @@ namespace LightController.MyForm
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
-			this.playPanel.ResumeLayout(false);
 			this.myContextMenuStrip.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
@@ -1412,13 +1303,8 @@ namespace LightController.MyForm
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.Panel playPanel;
-		private System.Windows.Forms.Button deviceRefreshButton;
-		private System.Windows.Forms.ComboBox deviceComboBox;
-		private System.Windows.Forms.Button deviceConnectButton;
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button makeSoundButton;
-		private System.Windows.Forms.Button changeConnectMethodButton;
 		private System.Windows.Forms.Label lightTypeLabel;
 		private System.Windows.Forms.Label lightNameLabel;
 		private System.Windows.Forms.PictureBox currentLightPictureBox;
@@ -1482,9 +1368,6 @@ namespace LightController.MyForm
 		private ToolStripSeparator toolStripSeparator4;
 		private Panel unifyPanel;
 		private Button multiButton;
-		private Button testButton1;
-		private Button testButton2;
-		private Button wjTestButton;
 		private Label lightRemarkLabel;
 		private ToolStripMenuItem helpToolStripMenuItem;
 		private Button multiplexButton;

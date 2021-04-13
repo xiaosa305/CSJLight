@@ -61,9 +61,6 @@ namespace LightController.MyForm
 			Text = SoftwareName;
 
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
-			testButton1.Visible = IsShowTestButton;
-			testButton2.Visible = IsShowTestButton;
-			wjTestButton.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
@@ -279,11 +276,7 @@ namespace LightController.MyForm
 			// 根据之前打开时存在Settings内的数据，设置皮肤
 			if (isUseSkin) {
 				skinComboBox.SelectedIndex = Properties.Settings.Default.IrisSkinIndex;  // 触发skinComboBox_SelectedIndexChanged事件				
-			}
-
-			// 根据之前打开时存在Settings内的数据，设置连接方式
-			isConnectCom = Properties.Settings.Default.IsConnectCom;
-			refreshConnectMethod();			
+			}	
 		}
 
 		/// <summary>
@@ -715,7 +708,7 @@ namespace LightController.MyForm
 		/// <param name="enable"></param>
 		protected override void enablePlayPanel(bool enable)
 		{
-			playPanel.Enabled = enable;
+			//playPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1874,139 +1867,7 @@ namespace LightController.MyForm
 
 		//MARK：NewMainForm：playPanel相关点击事件及辅助方法
 		#region 灯控调试按钮组（playPanel）点击事件及辅助方法
-
-		/// <summary>
-		/// 事件：点击《以网络|串口连接》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void changeConnectMethodButton_Click(object sender, EventArgs e)
-		{
-			changeConnectMethodButtonClick( );
-		}	
-
-		/// <summary>
-		/// 辅助方法：切换连接方式后，刷新几个按键
-		/// </summary>
-		protected override void refreshConnectMethod() {
-			changeConnectMethodButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
-			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";			
-		}
-
-		/// <summary>
-		/// 事件：点击《刷新串口|网络》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void deviceRefreshButton_Click(object sender, EventArgs e)
-		{
-			deviceRefresh(); //deviceRefreshButton_Click
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新设备
-		/// </summary>
-		protected override void deviceRefresh() {
-
-			Console.WriteLine("deviceRefresh");
-
-			deviceRefreshButton.Enabled = false;
-
-			//	 刷新前，先清空按键等
-			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false, true);
-			deviceComboBox.Items.Clear();
-			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Text = "";
-			deviceComboBox.Enabled = false;			
-			deviceConnectButton.Enabled = false;
-			Refresh();
-
-			// 刷新串口连接
-			if (isConnectCom)
-			{
-				SerialPortTools comTools = SerialPortTools.GetInstance();
-				string[] comList = comTools.GetDMX512DeviceList();
-				if (comList != null && comList.Length > 0)
-				{
-					foreach (string com in comList)
-					{
-						deviceComboBox.Items.Add(com);
-					}
-				}
-			}
-			// 刷新网络设备
-			else
-			{
-				// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
-				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-				foreach (IPAddress ip in ipe.AddressList)
-				{
-					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
-					{
-						NetworkConnect.SearchDevice(ip.ToString());
-						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(NETWORK_WAITTIME);
-					}
-				}
-
-				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();
-				networkDeviceList = new List<NetworkDeviceInfo>();
-				if (allDevices.Count > 0)
-				{
-					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
-					{
-						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
-						{
-							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
-							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
-							networkDeviceList.Add(d2.Value);
-						}
-					}
-				}
-			}
-
-			if (deviceComboBox.Items.Count > 0)
-			{
-				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;				
-				deviceConnectButton.Enabled = true;
-				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false, true);
-			}
-			else
-			{
-				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false, true);
-			}
-			deviceRefreshButton.Enabled = true;
-		}
-
-		/// <summary>
-		/// 事件：更改《设备列表》选项
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (!deviceComboBox.Text.Trim().Equals(""))
-			{
-				deviceConnectButton.Enabled = true;
-			}
-			else
-			{
-				deviceConnectButton.Enabled = false;
-				SetNotice("未选中可用设备",true, true);
-			}
-		}		
-				
-		/// <summary>
-		/// 事件：点击《连接设备|断开连接》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void deviceConnectButton_Click(object sender, EventArgs e)
-		{
-			connectButtonClick(deviceComboBox.Text, deviceComboBox.SelectedIndex );
-		}		
-		
+					
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
 		/// </summary>
@@ -2056,17 +1917,11 @@ namespace LightController.MyForm
 		{
 			base.EnableConnectedButtons(connected, previewing);
 
-			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			changeConnectMethodButton.Enabled = !IsConnected;
-			deviceComboBox.Enabled = !IsConnected;
-			deviceRefreshButton.Enabled = !IsConnected;
-
-			keepButton.Enabled = IsConnected && !IsPreviewing; 
+			keepButton.Enabled = IsConnected && !IsPreviewing;
+			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
 			previewButton.Enabled = IsConnected ;
 			makeSoundButton.Enabled = IsConnected && IsPreviewing;		
-
-			deviceConnectButton.Text = IsConnected ? "断开连接":"连接设备";
-			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
+			
 
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
 			if (IsConnected && !IsPreviewing) {

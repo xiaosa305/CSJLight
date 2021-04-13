@@ -41,14 +41,13 @@ namespace LightController.MyForm.HardwareSet
 				Properties.Settings.Default.xbinPath = xbinPath;
 				Properties.Settings.Default.Save();
 			}
+			updateButton.Enabled = mainForm.IsConnected && !string.IsNullOrEmpty(xbinPath);
 		}
 
 		private void NewHardwareSet_Load(object sender, EventArgs e)
 		{
-			//readFromDevice();
+			readFromDevice();
 		}
-
-
 
 		/// <summary>
 		///  事件：点击《从设备回读》
@@ -78,7 +77,7 @@ namespace LightController.MyForm.HardwareSet
 			{
 				ch = obj as CSJ_Hardware;
 				SetParamFromCH();
-				SetNotice("成功回读硬件配置。", true, true);
+				SetNotice("成功回读硬件配置。", false, true);
 			});
 		}
 
@@ -358,7 +357,7 @@ namespace LightController.MyForm.HardwareSet
 				Properties.Settings.Default.Save();
 
 				pathLabel.Text = xbinPath;
-				updateButton.Enabled = mainForm.IsConnect()&&  !string.IsNullOrEmpty(xbinPath);
+				updateButton.Enabled = mainForm.IsConnected &&  !string.IsNullOrEmpty(xbinPath);
 			}
 		}
 
@@ -375,7 +374,7 @@ namespace LightController.MyForm.HardwareSet
 				return;
 			}
 
-			if ( ! mainForm.IsConnect())
+			if ( ! mainForm.IsConnected)
 			{
 				SetNotice("尚未连接设备，请连接后重试。", true, true);
 				return;

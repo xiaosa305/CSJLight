@@ -23,6 +23,7 @@ using System.Diagnostics;
 using LightController.MyForm.Multiplex;
 using LightController.PeripheralDevice;
 using System.Drawing;
+using LightController.MyForm.MainFormAst;
 
 namespace LightController.MyForm
 {
@@ -139,6 +140,7 @@ namespace LightController.MyForm
 		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
 		// 调试变量
+		public ConnectForm connectForm; // 《设备连接》的窗口
 		public BaseCommunication MyConnect;  // 与设备的连接（串口、网口）
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
 		protected bool isConnectCom = false; //默认情况下，用串口连接设备。 --》 去掉COM口
@@ -146,6 +148,7 @@ namespace LightController.MyForm
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		public bool IsPreviewing = false; // 是否预览状态中
+
 		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）			
 
@@ -177,16 +180,10 @@ namespace LightController.MyForm
 		// 调试面板
 		public virtual void EnableConnectedButtons(bool connected, bool previewing)
 		{
-			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
 			IsConnected = connected;
 			IsPreviewing = previewing;
 		} //设置《连接按钮组》是否可用	
-
-		public bool IsConnect()
-		{
-			return MyConnect != null && MyConnect.IsConnected();
-		}
 
 		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
 		protected virtual void deviceRefresh() { } //	刷新设备列表
@@ -3701,7 +3698,7 @@ namespace LightController.MyForm
 				playTools = PlayTools.GetInstance();
 				if (isConnectCom)
 				{
-					if (String.IsNullOrEmpty(deviceName))
+					if ( string.IsNullOrEmpty(deviceName) )
 					{
 						SetNotice("未选中可用串口，请选中后再点击连接。",true, true);
 						return;
@@ -3741,18 +3738,20 @@ namespace LightController.MyForm
 		/// 辅助方法：断开连接
 		/// </summary>
 		protected void disConnect() {
-			if (IsConnected) {
-				playTools = PlayTools.GetInstance();
+
+			if (IsConnected) {							   
 				playTools.ResetDebugDataToEmpty();				
 				playTools.StopSend();
 				if (isConnectCom)
 				{
-					playTools.CloseDevice();					
+					playTools.CloseDevice();
+					//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
+					MyConnect.DisConnect();
 					EnableConnectedButtons(false,false);
 				}
 				else
 				{
-					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
+					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);					
 				}
 				SetNotice("已断开连接。",false, true);
 			}
@@ -4318,6 +4317,8 @@ namespace LightController.MyForm
 		public void DisconnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
+				//MARK0413 mainForm.DisconnectCompleted()内调用DisConnect()，主要用于网络连接
+				MyConnect.DisConnect();
 				EnableConnectedButtons(false,false);				
 			});
 		}
@@ -4329,6 +4330,8 @@ namespace LightController.MyForm
 		public void ConnectAndDisconnectError(string msg)
 		{
 			Invoke((EventHandler)delegate	{
+				//MARK0413 ConnectAndDisconnectError()内调用DisConnect()【不论什么情况下，DisConnect都不会出错】
+				MyConnect.DisConnect();
 				SetNotice(msg,true, true);
 			});
 		}

@@ -64,7 +64,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(37, 118);
+			this.label5.Location = new System.Drawing.Point(37, 109);
 			this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(41, 12);
@@ -93,7 +93,7 @@
 			// macCheckBox
 			// 
 			this.macCheckBox.AutoSize = true;
-			this.macCheckBox.Location = new System.Drawing.Point(294, 159);
+			this.macCheckBox.Location = new System.Drawing.Point(294, 144);
 			this.macCheckBox.Name = "macCheckBox";
 			this.macCheckBox.Size = new System.Drawing.Size(114, 16);
 			this.macCheckBox.TabIndex = 15;
@@ -103,7 +103,7 @@
 			// 
 			// gatewayTextBox
 			// 
-			this.gatewayTextBox.Location = new System.Drawing.Point(116, 114);
+			this.gatewayTextBox.Location = new System.Drawing.Point(116, 105);
 			this.gatewayTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.gatewayTextBox.Name = "gatewayTextBox";
 			this.gatewayTextBox.Size = new System.Drawing.Size(124, 21);
@@ -112,7 +112,7 @@
 			// 
 			// macTextBox
 			// 
-			this.macTextBox.Location = new System.Drawing.Point(116, 154);
+			this.macTextBox.Location = new System.Drawing.Point(116, 142);
 			this.macTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.macTextBox.MaxLength = 17;
 			this.macTextBox.Name = "macTextBox";
@@ -123,7 +123,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(37, 154);
+			this.label10.Location = new System.Drawing.Point(37, 146);
 			this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(59, 12);
@@ -132,7 +132,7 @@
 			// 
 			// IPTextBox
 			// 
-			this.IPTextBox.Location = new System.Drawing.Point(116, 78);
+			this.IPTextBox.Location = new System.Drawing.Point(116, 68);
 			this.IPTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.IPTextBox.Name = "IPTextBox";
 			this.IPTextBox.Size = new System.Drawing.Size(124, 21);
@@ -142,7 +142,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(37, 82);
+			this.label6.Location = new System.Drawing.Point(37, 72);
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(53, 12);
@@ -151,7 +151,7 @@
 			// 
 			// netmaskTextBox
 			// 
-			this.netmaskTextBox.Location = new System.Drawing.Point(371, 78);
+			this.netmaskTextBox.Location = new System.Drawing.Point(371, 68);
 			this.netmaskTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.netmaskTextBox.Name = "netmaskTextBox";
 			this.netmaskTextBox.Size = new System.Drawing.Size(109, 21);
@@ -161,7 +161,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(292, 82);
+			this.label7.Location = new System.Drawing.Point(292, 72);
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(65, 12);
@@ -170,10 +170,10 @@
 			// 
 			// downloadButton
 			// 
-			this.downloadButton.BackColor = System.Drawing.Color.Red;
+			this.downloadButton.BackColor = System.Drawing.Color.OrangeRed;
 			this.downloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.downloadButton.ForeColor = System.Drawing.SystemColors.Control;
-			this.downloadButton.Location = new System.Drawing.Point(403, 225);
+			this.downloadButton.ForeColor = System.Drawing.Color.Black;
+			this.downloadButton.Location = new System.Drawing.Point(403, 208);
 			this.downloadButton.Margin = new System.Windows.Forms.Padding(2);
 			this.downloadButton.Name = "downloadButton";
 			this.downloadButton.Size = new System.Drawing.Size(91, 36);
@@ -185,7 +185,7 @@
 			// readButton
 			// 
 			this.readButton.BackColor = System.Drawing.Color.Transparent;
-			this.readButton.Location = new System.Drawing.Point(297, 225);
+			this.readButton.Location = new System.Drawing.Point(297, 208);
 			this.readButton.Margin = new System.Windows.Forms.Padding(2);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 36);
@@ -202,19 +202,19 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(534, 308);
+			this.tabControl1.Size = new System.Drawing.Size(534, 287);
 			this.tabControl1.TabIndex = 30;
 			// 
 			// hardwarePage
 			// 
-			this.hardwarePage.BackColor = System.Drawing.Color.DarkSlateGray;
+			this.hardwarePage.BackColor = System.Drawing.Color.SlateGray;
 			this.hardwarePage.Controls.Add(this.panel1);
 			this.hardwarePage.Controls.Add(this.downloadButton);
 			this.hardwarePage.Controls.Add(this.readButton);
 			this.hardwarePage.Location = new System.Drawing.Point(4, 22);
 			this.hardwarePage.Name = "hardwarePage";
 			this.hardwarePage.Padding = new System.Windows.Forms.Padding(3);
-			this.hardwarePage.Size = new System.Drawing.Size(526, 282);
+			this.hardwarePage.Size = new System.Drawing.Size(526, 261);
 			this.hardwarePage.TabIndex = 0;
 			this.hardwarePage.Text = "硬件配置";
 			// 
@@ -235,7 +235,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(3, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(520, 200);
+			this.panel1.Size = new System.Drawing.Size(520, 186);
 			this.panel1.TabIndex = 4;
 			// 
 			// firmwarePage
@@ -247,7 +247,7 @@
 			this.firmwarePage.Location = new System.Drawing.Point(4, 22);
 			this.firmwarePage.Name = "firmwarePage";
 			this.firmwarePage.Padding = new System.Windows.Forms.Padding(3);
-			this.firmwarePage.Size = new System.Drawing.Size(526, 282);
+			this.firmwarePage.Size = new System.Drawing.Size(526, 261);
 			this.firmwarePage.TabIndex = 1;
 			this.firmwarePage.Text = "固件升级";
 			this.firmwarePage.UseVisualStyleBackColor = true;
@@ -276,9 +276,9 @@
 			this.versionButton.Enabled = false;
 			this.versionButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.versionButton.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.versionButton.Location = new System.Drawing.Point(347, 169);
+			this.versionButton.Location = new System.Drawing.Point(335, 169);
 			this.versionButton.Name = "versionButton";
-			this.versionButton.Size = new System.Drawing.Size(66, 59);
+			this.versionButton.Size = new System.Drawing.Size(81, 59);
 			this.versionButton.TabIndex = 41;
 			this.versionButton.Text = "获取当前\r\n固件版本";
 			this.versionButton.UseVisualStyleBackColor = false;
@@ -305,7 +305,7 @@
             this.myStatusLabel,
             this.myProgressBar,
             this.progressStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 308);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 287);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(534, 22);
 			this.statusStrip1.SizingGrip = false;
@@ -343,7 +343,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-			this.ClientSize = new System.Drawing.Size(534, 330);
+			this.ClientSize = new System.Drawing.Size(534, 309);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
 			this.Name = "NewHardwareSetForm";

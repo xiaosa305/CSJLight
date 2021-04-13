@@ -214,6 +214,12 @@
     <Compile Include="MyForm\LightEditor\LightEditorForm.Designer.cs">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainFormAst\ConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainFormAst\ConnectForm.Designer.cs">
+      <DependentUpon>ConnectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -498,6 +504,9 @@
     </Content>
     <EmbeddedResource Include="MyForm\HardwareSet\NewHardwareSetForm.resx">
       <DependentUpon>NewHardwareSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainFormAst\ConnectForm.resx">
+      <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Test\XiaosaTestForm.resx">
       <DependentUpon>XiaosaTestForm.cs</DependentUpon>

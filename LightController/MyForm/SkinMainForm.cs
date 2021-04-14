@@ -265,9 +265,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
-			if (IsConnected) {
-				playTools.StartPreview( MyConnect,ConnectCompleted,ConnectAndDisconnectError,eachStepTime);
-			}
+			StartDebug();
 		}
 
 		/// <summary>

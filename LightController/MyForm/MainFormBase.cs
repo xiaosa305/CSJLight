@@ -3704,7 +3704,10 @@ namespace LightController.MyForm
 
 		public void StartDebug()
 		{
-			playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			if (IsConnected) {
+				Console.WriteLine("Dickov ：StartDebug");
+				playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			}			
 		}
 
 		/// <summary>

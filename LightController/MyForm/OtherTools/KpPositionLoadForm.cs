@@ -22,7 +22,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			InitializeComponent();
 			this.otForm = otForm;
-			kpPosPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\KeypressPosition\" + keyCount + @"\";
+			kpPosPath = IniHelper.GetSavePath(Application.StartupPath) + @"\KeypressPosition\" + keyCount + @"\";
 			Text = "加载按键位置(" + keyCount + "键)";
 
 			if (Directory.Exists(kpPosPath))

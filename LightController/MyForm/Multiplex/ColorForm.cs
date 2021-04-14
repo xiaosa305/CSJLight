@@ -88,7 +88,7 @@ namespace LightController.MyForm.Multiplex
 
 			// 虽然不显示，但应用颜色时，仍需用到这些数据
 			if (mainForm.CurrentMode == 1) {
-				IniFileHelper iniHelper = new IniFileHelper(mainForm.GlobalIniPath);
+				IniHelper iniHelper = new IniHelper(mainForm.GlobalIniPath);
 				soundStepTime =  iniHelper.ReadInt("SK", mainForm.CurrentScene + "ST", 11);
 			}
 

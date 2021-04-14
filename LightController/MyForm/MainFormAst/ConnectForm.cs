@@ -16,7 +16,9 @@ using System.Windows.Forms;
 namespace LightController.MyForm.MainFormAst
 {
 	public partial class ConnectForm : Form
-	{
+	{	
+		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+		public static int REBOOT_WATITIME = 5000; //设备重启时间
 		private MainFormBase mainForm;
 		private IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)		
 
@@ -24,11 +26,32 @@ namespace LightController.MyForm.MainFormAst
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
+			NETWORK_WAITTIME = IniHelper.GetSystemCount("waitTime", 1000);
+			REBOOT_WATITIME = IniHelper.GetSystemCount("rebootTime", 5000);
 		}
 
+		/// <summary>
+		///  Load事件：根据鼠标位置放置窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ConnectForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			if (!mainForm.IsConnected) {
+				deviceRefreshButton_Click(null, null);
+			}
+		}
+
+		/// <summary>
+		/// 事件：关闭本窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ConnectForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Hide();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -37,16 +60,9 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deviceRefreshButton_Click(object sender, EventArgs e)
-		{
-			deviceRefresh();
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新设备
-		/// </summary>
-		protected void deviceRefresh()
-		{
+		{			
 			deviceRefreshButton.Enabled = false;
+			deviceConnectButton.Text = "连接设备"; // 每次点击刷新列表，都需要重连设备
 			deviceConnectButton.Enabled = false;
 
 			//	 刷新前，先清空按键等
@@ -54,7 +70,7 @@ namespace LightController.MyForm.MainFormAst
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
 			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Enabled = false;			
+			deviceComboBox.Enabled = false;
 
 			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
@@ -64,7 +80,7 @@ namespace LightController.MyForm.MainFormAst
 				{
 					NetworkConnect.SearchDevice(ip.ToString());
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-					Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
+					Thread.Sleep(NETWORK_WAITTIME);
 				}
 			}
 
@@ -81,7 +97,7 @@ namespace LightController.MyForm.MainFormAst
 						networkDeviceList.Add(d2.Value);
 					}
 				}
-			} 			
+			}
 
 			if (deviceComboBox.Items.Count > 0)
 			{
@@ -105,23 +121,16 @@ namespace LightController.MyForm.MainFormAst
 		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			if ( mainForm.IsConnected)
-			{
-				//disConnect(); //connectButtonClick
+			if ( mainForm.IsConnected)			{
+				mainForm.DisConnect();
+				deviceConnectButton.Text = "连接设备";
+				setNotice("已断开连接。", false, true);
 			}
 			else
 			{
-				// 从源头把问题处理掉，不要再在此处判断
-				//if ( deviceComboBox.SelectedIndex < 0)
-				//{
-				//	setNotice("未选中可用设备，请选中后再点击连接。", true, true);
-				//	return;
-				//}
-
-				mainForm.MyConnect = new NetworkConnect();
-				if (mainForm.MyConnect.Connect(networkDeviceList[deviceComboBox.SelectedIndex ]))
+				if (mainForm.Connect(networkDeviceList[deviceComboBox.SelectedIndex ]))
 				{
-					mainForm.StartDebug();
+					deviceConnectButton.Text = "断开连接";
 					setNotice("设备连接成功。", false, true);
 				}
 				else
@@ -131,205 +140,16 @@ namespace LightController.MyForm.MainFormAst
 			}
 		}
 
-	
-
-		///// <summary>
-		/////  辅助方法：点击《切换连接方式》
-		///// </summary>
-		//protected void changeConnectMethodButtonClick()
-		//{
-		//	SetNotice("正在切换连接模式,请稍候...", false, true);
-		//	isConnectCom = !isConnectCom;
-		//	refreshConnectMethod();
-		//	SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
-
-		//	//保存此连接方式到Settings中
-		//	Properties.Settings.Default.IsConnectCom = isConnectCom;
-		//	Properties.Settings.Default.Save();
-
-		//	deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
-		//}
-
-		///// <summary>
-		///// 辅助方法：点击《连接设备 | 断开连接》
-		///// </summary>
-		//protected void connectButtonClick(string deviceName, int deviceSelectedIndex)
-		//{
-		//	// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-		//	if (IsConnected)
-		//	{
-		//		disConnect(); //connectButtonClick
-		//	}
-		//	else
-		//	{
-		//		playTools = PlayTools.GetInstance();
-		//		if (isConnectCom)
-		//		{
-		//			if (string.IsNullOrEmpty(deviceName))
-		//			{
-		//				SetNotice("未选中可用串口，请选中后再点击连接。", true, true);
-		//				return;
-		//			}
-		//			if (playTools.ConnectDevice(deviceName))
-		//			{
-		//				SetNotice("设备(以串口方式)连接成功,并进入调试模式。", false, true);
-		//				EnableConnectedButtons(true, false);
-		//			}
-		//			else
-		//			{
-		//				SetNotice("设备连接失败，请刷新串口列表后重试。", true, true);
-		//			}
-		//		}
-		//		else
-		//		{
-		//			if (deviceSelectedIndex < 0)
-		//			{
-		//				SetNotice("未选中可用网络连接，请选中后再点击连接。", true, true);
-		//				return;
-		//			}
-
-		//			MyConnect = new NetworkConnect();
-		//			if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
-		//			{
-		//				playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-		//				SetNotice("设备(以网络方式)连接成功,并进入调试模式。", false, true);
-		//			}
-		//			else
-		//			{
-		//				SetNotice("设备连接失败，请刷新网络设备列表后重试。", true, true);
-		//			}
-		//		}
-		//	}
-		//}
-
-		///// <summary>
-		///// 辅助方法：断开连接
-		///// </summary>
-		//protected void disConnect()
-		//{
-
-		//	if (IsConnected)
-		//	{
-		//		playTools.ResetDebugDataToEmpty();
-		//		playTools.StopSend();
-		//		if (isConnectCom)
-		//		{
-		//			playTools.CloseDevice();
-		//			//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
-		//			MyConnect.DisConnect();
-		//			EnableConnectedButtons(false, false);
-		//		}
-		//		else
-		//		{
-		//			playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
-		//		}
-		//		SetNotice("已断开连接。", false, true);
-		//	}
-		//}
-
-
-		/// <summary>
-		/// 辅助方法：刷新几个按键的文本
-		/// </summary>
-		//protected override void refreshConnectMethod()
-		//{
-		//	//changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
-		//	//deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-		//}
-
-
-		///// <summary>
-		/////  辅助方法：点击《切换连接方式》
-		///// </summary>
-		//protected void changeConnectMethodButtonClick()
-		//{
-		//	SetNotice("正在切换连接模式,请稍候...", false, true);
-		//	isConnectCom = !isConnectCom;
-		//	refreshConnectMethod();
-		//	SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false, true);
-
-		//	//保存此连接方式到Settings中
-		//	Properties.Settings.Default.IsConnectCom = isConnectCom;
-		//	Properties.Settings.Default.Save();
-
-		//	deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
-		//}
-
-		/// <summary>
-		/// 辅助方法：点击《连接设备 | 断开连接》
-		/// </summary>
-		//protected void connectButtonClick(string deviceName, int deviceSelectedIndex)
-		//{
-		//	// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-		//	if (IsConnected)
-		//	{
-		//		disConnect(); //connectButtonClick
-		//	}
-		//	else
-		//	{
-		//		playTools = PlayTools.GetInstance();
-		//		if (isConnectCom)
-		//		{
-		//			if (string.IsNullOrEmpty(deviceName))
-		//			{
-		//				SetNotice("未选中可用串口，请选中后再点击连接。", true, true);
-		//				return;
-		//			}
-		//			if (playTools.ConnectDevice(deviceName))
-		//			{
-		//				SetNotice("设备(以串口方式)连接成功,并进入调试模式。", false, true);
-		//				EnableConnectedButtons(true, false);
-		//			}
-		//			else
-		//			{
-		//				SetNotice("设备连接失败，请刷新串口列表后重试。", true, true);
-		//			}
-		//		}
-		//		else
-		//		{
-		//			if (deviceSelectedIndex < 0)
-		//			{
-		//				SetNotice("未选中可用网络连接，请选中后再点击连接。", true, true);
-		//				return;
-		//			}
-
-		//			MyConnect = new NetworkConnect();
-		//			if (MyConnect.Connect(networkDeviceList[deviceSelectedIndex]))
-		//			{
-		//				playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-		//				SetNotice("设备(以网络方式)连接成功,并进入调试模式。", false, true);
-		//			}
-		//			else
-		//			{
-		//				SetNotice("设备连接失败，请刷新网络设备列表后重试。", true, true);
-		//			}
-		//		}
-		//	}
-		//}
-
 		/// <summary>
 		/// 辅助方法：断开连接
 		/// </summary>
-		//protected void disConnect()
-		//{
-		//		if (IsConnected)
-		//		{
-		//			playTools.ResetDebugDataToEmpty();
-		//			playTools.StopSend();
-		//		if (isConnectCom)
-		//		{
-		//			playTools.CloseDevice();
-		//			//MARK0413 mainForm.disConnect()内忘了调用DisConnect()
-		//			MyConnect.DisConnect();
-		//			EnableConnectedButtons(false, false);
-		//		}
-		//		else
-		//		{
-		//			playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
-		//		}
-		//		SetNotice("已断开连接。", false, true);
-		//	}
-		//}
+		protected void disConnect()
+		{
+			if (mainForm.IsConnected)
+			{
+				
+			}
+		}
 
 		#region 通用方法
 
@@ -355,15 +175,6 @@ namespace LightController.MyForm.MainFormAst
 
 		#endregion
 
-		/// <summary>
-		/// 事件：关闭本窗口
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ConnectForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			Hide();
-			mainForm.Activate();
-		}
+		
 	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightController.Common
 {
-	public class IniFileHelper_UTF8
+	public class InHelper_UTF8
 	{
 		[DllImport("kernel32")]
 		public static extern bool WritePrivateProfileString(

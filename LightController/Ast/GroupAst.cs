@@ -41,7 +41,7 @@ namespace LightController.Ast
 			//只有文件存在，才能继续操作，否则返回空列表；
 			if (File.Exists(iniPath)) 
 			{
-				IniFileHelper iniHelper = new IniFileHelper(iniPath);
+				IniHelper iniHelper = new IniHelper(iniPath);
 				int groupCount = iniHelper.ReadInt("Common", "Count", 0);
 				for (int groupIndex = 0; groupIndex < groupCount; groupIndex++)
 				{
@@ -89,7 +89,7 @@ namespace LightController.Ast
 		{
 			try
 			{
-				IniFileHelper iniHelper = new IniFileHelper(iniPath);
+				IniHelper iniHelper = new IniHelper(iniPath);
 				iniHelper.DeleteSection("Data"); //删掉所有Data节内的内容 
 				if (groupList == null || groupList.Count == 0)
 				{

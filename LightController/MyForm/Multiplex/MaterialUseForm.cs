@@ -139,7 +139,7 @@ namespace LightController.MyForm.Multiplex
 			// 不论以下几个old变量是否发生了变动，都不影响soundStepTime可能发生变动；模式为1时，则有需要读取这个数据；
 			if (mainForm.CurrentMode == 1)
 			{
-				IniFileHelper iniHelper = new IniFileHelper(mainForm.GlobalIniPath);
+				IniHelper iniHelper = new IniHelper(mainForm.GlobalIniPath);
 				soundStepTime = iniHelper.ReadInt("SK", mainForm.CurrentScene + "ST", 10);
 			}
 
@@ -171,7 +171,7 @@ namespace LightController.MyForm.Multiplex
 		private void refreshMaterialTab() {
 
 			materialTreeView.Nodes.Clear();
-			materialPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\" + (mainForm.CurrentMode == 0 ? "Normal" : "Sound");
+			materialPath = IniHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\" + (mainForm.CurrentMode == 0 ? "Normal" : "Sound");
 
 			// 添加通用的素材
 			string generalPath = materialPath + generalStr;

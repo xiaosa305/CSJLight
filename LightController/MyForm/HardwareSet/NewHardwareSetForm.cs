@@ -46,8 +46,11 @@ namespace LightController.MyForm.HardwareSet
 
 		private void NewHardwareSet_Load(object sender, EventArgs e)
 		{
-			readFromDevice();
+			Location = MousePosition;
+			readButton_Click(null, null); //启动后主动从设备回读配置
 		}
+
+		#region 硬件配置相关
 
 		/// <summary>
 		///  事件：点击《从设备回读》
@@ -55,14 +58,6 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void readButton_Click(object sender, EventArgs e)
-		{
-			readFromDevice();
-		}
-
-		/// <summary>
-		/// 辅助方法： 从设备回读的方法（可能存在多处调用）
-		/// </summary>
-		private void readFromDevice()
 		{
 			mainForm.MyConnect.GetParam(GetParamCompleted, GetParamError);
 		}
@@ -150,8 +145,10 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("硬件配置下载成功,请重连设备...", true, true);				
+				mainForm.DisConnect();
 				SetBusy(false);
+				SetNotice("硬件配置下载成功,需要重启月，请稍后重连设备...", true, true);				
+				mainForm.ConnForm.ShowDialog();
 			});
 		}
 
@@ -168,7 +165,99 @@ namespace LightController.MyForm.HardwareSet
 			});
 		}
 
-	
+		#endregion
+
+		#region 固件升级相关
+
+		/// <summary>
+		/// 事件：点击《选择升级文件》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void fileOpenButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == openFileDialog.ShowDialog())
+			{
+				xbinPath = openFileDialog.FileName;
+				Properties.Settings.Default.xbinPath = xbinPath;
+				Properties.Settings.Default.Save();
+
+				pathLabel.Text = xbinPath;
+				updateButton.Enabled = mainForm.IsConnected && !string.IsNullOrEmpty(xbinPath);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《(固件)升级》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void updateButton_Click(object sender, EventArgs e)
+		{
+			if (string.IsNullOrEmpty(xbinPath))
+			{
+				SetNotice("尚未选择xbin文件，请在选择后重试。", true, true);
+				return;
+			}
+
+			if (!mainForm.IsConnected)
+			{
+				SetNotice("尚未连接设备，请连接后重试。", true, true);
+				return;
+			}
+
+			SetBusy(true);
+			mainForm.MyConnect.UpdateDeviceSystem(xbinPath, UpdateCompleted, UpdateError, DrawProgress);
+		}
+
+		/// <summary>
+		/// 辅助回调方法：固件升级成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void UpdateCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				SetNotice("硬件升级成功，设备将自动重启，请稍等片刻后重新连接。", true, true);
+
+				Thread.Sleep(5000);
+				myProgressBar.Value = 0;
+				progressStatusLabel.Text = "";
+
+				SetBusy(false);
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：固件升级失败
+		/// </summary>
+		/// <param name="obj"></param>
+		public void UpdateError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				SetNotice("固件升级失败[" + msg + "]", true, false);
+				myProgressBar.Value = 0;
+				progressStatusLabel.Text = "";
+				SetBusy(false);
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：写进度条
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="progress"></param>
+		public void DrawProgress(string fileName, int progressPercent)
+		{
+			SetNotice("正在升级固件，请稍候...", false, true);
+			myProgressBar.Value = progressPercent;
+			progressStatusLabel.Text = progressPercent + "%";
+			statusStrip1.Refresh();
+		}
+
+		#endregion
+
 
 		#region 通用方法
 
@@ -343,92 +432,5 @@ namespace LightController.MyForm.HardwareSet
 
 		#endregion
 
-		/// <summary>
-		/// 事件：点击《选择升级文件》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void fileOpenButton_Click(object sender, EventArgs e)
-		{
-			if (DialogResult.OK == openFileDialog.ShowDialog())
-			{
-				xbinPath = openFileDialog.FileName;
-				Properties.Settings.Default.xbinPath = xbinPath;
-				Properties.Settings.Default.Save();
-
-				pathLabel.Text = xbinPath;
-				updateButton.Enabled = mainForm.IsConnected &&  !string.IsNullOrEmpty(xbinPath);
-			}
 		}
-
-		/// <summary>
-		/// 事件：点击《(固件)升级》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void updateButton_Click(object sender, EventArgs e)
-		{
-			if (string.IsNullOrEmpty(xbinPath))
-			{
-				SetNotice("尚未选择xbin文件，请在选择后重试。", true, true);
-				return;
-			}
-
-			if ( ! mainForm.IsConnected)
-			{
-				SetNotice("尚未连接设备，请连接后重试。", true, true);
-				return;
-			}
-
-			SetBusy(true);
-			mainForm.MyConnect.UpdateDeviceSystem(xbinPath, UpdateCompleted, UpdateError, DrawProgress);
-		}
-
-		/// <summary>
-		/// 辅助回调方法：硬件升级成功
-		/// </summary>
-		/// <param name="obj"></param>
-		public void UpdateCompleted(Object obj, string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				SetNotice("硬件升级成功，设备将自动重启，请稍等片刻后重新连接。", true, true);
-
-				Thread.Sleep(5000);
-				myProgressBar.Value = 0;
-				progressStatusLabel.Text = "";
-				
-				SetBusy(false);
-			});
-		}
-
-		/// <summary>
-		/// 辅助回调方法：硬件升级失败
-		/// </summary>
-		/// <param name="obj"></param>
-		public void UpdateError(string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				SetNotice("硬件升级失败[" + msg + "]", true, false);
-				myProgressBar.Value = 0;
-				progressStatusLabel.Text = "";
-				SetBusy(false);
-			});
-		}
-
-		/// <summary>
-		/// 辅助回调方法：写进度条
-		/// </summary>
-		/// <param name="filename"></param>
-		/// <param name="progress"></param>
-		public void DrawProgress(string fileName, int progressPercent)
-		{
-			SetNotice("正在升级硬件，请稍候...", false, true);
-			myProgressBar.Value = progressPercent;
-			progressStatusLabel.Text = progressPercent + "%";
-			statusStrip1.Refresh();
-		}
-
-	}
 }

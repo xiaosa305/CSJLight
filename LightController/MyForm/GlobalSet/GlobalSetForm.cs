@@ -14,7 +14,7 @@ namespace LightController.MyForm
 	public partial class GlobalSetForm : Form
 	{
 		public MainFormBase mainForm;		
-		private IniFileHelper iniAst ;
+		private IniHelper iniAst ;
 		private bool isInit = false;
 		private int eachStepTime = 40;
 		private decimal eachStepTime2 = .04m;
@@ -96,7 +96,7 @@ namespace LightController.MyForm
 			#endregion
 
 			// 初始化iniAst
-			iniAst = new IniFileHelper(mainForm.GlobalIniPath);
+			iniAst = new IniHelper(mainForm.GlobalIniPath);
 			isInit = true;			
 		}
 

@@ -192,8 +192,8 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.lightListSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.globalSetSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.keepSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.makeSoundSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.previewSkinButton);
+			this.flowLayoutPanel1.Controls.Add(this.makeSoundSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.helpSkinButton);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 7);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -448,7 +448,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(754, 2);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(848, 2);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
@@ -477,7 +477,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(848, 2);
+			this.previewSkinButton.Location = new System.Drawing.Point(754, 2);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";

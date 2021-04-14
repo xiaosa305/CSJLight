@@ -58,8 +58,7 @@ namespace LightController.MyForm
 		protected object[] normalCMArray ; 
 		protected object[] soundCMArray; 
 
-		// 全局配置及数据库连接		
-		public static int NETWORK_WAITTIME; //网络搜索时的通用暂停时间
+		// 全局配置及数据库连接				
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
@@ -93,7 +92,20 @@ namespace LightController.MyForm
 		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
 
-		
+		public bool Connect(NetworkDeviceInfo networkDeviceInfo)
+		{
+			MyConnect = new NetworkConnect();
+			if (MyConnect.Connect(networkDeviceInfo))
+			{
+				IsConnected = true;
+				return true;
+			}
+			else {
+				IsConnected = false;
+				return false;
+			}
+
+		}
 
 		protected bool isEncrypt = false; //是否加密				
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
@@ -101,6 +113,9 @@ namespace LightController.MyForm
 		protected string groupIniPath; // 存放编组文件存放路径
 		public IList<GroupAst> GroupList; // 存放编组	
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
+
+		
+
 		protected ColorForm colorForm; // 存储一个全局的colorForm，以便使用之前数据；
 		public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
 		public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
@@ -143,8 +158,8 @@ namespace LightController.MyForm
 		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
 		// 调试变量
-		public ConnectForm connectForm; // 《设备连接》的窗口
-		public BaseCommunication MyConnect;  // 与设备的连接（串口、网口）
+		public ConnectForm ConnForm; // 《设备连接》的窗口
+		public NetworkConnect MyConnect;  // 与设备的连接（串口、网口）
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
 		protected bool isConnectCom = false; //默认情况下，用串口连接设备。 --》 去掉COM口
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
@@ -464,7 +479,7 @@ namespace LightController.MyForm
 						}
 
 						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
-						IniFileHelper iniAst = new IniFileHelper(lightAst.LightPath);
+						IniHelper iniAst = new IniHelper(lightAst.LightPath);
 						lightAst.SawList = new List<SAWrapper>();
 
 						for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
@@ -477,7 +492,7 @@ namespace LightController.MyForm
 							IList<SA> saList = new List<SA>();
 							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
 							{
-								string saName = IniFileHelper_UTF8.ReadString(lightAst.LightPath, "sa", tdIndex + "_" + saIndex + "_saName", "");
+								string saName = InHelper_UTF8.ReadString(lightAst.LightPath, "sa", tdIndex + "_" + saIndex + "_saName", "");
 								int startValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0);
 								int endValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0);
 								remark += saName + " : " + startValue + " - " + endValue + "\n";
@@ -1644,7 +1659,7 @@ namespace LightController.MyForm
 			arrangeIniPath = currentProjectPath + @"\arrange.ini";			
 
 			//1.2 读取时间因子
-			IniFileHelper iniAst = new IniFileHelper(GlobalIniPath);
+			IniHelper iniAst = new IniHelper(GlobalIniPath);
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
 			EachStepTime2 = eachStepTime / 1000m;
 			initStNumericUpDowns();  // InitProject : 更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
@@ -3136,7 +3151,7 @@ namespace LightController.MyForm
 			//最后都要用上RefreshStep()
 			RefreshStep();
 
-			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath,  CurrentMode==0?"maxStep":"maxStepSound" ,0);
+			MAX_STEP = IniHelper.GetSystemCount(CurrentMode==0?"maxStep":"maxStepSound" ,0);
 			if (MAX_STEP == 0) {
 				MAX_STEP = CurrentMode == 0 ? 100 : 300;			
 			}
@@ -3673,9 +3688,20 @@ namespace LightController.MyForm
 
 		#region playPanel相关
 
+		/// <summary>
+		/// 辅助方法：断开连接
+		/// </summary>
+		public void DisConnect()
+		{
+			playTools.StopPreview();
+			MyConnect.DisConnect();
+			MyConnect = null;	
+			IsConnected = false;
+		}
+
 		public void StartDebug()
 		{
-			playTools.StartInternetPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 		}
 
 		/// <summary>
@@ -3984,32 +4010,30 @@ namespace LightController.MyForm
 			this.myToolTip.InitialDelay = 600;
 
 			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码			
-			SoftwareName = IniFileHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "");
+			SoftwareName = InHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "");
 			SoftwareName += " Dimmer System ";
 
 			string loadexeName = Application.ExecutablePath;
 			FileVersionInfo fileVersionInfo =FileVersionInfo.GetVersionInfo(loadexeName);
 			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			SoftwareName += "v" + appFileVersion + " ";
-			
-			IniFileHelper iniHelper = new IniFileHelper(Application.StartupPath + @"\GlobalSet.ini");		
-			SavePath = iniHelper.GetSavePath();
-			IsShowTestButton = iniHelper.GetControlShow( "testButton");
-			IsShowHardwareUpdate = iniHelper.GetControlShow( "hardwareUpdateButton");
-			IsShowSaPanels = iniHelper.GetControlShow("saPanels");
-			IsNoticeUnifyTd = iniHelper.GetIsNotice("unifyTd");
 
-			MAX_StTimes = iniHelper.GetSystemCount( "maxStTimes",250);
-			MAX_STEP = iniHelper.GetSystemCount( "maxStep",100);	
-			NETWORK_WAITTIME = iniHelper.GetSystemCount( "waitTime",1000);
-			DefaultSoundCM = iniHelper.GetSystemCount("soundChangeMode", 0);
+			//从GlobalSet.ini文件读取内容
+			IsShowTestButton = IniHelper.GetIsShow( "testButton");
+			IsShowHardwareUpdate = IniHelper.GetIsShow( "hardwareUpdateButton");
+			IsShowSaPanels = IniHelper.GetIsShow("saPanels");
+			IsNoticeUnifyTd = IniHelper.GetIsShow("unifyTd");
 
-			LanguageHelper.SetLanguage(iniHelper.ReadString("System", "language", "zh-CN").Trim());// 国际化初始化
+			MAX_StTimes = IniHelper.GetSystemCount( "maxStTimes",250);
+			MAX_STEP = IniHelper.GetSystemCount( "maxStep",100);				
+			DefaultSoundCM = IniHelper.GetSystemCount("soundChangeMode", 0);
+
+			LanguageHelper.SetLanguage(IniHelper.GetString("System", "language", "zh-CN").Trim());// 国际化初始化
 
 			//MARK : 1218 添加对单步运行时某些步数据是否显示的处理
 			try
 			{
-				string tdStr = iniHelper.ReadString("Show", "tdValues", "");
+				string tdStr = IniHelper.GetString("Show", "tdValues", "");
 				if (tdStr.Trim() != "")
 				{
 					string[] tdValuesStr = tdStr.Split(',');

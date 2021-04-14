@@ -265,8 +265,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
-			Console.WriteLine("SkinMainForm_Activated");
-			playTools.SetDebugStatus(true);
+			if (IsConnected) {
+				playTools.StartPreview( MyConnect,ConnectCompleted,ConnectAndDisconnectError,eachStepTime);
+			}
 		}
 
 		/// <summary>
@@ -313,7 +314,7 @@ namespace LightController.MyForm
 			//new HardwareSetChooseForm(this).ShowDialog();
 					   
 			if (IsConnected) {
-				playTools.SetDebugStatus(false);
+				playTools.StopPreview();
 				new NewHardwareSetForm(this).ShowDialog();
 			}
 		}
@@ -326,11 +327,10 @@ namespace LightController.MyForm
 		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
 			//MARK3 0413 
-			if (connectForm == null) {
-				connectForm = new ConnectForm(this);
+			if (ConnForm == null) {
+				ConnForm = new ConnectForm(this);
 			}
-			playTools.SetDebugStatus(false);
-			connectForm.ShowDialog();
+			ConnForm.ShowDialog();
 		}
 
 		/// <summary>
@@ -892,7 +892,7 @@ namespace LightController.MyForm
 			Dictionary<string, string> lightDict = new Dictionary<string, string>();
 			foreach (var lightPath in lightPathHashSet)
 			{
-				string picStr = IniFileHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
+				string picStr = InHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
 				lightDict.Add(lightPath, picStr);
 			}
 
@@ -1038,7 +1038,7 @@ namespace LightController.MyForm
 			}
 
 			// 4.保存操作
-			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
+			IniHelper iniFileAst = new IniHelper(arrangeIniPath);
 			iniFileAst.WriteInt("Common", "Count", lightsSkinListView.Items.Count);
 			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
 			{
@@ -1065,7 +1065,7 @@ namespace LightController.MyForm
 			}
 
 			//2.验证灯具数目是否一致
-			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
+			IniHelper iniFileAst = new IniHelper(arrangeIniPath);
 			int lightCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (lightCount == 0)
 			{

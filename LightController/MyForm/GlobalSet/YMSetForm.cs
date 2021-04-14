@@ -14,12 +14,12 @@ namespace LightController.MyForm
 	public partial class YMSetForm : Form
 	{
 		private MainFormBase mainForm;
-		private IniFileHelper iniFileAst;
+		private IniHelper iniFileAst;
 		
 		public YMSetForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
-			iniFileAst = new IniFileHelper(mainForm.GlobalIniPath);
+			iniFileAst = new IniHelper(mainForm.GlobalIniPath);
 			InitializeComponent();
 
 			#region 初始化几个数组			

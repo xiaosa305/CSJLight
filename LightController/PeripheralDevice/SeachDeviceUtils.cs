@@ -32,7 +32,6 @@ namespace LightController.PeripheralDevice
             }
             return Instance;
         }
-
         private int BuffRemain()
         {
             return RECEIVEBUFFSIZE - this.BuffCount;

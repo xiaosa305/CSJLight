@@ -206,7 +206,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public static void ClearDeviceList()
         {
-            DeviceInfos.Clear();
+            SeachDeviceUtils.GetInstance().Devices = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
         }
         /// <summary>
         /// 串口专属，网络模块不操作

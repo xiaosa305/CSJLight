@@ -198,8 +198,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> GetDeviceList()
         {
-            Dictionary<string, Dictionary<string, NetworkDeviceInfo>> device = SeachDeviceUtils.GetInstance().Devices;
-            return device;
+            return SeachDeviceUtils.GetInstance().Devices;
         }
         /// <summary>
         /// 功能：清除设备列表

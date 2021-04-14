@@ -43,8 +43,8 @@ namespace LightController.MyForm
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
-			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
+			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
 			this.helpSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.projectLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -68,7 +68,6 @@ namespace LightController.MyForm
 			this.hideMenuPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideProjectPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -431,35 +430,6 @@ namespace LightController.MyForm
 			this.keepSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.keepSkinButton.Click += new System.EventHandler(this.keepSkinButton_Click);
 			// 
-			// makeSoundSkinButton
-			// 
-			this.makeSoundSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.makeSoundSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.makeSoundSkinButton.BorderColor = System.Drawing.Color.White;
-			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.makeSoundSkinButton.DownBack = null;
-			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.makeSoundSkinButton.Enabled = false;
-			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.makeSoundSkinButton.ForeColorSuit = true;
-			this.makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-			this.makeSoundSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.makeSoundSkinButton.InheritColor = true;
-			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(848, 2);
-			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.makeSoundSkinButton.MouseBack = null;
-			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
-			this.makeSoundSkinButton.NormlBack = null;
-			this.makeSoundSkinButton.Size = new System.Drawing.Size(90, 90);
-			this.makeSoundSkinButton.TabIndex = 10;
-			this.makeSoundSkinButton.Text = "触发音频";
-			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
-			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
-			// 
 			// previewSkinButton
 			// 
 			this.previewSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -489,6 +459,35 @@ namespace LightController.MyForm
 			this.previewSkinButton.UseVisualStyleBackColor = false;
 			this.previewSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.previewSkinButton.Click += new System.EventHandler(this.previewSkinButton_Click);
+			// 
+			// makeSoundSkinButton
+			// 
+			this.makeSoundSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.makeSoundSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.makeSoundSkinButton.BorderColor = System.Drawing.Color.White;
+			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.makeSoundSkinButton.DownBack = null;
+			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.makeSoundSkinButton.Enabled = false;
+			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.makeSoundSkinButton.ForeColorSuit = true;
+			this.makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+			this.makeSoundSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.makeSoundSkinButton.InheritColor = true;
+			this.makeSoundSkinButton.IsDrawBorder = false;
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(848, 2);
+			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.makeSoundSkinButton.MouseBack = null;
+			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
+			this.makeSoundSkinButton.NormlBack = null;
+			this.makeSoundSkinButton.Size = new System.Drawing.Size(90, 90);
+			this.makeSoundSkinButton.TabIndex = 10;
+			this.makeSoundSkinButton.Text = "触发音频";
+			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
+			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
 			// 
 			// helpSkinButton
 			// 
@@ -807,13 +806,12 @@ namespace LightController.MyForm
             this.hideMenuPanelToolStripMenuItem2,
             this.hideProjectPanelToolStripMenuItem2,
             this.hideAstPanelToolStripMenuItem2,
-            this.hidePlayPanelToolStripMenuItem2,
             this.toolStripSeparator1,
             this.showSaPanelsToolStripMenuItem});
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 242);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(181, 242);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -827,7 +825,7 @@ namespace LightController.MyForm
 			this.autoArrangeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.autoArrangeToolStripMenuItem.Name = "autoArrangeToolStripMenuItem";
 			this.autoArrangeToolStripMenuItem.ShowShortcutKeys = false;
-			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.autoArrangeToolStripMenuItem.Text = "自动排列";
 			this.autoArrangeToolStripMenuItem.Click += new System.EventHandler(this.autoArrangeToolStripMenuItem_Click);
 			// 
@@ -835,7 +833,7 @@ namespace LightController.MyForm
 			// 
 			this.arrangeToolStripMenuItem.Name = "arrangeToolStripMenuItem";
 			this.arrangeToolStripMenuItem.ShowShortcutKeys = false;
-			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.arrangeToolStripMenuItem.Text = "重新排列";
 			this.arrangeToolStripMenuItem.Click += new System.EventHandler(this.arrangeToolStripMenuItem_Click);
 			// 
@@ -843,7 +841,7 @@ namespace LightController.MyForm
 			// 
 			this.saveArrangeToolStripMenuItem.Enabled = false;
 			this.saveArrangeToolStripMenuItem.Name = "saveArrangeToolStripMenuItem";
-			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.saveArrangeToolStripMenuItem.Text = "保存灯具位置";
 			this.saveArrangeToolStripMenuItem.Click += new System.EventHandler(this.saveArrangeToolStripMenuItem_Click);
 			// 
@@ -851,32 +849,32 @@ namespace LightController.MyForm
 			// 
 			this.loadArrangeToolStripMenuItem.Enabled = false;
 			this.loadArrangeToolStripMenuItem.Name = "loadArrangeToolStripMenuItem";
-			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.loadArrangeToolStripMenuItem.Text = "读取灯具位置";
 			this.loadArrangeToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
 			this.refreshPicToolStripMenuItem.Enabled = false;
 			this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
-			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
 			this.refreshPicToolStripMenuItem.Click += new System.EventHandler(this.refreshPicToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// hideMenuPanelToolStripMenuItem2
 			// 
 			this.hideMenuPanelToolStripMenuItem2.Name = "hideMenuPanelToolStripMenuItem2";
-			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideMenuPanelToolStripMenuItem2.Text = "隐藏主菜单面板";
 			this.hideMenuPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
 			this.hideMenuPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
@@ -884,7 +882,7 @@ namespace LightController.MyForm
 			// hideProjectPanelToolStripMenuItem2
 			// 
 			this.hideProjectPanelToolStripMenuItem2.Name = "hideProjectPanelToolStripMenuItem2";
-			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideProjectPanelToolStripMenuItem2.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
 			this.hideProjectPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
@@ -892,25 +890,20 @@ namespace LightController.MyForm
 			// hideAstPanelToolStripMenuItem2
 			// 
 			this.hideAstPanelToolStripMenuItem2.Name = "hideAstPanelToolStripMenuItem2";
-			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideAstPanelToolStripMenuItem2.Text = "隐藏辅助面板";
 			this.hideAstPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideAstPanelToolStripMenuItem_Click);
 			this.hideAstPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
 			// 
-			// hidePlayPanelToolStripMenuItem2
-			// 
-			this.hidePlayPanelToolStripMenuItem2.Name = "hidePlayPanelToolStripMenuItem2";
-			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
-			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// showSaPanelsToolStripMenuItem
 			// 
 			this.showSaPanelsToolStripMenuItem.Name = "showSaPanelsToolStripMenuItem";
-			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
 			this.showSaPanelsToolStripMenuItem.Click += new System.EventHandler(this.showSaPanelsToolStripMenuItem_Click);
 			this.showSaPanelsToolStripMenuItem.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
@@ -2157,7 +2150,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem hideMenuPanelToolStripMenuItem2;
 		private ToolStripMenuItem hideProjectPanelToolStripMenuItem2;
 		private ToolStripMenuItem hideAstPanelToolStripMenuItem2;
-		private ToolStripMenuItem hidePlayPanelToolStripMenuItem2;
 		private SkinButton frameSaveSkinButton;
 		private SkinPanel projectLabelSkinPanel;
 		private Label projectLabel;

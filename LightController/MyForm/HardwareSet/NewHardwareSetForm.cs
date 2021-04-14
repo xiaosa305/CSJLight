@@ -57,7 +57,7 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="e"></param>
 		private void NewHardwareSetForm_Activated(object sender, EventArgs e)
 		{
-			readFromDevice();
+			readButton_Click(null, null);
 		}
 
 		#region 硬件配置相关
@@ -69,18 +69,14 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="e"></param>
 		private void readButton_Click(object sender, EventArgs e)
 		{
-			readFromDevice();
-		}
-
-		private void readFromDevice() {
 			if (mainForm.MyConnect.GetParam(GetParamCompleted, GetParamError))
 			{
 				SetNotice("正在回读设备信息，请稍候...", false, true);
 			}
-			else {
-				Thread.Sleep(1000);
-				Console.WriteLine("Dickov ：readFromDevice");
-				readFromDevice();
+			else
+			{
+				Thread.Sleep(100);
+				readButton_Click(null,null);
 			}
 		}
 

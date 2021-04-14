@@ -3702,10 +3702,12 @@ namespace LightController.MyForm
 			IsConnected = false;
 		}
 
+		/// <summary>
+		///  辅助方法：启动调试，基本只有在界面激活时用得到；
+		/// </summary>
 		public void StartDebug()
 		{
-			if (IsConnected) {
-				Console.WriteLine("Dickov ：StartDebug");
+			if (IsConnected) {				
 				playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 			}			
 		}

@@ -2605,23 +2605,24 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void UpdateDeviceSystemReceiveManager(List<byte> data)
         {
-            this.StopTimeOut();
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_UPDATE_OK) || Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT))
             {
+                this.StopTimeOut();
                 this.SendData();
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
             {
+                this.StopTimeOut();
                 this.IsSending = false;
-                this.Completed_Event(null, "升级硬件系统成功");
                 this.CloseTransactionTimer();
+                this.Completed_Event(null, "升级硬件系统成功");
             }
             else
             {
                 LogTools.Debug(Constant.TAG_XIAOSA, "升级硬件系统失败");
                 this.IsSending = false;
-                this.Error_Event("升级硬件系统失败");
                 this.CloseTransactionTimer();
+                this.Error_Event("升级硬件系统失败");
             }
         }
         /// <summary>
@@ -2630,9 +2631,11 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void StartIntentPreviewReceiveManager(List<byte> data)
         {
-            this.StopTimeOut();
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_START_DEBUG_OK))
             {
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.CloseTransactionTimer();
                 this.Completed_Event(null, "启动网络模拟调试成功");
             }
             else
@@ -2640,8 +2643,7 @@ namespace LightController.PeripheralDevice
                 LogTools.Debug(Constant.TAG_XIAOSA, "启动网络模拟调试失败");
                 this.Error_Event("启动网络模拟调试失败");
             }
-            this.IsSending = false;
-            this.CloseTransactionTimer();
+           
         }
         /// <summary>
         /// 功能：关闭网络调试模拟回复消息管理
@@ -2650,9 +2652,9 @@ namespace LightController.PeripheralDevice
         private void StopIntentPreviewReceiveManager(List<byte> data)
         {
             this.StopTimeOut();
-            this.Completed_Event(null,"关闭网络调试模拟成功");
             this.IsSending = false;
             this.CloseTransactionTimer();
+            this.Completed_Event(null, "关闭网络调试模拟成功");
         }
         /// <summary>
         /// 功能：关闭灯光控制事务定时器

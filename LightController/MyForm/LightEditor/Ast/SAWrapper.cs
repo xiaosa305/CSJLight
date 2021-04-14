@@ -58,7 +58,7 @@ namespace LightEditor.Ast
 
 			if (!String.IsNullOrEmpty(iniPath))
 			{
-				IniFileHelper iniAst = new IniFileHelper(iniPath);
+				IniHelper iniAst = new IniHelper(iniPath);
 				int tongdaoCount = iniAst.ReadInt("set", "count", 0);
                 if (tongdaoCount == 0) {
                     throw new Exception("打开灯库文件失败！请确认该灯库文件的保存格式为UTF-8，且count不为0。");
@@ -72,7 +72,7 @@ namespace LightEditor.Ast
 					{
 						SA sa = new SA
 						{
-							SAName = IniFileHelper_UTF8.ReadString(iniPath, "sa", tdIndex + "_" + saIndex + "_saName", ""),
+							SAName = InHelper_UTF8.ReadString(iniPath, "sa", tdIndex + "_" + saIndex + "_saName", ""),
 							StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
 							EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
 						};

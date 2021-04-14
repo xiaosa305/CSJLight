@@ -104,6 +104,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "ConnectForm";
 			this.Text = "设备连接";
+			this.Activated += new System.EventHandler(this.ConnectForm_Activated);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConnectForm_FormClosed);
 			this.Load += new System.EventHandler(this.ConnectForm_Load);
 			this.statusStrip1.ResumeLayout(false);

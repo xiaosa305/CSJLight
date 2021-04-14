@@ -53,7 +53,7 @@ namespace LightController.MyForm
 
 			lightNameLabel.Text = lightName + " - " + lightType;
 
-			materialPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\";
+			materialPath = IniHelper.GetSavePath() + @"\LightMaterial\";
 			materialPath += mode == 0 ? "Normal" : "Sound";
 
 			startNumericUpDown.Maximum = stepCount;			
@@ -244,7 +244,7 @@ namespace LightController.MyForm
 				File.Copy(sourcePath, filePath, true);
 
 				//3.修改其中的数据
-				IniFileHelper iniFileAst = new IniFileHelper(filePath);
+				IniHelper iniFileAst = new IniHelper(filePath);
 
 				// 3.1 写[Set]内数据，包括几个要被记录的通道名
 				iniFileAst.WriteString("Set", "name", materialName);

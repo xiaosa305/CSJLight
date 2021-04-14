@@ -3,7 +3,6 @@ using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
 using LightController.MyForm.Multiplex;
-using LightController.MyForm.Test;
 using LightController.PeripheralDevice;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
@@ -221,7 +220,7 @@ namespace LightController.MyForm
 			#region 皮肤 及 panel样式 相关代码
 
 			setDeepStyle(false);
-			isUseSkin = IniFileHelper.GetControlShow(Application.StartupPath, "useSkin");
+			isUseSkin = IniHelper.GetIsShow( "useSkin");
 			if( isUseSkin ) {
 				//加载皮肤列表		
 				DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
@@ -986,7 +985,7 @@ namespace LightController.MyForm
 			Dictionary<string, string> lightDict = new Dictionary<string, string>();
 			foreach (var lightPath in lightPathHashSet)
 			{
-				string picStr = IniFileHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
+				string picStr = InHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
 				lightDict.Add(lightPath, picStr);
 			}
 
@@ -1961,40 +1960,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
-		#region 测试代码、测试按键点击事件等
-
-		/// <summary>
-		/// 事件：点击《Test1》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void testButton1_Click(object sender, EventArgs e)
-		{
-		}
 		
-		/// <summary>
-		/// 事件：点击《Test2》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void testButton2_Click(object sender, EventArgs e)
-		{
-				
-		}
-
-		/// <summary>
-		/// 事件：点击《wjTest》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void wjTestButton_Click(object sender, EventArgs e)
-		{
-			new TestForm(GetDBWrapper(false), GlobalIniPath).ShowDialog();
-		}
-
-		#endregion
-
 		/// <summary>
 		/// 事件：各个按键的文本更改后，有需要就进行翻译
 		/// </summary>

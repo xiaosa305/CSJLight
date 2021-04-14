@@ -25,6 +25,7 @@ using System.Net;
 using System.Net.Sockets;
 using LightController.MyForm.OtherTools;
 using LightController.MyForm;
+using LightController.MyForm.MainFormAst;
 
 namespace OtherTools
 {
@@ -176,7 +177,7 @@ namespace OtherTools
 			LanguageHelper.TranslateListView(protocolListView);
 			LanguageHelper.TranslateListView(keypressListView);
 
-			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
+			bool isShowTestButton = IniHelper.GetIsShow("testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表
@@ -1305,7 +1306,7 @@ namespace OtherTools
 					{
 						NetworkConnect.SearchDevice(ip.ToString());
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);	
+						Thread.Sleep(ConnectForm.NETWORK_WAITTIME);	
 					}					
 				}
 
@@ -1953,7 +1954,7 @@ namespace OtherTools
 			try
 			{
 				// 保存操作
-				IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
+				IniHelper iniFileAst = new IniHelper(arrangeIniPath);
 				iniFileAst.WriteInt("Common", "Count", keypressListView.Items.Count);
 				for (int i = 0; i < keypressListView.Items.Count; i++)
 				{
@@ -1995,7 +1996,7 @@ namespace OtherTools
 			}
 
 			//2.验证灯具数目是否一致
-			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
+			IniHelper iniFileAst = new IniHelper(arrangeIniPath);
 			int keyCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (keyCount == 0)
 			{

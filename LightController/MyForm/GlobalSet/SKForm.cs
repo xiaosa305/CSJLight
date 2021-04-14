@@ -14,7 +14,7 @@ namespace LightController.MyForm
 	{
 		private MainFormBase mainForm;
 		private int frame;
-		private IniFileHelper iniAst;
+		private IniHelper iniAst;
 		private decimal eachStepTime2 = .03m;
 
 		public SKForm(MainFormBase mainForm,int frame,string frameName)
@@ -25,7 +25,7 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			// 初始化iniPath，并读取数据填入各框中
-			iniAst = new IniFileHelper(mainForm.GlobalIniPath);		
+			iniAst = new IniHelper(mainForm.GlobalIniPath);		
 
 			// 添加时间因子，用以显示实际步时间（单位s）
 			eachStepTime2 = iniAst.ReadInt("Set", "EachStepTime", 30) / 1000m;

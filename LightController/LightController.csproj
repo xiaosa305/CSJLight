@@ -178,8 +178,8 @@
     <Compile Include="Common\DBGetter.cs" />
     <Compile Include="Common\DirectoryHelper.cs" />
     <Compile Include="Common\HttpHelper.cs" />
-    <Compile Include="Common\IniFileHelper.cs" />
-    <Compile Include="Common\IniFileHelper_UTF8.cs" />
+    <Compile Include="Common\IniHelper.cs" />
+    <Compile Include="Common\InHelper_UTF8.cs" />
     <Compile Include="Common\LanguageHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />

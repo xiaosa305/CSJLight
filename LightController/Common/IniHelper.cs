@@ -8,19 +8,20 @@ using System.Windows.Forms;
 
 namespace LightController.Common
 {
-	public class IniFileHelper
+	public class IniHelper
 	{
 		public string filePath;
+		private static IniHelper defaultIniHelper = new IniHelper(Application.StartupPath + @"\GlobalSet.Ini");
 
 		/// <summary>
 		/// 构造函数
 		/// </summary>
 		/// <param name="aFileName">Ini文件路径</param>
-		public IniFileHelper(string filePath)
+		public IniHelper(string filePath)
 		{
 			this.filePath = filePath;
 		}
-
+			   
 		[DllImport("kernel32.dll")]
 		private static extern int GetPrivateProfileInt(
 			string lpAppName,
@@ -158,123 +159,61 @@ namespace LightController.Common
 		}
 
 		#region 自定义的一些辅助方法：
+		
+		/// <summary>
+		/// 辅助方法：取出是否显示按钮；默认不显示，比较安全。
+		/// </summary>
+		/// <returns></returns>
+		public static bool GetIsShow(string controlName)
+		{			
+			return defaultIniHelper.ReadString("Show", controlName, "false").Trim().ToLower().Equals("true");
+		}
+
+		/// <summary>
+		/// 辅助方法：取出系统的一些数值
+		/// </summary>
+		/// <param name="startupPath"></param>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public static int GetSystemCount(string attrName, int defaultValue)
+		{		
+			return defaultIniHelper.ReadInt("System", attrName , defaultValue);
+		}
 
 		/// <summary>
 		/// 辅助方法：直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
 		/// </summary>
 		/// <returns></returns>
-		public static string GetSavePath(string appPathStr)
+		public static string GetSavePath()
 		{
-			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.GetSavePath(  ) ;
-		}
-
-		/// <summary>
-		/// 辅助方法：(避免重复读取Ini文件)，直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
-		/// </summary>
-		/// <returns></returns>
-		public string GetSavePath() {
-			string appPath = ReadString("SavePath", "useAppPath", "false");
+			string appPath = defaultIniHelper.ReadString("SavePath", "useAppPath", "false");
 			if (appPath.Trim().ToLower().Equals("true"))
 			{
-				return Application.StartupPath ;
+				return Application.StartupPath;
 			}
 			else
 			{
-				return ReadString("SavePath", "otherPath", "");
+				return defaultIniHelper.ReadString("SavePath", "otherPath", "");
 			}
 		}
 
 		/// <summary>
-		/// 辅助方法：取出是否显示按钮；默认不显示，比较安全。
+		/// 
 		/// </summary>
+		/// <param name="section"></param>
+		/// <param name="name"></param>
+		/// <param name="def"></param>
 		/// <returns></returns>
-		public static bool GetControlShow(string appPathStr, string controlName)
-		{
-			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.GetControlShow(controlName);
+		public static string GetString(string section, string name, string def) {
+			return defaultIniHelper.ReadString(section, name, def);
 		}
 
-		/// <summary>
-		/// 辅助方法：取出是否显示按钮(非静态)；默认不显示，比较安全。
-		/// </summary>
-		/// <returns></returns>
-		public bool GetControlShow( string controlName)
-		{
-			string isShow = ReadString("Show", controlName, "false");
-			return isShow.Trim().ToLower().Equals("true");
-		}
-
-		/// <summary>
-		/// 辅助方法：取出是否提示(静态)；默认为提示，比较安全。
-		/// </summary>
-		/// <param name="controlName"></param>
-		/// <returns></returns>
-		public static bool GetIsNotice(string appPathStr , string controlName)
-		{
-			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.GetIsNotice(controlName);			
-		}
-
-		/// <summary>
-		/// 辅助方法：取出是否提示；默认为提示，比较安全。
-		/// </summary>
-		/// <param name="controlName"></param>
-		/// <returns></returns>
-		public bool GetIsNotice(string controlName) {
-			string isNotice = ReadString("Show", controlName, "true");
-			return isNotice.Trim().ToLower().Equals("true");
-		}
-		
-		/// <summary>
-		/// 辅助方法：取出是否关联外部的软件
-		/// </summary>
-		/// <returns></returns>
-		public static bool GetIsLink(string appPathStr, string appName)
-		{
-			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.GetIsLink(appName);
-		}
-
-		/// <summary>
-		/// 辅助方法：(非静态)取出是否关联外部的软件
-		/// </summary>
-		/// <returns></returns>
-		public bool GetIsLink( string appName)
-		{
-			string isLink = ReadString("Link", appName, "false");
-			return isLink.Trim().ToLower().Equals("true");
-		}
-
-		/// <summary>
-		/// 辅助方法：取出系统的一些数值
-		/// </summary>
-		/// <param name="startupPath"></param>
-		/// <param name="v"></param>
-		/// <returns></returns>
-		public static int GetSystemCount(string appPathStr, string attrName, int defaultValue)
-		{
-			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			return iniFileAst.GetSystemCount( attrName , defaultValue);
-		}
-
-		/// <summary>
-		/// 辅助方法：取出系统的一些数值
-		/// </summary>
-		/// <param name="startupPath"></param>
-		/// <param name="v"></param>
-		/// <returns></returns>
-		public int GetSystemCount( string attrName, int defaultValue)
-		{
-			return ReadInt("System", attrName, defaultValue);
-		}
-		
 		//与ini交互必须统一编码格式
 		private static byte[] getBytes(string s, string encodingName)
 		{
 			return null == s ? null : Encoding.GetEncoding(encodingName).GetBytes(s);
 		}
-
+				
 		#endregion
 
 	}

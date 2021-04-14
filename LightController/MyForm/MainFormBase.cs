@@ -91,31 +91,14 @@ namespace LightController.MyForm
 		protected string currentProjectPath; //存放当前工程所在目录
 		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
-
-		public bool Connect(NetworkDeviceInfo networkDeviceInfo)
-		{
-			MyConnect = new NetworkConnect();
-			if (MyConnect.Connect(networkDeviceInfo))
-			{
-				IsConnected = true;
-				return true;
-			}
-			else {
-				IsConnected = false;
-				return false;
-			}
-
-		}
-
+		
 		protected bool isEncrypt = false; //是否加密				
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）【不为static的原因是，这个在软件运行时可能会发生改变。】
 		protected string groupIniPath; // 存放编组文件存放路径
 		public IList<GroupAst> GroupList; // 存放编组	
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
-
-		
-
+			
 		protected ColorForm colorForm; // 存储一个全局的colorForm，以便使用之前数据；
 		public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
 		public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
@@ -3689,6 +3672,26 @@ namespace LightController.MyForm
 		#region playPanel相关
 
 		/// <summary>
+		/// 辅助方法：传入相关对象， 进行设备连接；
+		/// </summary>
+		/// <param name="networkDeviceInfo"></param>
+		/// <returns></returns>
+		public bool Connect(NetworkDeviceInfo networkDeviceInfo)
+		{
+			MyConnect = new NetworkConnect();
+			if (MyConnect.Connect(networkDeviceInfo))
+			{
+				IsConnected = true;
+				return true;
+			}
+			else
+			{
+				IsConnected = false;
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// 辅助方法：断开连接
 		/// </summary>
 		public void DisConnect()
@@ -4019,6 +4022,7 @@ namespace LightController.MyForm
 			SoftwareName += "v" + appFileVersion + " ";
 
 			//从GlobalSet.ini文件读取内容
+			SavePath = IniHelper.GetSavePath();
 			IsShowTestButton = IniHelper.GetIsShow( "testButton");
 			IsShowHardwareUpdate = IniHelper.GetIsShow( "hardwareUpdateButton");
 			IsShowSaPanels = IniHelper.GetIsShow("saPanels");

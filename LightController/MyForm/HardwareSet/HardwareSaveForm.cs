@@ -32,7 +32,7 @@ namespace LightController.MyForm
 			Location = MousePosition;
 			LanguageHelper.InitForm(this);
 
-			hardwareLibraryPath = IniHelper.GetSavePath(Application.StartupPath) + @"\HardwareLibrary\";
+			hardwareLibraryPath = IniHelper.GetSavePath() + @"\HardwareLibrary\";
 		}
 		
 		/// <summary>

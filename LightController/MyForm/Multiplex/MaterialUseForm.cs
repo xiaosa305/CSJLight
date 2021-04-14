@@ -171,7 +171,7 @@ namespace LightController.MyForm.Multiplex
 		private void refreshMaterialTab() {
 
 			materialTreeView.Nodes.Clear();
-			materialPath = IniHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\" + (mainForm.CurrentMode == 0 ? "Normal" : "Sound");
+			materialPath = IniHelper.GetSavePath() + @"\LightMaterial\" + (mainForm.CurrentMode == 0 ? "Normal" : "Sound");
 
 			// 添加通用的素材
 			string generalPath = materialPath + generalStr;

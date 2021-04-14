@@ -53,7 +53,7 @@ namespace LightController.MyForm
 
 			lightNameLabel.Text = lightName + " - " + lightType;
 
-			materialPath = IniHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\";
+			materialPath = IniHelper.GetSavePath() + @"\LightMaterial\";
 			materialPath += mode == 0 ? "Normal" : "Sound";
 
 			startNumericUpDown.Maximum = stepCount;			

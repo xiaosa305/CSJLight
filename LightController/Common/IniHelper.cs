@@ -184,7 +184,7 @@ namespace LightController.Common
 		/// 辅助方法：直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
 		/// </summary>
 		/// <returns></returns>
-		public static string GetSavePath(string appPathStr)
+		public static string GetSavePath()
 		{
 			string appPath = defaultIniHelper.ReadString("SavePath", "useAppPath", "false");
 			if (appPath.Trim().ToLower().Equals("true"))

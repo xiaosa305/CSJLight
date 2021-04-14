@@ -1,4 +1,5 @@
 ﻿using LightController.Common;
+using LightController.MyForm.MainFormAst;
 using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,16 @@ namespace LightController.MyForm.HardwareSet
 
 		private void NewHardwareSet_Load(object sender, EventArgs e)
 		{
-			Location = MousePosition;
+			Location = MousePosition;			
+		}
+
+		/// <summary>
+		/// Activated事件：激活窗口后，回读一下设备信息
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewHardwareSetForm_Activated(object sender, EventArgs e)
+		{
 			readButton_Click(null, null); //启动后主动从设备回读配置
 		}
 
@@ -59,6 +69,7 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="e"></param>
 		private void readButton_Click(object sender, EventArgs e)
 		{
+			SetNotice("正在回读设备信息，请稍候...", false, true);
 			mainForm.MyConnect.GetParam(GetParamCompleted, GetParamError);
 		}
 
@@ -147,7 +158,8 @@ namespace LightController.MyForm.HardwareSet
 			{
 				mainForm.DisConnect();
 				SetBusy(false);
-				SetNotice("硬件配置下载成功,需要重启月，请稍后重连设备...", true, true);				
+				SetNotice("硬件配置下载成功,需要重启(约5S)，请稍后重连设备...", true, true);
+				//Thread.Sleep(ConnectForm.REBOOT_WATITIME);
 				mainForm.ConnForm.ShowDialog();
 			});
 		}
@@ -432,5 +444,6 @@ namespace LightController.MyForm.HardwareSet
 
 		#endregion
 
-		}
+		
+	}
 }

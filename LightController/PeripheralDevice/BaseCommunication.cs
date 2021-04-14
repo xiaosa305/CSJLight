@@ -2203,7 +2203,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void GetParam(Completed completed,Error error)
+        public bool GetParam(Completed completed,Error error)
         {
             try
             {
@@ -2219,6 +2219,7 @@ namespace LightController.PeripheralDevice
                     };
                     this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => GetParamStart(s, e));
                     this.TransactionTimer.Start();
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -2229,6 +2230,7 @@ namespace LightController.PeripheralDevice
                 this.Error_Event("读取硬件配置信息任务启动失败");
                 this.CloseTransactionTimer();
             }
+            return false;
         }
         /// <summary>
         /// 功能：读取硬件配置信息执行线程

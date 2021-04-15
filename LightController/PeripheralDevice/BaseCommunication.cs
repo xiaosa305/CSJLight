@@ -554,7 +554,6 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.CloseTransactionTimer();
                 this.IsSending = false;
-                Console.WriteLine("11111111111111111111" + IsSending);
                 this.MainOrder = null;
                 this.Completed_Event(obj, msg);
             }
@@ -2445,19 +2444,14 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                Console.WriteLine("StopDebug");
                 this.SecondOrder = Order.STOP_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_END_DEBUG, null);
                 this.StopTimeOut();
-                this.Completed_Event(null,"关闭网络调试");
+                this.Successed(null,"关闭网络调试");
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络调试模式任务失败", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event("关闭网络调试模式任务失败");
-                this.CloseTransactionTimer();
+                this.Failed("关闭网络调试模式任务失败");
             }
         }
         /// <summary>

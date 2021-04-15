@@ -116,12 +116,12 @@ namespace LightController.Tools
 
         private void Compelted(Object obj,string msg)
         {
-            //Console.WriteLine("PlayTool-StopPreview_Completed");
+            Console.WriteLine("PlayTool-StopPreview_Completed");
         }
 
         private void Error(string msg)
         {
-            //Console.WriteLine("PlayTool-StopPreview_Faild");
+            Console.WriteLine("PlayTool-StopPreview_Faild");
         }
 
         public static PlayTools GetInstance()

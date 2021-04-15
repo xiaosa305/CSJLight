@@ -150,6 +150,7 @@ namespace LightController.MyForm
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		public bool IsPreviewing = false; // 是否预览状态中
+		protected long startTime ; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；
 
 		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）			
@@ -2551,8 +2552,7 @@ namespace LightController.MyForm
 
 			if (IsConnected)
 			{
-                Console.WriteLine("DEKEY_____STOP");
-				playTools.StopPreview();
+				stopPreview();
 				new NewProjectUpdateForm(this).ShowDialog();
 			}
 		}
@@ -2576,7 +2576,7 @@ namespace LightController.MyForm
 		{
 			if (IsConnected)
 			{
-				playTools.StopPreview();
+				stopPreview();
 				new NewHardwareSetForm(this).ShowDialog();
 			}
 		}
@@ -3720,7 +3720,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public void DisConnect()
 		{
-			playTools.StopPreview();
+			stopPreview();
 			MyConnect.DisConnect();
 			MyConnect = null;
 			EnableConnectedButtons(false, IsPreviewing);
@@ -3729,12 +3729,30 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：启动调试，基本只有在界面激活时用得到；
 		/// </summary>
-		public void StartDebug()
+		protected void startDebug()
 		{
 			if (IsConnected) {
-                Console.WriteLine("DIKEV");
+				startTime = (DateTime.Now.ToUniversalTime().Ticks ) / 10000;  // 毫秒
+				Console.WriteLine("startPreview : " + startTime);
 				playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 			}			
+		}
+
+		/// <summary>
+		/// 辅助方法：关闭调试
+		/// </summary>
+		public void stopPreview() {
+
+			if (IsConnected) {
+				long currTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;  // 毫秒
+				if (currTime - startTime < 1000) {
+					Thread.Sleep(1000) ;
+				}
+				Console.WriteLine("stopPreview : " + (DateTime.Now.ToUniversalTime().Ticks) / 10000 );
+				Thread.Sleep(1000);
+
+				playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			}
 		}
 
 		/// <summary>

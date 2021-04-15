@@ -283,7 +283,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void NewMainForm_Activated(object sender, EventArgs e)
 		{
-			StartDebug();
+			startDebug();
 		}
 
 		/// <summary>

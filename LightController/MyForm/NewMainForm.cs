@@ -528,17 +528,7 @@ namespace LightController.MyForm
 		{
 			globalSetClick();
 		}
-
-		/// <summary>
-		/// 事件：点击《工程相关 - 摇麦配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ymToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ymSetClick();
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《工程相关 - 工程更新》
 		/// </summary>

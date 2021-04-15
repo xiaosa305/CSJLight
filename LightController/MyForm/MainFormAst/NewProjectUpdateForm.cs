@@ -44,10 +44,17 @@ namespace LightController.MyForm.MainFormAst
 		private void NewProjectUpdateForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
-			Control.CheckForIllegalCrossThreadCalls = false;
-			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
-			if (!mainForm.IsConnected) Dispose();
+			Control.CheckForIllegalCrossThreadCalls = false;  // 设false可在其他文件中修改本类的UI
+			LanguageHelper.TranslateControl(this);
 			
+			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
+			if (!mainForm.IsConnected) Dispose();			
+		}
+
+		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -68,7 +75,7 @@ namespace LightController.MyForm.MainFormAst
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void clearSkinButton_Click(object sender, EventArgs e)
+		private void dirClearButton_Click(object sender, EventArgs e)
 		{
 			pathLabel.Text = null;
 		}

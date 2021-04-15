@@ -257,7 +257,7 @@ namespace LightController.MyForm
 			// 每次启动后，可以切换到上一次软件打开时连接的方式		
 			refreshConnectMethod();	
 		}
-
+		
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
 			StartDebug();
@@ -385,16 +385,6 @@ namespace LightController.MyForm
 		private void globalSetSkinButton_Click(object sender, EventArgs e)
 		{
 			globalSetClick();
-		}
-
-		/// <summary>
-		///  事件：点击《摇麦设置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ymSkinButton_Click(object sender, EventArgs e)
-		{
-			ymSetClick();
 		}
 
 		/// <summary>

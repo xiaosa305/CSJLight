@@ -38,18 +38,26 @@ namespace LightController.MyForm.MainFormAst
 		private void ConnectForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
-		}
-
-		/// <summary>
-		/// 事件：窗口激活后执行(好处是窗口不会延时打开，避免用户以为没有点到《设备连接》)
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ConnectForm_Activated(object sender, EventArgs e)
-		{
 			if (!mainForm.IsConnected)
 			{
 				deviceRefreshButton_Click(null, null);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《（右上角）?》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ConnectForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			e.Cancel = true;
+			if (DialogResult.Yes == MessageBox.Show("设备出厂时的默认IP地址为192.168.2.10；如果当前电脑当前不在此网段内(即本机IP非192.168.2.X)，将无法搜到设备。是否要打开《网络连接》设置本地IP?",
+				"设置IP？",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question))
+			{
+				System.Diagnostics.Process.Start("ncpa.cpl");
 			}
 		}
 
@@ -184,9 +192,8 @@ namespace LightController.MyForm.MainFormAst
 			myStatusLabel.Text = msg;
 			statusStrip1.Refresh();
 		}
-
-
+		
 		#endregion
-
+				
 	}	
 }

@@ -13,19 +13,15 @@ namespace LightController.MyForm
 {
 	public partial class YMSetForm : Form
 	{
-		private MainFormBase mainForm;
 		private IniHelper iniFileAst;
 		
-		public YMSetForm(MainFormBase mainForm)
+		public YMSetForm(string iniPath)
 		{
-			this.mainForm = mainForm;
-			iniFileAst = new IniHelper(mainForm.GlobalIniPath);
+			iniFileAst = new IniHelper(iniPath);
 			InitializeComponent();
 
 			#region 初始化几个数组			
-
-			//sceneCount = MainFormBase.SceneCount;
-
+			
 			scenePanels = new Panel[MainFormBase.SceneCount]; 
 			sceneLabels = new Label[MainFormBase.SceneCount];
 			ymCheckBoxes = new CheckBox[MainFormBase.SceneCount];
@@ -130,7 +126,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void YMSetForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = new Point(MousePosition.X-300 , MousePosition.Y);
 			LanguageHelper.InitForm(this);
 
 			//1. 先设置各个下拉框的默认值：这里的三个选项(checkbox和numericUpDown)都不太需要设置
@@ -213,8 +209,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void YMSetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.Dispose();
-			mainForm.Activate();
+			Dispose();		
 		}
 	
 	}

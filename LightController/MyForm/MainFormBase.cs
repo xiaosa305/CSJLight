@@ -2538,15 +2538,7 @@ namespace LightController.MyForm
 		protected void globalSetClick()
 		{
 			new GlobalSetForm(this).ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：打开《摇麦设置》
-		/// </summary>
-		protected void ymSetClick()
-		{
-			new YMSetForm(this).ShowDialog();
-		}
+		}		
 
 		/// <summary>
 		/// 辅助方法：点击《工程升级》

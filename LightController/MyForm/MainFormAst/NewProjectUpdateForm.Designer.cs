@@ -30,7 +30,7 @@
 		{
 			this.dirChooseButton = new System.Windows.Forms.Button();
 			this.updateButton = new System.Windows.Forms.Button();
-			this.clearButton = new System.Windows.Forms.Button();
+			this.dirClearButton = new System.Windows.Forms.Button();
 			this.pathLabel = new System.Windows.Forms.Label();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -63,15 +63,15 @@
 			this.updateButton.UseVisualStyleBackColor = false;
 			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
-			// clearButton
+			// dirClearButton
 			// 
-			this.clearButton.Location = new System.Drawing.Point(463, 29);
-			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(63, 33);
-			this.clearButton.TabIndex = 20;
-			this.clearButton.Text = "清空";
-			this.clearButton.UseVisualStyleBackColor = true;
-			this.clearButton.Click += new System.EventHandler(this.clearSkinButton_Click);
+			this.dirClearButton.Location = new System.Drawing.Point(463, 29);
+			this.dirClearButton.Name = "dirClearButton";
+			this.dirClearButton.Size = new System.Drawing.Size(63, 33);
+			this.dirClearButton.TabIndex = 20;
+			this.dirClearButton.Text = "清空";
+			this.dirClearButton.UseVisualStyleBackColor = true;
+			this.dirClearButton.Click += new System.EventHandler(this.dirClearButton_Click);
 			// 
 			// pathLabel
 			// 
@@ -122,11 +122,12 @@
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.dirChooseButton);
 			this.Controls.Add(this.updateButton);
-			this.Controls.Add(this.clearButton);
+			this.Controls.Add(this.dirClearButton);
 			this.Controls.Add(this.pathLabel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "NewProjectUpdateForm";
 			this.Text = "工程更新";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProjectUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewProjectUpdateForm_Load);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
@@ -139,7 +140,7 @@
 
 		private System.Windows.Forms.Button dirChooseButton;
 		private System.Windows.Forms.Button updateButton;
-		private System.Windows.Forms.Button clearButton;
+		private System.Windows.Forms.Button dirClearButton;
 		private System.Windows.Forms.Label pathLabel;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;

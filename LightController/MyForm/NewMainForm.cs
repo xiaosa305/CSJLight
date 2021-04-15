@@ -59,8 +59,6 @@ namespace LightController.MyForm
 			}
 			Text = SoftwareName;
 
-			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
-
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
@@ -279,6 +277,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：每次窗口激活后，都StartDebug一次
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewMainForm_Activated(object sender, EventArgs e)
+		{
+			StartDebug();
+		}
+
+		/// <summary>
 		/// 事件：关闭Form前的操作，在此事件内可取消关闭窗体
 		/// </summary>
 		/// <param name="sender"></param>
@@ -309,7 +317,6 @@ namespace LightController.MyForm
 			lightInfoPanel.BackColor = unifyColor;
 			labelPanel.BackColor = unifyColor;
 			unifyPanel.BackColor = unifyColor;
-			playBasePanel.BackColor = unifyColor;
 
 			lightsListView.BackColor = unifyColor2;
 			tdFlowLayoutPanel.BackColor = unifyColor2;
@@ -325,7 +332,6 @@ namespace LightController.MyForm
 			labelPanel.BorderStyle = unifyBorderStyle;
 			tdFlowLayoutPanel.BorderStyle = unifyBorderStyle;
 			unifyPanel.BorderStyle = unifyBorderStyle;
-			playBasePanel.BorderStyle = unifyBorderStyle;
 		}
 
 		#region 菜单栏 - 非工程相关
@@ -662,8 +668,7 @@ namespace LightController.MyForm
 
 			// 菜单栏相关按钮组			
 			lightListToolStripMenuItem.Enabled = enable;
-			globalSetToolStripMenuItem.Enabled = enable;
-			ymSetToolStripMenuItem.Enabled = enable;			
+			globalSetToolStripMenuItem.Enabled = enable;			
 		}
 
 		/// <summary>
@@ -1042,18 +1047,7 @@ namespace LightController.MyForm
 			unifyPanel.Visible = !unifyPanel.Visible;
 			hideUnifyPanelToolStripMenuItem.Text = unifyPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
 		}
-
-		/// <summary>
-		/// 事件：点击《隐藏|显示调试面板》菜单项
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void hidePlayPanelToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			playBasePanel.Visible = !playBasePanel.Visible;
-			hidePlayPanelToolStripMenuItem.Text = playBasePanel.Visible ? "隐藏调试面板" : "显示调试面板";
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《隐藏|显示子属性面板》菜单项
 		/// </summary>
@@ -1916,12 +1910,16 @@ namespace LightController.MyForm
 		{
 			base.EnableConnectedButtons(connected, previewing);
 
+			// MARK3.0414 EnableConnectedButtons()
+			hardwareSetToolStripMenuItem.Enabled = connected;
+			newToolStripMenuItem.Enabled = connected;
+			projectUpdateToolStripMenuItem.Enabled = connected;
+
 			keepButton.Enabled = IsConnected && !IsPreviewing;
 			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
 			previewButton.Enabled = IsConnected ;
 			makeSoundButton.Enabled = IsConnected && IsPreviewing;		
 			
-
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
 			if (IsConnected && !IsPreviewing) {
 				RefreshStep();
@@ -1970,6 +1968,28 @@ namespace LightController.MyForm
 		{
 			LanguageHelper.TranslateControl( sender as Button);
 		}
-		
+
+
+		/// <summary>
+		/// 辅助方法：点击《设备连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			connectButtonClick();
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《硬件配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hardwareSetToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			hardwareSetButtonClick();
+		}
+
+	
 	}
 }

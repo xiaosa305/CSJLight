@@ -89,6 +89,7 @@ private System.ComponentModel.IContainer components = null;
 			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.frameLabel = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.button1 = new System.Windows.Forms.Button();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -111,6 +112,7 @@ private System.ComponentModel.IContainer components = null;
 			// dmxGroupBox
 			// 
 			this.dmxGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.dmxGroupBox.Controls.Add(this.button1);
 			this.dmxGroupBox.Controls.Add(this.globalGroupBox);
 			this.dmxGroupBox.Controls.Add(this.zuheGroupBox);
 			this.dmxGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
@@ -280,7 +282,7 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheGroupBox.Name = "zuheGroupBox";
 			this.zuheGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.zuheGroupBox.Size = new System.Drawing.Size(666, 241);
+			this.zuheGroupBox.Size = new System.Drawing.Size(600, 241);
 			this.zuheGroupBox.TabIndex = 1;
 			this.zuheGroupBox.TabStop = false;
 			this.zuheGroupBox.Text = "多场景组合播放设置";
@@ -288,7 +290,7 @@ private System.ComponentModel.IContainer components = null;
 			// mFrameSaveButton
 			// 
 			this.mFrameSaveButton.BackColor = System.Drawing.Color.Gainsboro;
-			this.mFrameSaveButton.Location = new System.Drawing.Point(583, 20);
+			this.mFrameSaveButton.Location = new System.Drawing.Point(517, 14);
 			this.mFrameSaveButton.Name = "mFrameSaveButton";
 			this.mFrameSaveButton.Size = new System.Drawing.Size(70, 37);
 			this.mFrameSaveButton.TabIndex = 3;
@@ -337,12 +339,13 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheEnableGroupBox.Controls.Add(this.label35);
 			this.zuheEnableGroupBox.Controls.Add(this.frame1numericUpDown);
 			this.zuheEnableGroupBox.Controls.Add(this.label4);
+			this.zuheEnableGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.zuheEnableGroupBox.Enabled = false;
-			this.zuheEnableGroupBox.Location = new System.Drawing.Point(4, 63);
+			this.zuheEnableGroupBox.Location = new System.Drawing.Point(2, 65);
 			this.zuheEnableGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheEnableGroupBox.Name = "zuheEnableGroupBox";
 			this.zuheEnableGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.zuheEnableGroupBox.Size = new System.Drawing.Size(658, 174);
+			this.zuheEnableGroupBox.Size = new System.Drawing.Size(596, 174);
 			this.zuheEnableGroupBox.TabIndex = 0;
 			this.zuheEnableGroupBox.TabStop = false;
 			this.zuheEnableGroupBox.Text = "播放设置";
@@ -373,7 +376,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame4numericUpDown
 			// 
-			this.frame4numericUpDown.Location = new System.Drawing.Point(546, 104);
+			this.frame4numericUpDown.Location = new System.Drawing.Point(504, 104);
 			this.frame4numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -387,7 +390,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame3numericUpDown
 			// 
-			this.frame3numericUpDown.Location = new System.Drawing.Point(436, 104);
+			this.frame3numericUpDown.Location = new System.Drawing.Point(406, 104);
 			this.frame3numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -401,7 +404,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame2numericUpDown
 			// 
-			this.frame2numericUpDown.Location = new System.Drawing.Point(327, 104);
+			this.frame2numericUpDown.Location = new System.Drawing.Point(308, 104);
 			this.frame2numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -417,7 +420,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.frame4ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame4ComboBox.FormattingEnabled = true;
-			this.frame4ComboBox.Location = new System.Drawing.Point(545, 66);
+			this.frame4ComboBox.Location = new System.Drawing.Point(504, 66);
 			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4ComboBox.Name = "frame4ComboBox";
 			this.frame4ComboBox.Size = new System.Drawing.Size(75, 20);
@@ -427,7 +430,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.frame3ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame3ComboBox.FormattingEnabled = true;
-			this.frame3ComboBox.Location = new System.Drawing.Point(435, 66);
+			this.frame3ComboBox.Location = new System.Drawing.Point(406, 66);
 			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3ComboBox.Name = "frame3ComboBox";
 			this.frame3ComboBox.Size = new System.Drawing.Size(75, 20);
@@ -437,7 +440,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.frame2ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame2ComboBox.FormattingEnabled = true;
-			this.frame2ComboBox.Location = new System.Drawing.Point(325, 66);
+			this.frame2ComboBox.Location = new System.Drawing.Point(308, 66);
 			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2ComboBox.Name = "frame2ComboBox";
 			this.frame2ComboBox.Size = new System.Drawing.Size(75, 20);
@@ -447,7 +450,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.frame1ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame1ComboBox.FormattingEnabled = true;
-			this.frame1ComboBox.Location = new System.Drawing.Point(215, 66);
+			this.frame1ComboBox.Location = new System.Drawing.Point(210, 66);
 			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1ComboBox.Name = "frame1ComboBox";
 			this.frame1ComboBox.Size = new System.Drawing.Size(75, 20);
@@ -456,7 +459,7 @@ private System.ComponentModel.IContainer components = null;
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(149, 70);
+			this.label9.Location = new System.Drawing.Point(145, 70);
 			this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(53, 12);
@@ -466,7 +469,7 @@ private System.ComponentModel.IContainer components = null;
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(547, 37);
+			this.label7.Location = new System.Drawing.Point(504, 37);
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(59, 12);
@@ -476,7 +479,7 @@ private System.ComponentModel.IContainer components = null;
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(436, 37);
+			this.label6.Location = new System.Drawing.Point(406, 37);
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(59, 12);
@@ -486,7 +489,7 @@ private System.ComponentModel.IContainer components = null;
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(325, 37);
+			this.label5.Location = new System.Drawing.Point(308, 37);
 			this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(59, 12);
@@ -496,7 +499,7 @@ private System.ComponentModel.IContainer components = null;
 			// label35
 			// 
 			this.label35.AutoSize = true;
-			this.label35.Location = new System.Drawing.Point(152, 108);
+			this.label35.Location = new System.Drawing.Point(148, 108);
 			this.label35.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label35.Name = "label35";
 			this.label35.Size = new System.Drawing.Size(47, 12);
@@ -505,7 +508,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame1numericUpDown
 			// 
-			this.frame1numericUpDown.Location = new System.Drawing.Point(217, 104);
+			this.frame1numericUpDown.Location = new System.Drawing.Point(210, 104);
 			this.frame1numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -520,7 +523,7 @@ private System.ComponentModel.IContainer components = null;
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(214, 37);
+			this.label4.Location = new System.Drawing.Point(210, 37);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(59, 12);
@@ -797,6 +800,15 @@ private System.ComponentModel.IContainer components = null;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "音频场景设置";
 			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(894, 28);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(63, 52);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -907,5 +919,6 @@ private System.ComponentModel.IContainer components = null;
 		private Label label17;
 		private Label label18;
 		private Label label19;
+		private Button button1;
 	}
 }

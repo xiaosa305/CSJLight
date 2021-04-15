@@ -43,8 +43,8 @@ namespace LightController.MyForm
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
-			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
+			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
 			this.helpSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.projectLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -68,7 +68,6 @@ namespace LightController.MyForm
 			this.hideMenuPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideProjectPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -266,6 +265,7 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.hardwareSetSkinButton.DownBack = null;
 			this.hardwareSetSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.hardwareSetSkinButton.Enabled = false;
 			this.hardwareSetSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.hardwareSetSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.hardwareSetSkinButton.ForeColorSuit = true;
@@ -295,6 +295,7 @@ namespace LightController.MyForm
 			this.newToolsSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.newToolsSkinButton.DownBack = null;
 			this.newToolsSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.newToolsSkinButton.Enabled = false;
 			this.newToolsSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.newToolsSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.newToolsSkinButton.ForeColorSuit = true;
@@ -323,6 +324,7 @@ namespace LightController.MyForm
 			this.projectUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.projectUpdateSkinButton.DownBack = null;
 			this.projectUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.projectUpdateSkinButton.Enabled = false;
 			this.projectUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.projectUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.projectUpdateSkinButton.ForeColorSuit = true;
@@ -431,35 +433,6 @@ namespace LightController.MyForm
 			this.keepSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.keepSkinButton.Click += new System.EventHandler(this.keepSkinButton_Click);
 			// 
-			// makeSoundSkinButton
-			// 
-			this.makeSoundSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.makeSoundSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.makeSoundSkinButton.BorderColor = System.Drawing.Color.White;
-			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.makeSoundSkinButton.DownBack = null;
-			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.makeSoundSkinButton.Enabled = false;
-			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.makeSoundSkinButton.ForeColorSuit = true;
-			this.makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-			this.makeSoundSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.makeSoundSkinButton.InheritColor = true;
-			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(848, 2);
-			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.makeSoundSkinButton.MouseBack = null;
-			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
-			this.makeSoundSkinButton.NormlBack = null;
-			this.makeSoundSkinButton.Size = new System.Drawing.Size(90, 90);
-			this.makeSoundSkinButton.TabIndex = 10;
-			this.makeSoundSkinButton.Text = "触发音频";
-			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
-			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
-			// 
 			// previewSkinButton
 			// 
 			this.previewSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -489,6 +462,35 @@ namespace LightController.MyForm
 			this.previewSkinButton.UseVisualStyleBackColor = false;
 			this.previewSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.previewSkinButton.Click += new System.EventHandler(this.previewSkinButton_Click);
+			// 
+			// makeSoundSkinButton
+			// 
+			this.makeSoundSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.makeSoundSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.makeSoundSkinButton.BorderColor = System.Drawing.Color.White;
+			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.makeSoundSkinButton.DownBack = null;
+			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.makeSoundSkinButton.Enabled = false;
+			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.makeSoundSkinButton.ForeColorSuit = true;
+			this.makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+			this.makeSoundSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.makeSoundSkinButton.InheritColor = true;
+			this.makeSoundSkinButton.IsDrawBorder = false;
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(848, 2);
+			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.makeSoundSkinButton.MouseBack = null;
+			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
+			this.makeSoundSkinButton.NormlBack = null;
+			this.makeSoundSkinButton.Size = new System.Drawing.Size(90, 90);
+			this.makeSoundSkinButton.TabIndex = 10;
+			this.makeSoundSkinButton.Text = "触发音频";
+			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
+			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
 			// 
 			// helpSkinButton
 			// 
@@ -807,13 +809,12 @@ namespace LightController.MyForm
             this.hideMenuPanelToolStripMenuItem2,
             this.hideProjectPanelToolStripMenuItem2,
             this.hideAstPanelToolStripMenuItem2,
-            this.hidePlayPanelToolStripMenuItem2,
             this.toolStripSeparator1,
             this.showSaPanelsToolStripMenuItem});
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 242);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 220);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -896,11 +897,6 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem2.Text = "隐藏辅助面板";
 			this.hideAstPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideAstPanelToolStripMenuItem_Click);
 			this.hideAstPanelToolStripMenuItem2.TextChanged += new System.EventHandler(this.someMenuItem_TextChanged);
-			// 
-			// hidePlayPanelToolStripMenuItem2
-			// 
-			this.hidePlayPanelToolStripMenuItem2.Name = "hidePlayPanelToolStripMenuItem2";
-			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			// 
 			// toolStripSeparator1
 			// 
@@ -2157,7 +2153,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem hideMenuPanelToolStripMenuItem2;
 		private ToolStripMenuItem hideProjectPanelToolStripMenuItem2;
 		private ToolStripMenuItem hideAstPanelToolStripMenuItem2;
-		private ToolStripMenuItem hidePlayPanelToolStripMenuItem2;
 		private SkinButton frameSaveSkinButton;
 		private SkinPanel projectLabelSkinPanel;
 		private Label projectLabel;

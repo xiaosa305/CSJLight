@@ -34,17 +34,13 @@ namespace LightController.MyForm
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewMainForm));
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
+			this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hardwareSetNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.hardwareUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +58,6 @@ namespace LightController.MyForm
 			this.hideMenuStriplToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideUnifyPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelPanel = new System.Windows.Forms.Panel();
@@ -93,7 +88,6 @@ namespace LightController.MyForm
 			this.soundListButton = new System.Windows.Forms.Button();
 			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
-			this.playBasePanel = new System.Windows.Forms.Panel();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
@@ -146,7 +140,6 @@ namespace LightController.MyForm
 			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
 			this.groupFlowLayoutPanel.SuspendLayout();
-			this.playBasePanel.SuspendLayout();
 			this.myStatusStrip.SuspendLayout();
 			this.projectPanel.SuspendLayout();
 			this.stepBasePanel.SuspendLayout();
@@ -172,13 +165,13 @@ namespace LightController.MyForm
 			this.mainMenuStrip.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToolStripMenuItem,
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
             this.newToolStripMenuItem,
             this.toolStripMenuItem1,
             this.lightListToolStripMenuItem,
             this.globalSetToolStripMenuItem,
-            this.ymSetToolStripMenuItem,
             this.projectUpdateToolStripMenuItem,
             this.toolStripMenuItem2,
             this.helpToolStripMenuItem,
@@ -190,6 +183,13 @@ namespace LightController.MyForm
 			this.mainMenuStrip.TabIndex = 24;
 			this.mainMenuStrip.Text = "menuStrip1";
 			// 
+			// connectToolStripMenuItem
+			// 
+			this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+			this.connectToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.connectToolStripMenuItem.Text = "设备连接";
+			this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+			// 
 			// lightLibraryToolStripMenuItem
 			// 
 			this.lightLibraryToolStripMenuItem.Name = "lightLibraryToolStripMenuItem";
@@ -199,43 +199,15 @@ namespace LightController.MyForm
 			// 
 			// hardwareSetToolStripMenuItem
 			// 
-			this.hardwareSetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hardwareSetNewToolStripMenuItem,
-            this.hardwareSetOpenToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.hardwareUpdateToolStripMenuItem});
+			this.hardwareSetToolStripMenuItem.Enabled = false;
 			this.hardwareSetToolStripMenuItem.Name = "hardwareSetToolStripMenuItem";
 			this.hardwareSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.hardwareSetToolStripMenuItem.Text = "硬件配置";
-			// 
-			// hardwareSetNewToolStripMenuItem
-			// 
-			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
-			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
-			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
-			// 
-			// hardwareSetOpenToolStripMenuItem
-			// 
-			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
-			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
-			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(121, 6);
-			// 
-			// hardwareUpdateToolStripMenuItem
-			// 
-			this.hardwareUpdateToolStripMenuItem.Name = "hardwareUpdateToolStripMenuItem";
-			this.hardwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.hardwareUpdateToolStripMenuItem.Text = "固件升级";
-			this.hardwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.hardwareUpdateToolStripMenuItem_Click);
+			this.hardwareSetToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetToolStripMenuItem_Click);
 			// 
 			// newToolStripMenuItem
 			// 
+			this.newToolStripMenuItem.Enabled = false;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.newToolStripMenuItem.Text = "外设配置";
@@ -264,16 +236,9 @@ namespace LightController.MyForm
 			this.globalSetToolStripMenuItem.Text = "全局设置";
 			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globalSetToolStripMenuItem_Click);
 			// 
-			// ymSetToolStripMenuItem
-			// 
-			this.ymSetToolStripMenuItem.Enabled = false;
-			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
-			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.ymSetToolStripMenuItem.Text = "摇麦设置";
-			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymToolStripMenuItem_Click);
-			// 
 			// projectUpdateToolStripMenuItem
 			// 
+			this.projectUpdateToolStripMenuItem.Enabled = false;
 			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
 			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.projectUpdateToolStripMenuItem.Text = "工程更新";
@@ -384,11 +349,10 @@ namespace LightController.MyForm
             this.hideMenuStriplToolStripMenuItem,
             this.hideProjectPanelToolStripMenuItem,
             this.hideUnifyPanelToolStripMenuItem,
-            this.hidePlayPanelToolStripMenuItem,
             this.toolStripSeparator1,
             this.showSaPanelsToolStripMenuItem});
 			this.myContextMenuStrip.Name = "myContextMenuStrip";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 148);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 126);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
@@ -423,13 +387,6 @@ namespace LightController.MyForm
 			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
 			this.hideUnifyPanelToolStripMenuItem.Click += new System.EventHandler(this.hideUnifyPanelToolStripMenuItem_Click);
-			// 
-			// hidePlayPanelToolStripMenuItem
-			// 
-			this.hidePlayPanelToolStripMenuItem.Name = "hidePlayPanelToolStripMenuItem";
-			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
-			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -657,7 +614,7 @@ namespace LightController.MyForm
 			this.tdPanel.Controls.Add(this.labelPanel);
 			this.tdPanel.Controls.Add(this.unifyPanel);
 			this.tdPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tdPanel.Location = new System.Drawing.Point(0, 413);
+			this.tdPanel.Location = new System.Drawing.Point(0, 424);
 			this.tdPanel.Name = "tdPanel";
 			this.tdPanel.Size = new System.Drawing.Size(1264, 335);
 			this.tdPanel.TabIndex = 63;
@@ -778,24 +735,13 @@ namespace LightController.MyForm
 			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
 			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiButton_MouseDown);
 			// 
-			// playBasePanel
-			// 
-			this.playBasePanel.BackColor = System.Drawing.Color.White;
-			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.playBasePanel.Controls.Add(this.myStatusStrip);
-			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.playBasePanel.Location = new System.Drawing.Point(0, 748);
-			this.playBasePanel.Name = "playBasePanel";
-			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
-			this.playBasePanel.TabIndex = 67;
-			// 
 			// myStatusStrip
 			// 
 			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.myStatusStrip.Location = new System.Drawing.Point(0, 70);
+			this.myStatusStrip.Location = new System.Drawing.Point(0, 759);
 			this.myStatusStrip.Name = "myStatusStrip";
-			this.myStatusStrip.Size = new System.Drawing.Size(1260, 22);
+			this.myStatusStrip.Size = new System.Drawing.Size(1264, 22);
 			this.myStatusStrip.SizingGrip = false;
 			this.myStatusStrip.TabIndex = 33;
 			this.myStatusStrip.Text = "statusStrip1";
@@ -803,7 +749,7 @@ namespace LightController.MyForm
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(1245, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(1249, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -835,7 +781,7 @@ namespace LightController.MyForm
 			this.projectPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.projectPanel.Location = new System.Drawing.Point(0, 0);
 			this.projectPanel.Name = "projectPanel";
-			this.projectPanel.Size = new System.Drawing.Size(95, 383);
+			this.projectPanel.Size = new System.Drawing.Size(95, 394);
 			this.projectPanel.TabIndex = 69;
 			// 
 			// newProjectButton
@@ -936,7 +882,7 @@ namespace LightController.MyForm
 			this.lightsListView.Location = new System.Drawing.Point(95, 0);
 			this.lightsListView.Margin = new System.Windows.Forms.Padding(2);
 			this.lightsListView.Name = "lightsListView";
-			this.lightsListView.Size = new System.Drawing.Size(994, 296);
+			this.lightsListView.Size = new System.Drawing.Size(994, 307);
 			this.lightsListView.TabIndex = 50;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
 			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
@@ -953,7 +899,7 @@ namespace LightController.MyForm
 			this.stepBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.stepBasePanel.Controls.Add(this.stepPanel);
 			this.stepBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.stepBasePanel.Location = new System.Drawing.Point(95, 296);
+			this.stepBasePanel.Location = new System.Drawing.Point(95, 307);
 			this.stepBasePanel.Name = "stepBasePanel";
 			this.stepBasePanel.Size = new System.Drawing.Size(1169, 87);
 			this.stepBasePanel.TabIndex = 68;
@@ -995,7 +941,7 @@ namespace LightController.MyForm
 			this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.chooseStepButton.Location = new System.Drawing.Point(603, 16);
 			this.chooseStepButton.Name = "chooseStepButton";
-			this.chooseStepButton.Size = new System.Drawing.Size(47, 23);
+			this.chooseStepButton.Size = new System.Drawing.Size(27, 23);
 			this.chooseStepButton.TabIndex = 54;
 			this.chooseStepButton.Text = "->";
 			this.chooseStepButton.UseVisualStyleBackColor = true;
@@ -1193,7 +1139,7 @@ namespace LightController.MyForm
 			this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.topPanel.Location = new System.Drawing.Point(0, 30);
 			this.topPanel.Name = "topPanel";
-			this.topPanel.Size = new System.Drawing.Size(1264, 383);
+			this.topPanel.Size = new System.Drawing.Size(1264, 394);
 			this.topPanel.TabIndex = 70;
 			// 
 			// lightInfoPanel
@@ -1208,7 +1154,7 @@ namespace LightController.MyForm
 			this.lightInfoPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.lightInfoPanel.Location = new System.Drawing.Point(1089, 0);
 			this.lightInfoPanel.Name = "lightInfoPanel";
-			this.lightInfoPanel.Size = new System.Drawing.Size(175, 296);
+			this.lightInfoPanel.Size = new System.Drawing.Size(175, 307);
 			this.lightInfoPanel.TabIndex = 9;
 			// 
 			// lightsAddrLabel
@@ -1246,16 +1192,17 @@ namespace LightController.MyForm
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.ClientSize = new System.Drawing.Size(1264, 844);
+			this.ClientSize = new System.Drawing.Size(1264, 781);
 			this.Controls.Add(this.topPanel);
 			this.Controls.Add(this.skinComboBox);
 			this.Controls.Add(this.tdPanel);
-			this.Controls.Add(this.playBasePanel);
+			this.Controls.Add(this.myStatusStrip);
 			this.Controls.Add(this.mainMenuStrip);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MinimumSize = new System.Drawing.Size(1280, 883);
+			this.MinimumSize = new System.Drawing.Size(1280, 820);
 			this.Name = "NewMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Activated += new System.EventHandler(this.NewMainForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewMainForm_FormClosing);
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
@@ -1274,8 +1221,6 @@ namespace LightController.MyForm
 			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
 			this.groupFlowLayoutPanel.ResumeLayout(false);
-			this.playBasePanel.ResumeLayout(false);
-			this.playBasePanel.PerformLayout();
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();
 			this.projectPanel.ResumeLayout(false);
@@ -1287,6 +1232,7 @@ namespace LightController.MyForm
 			this.lightInfoPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -1297,12 +1243,8 @@ namespace LightController.MyForm
 		private System.Windows.Forms.MenuStrip mainMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem lightLibraryToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardwareSetToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem hardwareSetNewToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem hardwareSetOpenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem hardwareUpdateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button makeSoundButton;
 		private System.Windows.Forms.Label lightTypeLabel;
@@ -1314,7 +1256,6 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Label firstLabel;
 		private System.Windows.Forms.FlowLayoutPanel tdFlowLayoutPanel;
 		private System.Windows.Forms.Panel tdPanel;
-		private System.Windows.Forms.Panel playBasePanel;
 		private System.Windows.Forms.ComboBox skinComboBox;
 		private System.Windows.Forms.Panel projectPanel;
 		private System.Windows.Forms.Button newProjectButton;
@@ -1362,7 +1303,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem hideMenuStriplToolStripMenuItem;
 		private ToolStripMenuItem hideProjectPanelToolStripMenuItem;
 		private ToolStripMenuItem hideUnifyPanelToolStripMenuItem;
-		private ToolStripMenuItem hidePlayPanelToolStripMenuItem;
 		private Panel lightInfoPanel;
 		private ToolStripMenuItem refreshPicToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator4;
@@ -1387,7 +1327,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem toolStripMenuItem1;
 		private ToolStripMenuItem lightListToolStripMenuItem;
 		private ToolStripMenuItem globalSetToolStripMenuItem;
-		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private ToolStripMenuItem projectUpdateToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem2;
 		private Panel saPanelDemo;
@@ -1395,5 +1334,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
 		private Button detailMultiButton;
 		private Label lightsAddrLabel;
+		private ToolStripMenuItem connectToolStripMenuItem;
 	}
 }

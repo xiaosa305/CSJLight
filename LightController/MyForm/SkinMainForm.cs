@@ -258,11 +258,6 @@ namespace LightController.MyForm
 			refreshConnectMethod();	
 		}
 
-		/// <summary>
-		///  每次激活界面时，需要进行的操作，主要是连接部分的处理
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
 			StartDebug();
@@ -310,12 +305,9 @@ namespace LightController.MyForm
 		{
 			//MARK0412  修改《硬件设置》点击事件 ：用NewHardwareSetForm处理
 			//new HardwareSetChooseForm(this).ShowDialog();
-					   
-			if (IsConnected) {
-				playTools.StopPreview();
-				new NewHardwareSetForm(this).ShowDialog();
-			}
-		}
+
+			hardwareSetButtonClick();
+		}		
 
 		/// <summary>
 		///  事件：点击《设备连接》按钮
@@ -324,11 +316,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
-			//MARK3 0413 
-			if (ConnForm == null) {
-				ConnForm = new ConnectForm(this);
-			}
-			ConnForm.ShowDialog();
+			connectButtonClick();
 		}
 
 		/// <summary>
@@ -2005,9 +1993,12 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		public override void EnableConnectedButtons(bool connected,bool previewing)
 		{
-			//MARK 3.0413 EnableConnectedButtons
-
 			base.EnableConnectedButtons(connected, previewing);
+
+			// MARK3.0414 EnableConnectedButtons()
+			hardwareSetSkinButton.Enabled = connected;
+			newToolsSkinButton.Enabled = connected;
+			projectUpdateSkinButton.Enabled = connected;
 	
 			keepSkinButton.Enabled = IsConnected && !IsPreviewing;
 			previewSkinButton.Enabled = IsConnected;
@@ -2170,7 +2161,6 @@ namespace LightController.MyForm
 		}
 
 
-		
 	}
 	   
 }

@@ -30,7 +30,7 @@ namespace LBDConfigTool.utils.communication
 
         protected override void Send(byte[] data)
         {
-            this.UdpServer.BeginSendTo(data, 0, data.Length, SocketFlags.None, new IPEndPoint(IPAddress.Broadcast,PORT), SendCallback, UdpServer);
+            this.UdpServer.BeginSendTo(data, 0, data.Length, SocketFlags.None, new IPEndPoint(IPAddress.Broadcast,6264), SendCallback, UdpServer);
         }
 
         public CSJNetCommunitor Start()
@@ -55,10 +55,10 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
-                EndPoint receiveEndPoint = new IPEndPoint(IPAddress.Any,PORT) ;
-                this.UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                EndPoint receiveEndPoint = new IPEndPoint(IPAddress.Any,4883) ;
+                this.UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.IP);
                 this.UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, true);
-                this.UdpServer.Bind(new IPEndPoint(IPAddress.Any, 4883));
+                this.UdpServer.Bind(new IPEndPoint(IPAddress.Any, 6264));
                 this.UdpServer.BeginReceiveFrom(this.RecBuff, 0, REC_BUFF_SIZE, SocketFlags.None,ref receiveEndPoint, this.ReceiveCallback, UdpServer);
                 Console.WriteLine("启动服务器成功");
             }
@@ -76,12 +76,12 @@ namespace LBDConfigTool.utils.communication
 
         private void ReceiveCallback(IAsyncResult result)
         {
-            EndPoint iPEnd = new IPEndPoint(IPAddress.Any, PORT);
-            IPEndPoint aa = ((IPEndPoint)iPEnd);
+            EndPoint iPEnd = new IPEndPoint(IPAddress.Any, 4883);
             Socket socket = (Socket)result.AsyncState;
             int count = socket.EndReceiveFrom(result, ref iPEnd);
             result.AsyncWaitHandle.Close();
-            if ((iPEnd as IPEndPoint).Port == PORT)
+            Console.WriteLine("收到消息" + (iPEnd as IPEndPoint).Address + "----" + (iPEnd as IPEndPoint).Port);
+            if ((iPEnd as IPEndPoint).Port == 4883)
             {
                 byte[] buff = new byte[count];
                 Array.Copy(this.RecBuff, 0, buff, 0, count);

@@ -1980,7 +1980,7 @@ namespace LightController.PeripheralDevice
                 this.Error_Event = error;
                 if ((!this.IsSending) && this.IsConnected())
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(250);
                     this.IsSending = true;
                     this.DownloadProjectFlag = false;
                     this.CloseTransactionTimer();

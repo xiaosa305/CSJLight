@@ -84,7 +84,7 @@ namespace LightController.Tools
         }
         public void StartPreview(NetworkConnect communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(250);
             this.Communication = communication;
             this.StartIntentPreviewCompleted = completed;
             this.StartIntentPreviewError = error;
@@ -99,10 +99,10 @@ namespace LightController.Tools
 
         public void StopPreview()
         {
-            Thread.Sleep(500);
+            Thread.Sleep(250);
             this.Communication.StopIntentPreview(Compelted, Error);
             this.DebugStatus = false;
-            Thread.Sleep(500);
+            Thread.Sleep(250);
         }
 
         private void Compelted(Object obj,string msg)

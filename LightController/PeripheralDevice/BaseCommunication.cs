@@ -136,8 +136,8 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = true;
                 this.IsSending = false;
                 LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
-                this.CommandFailed("通信超时");
                 this.CloseTransactionTimer();
+                this.CommandFailed("通信超时");
             }
         }
         /// <summary>
@@ -2016,8 +2016,9 @@ namespace LightController.PeripheralDevice
                     }
                     //发送灯光工程更新启动命令
                     this.SendOrder(null, Constant.ORDER_BEGIN_SEND, null);
-                    while (true)
+                    while (this.TransactionTimer != null && this.TransactionTimer.Enabled)
                     {
+                        Console.WriteLine("2021");
                         if (this.DownloadProjectStatus)
                         {
                             this.DownloadProjectStatus = false;
@@ -2034,8 +2035,9 @@ namespace LightController.PeripheralDevice
                         fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                         this.CurrentFileName = fileName;
                         this.SendOrder(null, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        while (true)
+                        while (this.TransactionTimer != null && this.TransactionTimer.Enabled)
                         {
+                            Console.WriteLine("2040");
                             if (this.DownloadProjectStatus)
                             {
                                 this.DownloadProjectStatus = false;
@@ -2055,14 +2057,14 @@ namespace LightController.PeripheralDevice
                                 {
                                     SendDataPackageForDownload(readBuff, readSize, false);
                                 }
-                                while (true)
+                                while (this.TransactionTimer != null && this.TransactionTimer.Enabled)
                                 {
                                     if (this.DownloadProjectStatus)
                                     {
                                         this.DownloadProjectStatus = false;
                                         break;
                                     }
-                                    Thread.Sleep(0);
+                                    Thread.Sleep(1);
                                 }
                             }
                         }
@@ -2077,6 +2079,7 @@ namespace LightController.PeripheralDevice
                 this.IsSending = false;
                 this.Error_Event("灯光工程下载更新失败");
                 this.CloseTransactionTimer();
+                Console.WriteLine("333333333333333333333");
             }
         }
         /// <summary>
@@ -2359,6 +2362,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
+                Console.WriteLine("StartDebug");
                 this.SecondOrder = Order.START_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_START_DEBUG, new string[]{ Convert.ToString(startIntentPreviewData.TimeFactory)});
             }
@@ -2411,6 +2415,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
+                Console.WriteLine("StopDebug");
                 this.SecondOrder = Order.STOP_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_END_DEBUG, null);
                 this.StopTimeOut();
@@ -2474,8 +2479,8 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "获取固件版本失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
-                this.Error_Event("获取固件版本失败");
                 this.CloseTransactionTimer();
+                this.Error_Event("获取固件版本失败");
             }
         }
 
@@ -2665,6 +2670,7 @@ namespace LightController.PeripheralDevice
             {
                 this.TransactionTimer.Stop();
                 this.TransactionTimer = null;
+                Console.WriteLine("2673");
             }
         }
         /// <summary>

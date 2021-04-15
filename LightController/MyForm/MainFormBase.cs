@@ -2555,13 +2555,13 @@ namespace LightController.MyForm
 		{
 			// Mark3.0413  projectUpdateClick()-disConnect
 			//disConnect(); //projectUpdateClick()
-			new ProjectUpdateForm(this).ShowDialog();
-			
-			//if (IsConnected)
-			//{
-			//	playTools.StopPreview();
-			//	new NewProjectUpdateForm(this).ShowDialog();
-			//}
+			//new ProjectUpdateForm(this).ShowDialog();
+
+			if (IsConnected)
+			{
+				playTools.StopPreview();
+				new NewProjectUpdateForm(this).ShowDialog();
+			}
 		}
 
 		#endregion

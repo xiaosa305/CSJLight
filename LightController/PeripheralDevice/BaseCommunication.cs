@@ -554,6 +554,7 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.CloseTransactionTimer();
                 this.IsSending = false;
+                Console.WriteLine("11111111111111111111" + IsSending);
                 this.MainOrder = null;
                 this.Completed_Event(obj, msg);
             }
@@ -1980,7 +1981,7 @@ namespace LightController.PeripheralDevice
                 this.Error_Event = error;
                 if ((!this.IsSending) && this.IsConnected())
                 {
-                    Thread.Sleep(250);
+                    //Thread.Sleep(250);
                     this.IsSending = true;
                     this.DownloadProjectFlag = false;
                     this.CloseTransactionTimer();
@@ -2180,11 +2181,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置信息失败", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event(ex.Message);
-                this.CloseTransactionTimer();
+                this.Failed(ex.Message);
             }
         }
         /// <summary>
@@ -2374,13 +2371,14 @@ namespace LightController.PeripheralDevice
         /// <param name="error">失败事件委托</param>
         public void StartIntentPreview(int timeFactory, Completed completed,Error error)
         {
+            this.Completed_Event = completed;
+            this.Error_Event = error;
             try
             {
                 if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
-                    this.Completed_Event = completed;
-                    this.Error_Event = error;
+                   
                     this.CloseTransactionTimer();
                     this.TransactionTimer = new System.Timers.Timer
                     {
@@ -2392,11 +2390,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "启动网络调试模式任务启动失败", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event("启动网络调试模式任务启动失败");
-                this.CloseTransactionTimer();
+                this.Failed("启动网络调试模式任务启动失败");
             }
         }
         /// <summary>
@@ -2407,17 +2401,12 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                Console.WriteLine("StartDebug");
                 this.SecondOrder = Order.START_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_START_DEBUG, new string[]{ Convert.ToString(startIntentPreviewData.TimeFactory)});
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "启动网络调试模式失败", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event("启动网络调试模式失败");
-                this.CloseTransactionTimer();
+                this.Failed("启动网络调试模式失败");
             }
         }
         /// <summary>
@@ -2427,13 +2416,13 @@ namespace LightController.PeripheralDevice
         /// <param name="error">失败事件委托</param>
         public void StopIntentPreview(Completed completed, Error error)
         {
+            this.Completed_Event = completed;
+            this.Error_Event = error;
             try
             {
                 if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
-                    this.Completed_Event = completed;
-                    this.Error_Event = error;
                     this.CloseTransactionTimer();
                     this.TransactionTimer = new System.Timers.Timer
                     {
@@ -2445,11 +2434,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络调试模式任务启动失败", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event("关闭网络调试模式任务启动失败");
-                this.CloseTransactionTimer();
+                this.Failed("关闭网络调试模式任务启动失败");
             }
         }
         /// <summary>

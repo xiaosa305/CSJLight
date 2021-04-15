@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Timers;
+using static LightController.PeripheralDevice.BaseCommunication;
 
 namespace LightController.Tools
 {
@@ -84,7 +85,7 @@ namespace LightController.Tools
         }
         public void StartPreview(NetworkConnect communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
         {
-            Thread.Sleep(250);
+            //Thread.Sleep(250);
             this.Communication = communication;
             this.StartIntentPreviewCompleted = completed;
             this.StartIntentPreviewError = error;
@@ -95,24 +96,32 @@ namespace LightController.Tools
             {
                 this.SendTimer.Start();
             }
+            //Thread.Sleep(250);
         }
 
         public void StopPreview()
         {
-            Thread.Sleep(250);
+            //Thread.Sleep(250);
             this.Communication.StopIntentPreview(Compelted, Error);
             this.DebugStatus = false;
-            Thread.Sleep(250);
+            //Thread.Sleep(250);
+        }
+        public void StopPreview(Completed completed,Error error)
+        {
+            //Thread.Sleep(250);
+            this.Communication.StopIntentPreview(completed, error);
+            this.DebugStatus = false;
+            //Thread.Sleep(250);
         }
 
         private void Compelted(Object obj,string msg)
         {
-            Console.WriteLine("PlayTool-StopPreview_Completed");
+            //Console.WriteLine("PlayTool-StopPreview_Completed");
         }
 
         private void Error(string msg)
         {
-            Console.WriteLine("PlayTool-StopPreview_Faild");
+            //Console.WriteLine("PlayTool-StopPreview_Faild");
         }
 
         public static PlayTools GetInstance()

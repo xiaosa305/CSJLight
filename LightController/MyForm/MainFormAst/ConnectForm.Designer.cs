@@ -38,7 +38,7 @@
 			// 
 			// deviceRefreshButton
 			// 
-			this.deviceRefreshButton.Location = new System.Drawing.Point(43, 66);
+			this.deviceRefreshButton.Location = new System.Drawing.Point(45, 66);
 			this.deviceRefreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceRefreshButton.Name = "deviceRefreshButton";
 			this.deviceRefreshButton.Size = new System.Drawing.Size(88, 31);
@@ -53,10 +53,10 @@
 			this.deviceComboBox.Enabled = false;
 			this.deviceComboBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.deviceComboBox.FormattingEnabled = true;
-			this.deviceComboBox.Location = new System.Drawing.Point(43, 28);
+			this.deviceComboBox.Location = new System.Drawing.Point(45, 28);
 			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceComboBox.Name = "deviceComboBox";
-			this.deviceComboBox.Size = new System.Drawing.Size(215, 20);
+			this.deviceComboBox.Size = new System.Drawing.Size(232, 20);
 			this.deviceComboBox.TabIndex = 24;
 			// 
 			// deviceConnectButton
@@ -64,7 +64,7 @@
 			this.deviceConnectButton.BackColor = System.Drawing.Color.Tomato;
 			this.deviceConnectButton.Enabled = false;
 			this.deviceConnectButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.deviceConnectButton.Location = new System.Drawing.Point(170, 66);
+			this.deviceConnectButton.Location = new System.Drawing.Point(189, 65);
 			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceConnectButton.Name = "deviceConnectButton";
 			this.deviceConnectButton.Size = new System.Drawing.Size(88, 31);
@@ -79,7 +79,7 @@
             this.myStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 121);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(295, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(322, 22);
 			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 27;
 			this.statusStrip1.Text = "statusStrip1";
@@ -87,7 +87,7 @@
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(280, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(307, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -96,7 +96,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.ClientSize = new System.Drawing.Size(295, 143);
+			this.ClientSize = new System.Drawing.Size(322, 143);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.deviceRefreshButton);
 			this.Controls.Add(this.deviceComboBox);

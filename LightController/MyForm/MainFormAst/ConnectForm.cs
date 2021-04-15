@@ -71,19 +71,18 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void deviceRefreshButton_Click(object sender, EventArgs e)
 		{
+			setNotice("正在搜索设备，请稍候...", false, true);
+
+			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Enabled = false;
 			deviceRefreshButton.Enabled = false;
 			deviceConnectButton.Text = "连接设备"; // 每次点击刷新列表，都需要重连设备
 			deviceConnectButton.Enabled = false;
-
-			//	 刷新前，先清空按键等
-			setNotice("正在搜索设备，请稍候...", false, true);
-			deviceComboBox.Items.Clear();
-			deviceComboBox.Text = "";
-			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Enabled = false;
 			Refresh();
 
 			NetworkConnect.ClearDeviceList();
+
 			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
 			foreach (IPAddress ip in ipe.AddressList)

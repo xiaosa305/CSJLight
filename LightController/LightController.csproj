@@ -226,6 +226,12 @@
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.Designer.cs">
       <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainFormAst\NewProjectUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainFormAst\NewProjectUpdateForm.Designer.cs">
+      <DependentUpon>NewProjectUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
@@ -501,6 +507,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainFormAst\NewProjectUpdateForm.resx">
+      <DependentUpon>NewProjectUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Test\XiaosaTestForm.resx">
       <DependentUpon>XiaosaTestForm.cs</DependentUpon>

@@ -22,9 +22,9 @@ using System.Windows.Forms;
 namespace LightController.MyForm
 {
 	public partial class ProjectUpdateForm : Form
-	{
-		private string exportProjectPath; // 
-		private MainFormBase mainForm;		
+	{		
+		private MainFormBase mainForm;
+		private string exportProjectPath;
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
 		private bool isConnected = false; //是否连接
@@ -476,7 +476,6 @@ namespace LightController.MyForm
 			Properties.Settings.Default.Save();
 			refreshConnectButtons(); //pathLabel_TextChanged
 		}
-
 	}
 
 	public class GenerateProjectCallBack : ISaveProjectCallBack

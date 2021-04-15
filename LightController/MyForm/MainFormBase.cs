@@ -24,6 +24,7 @@ using LightController.MyForm.Multiplex;
 using LightController.PeripheralDevice;
 using System.Drawing;
 using LightController.MyForm.MainFormAst;
+using LightController.MyForm.HardwareSet;
 
 namespace LightController.MyForm
 {
@@ -181,7 +182,6 @@ namespace LightController.MyForm
 		// 调试面板
 		public virtual void EnableConnectedButtons(bool connected, bool previewing)
 		{
-			// 是否连接,是否预览中
 			IsConnected = connected;
 			IsPreviewing = previewing;
 		} //设置《连接按钮组》是否可用	
@@ -2555,7 +2555,9 @@ namespace LightController.MyForm
 		{
 			// Mark3.0413  projectUpdateClick()-disConnect
 			//disConnect(); //projectUpdateClick()
-			new ProjectUpdateForm(this).ShowDialog();
+			//new ProjectUpdateForm(this).ShowDialog();
+
+			new NewProjectUpdateForm(this).ShowDialog();
 		}
 
 		#endregion
@@ -2570,6 +2572,18 @@ namespace LightController.MyForm
 			new LightEditor.LightEditorForm(this).ShowDialog();			
 		}
 
+		/// <summary>
+		/// 辅助方法：点击《硬件配置》
+		/// </summary>
+		protected void hardwareSetButtonClick()
+		{
+			if (IsConnected)
+			{
+				playTools.StopPreview();
+				new NewHardwareSetForm(this).ShowDialog();
+			}
+		}
+		
 		/// <summary>
 		/// 辅助方法：点击《固件升级》
 		/// </summary>
@@ -3670,6 +3684,19 @@ namespace LightController.MyForm
 		#endregion
 
 		#region playPanel相关
+			   
+		/// <summary>
+		/// 辅助方法：点击《设备连接》
+		/// </summary>
+		protected void connectButtonClick() {
+
+			//MARK3 0413 
+			if (ConnForm == null)
+			{
+				ConnForm = new ConnectForm(this);
+			}
+			ConnForm.ShowDialog();
+		}
 
 		/// <summary>
 		/// 辅助方法：传入相关对象， 进行设备连接；
@@ -3681,14 +3708,14 @@ namespace LightController.MyForm
 			MyConnect = new NetworkConnect();
 			if (MyConnect.Connect(networkDeviceInfo))
 			{
-				IsConnected = true;
+				EnableConnectedButtons(true, IsPreviewing);
 				return true;
 			}
 			else
 			{
-				IsConnected = false;
+				EnableConnectedButtons(false, IsPreviewing);
 				return false;
-			}
+			}			
 		}
 
 		/// <summary>
@@ -3698,8 +3725,8 @@ namespace LightController.MyForm
 		{
 			playTools.StopPreview();
 			MyConnect.DisConnect();
-			MyConnect = null;	
-			IsConnected = false;
+			MyConnect = null;
+			EnableConnectedButtons(false, IsPreviewing);
 		}
 
 		/// <summary>

@@ -347,8 +347,7 @@
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
 			this.Name = "NewHardwareSetForm";
-			this.Text = "硬件相关";
-			this.Activated += new System.EventHandler(this.NewHardwareSetForm_Activated);
+			this.Text = "硬件配置";
 			this.Load += new System.EventHandler(this.NewHardwareSet_Load);
 			this.tabControl1.ResumeLayout(false);
 			this.hardwarePage.ResumeLayout(false);

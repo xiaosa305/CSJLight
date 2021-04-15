@@ -66,6 +66,7 @@ namespace LightController.PeripheralDevice
         protected string CurrentFileName { get; set; }//当前下载文件名称
         protected bool DownloadProjectStatus { get; set; }//下载状态标记
 
+        protected bool DownloadProjectFlag { get; set; }
 
 
 
@@ -127,17 +128,13 @@ namespace LightController.PeripheralDevice
             {
 
             }
-            //else if (this.SecondOrder == Order.SERVER_SET_SESSION_ID || this.SecondOrder == Order.SERVER_BIND_DEVICE || this.SecondOrder == Order.SERVER_CHANGE_BIND_DEVICE || this.SecondOrder == Order.SERVER_UNBIND_DEVICE || this.SecondOrder == Order.SERVER_GET_DEVICES)
-            //{
-            //    ;
-            //}
             else
             {
                 this.IsStopThread = true;
                 this.IsSending = false;
                 LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
-                this.CloseTransactionTimer();
                 this.CommandFailed("通信超时");
+                this.CloseTransactionTimer();
             }
         }
         /// <summary>
@@ -161,7 +158,6 @@ namespace LightController.PeripheralDevice
         {
             if (TimeOutTimer != null)
             {
-                Console.WriteLine("关闭超时");
                 //LogTools.Debug(Constant.TAG_XIAOSA, "关闭超时定时器");
                 TimeOutTimer.Stop();
             }
@@ -401,7 +397,7 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
-            CommandLogUtils.GetInstance().Enqueue("ORDER ::::  MainOrder: " + this.MainOrder + ";   SecondOrder:" + this.SecondOrder + ";   PackageIndex：" + this.PackIndex + ";    PackageCount" + this.PackCount + "\n");
+            //CommandLogUtils.GetInstance().Enqueue("ORDER ::::  MainOrder: " + this.MainOrder + ";   SecondOrder:" + this.SecondOrder + ";   PackageIndex：" + this.PackIndex + ";    PackageCount" + this.PackCount + "\n");
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -481,12 +477,6 @@ namespace LightController.PeripheralDevice
                         }
                     }
                 }
-                //else if (ReadBuff[0] == 0xBB && ReadBuff[1] == 0xAA && ReadBuff.Count >= 4)
-                //{
-                //    byte[] data = new byte[ReadBuff.Count];
-                //    ReadBuff.CopyTo(data);
-                //    this.ServerReceiveManager(data);
-                //}
                 else
                 {
                     ReadBuff.Clear();
@@ -555,6 +545,29 @@ namespace LightController.PeripheralDevice
         protected void SetErrordEvent(Error error)
         {
             this.Error_Event = error;
+        }
+
+        protected void Successed(Object obj,string msg)
+        {
+            if (this.Completed_Event != null)
+            {
+                this.StopTimeOut();
+                this.CloseTransactionTimer();
+                this.IsSending = false;
+                this.MainOrder = null;
+                this.Completed_Event(obj, msg);
+            }
+        }
+        protected void Failed(string msg)
+        {
+            if (this.Error_Event!= null)
+            {
+                this.StopTimeOut();
+                this.CloseTransactionTimer();
+                this.IsSending = false;
+                this.MainOrder = null;
+                this.Error_Event(msg);
+            }
         }
 
         //透传回复管理
@@ -1937,7 +1950,10 @@ namespace LightController.PeripheralDevice
                 {
                     this.CurrentDownloadCompletedSize += packageData.Count();
                 }
-                this.Send(package.ToArray());
+                if (this.TransactionTimer != null)
+                {
+                    this.Send(package.ToArray());
+                }
             }
             catch (Exception ex) 
             {
@@ -1959,12 +1975,14 @@ namespace LightController.PeripheralDevice
         {
             try
             {
+                this.Completed_Event = completed;
+                this.ProgressEvent = progress;
+                this.Error_Event = error;
                 if ((!this.IsSending) && this.IsConnected())
                 {
+                    Thread.Sleep(500);
                     this.IsSending = true;
-                    this.Completed_Event = completed;
-                    this.ProgressEvent = progress;
-                    this.Error_Event = error;
+                    this.DownloadProjectFlag = false;
                     this.CloseTransactionTimer();
                     this.TransactionTimer = new System.Timers.Timer
                     {
@@ -1973,14 +1991,21 @@ namespace LightController.PeripheralDevice
                     this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadProjectStart(s, e));
                     this.TransactionTimer.Start();
                 }
+                else
+                {
+                    if (!this.IsConnected())
+                    {
+                        this.Failed("设备已断开连接");
+                    }
+                    else
+                    {
+                        this.Failed("设备当前正在执行" + this.MainOrder + "任务");
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载更新任务启动失败", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event("灯光工程下载更新任务启动失败");
-                this.CloseTransactionTimer();
+                this.Failed("灯光工程下载更新任务启动失败");
             }
         }
         /// <summary>
@@ -2010,24 +2035,30 @@ namespace LightController.PeripheralDevice
                     }
                     if (this.DownloadFileToTalSize == 0)
                     {
-                        this.IsSending = false;
-                        this.Error_Event("灯光工程下载更新失败，没有工程文件");
+                        this.Failed("灯光工程下载更新失败，没有工程文件");
                         return;
                     }
                     //发送灯光工程更新启动命令
-                    this.SendOrder(null, Constant.ORDER_BEGIN_SEND, null);
-                    while (this.TransactionTimer != null && this.TransactionTimer.Enabled)
+                    if (this.TransactionTimer != null)
                     {
-                        Console.WriteLine("2021");
+                        this.SendOrder(null, Constant.ORDER_BEGIN_SEND, null);
+                    }
+                    while (this.TransactionTimer != null)
+                    {
                         if (this.DownloadProjectStatus)
                         {
                             this.DownloadProjectStatus = false;
                             break;
                         }
-                        Thread.Sleep(0);
+                        if (this.DownloadProjectFlag)
+                        {
+                            return;
+                        }
+                        Thread.Sleep(15);
                     }
                     foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
                     {
+                        
                         FileInfo info = new FileInfo(filePath);
                         fileName = info.Name;
                         fileSize = info.Length.ToString();
@@ -2035,19 +2066,22 @@ namespace LightController.PeripheralDevice
                         fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                         this.CurrentFileName = fileName;
                         this.SendOrder(null, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        while (this.TransactionTimer != null && this.TransactionTimer.Enabled)
+                        while (this.TransactionTimer != null)
                         {
-                            Console.WriteLine("2040");
                             if (this.DownloadProjectStatus)
                             {
                                 this.DownloadProjectStatus = false;
                                 break;
                             }
-                            Thread.Sleep(0);
+                            if (this.DownloadProjectFlag)
+                            {
+                                return;
+                            }
+                            Thread.Sleep(15);
                         }
                         using (FileStream fileStream = info.OpenRead())
                         {
-                            while ((readSize = fileStream.Read(readBuff, 0, readBuff.Length)) > 0)
+                            while ((readSize = fileStream.Read(readBuff, 0, readBuff.Length)) > 0 && this.TransactionTimer != null)
                             {
                                 if (readSize < PACKAGESIZE)
                                 {
@@ -2057,29 +2091,40 @@ namespace LightController.PeripheralDevice
                                 {
                                     SendDataPackageForDownload(readBuff, readSize, false);
                                 }
-                                while (this.TransactionTimer != null && this.TransactionTimer.Enabled)
+                                while (this.TransactionTimer != null)
                                 {
                                     if (this.DownloadProjectStatus)
                                     {
                                         this.DownloadProjectStatus = false;
                                         break;
                                     }
-                                    Thread.Sleep(1);
+                                    if (this.DownloadProjectFlag)
+                                    {
+                                        return;
+                                    }
+                                    Thread.Sleep(15);
+                                }
+                                if (this.DownloadProjectFlag)
+                                {
+                                    return;
                                 }
                             }
                         }
+                        if (this.DownloadProjectFlag)
+                        {
+                            return;
+                        }
                     }
-                    this.SendOrder(null, Constant.ORDER_END_SEND, null);
+                    if (this.TransactionTimer != null)
+                    {
+                        this.SendOrder(null, Constant.ORDER_END_SEND, null);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载更新已中止", ex);
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.Error_Event("灯光工程下载更新失败");
-                this.CloseTransactionTimer();
-                Console.WriteLine("333333333333333333333");
+                this.Failed("灯光工程下载更新失败");
             }
         }
         /// <summary>
@@ -2492,6 +2537,7 @@ namespace LightController.PeripheralDevice
         private void DownloadProjectReceiveManager(List<byte> data)
         {
             this.StopTimeOut();
+            Console.WriteLine("ReceiveMsg : " + Encoding.Default.GetString(data.ToArray()));
             switch (this.MainOrder)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -2507,9 +2553,7 @@ namespace LightController.PeripheralDevice
                         else
                         {
                             LogTools.Debug(Constant.TAG_XIAOSA,"SD卡容量不足");
-                            this.IsSending = false;
-                            this.Error_Event("SD卡容量不足");
-                            this.CloseTransactionTimer();
+                            this.Failed("SD卡容量不足");
                         }
                     }
                     else if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_BEGIN_ERROR))
@@ -2523,9 +2567,7 @@ namespace LightController.PeripheralDevice
                         {
                             errorMessage = "灯光工程下载失败";
                         }
-                        this.Error_Event(errorMessage);
-                        this.IsSending = false;
-                        this.CloseTransactionTimer();
+                        this.Failed(errorMessage);
                     }
                     break;
                 case Constant.ORDER_PUT:
@@ -2535,23 +2577,19 @@ namespace LightController.PeripheralDevice
                     }
                     else
                     {
-                        this.IsSending = false;
-                        this.Error_Event("灯光工程下载失败");
-                        this.CloseTransactionTimer();
+                        this.Failed("灯光工程下载失败");
                     }
                     break;
                 case Constant.ORDER_END_SEND:
                     if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_ENDSEND_OK))
                     {
                         this.DownloadProjectStatus = true;
-                        this.Completed_Event(null,"灯光工程下载成功");
+                        this.Successed(null,"灯光工程下载成功");
                     }
                     else if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_ENDSEND_ERROR))
                     {
-                        this.Error_Event("灯光工程下载失败");
+                        this.Failed("灯光工程下载失败");
                     }
-                    this.IsSending = false;
-                    this.CloseTransactionTimer();
                     break;
             }
         }
@@ -2638,15 +2676,11 @@ namespace LightController.PeripheralDevice
         {
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_START_DEBUG_OK))
             {
-                this.StopTimeOut();
-                this.IsSending = false;
-                this.CloseTransactionTimer();
-                this.Completed_Event(null, "启动网络模拟调试成功");
+                this.Successed(null, "启动网络模拟调试成功");
             }
             else
             {
-                LogTools.Debug(Constant.TAG_XIAOSA, "启动网络模拟调试失败");
-                this.Error_Event("启动网络模拟调试失败");
+                this.Failed("启动网络模拟调试失败");
             }
            
         }
@@ -2656,10 +2690,7 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void StopIntentPreviewReceiveManager(List<byte> data)
         {
-            this.StopTimeOut();
-            this.IsSending = false;
-            this.CloseTransactionTimer();
-            this.Completed_Event(null, "关闭网络调试模拟成功");
+            this.Successed(null, "关闭网络调试模拟成功");
         }
         /// <summary>
         /// 功能：关闭灯光控制事务定时器
@@ -2668,9 +2699,10 @@ namespace LightController.PeripheralDevice
         {
             if (this.TransactionTimer != null)
             {
+                this.TransactionTimer.Enabled = false;
                 this.TransactionTimer.Stop();
+                this.DownloadProjectFlag = true;
                 this.TransactionTimer = null;
-                Console.WriteLine("2673");
             }
         }
         /// <summary>

@@ -84,6 +84,7 @@ namespace LightController.Tools
         }
         public void StartPreview(NetworkConnect communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
         {
+            Thread.Sleep(500);
             this.Communication = communication;
             this.StartIntentPreviewCompleted = completed;
             this.StartIntentPreviewError = error;
@@ -98,8 +99,22 @@ namespace LightController.Tools
 
         public void StopPreview()
         {
+            Thread.Sleep(500);
+            this.Communication.StopIntentPreview(Compelted, Error);
             this.DebugStatus = false;
+            Thread.Sleep(500);
         }
+
+        private void Compelted(Object obj,string msg)
+        {
+            Console.WriteLine("PlayTool-StopPreview_Completed");
+        }
+
+        private void Error(string msg)
+        {
+            Console.WriteLine("PlayTool-StopPreview_Faild");
+        }
+
         public static PlayTools GetInstance()
         {
             if (Instance == null)

@@ -554,7 +554,6 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.CloseTransactionTimer();
                 this.IsSending = false;
-                Console.WriteLine("11111111111111111111" + IsSending);
                 this.MainOrder = null;
                 this.Completed_Event(obj, msg);
             }
@@ -2445,7 +2444,6 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                Console.WriteLine("StopDebug");
                 this.SecondOrder = Order.STOP_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_END_DEBUG, null);
                 this.StopTimeOut();

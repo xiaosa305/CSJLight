@@ -2551,6 +2551,7 @@ namespace LightController.MyForm
 
 			if (IsConnected)
 			{
+                Console.WriteLine("DEKEY_____STOP");
 				playTools.StopPreview();
 				new NewProjectUpdateForm(this).ShowDialog();
 			}
@@ -3730,7 +3731,8 @@ namespace LightController.MyForm
 		/// </summary>
 		public void StartDebug()
 		{
-			if (IsConnected) {				
+			if (IsConnected) {
+                Console.WriteLine("DIKEV");
 				playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 			}			
 		}

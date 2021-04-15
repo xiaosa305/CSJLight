@@ -112,18 +112,14 @@ namespace LightController.PeripheralDevice
                 int count = connect.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    //LogTools.Debug(Constant.TAG_XIAOSA, "设备断开连接");
                     return;
                 }
                 else
                 {
                     byte[] buff = new byte[count];
                     Array.Copy(connect.ReceiveBuff, buff, count);
-                    for (int i = 0; i < count; i++)
-                    {
-                        ReadBuff.Add(buff[i]);
-                        this.Receive();
-                    }
+                    ReadBuff.AddRange(buff);
+                    this.Receive();
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
                     this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
                 }

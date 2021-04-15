@@ -38,13 +38,16 @@ namespace LightController.MyForm.MainFormAst
 				Properties.Settings.Default.exportProjectPath = null;
 				Properties.Settings.Default.Save();
 			}
+			refreshUpdateButton();  // 初始化
 		}
 
 		private void NewProjectUpdateForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			Control.CheckForIllegalCrossThreadCalls = false;
 			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
 			if (!mainForm.IsConnected) Dispose();
+			
 		}
 
 		/// <summary>
@@ -206,6 +209,14 @@ namespace LightController.MyForm.MainFormAst
 			exportProjectPath = pathLabel.Text;
 			Properties.Settings.Default.exportProjectPath = exportProjectPath;
 			Properties.Settings.Default.Save();
+			refreshUpdateButton();
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新《工程更新》按键是否可用（启动后 及 更改路径Lable后执行）
+		/// </summary>
+		private void refreshUpdateButton()
+		{
 			updateButton.Enabled = mainForm.IsConnected && (!string.IsNullOrEmpty(mainForm.GlobalIniPath) || !string.IsNullOrEmpty(exportProjectPath));
 		}
 

@@ -101,17 +101,13 @@ namespace LightController.Tools
 
         public void StopPreview()
         {
-            //Thread.Sleep(250);
             this.Communication.StopIntentPreview(Compelted, Error);
             this.DebugStatus = false;
-            //Thread.Sleep(250);
         }
         public void StopPreview(Completed completed,Error error)
         {
-            //Thread.Sleep(250);
             this.Communication.StopIntentPreview(completed, error);
             this.DebugStatus = false;
-            //Thread.Sleep(250);
         }
 
         private void Compelted(Object obj,string msg)
@@ -167,6 +163,7 @@ namespace LightController.Tools
         public void StopSend()
         {
             this.DebugStatus = false;
+            this.Communication = null;
         }
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {

@@ -25,9 +25,7 @@ namespace LightController.PeripheralDevice
         private int BuffCount { get; set; }
         //901灯控功能设备搜索
         private const int UDP_INTENT_PREVIEW_PORT = 7080;
-        private static Dictionary<string, Dictionary<string, NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
         private Socket IntentPreviewUDPSender { get; set; }
-        private static SeachDeviceUtils SeachDeviceUtils { get; set; }
         public NetworkConnect()
         {
             this.Init();
@@ -136,6 +134,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
+                PlayTools.GetInstance().StopSend();
                 if (this.Socket != null)
                 {
                     if (this.Socket.Connected)

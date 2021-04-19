@@ -112,6 +112,7 @@
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.ConnectForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConnectForm_FormClosed);
 			this.Load += new System.EventHandler(this.ConnectForm_Load);
+			this.Shown += new System.EventHandler(this.ConnectForm_Shown);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);

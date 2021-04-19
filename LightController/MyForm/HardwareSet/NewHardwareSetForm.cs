@@ -47,8 +47,17 @@ namespace LightController.MyForm.HardwareSet
 
 		private void NewHardwareSet_Load(object sender, EventArgs e)
 		{
-			Location = MousePosition;
-			readButton_Click(null, null); 
+			Location = MousePosition;			
+		}
+
+		/// <summary>
+		/// 界面都加载后才执行的事件，比Activated没那么容易误触。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewHardwareSetForm_Shown(object sender, EventArgs e)
+		{
+			readButton_Click(null, null);
 		}
 
 		#region 硬件配置相关
@@ -60,15 +69,9 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="e"></param>
 		private void readButton_Click(object sender, EventArgs e)
 		{
-			if (mainForm.MyConnect.GetParam(GetParamCompleted, GetParamError))
-			{
-				SetNotice("正在回读设备信息，请稍候...", false, true);
-			}
-			else
-			{
-				Thread.Sleep(100);
-				readButton_Click(null,null);
-			}
+			setNotice("正在回读设备信息，请稍候...", false, true);
+			mainForm.SleepBetweenSend(1);
+			mainForm.MyConnect.GetParam(GetParamCompleted, GetParamError);			
 		}
 
 		/// <summary>
@@ -81,7 +84,7 @@ namespace LightController.MyForm.HardwareSet
 			{
 				ch = obj as CSJ_Hardware;
 				SetParamFromCH();
-				SetNotice("成功回读硬件配置。", false, true);
+				setNotice("成功回读硬件配置。", false, true);
 			});
 		}
 
@@ -93,7 +96,7 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("回读配置失败[" + msg + "]", true, false);
+				setNotice("回读配置失败[" + msg + "]", true, false);
 			});
 		}
 
@@ -128,14 +131,14 @@ namespace LightController.MyForm.HardwareSet
 		{
 			if (!checkAllFormat())
 			{
-				SetNotice("有异常参数，请校对后重试！", false, true);
+				setNotice("有异常参数，请校对后重试！", false, true);
 				return;
 			}
-			
-			// 写入配置			
-			SetNotice("正在写入配置到设备，请稍候...", false, true);
-			//setBusy(true);
 
+			// 写入配置			
+			setBusy(true);
+			setNotice("正在写入配置到设备，请稍候...", false, true);
+			
 			//MARK0412 修改 《写入硬件配置》的入参
 			ch.DeviceName = deviceNameTextBox.Text.Trim();
 			ch.IP = IPTextBox.Text.Trim();
@@ -154,9 +157,9 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				mainForm.DisConnect();
-				SetBusy(false);
-				SetNotice("成功写入配置，设备需要重启。请等待5s后再重搜并连接设备...", true, true);				
+				mainForm.DisConnect(); // PutParamCompleted 参数下载成功后，主动断开连接
+				setBusy(false);
+				setNotice("成功写入配置，设备需要重启。请等待5s后再重搜并连接设备...", true, true);				
 				mainForm.ConnForm.ShowDialog();
 			});
 		}
@@ -169,8 +172,8 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("下载配置失败[" + msg + "]", true, false);
-				SetBusy(false);
+				setNotice("下载配置失败[" + msg + "]", true, false);
+				setBusy(false);
 			});
 		}
 
@@ -205,17 +208,17 @@ namespace LightController.MyForm.HardwareSet
 		{
 			if (string.IsNullOrEmpty(xbinPath))
 			{
-				SetNotice("尚未选择xbin文件，请在选择后重试。", true, true);
+				setNotice("尚未选择xbin文件，请在选择后重试。", true, true);
 				return;
 			}
 
 			if (!mainForm.IsConnected)
 			{
-				SetNotice("尚未连接设备，请连接后重试。", true, true);
+				setNotice("尚未连接设备，请连接后重试。", true, true);
 				return;
 			}
 
-			SetBusy(true);
+			setBusy(true);
 			mainForm.MyConnect.UpdateDeviceSystem(xbinPath, UpdateCompleted, UpdateError, DrawProgress);
 		}
 
@@ -227,13 +230,13 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("硬件升级成功，设备将自动重启，请稍等片刻后重新连接。", true, true);
+				setNotice("硬件升级成功，设备将自动重启，请稍等片刻后重新连接。", true, true);
 
 				Thread.Sleep(5000);
 				myProgressBar.Value = 0;
 				progressStatusLabel.Text = "";
 
-				SetBusy(false);
+				setBusy(false);
 			});
 		}
 
@@ -245,10 +248,10 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("固件升级失败[" + msg + "]", true, false);
+				setNotice("固件升级失败[" + msg + "]", true, false);
 				myProgressBar.Value = 0;
 				progressStatusLabel.Text = "";
-				SetBusy(false);
+				setBusy(false);
 			});
 		}
 
@@ -259,14 +262,13 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="progress"></param>
 		public void DrawProgress(string fileName, int progressPercent)
 		{
-			SetNotice("正在升级固件，请稍候...", false, true);
+			setNotice("正在升级固件，请稍候...", false, true);
 			myProgressBar.Value = progressPercent;
 			progressStatusLabel.Text = progressPercent + "%";
 			statusStrip1.Refresh();
 		}
 
 		#endregion
-
 
 		#region 通用方法
 
@@ -275,7 +277,7 @@ namespace LightController.MyForm.HardwareSet
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		public void SetNotice(string msg, bool messageBoxShow, bool isTranslate)
+		private void setNotice(string msg, bool messageBoxShow, bool isTranslate)
 		{
 			if (isTranslate)
 			{
@@ -294,7 +296,7 @@ namespace LightController.MyForm.HardwareSet
 		/// 辅助方法：设定忙时（鼠标的变化）
 		/// </summary>
 		/// <param name="busy"></param>
-		public void SetBusy(bool busy)
+		private void setBusy(bool busy)
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 			Enabled = !busy;
@@ -439,8 +441,9 @@ namespace LightController.MyForm.HardwareSet
 		}
 
 
+
 		#endregion
 
-		
+
 	}
 }

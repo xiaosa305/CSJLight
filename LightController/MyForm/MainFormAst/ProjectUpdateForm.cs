@@ -164,7 +164,7 @@ namespace LightController.MyForm
 					{
 						NetworkConnect.SearchDevice(ip.ToString());
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(ConnectForm.NETWORK_WAITTIME);
+						Thread.Sleep(ConnectForm.SEARCH_WAITTIME);
 					}
 				}
 
@@ -361,10 +361,10 @@ namespace LightController.MyForm
 		/// <param name="zipPath"></param>
 		public void GenerateSourceZip(string zipPath)
 		{
-			if (mainForm.GenerateSourceProject())
-			{
-				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");
-			}
+			//if (mainForm.GenerateSourceProject())
+			//{
+			//	ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");
+			//}
 		}
 
 		/// <summary>

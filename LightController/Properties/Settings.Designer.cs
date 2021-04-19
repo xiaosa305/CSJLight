@@ -82,5 +82,17 @@ namespace LightController.Properties {
                 this["exportProjectPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool updateExported {
+            get {
+                return ((bool)(this["updateExported"]));
+            }
+            set {
+                this["updateExported"] = value;
+            }
+        }
     }
 }

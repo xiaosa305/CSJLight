@@ -9,23 +9,25 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.MyForm.MainFormAst
 {
 	public partial class NewProjectUpdateForm : Form
 	{
-		private MainFormBase mainForm;
+		public MainFormBase MainForm;
 		private string exportProjectPath;
 
 		public NewProjectUpdateForm(MainFormBase mainForm)
 		{
-			this.mainForm = mainForm;
+			this.MainForm = mainForm;
 
 			InitializeComponent();
 
-			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。");
+			exportedCheckBox.Checked = Properties.Settings.Default.updateExported;
 
+			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。");
 			// 当注册表内存储的文件夹不存在时，直接设为null并保存起来
 			exportProjectPath = Properties.Settings.Default.exportProjectPath;
 			if (Directory.Exists(exportProjectPath))
@@ -38,7 +40,9 @@ namespace LightController.MyForm.MainFormAst
 				Properties.Settings.Default.exportProjectPath = null;
 				Properties.Settings.Default.Save();
 			}
-			refreshUpdateButton();  // 初始化
+
+			refreshButtons();  // 初始化
+			
 		}
 
 		private void NewProjectUpdateForm_Load(object sender, EventArgs e)
@@ -48,13 +52,37 @@ namespace LightController.MyForm.MainFormAst
 			LanguageHelper.TranslateControl(this);
 			
 			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
-			if (!mainForm.IsConnected) Dispose();			
+			if (!MainForm.IsConnected) Dispose();			
 		}
 
 		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Dispose();
-			mainForm.Activate();
+			MainForm.Activate();
+		}
+
+		/// <summary>
+		///  事件：当pathLable发生变化后，更改exportProjectPath的值(保存在注册表中)；并刷新各个按键的可用性
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void pathLabel_TextChanged(object sender, EventArgs e)
+		{
+			exportProjectPath = pathLabel.Text;
+			Properties.Settings.Default.exportProjectPath = exportProjectPath;
+			Properties.Settings.Default.Save();
+			refreshButtons();
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新《工程更新》按键是否可用（启动后 及 更改路径Lable后执行）
+		/// </summary>
+		private void refreshButtons()
+		{
+			dirPanel.Visible = exportedCheckBox.Checked;
+			updateButton.Enabled = MainForm.IsConnected && //必要条件
+				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《更新已有工程》
+				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择更新当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
 		}
 
 		/// <summary>
@@ -71,13 +99,15 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 事件：点击《清空》按钮
+		/// 事件：选中《更新当前工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void dirClearButton_Click(object sender, EventArgs e)
+		private void currentCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			pathLabel.Text = null;
+			refreshButtons();
+			Properties.Settings.Default.updateExported = exportedCheckBox.Checked ;
+			Properties.Settings.Default.Save();
 		}
 
 		/// <summary>
@@ -87,75 +117,39 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void updateButton_Click(object sender, EventArgs e)
 		{
-			SetBusy(true);
-			bool generateNow = false;
-			DBWrapper dbWrapper = mainForm.GetDBWrapper(false);
-
-			if (string.IsNullOrEmpty(exportProjectPath))
-			{
-				DialogResult dr = MessageBox.Show(
+			// 0.最开始的提示
+			DialogResult dr = MessageBox.Show(
 					LanguageHelper.TranslateSentence("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
 					LanguageHelper.TranslateSentence("是否继续更新工程?"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
-				if (dr == DialogResult.Cancel)
-				{
-					SetBusy(false);
-					return;
-				}
-
-				dr = MessageBox.Show(
-					LanguageHelper.TranslateSentence("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？"),
-					LanguageHelper.TranslateSentence("是否实时导出工程?"),
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
-				if (dr == DialogResult.Cancel)
-				{
-					SetBusy(false);
-					return;
-				}
-
-				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
-				{
-					SetNotice("当前工程无灯具，无法更新工程。", true, true);
-					SetBusy(false);
-					return;
-				}
-				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
-			}
-			//若用户选择了已存在目录，则需要验证是否空目录
-			else
+			if (dr == DialogResult.Cancel)	return;
+			
+			// 1.决定更新后，先设为忙时
+			SetBusy(true);
+			
+			// 1.1更新已有工程
+			if (exportedCheckBox.Checked) 
 			{
-				if (Directory.GetFiles(exportProjectPath).Length == 0)
+				if (string.IsNullOrEmpty(exportProjectPath) || Directory.GetFiles(exportProjectPath).Length == 0)
 				{
-					SetNotice("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。", true, true);
+					SetNotice("未选择工程目录或所选目录为空，无法更新工程。请选择正确的已有工程目录，并重新更新。", true, true);
 					SetBusy(false);
 					return;
 				}
-			}
-
-			if (generateNow)
-			{
-				SetNotice("正在实时生成工程数据，请耐心等待...", false, true);
-				// MARK3.0415
-				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, mainForm.GlobalIniPath, new NewGenerateProjectCallBack(this));
-			}
-			else
-			{
 				FileUtils.CopyFileToDownloadDir(exportProjectPath);
 				DownloadProject();
 			}
-		}
-		
-		/// <summary>
-		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的Source也要压缩到这里来（Source.zip）
-		/// </summary>
-		/// <param name="zipPath"></param>
-		public void GenerateSourceZip(string zipPath)
-		{
-			if (mainForm.GenerateSourceProject())
-			{
-				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");
+			// 1.2更新当前工程
+			else {			
+				if (string.IsNullOrEmpty(MainForm.GlobalIniPath) )
+				{
+					SetNotice("主界面尚未打开工程，无法更新工程。", true, true);
+					SetBusy(false);
+					return;
+				}
+				SetNotice("正在实时生成工程数据，请耐心等待...", false, true);
+				DataConvertUtils.SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, new NewGenerateProjectCallBack(this) );
 			}
 		}
 
@@ -164,7 +158,8 @@ namespace LightController.MyForm.MainFormAst
 		/// </summary>
 		public void DownloadProject()
 		{
-			mainForm.MyConnect.DownloadProject(DownloadCompleted, DownloadError, DrawProgress);
+			MainForm.SleepBetweenSend(1);
+			MainForm.MyConnect.DownloadProject(DownloadCompleted, DownloadError, DrawProgress);
 		}
 
 		/// <summary>
@@ -204,28 +199,7 @@ namespace LightController.MyForm.MainFormAst
 		{
 			SetNotice(string.IsNullOrEmpty(fileName) ? "" : LanguageHelper.TranslateSentence("正在传输文件：") + fileName, false, false);
 			myProgressBar.Value = progressPercent;
-		}	
-
-		/// <summary>
-		///  当pathLable发生变化后，更改exportProjectPath的值(保存在注册表中)；并刷新各个按键的可用性
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void pathLabel_TextChanged(object sender, EventArgs e)
-		{
-			exportProjectPath = pathLabel.Text;
-			Properties.Settings.Default.exportProjectPath = exportProjectPath;
-			Properties.Settings.Default.Save();
-			refreshUpdateButton();
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新《工程更新》按键是否可用（启动后 及 更改路径Lable后执行）
-		/// </summary>
-		private void refreshUpdateButton()
-		{
-			updateButton.Enabled = mainForm.IsConnected && (!string.IsNullOrEmpty(mainForm.GlobalIniPath) || !string.IsNullOrEmpty(exportProjectPath));
-		}
+		}		
 
 		#region 通用方法
 
@@ -271,11 +245,12 @@ namespace LightController.MyForm.MainFormAst
 
 		#endregion
 
+		
 	}
 
 	public class NewGenerateProjectCallBack : ISaveProjectCallBack
 	{
-		private NewProjectUpdateForm puForm;
+		private NewProjectUpdateForm puForm;		
 
 		public NewGenerateProjectCallBack(NewProjectUpdateForm puForm)
 		{
@@ -287,7 +262,7 @@ namespace LightController.MyForm.MainFormAst
 			puForm.SetNotice("数据生成成功，即将传输数据到设备。", false, true);
 			if (FileUtils.CopyProjectFileToDownloadDir())
 			{
-				puForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
+				puForm.MainForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
 				puForm.DownloadProject();
 			}
 			else

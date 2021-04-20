@@ -448,13 +448,12 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="e"></param>
 		private void restartButton_Click(object sender, EventArgs e)
 		{
-			setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。",true,true);
-			mainForm.MyConnect.ResetDevice();
-
-			mainForm.DisConnect(); 
-			mainForm.ConnForm.ShowDialog();
-
-
+			if (mainForm.IsConnected) {
+				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
+				mainForm.MyConnect.ResetDevice();
+				mainForm.DisConnect();
+				mainForm.ConnForm.ShowDialog();
+			}
 		}
 	}
 }

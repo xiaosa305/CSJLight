@@ -425,7 +425,7 @@ namespace LightController.MyForm
 					{
 						NetworkConnect.SearchDevice(ip.ToString());
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(ConnectForm.NETWORK_WAITTIME);
+						Thread.Sleep(ConnectForm.SEARCH_WAITTIME);
 					}
 				}
 

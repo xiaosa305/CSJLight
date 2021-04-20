@@ -150,6 +150,7 @@ namespace LightController.MyForm
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		public bool IsPreviewing = false; // 是否预览状态中
+		public long LastSendTime ; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；		
 
 		protected ImageList lightImageList;
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）			
@@ -214,7 +215,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：以当前打开的工程信息，生成源文件（Source->工程文件夹、LightLibrary）；
 		/// </summary>
-		public bool GenerateSourceProject()
+		public bool GenerateSourceZip(string zipPath)
 		{
 			try
 			{
@@ -261,6 +262,11 @@ namespace LightController.MyForm
 					foreach (string lightPic in picSet) {
 						File.Copy(SavePath + @"\LightPic\" + lightPic, SavePath +  @"\Source\LightPic\" + lightPic, true);
 					}
+
+					// MARK 3.0416 压缩文件直接继承到同一个方法中，过后把考虑Source工作目录直接删掉；
+					ZipHelper.CompressAllToZip(SavePath+@"\Source", zipPath , 9 ,null ,SavePath+@"\");
+					di = new DirectoryInfo(SavePath + @"\Source");
+					di.Delete(true);
 				}
 			}
 			catch (Exception ex)
@@ -2063,20 +2069,11 @@ namespace LightController.MyForm
 				}
 			}
 						
-			setBusy(true);			
+			setBusy(true);
+			SetNotice("正在压缩源文件,请稍候...", false, true);
 
-			// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
-			if (GenerateSourceProject())
-			{
-				DateTime beforeDT = System.DateTime.Now;
-
-				SetNotice("正在压缩源文件,请稍候..." ,false,true);
-				string dirPath = SavePath + @"\Source";
-				ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
-				SetNotice("已成功压缩源文件(Source.zip)。", false, true);
-
-				DateTime afterDT = System.DateTime.Now;
-				TimeSpan ts = afterDT.Subtract(beforeDT);
+			if ( GenerateSourceZip(zipPath) )
+			{							
 				dr = MessageBox.Show(
 						LanguageHelper.TranslateSentence("成功导出当前工程的源文件,是否打开导出文件夹?"),
 						LanguageHelper.TranslateSentence("打开导出文件夹？"),
@@ -2086,13 +2083,12 @@ namespace LightController.MyForm
 				{
 					System.Diagnostics.Process.Start(exportPath);
 				}
-				setBusy(false);
-				SetNotice("成功导出工程源文件", false, true);
+				SetNotice("已成功压缩源文件(Source.zip)。", false, true);
 			}
-			else {
-				setBusy(false);
+			else {				
 				SetNotice("导出工程源文件失败。", false, true);				
-			}			
+			}
+			setBusy(false);
 		}
 
 		/// <summary>
@@ -2139,7 +2135,6 @@ namespace LightController.MyForm
 						
 			SetNotice("正在导出工程，请稍候...", false, true);
 			setBusy(true);
-
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath));
 		}
 
@@ -2276,14 +2271,15 @@ namespace LightController.MyForm
 					return; //只要出现异常，就一定要退出本方法；
 				}
 
+				SetNotice("正在源文件,请稍候...", false, true);
 				// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
-				if (GenerateSourceProject())
+				if (GenerateSourceZip(exportPath + @"\Source.zip"))
 				{
-					SetNotice("正在压缩源文件,请稍候...",false, true);
-					string dirPath = SavePath + @"\Source";
-					string zipPath = exportPath + @"\Source.zip";
-					ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
 					SetNotice("已成功压缩源文件(Source.zip)。", false, true);
+				}
+				else
+				{
+					SetNotice("Source.zip生成失败。", false, true);
 				}
 
 				DialogResult dr = MessageBox.Show(
@@ -2538,15 +2534,7 @@ namespace LightController.MyForm
 		protected void globalSetClick()
 		{
 			new GlobalSetForm(this).ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：打开《摇麦设置》
-		/// </summary>
-		protected void ymSetClick()
-		{
-			new YMSetForm(this).ShowDialog();
-		}
+		}		
 
 		/// <summary>
 		/// 辅助方法：点击《工程升级》
@@ -2559,8 +2547,7 @@ namespace LightController.MyForm
 
 			if (IsConnected)
 			{
-                Console.WriteLine("DEKEY_____STOP");
-				playTools.StopPreview();
+				stopPreview();
 				new NewProjectUpdateForm(this).ShowDialog();
 			}
 		}
@@ -2584,7 +2571,7 @@ namespace LightController.MyForm
 		{
 			if (IsConnected)
 			{
-				playTools.StopPreview();
+				stopPreview();
 				new NewHardwareSetForm(this).ShowDialog();
 			}
 		}
@@ -3728,7 +3715,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public void DisConnect()
 		{
-			playTools.StopPreview();
+			stopPreview();			
 			MyConnect.DisConnect();
 			MyConnect = null;
 			EnableConnectedButtons(false, IsPreviewing);
@@ -3737,13 +3724,38 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：启动调试，基本只有在界面激活时用得到；
 		/// </summary>
-		public void StartDebug()
+		protected void startPreview()
 		{
 			if (IsConnected) {
-                Console.WriteLine("DIKEV");
-				playTools.StartPreview(MyConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+				SleepBetweenSend(1);
+				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);
 			}			
 		}
+
+		/// <summary>
+		/// 辅助方法：关闭调试
+		/// </summary>
+		public void stopPreview() {
+
+			if (IsConnected) {
+				SleepBetweenSend(1);
+				playTools.StopPreview();
+				Thread.Sleep(3000);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：为硬件发送新命令之前，先检查上次发送的时间，如果时间还不够长，把时间补足；
+		/// </summary>
+		public void SleepBetweenSend(int times) {
+			long currTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;  // 毫秒
+			if (currTime - LastSendTime < ConnectForm.SEND_WAITTIME)
+			{
+				Thread.Sleep(ConnectForm.SEND_WAITTIME * times) ;			
+			}
+			LastSendTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;
+		}
+
 
 		/// <summary>
 		/// 辅助方法：单(多)灯单步发送DMX512帧数据
@@ -4290,31 +4302,18 @@ namespace LightController.MyForm
 		/// 辅助回调方法：设备连接成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ConnectCompleted(Object obj, string msg)
+		public void StartPreviewCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
 				EnableConnectedButtons(true,false);	
 			});
 		}	
-
-		/// <summary>
-		/// 辅助回调方法：设备断开成功
-		/// </summary>
-		/// <param name="obj"></param>
-		public void DisconnectCompleted(Object obj, string msg)
-		{
-			Invoke((EventHandler)delegate {
-				//MARK0413 mainForm.DisconnectCompleted()内调用DisConnect()，主要用于网络连接
-				MyConnect.DisConnect();
-				EnableConnectedButtons(false,false);				
-			});
-		}
 		
 		/// <summary>
 		/// 辅助回调方法：设备连接或断开连接出错
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ConnectAndDisconnectError(string msg)
+		public void StartPreviewError(string msg)
 		{
 			Invoke((EventHandler)delegate	{
 				//MARK0413 ConnectAndDisconnectError()内调用DisConnect()【不论什么情况下，DisConnect都不会出错】

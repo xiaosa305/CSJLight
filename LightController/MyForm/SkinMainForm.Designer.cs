@@ -35,16 +35,21 @@ namespace LightController.MyForm
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinMainForm));
 			this.menuSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
 			this.deviceConnectButton = new CCWin.SkinControl.SkinButton();
 			this.lightLibrarySkinButton = new CCWin.SkinControl.SkinButton();
+			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
-			this.newToolsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectUpdateSkinButton = new CCWin.SkinControl.SkinButton();
+			this.newToolsSkinButton = new CCWin.SkinControl.SkinButton();
+			this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
-			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
+			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
+			this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
+			this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
 			this.helpSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.projectLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -138,6 +143,11 @@ namespace LightController.MyForm
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.menuSkinPanel.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
+			this.flowLayoutPanel2.SuspendLayout();
+			this.flowLayoutPanel3.SuspendLayout();
+			this.flowLayoutPanel4.SuspendLayout();
+			this.flowLayoutPanel5.SuspendLayout();
+			this.flowLayoutPanel6.SuspendLayout();
 			this.projectSkinPanel.SuspendLayout();
 			this.projectLabelSkinPanel.SuspendLayout();
 			this.mySkinContextMenuStrip.SuspendLayout();
@@ -183,21 +193,25 @@ namespace LightController.MyForm
 			// 
 			// flowLayoutPanel1
 			// 
-			this.flowLayoutPanel1.Controls.Add(this.deviceConnectButton);
-			this.flowLayoutPanel1.Controls.Add(this.lightLibrarySkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.hardwareSetSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.newToolsSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.projectUpdateSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.lightListSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.globalSetSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.keepSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.previewSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.makeSoundSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.helpSkinButton);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 7);
+			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel2);
+			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel3);
+			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel4);
+			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel5);
+			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel6);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 3);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(1161, 94);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(1161, 101);
 			this.flowLayoutPanel1.TabIndex = 5;
+			// 
+			// flowLayoutPanel2
+			// 
+			this.flowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
+			this.flowLayoutPanel2.Controls.Add(this.deviceConnectButton);
+			this.flowLayoutPanel2.Controls.Add(this.lightLibrarySkinButton);
+			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(191, 95);
+			this.flowLayoutPanel2.TabIndex = 28;
 			// 
 			// deviceConnectButton
 			// 
@@ -257,6 +271,16 @@ namespace LightController.MyForm
 			this.lightLibrarySkinButton.UseVisualStyleBackColor = false;
 			this.lightLibrarySkinButton.Click += new System.EventHandler(this.lightLibrarySkinButton_Click);
 			// 
+			// flowLayoutPanel3
+			// 
+			this.flowLayoutPanel3.Controls.Add(this.hardwareSetSkinButton);
+			this.flowLayoutPanel3.Controls.Add(this.projectUpdateSkinButton);
+			this.flowLayoutPanel3.Controls.Add(this.newToolsSkinButton);
+			this.flowLayoutPanel3.Location = new System.Drawing.Point(200, 3);
+			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(284, 95);
+			this.flowLayoutPanel3.TabIndex = 28;
+			// 
 			// hardwareSetSkinButton
 			// 
 			this.hardwareSetSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -274,7 +298,7 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.hardwareSetSkinButton.InheritColor = true;
 			this.hardwareSetSkinButton.IsDrawBorder = false;
-			this.hardwareSetSkinButton.Location = new System.Drawing.Point(190, 2);
+			this.hardwareSetSkinButton.Location = new System.Drawing.Point(2, 2);
 			this.hardwareSetSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.hardwareSetSkinButton.MouseBack = null;
 			this.hardwareSetSkinButton.Name = "hardwareSetSkinButton";
@@ -285,6 +309,34 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.hardwareSetSkinButton.UseVisualStyleBackColor = false;
 			this.hardwareSetSkinButton.Click += new System.EventHandler(this.hardwareSetSkinButton_Click);
+			// 
+			// projectUpdateSkinButton
+			// 
+			this.projectUpdateSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.projectUpdateSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.projectUpdateSkinButton.BorderColor = System.Drawing.Color.White;
+			this.projectUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.projectUpdateSkinButton.DownBack = null;
+			this.projectUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.projectUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.projectUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.projectUpdateSkinButton.ForeColorSuit = true;
+			this.projectUpdateSkinButton.Image = global::LightController.Properties.Resources.在线升级;
+			this.projectUpdateSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.projectUpdateSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.projectUpdateSkinButton.InheritColor = true;
+			this.projectUpdateSkinButton.IsDrawBorder = false;
+			this.projectUpdateSkinButton.Location = new System.Drawing.Point(96, 2);
+			this.projectUpdateSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.projectUpdateSkinButton.MouseBack = null;
+			this.projectUpdateSkinButton.Name = "projectUpdateSkinButton";
+			this.projectUpdateSkinButton.NormlBack = null;
+			this.projectUpdateSkinButton.Size = new System.Drawing.Size(90, 90);
+			this.projectUpdateSkinButton.TabIndex = 4;
+			this.projectUpdateSkinButton.Text = "工程更新";
+			this.projectUpdateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.projectUpdateSkinButton.UseVisualStyleBackColor = false;
+			this.projectUpdateSkinButton.Click += new System.EventHandler(this.projectUpdateSkinButton_Click);
 			// 
 			// newToolsSkinButton
 			// 
@@ -304,7 +356,7 @@ namespace LightController.MyForm
 			this.newToolsSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.newToolsSkinButton.InheritColor = true;
 			this.newToolsSkinButton.IsDrawBorder = false;
-			this.newToolsSkinButton.Location = new System.Drawing.Point(284, 2);
+			this.newToolsSkinButton.Location = new System.Drawing.Point(190, 2);
 			this.newToolsSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newToolsSkinButton.MouseBack = null;
 			this.newToolsSkinButton.Name = "newToolsSkinButton";
@@ -316,33 +368,16 @@ namespace LightController.MyForm
 			this.newToolsSkinButton.UseVisualStyleBackColor = false;
 			this.newToolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
 			// 
-			// projectUpdateSkinButton
+			// flowLayoutPanel4
 			// 
-			this.projectUpdateSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.projectUpdateSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.projectUpdateSkinButton.BorderColor = System.Drawing.Color.White;
-			this.projectUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.projectUpdateSkinButton.DownBack = null;
-			this.projectUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.projectUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.projectUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.projectUpdateSkinButton.ForeColorSuit = true;
-			this.projectUpdateSkinButton.Image = global::LightController.Properties.Resources.在线升级;
-			this.projectUpdateSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.projectUpdateSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.projectUpdateSkinButton.InheritColor = true;
-			this.projectUpdateSkinButton.IsDrawBorder = false;
-			this.projectUpdateSkinButton.Location = new System.Drawing.Point(378, 2);
-			this.projectUpdateSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.projectUpdateSkinButton.MouseBack = null;
-			this.projectUpdateSkinButton.Name = "projectUpdateSkinButton";
-			this.projectUpdateSkinButton.NormlBack = null;
-			this.projectUpdateSkinButton.Size = new System.Drawing.Size(90, 90);
-			this.projectUpdateSkinButton.TabIndex = 4;
-			this.projectUpdateSkinButton.Text = "工程更新";
-			this.projectUpdateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.projectUpdateSkinButton.UseVisualStyleBackColor = false;
-			this.projectUpdateSkinButton.Click += new System.EventHandler(this.projectUpdateSkinButton_Click);
+			this.flowLayoutPanel4.BackColor = System.Drawing.Color.Transparent;
+			this.flowLayoutPanel4.Controls.Add(this.lightListSkinButton);
+			this.flowLayoutPanel4.Controls.Add(this.keepSkinButton);
+			this.flowLayoutPanel4.Controls.Add(this.globalSetSkinButton);
+			this.flowLayoutPanel4.Location = new System.Drawing.Point(490, 3);
+			this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+			this.flowLayoutPanel4.Size = new System.Drawing.Size(283, 95);
+			this.flowLayoutPanel4.TabIndex = 6;
 			// 
 			// lightListSkinButton
 			// 
@@ -361,7 +396,7 @@ namespace LightController.MyForm
 			this.lightListSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.lightListSkinButton.InheritColor = true;
 			this.lightListSkinButton.IsDrawBorder = false;
-			this.lightListSkinButton.Location = new System.Drawing.Point(472, 2);
+			this.lightListSkinButton.Location = new System.Drawing.Point(2, 2);
 			this.lightListSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.lightListSkinButton.MouseBack = null;
 			this.lightListSkinButton.Name = "lightListSkinButton";
@@ -372,35 +407,6 @@ namespace LightController.MyForm
 			this.lightListSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightListSkinButton.UseVisualStyleBackColor = false;
 			this.lightListSkinButton.Click += new System.EventHandler(this.lightListSkinButton_Click);
-			// 
-			// globalSetSkinButton
-			// 
-			this.globalSetSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.globalSetSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.globalSetSkinButton.BorderColor = System.Drawing.Color.White;
-			this.globalSetSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.globalSetSkinButton.DownBack = null;
-			this.globalSetSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.globalSetSkinButton.Enabled = false;
-			this.globalSetSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.globalSetSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.globalSetSkinButton.ForeColorSuit = true;
-			this.globalSetSkinButton.Image = global::LightController.Properties.Resources.全局配置;
-			this.globalSetSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.globalSetSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.globalSetSkinButton.InheritColor = true;
-			this.globalSetSkinButton.IsDrawBorder = false;
-			this.globalSetSkinButton.Location = new System.Drawing.Point(566, 2);
-			this.globalSetSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.globalSetSkinButton.MouseBack = null;
-			this.globalSetSkinButton.Name = "globalSetSkinButton";
-			this.globalSetSkinButton.NormlBack = null;
-			this.globalSetSkinButton.Size = new System.Drawing.Size(90, 90);
-			this.globalSetSkinButton.TabIndex = 4;
-			this.globalSetSkinButton.Text = "全局设置";
-			this.globalSetSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.globalSetSkinButton.UseVisualStyleBackColor = false;
-			this.globalSetSkinButton.Click += new System.EventHandler(this.globalSetSkinButton_Click);
 			// 
 			// keepSkinButton
 			// 
@@ -419,7 +425,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.keepSkinButton.InheritColor = true;
 			this.keepSkinButton.IsDrawBorder = false;
-			this.keepSkinButton.Location = new System.Drawing.Point(660, 2);
+			this.keepSkinButton.Location = new System.Drawing.Point(96, 2);
 			this.keepSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.keepSkinButton.MouseBack = null;
 			this.keepSkinButton.Name = "keepSkinButton";
@@ -431,6 +437,44 @@ namespace LightController.MyForm
 			this.keepSkinButton.UseVisualStyleBackColor = false;
 			this.keepSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.keepSkinButton.Click += new System.EventHandler(this.keepSkinButton_Click);
+			// 
+			// globalSetSkinButton
+			// 
+			this.globalSetSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.globalSetSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.globalSetSkinButton.BorderColor = System.Drawing.Color.White;
+			this.globalSetSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.globalSetSkinButton.DownBack = null;
+			this.globalSetSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.globalSetSkinButton.Enabled = false;
+			this.globalSetSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.globalSetSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.globalSetSkinButton.ForeColorSuit = true;
+			this.globalSetSkinButton.Image = global::LightController.Properties.Resources.全局配置;
+			this.globalSetSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.globalSetSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.globalSetSkinButton.InheritColor = true;
+			this.globalSetSkinButton.IsDrawBorder = false;
+			this.globalSetSkinButton.Location = new System.Drawing.Point(190, 2);
+			this.globalSetSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.globalSetSkinButton.MouseBack = null;
+			this.globalSetSkinButton.Name = "globalSetSkinButton";
+			this.globalSetSkinButton.NormlBack = null;
+			this.globalSetSkinButton.Size = new System.Drawing.Size(90, 90);
+			this.globalSetSkinButton.TabIndex = 4;
+			this.globalSetSkinButton.Text = "全局设置";
+			this.globalSetSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.globalSetSkinButton.UseVisualStyleBackColor = false;
+			this.globalSetSkinButton.Click += new System.EventHandler(this.globalSetSkinButton_Click);
+			// 
+			// flowLayoutPanel5
+			// 
+			this.flowLayoutPanel5.Controls.Add(this.previewSkinButton);
+			this.flowLayoutPanel5.Controls.Add(this.makeSoundSkinButton);
+			this.flowLayoutPanel5.Location = new System.Drawing.Point(779, 3);
+			this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+			this.flowLayoutPanel5.Size = new System.Drawing.Size(192, 95);
+			this.flowLayoutPanel5.TabIndex = 28;
 			// 
 			// previewSkinButton
 			// 
@@ -449,7 +493,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(754, 2);
+			this.previewSkinButton.Location = new System.Drawing.Point(2, 2);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";
@@ -479,7 +523,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(848, 2);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(96, 2);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
@@ -490,6 +534,14 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
 			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
+			// 
+			// flowLayoutPanel6
+			// 
+			this.flowLayoutPanel6.Controls.Add(this.helpSkinButton);
+			this.flowLayoutPanel6.Location = new System.Drawing.Point(977, 3);
+			this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+			this.flowLayoutPanel6.Size = new System.Drawing.Size(98, 95);
+			this.flowLayoutPanel6.TabIndex = 28;
 			// 
 			// helpSkinButton
 			// 
@@ -509,7 +561,7 @@ namespace LightController.MyForm
 			this.helpSkinButton.ImageSize = new System.Drawing.Size(60, 60);
 			this.helpSkinButton.InheritColor = true;
 			this.helpSkinButton.IsDrawBorder = false;
-			this.helpSkinButton.Location = new System.Drawing.Point(942, 2);
+			this.helpSkinButton.Location = new System.Drawing.Point(2, 2);
 			this.helpSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.helpSkinButton.MouseBack = null;
 			this.helpSkinButton.Name = "helpSkinButton";
@@ -2044,7 +2096,13 @@ namespace LightController.MyForm
 			this.SizeChanged += new System.EventHandler(this.SkinMainForm_SizeChanged);
 			this.menuSkinPanel.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
-			this.flowLayoutPanel1.PerformLayout();
+			this.flowLayoutPanel2.ResumeLayout(false);
+			this.flowLayoutPanel2.PerformLayout();
+			this.flowLayoutPanel3.ResumeLayout(false);
+			this.flowLayoutPanel3.PerformLayout();
+			this.flowLayoutPanel4.ResumeLayout(false);
+			this.flowLayoutPanel5.ResumeLayout(false);
+			this.flowLayoutPanel6.ResumeLayout(false);
 			this.projectSkinPanel.ResumeLayout(false);
 			this.projectLabelSkinPanel.ResumeLayout(false);
 			this.projectLabelSkinPanel.PerformLayout();
@@ -2191,5 +2249,10 @@ namespace LightController.MyForm
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
 		private Button detailMultiButton;
+		private FlowLayoutPanel flowLayoutPanel2;
+		private FlowLayoutPanel flowLayoutPanel3;
+		private FlowLayoutPanel flowLayoutPanel4;
+		private FlowLayoutPanel flowLayoutPanel5;
+		private FlowLayoutPanel flowLayoutPanel6;
 	}
 }

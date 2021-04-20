@@ -482,5 +482,14 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《摇麦设置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ymButton_Click(object sender, EventArgs e)
+		{
+			new YMSetForm(mainForm.GlobalIniPath).ShowDialog();
+		}
 	}
 }

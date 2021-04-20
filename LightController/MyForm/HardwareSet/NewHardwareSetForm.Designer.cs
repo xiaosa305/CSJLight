@@ -349,6 +349,7 @@
 			this.Name = "NewHardwareSetForm";
 			this.Text = "硬件配置";
 			this.Load += new System.EventHandler(this.NewHardwareSet_Load);
+			this.Shown += new System.EventHandler(this.NewHardwareSetForm_Shown);
 			this.tabControl1.ResumeLayout(false);
 			this.hardwarePage.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);

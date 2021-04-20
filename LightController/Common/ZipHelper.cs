@@ -10,7 +10,7 @@ namespace LightController.Common
 	class ZipHelper
 	{
 		/// <summary>
-		/// 压缩成zip(只压缩文件，不压缩文件夹)
+		/// 把路径下的所有文件压缩成zip
 		/// </summary>
 		/// <param name="dirPath">要压缩的目录全路径</param>
 		/// <param name="zipFile">要生成的zip文件全路径</param>

@@ -17,8 +17,9 @@ namespace LightController.MyForm.MainFormAst
 {
 	public partial class ConnectForm : Form
 	{
-		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+		public static int SEARCH_WAITTIME = 1000; //网络搜索时的通用暂停时间
 		public static int REBOOT_WATITIME = 5000; //设备重启时间
+		public static int SEND_WAITTIME = 500; // 发送指令后等待时间
 		private MainFormBase mainForm;
 		private IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)		
 
@@ -26,8 +27,9 @@ namespace LightController.MyForm.MainFormAst
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			NETWORK_WAITTIME = IniHelper.GetSystemCount("waitTime", 1000);
+			SEARCH_WAITTIME = IniHelper.GetSystemCount("waitTime", 1000);
 			REBOOT_WATITIME = IniHelper.GetSystemCount("rebootTime", 5000);
+			SEND_WAITTIME = IniHelper.GetSystemCount("sendTime", 500);
 		}
 
 		/// <summary>
@@ -41,15 +43,33 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 事件：窗口激活后执行(好处是窗口不会延时打开，避免用户以为没有点到《设备连接》)
+		///  介于Load和Activate之间的一个事件：可以使得某些操作在界面加载完成才继续操作(Load则需完成后才渲染出来)，但又可以避免Activated事件每次重获焦点就执行的缺陷；
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ConnectForm_Activated(object sender, EventArgs e)
+		private void ConnectForm_Shown(object sender, EventArgs e)
 		{
+			Console.WriteLine("ConnectForm_Shown ");
 			if (!mainForm.IsConnected)
 			{
 				deviceRefreshButton_Click(null, null);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《（右上角）?》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ConnectForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			e.Cancel = true;
+			if (DialogResult.Yes == MessageBox.Show("设备出厂时的默认IP地址为192.168.2.10；如果当前电脑当前不在此网段内(即本机IP非192.168.2.X)，将无法搜到设备。是否要打开《网络连接》设置本地IP?",
+				"设置IP？",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question))
+			{
+				System.Diagnostics.Process.Start("ncpa.cpl");
 			}
 		}
 
@@ -91,7 +111,7 @@ namespace LightController.MyForm.MainFormAst
 				{
 					NetworkConnect.SearchDevice(ip.ToString());
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-					Thread.Sleep(NETWORK_WAITTIME);
+					Thread.Sleep(SEARCH_WAITTIME);
 				}
 			}
 
@@ -134,22 +154,28 @@ namespace LightController.MyForm.MainFormAst
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
 			if (mainForm.IsConnected)
 			{
-				mainForm.DisConnect();
+				setNotice("正在断开连接，请稍候...", false, true);
+				mainForm.DisConnect();  // deviceConnectButton_Click() 主动断开连接
+				deviceComboBox.Enabled = true;
+				deviceRefreshButton.Enabled = true;
 				deviceConnectButton.Text = "连接设备";
 				setNotice("已断开连接。", false, true);
 			}
 			else
 			{
+				setNotice("正在连接设备，请稍候...",false,true);
 				if (mainForm.Connect(networkDeviceList[deviceComboBox.SelectedIndex]))
-				{
-					deviceConnectButton.Text = "断开连接";
+				{					
 					setNotice("设备连接成功。", false, true);
+					deviceComboBox.Enabled = false;
+					deviceRefreshButton.Enabled = false;
+					deviceConnectButton.Text = "断开连接";
 				}
 				else
 				{
 					setNotice("设备连接失败，请刷新设备列表后重试。", true, true);
 				}
-			}
+			}		
 		}
 
 		/// <summary>
@@ -185,8 +211,8 @@ namespace LightController.MyForm.MainFormAst
 			statusStrip1.Refresh();
 		}
 
-
 		#endregion
+
 
 	}	
 }

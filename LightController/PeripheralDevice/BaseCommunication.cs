@@ -225,6 +225,9 @@ namespace LightController.PeripheralDevice
                 case Constant.ORDER_END_DEBUG:
                     result = this.GetOrderForStopIntentPreviewMark();
                     break;
+                case "Reset":
+                    result = 0x01;
+                    break;
             }
             return result;
         }

@@ -38,7 +38,7 @@
 			// 
 			// deviceRefreshButton
 			// 
-			this.deviceRefreshButton.Location = new System.Drawing.Point(40, 63);
+			this.deviceRefreshButton.Location = new System.Drawing.Point(33, 66);
 			this.deviceRefreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceRefreshButton.Name = "deviceRefreshButton";
 			this.deviceRefreshButton.Size = new System.Drawing.Size(88, 31);
@@ -53,10 +53,10 @@
 			this.deviceComboBox.Enabled = false;
 			this.deviceComboBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.deviceComboBox.FormattingEnabled = true;
-			this.deviceComboBox.Location = new System.Drawing.Point(40, 27);
+			this.deviceComboBox.Location = new System.Drawing.Point(24, 26);
 			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceComboBox.Name = "deviceComboBox";
-			this.deviceComboBox.Size = new System.Drawing.Size(210, 20);
+			this.deviceComboBox.Size = new System.Drawing.Size(243, 20);
 			this.deviceComboBox.TabIndex = 24;
 			// 
 			// deviceConnectButton
@@ -64,7 +64,7 @@
 			this.deviceConnectButton.BackColor = System.Drawing.Color.Tomato;
 			this.deviceConnectButton.Enabled = false;
 			this.deviceConnectButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.deviceConnectButton.Location = new System.Drawing.Point(162, 63);
+			this.deviceConnectButton.Location = new System.Drawing.Point(169, 66);
 			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceConnectButton.Name = "deviceConnectButton";
 			this.deviceConnectButton.Size = new System.Drawing.Size(88, 31);

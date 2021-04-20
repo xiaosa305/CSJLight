@@ -114,7 +114,6 @@ namespace LightController.MyForm.HardwareSet
 				gatewayTextBox.Text = ch.GateWay;
 				macTextBox.Text = ch.Mac;
 				macCheckBox.Checked = macTextBox.Text.Trim().Equals("00-00-00-00-00-00");
-
 			}
 			catch (Exception ex)
 			{
@@ -439,11 +438,23 @@ namespace LightController.MyForm.HardwareSet
 			}
 			return result;
 		}
-
-
-
+		
 		#endregion
 
+		/// <summary>
+		/// 事件：点击《设备重启》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void restartButton_Click(object sender, EventArgs e)
+		{
+			setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。",true,true);
+			//mainForm.MyConnect
 
+			mainForm.DisConnect(); 
+			mainForm.ConnForm.ShowDialog();
+
+
+		}
 	}
 }

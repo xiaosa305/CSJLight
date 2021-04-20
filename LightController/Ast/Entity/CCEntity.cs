@@ -5,6 +5,7 @@ using System.Text;
 
 namespace LightController.Entity
 {
+	[Serializable]
 	public class CCEntity
 	{
 		public string ProtocolName { get; set; }

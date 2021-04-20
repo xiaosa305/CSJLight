@@ -243,9 +243,7 @@ namespace LightController.MyForm.MainFormAst
 			LanguageHelper.TranslateControl(sender as Button);
 		}
 
-		#endregion
-
-		
+		#endregion		
 	}
 
 	public class NewGenerateProjectCallBack : ISaveProjectCallBack

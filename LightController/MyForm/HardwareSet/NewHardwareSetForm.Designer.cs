@@ -54,11 +54,14 @@
 			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.progressStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.debugPage = new System.Windows.Forms.TabPage();
+			this.restartButton = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.hardwarePage.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.firmwarePage.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
+			this.debugPage.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label5
@@ -198,6 +201,7 @@
 			// 
 			this.tabControl1.Controls.Add(this.hardwarePage);
 			this.tabControl1.Controls.Add(this.firmwarePage);
+			this.tabControl1.Controls.Add(this.debugPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
@@ -338,6 +342,26 @@
 			// 
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			// 
+			// debugPage
+			// 
+			this.debugPage.Controls.Add(this.restartButton);
+			this.debugPage.Location = new System.Drawing.Point(4, 22);
+			this.debugPage.Name = "debugPage";
+			this.debugPage.Size = new System.Drawing.Size(526, 261);
+			this.debugPage.TabIndex = 2;
+			this.debugPage.Text = "设备调试";
+			this.debugPage.UseVisualStyleBackColor = true;
+			// 
+			// restartButton
+			// 
+			this.restartButton.Location = new System.Drawing.Point(423, 194);
+			this.restartButton.Name = "restartButton";
+			this.restartButton.Size = new System.Drawing.Size(75, 38);
+			this.restartButton.TabIndex = 0;
+			this.restartButton.Text = "设备重启";
+			this.restartButton.UseVisualStyleBackColor = true;
+			this.restartButton.Click += new System.EventHandler(this.restartButton_Click);
+			// 
 			// NewHardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -357,6 +381,7 @@
 			this.firmwarePage.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			this.debugPage.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -389,5 +414,7 @@
 		private System.Windows.Forms.ToolStripProgressBar myProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel progressStatusLabel;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
+		private System.Windows.Forms.TabPage debugPage;
+		private System.Windows.Forms.Button restartButton;
 	}
 }

@@ -182,6 +182,7 @@
     <Compile Include="Common\InHelper_UTF8.cs" />
     <Compile Include="Common\LanguageHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
+    <Compile Include="Common\SerializeUtils.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
@@ -407,6 +408,18 @@
     <Compile Include="MyForm\HardwareSet\HardwareSaveForm.Designer.cs">
       <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\OtherTools\ProtocolDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\ProtocolDataForm.Designer.cs">
+      <DependentUpon>ProtocolDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\ToolsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\ToolsForm.Designer.cs">
+      <DependentUpon>ToolsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\SkinMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -510,6 +523,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\NewProjectUpdateForm.resx">
       <DependentUpon>NewProjectUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\OtherTools\ProtocolDataForm.resx">
+      <DependentUpon>ProtocolDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
+      <DependentUpon>ToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Test\XiaosaTestForm.resx">
       <DependentUpon>XiaosaTestForm.cs</DependentUpon>
@@ -866,7 +885,7 @@
     <Content Include="irisSkins\XPSilver.ssk">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Controller.xls">
+    <None Include="Protocol\Controller.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

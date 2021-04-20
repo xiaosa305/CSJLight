@@ -5,6 +5,7 @@ using System.Text;
 
 namespace LightController.Entity
 {
+	[Serializable]
 	public class CCData
 	{
 		public string Function { get; set; }

@@ -94,5 +94,29 @@ namespace LightController.Properties {
                 this["updateExported"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int protocolIndex {
+            get {
+                return ((int)(this["protocolIndex"]));
+            }
+            set {
+                this["protocolIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int toolIndex {
+            get {
+                return ((int)(this["toolIndex"]));
+            }
+            set {
+                this["toolIndex"] = value;
+            }
+        }
     }
 }

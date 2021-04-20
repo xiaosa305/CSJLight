@@ -70,7 +70,7 @@ namespace OtherTools
 
 		private bool isReadLC = false;  // 是否已回读灯控配置？
 		private bool isReadXLS = false; // 是否已加载XLS文件
-		private string protocolXlsPath = Application.StartupPath + @"\Controller.xls"; //默认的中控配置文件路径
+		private string protocolXlsPath = Application.StartupPath + @"\Protocol\Controller.xls"; //默认的中控配置文件路径
 		private HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射
 		private IList<string> sheetList;  // 每个不同的sheet的列表（不同协议在不同的sheet中）
 

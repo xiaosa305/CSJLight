@@ -25,6 +25,7 @@ using LightController.PeripheralDevice;
 using System.Drawing;
 using LightController.MyForm.MainFormAst;
 using LightController.MyForm.HardwareSet;
+using LightController.MyForm.OtherTools;
 
 namespace LightController.MyForm
 {
@@ -2591,7 +2592,13 @@ namespace LightController.MyForm
 		{
 			// Mark3.0413  newToolClick()-disConnect
 			//disConnect(); //newToolClick()
-			new NewToolsForm(this).ShowDialog();
+			//new NewToolsForm(this).ShowDialog();
+
+			if (IsConnected)
+			{
+				stopPreview();
+				new ToolsForm(this).ShowDialog();
+			}
 		}
 
 		/// <summary>
@@ -3715,7 +3722,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public void DisConnect()
 		{
-			stopPreview();			
+			//stopPreview();			
 			MyConnect.DisConnect();
 			MyConnect = null;
 			EnableConnectedButtons(false, IsPreviewing);
@@ -3739,8 +3746,7 @@ namespace LightController.MyForm
 
 			if (IsConnected) {
 				SleepBetweenSend(1);
-				playTools.StopPreview();
-				Thread.Sleep(3000);
+				playTools.StopPreview();				
 			}
 		}
 
@@ -3754,6 +3760,7 @@ namespace LightController.MyForm
 				Thread.Sleep(ConnectForm.SEND_WAITTIME * times) ;			
 			}
 			LastSendTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;
+			Console.WriteLine("SleepBetweenSend : " + DateTime.Now);
 		}
 
 

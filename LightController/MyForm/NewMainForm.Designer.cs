@@ -310,7 +310,7 @@ namespace LightController.MyForm
 			// previewButton
 			// 
 			this.previewButton.Enabled = false;
-			this.previewButton.Location = new System.Drawing.Point(978, 16);
+			this.previewButton.Location = new System.Drawing.Point(978, 17);
 			this.previewButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(80, 23);

@@ -106,6 +106,10 @@ namespace LightController.PeripheralDevice
         /// </summary>
         protected void SendDataCompleted()
         {
+            if (this.MainOrder.Equals("Reset"))
+            {
+                return;
+            }
             this.StartTimeOut();
             if (this.MainOrder != null)
             {
@@ -2508,6 +2512,21 @@ namespace LightController.PeripheralDevice
             }
         }
 
+        public void ResetDevice()
+        {
+            try
+            {
+                this.CloseTransactionTimer();
+                this.IsSending = false;
+                this.SecondOrder = Order.RESET;
+                this.SendOrder(null, "Reset", null);
+            }
+            catch (Exception ex)
+            {
+                this.Failed("关闭网络调试模式任务启动失败");
+            }
+        }
+
         //910灯控功能回复管理模块
         /// <summary>
         /// 功能：灯光工程下载回复消息管理
@@ -2823,6 +2842,7 @@ namespace LightController.PeripheralDevice
         ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP,
         DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,GET_FIRMWARE_VERSION,
         START_INTENT_PREVIEW,STOP_INTENT_PREVIEW,
-        SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES
+        SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES,
+        RESET
     }
 }

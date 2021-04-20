@@ -106,7 +106,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         protected void SendDataCompleted()
         {
-            if (this.MainOrder.Equals("Reset"))
+            if (this.MainOrder != null && this.MainOrder.Equals("Reset"))
             {
                 return;
             }

@@ -2516,12 +2516,10 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if ((!this.IsSending) && this.IsConnected())
-                {
-                    this.IsSending = true;
-                    this.SecondOrder = Order.RESET;
-                    this.SendOrder(null, "Reset", null);
-                }
+                this.CloseTransactionTimer();
+                this.IsSending = false;
+                this.SecondOrder = Order.RESET;
+                this.SendOrder(null, "Reset", null);
             }
             catch (Exception ex)
             {

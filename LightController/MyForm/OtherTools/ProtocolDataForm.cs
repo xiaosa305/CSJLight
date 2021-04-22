@@ -18,7 +18,7 @@ namespace LightController.MyForm.OtherTools
 		private int ccdIndex; 
 		private CCData ccd;
 		private bool isDecoding = false; //默认情况下，解码是关闭的状态
-		private TextBox selectedTextBox; 
+		private TextBox selectedTextBox;  //选中的红外码值文本框
 
 		public ProtocolDataForm(MainFormBase mainForm,ToolsForm toolsForm, int ccdIndex,CCData ccd)
 		{
@@ -46,7 +46,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Location = MousePosition;
 			//主动开启解码
-			ccDecodeButton_Click(null, null);
+			//ccDecodeButton_Click(null, null);
 		}
 
 		private void ProtocolDataForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -66,8 +66,9 @@ namespace LightController.MyForm.OtherTools
 		private void ProtocolDataForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
 			e.Cancel = true;			
-			MessageBox.Show("1.若间隔超过一分钟没有点击遥控按钮，则设备会退出解码模式，只需点击关闭解码，再重新开启解码即可；\n" +
-				"2.修改码值不会自动保存，修改的内容只在本次软件运行期间(且没有切换协议)生效，如需设为长期修改，可在《外设配置》界面内点击《协议另存为》进行保存。",	
+			MessageBox.Show("1.在《开启红外解码》的状态下，点击《红外发送》或《红外接收》文本框，然后按某个红外遥控按钮，系统将会自动把该按钮的码值记录到红外文本框中；\n" +
+				"2.若间隔超过一分钟没有点击遥控按钮，则设备会退出解码模式，只需点击关闭解码，再重新开启解码即可；\n " +
+				"3.修改的码值不会自动保存，修改的内容只在本次软件运行期间(且未切换协议)生效，如需设为长期协议，可在《外设配置》界面内点击《协议另存为》进行保存。",	
 				"使用提示？"
 				,MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
@@ -83,8 +84,7 @@ namespace LightController.MyForm.OtherTools
 			mainForm.SleepBetweenSend(1);
 			// 点击《关闭解码》
 			if (isDecoding)
-			{
-				Console.WriteLine("这里会跑吗？？？");
+			{				
 				mainForm.MyConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
 			}
 			// 点击《开启解码》
@@ -102,9 +102,9 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice( msg, false, true);
+				setNotice( "红外解码开启成功。", false, true);
 				isDecoding = true;
-				ccDecodeButton.Text = "关闭解码";					
+				ccDecodeButton.Text = "关闭红外解码";					
 			});
 		}
 
@@ -115,7 +115,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice(LanguageHelper.TranslateSentence("中控解码开启失败 : ") + msg, true, false);
+				setNotice(LanguageHelper.TranslateSentence("红外解码开启失败 : ") + msg, true, false);
 			});
 		}
 
@@ -140,7 +140,7 @@ namespace LightController.MyForm.OtherTools
 						selectedTextBox.Text = strTemp;
 					}
 				}
-				setNotice("灯控解码成功"+(selectedTextBox == null?"。" : "，并填入相关文本框中。"), false, true);
+				setNotice("红外解码成功"+(selectedTextBox == null?"。" : "，并填入最后点击的红外文本框中。"), false, true);
 			});
 		}
 
@@ -162,10 +162,9 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				Console.WriteLine("==========成功关闭中控解码");
-				setNotice("成功关闭中控解码", false, true);				
+				setNotice("成功关闭红外解码", false, true);				
 				isDecoding = false;
-				ccDecodeButton.Text = "开启解码";
+				ccDecodeButton.Text = "开启红外解码";
 			});
 		}
 
@@ -176,8 +175,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				Console.WriteLine("==========关闭中控解码失败");
-				setNotice(LanguageHelper.TranslateSentence("关闭中控解码失败:") + msg, true, false);
+				setNotice(LanguageHelper.TranslateSentence("关闭红外解码失败:") + msg, true, false);
 			});
 		}
 
@@ -227,8 +225,6 @@ namespace LightController.MyForm.OtherTools
 			myStatusLabel.Text = msg;
 			statusStrip1.Refresh();
 		}
-
-
 
 		#endregion
 

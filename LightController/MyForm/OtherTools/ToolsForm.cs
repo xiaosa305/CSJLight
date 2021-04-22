@@ -12,6 +12,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace LightController.MyForm.OtherTools
@@ -101,15 +103,16 @@ namespace LightController.MyForm.OtherTools
 				relayFLP.Controls.Add(relayButtons[relayIndex]);
 			}
 
-			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");		
-
-			//MARK 3.0419 ToolsForm()
-			//myInfoToolTip.SetToolTip(ccDecodeButton, "1.若间隔超过一分钟没有点击遥控按钮，则设备会退出解码模式，\n只需点击关闭解码，再重新开启解码即可。\n2.在开启解码状态下，不能下载数据(协议)。");
+			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");					
 
 			#endregion
-
 		}
 		
+		/// <summary>
+		/// 事件：
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ToolsFormcs_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
@@ -117,8 +120,8 @@ namespace LightController.MyForm.OtherTools
 			LanguageHelper.TranslateListView(protocolListView);
 			LanguageHelper.TranslateListView(keypressListView);
 
-			loadProtocols( Properties.Settings.Default.protocolIndex ); //主动加载协议,并选择注册表中记录的选项
-			tabControl1_SelectedIndexChanged(null,null); // 主动触发连接外设的操作
+			loadProtocols( Properties.Settings.Default.protocolIndex ); //主动加载协议,并选择注册表中记录的选项			
+			tabControl1_SelectedIndexChanged(null, null); // 主动触发连接外设的操作
 		}
 
 		/// <summary>
@@ -292,84 +295,7 @@ namespace LightController.MyForm.OtherTools
 			
 			return cc;
 		}
-
-		/// <summary>
-		/// 事件：点击《开关按键(1-6)》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void relayButtons_Click(object sender, EventArgs e)
-		{
-			if ( lcEntity == null)
-			{
-				return;
-			}
-
-			int relayIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-			setLightButtonValue(relayIndex);
-			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
-			if ( keepLightOnCheckBox.Checked )
-			{
-				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, relayIndex];
-				for (int frameIndex = 0; frameIndex < 17; frameIndex++)
-				{
-					lcEntity.SceneData[frameIndex, relayIndex] = tempLightOnMode;
-				}
-			}
-			debugLC();
-		}
-
-		/// <summary>
-		///  
-		/// </summary>
-		/// <param name="switchIndex"></param>
-		private void setLightButtonValue(int switchIndex)
-		{
-			if (lcEntity == null)
-			{
-				return;
-			}
-			lcEntity.SceneData[lcFrameIndex, switchIndex] = !lcEntity.SceneData[lcFrameIndex, switchIndex];
-			relayButtons[switchIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, switchIndex] ? 1 : 0;
-		}
-
-		/// <summary>
-		/// 辅助方法：向设备发送当前场景的灯光通道数据。
-		/// </summary>
-		private void debugLC()
-		{
-			if (connStatus != ConnectStatus.Lc)
-			{
-				return;
-			}
-			byte[] tempData = lcEntity.GetFrameBytes(lcFrameIndex);
-			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);			
-		}
-
-		/// <summary>
-		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
-		/// </summary>
-		/// <param name="obj"></param>
-		public void LCSendCompleted(Object obj, string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				Console.WriteLine("灯控debug(实时调试的数据)发送成功");
-			});
-		}
-
-		/// <summary>
-		///  辅助回调方法：灯控debug发送出错
-		/// </summary>
-		/// <param name="obj"></param>
-		public void LCSendError(string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				lcToolStripStatusLabel2.Text = "灯控已离线，发送debug数据失败，请重新连接后重试[" + msg + "]";
-			});
-		}
-
+			   
 		#region 通用方法
 			   
 		/// <summary>
@@ -415,6 +341,14 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
+		/// 辅助方法：设忙时或解除忙时
+		/// </summary>
+		/// <param name="busy"></param>
+		private void setBusy(bool busy) {
+			Enabled = !busy;
+		}
+
+		/// <summary>
 		///  辅助方法：一些Control文本改变时，进行翻译
 		/// </summary>
 		/// <param name="sender"></param>
@@ -425,6 +359,32 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		#endregion
+
+		/// <summary>
+		/// 事件：切换不同的tabPage时，切换连接的方式
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (mainForm.IsConnected)
+			{
+				setBusy(true);
+				mainForm.SleepBetweenSend(1);
+				switch (tabControl1.SelectedIndex)
+				{
+					case 0:
+						mainForm.MyConnect.CenterControlConnect(CCConnectCompleted, CCConnectError);
+						break;
+					case 1:
+						mainForm.MyConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
+						break;
+					case 2:						
+						mainForm.MyConnect.PassThroughKeyPressConnect(KPFirstConnectCompleted, KPConnectError);
+						break;
+				}
+			}
+		}
 
 		/// <summary>
 		/// 辅助方法：设置connStatus值，并根据此值刷新按键是否可用；
@@ -467,6 +427,67 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
+		/// 辅助方法：如果下载配置成功，则应该重连设备；此法被灯控和中控下载成功的回调函数调用；
+		/// </summary>
+		private void reconnectDevice()
+		{
+			mainForm.DisConnect();
+			setConnStatus(ConnectStatus.No);
+			mainForm.ConnForm.ShowDialog();
+			if (mainForm.IsConnected)
+			{
+				setConnStatus(ConnectStatus.Normal);
+				tabControl1_SelectedIndexChanged(null, null);
+			}
+			else
+			{
+				MessageBox.Show("请重新连接设备，否则无法进行外设配置!");
+				Dispose();
+			}
+		}
+
+		#region 中控相关
+
+		/// <summary>
+		/// 事件：点击《(中控)搜索》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ccSearchButton_Click(object sender, EventArgs e)
+		{
+			// 检查代码的顺序，会影响程序的效率
+			// 检查关键字
+			string keyword = ccSearchTextBox.Text.Trim();
+			if (keyword.Equals(""))
+			{
+				setNotice(0, "请输入搜索关键字。", true, true);
+				return;
+			}
+
+			// 检查是否已载入协议
+			if (ccEntity == null)
+			{
+				setNotice(0, "请先加载协议(cc为空)", true, true);
+				return;
+			}
+
+			// 清空之前的选择项
+			foreach (int seletedIndex in protocolListView.SelectedIndices)
+			{
+				protocolListView.Items[seletedIndex].Selected = false;
+			}
+
+			// 由关键字搜索相应的indexList ，再遍历选中所有匹配项
+			IList<int> matchIndexList = ccEntity.SearchIndices(keyword);
+			foreach (int matchIndex in matchIndexList)
+			{
+				protocolListView.Items[matchIndex].Selected = true;
+			}
+			// 最后恢复listView的焦点
+			protocolListView.Select();
+		}
+
+		/// <summary>
 		/// 事件：双击《协议列表》的其中一项，应该弹出该项的各个数值，其中有些写死有些可以更改（新的窗口）
 		/// </summary>
 		/// <param name="sender"></param>
@@ -474,9 +495,14 @@ namespace LightController.MyForm.OtherTools
 		private void protocolListView_DoubleClick(object sender, EventArgs e)
 		{
 			int protocolDataIndex = protocolListView.SelectedIndices[0];
-			new ProtocolDataForm(this.mainForm, this,protocolDataIndex, ccEntity.CCDataList[protocolDataIndex]).ShowDialog();
+			new ProtocolDataForm(mainForm, this,protocolDataIndex, ccEntity.CCDataList[protocolDataIndex]).ShowDialog();
 		}
 
+		/// <summary>
+		/// 辅助方法：主要供《ProtocolDataForm》调用，用以修改协议行的内容；
+		/// </summary>
+		/// <param name="ccdIndex"></param>
+		/// <param name="ccd"></param>
 		public void EditProtocol( int ccdIndex,CCData ccd)
 		{
 			ccEntity.CCDataList[ccdIndex] = ccd;
@@ -492,33 +518,7 @@ namespace LightController.MyForm.OtherTools
 
 			setNotice(StatusLabel.CC2, "成功修改协议(临时)，如需长期修改请另存协议。", false, false);
 		}
-
-
-		/// <summary>
-		/// 事件：切换不同的tabPage时，切换连接的方式
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (mainForm.IsConnected)
-			{				
-				switch (tabControl1.SelectedIndex)
-				{
-					case 0:
-						mainForm.SleepBetweenSend(2);
-						mainForm.MyConnect.CenterControlConnect(CCConnectCompleted, CCConnectError);
-						break;
-					case 1:
-						mainForm.SleepBetweenSend(2);
-						mainForm.MyConnect.LightControlConnect(LCConnectCompleted, LCConnectError);						
-						break;
-					case 2:
-						break;
-				}
-			}		
-		}
-
+		
 		/// <summary>
 		/// 辅助回调方法：中控连接成功
 		/// </summary>
@@ -528,6 +528,7 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate {
 				setNotice(StatusLabel.CC2, "已切换成中控配置(connStatus=cc)", false, true);
 				setConnStatus(ConnectStatus.Cc);
+				setBusy(false);
 			});
 		}
 
@@ -539,6 +540,7 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate {
 				// 切换失败，只给提示，不更改原来的状态
 				setNotice(StatusLabel.CC2, LanguageHelper.TranslateSentence("切换中控配置失败:") + msg, true, false);
+				setBusy(false);
 			});
 		}
 		
@@ -589,6 +591,154 @@ namespace LightController.MyForm.OtherTools
 			});
 		}
 
+		#endregion
+
+		#region 灯控相关
+
+		/// <summary>
+		/// 事件：点击《开关按键(1-6)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void relayButtons_Click(object sender, EventArgs e)
+		{
+			if (lcEntity == null)
+			{
+				return;
+			}
+
+			int relayIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
+			setLightButtonValue(relayIndex);
+			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
+			if (keepLightOnCheckBox.Checked)
+			{
+				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, relayIndex];
+				for (int frameIndex = 0; frameIndex < 17; frameIndex++)
+				{
+					lcEntity.SceneData[frameIndex, relayIndex] = tempLightOnMode;
+				}
+			}
+			debugLC();
+		}
+
+		/// <summary>
+		///  辅助方法：在点击《开关按键》时，更改相关的lcEntity内的数据；
+		/// </summary>
+		/// <param name="relayIndex"></param>
+		private void setLightButtonValue(int relayIndex)
+		{
+			if (lcEntity == null)
+			{
+				return;
+			}
+			lcEntity.SceneData[lcFrameIndex, relayIndex] = !lcEntity.SceneData[lcFrameIndex, relayIndex];
+			relayButtons[relayIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
+		}
+
+		/// <summary>
+		/// 辅助方法：向设备发送当前场景的灯光通道数据。
+		/// </summary>
+		private void debugLC()
+		{
+			if (connStatus != ConnectStatus.Lc)
+			{
+				return;
+			}
+			byte[] tempData = lcEntity.GetFrameBytes(lcFrameIndex);
+			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
+		}
+
+		/// <summary>
+		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void LCSendCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				Console.WriteLine("灯控debug(实时调试的数据)发送成功");
+			});
+		}
+
+		/// <summary>
+		///  辅助回调方法：灯控debug发送出错
+		/// </summary>
+		/// <param name="obj"></param>
+		public void LCSendError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				lcToolStripStatusLabel2.Text = "灯控已离线，发送debug数据失败，请重新连接后重试[" + msg + "]";
+			});
+		}
+
+		/// <summary>
+		/// 事件：更改了场景之后，重新填充灯光通道数据
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void qdFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			lcFrameIndex = qdFrameComboBox.SelectedIndex;
+			reloadLightGroupBox();
+		}
+
+		/// <summary>
+		/// 事件：点击《(灯控)下载配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcDownloadButton_Click(object sender, EventArgs e)
+		{
+			setNotice(StatusLabel.LC2, "正在下载灯控配置，请稍候...", false, true);
+			processLC();
+			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+		}
+
+		/// <summary>
+		/// 辅助方法：把LC中SceneData内大于6的继电器的所有值都设为false，有两处调用：写入配置和保存配置
+		/// </summary>
+		private void processLC()
+		{
+			if (lcEntity != null)
+			{
+				// 下载之前，因为设备处理的原因，需要把屏蔽掉的通道（启用排风或空调）的SceneData都设为false
+				for (int scene = 0; scene < 17; scene++)
+				{
+					for (int relayIndex = 6; relayIndex < 12; relayIndex++)
+					{
+						lcEntity.SceneData[scene, lcEntity.FanChannel] = false;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《(灯控)保存配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void protocolSaveButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == pbinSaveDialog.ShowDialog())
+			{
+				if (ccEntity != null)
+				{
+					try
+					{
+						string pbinPath = pbinSaveDialog.FileName;
+						SerializeUtils.SerializeObject(pbinPath, ccEntity);
+						setNotice(StatusLabel.CC2, "成功另存协议。", true, true);
+						loadProtocols(-1);
+					}
+					catch (Exception ex)
+					{
+						setNotice(StatusLabel.CC2, "另存协议失败:" + ex.Message, true, false);
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -596,8 +746,12 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
-			mainForm.MyConnect.LightControlRead(LCReadCompleted, LCReadError);			
+			if (connStatus == ConnectStatus.Lc) {
+				setBusy(true);
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+				//mainForm.SleepBetweenSend(1); // 回读灯控配置无需延时
+				mainForm.MyConnect.LightControlRead(LCReadCompleted, LCReadError);
+			}		
 		}
 
 		/// <summary>
@@ -650,7 +804,9 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				setConnStatus(ConnectStatus.Lc);
-				lcReadButton_Click(null, null);
+				setNotice(StatusLabel.LC2, "已切换成中控配置(connStatus=lc)", false,true);
+				setBusy(false);
+				lcReadButton_Click(null, null);				
 			});
 		}	
 
@@ -664,6 +820,7 @@ namespace LightController.MyForm.OtherTools
 			{
 				// 切换失败，只给提示，不更改原来的状态
 				setNotice(StatusLabel.LC2, LanguageHelper.TranslateSentence("切换灯控配置失败:") + msg, true, false);
+				setBusy(false);
 			});
 		}
 
@@ -677,11 +834,13 @@ namespace LightController.MyForm.OtherTools
 				if (lcDataTemp == null)
 				{
 					setNotice(StatusLabel.LC2, "灯控回读配置异常(lcDataTemp==null)", true, true);
+					setBusy(false);
 					return;
 				}
 				lcEntity = lcDataTemp as LightControlData;
 				lcRender();
 				setNotice(StatusLabel.LC2, "成功回读灯控配置", true, true);
+				setBusy(false);
 			});
 		}
 
@@ -692,6 +851,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				setNotice(StatusLabel.LC2, LanguageHelper.TranslateSentence("回读灯控配置失败:") + msg, true, false);
+				setBusy(false);
 			});
 		}
 
@@ -707,23 +867,6 @@ namespace LightController.MyForm.OtherTools
 			});
 		}
 
-		//辅助方法：如果下载配置成功，则应该重连设备；此法被灯控和中控下载成功的回调函数调用；
-		private void reconnectDevice() {
-			mainForm.DisConnect();
-			setConnStatus(ConnectStatus.No);
-			mainForm.ConnForm.ShowDialog();
-			if (mainForm.IsConnected)
-			{
-				setConnStatus(ConnectStatus.Normal);
-				tabControl1_SelectedIndexChanged(null, null);
-			}
-			else
-			{
-				MessageBox.Show("请重新连接设备，否则无法进行外设配置!");
-				Dispose();
-			}
-		}
-
 		/// <summary>
 		/// 辅助回调方法：灯控配置下载错误
 		/// </summary>
@@ -735,110 +878,323 @@ namespace LightController.MyForm.OtherTools
 			});
 		}
 
+		#endregion
 
 		/// <summary>
-		/// 事件：更改了场景之后，重新填充灯光通道数据
+		/// 辅助回调方法： 连接墙板成功
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void qdFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		/// <param name="obj"></param>
+		public void KPFirstConnectCompleted(Object obj, string msg)
 		{
-			lcFrameIndex = qdFrameComboBox.SelectedIndex;
-			reloadLightGroupBox();
-		}
+			Invoke((EventHandler)delegate
+			{
+				setNotice(StatusLabel.KP2, "成功连接墙板(connStatus=kp)", false, true);
+				setConnStatus(ConnectStatus.Kp);
+				setBusy(false);
 
-		/// <summary>
-		/// 事件：点击《(灯控)下载配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lcDownloadButton_Click(object sender, EventArgs e)
-		{
-			setNotice(StatusLabel.LC2, "正在下载灯控配置，请稍候...", false, true);
-			processLC();
-			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);			
-		}
+				Thread.Sleep(500);
+				kpListenButton_Click(null, null);
 
-		/// <summary>
-		/// 辅助方法：把LC中SceneData内大于6的继电器的所有值都设为false，有两处调用：写入配置和保存配置
-		/// </summary>
-		private void processLC()
-		{
-			if (lcEntity != null) {
-				// 下载之前，因为设备处理的原因，需要把屏蔽掉的通道（启用排风或空调）的SceneData都设为false
-				for (int scene = 0; scene < 17; scene++)
+				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
+				if (kpTimer == null)
 				{
-					for (int relayIndex = 6; relayIndex < 12; relayIndex++)
+					kpTimer = new System.Timers.Timer(8000);
+					kpTimer.Elapsed += new System.Timers.ElapsedEventHandler(kpOnTimer);
+					kpTimer.AutoReset = true;
+					kpTimer.Enabled = true;
+				}				
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：定时器定时执行的方法
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpOnTimer(object sender, ElapsedEventArgs e)
+		{
+			Invoke((EventHandler)delegate {
+				if (mainForm.MyConnect != null && connStatus == ConnectStatus.Kp)
+				{
+					mainForm.MyConnect.PassThroughKeyPressConnect(KPTimerConnectCompleted, KPConnectError);
+				}
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作（代码中只有后台打印的代码，方便调试）
+		/// </summary>
+		/// <param name="obj"></param>
+		public void KPTimerConnectCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				Console.WriteLine("Dickov：墙板定时重连成功...");
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：连接墙板失败
+		/// </summary>
+		public void KPConnectError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				// 切换失败，只给提示，不更改原来的状态
+				setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("连接墙板失败:") + msg, true, false);
+				setBusy(false);
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：清空墙板listView的所有数据，及其他相关数据。
+		/// </summary>
+		private void clearKeypressListView()
+		{
+			keypressListView.Items.Clear();
+			kpOrderTextBox.Text = "";
+			kpKey0TextBox.Text = "";
+			kpKey1TextBox.Text = "";
+		}
+
+		/// <summary>
+		/// 事件：点击《监听按键》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpListenButton_Click(object sender, EventArgs e)
+		{
+			mainForm.MyConnect.PassThroughKeyPressSetClickListener(KPStartListenClick);
+		}
+
+		/// <summary>
+		/// 事件：点击《读取码值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpReadButton_Click(object sender, EventArgs e)
+		{
+			mainForm.MyConnect.PassThroughKeyPressRead(KPReadCompleted, KPReadError);
+			setNotice(StatusLabel.KP2, "正在读取墙板码值，请稍候...", false, true);
+			Cursor = Cursors.WaitCursor;
+			Enabled = false;
+		}
+
+		/// <summary>
+		///  辅助回调方法：读取墙板码值成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void KPReadCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				if (obj == null)
+				{
+					setNotice(StatusLabel.KP2, "异常:执行kpReadCompleted时返回的对象为null", true, true);
+					return;
+				}
+
+				keyEntity = obj as KeyEntity;
+				reloadKeypressListView();
+				setNotice(StatusLabel.KP2, "读取墙板码值成功。", true, true);
+				refreshButtons();
+				this.Enabled = true;
+				this.Cursor = Cursors.Default;
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：重新加载墙板码值
+		/// </summary>
+		private void reloadKeypressListView()
+		{
+			keypressListView.Items.Clear();
+			keypressListView.Enabled = true;
+			for (int keyIndex = 0; keyIndex < 24; keyIndex++)
+			{
+				if (keyEntity.Key0Array[keyIndex].Equals("00") && keyEntity.Key1Array[keyIndex].Equals("00"))
+				{
+					continue;
+				}
+				ListViewItem item = new ListViewItem("键序" + (keyIndex + 1).ToString() + "\n" + keyEntity.Key0Array[keyIndex] + ":" + keyEntity.Key1Array[keyIndex]);
+				item.ImageIndex = 2;
+				item.SubItems.Add((keyIndex + 1).ToString());
+				item.SubItems.Add(keyEntity.Key0Array[keyIndex]);
+				item.SubItems.Add(keyEntity.Key1Array[keyIndex]);
+				keypressListView.Items.Add(item);
+			}
+		}
+
+		/// <summary>
+		/// 辅助回调方法：读取墙板码值失败
+		/// </summary>
+		public void KPReadError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("读取墙板码值失败:") + msg, true, false);
+				this.Enabled = true;
+				this.Cursor = Cursors.Default;
+			});
+		}
+
+		/// <summary>
+		///  读取用户点击的墙板键值（键序+一种不需理会的编码）
+		/// </summary>
+		/// <param name="obj"></param>
+		public void KPStartListenClick(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				// 当keyEntity为null时，表示还未加载任何键盘键值数据，此方法不再执行。
+				if (obj == null || keyEntity == null)
+				{
+					return;
+				}
+
+				List<byte> byteList = obj as List<byte>;
+				int keyNum = byteList[0];
+
+				//因为是多选，所以每次点击按键，先清空当前选择（否则会不停添加选中）
+				keypressListView.SelectedItems.Clear();
+				foreach (ListViewItem item in keypressListView.Items)
+				{
+					if (Convert.ToByte(item.SubItems[1].Text) == keyNum)
 					{
-						lcEntity.SceneData[scene, lcEntity.FanChannel] = false;
+						Console.WriteLine("Dickov:KeyPressNum: " + keyNum);
+						item.Selected = true;
+						break;
 					}
 				}
+				keypressListView.Select();
+
+				// 一旦收到这个回复，就重启定时器(避免不停重连)
+				if (kpTimer != null)
+				{
+					kpTimer.Stop();
+					kpTimer.Start();
+				}
+			});
+		}
+				
+	
+		/// <summary>
+		/// 事件：点击《墙板-下载文件》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpDownloadButton_Click(object sender, EventArgs e)
+		{
+			mainForm.MyConnect.PassThroughKeyPressDownload(keyEntity, KeypressDownloadCompleted, KeypressDownladError);
+		}
+
+		/// <summary>
+		/// 辅助回调方法：下载墙板成功
+		/// </summary>
+		/// <param name="obj"></param>
+		private void KeypressDownloadCompleted(object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setNotice(StatusLabel.KP2, "成功下载墙板码值", true, true);
+			});
+		}
+
+		/// <summary>
+		/// 若下载墙板失败，运行此回调方法
+		/// </summary>
+		private void KeypressDownladError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setNotice(StatusLabel.KP2, LanguageHelper.TranslateSentence("下载墙板码值失败:") + msg, true, false);
+			});
+		}
+
+		/// <summary>
+		/// 事件：点击《加载墙板cfg文件》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpLoadButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == keyOpenFileDialog.ShowDialog()) {
+
+				string keyPath = keyOpenFileDialog.FileName;
+
+				IList<string> paramList = getParamListFromPath(keyPath);
+				if (paramList == null || paramList.Count != 50)
+				{
+					setNotice(StatusLabel.KP2, "key文件有错误，无法加载。", true, true);
+					return;
+				}
+
+				keyEntity = new KeyEntity();
+				for (int i = 0; i < 24; i++)
+				{
+					keyEntity.Key0Array[i] = StringHelper.DecimalStringToBitHex(paramList[i], 2);
+					keyEntity.Key1Array[i] = StringHelper.DecimalStringToBitHex(paramList[i + 24], 2);
+				}
+				keyEntity.CRC = paramList[48] + paramList[49];
+
+				reloadKeypressListView();
+				refreshButtons();
+
+				setNotice(StatusLabel.KP2,
+					LanguageHelper.TranslateSentence("已加载墙板配置文件:") + keyPath,
+					false, false);
 			}
 		}
 
 		/// <summary>
-		/// 事件：点击《(灯控)保存配置》
+		/// 辅助方法：通过filePath，读取其内部数据（基本上相同的文件存储格式)，组成IList<string>并返回。
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void protocolSaveButton_Click(object sender, EventArgs e)
+		/// <param name="filePath"></param>
+		/// <returns></returns>
+		private IList<string> getParamListFromPath(string filePath)
 		{
-			if (DialogResult.OK == pbinSaveDialog.ShowDialog())
-			{				
-				if (ccEntity != null)
+			IList<string> paramList = new List<string>();
+			try
+			{
+				if (File.Exists(filePath))
 				{
-					try
+					using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+					using (StreamReader sr = new StreamReader(fs))
 					{
-						string pbinPath = pbinSaveDialog.FileName;
-						SerializeUtils.SerializeObject(pbinPath, ccEntity);
-						setNotice( StatusLabel.CC2 , "成功另存协议。", true,true);
-						loadProtocols(-1);
-					}
-					catch (Exception ex)
-					{
-						setNotice(StatusLabel.CC2, "另存协议失败:" +ex.Message, true, false);
+						string sTemp;
+						while ((sTemp = sr.ReadLine()) != null)
+						{
+							sTemp = sTemp.Trim();
+							if (sTemp.Length > 0)
+							{
+								paramList.Add(sTemp);
+							}
+						}
 					}
 				}
+				else
+				{
+					setNotice(0, "文件不存在", true, true);
+					return null;
+				}
 			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				return null;
+			}
+			return paramList;
 		}
-		
+
+
 		/// <summary>
-		/// 事件：点击《(中控)搜索》
+		/// 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ccSearchButton_Click(object sender, EventArgs e)
+		private void kpSaveButton_Click(object sender, EventArgs e)
 		{
-			// 检查代码的顺序，会影响程序的效率
-			// 检查关键字
-			string keyword = ccSearchTextBox.Text.Trim();
-			if (keyword.Equals(""))
-			{
-				setNotice(0, "请输入搜索关键字。", true, true);
-				return;
-			}
-
-			// 检查是否已载入协议
-			if (ccEntity == null)
-			{
-				setNotice(0, "请先加载协议(cc为空)", true, true);
-				return;
-			}
-
-			// 清空之前的选择项
-			foreach (int seletedIndex in protocolListView.SelectedIndices)
-			{
-				protocolListView.Items[seletedIndex].Selected = false;
-			}
-
-			// 由关键字搜索相应的indexList ，再遍历选中所有匹配项
-			IList<int> matchIndexList = ccEntity.SearchIndices(keyword);
-			foreach (int matchIndex in matchIndexList)
-			{
-				protocolListView.Items[matchIndex].Selected = true;
-			}
-			// 最后恢复listView的焦点
-			protocolListView.Select();
+			keySaveFileDialog.ShowDialog();
 		}
 
 		

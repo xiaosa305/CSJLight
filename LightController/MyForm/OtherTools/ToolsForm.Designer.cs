@@ -74,6 +74,7 @@
 			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.lightGroupBox = new System.Windows.Forms.GroupBox();
 			this.relayFLP = new System.Windows.Forms.FlowLayoutPanel();
+			this.relayButtonDemo = new CCWin.SkinControl.SkinButton();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
@@ -108,7 +109,6 @@
 			this.cfgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.protocolSaveButton = new System.Windows.Forms.Button();
 			this.pbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
-			this.relayButtonDemo = new CCWin.SkinControl.SkinButton();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
@@ -560,6 +560,37 @@
 			this.relayFLP.Size = new System.Drawing.Size(683, 191);
 			this.relayFLP.TabIndex = 7;
 			// 
+			// relayButtonDemo
+			// 
+			this.relayButtonDemo.BackColor = System.Drawing.Color.Transparent;
+			this.relayButtonDemo.BaseColor = System.Drawing.Color.Transparent;
+			this.relayButtonDemo.BorderColor = System.Drawing.Color.White;
+			this.relayButtonDemo.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.relayButtonDemo.DownBack = null;
+			this.relayButtonDemo.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.relayButtonDemo.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.relayButtonDemo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.relayButtonDemo.ForeColorSuit = true;
+			this.relayButtonDemo.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.relayButtonDemo.ImageIndex = 0;
+			this.relayButtonDemo.ImageList = this.lightImageList;
+			this.relayButtonDemo.ImageSize = new System.Drawing.Size(45, 45);
+			this.relayButtonDemo.InheritColor = true;
+			this.relayButtonDemo.IsDrawBorder = false;
+			this.relayButtonDemo.Location = new System.Drawing.Point(2, 2);
+			this.relayButtonDemo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.relayButtonDemo.MouseBack = null;
+			this.relayButtonDemo.Name = "relayButtonDemo";
+			this.relayButtonDemo.NormlBack = null;
+			this.relayButtonDemo.Size = new System.Drawing.Size(63, 85);
+			this.relayButtonDemo.TabIndex = 13;
+			this.relayButtonDemo.Tag = "9999";
+			this.relayButtonDemo.Text = "开关1";
+			this.relayButtonDemo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.relayButtonDemo.UseVisualStyleBackColor = true;
+			this.relayButtonDemo.Visible = false;
+			this.relayButtonDemo.Click += new System.EventHandler(this.relayButtons_Click);
+			// 
 			// lightImageList
 			// 
 			this.lightImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightImageList.ImageStream")));
@@ -641,6 +672,7 @@
 			this.kpReadButton.TabIndex = 5;
 			this.kpReadButton.Text = "读取码值";
 			this.kpReadButton.UseVisualStyleBackColor = true;
+			this.kpReadButton.Click += new System.EventHandler(this.kpReadButton_Click);
 			// 
 			// kpListenButton
 			// 
@@ -652,6 +684,7 @@
 			this.kpListenButton.Text = "监听按键";
 			this.kpListenButton.UseVisualStyleBackColor = true;
 			this.kpListenButton.Visible = false;
+			this.kpListenButton.Click += new System.EventHandler(this.kpListenButton_Click);
 			// 
 			// keypressListView
 			// 
@@ -741,6 +774,7 @@
 			this.kpLoadButton.TabIndex = 5;
 			this.kpLoadButton.Text = "加载本地文件";
 			this.kpLoadButton.UseVisualStyleBackColor = true;
+			this.kpLoadButton.Click += new System.EventHandler(this.kpLoadButton_Click);
 			// 
 			// kpPositonSaveButton
 			// 
@@ -806,6 +840,7 @@
 			this.kpDownloadButton.TabIndex = 5;
 			this.kpDownloadButton.Text = "下载到墙板";
 			this.kpDownloadButton.UseVisualStyleBackColor = true;
+			this.kpDownloadButton.Click += new System.EventHandler(this.kpDownloadButton_Click);
 			// 
 			// kpSaveButton
 			// 
@@ -816,6 +851,7 @@
 			this.kpSaveButton.TabIndex = 5;
 			this.kpSaveButton.Text = "保存到本地";
 			this.kpSaveButton.UseVisualStyleBackColor = true;
+			this.kpSaveButton.Click += new System.EventHandler(this.kpSaveButton_Click);
 			// 
 			// kpKey0TextBox
 			// 
@@ -861,37 +897,6 @@
 			// pbinSaveDialog
 			// 
 			this.pbinSaveDialog.Filter = "pbin配置文件|*.pbin";
-			// 
-			// relayButtonDemo
-			// 
-			this.relayButtonDemo.BackColor = System.Drawing.Color.Transparent;
-			this.relayButtonDemo.BaseColor = System.Drawing.Color.Transparent;
-			this.relayButtonDemo.BorderColor = System.Drawing.Color.White;
-			this.relayButtonDemo.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.relayButtonDemo.DownBack = null;
-			this.relayButtonDemo.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.relayButtonDemo.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.relayButtonDemo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.relayButtonDemo.ForeColorSuit = true;
-			this.relayButtonDemo.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.relayButtonDemo.ImageIndex = 0;
-			this.relayButtonDemo.ImageList = this.lightImageList;
-			this.relayButtonDemo.ImageSize = new System.Drawing.Size(45, 45);
-			this.relayButtonDemo.InheritColor = true;
-			this.relayButtonDemo.IsDrawBorder = false;
-			this.relayButtonDemo.Location = new System.Drawing.Point(2, 2);
-			this.relayButtonDemo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.relayButtonDemo.MouseBack = null;
-			this.relayButtonDemo.Name = "relayButtonDemo";
-			this.relayButtonDemo.NormlBack = null;
-			this.relayButtonDemo.Size = new System.Drawing.Size(63, 85);
-			this.relayButtonDemo.TabIndex = 13;
-			this.relayButtonDemo.Tag = "9999";
-			this.relayButtonDemo.Text = "开关1";
-			this.relayButtonDemo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.relayButtonDemo.UseVisualStyleBackColor = true;
-			this.relayButtonDemo.Visible = false;
-			this.relayButtonDemo.Click += new System.EventHandler(this.relayButtons_Click);
 			// 
 			// ToolsForm
 			// 

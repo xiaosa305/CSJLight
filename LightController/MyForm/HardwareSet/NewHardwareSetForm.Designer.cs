@@ -49,19 +49,19 @@
 			this.pathLabel = new System.Windows.Forms.Label();
 			this.versionButton = new System.Windows.Forms.Button();
 			this.updateButton = new System.Windows.Forms.Button();
+			this.debugPage = new System.Windows.Forms.TabPage();
+			this.restartButton = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.progressStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.debugPage = new System.Windows.Forms.TabPage();
-			this.restartButton = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.hardwarePage.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.firmwarePage.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
 			this.debugPage.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label5
@@ -302,6 +302,26 @@
 			this.updateButton.UseVisualStyleBackColor = false;
 			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
+			// debugPage
+			// 
+			this.debugPage.Controls.Add(this.restartButton);
+			this.debugPage.Location = new System.Drawing.Point(4, 22);
+			this.debugPage.Name = "debugPage";
+			this.debugPage.Size = new System.Drawing.Size(526, 261);
+			this.debugPage.TabIndex = 2;
+			this.debugPage.Text = "设备调试";
+			this.debugPage.UseVisualStyleBackColor = true;
+			// 
+			// restartButton
+			// 
+			this.restartButton.Location = new System.Drawing.Point(35, 35);
+			this.restartButton.Name = "restartButton";
+			this.restartButton.Size = new System.Drawing.Size(75, 38);
+			this.restartButton.TabIndex = 0;
+			this.restartButton.Text = "设备重启";
+			this.restartButton.UseVisualStyleBackColor = true;
+			this.restartButton.Click += new System.EventHandler(this.restartButton_Click);
+			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.BackColor = System.Drawing.Color.White;
@@ -342,26 +362,6 @@
 			// 
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			// 
-			// debugPage
-			// 
-			this.debugPage.Controls.Add(this.restartButton);
-			this.debugPage.Location = new System.Drawing.Point(4, 22);
-			this.debugPage.Name = "debugPage";
-			this.debugPage.Size = new System.Drawing.Size(526, 261);
-			this.debugPage.TabIndex = 2;
-			this.debugPage.Text = "设备调试";
-			this.debugPage.UseVisualStyleBackColor = true;
-			// 
-			// restartButton
-			// 
-			this.restartButton.Location = new System.Drawing.Point(423, 194);
-			this.restartButton.Name = "restartButton";
-			this.restartButton.Size = new System.Drawing.Size(75, 38);
-			this.restartButton.TabIndex = 0;
-			this.restartButton.Text = "设备重启";
-			this.restartButton.UseVisualStyleBackColor = true;
-			this.restartButton.Click += new System.EventHandler(this.restartButton_Click);
-			// 
 			// NewHardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -379,9 +379,9 @@
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.firmwarePage.ResumeLayout(false);
+			this.debugPage.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			this.debugPage.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -156,13 +156,12 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				mainForm.DisConnect(); // PutParamCompleted 参数下载成功后，主动断开连接
+				setNotice("成功写入配置，设备需要重启。请等待5s后再重搜并连接设备...", true, true);
 				setBusy(false);
-				setNotice("成功写入配置，设备需要重启。请等待5s后再重搜并连接设备...", true, true);				
-				mainForm.ConnForm.ShowDialog();
+				reconnectDevice();
 			});
 		}
-
+				
 		/// <summary>
 		/// 辅助回调方法：下载配置失败
 		/// </summary>
@@ -229,13 +228,11 @@ namespace LightController.MyForm.HardwareSet
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice("硬件升级成功，设备将自动重启，请稍等片刻后重新连接。", true, true);
-
-				Thread.Sleep(5000);
+				setNotice("固件升级成功，设备将自动重启，请稍等片刻后重新连接。", true, true);				
 				myProgressBar.Value = 0;
 				progressStatusLabel.Text = "";
-
 				setBusy(false);
+				reconnectDevice();
 			});
 		}
 
@@ -265,6 +262,25 @@ namespace LightController.MyForm.HardwareSet
 			myProgressBar.Value = progressPercent;
 			progressStatusLabel.Text = progressPercent + "%";
 			statusStrip1.Refresh();
+		}
+
+		#endregion
+
+		#region 设备调试相关
+
+		/// <summary>
+		/// 事件：点击《设备重启》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void restartButton_Click(object sender, EventArgs e)
+		{
+			if (mainForm.IsConnected)
+			{
+				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
+				mainForm.MyConnect.ResetDevice();
+				reconnectDevice();
+			}
 		}
 
 		#endregion
@@ -310,6 +326,20 @@ namespace LightController.MyForm.HardwareSet
 		private void someButton_TextChanged(object sender, EventArgs e)
 		{
 			LanguageHelper.TranslateControl(sender as Button);
+		}
+
+		/// <summary>
+		/// 辅助方法：如果下载配置成功，则应该重连设备；此法被灯控和中控下载成功的回调函数调用；
+		/// </summary>
+		private void reconnectDevice()
+		{
+			mainForm.DisConnect();
+			mainForm.ConnForm.ShowDialog();
+			if (!mainForm.IsConnected)
+			{
+				MessageBox.Show("请重新连接设备，否则无法进行硬件配置!");
+				Dispose();
+			}
 		}
 
 		#endregion
@@ -440,20 +470,6 @@ namespace LightController.MyForm.HardwareSet
 		}
 		
 		#endregion
-
-		/// <summary>
-		/// 事件：点击《设备重启》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void restartButton_Click(object sender, EventArgs e)
-		{
-			if (mainForm.IsConnected) {
-				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
-				mainForm.MyConnect.ResetDevice();
-				mainForm.DisConnect();
-				mainForm.ConnForm.ShowDialog();
-			}
-		}
+				
 	}
 }

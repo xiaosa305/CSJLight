@@ -59,11 +59,11 @@
 			// 
 			// editCodeButton
 			// 
-			this.editCodeButton.Location = new System.Drawing.Point(516, 277);
+			this.editCodeButton.Location = new System.Drawing.Point(480, 277);
 			this.editCodeButton.Name = "editCodeButton";
-			this.editCodeButton.Size = new System.Drawing.Size(75, 45);
+			this.editCodeButton.Size = new System.Drawing.Size(103, 45);
 			this.editCodeButton.TabIndex = 37;
-			this.editCodeButton.Text = "修改码值";
+			this.editCodeButton.Text = "修改此行协议";
 			this.editCodeButton.UseVisualStyleBackColor = true;
 			this.editCodeButton.Click += new System.EventHandler(this.editCodeButton_Click);
 			// 
@@ -217,11 +217,11 @@
 			// ccDecodeButton
 			// 
 			this.ccDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDecodeButton.Location = new System.Drawing.Point(425, 277);
+			this.ccDecodeButton.Location = new System.Drawing.Point(355, 277);
 			this.ccDecodeButton.Name = "ccDecodeButton";
-			this.ccDecodeButton.Size = new System.Drawing.Size(75, 45);
+			this.ccDecodeButton.Size = new System.Drawing.Size(102, 45);
 			this.ccDecodeButton.TabIndex = 38;
-			this.ccDecodeButton.Text = "开启解码";
+			this.ccDecodeButton.Text = "开启红外解码";
 			this.ccDecodeButton.UseVisualStyleBackColor = true;
 			this.ccDecodeButton.Click += new System.EventHandler(this.ccDecodeButton_Click);
 			// 

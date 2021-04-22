@@ -3731,7 +3731,7 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：启动调试，基本只有在界面激活时用得到；
 		/// </summary>
-		private void startPreview()
+		protected  void startPreview()
 		{
 			if (IsConnected) {
 				SleepBetweenSend(1);
@@ -3742,7 +3742,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：关闭调试
 		/// </summary>
-		private void stopPreview()
+		protected void stopPreview()
 		{
 			if (IsConnected)
 			{

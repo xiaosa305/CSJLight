@@ -22,7 +22,7 @@ namespace LightController.PeripheralDevice
     public abstract class BaseCommunication
     {
         protected const int DEFAULT_PACKSIZE = 512;
-        protected const double TIMEOUT = 4000;//超时等待时长
+        protected const double TIMEOUT = 2000;//超时等待时长
         protected const int UDPADDR = 255;
         protected const int PACKHEADLENGTH = 8;//协议头大小
         protected const byte PACKFLAG1 = 0xAA;//协议标记1

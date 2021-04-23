@@ -152,6 +152,7 @@ namespace LightController.Utils.Ver2
                             catch (Exception ex)
                             {
                                 LogTools.Error("XIAOSA", "未能找到通道依赖的主通道数据", ex);
+                                this.BasicTaskStatus.Remove(item.Key);
                                 continue;
                             }
                             ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item.Key,data,isFineTune, fineTuneMaxValue, sceneNo + 0, Mode.Basics, global));

@@ -882,7 +882,7 @@ namespace LightController.MyForm.OtherTools
 				}
 
 				// 若还未加载任何墙板值，则主动点击《读取码值》
-				if (kpEntity != null) {
+				if (kpEntity == null) {
 					kpReadButton_Click(null, null);
 				}				
 			});

@@ -62,10 +62,11 @@ namespace LightController.MyForm
 
 		// 全局配置及数据库连接				
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
+		protected string projectStr; 
+		protected string connectStr;
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
 		public bool IsShowTestButton = false;
-		public bool IsShowHardwareUpdate = false;		
 		public bool IsNoticeUnifyTd = true;
 
 		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）			
@@ -183,9 +184,11 @@ namespace LightController.MyForm
 		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
 		// 调试面板
 		public virtual void EnableConnectedButtons(bool connected, bool previewing)
-		{
+		{			
 			IsConnected = connected;
 			IsPreviewing = previewing;
+			connectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName +" ]": "[ 设备未连接 ]";
+			Text = SoftwareName + projectStr + connectStr;
 		} //设置《连接按钮组》是否可用	
 
 		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
@@ -1643,7 +1646,8 @@ namespace LightController.MyForm
 			currentProjectPath = SavePath + @"\LightProject\" + projectName;
 			GlobalIniPath = currentProjectPath + @"\global.ini";
 			dbFilePath = currentProjectPath + @"\data.db3";
-			Text = SoftwareName + "("+ LanguageHelper.TranslateSentence("当前工程：") + projectName + ")";
+			projectStr = "(" + LanguageHelper.TranslateSentence("当前工程：") + projectName + ")";
+			Text = SoftwareName + projectStr +  connectStr ;
 
 			//1.1设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
 			arrangeIniPath = currentProjectPath + @"\arrange.ini";			
@@ -1729,7 +1733,8 @@ namespace LightController.MyForm
 			sceneSaveArray = null;
 			sceneLoadArray = null;
 
-			Text = SoftwareName;
+			projectStr = "";
+			Text = SoftwareName  + projectStr + connectStr;
 
 			EnterSyncMode(false);  //退出《同步模式》
 			RefreshMultiModeButtons(false); // 刷新为单灯状态的按钮可用性
@@ -4058,19 +4063,18 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void initGeneralControls()
 		{
-			this.components = new System.ComponentModel.Container();
+			components = new System.ComponentModel.Container();
 
 			// exportFolderBrowserDialog : 导出工程相关
-			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
-			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+			exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
+			exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
 
 			//// myToolTip：悬停提示,延迟600ms
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.myToolTip.IsBalloon = true;
-			this.myToolTip.InitialDelay = 600;
-
-			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码			
+			myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			myToolTip.IsBalloon = true;
+			myToolTip.InitialDelay = 600;
+						
 			SoftwareName = InHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "");
 			SoftwareName += " Dimmer System ";
 
@@ -4079,10 +4083,11 @@ namespace LightController.MyForm
 			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			SoftwareName += "v" + appFileVersion + " ";
 
+			Text = SoftwareName + projectStr + connectStr ;
+
 			//从GlobalSet.ini文件读取内容
 			SavePath = IniHelper.GetSavePath();
 			IsShowTestButton = IniHelper.GetIsShow( "testButton");
-			IsShowHardwareUpdate = IniHelper.GetIsShow( "hardwareUpdateButton");
 			IsShowSaPanels = IniHelper.GetIsShow("saPanels");
 			IsNoticeUnifyTd = IniHelper.GetIsShow("unifyTd");
 
@@ -4135,6 +4140,17 @@ namespace LightController.MyForm
 			soundCMArray = new object[] {
 				LanguageHelper.TranslateWord("屏蔽"),
 				LanguageHelper.TranslateWord("跳变") };
+
+			// 定义标题栏文字+Icon
+			string iconPath = Application.StartupPath + @"\favicon.ico";
+			if (File.Exists(iconPath))
+			{
+				Icon = Icon.ExtractAssociatedIcon(iconPath);
+			}
+			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
+			
+			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
+			CheckForIllegalCrossThreadCalls = false;
 		}   
 	
 		/// <summary>

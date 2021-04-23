@@ -47,21 +47,10 @@ namespace LightController.MyForm
 		private Panel[] saPanels = new Panel[32];
 
 		public NewMainForm()
-		{
-			initGeneralControls(); //几个全局控件的初始化
+		{			
 			InitializeComponent();
-
-			// 定义标题栏文字+Icon
-			string iconPath = Application.StartupPath + @"\favicon.ico";
-			if (File.Exists(iconPath))
-			{
-				Icon = Icon.ExtractAssociatedIcon(iconPath);
-			}
-			Text = SoftwareName;
-
-			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
-			CheckForIllegalCrossThreadCalls = false;
-
+			initGeneralControls(); //几个全局控件的初始化
+			
 			#region 动态添加32个tdPanel的内容及其监听事件; 动态添加32个saPanel 
 
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
@@ -186,7 +175,7 @@ namespace LightController.MyForm
 
 			// 场景选项框
 			// 添加FramList.txt中的场景列表
-			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
+		
 			foreach (string frame in AllFrameList)
 			{
 				sceneComboBox.Items.Add(frame);

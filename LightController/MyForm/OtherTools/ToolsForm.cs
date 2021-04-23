@@ -623,6 +623,8 @@ namespace LightController.MyForm.OtherTools
 			{
 				return;
 			}
+			setNotice(StatusLabel.RIGHT, "正在发送《灯控开关》调试数据..." ,false,true);
+			Refresh();
 			byte[] tempData = lcEntity.GetFrameBytes(sceneComboBox.SelectedIndex);
 			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
 		}
@@ -635,7 +637,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				Console.WriteLine("灯控debug(实时调试的数据)发送成功");
+				setNotice( StatusLabel.RIGHT, "已成功发送《灯控开关》调试数据。", false,true);
 			});
 		}
 
@@ -647,7 +649,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice(StatusLabel.RIGHT, "灯控已离线，发送debug数据失败，请重新连接后重试[" + msg + "]",false,true);
+				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]",false,true);
 			});
 		}
 
@@ -783,7 +785,9 @@ namespace LightController.MyForm.OtherTools
 				setConnStatus(ConnectStatus.Lc);
 				setNotice(StatusLabel.RIGHT, "已切换成中控配置(connStatus=lc)", false,true);
 				setBusy(false);
-				lcReadButton_Click(null, null);				
+
+				// 当还没有任何形式地加载lcEntity时，主动从机器回读
+				if (lcEntity == null) 	lcReadButton_Click(null, null);				
 			});
 		}	
 
@@ -1145,8 +1149,8 @@ namespace LightController.MyForm.OtherTools
 				refreshButtons();
 
 				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("已加载墙板配置文件:") + keyPath,
-					false, false);
+					LanguageHelper.TranslateSentence("已加载本地墙板配置文件：") + keyPath,
+					true, false);
 			}
 		}
 	
@@ -1157,7 +1161,11 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void kpSaveButton_Click(object sender, EventArgs e)
 		{
-			keySaveFileDialog.ShowDialog();
+			if (DialogResult.OK == keySaveFileDialog.ShowDialog()) {
+				string keyPath = keySaveFileDialog.FileName;
+				kpEntity.WriteToFile(keyPath);
+				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("成功保存墙板配置文件：") + keyPath, true, false);
+			}
 		}
 
 		#region 通用方法
@@ -1325,6 +1333,41 @@ namespace LightController.MyForm.OtherTools
 			int keyArrayIndex = Convert.ToInt32(kpOrderTextBox.Text) - 1; //keyEntity中的array索引号
 			kpEntity.Key0Array[keyArrayIndex] = kpKey0TextBox.Text;
 			kpEntity.Key1Array[keyArrayIndex] = kpKey1TextBox.Text;
+		}
+
+
+		/// <summary>
+		/// 事件：点击《(灯控)打开配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcLoadButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == cfgOpenFileDialog.ShowDialog()){
+				setNotice(StatusLabel.RIGHT, "正在打开本地灯控配置文件，请稍候...", false, true);
+				IList<string> paramList = getParamListFromPath( cfgOpenFileDialog.FileName);
+				lcEntity = new LightControlData(paramList);
+				lcRender();
+				setNotice(StatusLabel.RIGHT,
+					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + cfgOpenFileDialog.FileName,	
+					true, false);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《(灯控)保存配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcSaveButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == cfgSaveFileDialog.ShowDialog()) {
+				processLC();
+				lcEntity.WriteToFile(cfgSaveFileDialog.FileName);
+				setNotice(StatusLabel.RIGHT,
+					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + cfgSaveFileDialog.FileName,
+					true, false);
+			}
 		}
 	}
 }

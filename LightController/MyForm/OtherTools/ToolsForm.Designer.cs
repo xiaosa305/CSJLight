@@ -72,7 +72,6 @@
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
-			this.fillCodeAllButton = new System.Windows.Forms.Button();
 			this.kpSearchTextBox = new System.Windows.Forms.TextBox();
 			this.kpCodeListBox = new System.Windows.Forms.ListBox();
 			this.kpOrderTextBox = new System.Windows.Forms.TextBox();
@@ -107,6 +106,7 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.leftStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.rightStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.fillCodeAllButton = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
@@ -419,6 +419,7 @@
 			this.lcLoadButton.TabIndex = 4;
 			this.lcLoadButton.Text = "打开配置";
 			this.lcLoadButton.UseVisualStyleBackColor = true;
+			this.lcLoadButton.Click += new System.EventHandler(this.lcLoadButton_Click);
 			// 
 			// lcSaveButton
 			// 
@@ -429,6 +430,7 @@
 			this.lcSaveButton.TabIndex = 4;
 			this.lcSaveButton.Text = "保存配置";
 			this.lcSaveButton.UseVisualStyleBackColor = true;
+			this.lcSaveButton.Click += new System.EventHandler(this.lcSaveButton_Click);
 			// 
 			// lcReadButton
 			// 
@@ -477,7 +479,7 @@
 			this.sceneComboBox.Location = new System.Drawing.Point(112, 39);
 			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.sceneComboBox.Name = "sceneComboBox";
-			this.sceneComboBox.Size = new System.Drawing.Size(133, 20);
+			this.sceneComboBox.Size = new System.Drawing.Size(143, 20);
 			this.sceneComboBox.TabIndex = 0;
 			this.sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
 			// 
@@ -578,16 +580,6 @@
 			this.keyTabPage.Size = new System.Drawing.Size(1156, 567);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
-			// 
-			// fillCodeAllButton
-			// 
-			this.fillCodeAllButton.Location = new System.Drawing.Point(551, 485);
-			this.fillCodeAllButton.Name = "fillCodeAllButton";
-			this.fillCodeAllButton.Size = new System.Drawing.Size(31, 67);
-			this.fillCodeAllButton.TabIndex = 11;
-			this.fillCodeAllButton.Text = "<=";
-			this.fillCodeAllButton.UseVisualStyleBackColor = true;
-			this.fillCodeAllButton.Click += new System.EventHandler(this.fillCodeButton_Click);
 			// 
 			// kpSearchTextBox
 			// 
@@ -881,6 +873,16 @@
 			this.rightStatusLabel.Size = new System.Drawing.Size(604, 17);
 			this.rightStatusLabel.Spring = true;
 			// 
+			// fillCodeAllButton
+			// 
+			this.fillCodeAllButton.Location = new System.Drawing.Point(551, 485);
+			this.fillCodeAllButton.Name = "fillCodeAllButton";
+			this.fillCodeAllButton.Size = new System.Drawing.Size(31, 67);
+			this.fillCodeAllButton.TabIndex = 11;
+			this.fillCodeAllButton.Text = "<=";
+			this.fillCodeAllButton.UseVisualStyleBackColor = true;
+			this.fillCodeAllButton.Click += new System.EventHandler(this.fillCodeButton_Click);
+			// 
 			// ToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -994,8 +996,8 @@
 		private System.Windows.Forms.Button fillCode0Button;
 		private System.Windows.Forms.TextBox kpOrderTextBox;
 		private System.Windows.Forms.ListBox kpCodeListBox;
-		private System.Windows.Forms.Button fillCodeAllButton;
 		private System.Windows.Forms.TextBox kpSearchTextBox;
 		private System.Windows.Forms.Button kpSearchButton;
+		private System.Windows.Forms.Button fillCodeAllButton;
 	}
 }

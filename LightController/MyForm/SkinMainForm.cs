@@ -40,22 +40,9 @@ namespace LightController.MyForm
 		private Panel[] saPanels = new Panel[32];		
 
 		public SkinMainForm()
-		{
-			initGeneralControls();
+		{			
 			InitializeComponent();
-
-			// 定义标题栏文字+Icon
-			string iconPath = Application.StartupPath + @"\favicon.ico";
-			if (File.Exists(iconPath))
-			{
-				Icon = Icon.ExtractAssociatedIcon(iconPath);
-			}
-			Text = SoftwareName;
-
-			deviceConnectButton.Visible = IsShowHardwareUpdate;			
-
-			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
-			CheckForIllegalCrossThreadCalls = false;			
+			initGeneralControls();							
 
 			#region 初始化各通道控件
 			

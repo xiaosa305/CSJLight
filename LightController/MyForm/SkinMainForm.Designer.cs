@@ -240,7 +240,6 @@ namespace LightController.MyForm
 			this.deviceConnectButton.Text = "设备连接";
 			this.deviceConnectButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.deviceConnectButton.UseVisualStyleBackColor = false;
-			this.deviceConnectButton.Visible = false;
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
 			// lightLibrarySkinButton

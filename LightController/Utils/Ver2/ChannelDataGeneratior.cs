@@ -137,14 +137,22 @@ namespace LightController.Utils.Ver2
                             {
                                 this.BasicTaskStatus.Add(item.Key + 0, false);
                             }
-                            for (int i = 0; i < wrapper.fineTuneList.Count; i++)
+                            try
                             {
-                                if (wrapper.fineTuneList[i].FineTuneIndex == item.Key)
+                                for (int i = 0; i < wrapper.fineTuneList.Count; i++)
                                 {
-                                    data = cValues[wrapper.fineTuneList[i].MainIndex];
-                                    isFineTune = true;
-                                    fineTuneMaxValue = wrapper.fineTuneList[i].MaxValue;
+                                    if (wrapper.fineTuneList[i].FineTuneIndex == item.Key)
+                                    {
+                                        data = cValues[wrapper.fineTuneList[i].MainIndex];
+                                        isFineTune = true;
+                                        fineTuneMaxValue = wrapper.fineTuneList[i].MaxValue;
+                                    }
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                LogTools.Error("XIAOSA", "未能找到通道依赖的主通道数据", ex);
+                                continue;
                             }
                             ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item.Key,data,isFineTune, fineTuneMaxValue, sceneNo + 0, Mode.Basics, global));
                         }

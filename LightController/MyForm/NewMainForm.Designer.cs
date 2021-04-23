@@ -35,13 +35,14 @@ namespace LightController.MyForm
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.使用说明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -166,13 +167,14 @@ namespace LightController.MyForm
 			this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectToolStripMenuItem,
+            this.toolStripMenuItem3,
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
             this.newToolStripMenuItem,
             this.toolStripMenuItem1,
+            this.projectUpdateToolStripMenuItem,
             this.lightListToolStripMenuItem,
             this.globalSetToolStripMenuItem,
-            this.projectUpdateToolStripMenuItem,
             this.toolStripMenuItem2,
             this.helpToolStripMenuItem,
             this.ExitToolStripMenuItem});
@@ -189,6 +191,13 @@ namespace LightController.MyForm
 			this.connectToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.connectToolStripMenuItem.Text = "设备连接";
 			this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem3
+			// 
+			this.toolStripMenuItem3.Enabled = false;
+			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(23, 26);
+			this.toolStripMenuItem3.Text = "|";
 			// 
 			// lightLibraryToolStripMenuItem
 			// 
@@ -220,6 +229,14 @@ namespace LightController.MyForm
 			this.toolStripMenuItem1.Size = new System.Drawing.Size(23, 26);
 			this.toolStripMenuItem1.Text = "|";
 			// 
+			// projectUpdateToolStripMenuItem
+			// 
+			this.projectUpdateToolStripMenuItem.Enabled = false;
+			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
+			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.projectUpdateToolStripMenuItem.Text = "工程更新";
+			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
+			// 
 			// lightListToolStripMenuItem
 			// 
 			this.lightListToolStripMenuItem.Enabled = false;
@@ -235,14 +252,6 @@ namespace LightController.MyForm
 			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.globalSetToolStripMenuItem.Text = "全局设置";
 			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globalSetToolStripMenuItem_Click);
-			// 
-			// projectUpdateToolStripMenuItem
-			// 
-			this.projectUpdateToolStripMenuItem.Enabled = false;
-			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
-			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.projectUpdateToolStripMenuItem.Text = "工程更新";
-			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem2
 			// 
@@ -930,7 +939,7 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.multiplexButton);
 			this.stepPanel.Controls.Add(this.appendButton);
 			this.stepPanel.Enabled = false;
-			this.stepPanel.Location = new System.Drawing.Point(84, 0);
+			this.stepPanel.Location = new System.Drawing.Point(56, 0);
 			this.stepPanel.Name = "stepPanel";
 			this.stepPanel.Size = new System.Drawing.Size(1071, 83);
 			this.stepPanel.TabIndex = 65;
@@ -1335,5 +1344,6 @@ namespace LightController.MyForm
 		private Button detailMultiButton;
 		private Label lightsAddrLabel;
 		private ToolStripMenuItem connectToolStripMenuItem;
+		private ToolStripMenuItem toolStripMenuItem3;
 	}
 }

@@ -127,8 +127,7 @@
 			// 
 			// functionTextBox
 			// 
-			this.functionTextBox.Enabled = false;
-			this.functionTextBox.Location = new System.Drawing.Point(120, 29);
+			this.functionTextBox.Location = new System.Drawing.Point(425, 28);
 			this.functionTextBox.Name = "functionTextBox";
 			this.functionTextBox.Size = new System.Drawing.Size(162, 21);
 			this.functionTextBox.TabIndex = 19;
@@ -208,7 +207,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(33, 33);
+			this.label2.Location = new System.Drawing.Point(338, 32);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(53, 12);
 			this.label2.TabIndex = 18;
@@ -228,7 +227,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(338, 33);
+			this.label1.Location = new System.Drawing.Point(33, 33);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(29, 12);
 			this.label1.TabIndex = 18;
@@ -237,9 +236,9 @@
 			// codeTextBox
 			// 
 			this.codeTextBox.Enabled = false;
-			this.codeTextBox.Location = new System.Drawing.Point(425, 29);
+			this.codeTextBox.Location = new System.Drawing.Point(118, 29);
 			this.codeTextBox.Name = "codeTextBox";
-			this.codeTextBox.Size = new System.Drawing.Size(162, 21);
+			this.codeTextBox.Size = new System.Drawing.Size(73, 21);
 			this.codeTextBox.TabIndex = 19;
 			// 
 			// statusStrip1

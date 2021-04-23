@@ -1861,7 +1861,7 @@ namespace LightController.MyForm
 			// 默认情况下，《保持其它灯状态》还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isKeepOtherLights)
 			{
-				keepButton.Text = "取消\n保持状态";
+				keepButton.Text = "取消保持";
 				isKeepOtherLights = true;
 			}
 			else //否则( 按钮显示为“保持其他灯状态”）断开连接

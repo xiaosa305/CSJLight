@@ -511,6 +511,9 @@
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Content Include="Party.ico" />
+    <None Include="Protocol\SceneCode">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="灯库软件.ico" />
     <Content Include="Language\en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

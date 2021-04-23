@@ -66,8 +66,8 @@ namespace LightController.MyForm.OtherTools
 		private void ProtocolDataForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
 			e.Cancel = true;			
-			MessageBox.Show("1.在《开启红外解码》的状态下，点击《红外发送》或《红外接收》文本框，然后按某个红外遥控按钮，系统将会自动把该按钮的码值记录到红外文本框中；\n" +
-				"2.若间隔超过一分钟没有点击遥控按钮，则设备会退出解码模式，只需点击关闭解码，再重新开启解码即可；\n " +
+			MessageBox.Show("1.在《开启红外解码》的状态下：①点击《红外发送》或《红外接收》文本框；②把红外遥控对准设备按按钮，该按钮的码值将自动写入到①点击的文本框中；\n" +
+				"2.若间隔超过一分钟没有点击遥控按钮，则设备会退出解码模式(此时按遥控无法记录码值)；只需点击《关闭红外解码》，再重新《开启红外解码》即可；\n " +
 				"3.修改的码值不会自动保存，修改的内容只在本次软件运行期间(且未切换协议)生效，如需设为长期协议，可在《外设配置》界面内点击《协议另存为》进行保存。",	
 				"使用提示？"
 				,MessageBoxButtons.OK,

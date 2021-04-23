@@ -52,9 +52,6 @@
 			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
-			this.ccToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.ccToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ccSearchTextBox = new System.Windows.Forms.TextBox();
 			this.ccDownloadButton = new System.Windows.Forms.Button();
 			this.ccSearchButton = new System.Windows.Forms.Button();
@@ -62,64 +59,63 @@
 			this.com0Label = new System.Windows.Forms.Label();
 			this.com1Label = new System.Windows.Forms.Label();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
-			this.lcStatusStrip = new System.Windows.Forms.StatusStrip();
-			this.lcToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.lcToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.lcDownloadButton = new System.Windows.Forms.Button();
 			this.lcLoadButton = new System.Windows.Forms.Button();
 			this.lcSaveButton = new System.Windows.Forms.Button();
 			this.lcReadButton = new System.Windows.Forms.Button();
 			this.label23 = new System.Windows.Forms.Label();
-			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
+			this.sceneComboBox = new System.Windows.Forms.ComboBox();
 			this.lightGroupBox = new System.Windows.Forms.GroupBox();
 			this.relayFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.relayButtonDemo = new CCWin.SkinControl.SkinButton();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
-			this.kpStatusStrip = new System.Windows.Forms.StatusStrip();
-			this.kpToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.kpToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.fillCodeAllButton = new System.Windows.Forms.Button();
+			this.kpSearchTextBox = new System.Windows.Forms.TextBox();
+			this.kpCodeListBox = new System.Windows.Forms.ListBox();
+			this.kpOrderTextBox = new System.Windows.Forms.TextBox();
+			this.kpSearchButton = new System.Windows.Forms.Button();
+			this.fillCode1Button = new System.Windows.Forms.Button();
+			this.fillCode0Button = new System.Windows.Forms.Button();
 			this.kpReadButton = new System.Windows.Forms.Button();
 			this.kpListenButton = new System.Windows.Forms.Button();
 			this.keypressListView = new System.Windows.Forms.ListView();
 			this.columnHeader2x = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader20 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader21 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader22 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label25 = new System.Windows.Forms.Label();
 			this.label24 = new System.Windows.Forms.Label();
-			this.kpPositonLoadButton = new System.Windows.Forms.Button();
-			this.kpRearrangeButton = new System.Windows.Forms.Button();
 			this.kpLoadButton = new System.Windows.Forms.Button();
-			this.kpPositonSaveButton = new System.Windows.Forms.Button();
-			this.kpShowButton = new System.Windows.Forms.Button();
-			this.kpOrderTextBox = new System.Windows.Forms.TextBox();
 			this.label26 = new System.Windows.Forms.Label();
 			this.kpKey1TextBox = new System.Windows.Forms.TextBox();
 			this.kpEditButton = new System.Windows.Forms.Button();
 			this.kpDownloadButton = new System.Windows.Forms.Button();
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
-			this.myInfoToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.cfgOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.cfgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.protocolSaveButton = new System.Windows.Forms.Button();
 			this.pbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.leftStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.rightStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
-			this.ccStatusStrip.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
-			this.lcStatusStrip.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.lightGroupBox.SuspendLayout();
 			this.relayFLP.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
-			this.kpStatusStrip.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// protocolEditButton
@@ -210,11 +206,11 @@
 			this.tabControl1.Controls.Add(this.keyTabPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tabControl1.ItemSize = new System.Drawing.Size(300, 60);
-			this.tabControl1.Location = new System.Drawing.Point(0, 82);
+			this.tabControl1.Location = new System.Drawing.Point(0, 84);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1225, 597);
+			this.tabControl1.Size = new System.Drawing.Size(1224, 575);
 			this.tabControl1.TabIndex = 29;
 			this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
@@ -223,7 +219,6 @@
 			// 
 			this.centerTabPage.BackColor = System.Drawing.Color.PowderBlue;
 			this.centerTabPage.Controls.Add(this.protocolListView);
-			this.centerTabPage.Controls.Add(this.ccStatusStrip);
 			this.centerTabPage.Controls.Add(this.ccSearchTextBox);
 			this.centerTabPage.Controls.Add(this.ccDownloadButton);
 			this.centerTabPage.Controls.Add(this.ccSearchButton);
@@ -233,7 +228,7 @@
 			this.centerTabPage.Location = new System.Drawing.Point(64, 4);
 			this.centerTabPage.Name = "centerTabPage";
 			this.centerTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.centerTabPage.Size = new System.Drawing.Size(1157, 589);
+			this.centerTabPage.Size = new System.Drawing.Size(1156, 567);
 			this.centerTabPage.TabIndex = 0;
 			this.centerTabPage.Text = "中控配置";
 			// 
@@ -256,9 +251,9 @@
 			this.protocolListView.GridLines = true;
 			this.protocolListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.protocolListView.HideSelection = false;
-			this.protocolListView.Location = new System.Drawing.Point(3, 79);
+			this.protocolListView.Location = new System.Drawing.Point(3, 83);
 			this.protocolListView.Name = "protocolListView";
-			this.protocolListView.Size = new System.Drawing.Size(1151, 481);
+			this.protocolListView.Size = new System.Drawing.Size(1150, 481);
 			this.protocolListView.TabIndex = 0;
 			this.protocolListView.UseCompatibleStateImageBehavior = false;
 			this.protocolListView.View = System.Windows.Forms.View.Details;
@@ -318,34 +313,6 @@
 			// 
 			this.columnHeader10.Text = "PS2下行";
 			this.columnHeader10.Width = 119;
-			// 
-			// ccStatusStrip
-			// 
-			this.ccStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.ccStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ccToolStripStatusLabel1,
-            this.ccToolStripStatusLabel2});
-			this.ccStatusStrip.Location = new System.Drawing.Point(3, 560);
-			this.ccStatusStrip.Name = "ccStatusStrip";
-			this.ccStatusStrip.Size = new System.Drawing.Size(1151, 26);
-			this.ccStatusStrip.SizingGrip = false;
-			this.ccStatusStrip.TabIndex = 16;
-			// 
-			// ccToolStripStatusLabel1
-			// 
-			this.ccToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
-			this.ccToolStripStatusLabel1.Name = "ccToolStripStatusLabel1";
-			this.ccToolStripStatusLabel1.Size = new System.Drawing.Size(568, 21);
-			this.ccToolStripStatusLabel1.Spring = true;
-			this.ccToolStripStatusLabel1.Text = "  ";
-			// 
-			// ccToolStripStatusLabel2
-			// 
-			this.ccToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
-			this.ccToolStripStatusLabel2.Name = "ccToolStripStatusLabel2";
-			this.ccToolStripStatusLabel2.Size = new System.Drawing.Size(568, 21);
-			this.ccToolStripStatusLabel2.Spring = true;
-			this.ccToolStripStatusLabel2.Text = "  ";
 			// 
 			// ccSearchTextBox
 			// 
@@ -408,43 +375,16 @@
 			// lightTabPage
 			// 
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
-			this.lightTabPage.Controls.Add(this.lcStatusStrip);
 			this.lightTabPage.Controls.Add(this.groupBox3);
 			this.lightTabPage.Controls.Add(this.label23);
-			this.lightTabPage.Controls.Add(this.qdFrameComboBox);
+			this.lightTabPage.Controls.Add(this.sceneComboBox);
 			this.lightTabPage.Controls.Add(this.lightGroupBox);
 			this.lightTabPage.Location = new System.Drawing.Point(64, 4);
 			this.lightTabPage.Name = "lightTabPage";
 			this.lightTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.lightTabPage.Size = new System.Drawing.Size(1157, 589);
+			this.lightTabPage.Size = new System.Drawing.Size(1156, 567);
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
-			// 
-			// lcStatusStrip
-			// 
-			this.lcStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.lcStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lcToolStripStatusLabel1,
-            this.lcToolStripStatusLabel2});
-			this.lcStatusStrip.Location = new System.Drawing.Point(3, 564);
-			this.lcStatusStrip.Name = "lcStatusStrip";
-			this.lcStatusStrip.Size = new System.Drawing.Size(1151, 22);
-			this.lcStatusStrip.SizingGrip = false;
-			this.lcStatusStrip.TabIndex = 8;
-			// 
-			// lcToolStripStatusLabel1
-			// 
-			this.lcToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
-			this.lcToolStripStatusLabel1.Name = "lcToolStripStatusLabel1";
-			this.lcToolStripStatusLabel1.Size = new System.Drawing.Size(568, 17);
-			this.lcToolStripStatusLabel1.Spring = true;
-			// 
-			// lcToolStripStatusLabel2
-			// 
-			this.lcToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
-			this.lcToolStripStatusLabel2.Name = "lcToolStripStatusLabel2";
-			this.lcToolStripStatusLabel2.Size = new System.Drawing.Size(568, 17);
-			this.lcToolStripStatusLabel2.Spring = true;
 			// 
 			// groupBox3
 			// 
@@ -461,13 +401,14 @@
 			// 
 			// lcDownloadButton
 			// 
+			this.lcDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.lcDownloadButton.Enabled = false;
 			this.lcDownloadButton.Location = new System.Drawing.Point(87, 20);
 			this.lcDownloadButton.Name = "lcDownloadButton";
 			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcDownloadButton.TabIndex = 4;
 			this.lcDownloadButton.Text = "下载配置";
-			this.lcDownloadButton.UseVisualStyleBackColor = true;
+			this.lcDownloadButton.UseVisualStyleBackColor = false;
 			this.lcDownloadButton.Click += new System.EventHandler(this.lcDownloadButton_Click);
 			// 
 			// lcLoadButton
@@ -510,12 +451,12 @@
 			this.label23.TabIndex = 2;
 			this.label23.Text = "选择场景：";
 			// 
-			// qdFrameComboBox
+			// sceneComboBox
 			// 
-			this.qdFrameComboBox.BackColor = System.Drawing.Color.Linen;
-			this.qdFrameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.qdFrameComboBox.FormattingEnabled = true;
-			this.qdFrameComboBox.Items.AddRange(new object[] {
+			this.sceneComboBox.BackColor = System.Drawing.Color.Linen;
+			this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.sceneComboBox.FormattingEnabled = true;
+			this.sceneComboBox.Items.AddRange(new object[] {
             "开机场景",
             "场景1",
             "场景2",
@@ -533,12 +474,12 @@
             "场景14",
             "场景15",
             "场景16"});
-			this.qdFrameComboBox.Location = new System.Drawing.Point(112, 39);
-			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.qdFrameComboBox.Name = "qdFrameComboBox";
-			this.qdFrameComboBox.Size = new System.Drawing.Size(133, 20);
-			this.qdFrameComboBox.TabIndex = 0;
-			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
+			this.sceneComboBox.Location = new System.Drawing.Point(112, 39);
+			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.sceneComboBox.Name = "sceneComboBox";
+			this.sceneComboBox.Size = new System.Drawing.Size(133, 20);
+			this.sceneComboBox.TabIndex = 0;
+			this.sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
 			// 
 			// lightGroupBox
 			// 
@@ -612,18 +553,19 @@
 			// keyTabPage
 			// 
 			this.keyTabPage.BackColor = System.Drawing.SystemColors.InactiveCaption;
-			this.keyTabPage.Controls.Add(this.kpStatusStrip);
+			this.keyTabPage.Controls.Add(this.fillCodeAllButton);
+			this.keyTabPage.Controls.Add(this.kpSearchTextBox);
+			this.keyTabPage.Controls.Add(this.kpCodeListBox);
+			this.keyTabPage.Controls.Add(this.kpOrderTextBox);
+			this.keyTabPage.Controls.Add(this.kpSearchButton);
+			this.keyTabPage.Controls.Add(this.fillCode1Button);
+			this.keyTabPage.Controls.Add(this.fillCode0Button);
 			this.keyTabPage.Controls.Add(this.kpReadButton);
 			this.keyTabPage.Controls.Add(this.kpListenButton);
 			this.keyTabPage.Controls.Add(this.keypressListView);
 			this.keyTabPage.Controls.Add(this.label25);
 			this.keyTabPage.Controls.Add(this.label24);
-			this.keyTabPage.Controls.Add(this.kpPositonLoadButton);
-			this.keyTabPage.Controls.Add(this.kpRearrangeButton);
 			this.keyTabPage.Controls.Add(this.kpLoadButton);
-			this.keyTabPage.Controls.Add(this.kpPositonSaveButton);
-			this.keyTabPage.Controls.Add(this.kpShowButton);
-			this.keyTabPage.Controls.Add(this.kpOrderTextBox);
 			this.keyTabPage.Controls.Add(this.label26);
 			this.keyTabPage.Controls.Add(this.kpKey1TextBox);
 			this.keyTabPage.Controls.Add(this.kpEditButton);
@@ -633,40 +575,85 @@
 			this.keyTabPage.Location = new System.Drawing.Point(64, 4);
 			this.keyTabPage.Name = "keyTabPage";
 			this.keyTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.keyTabPage.Size = new System.Drawing.Size(1157, 589);
+			this.keyTabPage.Size = new System.Drawing.Size(1156, 567);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
 			// 
-			// kpStatusStrip
+			// fillCodeAllButton
 			// 
-			this.kpStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.kpStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kpToolStripStatusLabel1,
-            this.kpToolStripStatusLabel2});
-			this.kpStatusStrip.Location = new System.Drawing.Point(3, 564);
-			this.kpStatusStrip.Name = "kpStatusStrip";
-			this.kpStatusStrip.Size = new System.Drawing.Size(1151, 22);
-			this.kpStatusStrip.SizingGrip = false;
-			this.kpStatusStrip.TabIndex = 10;
+			this.fillCodeAllButton.Location = new System.Drawing.Point(551, 485);
+			this.fillCodeAllButton.Name = "fillCodeAllButton";
+			this.fillCodeAllButton.Size = new System.Drawing.Size(31, 67);
+			this.fillCodeAllButton.TabIndex = 11;
+			this.fillCodeAllButton.Text = "<=";
+			this.fillCodeAllButton.UseVisualStyleBackColor = true;
+			this.fillCodeAllButton.Click += new System.EventHandler(this.fillCodeButton_Click);
 			// 
-			// kpToolStripStatusLabel1
+			// kpSearchTextBox
 			// 
-			this.kpToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
-			this.kpToolStripStatusLabel1.Name = "kpToolStripStatusLabel1";
-			this.kpToolStripStatusLabel1.Size = new System.Drawing.Size(568, 17);
-			this.kpToolStripStatusLabel1.Spring = true;
+			this.kpSearchTextBox.Location = new System.Drawing.Point(817, 425);
+			this.kpSearchTextBox.Name = "kpSearchTextBox";
+			this.kpSearchTextBox.Size = new System.Drawing.Size(106, 21);
+			this.kpSearchTextBox.TabIndex = 10;
+			this.kpSearchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// kpToolStripStatusLabel2
+			// kpCodeListBox
 			// 
-			this.kpToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
-			this.kpToolStripStatusLabel2.Name = "kpToolStripStatusLabel2";
-			this.kpToolStripStatusLabel2.Size = new System.Drawing.Size(568, 17);
-			this.kpToolStripStatusLabel2.Spring = true;
+			this.kpCodeListBox.BackColor = System.Drawing.Color.White;
+			this.kpCodeListBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.kpCodeListBox.ForeColor = System.Drawing.Color.Black;
+			this.kpCodeListBox.FormattingEnabled = true;
+			this.kpCodeListBox.ItemHeight = 14;
+			this.kpCodeListBox.Location = new System.Drawing.Point(600, 425);
+			this.kpCodeListBox.Margin = new System.Windows.Forms.Padding(2);
+			this.kpCodeListBox.Name = "kpCodeListBox";
+			this.kpCodeListBox.Size = new System.Drawing.Size(201, 130);
+			this.kpCodeListBox.TabIndex = 9;
+			this.kpCodeListBox.DoubleClick += new System.EventHandler(this.kpCodeListBox_DoubleClick);
+			// 
+			// kpOrderTextBox
+			// 
+			this.kpOrderTextBox.Enabled = false;
+			this.kpOrderTextBox.Location = new System.Drawing.Point(459, 436);
+			this.kpOrderTextBox.Name = "kpOrderTextBox";
+			this.kpOrderTextBox.Size = new System.Drawing.Size(50, 21);
+			this.kpOrderTextBox.TabIndex = 8;
+			this.kpOrderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// kpSearchButton
+			// 
+			this.kpSearchButton.Location = new System.Drawing.Point(817, 452);
+			this.kpSearchButton.Name = "kpSearchButton";
+			this.kpSearchButton.Size = new System.Drawing.Size(105, 24);
+			this.kpSearchButton.TabIndex = 7;
+			this.kpSearchButton.Text = "<- 搜索码值";
+			this.kpSearchButton.UseVisualStyleBackColor = true;
+			this.kpSearchButton.Click += new System.EventHandler(this.kpSearchButton_Click);
+			// 
+			// fillCode1Button
+			// 
+			this.fillCode1Button.Location = new System.Drawing.Point(515, 526);
+			this.fillCode1Button.Name = "fillCode1Button";
+			this.fillCode1Button.Size = new System.Drawing.Size(29, 23);
+			this.fillCode1Button.TabIndex = 7;
+			this.fillCode1Button.Text = "<-";
+			this.fillCode1Button.UseVisualStyleBackColor = true;
+			this.fillCode1Button.Click += new System.EventHandler(this.fillCodeButton_Click);
+			// 
+			// fillCode0Button
+			// 
+			this.fillCode0Button.Location = new System.Drawing.Point(515, 485);
+			this.fillCode0Button.Name = "fillCode0Button";
+			this.fillCode0Button.Size = new System.Drawing.Size(29, 23);
+			this.fillCode0Button.TabIndex = 7;
+			this.fillCode0Button.Text = "<-";
+			this.fillCode0Button.UseVisualStyleBackColor = true;
+			this.fillCode0Button.Click += new System.EventHandler(this.fillCodeButton_Click);
 			// 
 			// kpReadButton
 			// 
 			this.kpReadButton.Enabled = false;
-			this.kpReadButton.Location = new System.Drawing.Point(57, 29);
+			this.kpReadButton.Location = new System.Drawing.Point(30, 436);
 			this.kpReadButton.Name = "kpReadButton";
 			this.kpReadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpReadButton.TabIndex = 5;
@@ -677,7 +664,7 @@
 			// kpListenButton
 			// 
 			this.kpListenButton.Enabled = false;
-			this.kpListenButton.Location = new System.Drawing.Point(58, 95);
+			this.kpListenButton.Location = new System.Drawing.Point(173, 436);
 			this.kpListenButton.Name = "kpListenButton";
 			this.kpListenButton.Size = new System.Drawing.Size(105, 40);
 			this.kpListenButton.TabIndex = 5;
@@ -694,17 +681,21 @@
             this.columnHeader2x,
             this.columnHeader20,
             this.columnHeader21,
-            this.columnHeader22});
+            this.columnHeader11,
+            this.columnHeader22,
+            this.columnHeader12});
+			this.keypressListView.Dock = System.Windows.Forms.DockStyle.Top;
 			this.keypressListView.FullRowSelect = true;
 			this.keypressListView.GridLines = true;
 			this.keypressListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.keypressListView.HideSelection = false;
-			this.keypressListView.Location = new System.Drawing.Point(224, 3);
+			this.keypressListView.Location = new System.Drawing.Point(3, 3);
 			this.keypressListView.Name = "keypressListView";
-			this.keypressListView.Size = new System.Drawing.Size(722, 558);
+			this.keypressListView.Size = new System.Drawing.Size(1150, 402);
 			this.keypressListView.TabIndex = 1;
 			this.keypressListView.UseCompatibleStateImageBehavior = false;
 			this.keypressListView.View = System.Windows.Forms.View.Details;
+			this.keypressListView.SelectedIndexChanged += new System.EventHandler(this.keypressListView_SelectedIndexChanged);
 			// 
 			// columnHeader2x
 			// 
@@ -714,24 +705,36 @@
 			// 
 			this.columnHeader20.Text = "键序";
 			this.columnHeader20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.columnHeader20.Width = 239;
+			this.columnHeader20.Width = 115;
 			// 
 			// columnHeader21
 			// 
 			this.columnHeader21.Text = "键码值0";
 			this.columnHeader21.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.columnHeader21.Width = 239;
+			this.columnHeader21.Width = 107;
+			// 
+			// columnHeader11
+			// 
+			this.columnHeader11.Text = "<- 键值码0 功能描述";
+			this.columnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader11.Width = 302;
 			// 
 			// columnHeader22
 			// 
 			this.columnHeader22.Text = "键码值1";
 			this.columnHeader22.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.columnHeader22.Width = 239;
+			this.columnHeader22.Width = 146;
+			// 
+			// columnHeader12
+			// 
+			this.columnHeader12.Text = "<- 键值码0 功能描述";
+			this.columnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader12.Width = 307;
 			// 
 			// label25
 			// 
 			this.label25.AutoSize = true;
-			this.label25.Location = new System.Drawing.Point(984, 461);
+			this.label25.Location = new System.Drawing.Point(401, 531);
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(47, 12);
 			this.label25.TabIndex = 6;
@@ -740,35 +743,15 @@
 			// label24
 			// 
 			this.label24.AutoSize = true;
-			this.label24.Location = new System.Drawing.Point(984, 405);
+			this.label24.Location = new System.Drawing.Point(401, 490);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(47, 12);
 			this.label24.TabIndex = 6;
 			this.label24.Text = "键码值0";
 			// 
-			// kpPositonLoadButton
-			// 
-			this.kpPositonLoadButton.Location = new System.Drawing.Point(1025, 227);
-			this.kpPositonLoadButton.Name = "kpPositonLoadButton";
-			this.kpPositonLoadButton.Size = new System.Drawing.Size(105, 40);
-			this.kpPositonLoadButton.TabIndex = 5;
-			this.kpPositonLoadButton.Text = "读取按键位置";
-			this.kpPositonLoadButton.UseVisualStyleBackColor = true;
-			this.kpPositonLoadButton.Visible = false;
-			// 
-			// kpRearrangeButton
-			// 
-			this.kpRearrangeButton.Location = new System.Drawing.Point(1025, 95);
-			this.kpRearrangeButton.Name = "kpRearrangeButton";
-			this.kpRearrangeButton.Size = new System.Drawing.Size(105, 40);
-			this.kpRearrangeButton.TabIndex = 5;
-			this.kpRearrangeButton.Text = "重新排列";
-			this.kpRearrangeButton.UseVisualStyleBackColor = true;
-			this.kpRearrangeButton.Visible = false;
-			// 
 			// kpLoadButton
 			// 
-			this.kpLoadButton.Location = new System.Drawing.Point(57, 349);
+			this.kpLoadButton.Location = new System.Drawing.Point(30, 503);
 			this.kpLoadButton.Name = "kpLoadButton";
 			this.kpLoadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpLoadButton.TabIndex = 5;
@@ -776,39 +759,10 @@
 			this.kpLoadButton.UseVisualStyleBackColor = true;
 			this.kpLoadButton.Click += new System.EventHandler(this.kpLoadButton_Click);
 			// 
-			// kpPositonSaveButton
-			// 
-			this.kpPositonSaveButton.Location = new System.Drawing.Point(1025, 161);
-			this.kpPositonSaveButton.Name = "kpPositonSaveButton";
-			this.kpPositonSaveButton.Size = new System.Drawing.Size(105, 40);
-			this.kpPositonSaveButton.TabIndex = 5;
-			this.kpPositonSaveButton.Text = "保存按键位置";
-			this.kpPositonSaveButton.UseVisualStyleBackColor = true;
-			this.kpPositonSaveButton.Visible = false;
-			// 
-			// kpShowButton
-			// 
-			this.kpShowButton.Location = new System.Drawing.Point(1025, 29);
-			this.kpShowButton.Name = "kpShowButton";
-			this.kpShowButton.Size = new System.Drawing.Size(105, 40);
-			this.kpShowButton.TabIndex = 5;
-			this.kpShowButton.Text = "显示图标";
-			this.kpShowButton.UseVisualStyleBackColor = true;
-			this.kpShowButton.Visible = false;
-			// 
-			// kpOrderTextBox
-			// 
-			this.kpOrderTextBox.Enabled = false;
-			this.kpOrderTextBox.Location = new System.Drawing.Point(1042, 342);
-			this.kpOrderTextBox.Name = "kpOrderTextBox";
-			this.kpOrderTextBox.Size = new System.Drawing.Size(90, 21);
-			this.kpOrderTextBox.TabIndex = 0;
-			this.kpOrderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
 			// label26
 			// 
 			this.label26.AutoSize = true;
-			this.label26.Location = new System.Drawing.Point(993, 349);
+			this.label26.Location = new System.Drawing.Point(401, 439);
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(29, 12);
 			this.label26.TabIndex = 6;
@@ -816,36 +770,39 @@
 			// 
 			// kpKey1TextBox
 			// 
-			this.kpKey1TextBox.Location = new System.Drawing.Point(1042, 454);
+			this.kpKey1TextBox.Location = new System.Drawing.Point(459, 527);
 			this.kpKey1TextBox.Name = "kpKey1TextBox";
-			this.kpKey1TextBox.Size = new System.Drawing.Size(90, 21);
+			this.kpKey1TextBox.Size = new System.Drawing.Size(50, 21);
 			this.kpKey1TextBox.TabIndex = 2;
 			this.kpKey1TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// kpEditButton
 			// 
-			this.kpEditButton.Location = new System.Drawing.Point(1040, 503);
+			this.kpEditButton.Location = new System.Drawing.Point(818, 512);
 			this.kpEditButton.Name = "kpEditButton";
-			this.kpEditButton.Size = new System.Drawing.Size(92, 40);
+			this.kpEditButton.Size = new System.Drawing.Size(105, 40);
 			this.kpEditButton.TabIndex = 5;
 			this.kpEditButton.Text = "修改键码值";
 			this.kpEditButton.UseVisualStyleBackColor = true;
+			this.kpEditButton.Click += new System.EventHandler(this.kpEditButton_Click);
 			// 
 			// kpDownloadButton
 			// 
+			this.kpDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.kpDownloadButton.Enabled = false;
-			this.kpDownloadButton.Location = new System.Drawing.Point(57, 485);
+			this.kpDownloadButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.kpDownloadButton.Location = new System.Drawing.Point(1037, 512);
 			this.kpDownloadButton.Name = "kpDownloadButton";
 			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpDownloadButton.TabIndex = 5;
 			this.kpDownloadButton.Text = "下载到墙板";
-			this.kpDownloadButton.UseVisualStyleBackColor = true;
+			this.kpDownloadButton.UseVisualStyleBackColor = false;
 			this.kpDownloadButton.Click += new System.EventHandler(this.kpDownloadButton_Click);
 			// 
 			// kpSaveButton
 			// 
 			this.kpSaveButton.Enabled = false;
-			this.kpSaveButton.Location = new System.Drawing.Point(57, 419);
+			this.kpSaveButton.Location = new System.Drawing.Point(173, 503);
 			this.kpSaveButton.Name = "kpSaveButton";
 			this.kpSaveButton.Size = new System.Drawing.Size(105, 40);
 			this.kpSaveButton.TabIndex = 5;
@@ -855,16 +812,16 @@
 			// 
 			// kpKey0TextBox
 			// 
-			this.kpKey0TextBox.Location = new System.Drawing.Point(1042, 398);
+			this.kpKey0TextBox.Location = new System.Drawing.Point(459, 486);
 			this.kpKey0TextBox.MaxLength = 2;
 			this.kpKey0TextBox.Name = "kpKey0TextBox";
-			this.kpKey0TextBox.Size = new System.Drawing.Size(90, 21);
+			this.kpKey0TextBox.Size = new System.Drawing.Size(50, 21);
 			this.kpKey0TextBox.TabIndex = 1;
 			this.kpKey0TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// myInfoToolTip
+			// myToolTip
 			// 
-			this.myInfoToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+			this.myToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
 			// keyOpenFileDialog
 			// 
@@ -898,13 +855,40 @@
 			// 
 			this.pbinSaveDialog.Filter = "pbin配置文件|*.pbin";
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.leftStatusLabel,
+            this.rightStatusLabel});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 659);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(1224, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 30;
+			// 
+			// leftStatusLabel
+			// 
+			this.leftStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.leftStatusLabel.Name = "leftStatusLabel";
+			this.leftStatusLabel.Size = new System.Drawing.Size(604, 17);
+			this.leftStatusLabel.Spring = true;
+			// 
+			// rightStatusLabel
+			// 
+			this.rightStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.rightStatusLabel.Name = "rightStatusLabel";
+			this.rightStatusLabel.Size = new System.Drawing.Size(604, 17);
+			this.rightStatusLabel.Spring = true;
+			// 
 			// ToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Silver;
-			this.ClientSize = new System.Drawing.Size(1225, 679);
+			this.ClientSize = new System.Drawing.Size(1224, 681);
 			this.Controls.Add(this.tabControl1);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.protocolSaveButton);
 			this.Controls.Add(this.protocolEditButton);
@@ -913,25 +897,22 @@
 			this.Name = "ToolsForm";
 			this.Text = "外设配置";
 			this.Load += new System.EventHandler(this.ToolsFormcs_Load);
+			this.Shown += new System.EventHandler(this.ToolsForm_Shown);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.centerTabPage.ResumeLayout(false);
 			this.centerTabPage.PerformLayout();
-			this.ccStatusStrip.ResumeLayout(false);
-			this.ccStatusStrip.PerformLayout();
 			this.lightTabPage.ResumeLayout(false);
 			this.lightTabPage.PerformLayout();
-			this.lcStatusStrip.ResumeLayout(false);
-			this.lcStatusStrip.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.lightGroupBox.ResumeLayout(false);
 			this.lightGroupBox.PerformLayout();
 			this.relayFLP.ResumeLayout(false);
 			this.keyTabPage.ResumeLayout(false);
 			this.keyTabPage.PerformLayout();
-			this.kpStatusStrip.ResumeLayout(false);
-			this.kpStatusStrip.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -961,9 +942,6 @@
 		private System.Windows.Forms.ColumnHeader columnHeader8;
 		private System.Windows.Forms.ColumnHeader columnHeader9;
 		private System.Windows.Forms.ColumnHeader columnHeader10;
-		private System.Windows.Forms.StatusStrip ccStatusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel ccToolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripStatusLabel ccToolStripStatusLabel2;
 		private System.Windows.Forms.TextBox ccSearchTextBox;
 		private System.Windows.Forms.Button ccDownloadButton;
 		private System.Windows.Forms.Button ccSearchButton;
@@ -971,23 +949,17 @@
 		private System.Windows.Forms.Label com0Label;
 		private System.Windows.Forms.Label com1Label;
 		private System.Windows.Forms.TabPage lightTabPage;
-		private System.Windows.Forms.StatusStrip lcStatusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel lcToolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripStatusLabel lcToolStripStatusLabel2;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Button lcDownloadButton;
 		private System.Windows.Forms.Button lcLoadButton;
 		private System.Windows.Forms.Button lcSaveButton;
 		private System.Windows.Forms.Button lcReadButton;
 		private System.Windows.Forms.Label label23;
-		private System.Windows.Forms.ComboBox qdFrameComboBox;
+		private System.Windows.Forms.ComboBox sceneComboBox;
 		private System.Windows.Forms.GroupBox lightGroupBox;
 		private System.Windows.Forms.FlowLayoutPanel relayFLP;
 		private System.Windows.Forms.CheckBox keepLightOnCheckBox;
 		private System.Windows.Forms.TabPage keyTabPage;
-		private System.Windows.Forms.StatusStrip kpStatusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel kpToolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripStatusLabel kpToolStripStatusLabel2;
 		private System.Windows.Forms.Button kpReadButton;
 		private System.Windows.Forms.Button kpListenButton;
 		private System.Windows.Forms.ListView keypressListView;
@@ -997,19 +969,14 @@
 		private System.Windows.Forms.ColumnHeader columnHeader22;
 		private System.Windows.Forms.Label label25;
 		private System.Windows.Forms.Label label24;
-		private System.Windows.Forms.Button kpPositonLoadButton;
-		private System.Windows.Forms.Button kpRearrangeButton;
 		private System.Windows.Forms.Button kpLoadButton;
-		private System.Windows.Forms.Button kpPositonSaveButton;
-		private System.Windows.Forms.Button kpShowButton;
-		private System.Windows.Forms.TextBox kpOrderTextBox;
 		private System.Windows.Forms.Label label26;
 		private System.Windows.Forms.TextBox kpKey1TextBox;
 		private System.Windows.Forms.Button kpEditButton;
 		private System.Windows.Forms.Button kpDownloadButton;
 		private System.Windows.Forms.Button kpSaveButton;
 		private System.Windows.Forms.TextBox kpKey0TextBox;
-		private System.Windows.Forms.ToolTip myInfoToolTip;
+		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.OpenFileDialog keyOpenFileDialog;
 		private System.Windows.Forms.SaveFileDialog keySaveFileDialog;
 		private System.Windows.Forms.OpenFileDialog cfgOpenFileDialog;
@@ -1018,5 +985,17 @@
 		private CCWin.SkinControl.SkinButton relayButtonDemo;
 		private System.Windows.Forms.Button protocolSaveButton;
 		private System.Windows.Forms.SaveFileDialog pbinSaveDialog;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel leftStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel rightStatusLabel;
+		private System.Windows.Forms.ColumnHeader columnHeader11;
+		private System.Windows.Forms.ColumnHeader columnHeader12;
+		private System.Windows.Forms.Button fillCode1Button;
+		private System.Windows.Forms.Button fillCode0Button;
+		private System.Windows.Forms.TextBox kpOrderTextBox;
+		private System.Windows.Forms.ListBox kpCodeListBox;
+		private System.Windows.Forms.Button fillCodeAllButton;
+		private System.Windows.Forms.TextBox kpSearchTextBox;
+		private System.Windows.Forms.Button kpSearchButton;
 	}
 }

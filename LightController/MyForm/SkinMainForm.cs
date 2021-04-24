@@ -185,13 +185,13 @@ namespace LightController.MyForm
 			#region 几个下拉框的初始化及赋值
 
 			//添加FramList文本中的场景列表
-			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
+			AllSceneList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
 			// 场景选项框			
-			foreach (string frame in AllFrameList)
+			foreach (string frame in AllSceneList)
 			{
 				sceneSkinComboBox.Items.Add(frame);
 			}
-			SceneCount = AllFrameList.Count;
+			SceneCount = AllSceneList.Count;
 			if (SceneCount == 0) {
 				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
 				exit();

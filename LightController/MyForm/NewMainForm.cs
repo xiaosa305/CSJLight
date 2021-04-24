@@ -176,11 +176,11 @@ namespace LightController.MyForm
 			// 场景选项框
 			// 添加FramList.txt中的场景列表
 		
-			foreach (string frame in AllFrameList)
+			foreach (string frame in AllSceneList)
 			{
 				sceneComboBox.Items.Add(frame);
 			}
-			SceneCount = AllFrameList.Count;
+			SceneCount = AllSceneList.Count;
 			if (SceneCount == 0)
 			{
 				MessageBox.Show(LanguageHelper.TranslateSentence("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。"));

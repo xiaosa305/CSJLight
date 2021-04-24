@@ -19,11 +19,11 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
+			for (int frameIndex = 0; frameIndex < MainFormBase.AllSceneList.Count; frameIndex++)
 			{
 				if (frameIndex != currentFrameIndex)
 				{
-					frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
+					frameComboBox.Items.Add(MainFormBase.AllSceneList[frameIndex]);
 					frameIndexList.Add(frameIndex); 
 				}
 			}

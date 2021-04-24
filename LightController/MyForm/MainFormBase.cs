@@ -63,14 +63,14 @@ namespace LightController.MyForm
 		// 全局配置及数据库连接				
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
 		protected string projectStr; 
-		protected string connectStr;
+		protected string connectStr = " [ 设备未连接 ]";
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
 		public bool IsShowTestButton = false;
 		public bool IsNoticeUnifyTd = true;
 
 		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）			
-		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
+		public static IList<string> AllSceneList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int SceneCount = 0;  //场景数量
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
@@ -2007,7 +2007,7 @@ namespace LightController.MyForm
 				}
 			}
 			
-			SetNotice( LanguageHelper.TranslateSentence("成功保存场景：")+ AllFrameList[CurrentScene] , true,false);
+			SetNotice( LanguageHelper.TranslateSentence("成功保存场景：")+ AllSceneList[CurrentScene] , true,false);
 			setBusy(false);
 		}
 
@@ -2478,7 +2478,7 @@ namespace LightController.MyForm
 
 			EnterSyncMode(false); //UseOtherForm
 			RefreshStep();
-			SetNotice( LanguageHelper.TranslateSentence("成功调用场景：")	+ AllFrameList[selectedSceneIndex],	true, false );
+			SetNotice( LanguageHelper.TranslateSentence("成功调用场景：")	+ AllSceneList[selectedSceneIndex],	true, false );
 		}
 
 		/// <summary>
@@ -3175,7 +3175,7 @@ namespace LightController.MyForm
 			endview();          // 只要更改了场景，直接结束预览
 
 			DialogResult dr = MessageBox.Show(
-				LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllFrameList[CurrentScene] + "?",
+				LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllSceneList[CurrentScene] + "?",
 				LanguageHelper.TranslateSentence("保存场景?"),
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
@@ -3197,7 +3197,7 @@ namespace LightController.MyForm
 
 			changeSceneMode();
 			setBusy(false);
-			SetNotice(LanguageHelper.TranslateSentence("成功切换为场景：") + AllFrameList[CurrentScene], false, false);
+			SetNotice(LanguageHelper.TranslateSentence("成功切换为场景：") + AllSceneList[CurrentScene], false, false);
 		}
 		
 		/// <summary>
@@ -4147,7 +4147,7 @@ namespace LightController.MyForm
 			{
 				Icon = Icon.ExtractAssociatedIcon(iconPath);
 			}
-			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
+			AllSceneList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
 			
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;

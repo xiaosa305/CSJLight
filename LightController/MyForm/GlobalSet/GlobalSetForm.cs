@@ -50,22 +50,22 @@ namespace LightController.MyForm
 			this.frameNumericUpDowns[3] = frame4numericUpDown;
 						
 			// 将所有的场景加入到《开机启动场景》及《强电选择框》中			
-			foreach (string frame in MainFormBase.AllFrameList)
+			foreach (string scene in MainFormBase.AllSceneList)
 			{
-				startupComboBox.Items.Add(frame);
+				startupComboBox.Items.Add(scene);
 			}
 			// 组合播放只有前面 n 个场景可以用(全局静态变量，便于随时改动)。
 			for (int i = 0; i < MULTI_SCENE_COUNT; i++)
 			{
-				zuheFrameComboBox.Items.Add(MainFormBase.AllFrameList[i]);
+				zuheFrameComboBox.Items.Add(MainFormBase.AllSceneList[i]);
 			}
 			// 组合播放可调用的子场景--》目前全部可用
 			for (int i = 0; i < 32; i++)
 			{
-				frame1ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
-				frame2ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
-				frame3ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
-				frame4ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
+				frame1ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
+				frame2ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
+				frame3ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
+				frame4ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
 			}
 
 			//各个下拉框的默认值
@@ -81,7 +81,7 @@ namespace LightController.MyForm
 			frame4ComboBox.SelectedIndex = 0;
 
 			//	9.12 动态添加各种场景panel
-			frameCount =  MainFormBase.AllFrameList.Count;
+			frameCount =  MainFormBase.AllSceneList.Count;
 
 			skPanels = new Panel[frameCount];
 			skLabels = new Label[frameCount];
@@ -173,7 +173,7 @@ namespace LightController.MyForm
 		{			
 			for (int frameIndex = 0; frameIndex < frameCount;  frameIndex++)
 			{
-				addFramePanel(frameIndex, MainFormBase.AllFrameList[frameIndex]);
+				addFramePanel(frameIndex, MainFormBase.AllSceneList[frameIndex]);
 
 				int currentStepTime = iniAst.ReadInt("SK", frameIndex + "ST", 0);
 				skStepTimeNumericUpDowns[frameIndex].Value = currentStepTime * eachStepTime2;

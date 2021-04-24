@@ -30,7 +30,7 @@ namespace LightController.MyForm
 
 			for (int frameIndex = 0; frameIndex < MainFormBase.SceneCount; frameIndex++)
 			{
-				addScenePanel(frameIndex,MainFormBase.AllFrameList[frameIndex]);
+				addScenePanel(frameIndex,MainFormBase.AllSceneList[frameIndex]);
 			}
 
 			#endregion

@@ -221,6 +221,7 @@
 			this.hardwarePage.Size = new System.Drawing.Size(526, 261);
 			this.hardwarePage.TabIndex = 0;
 			this.hardwarePage.Text = "硬件配置";
+			this.hardwarePage.DoubleClick += new System.EventHandler(this.hardwarePage_DoubleClick);
 			// 
 			// panel1
 			// 

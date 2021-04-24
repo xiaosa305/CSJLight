@@ -1646,7 +1646,7 @@ namespace LightController.MyForm
 			currentProjectPath = SavePath + @"\LightProject\" + projectName;
 			GlobalIniPath = currentProjectPath + @"\global.ini";
 			dbFilePath = currentProjectPath + @"\data.db3";
-			projectStr = "(" + LanguageHelper.TranslateSentence("当前工程：") + projectName + ")";
+			projectStr = "(" + LanguageHelper.TranslateSentence(" 当前工程：") + projectName + " )";
 			Text = SoftwareName + projectStr +  connectStr ;
 
 			//1.1设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉

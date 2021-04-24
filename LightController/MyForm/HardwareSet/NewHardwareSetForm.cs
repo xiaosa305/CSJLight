@@ -45,6 +45,22 @@ namespace LightController.MyForm.HardwareSet
 			updateButton.Enabled = mainForm.IsConnected && !string.IsNullOrEmpty(xbinPath);
 		}
 
+		/// <summary>
+		/// 辅助外调方法：主要用来改变当前ch的高级属性；
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <param name="v3"></param>
+		public void SetCH(int addr, string domainServer, int remotePort)
+		{
+			if (ch != null) {
+				ch.Addr = addr;
+				ch.DomainServer = domainServer;
+				ch.RemotePort = remotePort;
+				setNotice("已成功修改高级属性。", false, true);
+			}
+		}
+
 		private void NewHardwareSet_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;			
@@ -468,8 +484,25 @@ namespace LightController.MyForm.HardwareSet
 			}
 			return result;
 		}
-		
+
 		#endregion
-				
+
+
+		private int clickTimes = 0;
+		/// <summary>
+		///  事件：《双击》硬件配置空白位置，长达三次，可弹出修改AI及远程服务器相关参数的设置界面
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hardwarePage_DoubleClick(object sender, EventArgs e)
+		{
+			if( ch != null )
+			{
+				if ( ++ clickTimes == 3) {
+					new SpecialForm(this,ch).ShowDialog();
+					clickTimes = 0;
+				}
+			}
+		}
 	}
 }

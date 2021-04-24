@@ -209,6 +209,12 @@
     <Compile Include="MyForm\HardwareSet\NewHardwareSetForm.Designer.cs">
       <DependentUpon>NewHardwareSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\HardwareSet\SpecialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\HardwareSet\SpecialForm.Designer.cs">
+      <DependentUpon>SpecialForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\LightEditor\LightEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -520,6 +526,9 @@
     </Content>
     <EmbeddedResource Include="MyForm\HardwareSet\NewHardwareSetForm.resx">
       <DependentUpon>NewHardwareSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\HardwareSet\SpecialForm.resx">
+      <DependentUpon>SpecialForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>

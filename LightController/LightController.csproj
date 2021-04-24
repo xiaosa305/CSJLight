@@ -516,6 +516,9 @@
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
+    <Content Include="Protocol\SceneList_BAK.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Party.ico" />
     <None Include="Protocol\SceneCode">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1005,7 +1008,7 @@
     <None Include="Resources\保存工程2.png" />
     <None Include="Resources\打开工程3.png" />
     <None Include="Resources\跳转.png" />
-    <Content Include="FrameList.txt">
+    <Content Include="Protocol\SceneList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Ok3w.Net图标1.png" />

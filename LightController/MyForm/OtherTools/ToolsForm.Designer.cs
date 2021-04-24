@@ -30,14 +30,8 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ToolsForm));
-			this.protocolEditButton = new System.Windows.Forms.Button();
 			this.protocolComboBox = new System.Windows.Forms.ComboBox();
 			this.label18 = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.centerTabPage = new System.Windows.Forms.TabPage();
 			this.protocolListView = new System.Windows.Forms.ListView();
@@ -72,6 +66,7 @@
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
+			this.fillCodeAllButton = new System.Windows.Forms.Button();
 			this.kpSearchTextBox = new System.Windows.Forms.TextBox();
 			this.kpCodeListBox = new System.Windows.Forms.ListBox();
 			this.kpOrderTextBox = new System.Windows.Forms.TextBox();
@@ -79,7 +74,6 @@
 			this.fillCode1Button = new System.Windows.Forms.Button();
 			this.fillCode0Button = new System.Windows.Forms.Button();
 			this.kpReadButton = new System.Windows.Forms.Button();
-			this.kpListenButton = new System.Windows.Forms.Button();
 			this.keypressListView = new System.Windows.Forms.ListView();
 			this.columnHeader2x = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader20 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -106,8 +100,12 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.leftStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.rightStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.fillCodeAllButton = new System.Windows.Forms.Button();
-			this.panel1.SuspendLayout();
+			this.renderMainFormSceneButton = new System.Windows.Forms.Button();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label5 = new System.Windows.Forms.Label();
+			this.deviceTypeLabel = new System.Windows.Forms.Label();
+			this.deviceNameLabel = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
@@ -116,18 +114,8 @@
 			this.relayFLP.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// protocolEditButton
-			// 
-			this.protocolEditButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
-			this.protocolEditButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.protocolEditButton.Location = new System.Drawing.Point(256, 24);
-			this.protocolEditButton.Name = "protocolEditButton";
-			this.protocolEditButton.Size = new System.Drawing.Size(86, 30);
-			this.protocolEditButton.TabIndex = 15;
-			this.protocolEditButton.Text = "查看协议文件";
-			this.protocolEditButton.UseVisualStyleBackColor = false;
 			// 
 			// protocolComboBox
 			// 
@@ -147,56 +135,6 @@
 			this.label18.Size = new System.Drawing.Size(53, 12);
 			this.label18.TabIndex = 13;
 			this.label18.Text = "协议选择";
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.label5);
-			this.panel1.Controls.Add(this.label7);
-			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label6);
-			this.panel1.Location = new System.Drawing.Point(1013, 8);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(200, 68);
-			this.panel1.TabIndex = 28;
-			this.panel1.Visible = false;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(15, 12);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(65, 12);
-			this.label5.TabIndex = 25;
-			this.label5.Text = "设备型号：";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label7.Location = new System.Drawing.Point(86, 12);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(68, 12);
-			this.label7.TabIndex = 25;
-			this.label7.Text = "JKC910 V1";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label8.Location = new System.Drawing.Point(86, 41);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(47, 12);
-			this.label8.TabIndex = 25;
-			this.label8.Text = "JKC910";
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(15, 41);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(65, 12);
-			this.label6.TabIndex = 25;
-			this.label6.Text = "设备名称：";
 			// 
 			// tabControl1
 			// 
@@ -563,7 +501,6 @@
 			this.keyTabPage.Controls.Add(this.fillCode1Button);
 			this.keyTabPage.Controls.Add(this.fillCode0Button);
 			this.keyTabPage.Controls.Add(this.kpReadButton);
-			this.keyTabPage.Controls.Add(this.kpListenButton);
 			this.keyTabPage.Controls.Add(this.keypressListView);
 			this.keyTabPage.Controls.Add(this.label25);
 			this.keyTabPage.Controls.Add(this.label24);
@@ -580,6 +517,16 @@
 			this.keyTabPage.Size = new System.Drawing.Size(1156, 567);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
+			// 
+			// fillCodeAllButton
+			// 
+			this.fillCodeAllButton.Location = new System.Drawing.Point(551, 485);
+			this.fillCodeAllButton.Name = "fillCodeAllButton";
+			this.fillCodeAllButton.Size = new System.Drawing.Size(31, 67);
+			this.fillCodeAllButton.TabIndex = 11;
+			this.fillCodeAllButton.Text = "<=";
+			this.fillCodeAllButton.UseVisualStyleBackColor = true;
+			this.fillCodeAllButton.Click += new System.EventHandler(this.fillCodeButton_Click);
 			// 
 			// kpSearchTextBox
 			// 
@@ -652,18 +599,6 @@
 			this.kpReadButton.Text = "读取码值";
 			this.kpReadButton.UseVisualStyleBackColor = true;
 			this.kpReadButton.Click += new System.EventHandler(this.kpReadButton_Click);
-			// 
-			// kpListenButton
-			// 
-			this.kpListenButton.Enabled = false;
-			this.kpListenButton.Location = new System.Drawing.Point(173, 436);
-			this.kpListenButton.Name = "kpListenButton";
-			this.kpListenButton.Size = new System.Drawing.Size(105, 40);
-			this.kpListenButton.TabIndex = 5;
-			this.kpListenButton.Text = "监听按键";
-			this.kpListenButton.UseVisualStyleBackColor = true;
-			this.kpListenButton.Visible = false;
-			this.kpListenButton.Click += new System.EventHandler(this.kpListenButton_Click);
 			// 
 			// keypressListView
 			// 
@@ -813,6 +748,9 @@
 			// 
 			// myToolTip
 			// 
+			this.myToolTip.AutoPopDelay = 10000;
+			this.myToolTip.InitialDelay = 500;
+			this.myToolTip.ReshowDelay = 100;
 			this.myToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
 			// keyOpenFileDialog
@@ -834,8 +772,9 @@
 			// protocolSaveButton
 			// 
 			this.protocolSaveButton.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.protocolSaveButton.Enabled = false;
 			this.protocolSaveButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.protocolSaveButton.Location = new System.Drawing.Point(348, 24);
+			this.protocolSaveButton.Location = new System.Drawing.Point(263, 23);
 			this.protocolSaveButton.Name = "protocolSaveButton";
 			this.protocolSaveButton.Size = new System.Drawing.Size(86, 30);
 			this.protocolSaveButton.TabIndex = 15;
@@ -873,15 +812,69 @@
 			this.rightStatusLabel.Size = new System.Drawing.Size(604, 17);
 			this.rightStatusLabel.Spring = true;
 			// 
-			// fillCodeAllButton
+			// renderMainFormSceneButton
 			// 
-			this.fillCodeAllButton.Location = new System.Drawing.Point(551, 485);
-			this.fillCodeAllButton.Name = "fillCodeAllButton";
-			this.fillCodeAllButton.Size = new System.Drawing.Size(31, 67);
-			this.fillCodeAllButton.TabIndex = 11;
-			this.fillCodeAllButton.Text = "<=";
-			this.fillCodeAllButton.UseVisualStyleBackColor = true;
-			this.fillCodeAllButton.Click += new System.EventHandler(this.fillCodeButton_Click);
+			this.renderMainFormSceneButton.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.renderMainFormSceneButton.Enabled = false;
+			this.renderMainFormSceneButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.renderMainFormSceneButton.Location = new System.Drawing.Point(356, 23);
+			this.renderMainFormSceneButton.Name = "renderMainFormSceneButton";
+			this.renderMainFormSceneButton.Size = new System.Drawing.Size(86, 30);
+			this.renderMainFormSceneButton.TabIndex = 15;
+			this.renderMainFormSceneButton.Text = "关联到主界面";
+			this.renderMainFormSceneButton.UseVisualStyleBackColor = false;
+			this.renderMainFormSceneButton.Click += new System.EventHandler(this.renderMainFormSceneButton_Click);
+			this.renderMainFormSceneButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderMainFormSceneButton_MouseDown);
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.label5);
+			this.panel1.Controls.Add(this.deviceTypeLabel);
+			this.panel1.Controls.Add(this.deviceNameLabel);
+			this.panel1.Controls.Add(this.label6);
+			this.panel1.Location = new System.Drawing.Point(1017, 10);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(200, 68);
+			this.panel1.TabIndex = 31;
+			this.panel1.Visible = false;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(15, 12);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(65, 12);
+			this.label5.TabIndex = 25;
+			this.label5.Text = "设备型号：";
+			// 
+			// deviceTypeLabel
+			// 
+			this.deviceTypeLabel.AutoSize = true;
+			this.deviceTypeLabel.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.deviceTypeLabel.Location = new System.Drawing.Point(86, 12);
+			this.deviceTypeLabel.Name = "deviceTypeLabel";
+			this.deviceTypeLabel.Size = new System.Drawing.Size(68, 12);
+			this.deviceTypeLabel.TabIndex = 25;
+			this.deviceTypeLabel.Text = "JKC910 V1";
+			// 
+			// deviceNameLabel
+			// 
+			this.deviceNameLabel.AutoSize = true;
+			this.deviceNameLabel.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.deviceNameLabel.Location = new System.Drawing.Point(86, 41);
+			this.deviceNameLabel.Name = "deviceNameLabel";
+			this.deviceNameLabel.Size = new System.Drawing.Size(47, 12);
+			this.deviceNameLabel.TabIndex = 25;
+			this.deviceNameLabel.Text = "JKC910";
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(15, 41);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(65, 12);
+			this.label6.TabIndex = 25;
+			this.label6.Text = "设备名称：";
 			// 
 			// ToolsForm
 			// 
@@ -889,19 +882,17 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Silver;
 			this.ClientSize = new System.Drawing.Size(1224, 681);
+			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
-			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.renderMainFormSceneButton);
 			this.Controls.Add(this.protocolSaveButton);
-			this.Controls.Add(this.protocolEditButton);
 			this.Controls.Add(this.protocolComboBox);
 			this.Controls.Add(this.label18);
 			this.Name = "ToolsForm";
 			this.Text = "外设配置";
 			this.Load += new System.EventHandler(this.ToolsFormcs_Load);
 			this.Shown += new System.EventHandler(this.ToolsForm_Shown);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.centerTabPage.ResumeLayout(false);
 			this.centerTabPage.PerformLayout();
@@ -915,21 +906,16 @@
 			this.keyTabPage.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.Button protocolEditButton;
 		private System.Windows.Forms.ComboBox protocolComboBox;
 		private System.Windows.Forms.Label label18;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage centerTabPage;
 		private System.Windows.Forms.ListView protocolListView;
@@ -963,7 +949,6 @@
 		private System.Windows.Forms.CheckBox keepLightOnCheckBox;
 		private System.Windows.Forms.TabPage keyTabPage;
 		private System.Windows.Forms.Button kpReadButton;
-		private System.Windows.Forms.Button kpListenButton;
 		private System.Windows.Forms.ListView keypressListView;
 		private System.Windows.Forms.ColumnHeader columnHeader2x;
 		private System.Windows.Forms.ColumnHeader columnHeader20;
@@ -999,5 +984,11 @@
 		private System.Windows.Forms.TextBox kpSearchTextBox;
 		private System.Windows.Forms.Button kpSearchButton;
 		private System.Windows.Forms.Button fillCodeAllButton;
+		private System.Windows.Forms.Button renderMainFormSceneButton;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label deviceTypeLabel;
+		private System.Windows.Forms.Label deviceNameLabel;
+		private System.Windows.Forms.Label label6;
 	}
 }

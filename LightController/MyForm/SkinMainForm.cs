@@ -183,21 +183,7 @@ namespace LightController.MyForm
 			#endregion
 
 			#region 几个下拉框的初始化及赋值
-
-			//添加FramList文本中的场景列表
-			AllSceneList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
-			// 场景选项框			
-			foreach (string frame in AllSceneList)
-			{
-				sceneSkinComboBox.Items.Add(frame);
-			}
-			SceneCount = AllSceneList.Count;
-			if (SceneCount == 0) {
-				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
-				exit();
-			}
-			sceneSkinComboBox.SelectedIndex = 0;
-
+			
 			//模式选项框
 			modeSkinComboBox.Items.AddRange(new object[] {
 				LanguageHelper.TranslateWord("常规模式"),
@@ -268,6 +254,21 @@ namespace LightController.MyForm
 		private void SkinMainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			formClosing(e);
+		}
+
+		/// <summary>
+		/// 辅助公用方法：渲染场景选择框
+		/// </summary>
+		public override void RenderSceneCB()
+		{
+			sceneSkinComboBox.SelectedIndexChanged -= sceneSkinComboBox_SelectedIndexChanged;
+			sceneSkinComboBox.Items.Clear();
+			foreach (string frame in AllSceneList)
+			{
+				sceneSkinComboBox.Items.Add(frame);
+			}
+			sceneSkinComboBox.SelectedIndex = CurrentScene;
+			sceneSkinComboBox.SelectedIndexChanged += sceneSkinComboBox_SelectedIndexChanged;
 		}
 
 		// MARK：SkinMainForm各种工具按钮

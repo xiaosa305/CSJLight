@@ -108,7 +108,13 @@ namespace LightController.MyForm.OtherTools
 				"右键点击此按键，则会把改动保存到硬盘上，下次打开软件时仍然有效。");
 			myToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
 			myToolTip.SetToolTip(fillCodeAllButton, "点击此按键会将选中项的键码值填入左侧两个文本框中;\n双击右边列表的键码值也可实现同样效果。");
-			
+
+			// 初始化墙板配置界面的TabControl
+			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+			tabControl1.Alignment = TabAlignment.Left;
+			tabControl1.SizeMode = TabSizeMode.Fixed;
+			tabControl1.Multiline = true;
+			tabControl1.ItemSize = new Size(60, 100);
 
 			#endregion
 		}
@@ -872,7 +878,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				setConnStatus(ConnectStatus.Lc);
-				setNotice(StatusLabel.RIGHT, "已切换成中控配置(connStatus=lc)", false,true);
+				setNotice(StatusLabel.RIGHT, "已切换成灯控配置(connStatus=lc)", false,true);
 				setBusy(false);
 
 				// 当还没有任何形式地加载lcEntity时，主动从机器回读

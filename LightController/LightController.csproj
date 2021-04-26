@@ -549,9 +549,7 @@
       <DependentUpon>XiaosaTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\灯光图.png" />
-    <Content Include="安装说明.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="安装说明.txt" />
     <Content Include="更新日志\更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -679,7 +677,6 @@
     </Content>
     <Content Include="HardwareSet.ini">
       <Generator>ResXFileCodeGenerator</Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="irisSkins\Calmness.ssk">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

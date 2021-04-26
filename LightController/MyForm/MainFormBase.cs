@@ -2597,7 +2597,7 @@ namespace LightController.MyForm
 		protected void newToolClick()
 		{
 			// Mark3.0413  newToolClick()-disConnect
-			//disConnect(); //newToolClick()
+			//DisConnect(); //newToolClick()
 			//new NewToolsForm(this).ShowDialog();
 
 			if (IsConnected)

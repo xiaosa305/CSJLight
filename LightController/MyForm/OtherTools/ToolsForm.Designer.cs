@@ -148,7 +148,7 @@
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1224, 575);
+			this.tabControl1.Size = new System.Drawing.Size(1264, 575);
 			this.tabControl1.TabIndex = 29;
 			this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
@@ -166,7 +166,7 @@
 			this.centerTabPage.Location = new System.Drawing.Point(64, 4);
 			this.centerTabPage.Name = "centerTabPage";
 			this.centerTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.centerTabPage.Size = new System.Drawing.Size(1156, 567);
+			this.centerTabPage.Size = new System.Drawing.Size(1196, 567);
 			this.centerTabPage.TabIndex = 0;
 			this.centerTabPage.Text = "中控配置";
 			// 
@@ -191,7 +191,7 @@
 			this.protocolListView.HideSelection = false;
 			this.protocolListView.Location = new System.Drawing.Point(3, 83);
 			this.protocolListView.Name = "protocolListView";
-			this.protocolListView.Size = new System.Drawing.Size(1150, 481);
+			this.protocolListView.Size = new System.Drawing.Size(1190, 481);
 			this.protocolListView.TabIndex = 0;
 			this.protocolListView.UseCompatibleStateImageBehavior = false;
 			this.protocolListView.View = System.Windows.Forms.View.Details;
@@ -264,7 +264,7 @@
 			this.ccDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.ccDownloadButton.Enabled = false;
 			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDownloadButton.Location = new System.Drawing.Point(1074, 12);
+			this.ccDownloadButton.Location = new System.Drawing.Point(1056, 12);
 			this.ccDownloadButton.Name = "ccDownloadButton";
 			this.ccDownloadButton.Size = new System.Drawing.Size(75, 48);
 			this.ccDownloadButton.TabIndex = 12;
@@ -794,7 +794,7 @@
             this.rightStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 659);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1224, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
 			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 30;
 			// 
@@ -832,7 +832,7 @@
 			this.panel1.Controls.Add(this.deviceTypeLabel);
 			this.panel1.Controls.Add(this.deviceNameLabel);
 			this.panel1.Controls.Add(this.label6);
-			this.panel1.Location = new System.Drawing.Point(1017, 10);
+			this.panel1.Location = new System.Drawing.Point(994, 10);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(200, 68);
 			this.panel1.TabIndex = 31;
@@ -881,7 +881,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Silver;
-			this.ClientSize = new System.Drawing.Size(1224, 681);
+			this.ClientSize = new System.Drawing.Size(1264, 681);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
@@ -889,6 +889,10 @@
 			this.Controls.Add(this.protocolSaveButton);
 			this.Controls.Add(this.protocolComboBox);
 			this.Controls.Add(this.label18);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(1280, 720);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(1280, 720);
 			this.Name = "ToolsForm";
 			this.Text = "外设配置";
 			this.Load += new System.EventHandler(this.ToolsFormcs_Load);

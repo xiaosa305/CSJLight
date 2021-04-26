@@ -73,6 +73,7 @@
 			this.cancelButton.TabIndex = 74;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// pswTB
 			// 
@@ -180,7 +181,9 @@
 			this.Controls.Add(this.chPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(280, 250);
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(280, 250);
 			this.Name = "SpecialForm";
 			this.Text = "修改高级属性";
 			this.Load += new System.EventHandler(this.SpecialForm_Load);

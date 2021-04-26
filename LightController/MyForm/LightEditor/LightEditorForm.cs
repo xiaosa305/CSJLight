@@ -38,14 +38,14 @@ namespace LightEditor
 		private TrackBar[] tdTrackBars = new TrackBar[32];
 		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
-		//调试相关变量
+		//调试相关变量			
 		private OneLightOneStep player; // 调试工具类的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
 		private bool isConnect = false; // 辅助变量：是否连接设备
 				
 		// 原WaySetForm辅助变量
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
-		private int selectedTdIndex = -1 ;
+		private int selectedTdIndex = -1 ; 
 
 		public LightEditorForm(MainFormBase mainForm)
 		{
@@ -719,9 +719,7 @@ namespace LightEditor
 					connectButton.Text = LanguageHelper.TranslateSentence("断开连接");
 					isConnect = true;
 					setNotice(LanguageHelper.TranslateSentence("成功打开串口，并进入调试模式。"), false, true);
-					if (isConnect) {
-						oneLightOneStep();
-					}
+					oneLightOneStep();					
 				}
 				else
 				{
@@ -745,7 +743,9 @@ namespace LightEditor
 		/// </summary>
 		private void oneLightOneStep()
 		{
-			if (!isConnect) {
+			Console.WriteLine(isConnect + "oneLightOneStep() ");
+			if (!isConnect)
+			{
 				return;
 			}
 
@@ -757,6 +757,7 @@ namespace LightEditor
 				int tongdaoIndex = firstTDValue + td.Address - 2;
 				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
 			}
+			
 			player.Preview(stepBytes);
 		}
 		
@@ -773,10 +774,8 @@ namespace LightEditor
 				tdLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (firstTDValue + tdIndex);
 				if (selectedTextBox != null) {
 					tdTextBoxSelected();
-				}
-				if (isConnect) {
-					oneLightOneStep();
-				}
+				}				
+				oneLightOneStep();				
 			}
 		}
 
@@ -1043,11 +1042,8 @@ namespace LightEditor
 		private void changeCurrentValue(int tongdaoIndex, int tdValue)
 		{		
 			// 设tongdaoWrapper的值
-			tongdaoList[tongdaoIndex].CurrentValue = tdValue;		
-
-			if (isConnect) { 
-				oneLightOneStep();
-			}
+			tongdaoList[tongdaoIndex].CurrentValue = tdValue;					
+			oneLightOneStep();
 		}
 
 		/// <summary>

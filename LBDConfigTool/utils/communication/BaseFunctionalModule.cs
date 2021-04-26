@@ -591,7 +591,7 @@ namespace LBDConfigTool.utils.communication
                     int lastPackageSize = flag ? param.PacketSize : (int)(length % param.PacketSize);
                     int packetCount = (int)(length / param.PacketSize);
                     List<byte> buff = new List<byte>();
-                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xE0 };
                     byte[] readBuff = new byte[param.PacketSize];
                     for (int i = 0; i < packetCount; i++)
                     {

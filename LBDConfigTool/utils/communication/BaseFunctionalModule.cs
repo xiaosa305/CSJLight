@@ -544,6 +544,140 @@ namespace LBDConfigTool.utils.communication
             }
         }
 
+        //下载字库
+        public void DownloadWordBank(string filePath, ParamEntity param, Progress progress, Completed completed, Error error)
+        {
+            this.Completed_Event = completed;
+            this.Error_Event = error;
+            this.Progress_Event = progress;
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CurrentModule = Module.DownloadWordBank;
+                    this.TaskTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadWordBankTask(filePath, param, s, e));
+                    this.TaskTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.TaskError();
+            }
+        }
+        private void DownloadWordBankTask(string filePath, ParamEntity param, Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                uint crc = 0;
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                {
+                    byte[] data = new byte[fileStream.Length];
+                    fileStream.Read(data, 0, data.Length);
+                    crc = Crc32SUM.GetSumCRC(data);
+                }
+                using (FileStream file = new FileStream(filePath, FileMode.Open))
+                {
+                    int seek = 0;
+                    long length = file.Length;
+                    bool flag = file.Length % param.PacketSize == 0;
+                    int lastPackageSize = flag ? param.PacketSize : (int)(length % param.PacketSize);
+                    int packetCount = (int)(length / param.PacketSize);
+                    List<byte> buff = new List<byte>();
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
+                    byte[] readBuff = new byte[param.PacketSize];
+                    for (int i = 0; i < packetCount; i++)
+                    {
+                        buff.AddRange(packetHead);
+                        buff.Add(Convert.ToByte(param.PacketSize & 0xFF));
+                        buff.Add(Convert.ToByte((param.PacketSize >> 8) & 0xFF));
+
+                        seek = param.PacketSize * i;
+                        buff.Add(Convert.ToByte(seek & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        if (i == 0)
+                        {
+                            buff.Add(Convert.ToByte(length & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                            //crc
+                            buff.Add(Convert.ToByte(crc & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                            buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
+                        }
+                        file.Read(readBuff, 0, param.PacketSize);
+                        buff.AddRange(readBuff);
+                        this.Send(buff.ToArray());
+                        if (seek % param.PartitionIndex == 0)
+                        {
+                            this.ThreadSleep(param.PacketIntervalTimeByPartitionIndex);
+                        }
+                        else
+                        {
+                            if (i == 0)
+                            {
+                                this.ThreadSleep(param.FirstPacketIntervalTime);
+                            }
+                            else
+                            {
+                                this.ThreadSleep(param.PacketIntervalTime);
+                            }
+                        }
+                        buff.Clear();
+                        double progress = ((i + 1) * param.PacketSize * 100) / (1.0 * length);
+                        this.Progress_Event((int)Math.Floor(progress));
+                    }
+                    buff.AddRange(packetHead);
+                    buff.Add(Convert.ToByte(lastPackageSize & 0xFF));
+                    buff.Add(Convert.ToByte((lastPackageSize >> 8) & 0xFF));
+                    seek = param.PacketSize * packetCount;
+                    buff.Add(Convert.ToByte(seek & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                    buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                    if (length < param.PacketSize)
+                    {
+                        buff.Add(Convert.ToByte(length & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((length >> 24) & 0xFF));
+                        //crc
+                        buff.Add(Convert.ToByte(crc & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((crc >> 24) & 0xFF));
+                    }
+                    readBuff = new byte[lastPackageSize];
+                    file.Read(readBuff, 0, lastPackageSize);
+                    buff.AddRange(readBuff);
+                    this.Send(buff.ToArray());
+                }
+                byte[] endPacket = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
+                this.Send(endPacket);
+                this.ThreadSleep(param.FPGAUpdateCompletedIntervalTime);
+                this.Progress_Event(100);
+                this.TaskCompleted("下载字库成功");
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                this.TaskError("下载字库失败");
+            }
+        }
+
 
         private void WriteData(Completed completed, Error error)
         {
@@ -784,6 +918,7 @@ namespace LBDConfigTool.utils.communication
             WriteData,
             WriteParam,
             IsEncrypt,
+            DownloadWordBank,
             Null
         }
     }

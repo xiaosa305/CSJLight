@@ -545,7 +545,7 @@ namespace LBDConfigTool.utils.communication
         }
 
         //下载字库
-        public void DownloadWordBank(string filePath, ParamEntity param, Progress progress, Completed completed, Error error)
+        public void DownloadFontLibrary(string filePath, ParamEntity param, Progress progress, Completed completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -560,7 +560,7 @@ namespace LBDConfigTool.utils.communication
                     {
                         AutoReset = false
                     };
-                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadWordBankTask(filePath, param, s, e));
+                    this.TaskTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadFontLibraryTask(filePath, param, s, e));
                     this.TaskTimer.Start();
                 }
             }
@@ -572,7 +572,7 @@ namespace LBDConfigTool.utils.communication
                 this.TaskError();
             }
         }
-        private void DownloadWordBankTask(string filePath, ParamEntity param, Object obj, ElapsedEventArgs e)
+        private void DownloadFontLibraryTask(string filePath, ParamEntity param, Object obj, ElapsedEventArgs e)
         {
             try
             {

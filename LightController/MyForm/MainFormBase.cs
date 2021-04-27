@@ -63,7 +63,7 @@ namespace LightController.MyForm
 		// 全局配置及数据库连接				
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
 		protected string projectStr; 
-		protected string connectStr = " [ 设备未连接 ]";
+		public string ConnectStr = " [ 设备未连接 ]";
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
 		public bool IsShowTestButton = false;
@@ -188,8 +188,8 @@ namespace LightController.MyForm
 		{			
 			IsConnected = connected;
 			IsPreviewing = previewing;
-			connectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName +" ]": "[ 设备未连接 ]";
-			Text = SoftwareName + projectStr + connectStr;
+			ConnectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName +" ]": "[ 设备未连接 ]";
+			Text = SoftwareName + projectStr + ConnectStr;
 		} //设置《连接按钮组》是否可用	
 
 		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
@@ -1648,7 +1648,7 @@ namespace LightController.MyForm
 			GlobalIniPath = currentProjectPath + @"\global.ini";
 			dbFilePath = currentProjectPath + @"\data.db3";
 			projectStr = "(" + LanguageHelper.TranslateSentence(" 当前工程：") + projectName + " )";
-			Text = SoftwareName + projectStr +  connectStr ;
+			Text = SoftwareName + projectStr +  ConnectStr ;
 
 			//1.1设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
 			arrangeIniPath = currentProjectPath + @"\arrange.ini";			
@@ -1735,7 +1735,7 @@ namespace LightController.MyForm
 			sceneLoadArray = null;
 
 			projectStr = "";
-			Text = SoftwareName  + projectStr + connectStr;
+			Text = SoftwareName  + projectStr + ConnectStr;
 
 			EnterSyncMode(false);  //退出《同步模式》
 			RefreshMultiModeButtons(false); // 刷新为单灯状态的按钮可用性
@@ -4088,7 +4088,7 @@ namespace LightController.MyForm
 			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			SoftwareName += "v" + appFileVersion + " ";
 
-			Text = SoftwareName + projectStr + connectStr ;
+			Text = SoftwareName + projectStr + ConnectStr ;
 
 			//从GlobalSet.ini文件读取内容
 			SavePath = IniHelper.GetSavePath();

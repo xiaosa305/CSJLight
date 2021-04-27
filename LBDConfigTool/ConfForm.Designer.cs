@@ -36,7 +36,9 @@
 			this.writeButton = new System.Windows.Forms.Button();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.paramTab = new System.Windows.Forms.TabPage();
+			this.securePanel = new System.Windows.Forms.Panel();
 			this.label28 = new System.Windows.Forms.Label();
+			this.testButton = new System.Windows.Forms.Button();
 			this.secureTB = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.artnetGroupBox = new System.Windows.Forms.GroupBox();
@@ -89,23 +91,9 @@
 			this.outTypeCB = new System.Windows.Forms.ComboBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.clockTB = new System.Windows.Forms.TextBox();
-			this.testButton = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
 			this.iniTab = new System.Windows.Forms.TabPage();
-			this.baudCB = new System.Windows.Forms.ComboBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.ledGamTB = new System.Windows.Forms.TextBox();
-			this.ledNameTB = new System.Windows.Forms.TextBox();
-			this.diskFlagTB = new System.Windows.Forms.TextBox();
-			this.maxDotTB = new System.Windows.Forms.TextBox();
-			this.label15 = new System.Windows.Forms.Label();
-			this.firmwareTab = new System.Windows.Forms.TabPage();
-			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
-			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
 			this.label26 = new System.Windows.Forms.Label();
 			this.fpgaWaitTimeNUD = new System.Windows.Forms.NumericUpDown();
 			this.label23 = new System.Windows.Forms.Label();
@@ -118,9 +106,26 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.relayTimeNUD = new System.Windows.Forms.NumericUpDown();
 			this.packageSizeNUD = new System.Windows.Forms.NumericUpDown();
+			this.baudCB = new System.Windows.Forms.ComboBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.ledGamTB = new System.Windows.Forms.TextBox();
+			this.ledNameTB = new System.Windows.Forms.TextBox();
+			this.diskFlagTB = new System.Windows.Forms.TextBox();
+			this.maxDotTB = new System.Windows.Forms.TextBox();
+			this.label15 = new System.Windows.Forms.Label();
+			this.firmwareTab = new System.Windows.Forms.TabPage();
+			this.zbinProgressBar = new System.Windows.Forms.ProgressBar();
+			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
+			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
+			this.zbinPathLabel = new System.Windows.Forms.Label();
 			this.fbinPathLabel = new System.Windows.Forms.Label();
 			this.ebinPathLabel = new System.Windows.Forms.Label();
+			this.zbinUpdateButton = new System.Windows.Forms.Button();
 			this.fpgaUpdateButton = new System.Windows.Forms.Button();
+			this.zbinSelectButton = new System.Windows.Forms.Button();
 			this.mcuUpdateButton = new System.Windows.Forms.Button();
 			this.fbinSelectButton = new System.Windows.Forms.Button();
 			this.ebinSelectButton = new System.Windows.Forms.Button();
@@ -143,10 +148,11 @@
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.securePanel = new System.Windows.Forms.Panel();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.paramTab.SuspendLayout();
+			this.securePanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.artnetGroupBox.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -160,15 +166,14 @@
 			((System.ComponentModel.ISupportInitialize)(this.sceneNUD)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.iniTab.SuspendLayout();
-			this.firmwareTab.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fpgaWaitTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.firstRelayNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
+			this.firmwareTab.SuspendLayout();
 			this.recordTab.SuspendLayout();
-			this.securePanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -251,6 +256,17 @@
 			this.paramTab.Text = "参数配置";
 			this.paramTab.DoubleClick += new System.EventHandler(this.paramTab_DoubleClick);
 			// 
+			// securePanel
+			// 
+			this.securePanel.Controls.Add(this.label28);
+			this.securePanel.Controls.Add(this.testButton);
+			this.securePanel.Controls.Add(this.secureTB);
+			this.securePanel.Location = new System.Drawing.Point(19, 505);
+			this.securePanel.Name = "securePanel";
+			this.securePanel.Size = new System.Drawing.Size(254, 72);
+			this.securePanel.TabIndex = 32;
+			this.securePanel.Visible = false;
+			// 
 			// label28
 			// 
 			this.label28.AutoSize = true;
@@ -260,6 +276,16 @@
 			this.label28.Size = new System.Drawing.Size(65, 12);
 			this.label28.TabIndex = 31;
 			this.label28.Text = "加密文本：";
+			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(166, 17);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(75, 41);
+			this.testButton.TabIndex = 28;
+			this.testButton.Text = "加密";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// secureTB
 			// 
@@ -813,16 +839,6 @@
 			this.clockTB.Size = new System.Drawing.Size(80, 21);
 			this.clockTB.TabIndex = 90;
 			// 
-			// testButton
-			// 
-			this.testButton.Location = new System.Drawing.Point(166, 17);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(75, 41);
-			this.testButton.TabIndex = 28;
-			this.testButton.Text = "加密";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
-			// 
 			// button1
 			// 
 			this.button1.Location = new System.Drawing.Point(438, 524);
@@ -845,6 +861,18 @@
 			// 
 			// iniTab
 			// 
+			this.iniTab.Controls.Add(this.label26);
+			this.iniTab.Controls.Add(this.fpgaWaitTimeNUD);
+			this.iniTab.Controls.Add(this.label23);
+			this.iniTab.Controls.Add(this.partitionSizeNUD);
+			this.iniTab.Controls.Add(this.label20);
+			this.iniTab.Controls.Add(this.partitionTimeNUD);
+			this.iniTab.Controls.Add(this.label25);
+			this.iniTab.Controls.Add(this.label1);
+			this.iniTab.Controls.Add(this.firstRelayNUD);
+			this.iniTab.Controls.Add(this.label4);
+			this.iniTab.Controls.Add(this.relayTimeNUD);
+			this.iniTab.Controls.Add(this.packageSizeNUD);
 			this.iniTab.Controls.Add(this.baudCB);
 			this.iniTab.Controls.Add(this.label3);
 			this.iniTab.Controls.Add(this.label8);
@@ -862,6 +890,200 @@
 			this.iniTab.TabIndex = 3;
 			this.iniTab.Text = "以后放到ini的配置";
 			this.iniTab.UseVisualStyleBackColor = true;
+			// 
+			// label26
+			// 
+			this.label26.AutoSize = true;
+			this.label26.BackColor = System.Drawing.Color.Transparent;
+			this.label26.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label26.Location = new System.Drawing.Point(513, 210);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(95, 12);
+			this.label26.TabIndex = 121;
+			this.label26.Text = "FPGA等待时间(s)";
+			// 
+			// fpgaWaitTimeNUD
+			// 
+			this.fpgaWaitTimeNUD.Location = new System.Drawing.Point(645, 206);
+			this.fpgaWaitTimeNUD.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+			this.fpgaWaitTimeNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.fpgaWaitTimeNUD.Name = "fpgaWaitTimeNUD";
+			this.fpgaWaitTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.fpgaWaitTimeNUD.TabIndex = 124;
+			this.fpgaWaitTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.fpgaWaitTimeNUD.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.BackColor = System.Drawing.Color.Transparent;
+			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label23.Location = new System.Drawing.Point(513, 177);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(89, 12);
+			this.label23.TabIndex = 122;
+			this.label23.Text = "扇区大小(byte)";
+			// 
+			// partitionSizeNUD
+			// 
+			this.partitionSizeNUD.Location = new System.Drawing.Point(645, 173);
+			this.partitionSizeNUD.Maximum = new decimal(new int[] {
+            409600,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.Name = "partitionSizeNUD";
+			this.partitionSizeNUD.Size = new System.Drawing.Size(53, 21);
+			this.partitionSizeNUD.TabIndex = 125;
+			this.partitionSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.partitionSizeNUD.Value = new decimal(new int[] {
+            4096,
+            0,
+            0,
+            0});
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.BackColor = System.Drawing.Color.Transparent;
+			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label20.Location = new System.Drawing.Point(513, 144);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(101, 12);
+			this.label20.TabIndex = 123;
+			this.label20.Text = "扇区通信延时(ms)";
+			// 
+			// partitionTimeNUD
+			// 
+			this.partitionTimeNUD.Location = new System.Drawing.Point(645, 140);
+			this.partitionTimeNUD.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.partitionTimeNUD.Name = "partitionTimeNUD";
+			this.partitionTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.partitionTimeNUD.TabIndex = 126;
+			this.partitionTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.partitionTimeNUD.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			// 
+			// label25
+			// 
+			this.label25.AutoSize = true;
+			this.label25.BackColor = System.Drawing.Color.Transparent;
+			this.label25.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label25.Location = new System.Drawing.Point(513, 45);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(77, 12);
+			this.label25.TabIndex = 115;
+			this.label25.Text = "首包延时(ms)";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
+			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label1.Location = new System.Drawing.Point(513, 78);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(77, 12);
+			this.label1.TabIndex = 116;
+			this.label1.Text = "通讯延迟(ms)";
+			// 
+			// firstRelayNUD
+			// 
+			this.firstRelayNUD.Location = new System.Drawing.Point(645, 41);
+			this.firstRelayNUD.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.firstRelayNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.firstRelayNUD.Name = "firstRelayNUD";
+			this.firstRelayNUD.Size = new System.Drawing.Size(53, 21);
+			this.firstRelayNUD.TabIndex = 119;
+			this.firstRelayNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.firstRelayNUD.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
+			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label4.Location = new System.Drawing.Point(513, 111);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(101, 12);
+			this.label4.TabIndex = 117;
+			this.label4.Text = "数据包大小(byte)";
+			// 
+			// relayTimeNUD
+			// 
+			this.relayTimeNUD.Location = new System.Drawing.Point(645, 74);
+			this.relayTimeNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.relayTimeNUD.Name = "relayTimeNUD";
+			this.relayTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.relayTimeNUD.TabIndex = 120;
+			this.relayTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.relayTimeNUD.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			// 
+			// packageSizeNUD
+			// 
+			this.packageSizeNUD.Location = new System.Drawing.Point(645, 107);
+			this.packageSizeNUD.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.Name = "packageSizeNUD";
+			this.packageSizeNUD.Size = new System.Drawing.Size(53, 21);
+			this.packageSizeNUD.TabIndex = 118;
+			this.packageSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.packageSizeNUD.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
 			// 
 			// baudCB
 			// 
@@ -956,23 +1178,15 @@
 			// 
 			// firmwareTab
 			// 
+			this.firmwareTab.Controls.Add(this.zbinProgressBar);
 			this.firmwareTab.Controls.Add(this.fpgaProgressBar);
 			this.firmwareTab.Controls.Add(this.mcuProgressBar);
-			this.firmwareTab.Controls.Add(this.label26);
-			this.firmwareTab.Controls.Add(this.fpgaWaitTimeNUD);
-			this.firmwareTab.Controls.Add(this.label23);
-			this.firmwareTab.Controls.Add(this.partitionSizeNUD);
-			this.firmwareTab.Controls.Add(this.label20);
-			this.firmwareTab.Controls.Add(this.partitionTimeNUD);
-			this.firmwareTab.Controls.Add(this.label25);
-			this.firmwareTab.Controls.Add(this.label1);
-			this.firmwareTab.Controls.Add(this.firstRelayNUD);
-			this.firmwareTab.Controls.Add(this.label4);
-			this.firmwareTab.Controls.Add(this.relayTimeNUD);
-			this.firmwareTab.Controls.Add(this.packageSizeNUD);
+			this.firmwareTab.Controls.Add(this.zbinPathLabel);
 			this.firmwareTab.Controls.Add(this.fbinPathLabel);
 			this.firmwareTab.Controls.Add(this.ebinPathLabel);
+			this.firmwareTab.Controls.Add(this.zbinUpdateButton);
 			this.firmwareTab.Controls.Add(this.fpgaUpdateButton);
+			this.firmwareTab.Controls.Add(this.zbinSelectButton);
 			this.firmwareTab.Controls.Add(this.mcuUpdateButton);
 			this.firmwareTab.Controls.Add(this.fbinSelectButton);
 			this.firmwareTab.Controls.Add(this.ebinSelectButton);
@@ -982,6 +1196,13 @@
 			this.firmwareTab.TabIndex = 2;
 			this.firmwareTab.Text = "固件升级";
 			this.firmwareTab.UseVisualStyleBackColor = true;
+			// 
+			// zbinProgressBar
+			// 
+			this.zbinProgressBar.Location = new System.Drawing.Point(199, 473);
+			this.zbinProgressBar.Name = "zbinProgressBar";
+			this.zbinProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.zbinProgressBar.TabIndex = 115;
 			// 
 			// fpgaProgressBar
 			// 
@@ -997,199 +1218,13 @@
 			this.mcuProgressBar.Size = new System.Drawing.Size(628, 23);
 			this.mcuProgressBar.TabIndex = 115;
 			// 
-			// label26
+			// zbinPathLabel
 			// 
-			this.label26.AutoSize = true;
-			this.label26.BackColor = System.Drawing.Color.Transparent;
-			this.label26.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label26.Location = new System.Drawing.Point(633, 528);
-			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(95, 12);
-			this.label26.TabIndex = 113;
-			this.label26.Text = "FPGA等待时间(s)";
-			// 
-			// fpgaWaitTimeNUD
-			// 
-			this.fpgaWaitTimeNUD.Location = new System.Drawing.Point(765, 524);
-			this.fpgaWaitTimeNUD.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-			this.fpgaWaitTimeNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.fpgaWaitTimeNUD.Name = "fpgaWaitTimeNUD";
-			this.fpgaWaitTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.fpgaWaitTimeNUD.TabIndex = 114;
-			this.fpgaWaitTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.fpgaWaitTimeNUD.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-			// 
-			// label23
-			// 
-			this.label23.AutoSize = true;
-			this.label23.BackColor = System.Drawing.Color.Transparent;
-			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label23.Location = new System.Drawing.Point(633, 495);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(89, 12);
-			this.label23.TabIndex = 113;
-			this.label23.Text = "扇区大小(byte)";
-			// 
-			// partitionSizeNUD
-			// 
-			this.partitionSizeNUD.Location = new System.Drawing.Point(765, 491);
-			this.partitionSizeNUD.Maximum = new decimal(new int[] {
-            409600,
-            0,
-            0,
-            0});
-			this.partitionSizeNUD.Minimum = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-			this.partitionSizeNUD.Name = "partitionSizeNUD";
-			this.partitionSizeNUD.Size = new System.Drawing.Size(53, 21);
-			this.partitionSizeNUD.TabIndex = 114;
-			this.partitionSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.partitionSizeNUD.Value = new decimal(new int[] {
-            4096,
-            0,
-            0,
-            0});
-			// 
-			// label20
-			// 
-			this.label20.AutoSize = true;
-			this.label20.BackColor = System.Drawing.Color.Transparent;
-			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label20.Location = new System.Drawing.Point(633, 462);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(101, 12);
-			this.label20.TabIndex = 113;
-			this.label20.Text = "扇区通信延时(ms)";
-			// 
-			// partitionTimeNUD
-			// 
-			this.partitionTimeNUD.Location = new System.Drawing.Point(765, 458);
-			this.partitionTimeNUD.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.partitionTimeNUD.Name = "partitionTimeNUD";
-			this.partitionTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.partitionTimeNUD.TabIndex = 114;
-			this.partitionTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.partitionTimeNUD.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-			// 
-			// label25
-			// 
-			this.label25.AutoSize = true;
-			this.label25.BackColor = System.Drawing.Color.Transparent;
-			this.label25.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label25.Location = new System.Drawing.Point(633, 363);
-			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(77, 12);
-			this.label25.TabIndex = 109;
-			this.label25.Text = "首包延时(ms)";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label1.Location = new System.Drawing.Point(633, 396);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(77, 12);
-			this.label1.TabIndex = 109;
-			this.label1.Text = "通讯延迟(ms)";
-			// 
-			// firstRelayNUD
-			// 
-			this.firstRelayNUD.Location = new System.Drawing.Point(765, 359);
-			this.firstRelayNUD.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.firstRelayNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.firstRelayNUD.Name = "firstRelayNUD";
-			this.firstRelayNUD.Size = new System.Drawing.Size(53, 21);
-			this.firstRelayNUD.TabIndex = 112;
-			this.firstRelayNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.firstRelayNUD.Value = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.BackColor = System.Drawing.Color.Transparent;
-			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label4.Location = new System.Drawing.Point(633, 429);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(101, 12);
-			this.label4.TabIndex = 110;
-			this.label4.Text = "数据包大小(byte)";
-			// 
-			// relayTimeNUD
-			// 
-			this.relayTimeNUD.Location = new System.Drawing.Point(765, 392);
-			this.relayTimeNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.relayTimeNUD.Name = "relayTimeNUD";
-			this.relayTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.relayTimeNUD.TabIndex = 112;
-			this.relayTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.relayTimeNUD.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			// 
-			// packageSizeNUD
-			// 
-			this.packageSizeNUD.Location = new System.Drawing.Point(765, 425);
-			this.packageSizeNUD.Maximum = new decimal(new int[] {
-            1024,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.Minimum = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.Name = "packageSizeNUD";
-			this.packageSizeNUD.Size = new System.Drawing.Size(53, 21);
-			this.packageSizeNUD.TabIndex = 111;
-			this.packageSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.packageSizeNUD.Value = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
+			this.zbinPathLabel.Location = new System.Drawing.Point(199, 406);
+			this.zbinPathLabel.Name = "zbinPathLabel";
+			this.zbinPathLabel.Size = new System.Drawing.Size(628, 27);
+			this.zbinPathLabel.TabIndex = 1;
+			this.zbinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// fbinPathLabel
 			// 
@@ -1207,6 +1242,16 @@
 			this.ebinPathLabel.TabIndex = 1;
 			this.ebinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// zbinUpdateButton
+			// 
+			this.zbinUpdateButton.Location = new System.Drawing.Point(51, 465);
+			this.zbinUpdateButton.Name = "zbinUpdateButton";
+			this.zbinUpdateButton.Size = new System.Drawing.Size(112, 39);
+			this.zbinUpdateButton.TabIndex = 0;
+			this.zbinUpdateButton.Text = "更新字库";
+			this.zbinUpdateButton.UseVisualStyleBackColor = true;
+			this.zbinUpdateButton.Click += new System.EventHandler(this.fpgaUpdateButton_Click);
+			// 
 			// fpgaUpdateButton
 			// 
 			this.fpgaUpdateButton.Location = new System.Drawing.Point(51, 283);
@@ -1216,6 +1261,16 @@
 			this.fpgaUpdateButton.Text = "FPGA升级";
 			this.fpgaUpdateButton.UseVisualStyleBackColor = true;
 			this.fpgaUpdateButton.Click += new System.EventHandler(this.fpgaUpdateButton_Click);
+			// 
+			// zbinSelectButton
+			// 
+			this.zbinSelectButton.Location = new System.Drawing.Point(51, 400);
+			this.zbinSelectButton.Name = "zbinSelectButton";
+			this.zbinSelectButton.Size = new System.Drawing.Size(112, 39);
+			this.zbinSelectButton.TabIndex = 0;
+			this.zbinSelectButton.Text = "选择字库文件";
+			this.zbinSelectButton.UseVisualStyleBackColor = true;
+			this.zbinSelectButton.Click += new System.EventHandler(this.fbinSelectButton_Click);
 			// 
 			// mcuUpdateButton
 			// 
@@ -1400,16 +1455,10 @@
 			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
 			// 
-			// securePanel
+			// openFileDialog1
 			// 
-			this.securePanel.Controls.Add(this.label28);
-			this.securePanel.Controls.Add(this.testButton);
-			this.securePanel.Controls.Add(this.secureTB);
-			this.securePanel.Location = new System.Drawing.Point(19, 505);
-			this.securePanel.Name = "securePanel";
-			this.securePanel.Size = new System.Drawing.Size(254, 72);
-			this.securePanel.TabIndex = 32;
-			this.securePanel.Visible = false;
+			this.openFileDialog1.Filter = "字库文件|*.bin";
+			this.openFileDialog1.Title = "请谨慎选择字库文件，如果选错可能造成严重后果！！！";
 			// 
 			// ConfForm
 			// 
@@ -1426,6 +1475,8 @@
 			this.statusStrip1.PerformLayout();
 			this.tabControl.ResumeLayout(false);
 			this.paramTab.ResumeLayout(false);
+			this.securePanel.ResumeLayout(false);
+			this.securePanel.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.artnetGroupBox.ResumeLayout(false);
 			this.artnetGroupBox.PerformLayout();
@@ -1444,18 +1495,15 @@
 			this.groupBox1.PerformLayout();
 			this.iniTab.ResumeLayout(false);
 			this.iniTab.PerformLayout();
-			this.firmwareTab.ResumeLayout(false);
-			this.firmwareTab.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fpgaWaitTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.firstRelayNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
+			this.firmwareTab.ResumeLayout(false);
 			this.recordTab.ResumeLayout(false);
 			this.recordTab.PerformLayout();
-			this.securePanel.ResumeLayout(false);
-			this.securePanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1527,22 +1575,10 @@
 		private System.Windows.Forms.Label fbinPathLabel;
 		private System.Windows.Forms.Button fbinSelectButton;
 		private System.Windows.Forms.OpenFileDialog fbinSelectDialog;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.NumericUpDown relayTimeNUD;
-		private System.Windows.Forms.NumericUpDown packageSizeNUD;
-		private System.Windows.Forms.Label label23;
-		private System.Windows.Forms.NumericUpDown partitionSizeNUD;
-		private System.Windows.Forms.Label label20;
-		private System.Windows.Forms.NumericUpDown partitionTimeNUD;
 		private System.Windows.Forms.ComboBox icCB;
 		private System.Windows.Forms.CheckBox fxCheckBox;
 		private System.Windows.Forms.ProgressBar fpgaProgressBar;
 		private System.Windows.Forms.ProgressBar mcuProgressBar;
-		private System.Windows.Forms.Label label25;
-		private System.Windows.Forms.NumericUpDown firstRelayNUD;
-		private System.Windows.Forms.Label label26;
-		private System.Windows.Forms.NumericUpDown fpgaWaitTimeNUD;
 		private System.Windows.Forms.GroupBox artnetGroupBox;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.GroupBox groupBox2;
@@ -1577,5 +1613,22 @@
 		private System.Windows.Forms.Label label34;
 		private System.Windows.Forms.Label label37;
 		private System.Windows.Forms.Panel securePanel;
+		private System.Windows.Forms.Label label26;
+		private System.Windows.Forms.NumericUpDown fpgaWaitTimeNUD;
+		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.NumericUpDown partitionSizeNUD;
+		private System.Windows.Forms.Label label20;
+		private System.Windows.Forms.NumericUpDown partitionTimeNUD;
+		private System.Windows.Forms.Label label25;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown firstRelayNUD;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.NumericUpDown relayTimeNUD;
+		private System.Windows.Forms.NumericUpDown packageSizeNUD;
+		private System.Windows.Forms.ProgressBar zbinProgressBar;
+		private System.Windows.Forms.Label zbinPathLabel;
+		private System.Windows.Forms.Button zbinUpdateButton;
+		private System.Windows.Forms.Button zbinSelectButton;
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 	}
 }

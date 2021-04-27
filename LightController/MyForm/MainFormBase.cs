@@ -2568,7 +2568,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor()
 		{
-			new LightEditor.LightEditorForm(this).ShowDialog();			
+			//DOTO 如果正在预览，则结束预览
+			if (IsPreviewing) {
+				PreviewButtonClick( null );
+			}
+			new LightEditor.LightEditorForm(this, playTools ).ShowDialog();			
 		}
 
 		/// <summary>

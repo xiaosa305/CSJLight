@@ -1,6 +1,7 @@
 ﻿using LighEditor.Tools;
 using LightController.Common;
 using LightController.MyForm;
+using LightController.Tools;
 using LightEditor.Ast;
 using System;
 using System.Collections;
@@ -39,18 +40,21 @@ namespace LightEditor
 		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
 		//调试相关变量			
-		private OneLightOneStep player; // 调试工具类的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
-		private bool isConnect = false; // 辅助变量：是否连接设备
+		private OneLightOneStep player; // 调试工具类的实例
+		private PlayTools devicePlayer;  
+		private bool isComConnect = false; // 辅助变量：是否连接设备
 				
 		// 原WaySetForm辅助变量
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
 		private int selectedTdIndex = -1 ; 
 
-		public LightEditorForm(MainFormBase mainForm)
-		{
-			this.mainForm = mainForm;
+		public LightEditorForm(MainFormBase mainForm , PlayTools playTools)
+		{			
 			InitializeComponent();
+
+			this.mainForm = mainForm;
+			devicePlayer = playTools;
 
 			softwareName = mainForm.SoftwareName + " LightLib Editor";
 			Text = softwareName ;
@@ -147,6 +151,9 @@ namespace LightEditor
 		private void NewLightEditorForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 40, mainForm.Location.Y + 60);
+
+			connectPanel.Visible = !mainForm.IsConnected ;
+
 			LanguageHelper.InitForm(this);
 		}
 		
@@ -157,7 +164,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void NewLightEditorForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (isConnect)
+			if (isComConnect)
 			{
 				player.CloseDevice();
 				player = null;
@@ -710,16 +717,16 @@ namespace LightEditor
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			// 如果还没连接，那就连接  -->连接状态下《选择串口》不可用
-			if (!isConnect)
+			if (!isComConnect)
 			{
 				if (player.ConnectDevice(comComboBox.Text))  //判断是否连接成功
 				{					
 					comComboBox.Enabled = false;
 					refreshButton.Enabled = false;
 					connectButton.Text = LanguageHelper.TranslateSentence("断开连接");
-					isConnect = true;
+					isComConnect = true;
 					setNotice(LanguageHelper.TranslateSentence("成功打开串口，并进入调试模式。"), false, true);
-					oneLightOneStep();					
+					oneLightOneStep();  // connectButton_Click()
 				}
 				else
 				{
@@ -733,7 +740,7 @@ namespace LightEditor
 				comComboBox.Enabled = true;
 				refreshButton.Enabled = true;				
 				connectButton.Text = "连接设备";
-				isConnect = false;
+				isComConnect = false;
 				setNotice("成功断开连接，并退出调试模式。", false, true);
 			}
 		}
@@ -743,22 +750,26 @@ namespace LightEditor
 		/// </summary>
 		private void oneLightOneStep()
 		{
-			Console.WriteLine(isConnect + "oneLightOneStep() ");
-			if (!isConnect)
+			Console.WriteLine( isComConnect + "  oneLightOneStep() " );
+			if (!mainForm.IsConnected  && !isComConnect)
 			{
 				return;
 			}
 
 			byte[] stepBytes = new byte[512];
-			foreach (TongdaoWrapper td in tongdaoList)
-			{
-				// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
-				// --> tongdaoIndex  = 1 + 1 -2；
-				int tongdaoIndex = firstTDValue + td.Address - 2;
-				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+			if ( tongdaoList != null && tongdaoList.Count > 0) {
+				foreach (TongdaoWrapper td in tongdaoList)
+				{
+					// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
+					// --> tongdaoIndex  = 1 + 1 -2；
+					int tongdaoIndex = firstTDValue + td.Address - 2;
+					stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+				}
 			}
-			
-			player.Preview(stepBytes);
+
+			devicePlayer.OLOSView(stepBytes);
+			//player.Preview(stepBytes);
+
 		}
 		
 		/// <summary>
@@ -775,7 +786,7 @@ namespace LightEditor
 				if (selectedTextBox != null) {
 					tdTextBoxSelected();
 				}				
-				oneLightOneStep();				
+				oneLightOneStep();  //setFirstTDButton_Click()
 			}
 		}
 
@@ -824,7 +835,7 @@ namespace LightEditor
 				tdNUDs[tdIndex].ValueChanged += tdNUDs_ValueChanged;
 			}
 
-			oneLightOneStep();
+			oneLightOneStep(); //setUnifyValue()
 
 		}
 
@@ -977,47 +988,14 @@ namespace LightEditor
 			int tongdaoIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
 
 			//2.把滚动条的值赋给valueNumericUpDowns
+			tdNUDs[tongdaoIndex].ValueChanged -= tdNUDs_ValueChanged;
 			tdNUDs[tongdaoIndex].Value = tdTrackBars[tongdaoIndex].Value;
+			tdNUDs[tongdaoIndex].ValueChanged += tdNUDs_ValueChanged;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeCurrentValue(tongdaoIndex, Decimal.ToInt32(tdNUDs[tongdaoIndex].Value));
 		}
-
-		/// <summary>
-		/// 事件：《通道值NumericUpDown》鼠标中轴滚动时的操作：（其实方法可以通用，故可以把这段代码删除）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		//private void tdNUDs_MouseWheel(object sender, MouseEventArgs e)
-		//{
-		//	Console.WriteLine("tdNUDs_MouseWheel");
-		//	int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-		//	HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-		//	if (hme != null)
-		//	{
-		//		// Dickov: 当Handled设为true时，不再触发父控件的相关操作，即屏蔽滚动事件
-		//		hme.Handled = true;
-		//	}
-		//	// 向上滚
-		//	if (e.Delta > 0)
-		//	{
-		//		decimal dd = tdNUDs[tdIndex].Value + tdNUDs[tdIndex].Increment;
-		//		if (dd <= tdNUDs[tdIndex].Maximum)
-		//		{
-		//			tdNUDs[tdIndex].Value = dd;
-		//		}
-		//	}
-		//	// 向下滚
-		//	else if (e.Delta < 0)
-		//	{
-		//		decimal dd = tdNUDs[tdIndex].Value - tdNUDs[tdIndex].Increment;
-		//		if (dd >= tdNUDs[tdIndex].Minimum)
-		//		{
-		//			tdNUDs[tdIndex].Value = dd;
-		//		}
-		//	}
-		//}
-
+		
 		/// <summary>
 		/// 事件：调节或输入《通道值numericUpDown》的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
 		/// </summary>
@@ -1029,7 +1007,9 @@ namespace LightEditor
 			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			// 2.调整相应的vScrollBar的数值
+			tdTrackBars[tongdaoIndex].ValueChanged -= tdTrackBars_ValueChanged;
 			tdTrackBars[tongdaoIndex].Value = decimal.ToInt32(tdNUDs[tongdaoIndex].Value);
+			tdTrackBars[tongdaoIndex].ValueChanged += tdTrackBars_ValueChanged;
 
 			//3.取出tongdaoIndex，给tongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeCurrentValue(tongdaoIndex, decimal.ToInt32(tdNUDs[tongdaoIndex].Value));
@@ -1040,10 +1020,12 @@ namespace LightEditor
 		/// </summary>
 		/// <param name="tongdaoIndex"></param>
 		private void changeCurrentValue(int tongdaoIndex, int tdValue)
-		{		
-			// 设tongdaoWrapper的值
-			tongdaoList[tongdaoIndex].CurrentValue = tdValue;					
-			oneLightOneStep();
+		{
+			Console.WriteLine(" changeCurrentValue() ");
+
+			// 设tongdaoWrapper的值			
+			tongdaoList[tongdaoIndex].CurrentValue = tdValue;	
+			oneLightOneStep(); //changeCurrentValue
 		}
 
 		/// <summary>

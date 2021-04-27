@@ -88,6 +88,7 @@
 			this.setCurrentToInitButton = new System.Windows.Forms.Button();
 			this.playGroupBox = new System.Windows.Forms.GroupBox();
 			this.mainPanel = new System.Windows.Forms.Panel();
+			this.connectPanel = new System.Windows.Forms.Panel();
 			this.tdNamePanel.SuspendLayout();
 			this.noticePanel.SuspendLayout();
 			this.saFLPDemo.SuspendLayout();
@@ -109,6 +110,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			this.playGroupBox.SuspendLayout();
 			this.mainPanel.SuspendLayout();
+			this.connectPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// renameButton
@@ -204,7 +206,7 @@
 			this.tongdaoCountLabel.AutoSize = true;
 			this.tongdaoCountLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tongdaoCountLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tongdaoCountLabel.Location = new System.Drawing.Point(372, 25);
+			this.tongdaoCountLabel.Location = new System.Drawing.Point(376, 25);
 			this.tongdaoCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tongdaoCountLabel.Name = "tongdaoCountLabel";
 			this.tongdaoCountLabel.Size = new System.Drawing.Size(63, 14);
@@ -240,7 +242,7 @@
 			this.countComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.countComboBox.Font = new System.Drawing.Font("宋体", 10F);
 			this.countComboBox.FormattingEnabled = true;
-			this.countComboBox.Location = new System.Drawing.Point(375, 55);
+			this.countComboBox.Location = new System.Drawing.Point(381, 55);
 			this.countComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.countComboBox.Name = "countComboBox";
 			this.countComboBox.Size = new System.Drawing.Size(52, 21);
@@ -652,7 +654,7 @@
 			// 
 			this.connectButton.Enabled = false;
 			this.connectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.connectButton.Location = new System.Drawing.Point(201, 31);
+			this.connectButton.Location = new System.Drawing.Point(105, 2);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(73, 23);
@@ -665,7 +667,7 @@
 			// 
 			this.comComboBox.Enabled = false;
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(26, 31);
+			this.comComboBox.Location = new System.Drawing.Point(6, 3);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
 			this.comComboBox.Size = new System.Drawing.Size(71, 20);
@@ -686,7 +688,7 @@
 			// refreshButton
 			// 
 			this.refreshButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.refreshButton.Location = new System.Drawing.Point(122, 31);
+			this.refreshButton.Location = new System.Drawing.Point(185, 2);
 			this.refreshButton.Name = "refreshButton";
 			this.refreshButton.Size = new System.Drawing.Size(73, 23);
 			this.refreshButton.TabIndex = 5;
@@ -771,14 +773,12 @@
 			// playGroupBox
 			// 
 			this.playGroupBox.Controls.Add(this.setCurrentToInitButton);
+			this.playGroupBox.Controls.Add(this.connectPanel);
 			this.playGroupBox.Controls.Add(this.setInitButton);
 			this.playGroupBox.Controls.Add(this.firstTDNumericUpDown);
 			this.playGroupBox.Controls.Add(this.setFirstTDButton);
 			this.playGroupBox.Controls.Add(this.unifyValueNumericUpDown);
-			this.playGroupBox.Controls.Add(this.refreshButton);
 			this.playGroupBox.Controls.Add(this.zeroButton);
-			this.playGroupBox.Controls.Add(this.comComboBox);
-			this.playGroupBox.Controls.Add(this.connectButton);
 			this.playGroupBox.Controls.Add(this.unifyValueButton);
 			this.playGroupBox.ForeColor = System.Drawing.SystemColors.ControlLightLight;
 			this.playGroupBox.Location = new System.Drawing.Point(484, 20);
@@ -804,6 +804,16 @@
 			this.mainPanel.Name = "mainPanel";
 			this.mainPanel.Size = new System.Drawing.Size(791, 234);
 			this.mainPanel.TabIndex = 30;
+			// 
+			// connectPanel
+			// 
+			this.connectPanel.Controls.Add(this.comComboBox);
+			this.connectPanel.Controls.Add(this.connectButton);
+			this.connectPanel.Controls.Add(this.refreshButton);
+			this.connectPanel.Location = new System.Drawing.Point(17, 27);
+			this.connectPanel.Name = "connectPanel";
+			this.connectPanel.Size = new System.Drawing.Size(267, 26);
+			this.connectPanel.TabIndex = 29;
 			// 
 			// LightEditorForm
 			// 
@@ -848,6 +858,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).EndInit();
 			this.playGroupBox.ResumeLayout(false);
 			this.mainPanel.ResumeLayout(false);
+			this.connectPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -913,5 +924,6 @@
 		private System.Windows.Forms.TextBox tdTextBoxDemo;
 		private System.Windows.Forms.NumericUpDown tdNUDDemo;
 		public System.Windows.Forms.Label tdLabelDemo;
+		private System.Windows.Forms.Panel connectPanel;
 	}
 }

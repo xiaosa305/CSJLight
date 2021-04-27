@@ -46,8 +46,23 @@ namespace LBDConfigTool.Properties {
                 this["fbinPath"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("")]
+		public string zbinPath
+		{
+			get
+			{
+				return ((string)(this["zbinPath"]));
+			}
+			set
+			{
+				this["zbinPath"] = value;
+			}
+		}
+
+		[global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int relayTime {
@@ -199,5 +214,6 @@ namespace LBDConfigTool.Properties {
                 return ((bool)(this["showSecure"]));
             }
         }
+
     }
 }

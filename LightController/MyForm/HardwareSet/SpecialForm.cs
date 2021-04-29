@@ -49,6 +49,15 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《取消》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			Dispose();
+		}
 
 		/// <summary>
 		/// 事件：点击《确定》：先验证旧密码是否相符，如不相符则弹出提醒；用户可根据这个密码决定是否继续
@@ -79,6 +88,6 @@ namespace LightController.MyForm
 								
 		}
 
-		
+	
 	}
 }

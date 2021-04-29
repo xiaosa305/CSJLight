@@ -1,6 +1,7 @@
 ﻿using LighEditor.Tools;
 using LightController.Common;
 using LightController.MyForm;
+using LightController.Tools;
 using LightEditor.Ast;
 using System;
 using System.Collections;
@@ -38,19 +39,27 @@ namespace LightEditor
 		private TrackBar[] tdTrackBars = new TrackBar[32];
 		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
-		//调试相关变量
-		private OneLightOneStep player; // 调试工具类的实例
+		//调试相关变量			
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
-		private bool isConnect = false; // 辅助变量：是否连接设备
+		private PlayTools devicePlayer;
+		private OneLightOneStep dmxPlayer; // 调试工具类的实例		
+		private bool isComConnected = false; // 辅助变量：是否连接设备
 				
 		// 原WaySetForm辅助变量
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
-		private int selectedTdIndex = -1 ;
+		private int selectedTdIndex = -1 ; 
 
-		public LightEditorForm(MainFormBase mainForm)
-		{
-			this.mainForm = mainForm;
+		public LightEditorForm(MainFormBase mainForm , PlayTools playTools)
+		{			
 			InitializeComponent();
+
+			this.mainForm = mainForm;
+						
+			connectLabel.Text = mainForm.ConnectStr;
+			if (mainForm.IsConnected) 
+			{
+				devicePlayer = playTools;
+			}
 
 			softwareName = mainForm.SoftwareName + " LightLib Editor";
 			Text = softwareName ;
@@ -140,8 +149,7 @@ namespace LightEditor
 
 			countComboBox.SelectedIndex = 0;
 			firstTDNumericUpDown.MouseWheel += someNUD_MouseWheel ;
-			unifyValueNumericUpDown.MouseWheel += someNUD_MouseWheel;
-			refreshComList();
+			unifyValueNumericUpDown.MouseWheel += someNUD_MouseWheel;			
 		}	
 
 		private void NewLightEditorForm_Load(object sender, EventArgs e)
@@ -157,10 +165,10 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void NewLightEditorForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (isConnect)
+			if (isComConnected)
 			{
-				player.CloseDevice();
-				player = null;
+				dmxPlayer.CloseDevice();
+				dmxPlayer = null;
 			}
 
 			Dispose();
@@ -356,7 +364,7 @@ namespace LightEditor
 			}
 		}
 
-		#region 灯具图片
+		#region 灯具图片相关
 
 		/// <summary>
 		/// 事件：点击《灯具图片框》
@@ -661,9 +669,32 @@ namespace LightEditor
 			}
 			tdFlowLayoutPanel.Refresh();
 		}
+
+		#region DMX512连接相关
 		
-		#region 调试
-						
+		private int clickTime = 0;
+		/// <summary>
+		/// 事件：双击《连接Label》后，可以切换为dmx512连接方式；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectLabel_DoubleClick(object sender, EventArgs e)
+		{
+			// 当mainForm没有设备连接时，才可以调出DMX512的相应方案
+			if (devicePlayer == null)
+			{
+				if (++clickTime == 3)
+				{
+					connectLabel.Hide();
+					comComboBox.Show();
+					refreshButton.Show();
+					connectButton.Show();
+					refreshComList(); // connectLabel_DoubleClick
+					clickTime = 0;
+				}
+			}
+		}
+
 		/// <summary>
 		/// 事件：点击《刷新串口》
 		/// </summary>
@@ -671,17 +702,17 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
-			refreshComList();
-		}
+			refreshComList(); // refreshButton_Click
+		} 
 
 		/// <summary>
 		/// 辅助方法：刷新串口列表
 		/// </summary>
 		private void refreshComList()
 		{
-			player = OneLightOneStep.GetInstance();
+			dmxPlayer = OneLightOneStep.GetInstance();
 			// 填充comComboBox
-			IList<string> comList = player.GetDMX512DeviceList();
+			IList<string> comList = dmxPlayer.GetDMX512DeviceList();
 			comComboBox.Items.Clear();
 			comComboBox.Text = "";
 			if (comList.Count > 0)
@@ -710,18 +741,16 @@ namespace LightEditor
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			// 如果还没连接，那就连接  -->连接状态下《选择串口》不可用
-			if (!isConnect)
+			if (!isComConnected)
 			{
-				if (player.ConnectDevice(comComboBox.Text))  //判断是否连接成功
+				if (dmxPlayer.ConnectDevice(comComboBox.Text))  //判断是否连接成功
 				{					
 					comComboBox.Enabled = false;
 					refreshButton.Enabled = false;
 					connectButton.Text = LanguageHelper.TranslateSentence("断开连接");
-					isConnect = true;
+					isComConnected = true;
 					setNotice(LanguageHelper.TranslateSentence("成功打开串口，并进入调试模式。"), false, true);
-					if (isConnect) {
-						oneLightOneStep();
-					}
+					oneStepPlay();  // connectButton_Click()
 				}
 				else
 				{
@@ -731,35 +760,19 @@ namespace LightEditor
 			//否则断开连接: --> 《选择串口》设为可用
 			else
 			{
-				player.CloseDevice();
+				dmxPlayer.CloseDevice();
 				comComboBox.Enabled = true;
 				refreshButton.Enabled = true;				
 				connectButton.Text = "连接设备";
-				isConnect = false;
+				isComConnected = false;
 				setNotice("成功断开连接，并退出调试模式。", false, true);
 			}
 		}
 
-		/// <summary>
-		///  辅助方法：单灯单步的操作
-		/// </summary>
-		private void oneLightOneStep()
-		{
-			if (!isConnect) {
-				return;
-			}
+		#endregion
 
-			byte[] stepBytes = new byte[512];
-			foreach (TongdaoWrapper td in tongdaoList)
-			{
-				// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
-				// --> tongdaoIndex  = 1 + 1 -2；
-				int tongdaoIndex = firstTDValue + td.Address - 2;
-				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
-			}
-			player.Preview(stepBytes);
-		}
-		
+		#region 调试相关
+
 		/// <summary>
 		/// 事件：点击设置初始通道地址
 		/// </summary>
@@ -773,17 +786,11 @@ namespace LightEditor
 				tdLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (firstTDValue + tdIndex);
 				if (selectedTextBox != null) {
 					tdTextBoxSelected();
-				}
-				if (isConnect) {
-					oneLightOneStep();
-				}
+				}				
+				oneStepPlay();  //setFirstTDButton_Click()
 			}
 		}
-
-		#endregion
-
-		#region 统一设通道值
-
+			
 		/// <summary>
 		/// 事件：点击《统一通道值》
 		/// </summary>
@@ -791,7 +798,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void unifyValueButton_Click(object sender, EventArgs e)
 		{
-			int unifyValue = Decimal.ToInt32(unifyValueNumericUpDown.Value);
+			int unifyValue = decimal.ToInt32(unifyValueNumericUpDown.Value);
 			setUnifyValue(unifyValue);
 		}
 
@@ -825,8 +832,7 @@ namespace LightEditor
 				tdNUDs[tdIndex].ValueChanged += tdNUDs_ValueChanged;
 			}
 
-			oneLightOneStep();
-
+			oneStepPlay(); //setUnifyValue()
 		}
 
 		/// <summary>
@@ -865,53 +871,44 @@ namespace LightEditor
 			}
 		}
 
+		/// <summary>
+		///  辅助方法：单灯单步的操作
+		/// </summary>
+		private void oneStepPlay()
+		{
+			// 若 设备连接为空 且 未打开DMX512串口，则不再往下走
+			if (devicePlayer == null && !isComConnected)
+			{
+				return;
+			}
+
+			byte[] stepBytes = new byte[512];
+			if (tongdaoList != null && tongdaoList.Count > 0)
+			{
+				foreach (TongdaoWrapper td in tongdaoList)
+				{
+					// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
+					// --> tongdaoIndex  = 1 + 1 -2；
+					int tongdaoIndex = firstTDValue + td.Address - 2;
+					stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+				}
+			}
+
+			// 这两个语句顺序有很大关系：先判断的优先级更高：《网络设备连接》>《DMX512连接》
+			if (devicePlayer != null)
+			{
+				devicePlayer.OLOSView(stepBytes);
+			}
+			else if (isComConnected)
+			{
+				dmxPlayer.Preview(stepBytes);
+			}
+		}
+
 		#endregion
 
-		#region 单独设通道值
-		
-		/// <summary>
-		/// 事件：鼠标点击tdTextBox后，更改selectedTextBox（并刷新子属性按钮组）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdTextBoxes_MouseClick(object sender, MouseEventArgs e)
-		{
-			selectedTextBox = sender as TextBox;
-			tdTextBoxSelected();
-		}
-
-		/// <summary>
-		/// 事件：tdTextBoxes失去焦点时，进行是否空字符串的判断
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdTextBoxes_LostFocus(object sender, EventArgs e)
-		{			
-			TextBox tb = sender as TextBox;
-			int tdIndex = MathHelper.GetIndexNum(tb.Name, -1);
-
-			if (tb.Text.Trim() == "")
-			{
-				setNotice("请输入通道名，否则系统将自动为您生成名称。", true, true);
-				tb.Text = LanguageHelper.TranslateWord("通道") + (tdIndex+1)  ;
-			}
-			
-			tongdaoList[tdIndex].TongdaoName = tb.Text.Trim(); //更改为最新的名称					
-		}
-
-		/// <summary>
-		/// 事件：鼠标点击标签
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdLabels_Click(object sender, EventArgs e)
-		{
-			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			selectedTextBox = tdTextBoxes[tdIndex];
-			tdTextBoxes[tdIndex].Select();
-			tdTextBoxSelected();
-		}
-
+		#region 通道值相关
+			   
 		/// <summary>
 		/// 事件：鼠标进入《tdLabel》时，把焦点切换到其numericUpDown中
 		/// </summary>
@@ -977,48 +974,15 @@ namespace LightEditor
 			// 1.先找出对应vScrollBars的index 
 			int tongdaoIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
 
-			//2.把滚动条的值赋给valueNumericUpDowns
+			//2.把滚动条的值赋给tdNUDs(此过程中不要重复触发调试，先去掉监听)
+			tdNUDs[tongdaoIndex].ValueChanged -= tdNUDs_ValueChanged;
 			tdNUDs[tongdaoIndex].Value = tdTrackBars[tongdaoIndex].Value;
+			tdNUDs[tongdaoIndex].ValueChanged += tdNUDs_ValueChanged;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			changeCurrentValue(tongdaoIndex, Decimal.ToInt32(tdNUDs[tongdaoIndex].Value));
+			changeCurrentValue(tongdaoIndex, decimal.ToInt32(tdNUDs[tongdaoIndex].Value));
 		}
-
-		/// <summary>
-		/// 事件：《通道值NumericUpDown》鼠标中轴滚动时的操作：（其实方法可以通用，故可以把这段代码删除）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		//private void tdNUDs_MouseWheel(object sender, MouseEventArgs e)
-		//{
-		//	Console.WriteLine("tdNUDs_MouseWheel");
-		//	int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-		//	HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-		//	if (hme != null)
-		//	{
-		//		// Dickov: 当Handled设为true时，不再触发父控件的相关操作，即屏蔽滚动事件
-		//		hme.Handled = true;
-		//	}
-		//	// 向上滚
-		//	if (e.Delta > 0)
-		//	{
-		//		decimal dd = tdNUDs[tdIndex].Value + tdNUDs[tdIndex].Increment;
-		//		if (dd <= tdNUDs[tdIndex].Maximum)
-		//		{
-		//			tdNUDs[tdIndex].Value = dd;
-		//		}
-		//	}
-		//	// 向下滚
-		//	else if (e.Delta < 0)
-		//	{
-		//		decimal dd = tdNUDs[tdIndex].Value - tdNUDs[tdIndex].Increment;
-		//		if (dd >= tdNUDs[tdIndex].Minimum)
-		//		{
-		//			tdNUDs[tdIndex].Value = dd;
-		//		}
-		//	}
-		//}
-
+		
 		/// <summary>
 		/// 事件：调节或输入《通道值numericUpDown》的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
 		/// </summary>
@@ -1029,8 +993,10 @@ namespace LightEditor
 			// 1. 找出对应的index
 			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
-			// 2.调整相应的vScrollBar的数值
+			// 2.把输入调整的数据填入tdTrackBar（此过程中不要重复触发调试，先去掉监听)
+			tdTrackBars[tongdaoIndex].ValueChanged -= tdTrackBars_ValueChanged;
 			tdTrackBars[tongdaoIndex].Value = decimal.ToInt32(tdNUDs[tongdaoIndex].Value);
+			tdTrackBars[tongdaoIndex].ValueChanged += tdTrackBars_ValueChanged;
 
 			//3.取出tongdaoIndex，给tongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeCurrentValue(tongdaoIndex, decimal.ToInt32(tdNUDs[tongdaoIndex].Value));
@@ -1041,13 +1007,10 @@ namespace LightEditor
 		/// </summary>
 		/// <param name="tongdaoIndex"></param>
 		private void changeCurrentValue(int tongdaoIndex, int tdValue)
-		{		
-			// 设tongdaoWrapper的值
-			tongdaoList[tongdaoIndex].CurrentValue = tdValue;		
-
-			if (isConnect) { 
-				oneLightOneStep();
-			}
+		{
+			// 设tongdaoWrapper的值			
+			tongdaoList[tongdaoIndex].CurrentValue = tdValue;	
+			oneStepPlay(); //changeCurrentValue
 		}
 
 		/// <summary>
@@ -1104,8 +1067,51 @@ namespace LightEditor
 		}
 
 		#endregion
-		
-		#region 通道名
+
+		#region 通道名相关
+
+		/// <summary>
+		/// 事件：鼠标点击tdTextBox后，更改selectedTextBox（并刷新子属性按钮组）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTextBoxes_MouseClick(object sender, MouseEventArgs e)
+		{
+			selectedTextBox = sender as TextBox;
+			tdTextBoxSelected();
+		}
+
+		/// <summary>
+		/// 事件：tdTextBoxes失去焦点时，进行是否空字符串的判断
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTextBoxes_LostFocus(object sender, EventArgs e)
+		{
+			TextBox tb = sender as TextBox;
+			int tdIndex = MathHelper.GetIndexNum(tb.Name, -1);
+
+			if (tb.Text.Trim() == "")
+			{
+				setNotice("请输入通道名，否则系统将自动为您生成名称。", true, true);
+				tb.Text = LanguageHelper.TranslateWord("通道") + (tdIndex + 1);
+			}
+
+			tongdaoList[tdIndex].TongdaoName = tb.Text.Trim(); //更改为最新的名称					
+		}
+
+		/// <summary>
+		/// 事件：鼠标点击标签
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdLabels_Click(object sender, EventArgs e)
+		{
+			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
+			selectedTextBox = tdTextBoxes[tdIndex];
+			tdTextBoxes[tdIndex].Select();
+			tdTextBoxSelected();
+		}
 
 		/// <summary>
 		///  事件：双击把《右侧选择的通道名称值》填入左侧选择的《文本框》中
@@ -1129,7 +1135,7 @@ namespace LightEditor
 
 		#endregion
 
-		#region 子属性
+		#region 子属性相关
 
 		/// <summary>
 		/// 辅助方法：清空td相关选项(未选中时，命名Panel和saPanel都隐藏掉)
@@ -1321,7 +1327,7 @@ namespace LightEditor
 			   
 		#endregion
 
-		#region 通用
+		#region 通用方法
 
 		/// <summary>
 		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
@@ -1372,9 +1378,8 @@ namespace LightEditor
 				MessageBox.Show(msg);
 			}
 		}
-			   
-		#endregion
 
+		#endregion
 		
 	}
 }

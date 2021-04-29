@@ -371,6 +371,10 @@
 			this.ClientSize = new System.Drawing.Size(534, 309);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(550, 348);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(550, 348);
 			this.Name = "NewHardwareSetForm";
 			this.Text = "硬件配置";
 			this.Load += new System.EventHandler(this.NewHardwareSet_Load);

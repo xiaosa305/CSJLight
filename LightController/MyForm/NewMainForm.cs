@@ -173,21 +173,6 @@ namespace LightController.MyForm
 
 			#endregion
 
-			// 场景选项框
-			// 添加FramList.txt中的场景列表
-		
-			foreach (string frame in AllSceneList)
-			{
-				sceneComboBox.Items.Add(frame);
-			}
-			SceneCount = AllSceneList.Count;
-			if (SceneCount == 0)
-			{
-				MessageBox.Show(LanguageHelper.TranslateSentence("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。"));
-				exit();
-			}
-			sceneComboBox.SelectedIndex = 0;
-
 			//模式选项框
 			modeComboBox.Items.AddRange(new object[] {
 				LanguageHelper.TranslateWord("常规模式"),
@@ -285,6 +270,21 @@ namespace LightController.MyForm
 			formClosing(e);
 		}
 
+
+		/// <summary>
+		/// 辅助公用方法：渲染场景选择框
+		/// </summary>
+		public override void RenderSceneCB() {
+			sceneComboBox.SelectedIndexChanged -= sceneComboBox_SelectedIndexChanged;
+			sceneComboBox.Items.Clear();			
+			foreach (string frame in AllSceneList)
+			{
+				sceneComboBox.Items.Add(frame);
+			}
+			sceneComboBox.SelectedIndex = CurrentScene;
+			sceneComboBox.SelectedIndexChanged += sceneComboBox_SelectedIndexChanged;
+		}
+
 		/// <summary>
 		/// 辅助方法：根据传进来的bool值，决定界面是深色系还是浅色系（相应的BorderStyle也发生变化）
 		/// </summary>
@@ -322,6 +322,7 @@ namespace LightController.MyForm
 			tdFlowLayoutPanel.BorderStyle = unifyBorderStyle;
 			unifyPanel.BorderStyle = unifyBorderStyle;
 		}
+
 
 		#region 菜单栏 - 非工程相关
 
@@ -1947,7 +1948,6 @@ namespace LightController.MyForm
 		{
 			LanguageHelper.TranslateControl( sender as Button);
 		}
-
 
 		/// <summary>
 		/// 辅助方法：点击《设备连接》

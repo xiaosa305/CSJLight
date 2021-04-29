@@ -26,9 +26,8 @@ namespace LBDConfigTool
 
 		private string deviceIP ;  // 必须是从设备回读的信息，才能设为true。即必须是readCompleted方法：
 		private bool isRecording = false; //正在录制时，设为true；
-		private DMXManager simulator;  //
+		private DMXManager simulator;  // 录制功能的实例对象
 		private string dirPath ; //录制文件存储路径
-		//private int recordIndex = 0; //录制文件序号
 
 		public ConfForm()
 		{
@@ -124,36 +123,7 @@ namespace LBDConfigTool
 			renderAllControls(cc);
 
 		}
-
-		/// <summary>
-		/// 辅助方法：填充默认的specialCC
-		/// </summary>
-		private void makeSpecialCC()
-		{
-			specialCC= new CSJConf()
-			{
-				OLD_MIA_HAO = "",
-				MIA_HAO = "",  // 密码限定为6位，不能多不能少				
-				IsSetBad = false,
-				CardType = 0,
-				SumUseTimes = 0,
-				CurrUseTimes = 0
-			};
-		}	
-
-		/// <summary>
-		/// 辅助方法：供《SpecialForm》调用，替换当前的specialCC
-		/// </summary>
-		/// <param name="scc"></param>
-		public void SetSpecialCC(CSJConf cc) {			
-			specialCC.OLD_MIA_HAO = cc.OLD_MIA_HAO;
-			specialCC.MIA_HAO = cc.MIA_HAO;  
-			specialCC.IsSetBad = cc.IsSetBad;
-			specialCC.CardType = cc.CardType;
-			specialCC.SumUseTimes = cc.SumUseTimes;
-			specialCC.CurrUseTimes = cc.CurrUseTimes;
-		}
-
+		
 		/// <summary>
 		///  
 		/// </summary>
@@ -175,75 +145,37 @@ namespace LBDConfigTool
 			cnc.SearchDevice(readCompleted, readError);// 搜设备
 
 		}
-
-		#region 通用方法
+		
+		#region 参数回读相关
 
 		/// <summary>
-		/// 辅助方法：按要求显示提示
+		/// 辅助方法：填充默认的specialCC
 		/// </summary>
-		/// <param name="msg"></param>
-		/// <param name="isMsbShow"></param>
-		private void setNotice(int labelPos, string msg, bool isMsbShow)
+		private void makeSpecialCC()
 		{
-			if (labelPos == 1)myStatusLabel1.Text = msg;
-			else	myStatusLabel2.Text = msg;			
-			if (isMsbShow) MessageBox.Show(msg);
+			specialCC = new CSJConf()
+			{
+				OLD_MIA_HAO = "",
+				MIA_HAO = "",  // 密码限定为6位，不能多不能少				
+				IsSetBad = false,
+				CardType = 0,
+				SumUseTimes = 0,
+				CurrUseTimes = 0
+			};
 		}
 
 		/// <summary>
-		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
+		/// 辅助方法：供《SpecialForm》调用，替换当前的specialCC
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
+		/// <param name="scc"></param>
+		public void SetSpecialCC(CSJConf cc)
 		{
-			NumericUpDown nud = sender as NumericUpDown;
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			// 向上滚
-			if (e.Delta > 0)
-			{
-				decimal dd = nud.Value + nud.Increment;
-				if (dd <= nud.Maximum)
-				{
-					nud.Value = decimal.ToInt32(dd);
-				}
-			}
-			// 向下滚
-			else if (e.Delta < 0)
-			{
-				decimal dd = nud.Value - nud.Increment;
-				if (dd >= nud.Minimum)
-				{
-					nud.Value = decimal.ToInt32(dd);
-				}
-			}
-		}
-
-		#endregion
-
-		/// <summary>
-		/// 事件:点击《测试》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
-		{
-			//RecordTest.GetInstance().Test();
-			//Console.WriteLine(specialCC);
-
-			//if (pswTB.Text.Trim().Length != 16) {
-			//	setNotice(1, "加密文本必须是16位。", true);
-			//	return;
-			//}
-
-			cnc.WriteEncrypt(secureTB.Text, null, null);
-
-			Properties.Settings.Default.secureStr = secureTB.Text;
-			Properties.Settings.Default.Save();
+			specialCC.OLD_MIA_HAO = cc.OLD_MIA_HAO;
+			specialCC.MIA_HAO = cc.MIA_HAO;
+			specialCC.IsSetBad = cc.IsSetBad;
+			specialCC.CardType = cc.CardType;
+			specialCC.SumUseTimes = cc.SumUseTimes;
+			specialCC.CurrUseTimes = cc.CurrUseTimes;
 		}
 
 		/// <summary>
@@ -410,6 +342,26 @@ namespace LBDConfigTool
 			}
 		}
 
+		private int clickTime = 0;
+		/// <summary>
+		/// 事件：多次双击参数配置Tab的空白处，会出现加密工具框
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void paramTab_DoubleClick(object sender, EventArgs e)
+		{
+			//if (string.IsNullOrEmpty(specialCC.OLD_MIA_HAO)) {
+			//	return;
+			//}			
+
+			clickTime++;
+			if (clickTime == 3)
+			{
+				new SpecialForm(this, specialCC).ShowDialog();
+				clickTime = 0;
+			}
+		}		
+
 		/// <summary>
 		/// 事件：点击《打开配置文件》
 		/// </summary>
@@ -461,6 +413,10 @@ namespace LBDConfigTool
 				}
 			}
 		}
+			   
+		#endregion
+
+		#region 升级文件相关
 
 		/// <summary>
 		/// 事件：点击《选择ebin升级文件》
@@ -486,8 +442,8 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
 			{
-				cnc.UpdataMCU256(ebinPathLabel.Text, makePE(), DrawProgress,UpdateCompleted, UpdateError);
 				Enabled = false;
+				cnc.UpdataMCU256(ebinPathLabel.Text, makePE(), DrawProgress,UpdateCompleted, UpdateError);				
 			}
 		}
 
@@ -526,8 +482,8 @@ namespace LBDConfigTool
 		{
 			if (!string.IsNullOrEmpty(fbinPathLabel.Text))
 			{
-				cnc.UpdateFPGA256(fbinPathLabel.Text, makePE(), fpgaDrawProgress, UpdateCompleted, UpdateError);
 				Enabled = false;
+				cnc.UpdateFPGA256(fbinPathLabel.Text, makePE(), fpgaDrawProgress, UpdateCompleted, UpdateError);				
 			}
 		}
 
@@ -541,6 +497,46 @@ namespace LBDConfigTool
 			setNotice(1,"正在升级固件(fpga)，请稍候...", false);
 			fpgaProgressBar.Value = progressPercent;
 			
+		}
+			
+		/// <summary>
+		/// 事件：点击《选择字库文件》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zbinSelectButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == zbinSelectDialog.ShowDialog())
+			{
+				zbinPathLabel.Text = zbinSelectDialog.FileName;
+				Properties.Settings.Default.zbinPath = zbinSelectDialog.FileName;
+				Properties.Settings.Default.Save();
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《更新字库》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zbinUpdateButton_Click(object sender, EventArgs e)
+		{
+			if (!string.IsNullOrEmpty(zbinPathLabel.Text))
+			{				
+				Enabled = false;
+				cnc.DownloadFontLibrary(zbinPathLabel.Text, makePE(), zbinDrawProgress,UpdateCompleted,UpdateError);
+			}
+		}
+
+		/// <summary>
+		/// 辅助回调方法：写进度条
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="progress"></param>
+		private void zbinDrawProgress(int progressPercent)
+		{
+			setNotice(1, "正在更新字库，请稍候...", false);
+			zbinProgressBar.Value = progressPercent;
 		}
 
 		/// <summary>
@@ -559,19 +555,7 @@ namespace LBDConfigTool
 				FPGAUpdateCompletedIntervalTime = decimal.ToInt32(fpgaWaitTimeNUD.Value) * 1000,
 			};
 		}
-
-		/// <summary>
-		/// 升级失败回调方法
-		/// </summary>
-		/// <param name="msg"></param>
-		private void UpdateError(string msg)
-		{
-			setNotice(1,msg, isSuccessShow);
-			mcuProgressBar.Value = 0;
-			fpgaProgressBar.Value = 0;
-			Enabled = true;
-		}
-
+		
 		/// <summary>
 		/// 升级失败回调方法
 		/// </summary>
@@ -582,27 +566,21 @@ namespace LBDConfigTool
 			setNotice(1, msg, true);
 			mcuProgressBar.Value = 0;
 			fpgaProgressBar.Value = 0;
+			zbinProgressBar.Value = 0;
 			Enabled = true;
 		}
 
-		private int clickTime = 0;
 		/// <summary>
-		/// 两次双击参数配置Tab的空白处，会出现加密工具框
+		/// 升级失败回调方法
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void paramTab_DoubleClick(object sender, EventArgs e)
+		/// <param name="msg"></param>
+		private void UpdateError(string msg)
 		{
-			//if (string.IsNullOrEmpty(specialCC.OLD_MIA_HAO)) {
-			//	return;
-			//}			
-
-			clickTime++;
-			if (clickTime == 3)
-			{
-				new SpecialForm(this,specialCC).ShowDialog();
-				clickTime = 0;
-			}
+			setNotice(1, msg, isSuccessShow);
+			mcuProgressBar.Value = 0;
+			fpgaProgressBar.Value = 0;
+			zbinProgressBar.Value = 0;
+			Enabled = true;
 		}
 
 		/// <summary>
@@ -622,11 +600,24 @@ namespace LBDConfigTool
 			Properties.Settings.Default.fpgaWaitTime = decimal.ToInt32(fpgaWaitTimeNUD.Value);
 			Properties.Settings.Default.Save();
 		}
+		
+		#endregion		
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            RecordTest.GetInstance().Test();
-        }
+		#region 录制文件相关
+
+		/// <summary>
+		/// 事件：点击最后一Tab时，需要判断是否已经回读网址，才可以进入此tab(否则e.Cancel = true,直接无视此操作)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+		{
+			// 根据判断是否已经回读了设备参数，才允许进行之后的操作
+			if (string.IsNullOrEmpty(deviceIP) && e.TabPageIndex == 3)
+			{
+				//e.Cancel = true;
+			}
+		}
 
 		private void recordButton_Click(object sender, EventArgs e)
 		{
@@ -696,8 +687,7 @@ namespace LBDConfigTool
 			scuNameTB.Enabled = !recording;
 			fileNameTB.Enabled = !recording;			
 		}
-
-
+		
 		/// <summary>
 		/// 辅助方法：实现展示录制帧数的委托
 		/// </summary>
@@ -744,18 +734,88 @@ namespace LBDConfigTool
 			myToolTip.SetToolTip(dirPathLabel, dirPath);
 		}
 
+		#endregion
+
+		#region 通用方法
+
 		/// <summary>
-		/// 事件：点击最后一Tab时，需要判断是否已经回读网址，才可以进入此tab(否则e.Cancel = true,直接无视此操作)
+		/// 辅助方法：按要求显示提示
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="isMsbShow"></param>
+		private void setNotice(int labelPos, string msg, bool isMsbShow)
+		{
+			if (labelPos == 1) myStatusLabel1.Text = msg;
+			else myStatusLabel2.Text = msg;
+			if (isMsbShow) MessageBox.Show(msg);
+		}
+
+		/// <summary>
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
 		{
-			// 根据判断是否已经回读了设备参数，才允许进行之后的操作
-			if ( string.IsNullOrEmpty(deviceIP) && e.TabPageIndex == 3) {
-				//e.Cancel = true;
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
 			}
 		}
+
+		#endregion
+
+		#region 测试方法；待删除
+
+		/// <summary>
+		/// 事件:点击《测试》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			//RecordTest.GetInstance().Test();
+			//Console.WriteLine(specialCC);
+
+			//if (pswTB.Text.Trim().Length != 16) {
+			//	setNotice(1, "加密文本必须是16位。", true);
+			//	return;
+			//}
+
+			cnc.WriteEncrypt(secureTB.Text, null, null);
+
+			Properties.Settings.Default.secureStr = secureTB.Text;
+			Properties.Settings.Default.Save();
+		}
+
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			RecordTest.GetInstance().Test();
+		}
+
+		#endregion
+
 	}
 
 }

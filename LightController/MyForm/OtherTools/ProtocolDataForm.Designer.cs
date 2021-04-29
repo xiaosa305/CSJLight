@@ -300,7 +300,9 @@
 			this.Controls.Add(this.editCodeButton);
 			this.HelpButton = true;
 			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(640, 400);
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(640, 400);
 			this.Name = "ProtocolDataForm";
 			this.Text = "修改协议";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.ProtocolDataForm_HelpButtonClicked);

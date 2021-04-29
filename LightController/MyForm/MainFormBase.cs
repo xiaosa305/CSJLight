@@ -63,13 +63,14 @@ namespace LightController.MyForm
 		// 全局配置及数据库连接				
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
 		protected string projectStr; 
-		protected string connectStr = " [ 设备未连接 ]";
+		public string ConnectStr = " [ 设备未连接 ]";
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
 		public bool IsShowTestButton = false;
 		public bool IsNoticeUnifyTd = true;
 
-		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）			
+		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）	
+		public static string SceneListFile = Application.StartupPath + @"\Protocol\SceneList.txt";
 		public static IList<string> AllSceneList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int SceneCount = 0;  //场景数量
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
@@ -170,9 +171,9 @@ namespace LightController.MyForm
 		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
 		protected virtual void enableStepPanel(bool enable) { } //是否使能《步数面板》
 		// 步数面板
+		public virtual void RenderSceneCB() { } //渲染场景下拉框（外设配置也用得到）
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
-		
 		protected virtual void changeCurrentScene(int sceneIndex) { } //MARK 只开单场景：02.0 改变当前Frame
 		protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
 		// 辅助面板
@@ -187,15 +188,15 @@ namespace LightController.MyForm
 		{			
 			IsConnected = connected;
 			IsPreviewing = previewing;
-			connectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName +" ]": "[ 设备未连接 ]";
-			Text = SoftwareName + projectStr + connectStr;
+			ConnectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName +" ]": "[ 设备未连接 ]";
+			Text = SoftwareName + projectStr + ConnectStr;
 		} //设置《连接按钮组》是否可用	
 
 		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
 		protected virtual void deviceRefresh() { } //	刷新设备列表
 		protected virtual void refreshConnectMethod() { } //切换连接方式后的相关操作
 		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
-		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示		
+		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示			
 		
 		#endregion
 
@@ -1647,7 +1648,7 @@ namespace LightController.MyForm
 			GlobalIniPath = currentProjectPath + @"\global.ini";
 			dbFilePath = currentProjectPath + @"\data.db3";
 			projectStr = "(" + LanguageHelper.TranslateSentence(" 当前工程：") + projectName + " )";
-			Text = SoftwareName + projectStr +  connectStr ;
+			Text = SoftwareName + projectStr +  ConnectStr ;
 
 			//1.1设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
 			arrangeIniPath = currentProjectPath + @"\arrange.ini";			
@@ -1734,7 +1735,7 @@ namespace LightController.MyForm
 			sceneLoadArray = null;
 
 			projectStr = "";
-			Text = SoftwareName  + projectStr + connectStr;
+			Text = SoftwareName  + projectStr + ConnectStr;
 
 			EnterSyncMode(false);  //退出《同步模式》
 			RefreshMultiModeButtons(false); // 刷新为单灯状态的按钮可用性
@@ -2567,7 +2568,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor()
 		{
-			new LightEditor.LightEditorForm(this).ShowDialog();			
+			//DOTO 如果正在预览，则结束预览
+			if (IsPreviewing) {
+				PreviewButtonClick( null );
+			}
+			new LightEditor.LightEditorForm(this, playTools ).ShowDialog();			
 		}
 
 		/// <summary>
@@ -2596,7 +2601,7 @@ namespace LightController.MyForm
 		protected void newToolClick()
 		{
 			// Mark3.0413  newToolClick()-disConnect
-			//disConnect(); //newToolClick()
+			//DisConnect(); //newToolClick()
 			//new NewToolsForm(this).ShowDialog();
 
 			if (IsConnected)
@@ -4083,7 +4088,7 @@ namespace LightController.MyForm
 			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			SoftwareName += "v" + appFileVersion + " ";
 
-			Text = SoftwareName + projectStr + connectStr ;
+			Text = SoftwareName + projectStr + ConnectStr ;
 
 			//从GlobalSet.ini文件读取内容
 			SavePath = IniHelper.GetSavePath();
@@ -4147,8 +4152,17 @@ namespace LightController.MyForm
 			{
 				Icon = Icon.ExtractAssociatedIcon(iconPath);
 			}
-			AllSceneList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
 			
+			// 处理场景列表，当内容有误时，直接退出软件；
+			AllSceneList = TextHelper.Read( SceneListFile);			
+			if (AllSceneList== null || AllSceneList.Count==0)
+			{				
+				MessageBox.Show(LanguageHelper.TranslateSentence("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。"));
+				exit();
+			}
+			SceneCount = AllSceneList.Count;
+			RenderSceneCB();
+
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 		}   

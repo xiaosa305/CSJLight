@@ -140,6 +140,10 @@
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.updateButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(578, 225);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(578, 225);
 			this.Name = "NewProjectUpdateForm";
 			this.Text = "工程更新";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProjectUpdateForm_FormClosed);

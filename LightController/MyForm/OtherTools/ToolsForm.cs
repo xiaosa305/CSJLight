@@ -35,10 +35,10 @@ namespace LightController.MyForm.OtherTools
 
 		private MainFormBase mainForm;
 		private ConnectStatus connStatus = ConnectStatus.No;   //初始状态为未连接
-				
-		private IList<string> sceneCodeList ;		
+						
 		private string protocolXlsPath = Application.StartupPath + @"\Protocol\Controller.xls"; //默认的中控配置文件路径
 		private HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射
+		private IList<string> sceneCodeList; // 存放读取的《Protocol\SceneCode》文件内生成的1-16场景相应的码值，有多处会用到此List; 
 
 		private CCEntity ccEntity; // 中控封装对象
 		private const int END_DECODING_TIME = 200; // 关闭中控解码需要一定的时间，才能往下操作；正常情况下200毫秒应该足够，但应设为可调节的		
@@ -49,8 +49,7 @@ namespace LightController.MyForm.OtherTools
 		private int relayCount = 6; // 开关的数量		 		
 			
 		private KeyEntity kpEntity;  // 墙板封装对象
-		private List<string> kpCodeList;   // 记录搜索到的码值列表（不用Dictionary，因为没有存储功能描述的必要，且Dictionary无序）
-		private bool isKpShowDetails = true; // 墙板是否显示列表				
+		private List<string> kpCodeList;   // 记录搜索到的码值列表（不用Dictionary，因为没有存储功能描述的必要，且Dictionary无序）		
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 		
 		public ToolsForm(MainFormBase mainForm)
@@ -103,8 +102,19 @@ namespace LightController.MyForm.OtherTools
 				relayFLP.Controls.Add(relayButtons[relayIndex]);
 			}
 
+			myToolTip.SetToolTip(renderMainFormSceneButton,
+				"左键点击此按键，会把当前协议中灯光场景1-16的功能描述渲染到主界面\n" +
+				"的《场景选择框》中，改动只在此次软件运行期间生效；\n" +
+				"右键点击此按键，则会把改动保存到硬盘上，下次打开软件时仍然有效。");
 			myToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
 			myToolTip.SetToolTip(fillCodeAllButton, "点击此按键会将选中项的键码值填入左侧两个文本框中;\n双击右边列表的键码值也可实现同样效果。");
+
+			// 初始化墙板配置界面的TabControl
+			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+			tabControl1.Alignment = TabAlignment.Left;
+			tabControl1.SizeMode = TabSizeMode.Fixed;
+			tabControl1.Multiline = true;
+			tabControl1.ItemSize = new Size(60, 100);
 
 			#endregion
 		}
@@ -116,6 +126,8 @@ namespace LightController.MyForm.OtherTools
 			//LanguageHelper.TranslateListView(protocolListView);
 			//LanguageHelper.TranslateListView(keypressListView);		
 
+			//deviceNameLabel.Text = mainForm.MyConnect.DeviceName;
+
 			loadProtocols(Properties.Settings.Default.protocolIndex); //主动加载协议,并选择注册表中记录的选项			
 		}
 
@@ -123,179 +135,7 @@ namespace LightController.MyForm.OtherTools
 		{			
 			tabControl1_SelectedIndexChanged(null, null); // 主动触发连接外设的操作
 		}
-
-		/// <summary>
-		///  辅助方法：加载所有protocol文件，包括xls内的和用户另存为的；并选中入参index的协议
-		/// </summary>
-		private void loadProtocols(int selectedProtocolIndex)
-		{
-			try
-			{
-				protocolComboBox.Items.Clear();
-				protocolComboBox.SelectedIndex = -1; //此处不触发保存协议选择的事件
-				// 由xls文件加载协议列表；
-				using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
-				{
-					xlsWorkbook = new HSSFWorkbook(file);
-				}
-				for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
-				{
-					ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);					
-					protocolComboBox.Items.Add(sheet.SheetName);
-				}
-
-				// 加载所有pbin文件；
-				FileInfo[] pbinArray = new DirectoryInfo(Application.StartupPath + @"\Protocol\").GetFiles("*.pbin");
-				if (pbinArray.Length > 0) {
-					protocolComboBox.Items.Add("================");
-					foreach (FileInfo pbin in pbinArray)
-					{
-						protocolComboBox.Items.Add(pbin.Name.Substring(0, pbin.Name.LastIndexOf(".pbin")));
-					}
-				}
-
-				// 主动选中传入的协议index
-				if(protocolComboBox.Items.Count > selectedProtocolIndex)
-				{
-					protocolComboBox.SelectedIndex = selectedProtocolIndex;
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
-		}
-
-		/// <summary>
-		/// 事件：更改协议ComboBox的选项，先渲染后保存到注册表
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			// 一进来先把ccEntity置空
-			ccEntity = null;
-			string protocolName = "";
-			if (protocolComboBox.SelectedIndex == -1 || protocolComboBox.SelectedIndex == xlsWorkbook.NumberOfSheets)
-			{
-				setNotice(StatusLabel.RIGHT, "请选择可用协议（不要选择分隔符========）。",false, true);
-				return;
-			}
-			
-			// 选中xls中协议
-			if (protocolComboBox.SelectedIndex < xlsWorkbook.NumberOfSheets)
-			{
-				ccEntity = new CCEntity();
-				ISheet sheet = xlsWorkbook.GetSheetAt(protocolComboBox.SelectedIndex);
-				ccEntity.ProtocolName = sheet.SheetName;
-				System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-				// 处理通用数据(com0,com1,ps2)
-				rows.MoveNext();
-				IRow row = (HSSFRow)rows.Current;
-				ICell cell = row.GetCell(0);
-				ccEntity.Com0 = Convert.ToInt32(cell.ToString().Substring(4));
-				rows.MoveNext();
-				row = (HSSFRow)rows.Current;
-				cell = row.GetCell(0);
-				ccEntity.Com1 = Convert.ToInt32(cell.ToString().Substring(4));
-				rows.MoveNext();
-				row = (HSSFRow)rows.Current;
-				cell = row.GetCell(0);
-				ccEntity.PS2 = cell.ToString().Equals("PS2=主") ? 0 : 1;
-				rows.MoveNext();
-
-				//逐一处理每一行的数据
-				int rowIndex = 0;
-				while (rows.MoveNext())
-				{
-					row = (HSSFRow)rows.Current;
-
-					CCData ccData = new CCData();
-					cell = row.GetCell(0);
-					ccData.Function = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(1);
-					ccData.Code = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(2);
-					ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(3);
-					ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(4);
-					ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(5);
-					ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(6);
-					ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(7);
-					ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(8);
-					ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(9);
-					ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
-
-					ccEntity.CCDataList.Add(ccData);
-					rowIndex++;
-				}
-				protocolName = "excel表格中的【"+ protocolComboBox.Text+"】协议";
-			}
-			// 选中本地协议
-			else
-			{
-				try
-				{
-					ccEntity = (CCEntity)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\protocol\" + protocolComboBox.Text + ".pbin");
-					protocolName = "用户另存的【" + protocolComboBox.Text + "】协议";
-				}
-				catch (Exception)
-				{
-					ccEntity = null;
-					setNotice(StatusLabel.RIGHT, "用户另存的【" + protocolComboBox.Text + "】协议损坏，无法生成CC，请重选协议。", true, true);					
-				}
-			}
-
-			if (ccEntity != null)
-			{
-				com0Label.Text = LanguageHelper.TranslateWord("串口0 = ") + ccEntity.Com0;
-				com1Label.Text = LanguageHelper.TranslateWord("串口1 = ") + ccEntity.Com1;
-				PS2Label.Text = "PS2 = " + (ccEntity.PS2 == 0?"主":"从");
-
-				protocolListView.Items.Clear();
-				for (int rowIndex = 0; rowIndex < ccEntity.CCDataList.Count; rowIndex++)
-				{
-					ListViewItem item = new ListViewItem((rowIndex + 1).ToString());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up.Trim());
-					item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down.Trim());
-					protocolListView.Items.Add(item);
-				}
-				setNotice(StatusLabel.RIGHT,"已加载" + protocolName,false,true);
-
-				// MARK3 0420 如果选择了一个可以用的cc，则保存到注册表
-				Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
-				Properties.Settings.Default.Save();
-
-				int lcSceneIndex = sceneComboBox.SelectedIndex ;		// 先记录当前灯控选中的场景index，在渲染后重新选择				
-				if (sceneCodeList != null && sceneCodeList.Count == 16)
-				{
-					sceneComboBox.Items.Clear();
-					sceneComboBox.Items.Add("开机场景");
-					
-					for (int codeIndex = 0; codeIndex < 16; codeIndex++)
-					{						
-						sceneComboBox.Items.Add(ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function);
-					}
-					sceneComboBox.SelectedIndex = lcSceneIndex;
-				}
-			}
-			refreshButtons();
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：通过filePath，读取其内部数据（基本上相同的文件存储格式)，组成IList<string>并返回。
 		/// </summary>
@@ -389,6 +229,10 @@ namespace LightController.MyForm.OtherTools
 		/// </summary>
 		private void refreshButtons()
 		{
+			// 协议相关另存或渲染相关
+			protocolSaveButton.Enabled = ccEntity != null;
+			renderMainFormSceneButton.Enabled = ccEntity != null;
+
 			// 灯控相关按键
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
 			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc && lcEntity != null;			
@@ -398,8 +242,7 @@ namespace LightController.MyForm.OtherTools
 			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null && !isDecoding;
 
 			// 墙板相关按键
-			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
-			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
+			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;		
 			bool keNotNull = kpEntity != null;
 			kpSaveButton.Enabled = keNotNull;
 			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp && keNotNull;
@@ -424,6 +267,247 @@ namespace LightController.MyForm.OtherTools
 				Dispose();
 			}
 		}
+		
+		#region 协议相关
+
+		/// <summary>
+		///  辅助方法：加载所有protocol文件，包括xls内的和用户另存为的；并选中入参index的协议
+		/// </summary>
+		private void loadProtocols(int selectedProtocolIndex)
+		{
+			try
+			{
+				protocolComboBox.Items.Clear();
+				protocolComboBox.SelectedIndex = -1; //此处不触发保存协议选择的事件
+													 // 由xls文件加载协议列表；
+				using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
+				{
+					xlsWorkbook = new HSSFWorkbook(file);
+				}
+				for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
+				{
+					ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
+					protocolComboBox.Items.Add(sheet.SheetName);
+				}
+
+				// 加载所有pbin文件；
+				FileInfo[] pbinArray = new DirectoryInfo(Application.StartupPath + @"\Protocol\").GetFiles("*.pbin");
+				if (pbinArray.Length > 0)
+				{
+					protocolComboBox.Items.Add("================");
+					foreach (FileInfo pbin in pbinArray)
+					{
+						protocolComboBox.Items.Add(pbin.Name.Substring(0, pbin.Name.LastIndexOf(".pbin")));
+					}
+				}
+
+				// 主动选中传入的协议index
+				if (protocolComboBox.Items.Count > selectedProtocolIndex)
+				{
+					protocolComboBox.SelectedIndex = selectedProtocolIndex;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// 事件：更改协议ComboBox的选项，先渲染后保存到注册表
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// 一进来先把ccEntity置空
+			ccEntity = null;
+			string protocolName = "";
+			if (protocolComboBox.SelectedIndex == -1 || protocolComboBox.SelectedIndex == xlsWorkbook.NumberOfSheets)
+			{
+				setNotice(StatusLabel.RIGHT, "请选择可用协议（不要选择分隔符========）。", false, true);
+				return;
+			}
+
+			// 选中xls中协议
+			if (protocolComboBox.SelectedIndex < xlsWorkbook.NumberOfSheets)
+			{
+				ccEntity = new CCEntity();
+				ISheet sheet = xlsWorkbook.GetSheetAt(protocolComboBox.SelectedIndex);
+				ccEntity.ProtocolName = sheet.SheetName;
+				System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+				// 处理通用数据(com0,com1,ps2)
+				rows.MoveNext();
+				IRow row = (HSSFRow)rows.Current;
+				ICell cell = row.GetCell(0);
+				ccEntity.Com0 = Convert.ToInt32(cell.ToString().Substring(4));
+				rows.MoveNext();
+				row = (HSSFRow)rows.Current;
+				cell = row.GetCell(0);
+				ccEntity.Com1 = Convert.ToInt32(cell.ToString().Substring(4));
+				rows.MoveNext();
+				row = (HSSFRow)rows.Current;
+				cell = row.GetCell(0);
+				ccEntity.PS2 = cell.ToString().Equals("PS2=主") ? 0 : 1;
+				rows.MoveNext();
+
+				//逐一处理每一行的数据
+				int rowIndex = 0;
+				while (rows.MoveNext())
+				{
+					row = (HSSFRow)rows.Current;
+
+					CCData ccData = new CCData();
+					cell = row.GetCell(0);
+					ccData.Function = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(1);
+					ccData.Code = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(2);
+					ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(3);
+					ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(4);
+					ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(5);
+					ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(6);
+					ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(7);
+					ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(8);
+					ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
+					cell = row.GetCell(9);
+					ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
+
+					ccEntity.CCDataList.Add(ccData);
+					rowIndex++;
+				}
+				protocolName = "excel表格中的【" + protocolComboBox.Text + "】协议";
+			}
+			// 选中本地协议
+			else
+			{
+				try
+				{
+					ccEntity = (CCEntity)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\protocol\" + protocolComboBox.Text + ".pbin");
+					protocolName = "用户另存的【" + protocolComboBox.Text + "】协议";
+				}
+				catch (Exception)
+				{
+					ccEntity = null;
+					setNotice(StatusLabel.RIGHT, "用户另存的【" + protocolComboBox.Text + "】协议损坏，无法生成CC，请重选协议。", true, true);
+				}
+			}
+
+			if (ccEntity != null)
+			{
+				com0Label.Text = LanguageHelper.TranslateWord("串口0 = ") + ccEntity.Com0;
+				com1Label.Text = LanguageHelper.TranslateWord("串口1 = ") + ccEntity.Com1;
+				PS2Label.Text = "PS2 = " + (ccEntity.PS2 == 0 ? "主" : "从");
+
+				protocolListView.Items.Clear();
+				for (int rowIndex = 0; rowIndex < ccEntity.CCDataList.Count; rowIndex++)
+				{
+					ListViewItem item = new ListViewItem((rowIndex + 1).ToString());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up.Trim());
+					item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down.Trim());
+					protocolListView.Items.Add(item);
+				}
+				setNotice(StatusLabel.RIGHT, "已加载" + protocolName, false, true);
+
+				// MARK3 0420 如果选择了一个可以用的cc，则保存到注册表
+				Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
+				Properties.Settings.Default.Save();
+
+				int lcSceneIndex = sceneComboBox.SelectedIndex;     // 先记录当前灯控选中的场景index，在渲染后重新选择				
+				if (sceneCodeList != null && sceneCodeList.Count == 16)
+				{
+					sceneComboBox.Items.Clear();
+					sceneComboBox.Items.Add("开机场景");
+
+					for (int codeIndex = 0; codeIndex < 16; codeIndex++)
+					{
+						sceneComboBox.Items.Add(ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function);
+					}
+					sceneComboBox.SelectedIndex = lcSceneIndex;
+				}
+			}
+			refreshButtons();
+		}
+
+		/// <summary>
+		/// 事件：点击《协议另存为》后把用户修改过的协议保存成pbin二进制文件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void protocolSaveButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == pbinSaveDialog.ShowDialog())
+			{
+				if (ccEntity != null)
+				{
+					try
+					{
+						string pbinPath = pbinSaveDialog.FileName;
+						SerializeUtils.SerializeObject(pbinPath, ccEntity);
+						setNotice(StatusLabel.RIGHT, "成功另存协议。", true, true);
+					}
+					catch (Exception ex)
+					{
+						setNotice(StatusLabel.RIGHT, "另存协议失败：" + ex.Message, true, false);
+					}
+				}
+			}
+		}
+		
+		/// <summary>
+		/// 事件：点击《渲染主界面场景名》（本方法不起作用，主要用于导航）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void renderMainFormSceneButton_Click(object sender, EventArgs e) { }
+
+		/// <summary>
+		/// 事件：《关联主界面场景名》：左键点击渲染当前，右键点击生成SceneList文件在下次打开软件时生效；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void renderMainFormSceneButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			// 不是左键或右键不起则不起作用
+			if (e.Button != MouseButtons.Left && e.Button != MouseButtons.Right) {
+				return;
+			}
+			if (ccEntity == null || sceneCodeList == null || sceneCodeList.Count != 16) {
+				setNotice(StatusLabel.RIGHT, "当前协议为空或SceneCode文件有错误，无法继续操作。", true, true);
+			}
+
+			// 左键直接渲染到界面，但不保存；右键会保存文件，下次启动时仍能生效
+			for (int codeIndex = 0; codeIndex < 16; codeIndex++)
+			{
+				MainFormBase.AllSceneList[codeIndex] = ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function;
+			}
+			mainForm.RenderSceneCB();
+
+			string notice = "已将选定协议的1-16场景关联到主界面中，";
+			if (e.Button == MouseButtons.Left)
+			{
+				setNotice(StatusLabel.RIGHT, notice + "此改动只在本次软件运行期间生效。", true, false);
+			}else {
+				TextHelper.Write(MainFormBase.SceneListFile , MainFormBase.AllSceneList);
+				setNotice(StatusLabel.RIGHT, notice + "此改动将长期生效(已保存到Protocol/SceneList.txt文件中)。", true, false);
+			}	
+		}
+
+		#endregion
 
 		#region 中控相关
 
@@ -692,32 +776,7 @@ namespace LightController.MyForm.OtherTools
 				}
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击《(灯控)保存配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void protocolSaveButton_Click(object sender, EventArgs e)
-		{
-			if (DialogResult.OK == pbinSaveDialog.ShowDialog())
-			{
-				if (ccEntity != null)
-				{
-					try
-					{
-						string pbinPath = pbinSaveDialog.FileName;
-						SerializeUtils.SerializeObject(pbinPath, ccEntity);
-						setNotice(StatusLabel.RIGHT, "成功另存协议。", true, true);						
-					}
-					catch (Exception ex)
-					{
-						setNotice(StatusLabel.RIGHT, "另存协议失败：" + ex.Message, true, false);
-					}
-				}
-			}
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -773,8 +832,44 @@ namespace LightController.MyForm.OtherTools
 				relayButtons[relayIndex].ImageIndex = lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex] ? 1 : 0;
 			}
 			debugLC();
-		}				
+		}
 
+		/// <summary>
+		/// 事件：点击《(灯控)打开配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcLoadButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == cfgOpenFileDialog.ShowDialog())
+			{
+				setNotice(StatusLabel.RIGHT, "正在打开本地灯控配置文件，请稍候...", false, true);
+				IList<string> paramList = getParamListFromPath(cfgOpenFileDialog.FileName);
+				lcEntity = new LightControlData(paramList);
+				lcRender();
+				setNotice(StatusLabel.RIGHT,
+					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + cfgOpenFileDialog.FileName,
+					true, false);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《(灯控)保存配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcSaveButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == cfgSaveFileDialog.ShowDialog())
+			{
+				processLC();
+				lcEntity.WriteToFile(cfgSaveFileDialog.FileName);
+				setNotice(StatusLabel.RIGHT,
+					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + cfgSaveFileDialog.FileName,
+					true, false);
+			}
+		}
+			   
 		/// <summary>
 		/// 辅助回调方法：灯控连接成功
 		/// </summary>
@@ -783,7 +878,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				setConnStatus(ConnectStatus.Lc);
-				setNotice(StatusLabel.RIGHT, "已切换成中控配置(connStatus=lc)", false,true);
+				setNotice(StatusLabel.RIGHT, "已切换成灯控配置(connStatus=lc)", false,true);
 				setBusy(false);
 
 				// 当还没有任何形式地加载lcEntity时，主动从机器回读
@@ -861,6 +956,8 @@ namespace LightController.MyForm.OtherTools
 
 		#endregion
 
+		#region 墙板相关
+
 		/// <summary>
 		/// 辅助回调方法： 连接墙板成功
 		/// </summary>
@@ -873,9 +970,10 @@ namespace LightController.MyForm.OtherTools
 				setConnStatus(ConnectStatus.Kp);
 				setBusy(false);
 
-				Thread.Sleep(500);
-				kpListenButton_Click(null, null);
-								
+				//连接后休息片刻，就开始监听《墙板按键》的点击
+				//Thread.Sleep(500);
+				mainForm.MyConnect.PassThroughKeyPressSetClickListener(KPStartListenClick); 
+
 				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
 				if (kpTimer == null)
 				{
@@ -889,6 +987,19 @@ namespace LightController.MyForm.OtherTools
 				if (kpEntity == null) {
 					kpReadButton_Click(null, null);
 				}				
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：连接墙板失败
+		/// </summary>
+		public void KPConnectError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				// 切换失败，只给提示，不更改原来的状态
+				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("连接墙板失败:") + msg, true, false);
+				setBusy(false);
 			});
 		}
 
@@ -918,20 +1029,7 @@ namespace LightController.MyForm.OtherTools
 				Console.WriteLine("Dickov：墙板定时重连成功...");
 			});
 		}
-
-		/// <summary>
-		/// 辅助回调方法：连接墙板失败
-		/// </summary>
-		public void KPConnectError(string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				// 切换失败，只给提示，不更改原来的状态
-				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("连接墙板失败:") + msg, true, false);
-				setBusy(false);
-			});
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：清空墙板listView的所有数据，及其他相关数据。
 		/// </summary>
@@ -942,17 +1040,7 @@ namespace LightController.MyForm.OtherTools
 			kpKey0TextBox.Text = "";
 			kpKey1TextBox.Text = "";
 		}
-
-		/// <summary>
-		/// 事件：点击《监听按键》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void kpListenButton_Click(object sender, EventArgs e)
-		{
-			mainForm.MyConnect.PassThroughKeyPressSetClickListener(KPStartListenClick);
-		}
-
+			   
 		/// <summary>
 		/// 事件：点击《读取码值》
 		/// </summary>
@@ -1118,9 +1206,8 @@ namespace LightController.MyForm.OtherTools
 			}
 		}
 
-
 		/// <summary>
-		/// 事件：点击《加载墙板cfg文件》
+		/// 事件：点击《加载本地（墙板配置)文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1155,7 +1242,7 @@ namespace LightController.MyForm.OtherTools
 		}
 	
 		/// <summary>
-		/// 
+		/// 事件：点击《保存(墙板配置)到本地》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1167,6 +1254,117 @@ namespace LightController.MyForm.OtherTools
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("成功保存墙板配置文件：") + keyPath, true, false);
 			}
 		}
+
+		/// <summary>
+		/// 事件：点击《搜索码值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpSearchButton_Click(object sender, EventArgs e)
+		{
+			if (ccEntity == null || string.IsNullOrEmpty(kpSearchTextBox.Text.Trim()))
+			{
+				setNotice(StatusLabel.RIGHT, "搜索码值时，协议必须已经加载且搜索关键字不得为空！", true, false);
+				return;
+			}
+
+			// 由关键字搜索相应的indexList ，再遍历选中所有匹配项
+			kpCodeListBox.Items.Clear();
+			kpCodeList = new List<string>();
+
+			IList<int> ccdIndexList = ccEntity.SearchIndices(kpSearchTextBox.Text.Trim());
+			foreach (int ccdIndex in ccdIndexList)
+			{
+				kpCodeListBox.Items.Add(ccEntity.CCDataList[ccdIndex].Function + "[" + ccEntity.CCDataList[ccdIndex].Code + "]");
+				kpCodeList.Add(ccEntity.CCDataList[ccdIndex].Code);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《(填充文本到键码值输入框)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void fillCodeButton_Click(object sender, EventArgs e)
+		{
+			if (kpCodeList == null || kpCodeList.Count == 0 || kpCodeListBox.SelectedIndex == -1)
+			{
+				setNotice(StatusLabel.RIGHT, "选中的码值为空，无法设为键码值，请重新搜索或选择", true, false);
+				return;
+			}
+
+			Button btn = sender as Button;
+			switch (btn.Name)
+			{
+				case "fillCode0Button":
+					kpKey0TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
+					break;
+				case "fillCode1Button":
+					kpKey1TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
+					break;
+				case "fillCodeAllButton":
+					kpKey0TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
+					kpKey1TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
+					break;
+			}
+			setNotice(StatusLabel.RIGHT, "已将选中的键码值填入相应框中，确认修改可点击《修改键码值》。", false, true);
+		}
+
+		/// <summary>
+		/// 事件：双击《kpCodeListBox》填入相应的键码值码值到两个文本框中；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpCodeListBox_DoubleClick(object sender, EventArgs e)
+		{
+			kpKey0TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
+			kpKey1TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
+		}
+
+		/// <summary>
+		/// 事件：点击《修改键码值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpEditButton_Click(object sender, EventArgs e)
+		{
+			if (keypressListView.SelectedIndices.Count == 0)
+			{
+				setNotice(0, "请先选择需要设置键码值的按键。", true, true);
+				return;
+			}
+			if (kpKey0TextBox.Text.Length == 0)
+			{
+				setNotice(0, "键码值0不得为空。", true, true);
+				return;
+			}
+
+			// 处理TextBox内容，填入相应的listView中
+			int keyIndex = keypressListView.SelectedIndices[0];
+			string key0 = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
+			keypressListView.Items[keyIndex].SubItems[2].Text = key0;
+			keypressListView.Items[keyIndex].SubItems[3].Text = ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key0, 16) - 1].Function;
+
+			if (kpKey1TextBox.Text.Length == 0)
+			{
+				keypressListView.Items[keyIndex].SubItems[4].Text = key0;
+				keypressListView.Items[keyIndex].SubItems[5].Text = ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key0, 16) - 1].Function;
+			}
+			else
+			{
+				string key1 = kpKey1TextBox.Text.ToLower().PadLeft(2, '0');
+				keypressListView.Items[keyIndex].SubItems[4].Text = key1;
+				keypressListView.Items[keyIndex].SubItems[5].Text = ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key1, 16) - 1].Function;
+			}
+
+			// 将改变后的值填入keyEntity中
+			int keyArrayIndex = Convert.ToInt32(kpOrderTextBox.Text) - 1; //keyEntity中的array索引号
+			kpEntity.Key0Array[keyArrayIndex] = kpKey0TextBox.Text;
+			kpEntity.Key1Array[keyArrayIndex] = kpKey1TextBox.Text;
+
+		}
+
+		#endregion
 
 		#region 通用方法
 
@@ -1224,150 +1422,8 @@ namespace LightController.MyForm.OtherTools
 		{
 			LanguageHelper.TranslateControl(sender as Control);
 		}
-
-
+		
 		#endregion
-
-
-
-		/// <summary>
-		/// 事件：点击《搜索码值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void kpSearchButton_Click(object sender, EventArgs e)
-		{
-			if (ccEntity == null || string.IsNullOrEmpty(kpSearchTextBox.Text.Trim() )) {
-				setNotice(StatusLabel.RIGHT, "搜索码值时，协议必须已经加载且搜索关键字不得为空！", true, false);
-				return;
-			}
-
-			// 由关键字搜索相应的indexList ，再遍历选中所有匹配项
-			kpCodeListBox.Items.Clear();
-			kpCodeList = new List<string>(); 
-
-			IList<int> ccdIndexList = ccEntity.SearchIndices(kpSearchTextBox.Text.Trim());
-			foreach (int ccdIndex in ccdIndexList)
-			{
-				kpCodeListBox.Items.Add(  ccEntity.CCDataList[ccdIndex].Function+"["+ ccEntity.CCDataList[ccdIndex].Code + "]" );
-				kpCodeList.Add(ccEntity.CCDataList[ccdIndex].Code);
-			}					
-		}
-
-		/// <summary>
-		/// 事件：点击《(填充文本到键码值输入框)》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void fillCodeButton_Click(object sender, EventArgs e)
-		{
-			if (kpCodeList==null || kpCodeList.Count == 0  || kpCodeListBox.SelectedIndex == -1 ) {
-				setNotice(StatusLabel.RIGHT, "选中的码值为空，无法设为键码值，请重新搜索或选择", true, false);
-				return;
-			}			
-
-			Button btn = sender as Button;
-			switch (btn.Name) {
-				case "fillCode0Button":
-					kpKey0TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
-					break;
-				case "fillCode1Button":
-					kpKey1TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
-					break;
-				case "fillCodeAllButton":
-					kpKey0TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
-					kpKey1TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
-					break;
-			}
-			setNotice(StatusLabel.RIGHT, "已将选中的键码值填入相应框中，确认修改可点击《修改键码值》。", false, true);
-		}
-
-		/// <summary>
-		/// 事件：双击《kpCodeListBox》填入相应的键码值码值到两个文本框中；
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void kpCodeListBox_DoubleClick(object sender, EventArgs e)
-		{
-			kpKey0TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
-			kpKey1TextBox.Text = kpCodeList[kpCodeListBox.SelectedIndex];
-		}
-
-		/// <summary>
-		/// 事件：点击《修改键码值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void kpEditButton_Click(object sender, EventArgs e)
-		{
-			if (keypressListView.SelectedIndices.Count == 0)
-			{
-				setNotice(0, "请先选择需要设置键码值的按键。", true, true);
-				return;
-			}
-			if (kpKey0TextBox.Text.Length == 0)
-			{
-				setNotice(0, "键码值0不得为空。", true, true);
-				return;
-			}
-
-			// 处理TextBox内容，填入相应的listView中
-			int keyIndex = keypressListView.SelectedIndices[0];
-			string key0 = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
-			keypressListView.Items[keyIndex].SubItems[2].Text = key0; 
-			keypressListView.Items[keyIndex].SubItems[3].Text = ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key0, 16) - 1].Function;
-
-			if (kpKey1TextBox.Text.Length == 0)
-			{
-				keypressListView.Items[keyIndex].SubItems[4].Text = key0;
-				keypressListView.Items[keyIndex].SubItems[5].Text = ccEntity==null ? "" : ccEntity.CCDataList[Convert.ToInt32(key0, 16) - 1].Function ;
-			}
-			else
-			{
-				string key1 = kpKey1TextBox.Text.ToLower().PadLeft(2, '0');
-				keypressListView.Items[keyIndex].SubItems[4].Text = key1;
-				keypressListView.Items[keyIndex].SubItems[5].Text = ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key1, 16) - 1].Function;
-			}
-
-			// 将改变后的值填入keyEntity中
-			int keyArrayIndex = Convert.ToInt32(kpOrderTextBox.Text) - 1; //keyEntity中的array索引号
-			kpEntity.Key0Array[keyArrayIndex] = kpKey0TextBox.Text;
-			kpEntity.Key1Array[keyArrayIndex] = kpKey1TextBox.Text;
-		}
-
-
-		/// <summary>
-		/// 事件：点击《(灯控)打开配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lcLoadButton_Click(object sender, EventArgs e)
-		{
-			if (DialogResult.OK == cfgOpenFileDialog.ShowDialog()){
-				setNotice(StatusLabel.RIGHT, "正在打开本地灯控配置文件，请稍候...", false, true);
-				IList<string> paramList = getParamListFromPath( cfgOpenFileDialog.FileName);
-				lcEntity = new LightControlData(paramList);
-				lcRender();
-				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + cfgOpenFileDialog.FileName,	
-					true, false);
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《(灯控)保存配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lcSaveButton_Click(object sender, EventArgs e)
-		{
-			if (DialogResult.OK == cfgSaveFileDialog.ShowDialog()) {
-				processLC();
-				lcEntity.WriteToFile(cfgSaveFileDialog.FileName);
-				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + cfgSaveFileDialog.FileName,
-					true, false);
-			}
-		}
+			
 	}
 }

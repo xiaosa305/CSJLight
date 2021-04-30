@@ -1,5 +1,4 @@
 ﻿using System;
-using SharpPcap;
 using PacketDotNet;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text;
 using LBDConfigTool.utils.conf;
 using System.Threading;
 using System.Timers;
+using SharpPcap;
 
 namespace LBDConfigTool.utils.record
 {
@@ -19,6 +19,7 @@ namespace LBDConfigTool.utils.record
         private FrameSync FrameSync_Event { get; set; }
         private DMXDataCaptureed DMXDataCaptureed_Event { get; set; }
         private int StartSpace { get; set; }
+        private bool CaptureStatus { get; set; }
         private System.Timers.Timer CaptureTimer { get; set; }
 
         private void Init()
@@ -31,6 +32,7 @@ namespace LBDConfigTool.utils.record
             this.FrameSync_Event = frameSync;
             this.DMXDataCaptureed_Event = dataCaptureed;
             this.StartSpace = conf.Art_Net_Start_Space;
+            this.CaptureStatus = false;
             //this.StartSpace = 1;
 
             this.Init();
@@ -42,15 +44,27 @@ namespace LBDConfigTool.utils.record
         public void Start()
         {
             this.Stop();
-            foreach (SharpPcap.LibPcap.PcapDevice device in CaptureDeviceList.Instance)
+            if(this.CurrentDevice == null)
             {
-                SharpPcap.LibPcap.PcapInterface @interface = device.Interface;
-                if (@interface.FriendlyName.Equals("以太网"))
+                foreach (SharpPcap.LibPcap.PcapDevice device in CaptureDeviceList.Instance)
                 {
-                    this.CurrentDevice = device;
-                    this.StartCapture();
-                    return;
+                    SharpPcap.LibPcap.PcapInterface @interface = device.Interface;
+                    if (@interface.FriendlyName.StartsWith("以太网"))
+                    {
+                        this.CurrentDevice = device;
+                        this.CaptureStatus = true;
+                        CaptureTimer = new System.Timers.Timer() { AutoReset = false };
+                        CaptureTimer.Elapsed += this.CaptureTask;
+                        CaptureTimer.Start();
+                        //this.StartCapture();
+                        return;
+                    }
                 }
+            }
+            else
+            {
+                this.CaptureStatus = true;
+                //this.StartCapture();
             }
         }
         public CaptureTool Stop()
@@ -59,10 +73,11 @@ namespace LBDConfigTool.utils.record
             {
                 try
                 {
-                    this.CurrentDevice.StopCapture();
-                    this.CurrentDevice = null;
+                    //this.CurrentDevice.StopCapture();
+                    //this.CurrentDevice = null;
+                    this.CaptureStatus = false;
                     this.Reset();
-                    this.CaptureTimer.Stop();
+                    //this.CaptureTimer.Stop();
                 }
                 catch (Exception ex)
                 {
@@ -72,15 +87,7 @@ namespace LBDConfigTool.utils.record
             }
             return this;
         }
-        private void StartCapture()
-        {
-            if (this.CurrentDevice != null)
-            {
-                CaptureTimer = new System.Timers.Timer() { AutoReset = false };
-                CaptureTimer.Elapsed += this.CaptureTask;
-                CaptureTimer.Start();
-            }
-        }
+      
         private void CaptureTask(object sender, ElapsedEventArgs e)
         {
             this.CurrentDevice.OnPacketArrival += new PacketArrivalEventHandler(CaptureData);
@@ -90,32 +97,37 @@ namespace LBDConfigTool.utils.record
 
         private void CaptureData(object sender, CaptureEventArgs e)
         {
-            Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
-            UdpPacket udpPacket = (UdpPacket)packet.Extract(typeof(UdpPacket));
-            if (udpPacket != null && udpPacket.DestinationPort == 6454)
+            if (this.CaptureStatus)
             {
-                byte[] data = packet.Bytes;
-                if (!this.IsFirstFrame && data[42+0] == 0x41 && data[42 + 1] == 0x72 && data[42 + 2] == 0x74 && data[42 + 3] == 0x2D && data[42 + 4] == 0x4E && data[42 + 5] == 0x65 && data[42 + 6] == 0x74 && data[42 + 7] == 0x00 && data.Length > 18 && data[42 + 8] == 0x00 && data[42 + 9] == 0x50)
+                Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+                UdpPacket udpPacket = (UdpPacket)packet.Extract(typeof(UdpPacket));
+                if (udpPacket != null && udpPacket.DestinationPort == 6454)
                 {
-                    int port = (int)((data[42 + 14] & 0xFF) | ((data[42 + 15] & 0xFF) << 8));
-                    int dataLength = (int)(data[42 + 17] & 0xFF) | ((data[42 + 16] & 0xFF) << 8);
-                    if (dataLength != 0 && data.Length == (dataLength + 18 + 42))
+                    byte[] data = packet.Bytes;
+                    if (!this.IsFirstFrame && data[42 + 0] == 0x41 && data[42 + 1] == 0x72 && data[42 + 2] == 0x74 && data[42 + 3] == 0x2D && data[42 + 4] == 0x4E && data[42 + 5] == 0x65 && data[42 + 6] == 0x74 && data[42 + 7] == 0x00 && data.Length > 18 && data[42 + 8] == 0x00 && data[42 + 9] == 0x50)
                     {
-                        byte[] DMXDataBuff = new byte[dataLength];
-                        Array.Copy(data, 42 + 18, DMXDataBuff, 0, dataLength);
-                        this.DMXDataCaptureed_Event(port - this.StartSpace + 1, new List<byte>(DMXDataBuff));
+                        int port = (int)((data[42 + 14] & 0xFF) | ((data[42 + 15] & 0xFF) << 8));
+                        int dataLength = (int)(data[42 + 17] & 0xFF) | ((data[42 + 16] & 0xFF) << 8);
+                        if (dataLength != 0 && data.Length == (dataLength + 18 + 42))
+                        {
+                            Console.WriteLine("Receive DMXData");
+                            byte[] DMXDataBuff = new byte[dataLength];
+                            Array.Copy(data, 42 + 18, DMXDataBuff, 0, dataLength);
+                            this.DMXDataCaptureed_Event(port - this.StartSpace + 1, new List<byte>(DMXDataBuff));
+                        }
                     }
-                }
-                else if (data[42 + 0] == 0x4D && data[42 + 1] == 0x61 && data[42 + 2] == 0x64 && data[42 + 3] == 0x72 && data[42 + 4] == 0x69 && data[42 + 5] == 0x78 && data[42 + 6] == 0x4E && data[42 + 7] == 0x00 && data[42 + 8] == 0x02 && data[42 + 9] == 0x52 && data[42 + 10] == 0x00)
-                {
-                    if (this.IsFirstFrame)
+                    else if (data[42 + 0] == 0x4D && data[42 + 1] == 0x61 && data[42 + 2] == 0x64 && data[42 + 3] == 0x72 && data[42 + 4] == 0x69 && data[42 + 5] == 0x78 && data[42 + 6] == 0x4E && data[42 + 7] == 0x00 && data[42 + 8] == 0x02 && data[42 + 9] == 0x52 && data[42 + 10] == 0x00)
                     {
-                        this.IsFirstFrame = false;
-                    }
-                    else
-                    {
-                        this.IsFirstFrame = false;
-                        this.FrameSync_Event();
+                        Console.WriteLine("Receive FrameSync");
+                        if (this.IsFirstFrame)
+                        {
+                            this.IsFirstFrame = false;
+                        }
+                        else
+                        {
+                            this.IsFirstFrame = false;
+                            this.FrameSync_Event();
+                        }
                     }
                 }
             }

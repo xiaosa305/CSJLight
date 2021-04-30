@@ -51,7 +51,7 @@ namespace LBDConfigTool.utils.record
         public DMXManager(CSJConf conf)
         {
             this.Init();
-            this.LedControlNumber = 1;
+            this.LedControlNumber = conf.Jl_fk_num;
             this.LedInterfaceNumber = conf.Fk_lushu;
             this.LedSpaceNumber = conf.Art_Net_Pre;
             //this.LedInterfaceNumber = 8;

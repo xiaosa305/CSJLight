@@ -383,7 +383,7 @@ namespace OtherTools
 					}
 				}
 
-				//DOTO：直接通过通道数量，把后六位给固定的排风及空调通道
+				//MARK：直接通过通道数量，把后六位给固定的排风及空调通道
 				//for (int lightIndex = 0; lightIndex < 6;  lightIndex++) {
 				//		fanChannelComboBoxes[lightIndex].Items.Add("通道"+ (lcEntity.RelayCount - 6 + lightIndex + 1) );
 				//		fanChannelComboBoxes[lightIndex].SelectedIndex = 0;

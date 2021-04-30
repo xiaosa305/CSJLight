@@ -144,9 +144,7 @@ namespace LightController.Ast
 		{
 			if (complexMaterial == null) { return newMaterial; }
 			if (newMaterial == null) { return complexMaterial; }
-
-			//DOTO MaterialAst.ComplexMaterialAst() 方法块核心代码
-
+			
 			// 先找出后者和前者不同的通道
 			Dictionary<string,int> addTdDict = new Dictionary<string,int>();
 			List<string> newTdNameList = new List<string>(complexMaterial.TdNameList);			
@@ -176,7 +174,6 @@ namespace LightController.Ast
 							tdArray[stepIndex, tdIndex] = TongdaoWrapper.GetFromMaterial(complexMaterial, stepIndex, tdIndex);
 						}						
 						else {
-							//DOTO  检查addTdDict[newTdNameList[tdIndex]]
 							tdArray[stepIndex, tdIndex] = TongdaoWrapper.GetFromMaterial( newMaterial, stepIndex , addTdDict[newTdNameList[tdIndex]] );
 						}
 					}

@@ -821,9 +821,7 @@ namespace LightController.MyForm
 				}
 				insMethod = InsertMethod.INSERT;
 			}
-
-			//DOTO : 1222 使用素材核心代码
-
+			
 			// 选择《插入》时的操作：后插法（往当前步后加数据）
 			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
 			if (insMethod == InsertMethod.INSERT || totalStep == 0)
@@ -2568,7 +2566,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor()
 		{
-			//DOTO 如果正在预览，则结束预览
 			if (IsPreviewing) {
 				PreviewButtonClick( null );
 			}

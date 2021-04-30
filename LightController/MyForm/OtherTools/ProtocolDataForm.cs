@@ -135,7 +135,6 @@ namespace LightController.MyForm.OtherTools
 						strTemp += StringHelper.DecimalStringToBitHex(item.ToString(), 2) + " ";
 					}
 
-					//DOTO 3.0420 按红外遥控时，需要根据当前选中的TextBox填入码值；
 					if ( selectedTextBox != null  ) {
 						selectedTextBox.Text = strTemp;
 					}

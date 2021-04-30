@@ -294,7 +294,7 @@ namespace LightController.MyForm
 			// keepButton
 			// 
 			this.keepButton.Enabled = false;
-			this.keepButton.Location = new System.Drawing.Point(550, 47);
+			this.keepButton.Location = new System.Drawing.Point(605, 47);
 			this.keepButton.Margin = new System.Windows.Forms.Padding(2);
 			this.keepButton.Name = "keepButton";
 			this.keepButton.Size = new System.Drawing.Size(80, 23);
@@ -307,7 +307,7 @@ namespace LightController.MyForm
 			// makeSoundButton
 			// 
 			this.makeSoundButton.Enabled = false;
-			this.makeSoundButton.Location = new System.Drawing.Point(978, 47);
+			this.makeSoundButton.Location = new System.Drawing.Point(1033, 47);
 			this.makeSoundButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundButton.Name = "makeSoundButton";
 			this.makeSoundButton.Size = new System.Drawing.Size(80, 23);
@@ -319,7 +319,7 @@ namespace LightController.MyForm
 			// previewButton
 			// 
 			this.previewButton.Enabled = false;
-			this.previewButton.Location = new System.Drawing.Point(978, 17);
+			this.previewButton.Location = new System.Drawing.Point(1033, 17);
 			this.previewButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(80, 23);
@@ -599,7 +599,7 @@ namespace LightController.MyForm
 			// 
 			// copyStepButton
 			// 
-			this.copyStepButton.Location = new System.Drawing.Point(678, 17);
+			this.copyStepButton.Location = new System.Drawing.Point(733, 17);
 			this.copyStepButton.Name = "copyStepButton";
 			this.copyStepButton.Size = new System.Drawing.Size(80, 23);
 			this.copyStepButton.TabIndex = 49;
@@ -609,7 +609,7 @@ namespace LightController.MyForm
 			// 
 			// pasteStepButton
 			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(678, 47);
+			this.pasteStepButton.Location = new System.Drawing.Point(733, 47);
 			this.pasteStepButton.Name = "pasteStepButton";
 			this.pasteStepButton.Size = new System.Drawing.Size(80, 23);
 			this.pasteStepButton.TabIndex = 49;
@@ -939,16 +939,16 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.multiplexButton);
 			this.stepPanel.Controls.Add(this.appendButton);
 			this.stepPanel.Enabled = false;
-			this.stepPanel.Location = new System.Drawing.Point(56, 0);
+			this.stepPanel.Location = new System.Drawing.Point(24, 0);
 			this.stepPanel.Name = "stepPanel";
-			this.stepPanel.Size = new System.Drawing.Size(1071, 83);
+			this.stepPanel.Size = new System.Drawing.Size(1131, 83);
 			this.stepPanel.TabIndex = 65;
 			this.stepPanel.Tag = "";
 			// 
 			// chooseStepButton
 			// 
 			this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepButton.Location = new System.Drawing.Point(603, 16);
+			this.chooseStepButton.Location = new System.Drawing.Point(658, 16);
 			this.chooseStepButton.Name = "chooseStepButton";
 			this.chooseStepButton.Size = new System.Drawing.Size(27, 23);
 			this.chooseStepButton.TabIndex = 54;
@@ -958,7 +958,7 @@ namespace LightController.MyForm
 			// 
 			// saveMaterialButton
 			// 
-			this.saveMaterialButton.Location = new System.Drawing.Point(767, 17);
+			this.saveMaterialButton.Location = new System.Drawing.Point(822, 17);
 			this.saveMaterialButton.Name = "saveMaterialButton";
 			this.saveMaterialButton.Size = new System.Drawing.Size(90, 23);
 			this.saveMaterialButton.TabIndex = 49;
@@ -968,23 +968,25 @@ namespace LightController.MyForm
 			// 
 			// modeComboBox
 			// 
+			this.modeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.modeComboBox.Enabled = false;
 			this.modeComboBox.FormattingEnabled = true;
-			this.modeComboBox.Location = new System.Drawing.Point(68, 49);
+			this.modeComboBox.Location = new System.Drawing.Point(56, 49);
 			this.modeComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.modeComboBox.Name = "modeComboBox";
-			this.modeComboBox.Size = new System.Drawing.Size(84, 20);
+			this.modeComboBox.Size = new System.Drawing.Size(89, 20);
 			this.modeComboBox.TabIndex = 18;
 			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
 			// 
 			// sceneComboBox
 			// 
+			this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.sceneComboBox.Enabled = false;
 			this.sceneComboBox.FormattingEnabled = true;
-			this.sceneComboBox.Location = new System.Drawing.Point(68, 17);
+			this.sceneComboBox.Location = new System.Drawing.Point(56, 17);
 			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.sceneComboBox.Name = "sceneComboBox";
-			this.sceneComboBox.Size = new System.Drawing.Size(84, 20);
+			this.sceneComboBox.Size = new System.Drawing.Size(156, 20);
 			this.sceneComboBox.TabIndex = 17;
 			this.sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.sceneComboBox_SelectedIndexChanged);
 			// 
@@ -993,7 +995,7 @@ namespace LightController.MyForm
 			this.stepLabel.AutoSize = true;
 			this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(374, 20);
+			this.stepLabel.Location = new System.Drawing.Point(429, 20);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(71, 14);
 			this.stepLabel.TabIndex = 53;
@@ -1004,7 +1006,7 @@ namespace LightController.MyForm
 			this.frameLabel.AutoSize = true;
 			this.frameLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.frameLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.frameLabel.Location = new System.Drawing.Point(23, 21);
+			this.frameLabel.Location = new System.Drawing.Point(16, 21);
 			this.frameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.frameLabel.Name = "frameLabel";
 			this.frameLabel.Size = new System.Drawing.Size(41, 12);
@@ -1013,7 +1015,7 @@ namespace LightController.MyForm
 			// 
 			// chooseStepNumericUpDown
 			// 
-			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(550, 17);
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(605, 17);
 			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
 			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(47, 21);
 			this.chooseStepNumericUpDown.TabIndex = 52;
@@ -1024,7 +1026,7 @@ namespace LightController.MyForm
 			this.modeLabel.AutoSize = true;
 			this.modeLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.modeLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.modeLabel.Location = new System.Drawing.Point(23, 53);
+			this.modeLabel.Location = new System.Drawing.Point(16, 53);
 			this.modeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.modeLabel.Name = "modeLabel";
 			this.modeLabel.Size = new System.Drawing.Size(41, 12);
@@ -1038,7 +1040,7 @@ namespace LightController.MyForm
 			this.syncButton.FlatAppearance.BorderSize = 0;
 			this.syncButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.syncButton.ImageKey = "复制步.png";
-			this.syncButton.Location = new System.Drawing.Point(866, 17);
+			this.syncButton.Location = new System.Drawing.Point(921, 17);
 			this.syncButton.Name = "syncButton";
 			this.syncButton.Size = new System.Drawing.Size(80, 23);
 			this.syncButton.TabIndex = 49;
@@ -1054,7 +1056,7 @@ namespace LightController.MyForm
 			this.multiLightButton.FlatAppearance.BorderSize = 0;
 			this.multiLightButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.multiLightButton.ImageKey = "复制步.png";
-			this.multiLightButton.Location = new System.Drawing.Point(185, 16);
+			this.multiLightButton.Location = new System.Drawing.Point(240, 16);
 			this.multiLightButton.Name = "multiLightButton";
 			this.multiLightButton.Size = new System.Drawing.Size(75, 55);
 			this.multiLightButton.TabIndex = 49;
@@ -1065,7 +1067,7 @@ namespace LightController.MyForm
 			// 
 			// backStepButton
 			// 
-			this.backStepButton.Location = new System.Drawing.Point(290, 16);
+			this.backStepButton.Location = new System.Drawing.Point(345, 16);
 			this.backStepButton.Name = "backStepButton";
 			this.backStepButton.Size = new System.Drawing.Size(75, 23);
 			this.backStepButton.TabIndex = 49;
@@ -1076,7 +1078,7 @@ namespace LightController.MyForm
 			// 
 			// insertButton
 			// 
-			this.insertButton.Location = new System.Drawing.Point(290, 48);
+			this.insertButton.Location = new System.Drawing.Point(345, 48);
 			this.insertButton.Name = "insertButton";
 			this.insertButton.Size = new System.Drawing.Size(75, 23);
 			this.insertButton.TabIndex = 49;
@@ -1087,7 +1089,7 @@ namespace LightController.MyForm
 			// 
 			// nextStepButton
 			// 
-			this.nextStepButton.Location = new System.Drawing.Point(460, 16);
+			this.nextStepButton.Location = new System.Drawing.Point(515, 16);
 			this.nextStepButton.Name = "nextStepButton";
 			this.nextStepButton.Size = new System.Drawing.Size(75, 23);
 			this.nextStepButton.TabIndex = 49;
@@ -1098,7 +1100,7 @@ namespace LightController.MyForm
 			// 
 			// useMaterialButton
 			// 
-			this.useMaterialButton.Location = new System.Drawing.Point(767, 47);
+			this.useMaterialButton.Location = new System.Drawing.Point(822, 47);
 			this.useMaterialButton.Name = "useMaterialButton";
 			this.useMaterialButton.Size = new System.Drawing.Size(90, 23);
 			this.useMaterialButton.TabIndex = 49;
@@ -1108,7 +1110,7 @@ namespace LightController.MyForm
 			// 
 			// deleteButton
 			// 
-			this.deleteButton.Location = new System.Drawing.Point(460, 48);
+			this.deleteButton.Location = new System.Drawing.Point(515, 48);
 			this.deleteButton.Name = "deleteButton";
 			this.deleteButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteButton.TabIndex = 49;
@@ -1120,7 +1122,7 @@ namespace LightController.MyForm
 			// multiplexButton
 			// 
 			this.multiplexButton.Enabled = false;
-			this.multiplexButton.Location = new System.Drawing.Point(866, 47);
+			this.multiplexButton.Location = new System.Drawing.Point(921, 47);
 			this.multiplexButton.Name = "multiplexButton";
 			this.multiplexButton.Size = new System.Drawing.Size(80, 23);
 			this.multiplexButton.TabIndex = 49;
@@ -1130,7 +1132,7 @@ namespace LightController.MyForm
 			// 
 			// appendButton
 			// 
-			this.appendButton.Location = new System.Drawing.Point(375, 48);
+			this.appendButton.Location = new System.Drawing.Point(430, 48);
 			this.appendButton.Name = "appendButton";
 			this.appendButton.Size = new System.Drawing.Size(75, 23);
 			this.appendButton.TabIndex = 49;

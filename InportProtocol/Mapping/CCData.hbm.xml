@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+      assembly="ImportProtocol" namespace="ImportProtocol.Entity">
+  <class name="CCData"  table="protocol_content">
+      <composite-id name="PK" class="CCData_PK">
+        <!-- PK应该是主类中，主键的字段名 -->
+        <key-property name="CCIndex" column="protocol_id" />
+        <key-property name="Code" column="code" />   
+      </composite-id>
+
+      <property name="Function" column="function_describe" />
+      <property name="Com0Up" column="com_zero_up" />
+      <property name="Com0Down" column="com_zero_down" />
+      <property name="Com1Up" column="com_one_up" />
+      <property name="Com1Down" column="com_one_down" />
+      <property name="InfraredSend" column="Infrared_send" />
+      <property name="InfraredReceive" column="Infrared_receive" />   
+      <property name="PS2Up" column="ps_two_up" />
+      <property name="PS2Down" column="ps_two_down" />
+    
+  </class>
+</hibernate-mapping>

@@ -74,18 +74,18 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 141);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 139);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(346, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(344, 22);
 			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 17;
 			this.statusStrip1.Text = "statusStrip2";
 			// 
 			// myStatusLabel
 			// 
-			this.myStatusLabel.ForeColor = System.Drawing.SystemColors.Window;
+			this.myStatusLabel.ForeColor = System.Drawing.SystemColors.MenuText;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(331, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(298, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -94,11 +94,15 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(346, 163);
+			this.ClientSize = new System.Drawing.Size(344, 161);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.protocolComboBox);
 			this.Controls.Add(this.label18);
 			this.Controls.Add(this.importButton);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(360, 200);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(360, 200);
 			this.Name = "ImportProtocolForm";
 			this.Text = "导入协议到数据库";
 			this.statusStrip1.ResumeLayout(false);

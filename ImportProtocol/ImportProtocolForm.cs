@@ -78,6 +78,9 @@ namespace ImportProtocol
 		/// <param name="e"></param>
 		private void importButton_Click(object sender, EventArgs e)
 		{
+			setNotice("正在导入协议，请稍候...", false);
+			setBusy(true);
+
 			CCEntity ccEntity = new CCEntity();
 			IList<CCData> ccdList = new List<CCData>();
 			int ccIndex;
@@ -162,7 +165,8 @@ namespace ImportProtocol
 				catch (Exception)
 				{
 					ccEntity = null;
-					setNotice( "用户另存的【" + protocolComboBox.Text + "】协议损坏，无法生成CC，请重选协议。",  true);
+					setNotice( "用户另存的【" + protocolComboBox.Text + "】协议损坏，无法生成CC，请重选协议。",  true);					
+					setBusy(true);
 				}
 			}
 
@@ -196,7 +200,8 @@ namespace ImportProtocol
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine(ex);
+					setNotice("导入协议发生异常："+ex.Message, true);
+					setBusy(true);
 				}
 				finally
 				{
@@ -214,12 +219,12 @@ namespace ImportProtocol
 					}
 				}
 			}
-			setNotice(  "已导出协议到数据库：" + protocolName,  true);
+			setNotice(  "已将(" + protocolName + ")导入到数据库。",  true);
+			setBusy(false);
 
 			//	// MARK3 0420 如果选择了一个可以用的cc，则保存到注册表
 			//	Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
 			//	Properties.Settings.Default.Save();
-
 			
 		}
 
@@ -233,9 +238,14 @@ namespace ImportProtocol
 		/// <param name="isMsbShow"></param>
 		private void setNotice( string msg, bool isMsbShow)
 		{
-			myStatusLabel.Text = msg;
+			myStatusLabel.Text = msg;			
 			if (isMsbShow) MessageBox.Show(msg);
-		}		
+		}
+
+		private void setBusy(bool busy) {
+			Enabled = !busy ;
+			Cursor.Current = busy?Cursors.WaitCursor:Cursors.Default;
+		}
 
 		#endregion
 

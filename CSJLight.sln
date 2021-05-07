@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordTools", "RecordTools\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBDConfigTool", "LBDConfigTool\LBDConfigTool.csproj", "{F331A9BC-893E-4567-8636-F30ED702DB5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportProtocol", "InportProtocol\ImportProtocol.csproj", "{48157A6B-208E-4CC3-95D6-AE533F95B1AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportProtocol", "ImportProtocol\ImportProtocol.csproj", "{48157A6B-208E-4CC3-95D6-AE533F95B1AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

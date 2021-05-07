@@ -121,6 +121,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\DBUtils.cs" />
     <Compile Include="Entity\CCData.cs" />
     <Compile Include="Entity\CCData_PK.cs" />
     <Compile Include="Entity\CCEntity.cs" />

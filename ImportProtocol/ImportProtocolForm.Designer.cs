@@ -85,7 +85,7 @@
 			// 
 			this.myStatusLabel.ForeColor = System.Drawing.SystemColors.MenuText;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(298, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(329, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -105,6 +105,7 @@
 			this.MinimumSize = new System.Drawing.Size(360, 200);
 			this.Name = "ImportProtocolForm";
 			this.Text = "导入协议到数据库";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImportProtocolForm_FormClosing);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);

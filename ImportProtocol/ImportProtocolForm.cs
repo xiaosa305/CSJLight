@@ -78,21 +78,20 @@ namespace ImportProtocol
 		/// <param name="e"></param>
 		private void importButton_Click(object sender, EventArgs e)
 		{
+			if (protocolComboBox.SelectedIndex == -1 || protocolComboBox.SelectedIndex == xlsWorkbook.NumberOfSheets)
+			{
+				setNotice("请选择可用协议（不要选择分隔符========）。", true);
+				return;
+			}
+
 			setNotice("正在导入协议，请稍候...", false);
 			setBusy(true);
 
 			CCEntity ccEntity = new CCEntity();
 			IList<CCData> ccdList = new List<CCData>();
 			int ccIndex;
-
 			string protocolName = "";
-
-			if (protocolComboBox.SelectedIndex == -1 || protocolComboBox.SelectedIndex == xlsWorkbook.NumberOfSheets)
-			{
-				setNotice( "请选择可用协议（不要选择分隔符========）。", true);
-				return;
-			}
-
+			
 			// 选中xls中协议
 			if (protocolComboBox.SelectedIndex < xlsWorkbook.NumberOfSheets)
 			{
@@ -169,22 +168,15 @@ namespace ImportProtocol
 					setBusy(true);
 				}
 			}
-
+					   
 			if (ccEntity != null)
-			{
-				// ---- NHibernate初始化(默认会解析hibernate.cfg.xml) ----
-				Configuration conf = new Configuration().Configure();
-
-				// ---- 连接数据库 ----
-				ISessionFactory sessionFactory = null;
-				ISession session = null;
+			{				
+				ISession session = DBUtils.GetDBSession();				
 				ITransaction transaction = null;
+
+				DateTime beforeDT = System.DateTime.Now;
 				try
 				{
-					// 连接数据库的会话工厂
-					sessionFactory = conf.BuildSessionFactory();
-					// 打开一个跟数据库的会话
-					session = sessionFactory.OpenSession();
 					// 开启事务
 					transaction = session.BeginTransaction();
 
@@ -196,28 +188,27 @@ namespace ImportProtocol
 
 					// 提交事务
 					transaction.Commit();
-
 				}
 				catch (Exception ex)
 				{
 					setNotice("导入协议发生异常："+ex.Message, true);
 					setBusy(true);
+					return;
 				}
 				finally
 				{
-					if (transaction != null)
-					{
+					if (transaction != null)	{
 						transaction.Dispose();
 					}
-					if (session != null)
-					{
+					if (session != null) {
 						session.Close();
 					}
-					if (sessionFactory != null)
-					{
-						sessionFactory.Close();
-					}
 				}
+								
+				DateTime afterDT = System.DateTime.Now;
+				TimeSpan ts = afterDT.Subtract(beforeDT);
+				setNotice("写入数据库耗时: " + ts.TotalSeconds.ToString("#0.00") + "s。", true);
+
 			}
 			setNotice(  "已将(" + protocolName + ")导入到数据库。",  true);
 			setBusy(false);
@@ -249,5 +240,9 @@ namespace ImportProtocol
 
 		#endregion
 
+		private void ImportProtocolForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			DBUtils.Close();
+		}
 	}
 }

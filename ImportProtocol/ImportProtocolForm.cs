@@ -72,6 +72,16 @@ namespace ImportProtocol
 		}
 
 		/// <summary>
+		/// 事件：关闭程序时，顺手把SessionFactory关闭
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ImportProtocolForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			DBUtils.CloseFactory();
+		}
+
+		/// <summary>
 		/// 事件：点击《导入协议》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -328,8 +338,7 @@ namespace ImportProtocol
 			setNotice("已将xls内全部协议导入到数据库。", true);
 			setBusy(false);
 		}
-
-
+		
 		#region 通用方法
 
 		/// <summary>
@@ -348,10 +357,8 @@ namespace ImportProtocol
 			Enabled = !busy ;
 			Cursor.Current = busy?Cursors.WaitCursor:Cursors.Default;
 		}
-
+			   		 
 		#endregion
-
-		
 
 		
 	}

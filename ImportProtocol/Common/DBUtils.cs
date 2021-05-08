@@ -25,11 +25,5 @@ namespace ImportProtocol.Common
 			return sessionFactory.OpenSession();
 		}
 
-		public static void Close() {
-			if (sessionFactory != null) {
-				sessionFactory.Close();
-			}
-		}
-
 	}
 }

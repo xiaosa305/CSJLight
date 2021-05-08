@@ -84,7 +84,7 @@ namespace ImportProtocol
 				return;
 			}
 
-			setNotice("正在导入协议，请稍候...", false);
+			setNotice("正在导入("+protocolComboBox.Text+")协议，请稍候...", false);
 			setBusy(true);
 
 			CCEntity ccEntity = new CCEntity();
@@ -127,7 +127,7 @@ namespace ImportProtocol
 						cell = row.GetCell(1);
 						CCData_PK ccdPK = new CCData_PK
 						{
-							CCIndex = protocolComboBox.SelectedIndex + 101,
+							CCIndex = ccIndex,
 							Code = int.Parse( cell.ToString().Trim(), System.Globalization.NumberStyles.HexNumber) 
 						};
 						ccData.PK = ccdPK;
@@ -207,7 +207,7 @@ namespace ImportProtocol
 								
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
-				setNotice("写入数据库耗时: " + ts.TotalSeconds.ToString("#0.00") + "s。", true);
+				Text = "导入协议到数据库(本次耗时" + ts.TotalSeconds.ToString("#0.00") + "s)";
 
 			}
 			setNotice(  "已将(" + protocolName + ")导入到数据库。",  true);
@@ -217,6 +217,116 @@ namespace ImportProtocol
 			//	Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
 			//	Properties.Settings.Default.Save();
 			
+		}
+
+		/// <summary>
+		/// 事件：点击《导入全部》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void importAllButton_Click(object sender, EventArgs e)
+		{
+			setNotice("即将导入全部" + xlsWorkbook.NumberOfSheets + "个协议(xls)，请稍候...", false);
+			setBusy(true);
+			DateTime beforeDT = System.DateTime.Now;
+
+			ISession session = DBUtils.GetDBSession();
+			ITransaction transaction = null;
+			try
+			{
+				transaction = session.BeginTransaction();
+
+				for (int sheetIndex = 0; sheetIndex < xlsWorkbook.NumberOfSheets; sheetIndex++)
+				{
+					setNotice("正在导入协议【" + xlsWorkbook.GetSheetName(sheetIndex) + "】，请稍候...", false);					
+
+					CCEntity ccEntity = new CCEntity();
+					IList<CCData> ccdList = new List<CCData>();
+					int ccIndex = sheetIndex + 101;
+					ccEntity.CCIndex = ccIndex;					
+
+					ISheet sheet = xlsWorkbook.GetSheetAt(sheetIndex);
+					ccEntity.ProtocolName = sheet.SheetName;
+					System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+					// 处理通用数据(com0,com1,ps2)
+					rows.MoveNext();
+					IRow row = (HSSFRow)rows.Current;
+					ICell cell = row.GetCell(0);
+					ccEntity.Com0 = Convert.ToInt32(cell.ToString().Substring(4));
+					rows.MoveNext();
+					row = (HSSFRow)rows.Current;
+					cell = row.GetCell(0);
+					ccEntity.Com1 = Convert.ToInt32(cell.ToString().Substring(4));
+					rows.MoveNext();
+					row = (HSSFRow)rows.Current;
+					cell = row.GetCell(0);
+					ccEntity.PS2 = cell.ToString().Equals("PS2=主") ? 0 : 1;
+					rows.MoveNext();
+
+					//逐一处理每一行的数据				
+					while (rows.MoveNext())
+					{
+						row = (HSSFRow)rows.Current;
+
+						CCData ccData = new CCData();
+						cell = row.GetCell(0);
+						ccData.Function = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(1);
+						CCData_PK ccdPK = new CCData_PK
+						{
+							CCIndex = ccIndex,
+							Code = int.Parse(cell.ToString().Trim(), System.Globalization.NumberStyles.HexNumber)
+						};
+						ccData.PK = ccdPK;
+
+						cell = row.GetCell(2);
+						ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(3);
+						ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(4);
+						ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(5);
+						ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(6);
+						ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(7);
+						ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(8);
+						ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
+						cell = row.GetCell(9);
+						ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
+
+						ccdList.Add(ccData);
+					}
+
+					// 存到数据库
+					session.SaveOrUpdate(ccEntity);
+					for (int ccdIndex = 0; ccdIndex < ccdList.Count; ccdIndex++)
+					{
+						session.SaveOrUpdate(ccdList[ccdIndex]);
+					}
+				}
+
+				transaction.Commit();
+			}
+			catch (Exception ex)
+			{
+				setNotice("导入协议发生异常：" + ex.Message, true);
+				setBusy(true);
+				return;
+			}
+			finally
+			{
+				if (transaction != null) transaction.Dispose();
+				if (session != null) session.Close();
+			}
+
+			DateTime afterDT = System.DateTime.Now;
+			TimeSpan ts = afterDT.Subtract(beforeDT);
+			Text = "导入协议到数据库(全部耗时" + ts.TotalSeconds.ToString("#0.00") + "s)";
+
+			setNotice("已将xls内全部协议导入到数据库。", true);
+			setBusy(false);
 		}
 
 
@@ -229,7 +339,8 @@ namespace ImportProtocol
 		/// <param name="isMsbShow"></param>
 		private void setNotice( string msg, bool isMsbShow)
 		{
-			myStatusLabel.Text = msg;			
+			myStatusLabel.Text = msg;
+			Refresh();
 			if (isMsbShow) MessageBox.Show(msg);
 		}
 
@@ -240,9 +351,8 @@ namespace ImportProtocol
 
 		#endregion
 
-		private void ImportProtocolForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			DBUtils.Close();
-		}
+		
+
+		
 	}
 }

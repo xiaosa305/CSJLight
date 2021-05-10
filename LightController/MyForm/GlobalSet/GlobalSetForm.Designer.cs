@@ -35,8 +35,8 @@ private System.ComponentModel.IContainer components = null;
 		{
 			this.components = new System.ComponentModel.Container();
 			this.dmxGroupBox = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
 			this.globalGroupBox = new System.Windows.Forms.GroupBox();
+			this.ymButton = new System.Windows.Forms.Button();
 			this.globalSaveButton = new System.Windows.Forms.Button();
 			this.eachChangeModeLabel = new System.Windows.Forms.Label();
 			this.eachStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -72,17 +72,14 @@ private System.ComponentModel.IContainer components = null;
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.label21 = new System.Windows.Forms.Label();
 			this.label22 = new System.Windows.Forms.Label();
-			this.label17 = new System.Windows.Forms.Label();
-			this.label18 = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
-			this.label16 = new System.Windows.Forms.Label();
-			this.label19 = new System.Windows.Forms.Label();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.label12 = new System.Windows.Forms.Label();
+			this.label23 = new System.Windows.Forms.Label();
 			this.skNoticeButton = new System.Windows.Forms.Button();
 			this.skSaveButton = new System.Windows.Forms.Button();
-			this.label23 = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
 			this.skFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.skPanelDemo = new System.Windows.Forms.Panel();
 			this.jgLabel = new System.Windows.Forms.Label();
 			this.stLabel = new System.Windows.Forms.Label();
 			this.lkTextBox = new System.Windows.Forms.TextBox();
@@ -90,6 +87,11 @@ private System.ComponentModel.IContainer components = null;
 			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.frameLabel = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label13 = new System.Windows.Forms.Label();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -102,17 +104,18 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
 			this.panel3.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.skFlowLayoutPanel.SuspendLayout();
-			this.panel1.SuspendLayout();
+			this.skPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.groupBox1.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
 			// 
 			this.dmxGroupBox.BackColor = System.Drawing.Color.Transparent;
-			this.dmxGroupBox.Controls.Add(this.button1);
 			this.dmxGroupBox.Controls.Add(this.globalGroupBox);
 			this.dmxGroupBox.Controls.Add(this.zuheGroupBox);
 			this.dmxGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
@@ -120,24 +123,15 @@ private System.ComponentModel.IContainer components = null;
 			this.dmxGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.dmxGroupBox.Name = "dmxGroupBox";
 			this.dmxGroupBox.Padding = new System.Windows.Forms.Padding(8);
-			this.dmxGroupBox.Size = new System.Drawing.Size(968, 267);
+			this.dmxGroupBox.Size = new System.Drawing.Size(1176, 267);
 			this.dmxGroupBox.TabIndex = 0;
 			this.dmxGroupBox.TabStop = false;
 			this.dmxGroupBox.Text = "DMX512设置";
 			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(898, 20);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(63, 52);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "摇麦设置";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.ymButton_Click);
-			// 
 			// globalGroupBox
 			// 
 			this.globalGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.globalGroupBox.Controls.Add(this.ymButton);
 			this.globalGroupBox.Controls.Add(this.globalSaveButton);
 			this.globalGroupBox.Controls.Add(this.eachChangeModeLabel);
 			this.globalGroupBox.Controls.Add(this.eachStepTimeNumericUpDown);
@@ -154,6 +148,17 @@ private System.ComponentModel.IContainer components = null;
 			this.globalGroupBox.Size = new System.Drawing.Size(266, 241);
 			this.globalGroupBox.TabIndex = 0;
 			this.globalGroupBox.TabStop = false;
+			// 
+			// ymButton
+			// 
+			this.ymButton.Location = new System.Drawing.Point(23, 187);
+			this.ymButton.Name = "ymButton";
+			this.ymButton.Size = new System.Drawing.Size(84, 37);
+			this.ymButton.TabIndex = 4;
+			this.ymButton.Text = "摇麦设置";
+			this.ymButton.UseVisualStyleBackColor = true;
+			this.ymButton.Visible = false;
+			this.ymButton.Click += new System.EventHandler(this.ymButton_Click);
 			// 
 			// globalSaveButton
 			// 
@@ -292,7 +297,7 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheGroupBox.Name = "zuheGroupBox";
 			this.zuheGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.zuheGroupBox.Size = new System.Drawing.Size(600, 241);
+			this.zuheGroupBox.Size = new System.Drawing.Size(884, 241);
 			this.zuheGroupBox.TabIndex = 1;
 			this.zuheGroupBox.TabStop = false;
 			this.zuheGroupBox.Text = "多场景组合播放设置";
@@ -300,7 +305,7 @@ private System.ComponentModel.IContainer components = null;
 			// mFrameSaveButton
 			// 
 			this.mFrameSaveButton.BackColor = System.Drawing.Color.Gainsboro;
-			this.mFrameSaveButton.Location = new System.Drawing.Point(517, 14);
+			this.mFrameSaveButton.Location = new System.Drawing.Point(806, 18);
 			this.mFrameSaveButton.Name = "mFrameSaveButton";
 			this.mFrameSaveButton.Size = new System.Drawing.Size(70, 37);
 			this.mFrameSaveButton.TabIndex = 3;
@@ -315,14 +320,14 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheFrameComboBox.Location = new System.Drawing.Point(13, 26);
 			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
-			this.zuheFrameComboBox.Size = new System.Drawing.Size(92, 20);
+			this.zuheFrameComboBox.Size = new System.Drawing.Size(158, 20);
 			this.zuheFrameComboBox.TabIndex = 2;
 			this.zuheFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.zuheFrameComboBox_SelectedIndexChanged);
 			// 
 			// zuheCheckBox
 			// 
 			this.zuheCheckBox.AutoSize = true;
-			this.zuheCheckBox.Location = new System.Drawing.Point(141, 29);
+			this.zuheCheckBox.Location = new System.Drawing.Point(217, 28);
 			this.zuheCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheCheckBox.Name = "zuheCheckBox";
 			this.zuheCheckBox.Size = new System.Drawing.Size(108, 16);
@@ -355,7 +360,7 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheEnableGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheEnableGroupBox.Name = "zuheEnableGroupBox";
 			this.zuheEnableGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.zuheEnableGroupBox.Size = new System.Drawing.Size(596, 174);
+			this.zuheEnableGroupBox.Size = new System.Drawing.Size(880, 174);
 			this.zuheEnableGroupBox.TabIndex = 0;
 			this.zuheEnableGroupBox.TabStop = false;
 			this.zuheEnableGroupBox.Text = "播放设置";
@@ -386,7 +391,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame4numericUpDown
 			// 
-			this.frame4numericUpDown.Location = new System.Drawing.Point(504, 104);
+			this.frame4numericUpDown.Location = new System.Drawing.Point(714, 104);
 			this.frame4numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -400,7 +405,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame3numericUpDown
 			// 
-			this.frame3numericUpDown.Location = new System.Drawing.Point(406, 104);
+			this.frame3numericUpDown.Location = new System.Drawing.Point(546, 104);
 			this.frame3numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -414,7 +419,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame2numericUpDown
 			// 
-			this.frame2numericUpDown.Location = new System.Drawing.Point(308, 104);
+			this.frame2numericUpDown.Location = new System.Drawing.Point(378, 104);
 			this.frame2numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2numericUpDown.Maximum = new decimal(new int[] {
             3600,
@@ -430,30 +435,30 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.frame4ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame4ComboBox.FormattingEnabled = true;
-			this.frame4ComboBox.Location = new System.Drawing.Point(504, 66);
+			this.frame4ComboBox.Location = new System.Drawing.Point(714, 66);
 			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4ComboBox.Name = "frame4ComboBox";
-			this.frame4ComboBox.Size = new System.Drawing.Size(75, 20);
+			this.frame4ComboBox.Size = new System.Drawing.Size(158, 20);
 			this.frame4ComboBox.TabIndex = 3;
 			// 
 			// frame3ComboBox
 			// 
 			this.frame3ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame3ComboBox.FormattingEnabled = true;
-			this.frame3ComboBox.Location = new System.Drawing.Point(406, 66);
+			this.frame3ComboBox.Location = new System.Drawing.Point(546, 66);
 			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3ComboBox.Name = "frame3ComboBox";
-			this.frame3ComboBox.Size = new System.Drawing.Size(75, 20);
+			this.frame3ComboBox.Size = new System.Drawing.Size(158, 20);
 			this.frame3ComboBox.TabIndex = 3;
 			// 
 			// frame2ComboBox
 			// 
 			this.frame2ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.frame2ComboBox.FormattingEnabled = true;
-			this.frame2ComboBox.Location = new System.Drawing.Point(308, 66);
+			this.frame2ComboBox.Location = new System.Drawing.Point(378, 66);
 			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2ComboBox.Name = "frame2ComboBox";
-			this.frame2ComboBox.Size = new System.Drawing.Size(75, 20);
+			this.frame2ComboBox.Size = new System.Drawing.Size(158, 20);
 			this.frame2ComboBox.TabIndex = 3;
 			// 
 			// frame1ComboBox
@@ -463,7 +468,7 @@ private System.ComponentModel.IContainer components = null;
 			this.frame1ComboBox.Location = new System.Drawing.Point(210, 66);
 			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1ComboBox.Name = "frame1ComboBox";
-			this.frame1ComboBox.Size = new System.Drawing.Size(75, 20);
+			this.frame1ComboBox.Size = new System.Drawing.Size(158, 20);
 			this.frame1ComboBox.TabIndex = 3;
 			// 
 			// label9
@@ -479,7 +484,7 @@ private System.ComponentModel.IContainer components = null;
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(504, 37);
+			this.label7.Location = new System.Drawing.Point(714, 37);
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(59, 12);
@@ -489,7 +494,7 @@ private System.ComponentModel.IContainer components = null;
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(406, 37);
+			this.label6.Location = new System.Drawing.Point(546, 37);
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(59, 12);
@@ -499,7 +504,7 @@ private System.ComponentModel.IContainer components = null;
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(308, 37);
+			this.label5.Location = new System.Drawing.Point(378, 37);
 			this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(59, 12);
@@ -543,7 +548,7 @@ private System.ComponentModel.IContainer components = null;
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(308, 26);
+			this.label3.Location = new System.Drawing.Point(384, 30);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(77, 12);
@@ -553,7 +558,7 @@ private System.ComponentModel.IContainer components = null;
 			// circleTimeNumericUpDown
 			// 
 			this.circleTimeNumericUpDown.Enabled = false;
-			this.circleTimeNumericUpDown.Location = new System.Drawing.Point(385, 23);
+			this.circleTimeNumericUpDown.Location = new System.Drawing.Point(461, 26);
 			this.circleTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.circleTimeNumericUpDown.Maximum = new decimal(new int[] {
             9999,
@@ -573,7 +578,7 @@ private System.ComponentModel.IContainer components = null;
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(101, 28);
+			this.label21.Location = new System.Drawing.Point(186, 20);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(41, 12);
 			this.label21.TabIndex = 0;
@@ -584,7 +589,7 @@ private System.ComponentModel.IContainer components = null;
 			// label22
 			// 
 			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(188, 28);
+			this.label22.Location = new System.Drawing.Point(269, 20);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(53, 12);
 			this.label22.TabIndex = 0;
@@ -592,68 +597,51 @@ private System.ComponentModel.IContainer components = null;
 			this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.myToolTip.SetToolTip(this.label22, "叠加后间隔时间");
 			// 
-			// label17
-			// 
-			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(656, 28);
-			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(53, 12);
-			this.label17.TabIndex = 9;
-			this.label17.Text = "间隔时间";
-			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.myToolTip.SetToolTip(this.label17, "叠加后间隔时间");
-			// 
-			// label18
-			// 
-			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(569, 28);
-			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(41, 12);
-			this.label18.TabIndex = 10;
-			this.label18.Text = "步时间";
-			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.myToolTip.SetToolTip(this.label18, "当前场景音频模式的统一步时间");
-			// 
 			// panel3
 			// 
 			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel3.Controls.Add(this.label16);
-			this.panel3.Controls.Add(this.label17);
-			this.panel3.Controls.Add(this.label18);
-			this.panel3.Controls.Add(this.label19);
+			this.panel3.Controls.Add(this.panel1);
+			this.panel3.Controls.Add(this.panel2);
 			this.panel3.Controls.Add(this.skNoticeButton);
 			this.panel3.Controls.Add(this.skSaveButton);
-			this.panel3.Controls.Add(this.label23);
-			this.panel3.Controls.Add(this.label22);
-			this.panel3.Controls.Add(this.label21);
-			this.panel3.Controls.Add(this.label12);
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel3.Location = new System.Drawing.Point(3, 17);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(962, 58);
+			this.panel3.Size = new System.Drawing.Size(1170, 58);
 			this.panel3.TabIndex = 0;
 			// 
-			// label16
+			// panel2
 			// 
-			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(751, 28);
-			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(53, 12);
-			this.label16.TabIndex = 8;
-			this.label16.Text = "音频链表";
+			this.panel2.Controls.Add(this.label12);
+			this.panel2.Controls.Add(this.label21);
+			this.panel2.Controls.Add(this.label22);
+			this.panel2.Controls.Add(this.label23);
+			this.panel2.Location = new System.Drawing.Point(1, 3);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(454, 50);
+			this.panel2.TabIndex = 13;
 			// 
-			// label19
+			// label12
 			// 
-			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(476, 28);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(41, 12);
-			this.label19.TabIndex = 11;
-			this.label19.Text = "场景名";
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(12, 24);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(41, 12);
+			this.label12.TabIndex = 0;
+			this.label12.Text = "场景名";
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.Location = new System.Drawing.Point(376, 21);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(53, 12);
+			this.label23.TabIndex = 0;
+			this.label23.Text = "音频链表";
 			// 
 			// skNoticeButton
 			// 
-			this.skNoticeButton.Location = new System.Drawing.Point(819, 6);
+			this.skNoticeButton.Location = new System.Drawing.Point(1030, 9);
 			this.skNoticeButton.Name = "skNoticeButton";
 			this.skNoticeButton.Size = new System.Drawing.Size(52, 37);
 			this.skNoticeButton.TabIndex = 6;
@@ -663,7 +651,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// skSaveButton
 			// 
-			this.skSaveButton.Location = new System.Drawing.Point(877, 6);
+			this.skSaveButton.Location = new System.Drawing.Point(1088, 9);
 			this.skSaveButton.Name = "skSaveButton";
 			this.skSaveButton.Size = new System.Drawing.Size(75, 37);
 			this.skSaveButton.TabIndex = 7;
@@ -671,54 +659,36 @@ private System.ComponentModel.IContainer components = null;
 			this.skSaveButton.UseVisualStyleBackColor = true;
 			this.skSaveButton.Click += new System.EventHandler(this.skSaveButton_Click);
 			// 
-			// label23
-			// 
-			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(282, 28);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(53, 12);
-			this.label23.TabIndex = 0;
-			this.label23.Text = "音频链表";
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(8, 28);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(41, 12);
-			this.label12.TabIndex = 0;
-			this.label12.Text = "场景名";
-			// 
 			// skFlowLayoutPanel
 			// 
 			this.skFlowLayoutPanel.AutoScroll = true;
 			this.skFlowLayoutPanel.BackColor = System.Drawing.Color.AliceBlue;
-			this.skFlowLayoutPanel.Controls.Add(this.panel1);
+			this.skFlowLayoutPanel.Controls.Add(this.skPanelDemo);
 			this.skFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.skFlowLayoutPanel.Location = new System.Drawing.Point(3, 75);
 			this.skFlowLayoutPanel.Name = "skFlowLayoutPanel";
-			this.skFlowLayoutPanel.Size = new System.Drawing.Size(962, 266);
+			this.skFlowLayoutPanel.Size = new System.Drawing.Size(1170, 266);
 			this.skFlowLayoutPanel.TabIndex = 6;
 			// 
-			// panel1
+			// skPanelDemo
 			// 
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel1.Controls.Add(this.jgLabel);
-			this.panel1.Controls.Add(this.stLabel);
-			this.panel1.Controls.Add(this.lkTextBox);
-			this.panel1.Controls.Add(this.jgNumericUpDown);
-			this.panel1.Controls.Add(this.stNumericUpDown);
-			this.panel1.Controls.Add(this.frameLabel);
-			this.panel1.Location = new System.Drawing.Point(3, 3);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(460, 33);
-			this.panel1.TabIndex = 12;
-			this.panel1.Visible = false;
+			this.skPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.skPanelDemo.Controls.Add(this.jgLabel);
+			this.skPanelDemo.Controls.Add(this.stLabel);
+			this.skPanelDemo.Controls.Add(this.lkTextBox);
+			this.skPanelDemo.Controls.Add(this.jgNumericUpDown);
+			this.skPanelDemo.Controls.Add(this.stNumericUpDown);
+			this.skPanelDemo.Controls.Add(this.frameLabel);
+			this.skPanelDemo.Location = new System.Drawing.Point(3, 3);
+			this.skPanelDemo.Name = "skPanelDemo";
+			this.skPanelDemo.Size = new System.Drawing.Size(569, 33);
+			this.skPanelDemo.TabIndex = 12;
+			this.skPanelDemo.Visible = false;
 			// 
 			// jgLabel
 			// 
 			this.jgLabel.AutoSize = true;
-			this.jgLabel.Location = new System.Drawing.Point(250, 8);
+			this.jgLabel.Location = new System.Drawing.Point(341, 7);
 			this.jgLabel.Name = "jgLabel";
 			this.jgLabel.Size = new System.Drawing.Size(17, 12);
 			this.jgLabel.TabIndex = 12;
@@ -727,7 +697,7 @@ private System.ComponentModel.IContainer components = null;
 			// stLabel
 			// 
 			this.stLabel.AutoSize = true;
-			this.stLabel.Location = new System.Drawing.Point(151, 8);
+			this.stLabel.Location = new System.Drawing.Point(236, 7);
 			this.stLabel.Name = "stLabel";
 			this.stLabel.Size = new System.Drawing.Size(11, 12);
 			this.stLabel.TabIndex = 11;
@@ -737,7 +707,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.lkTextBox.BackColor = System.Drawing.Color.White;
 			this.lkTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lkTextBox.Location = new System.Drawing.Point(279, 3);
+			this.lkTextBox.Location = new System.Drawing.Point(374, 5);
 			this.lkTextBox.MaxLength = 20;
 			this.lkTextBox.Multiline = true;
 			this.lkTextBox.Name = "lkTextBox";
@@ -749,7 +719,7 @@ private System.ComponentModel.IContainer components = null;
 			// jgNumericUpDown
 			// 
 			this.jgNumericUpDown.Font = new System.Drawing.Font("宋体", 10F);
-			this.jgNumericUpDown.Location = new System.Drawing.Point(184, 4);
+			this.jgNumericUpDown.Location = new System.Drawing.Point(269, 5);
 			this.jgNumericUpDown.Maximum = new decimal(new int[] {
             600000,
             0,
@@ -773,7 +743,7 @@ private System.ComponentModel.IContainer components = null;
             0,
             0,
             131072});
-			this.stNumericUpDown.Location = new System.Drawing.Point(100, 4);
+			this.stNumericUpDown.Location = new System.Drawing.Point(182, 4);
 			this.stNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -805,17 +775,66 @@ private System.ComponentModel.IContainer components = null;
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.groupBox1.Location = new System.Drawing.Point(4, 277);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(968, 344);
+			this.groupBox1.Size = new System.Drawing.Size(1176, 344);
 			this.groupBox1.TabIndex = 7;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "音频场景设置";
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.label8);
+			this.panel1.Controls.Add(this.label10);
+			this.panel1.Controls.Add(this.label11);
+			this.panel1.Controls.Add(this.label13);
+			this.panel1.Location = new System.Drawing.Point(570, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(454, 50);
+			this.panel1.TabIndex = 13;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(12, 24);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(41, 12);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "场景名";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(186, 20);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(41, 12);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "步时间";
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(269, 20);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(53, 12);
+			this.label11.TabIndex = 0;
+			this.label11.Text = "间隔时间";
+			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(376, 21);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(53, 12);
+			this.label13.TabIndex = 0;
+			this.label13.Text = "音频链表";
 			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(976, 625);
+			this.ClientSize = new System.Drawing.Size(1184, 625);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.dmxGroupBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -843,13 +862,16 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
 			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
 			this.skFlowLayoutPanel.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
+			this.skPanelDemo.ResumeLayout(false);
+			this.skPanelDemo.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
 			this.groupBox1.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -909,17 +931,19 @@ private System.ComponentModel.IContainer components = null;
 		private GroupBox groupBox1;
 		private Button skNoticeButton;
 		private Button skSaveButton;
-		private Panel panel1;
+		private Panel skPanelDemo;
 		private Label jgLabel;
 		private Label stLabel;
 		private TextBox lkTextBox;
 		private NumericUpDown jgNumericUpDown;
 		private NumericUpDown stNumericUpDown;
 		private Label frameLabel;
-		private Label label16;
-		private Label label17;
-		private Label label18;
-		private Label label19;
-		private Button button1;
+		private Button ymButton;
+		private Panel panel2;
+		private Panel panel1;
+		private Label label8;
+		private Label label10;
+		private Label label11;
+		private Label label13;
 	}
 }

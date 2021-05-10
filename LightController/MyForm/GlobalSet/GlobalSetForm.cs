@@ -195,9 +195,9 @@ namespace LightController.MyForm
 		{
 			skPanels[frameIndex] = new Panel
 			{
-				Location = new System.Drawing.Point(3, 42),				
-				Size = new System.Drawing.Size(460, 33),
-				BorderStyle = BorderStyle.FixedSingle
+				Location = skPanelDemo.Location,	
+				Size = skPanelDemo.Size,
+				BorderStyle = skPanelDemo.BorderStyle
 			};
 
 			skLabels[frameIndex] = new Label

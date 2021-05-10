@@ -82,6 +82,16 @@ namespace LBDConfigTool
 				Properties.Settings.Default.Save();
 			}
 
+			if (File.Exists(Properties.Settings.Default.zbinPath))
+			{
+				zbinPathLabel.Text = Properties.Settings.Default.zbinPath;
+			}
+			else
+			{
+				Properties.Settings.Default.zbinPath = null;
+				Properties.Settings.Default.Save();
+			}
+
 			dirPath = Properties.Settings.Default.recordPath;
 			setRecordPathLabel();
 

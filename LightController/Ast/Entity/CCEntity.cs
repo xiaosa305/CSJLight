@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -197,6 +198,11 @@ namespace LightController.Entity
                     }
                 }
             }
+            //using (FileStream stream = new FileStream(@"D://protocol_test.bin", FileMode.OpenOrCreate))
+            //{
+            //    stream.Write(dataBuff.ToArray(), 0, dataBuff.Count);
+            //    Console.WriteLine("生成生工");
+            //}
             return dataBuff.ToArray();
         }
 	}

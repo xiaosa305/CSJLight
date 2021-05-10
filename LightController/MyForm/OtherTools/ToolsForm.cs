@@ -771,7 +771,7 @@ namespace LightController.MyForm.OtherTools
 				{
 					for (int relayIndex = 6; relayIndex < 12; relayIndex++)
 					{
-						lcEntity.SceneData[scene, lcEntity.FanChannel] = false;
+						lcEntity.SceneData[scene, relayIndex] = false;
 					}
 				}
 			}

@@ -130,6 +130,7 @@ namespace LightController.MyForm.HardwareSet
 				gatewayTextBox.Text = ch.GateWay;
 				macTextBox.Text = ch.Mac;
 				macCheckBox.Checked = macTextBox.Text.Trim().Equals("00-00-00-00-00-00");
+				protocolTextBox.Text = ch.DomainName; // 把目前没用到的【域名】当成协议来用
 			}
 			catch (Exception ex)
 			{
@@ -160,6 +161,7 @@ namespace LightController.MyForm.HardwareSet
 			ch.NetMask = netmaskTextBox.Text.Trim();
 			ch.GateWay = gatewayTextBox.Text.Trim();
 			ch.Mac = macTextBox.Text.Trim();
+			ch.DomainName = protocolTextBox.Text.Trim(); // 把没用到的【域名】当成协议来用；
 
 			mainForm.MyConnect.PutParam(ch , PutParamCompleted, PutParamError);
 		}
@@ -501,6 +503,23 @@ namespace LightController.MyForm.HardwareSet
 				if ( ++ clickTimes == 3) {
 					new SpecialForm(this,ch).ShowDialog();
 					clickTimes = 0;
+				}
+			}
+		}
+
+		private int clickTimes2 = 0;
+		/// <summary>
+		/// 事件：《双击》设备名右边空白处3次，可显示《协议名》相关的控件；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hidePanel_DoubleClick(object sender, EventArgs e)
+		{
+			if (ch != null)
+			{
+				if (++clickTimes2 == 3)
+				{
+					hidePanel.Hide();
 				}
 			}
 		}

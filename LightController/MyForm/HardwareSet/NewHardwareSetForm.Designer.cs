@@ -44,6 +44,9 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.hardwarePage = new System.Windows.Forms.TabPage();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.hidePanel = new System.Windows.Forms.Panel();
+			this.protocolTextBox = new System.Windows.Forms.TextBox();
+			this.protocolLabel = new System.Windows.Forms.Label();
 			this.firmwarePage = new System.Windows.Forms.TabPage();
 			this.fileOpenButton = new System.Windows.Forms.Button();
 			this.pathLabel = new System.Windows.Forms.Label();
@@ -76,7 +79,7 @@
 			// 
 			// deviceNameTextBox
 			// 
-			this.deviceNameTextBox.Location = new System.Drawing.Point(116, 32);
+			this.deviceNameTextBox.Location = new System.Drawing.Point(116, 31);
 			this.deviceNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceNameTextBox.MaxLength = 16;
 			this.deviceNameTextBox.Name = "deviceNameTextBox";
@@ -237,11 +240,40 @@
 			this.panel1.Controls.Add(this.label6);
 			this.panel1.Controls.Add(this.netmaskTextBox);
 			this.panel1.Controls.Add(this.label7);
+			this.panel1.Controls.Add(this.hidePanel);
+			this.panel1.Controls.Add(this.protocolLabel);
+			this.panel1.Controls.Add(this.protocolTextBox);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(3, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(520, 186);
 			this.panel1.TabIndex = 4;
+			// 
+			// hidePanel
+			// 
+			this.hidePanel.Location = new System.Drawing.Point(286, 24);
+			this.hidePanel.Name = "hidePanel";
+			this.hidePanel.Size = new System.Drawing.Size(205, 39);
+			this.hidePanel.TabIndex = 18;
+			this.hidePanel.DoubleClick += new System.EventHandler(this.hidePanel_DoubleClick);
+			// 
+			// protocolTextBox
+			// 
+			this.protocolTextBox.Location = new System.Drawing.Point(371, 30);
+			this.protocolTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this.protocolTextBox.Name = "protocolTextBox";
+			this.protocolTextBox.Size = new System.Drawing.Size(109, 21);
+			this.protocolTextBox.TabIndex = 14;
+			// 
+			// protocolLabel
+			// 
+			this.protocolLabel.AutoSize = true;
+			this.protocolLabel.Location = new System.Drawing.Point(292, 33);
+			this.protocolLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.protocolLabel.Name = "protocolLabel";
+			this.protocolLabel.Size = new System.Drawing.Size(41, 12);
+			this.protocolLabel.TabIndex = 8;
+			this.protocolLabel.Text = "协议：";
 			// 
 			// firmwarePage
 			// 
@@ -421,5 +453,8 @@
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.TabPage debugPage;
 		private System.Windows.Forms.Button restartButton;
+		private System.Windows.Forms.TextBox protocolTextBox;
+		private System.Windows.Forms.Label protocolLabel;
+		private System.Windows.Forms.Panel hidePanel;
 	}
 }

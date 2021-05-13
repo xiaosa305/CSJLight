@@ -22,7 +22,7 @@ namespace LightController.PeripheralDevice
     public abstract class BaseCommunication
     {
         private const string START_TASK_ERROR_1 = "当前任务正在执行中，请稍后再进行操作";
-        private const string START_TASK_ERROR_2 = "请先断开网络连接，再重新连接设备";
+        private const string START_TASK_ERROR_2 = "请重新连接设备";
         protected const int DEFAULT_PACKSIZE = 512;
         protected const double TIMEOUT = 2000;//超时等待时长
         protected const int UDPADDR = 255;

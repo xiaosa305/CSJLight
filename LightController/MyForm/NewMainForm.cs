@@ -250,7 +250,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：每次窗口激活后，都StartDebug一次
+		/// 事件：每次窗口激活后，都StartPreview一次
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1309,12 +1309,11 @@ namespace LightController.MyForm
 			backStepButton.Enabled = totalStep > 1;
 			nextStepButton.Enabled = totalStep > 1;
 
-			// 3. 设定《复制(多)步》是否可用
+			//3 设定《复制|粘贴步、保存素材》、《多步复用》等是否可用
 			copyStepButton.Enabled = currentStep > 0;
 			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 			
 			saveMaterialButton.Enabled = currentStep > 0;
-
 			multiplexButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用						
@@ -1330,8 +1329,6 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 
-			// 6. 《内置动作》是否可用：因为需要一直有效，所以只能在点击时进行判断了
-			//actionButton.Enabled = CurrentMode == 0;
 		}
 
 		#endregion
@@ -1898,8 +1895,6 @@ namespace LightController.MyForm
 		private void hardwareSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			hardwareSetButtonClick();
-		}
-
-	
+		}			
 	}
 }

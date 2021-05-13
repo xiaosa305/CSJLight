@@ -1412,7 +1412,7 @@ namespace LightController.MyForm
 			backStepSkinButton.Enabled = totalStep > 1;
 			nextStepSkinButton.Enabled = totalStep > 1;
 
-			//3 设定《复制(多)步、保存素材》、《多步复用》等是否可用
+			//3 设定《复制|粘贴步、保存素材》、《多步复用》等是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
@@ -1431,9 +1431,6 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
-
-			//6.内置动作是否可用：因为需要一直有效，所以只能在点击时进行判断了
-			//actionButton.Enabled = CurrentMode == 0;
 
 		}
 

@@ -159,7 +159,7 @@ namespace LightController.MyForm.MainFormAst
 				deviceComboBox.Enabled = true;
 				deviceRefreshButton.Enabled = true;
 				deviceConnectButton.Text = "连接设备";
-				setNotice("已断开连接。", false, true);
+				setNotice("已断开连接。", false, true);				
 			}
 			else
 			{
@@ -169,7 +169,7 @@ namespace LightController.MyForm.MainFormAst
 					setNotice("设备连接成功。", false, true);
 					deviceComboBox.Enabled = false;
 					deviceRefreshButton.Enabled = false;
-					deviceConnectButton.Text = "断开连接";
+					deviceConnectButton.Text = "断开连接";				
 				}
 				else
 				{

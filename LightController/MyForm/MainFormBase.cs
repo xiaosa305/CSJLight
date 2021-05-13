@@ -188,7 +188,7 @@ namespace LightController.MyForm
 			IsConnected = connected;
 			IsPreviewing = previewing;
 			ConnectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName + " ]" : "[ 设备未连接 ]";
-			Text = SoftwareName + projectStr + ConnectStr;
+			Text = SoftwareName + projectStr + ConnectStr;			
 		} //设置《连接按钮组》是否可用	
 
 		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
@@ -3705,7 +3705,7 @@ namespace LightController.MyForm
 			MyConnect = new NetworkConnect();
 			if (MyConnect.Connect(networkDeviceInfo))
 			{
-				EnableConnectedButtons(true, IsPreviewing);
+				EnableConnectedButtons(true, IsPreviewing);				
 				return true;
 			}
 			else
@@ -3721,15 +3721,16 @@ namespace LightController.MyForm
 		public void DisConnect()
 		{
 			MyConnect.DisConnect();
-			MyConnect = null;
+			MyConnect = null;			
 			EnableConnectedButtons(false, IsPreviewing);
+			SetNotice("设备已断开连接。", false, false);
 		}
 
 		/// <summary>
 		///  辅助方法：启动调试，基本只有在界面激活时用得到；
 		/// </summary>
 		protected  void startPreview()
-		{
+		{			
 			if (IsConnected) {
 				SleepBetweenSend(1);
 				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);
@@ -3760,8 +3761,7 @@ namespace LightController.MyForm
 			LastSendTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;
 			Console.WriteLine("SleepBetweenSend : " + DateTime.Now);
 		}
-
-
+		
 		/// <summary>
 		/// 辅助方法：单(多)灯单步发送DMX512帧数据
 		/// </summary>
@@ -3832,12 +3832,8 @@ namespace LightController.MyForm
 
 			playTools.OLOSView(stepBytes);
 			
-			SetNotice(
-				LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + 
-				LanguageHelper.TranslateWord("，当前步：")+currentStep +
-				tdValueStr 				
-				,false,
-				false);
+			SetNotice(LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + LanguageHelper.TranslateWord("，当前步：") + currentStep +	tdValueStr, false,	false);			
+			
 		}
 		
 		/// <summary>
@@ -4332,8 +4328,8 @@ namespace LightController.MyForm
 			Invoke((EventHandler)delegate {
 				EnableConnectedButtons(true,false);	
 			});
-		}	
-		
+		}
+				
 		/// <summary>
 		/// 辅助回调方法：启用调试失败
 		/// </summary>
@@ -4341,11 +4337,11 @@ namespace LightController.MyForm
 		public void StartPreviewError(string msg)
 		{
 			Invoke((EventHandler)delegate	{
-
-				Console.WriteLine( " DiCKOV : "  + msg );
+				DisConnect();
+				// 这里先后顺序十分重要：
+				// 1. 要在DisConnect()后，弹出提示 ！ 若提示在前，会重新触发Activated-》StartPreview()方法，就会造成跑两次不同msg的StartPreviewError方法！
+				// 2.要在ConnForm.ShowDialog()前，弹出提示：否则会出现牛头不对马嘴的情况：即可能都已经重连了再弹出断连的提示！
 				SetNotice(msg, true, true);
-
-				MyConnect.DisConnect();	
 				ConnForm.ShowDialog();
 			});
 		}

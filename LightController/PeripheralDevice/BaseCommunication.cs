@@ -22,7 +22,7 @@ namespace LightController.PeripheralDevice
     public abstract class BaseCommunication
     {
         private const string START_TASK_ERROR_1 = "当前任务正在执行中，请稍后再进行操作";
-        private const string START_TASK_ERROR_2 = "请重新连接设备";
+        private const string START_TASK_ERROR_2 = "设备已断开连接，请重新连接设备";
         protected const int DEFAULT_PACKSIZE = 512;
         protected const double TIMEOUT = 2000;//超时等待时长
         protected const int UDPADDR = 255;
@@ -139,7 +139,7 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = true;
                 this.IsSending = false;
                 LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
-                this.CommandFailed("通信超时，请重新连接设备");
+                this.CommandFailed("通信超时，设备未响应，请重新连接设备");
                 this.CloseTransactionTimer();
             }
         }

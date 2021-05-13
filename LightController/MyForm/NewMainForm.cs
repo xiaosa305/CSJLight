@@ -8,7 +8,6 @@ using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using LightEditor.Ast;
-using OtherTools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -371,36 +370,6 @@ namespace LightController.MyForm
 		private void lightLibraryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			openLightEditor();
-		}
-
-		/// <summary>
-		/// 事件：点击《硬件配置 - 打开配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void hardwareSetOpenToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			new HardwareSetChooseForm(this).ShowDialog();
-		}
-
-		/// <summary>
-		/// 事件：点击《硬件配置 - 新建配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void hardwareSetNewToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			new HardwareSetForm(this, null, null).ShowDialog();
-		}
-
-		/// <summary>
-		/// 事件：点击《硬件配置 - 硬件升级》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void hardwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			firmwareButtonClick();
 		}
 
 		/// <summary>
@@ -1165,89 +1134,51 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void insertAfterButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				insertStepClick( false);
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				if (getCurrentStep() == 0) {
-					insertStepClick(false);
-					return;
-				}
-				insertStepClick( true );
-			}
+			InsertStepClick(e.Button);
 		}
-		
+
 		/// <summary>
-		/// 事件：点击《追加步》(空方法)
+		/// 事件：点击《追加步》(空方法方便定位到appendStepButton_MouseDown)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void addStepButton_Click(object sender, EventArgs e) {  }
+		private void appendStepButton_Click(object sender, EventArgs e) {  }
 
 		/// <summary>
 		///  事件：鼠标左|右键按下《追加步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void addStepButton_MouseDown(object sender, MouseEventArgs e)
+		private void appendStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				addStepClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				addSomeStepClick();
-			}
+			appendStepClick(e.Button);
 		}
 
 		/// <summary>
-		/// 
+		///  事件：空方法，作用为方便查找deleteStepButton_MouseDown
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deleteStepButton_Click(object sender, EventArgs e){	}
 
 		/// <summary>
-		/// 事件：鼠标（左|右键）按下《删除步》
-		///  1.获取当前步，当前步对应的stepIndex
-		///  2.通过stepIndex，DeleteStep(index);
-		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
+		/// 事件：鼠标（左|右键）按下《删除步》	
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deleteStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				deleteStepClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				deleteSomeStepClick();
-			}
+			deleteStepClick(e.Button);			
 		}
 		
 		/// <summary>
 		/// 事件：点击《复制步》
-		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
-		/// 2.若复制成功，则《粘贴步》按钮可用
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void copyStepButton_Click(object sender, EventArgs e)
 		{
-			if (getCurrentStepWrapper() == null)
-			{
-				MessageBox.Show("当前步数据为空，无法复制");
-			}
-			else
-			{
-				tempStep = getCurrentStepWrapper();
-				pasteStepButton.Enabled = true;
-			}
+			copyStepClick();
 		}
 		
 		/// <summary>

@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm.Multiplex
 {
-	public partial class AddStepsForm : Form
+	public partial class AppendStepsForm : Form
 	{
 		private MainFormBase mainForm;
 
-		public AddStepsForm(MainFormBase mainForm , int retainStep)
+		public AppendStepsForm(MainFormBase mainForm , int retainStep)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

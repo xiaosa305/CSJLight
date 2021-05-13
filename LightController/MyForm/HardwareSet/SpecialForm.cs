@@ -14,10 +14,10 @@ namespace LightController.MyForm
 {
 	public partial class SpecialForm : Form
 	{
-		private NewHardwareSetForm hsForm;
+		private HardwareSetForm hsForm;
 		private string password = "TRANSJOY";
 
-		public SpecialForm(NewHardwareSetForm hsForm , CSJ_Hardware ch)
+		public SpecialForm(HardwareSetForm hsForm , CSJ_Hardware ch)
 		{			
 			InitializeComponent() ;
 
@@ -83,7 +83,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			hsForm.SetCH(aiCheckBox.Checked ? 1 : 0, domainServerTextBox.Text.Trim(), remotePort); 				
+			hsForm.SetHiddenCH(aiCheckBox.Checked ? 1 : 0, domainServerTextBox.Text.Trim(), remotePort); 				
 			Dispose();		
 								
 		}

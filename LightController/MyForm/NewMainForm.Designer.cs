@@ -1138,8 +1138,8 @@ namespace LightController.MyForm
 			this.appendButton.TabIndex = 49;
 			this.appendButton.Text = "追加步";
 			this.appendButton.UseVisualStyleBackColor = true;
-			this.appendButton.Click += new System.EventHandler(this.addStepButton_Click);
-			this.appendButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.addStepButton_MouseDown);
+			this.appendButton.Click += new System.EventHandler(this.appendStepButton_Click);
+			this.appendButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.appendStepButton_MouseDown);
 			// 
 			// topPanel
 			// 

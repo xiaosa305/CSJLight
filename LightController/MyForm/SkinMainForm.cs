@@ -18,7 +18,6 @@ using System.Net;
 using System.Net.Sockets;
 using LightController.Utils;
 using LightController.Tools.CSJ.IMPL;
-using OtherTools;
 using LightEditor.Ast;
 using LightController.PeripheralDevice;
 using LightController.MyForm.Multiplex;
@@ -226,9 +225,6 @@ namespace LightController.MyForm
 			{
 				panel.Hide();
 			}
-
-			// 每次启动后，可以切换到上一次软件打开时连接的方式		
-			refreshConnectMethod();	
 		}
 		
 		private void SkinMainForm_Activated(object sender, EventArgs e)
@@ -349,8 +345,7 @@ namespace LightController.MyForm
 				updateLogButtonClick();
 			}
 		}
-
-
+		
 		#endregion
 
 		#region 工具按钮组 - 工程相关
@@ -1236,19 +1231,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void insertSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				insertStepClick(false);
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				if (getCurrentStep() == 0)
-				{
-					insertStepClick(false);
-					return;
-				}
-				insertStepClick(true);
-			}
+			InsertStepClick(e.Button);			
 		}
 
 		/// <summary>
@@ -1265,14 +1248,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void addStepSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				addStepClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				addSomeStepClick();
-			}
+			appendStepClick(e.Button);
 		}
 
 		/// <summary>
@@ -1283,24 +1259,13 @@ namespace LightController.MyForm
 		private void deleteStepSkinButton_Click(object sender, EventArgs e){	}
 
 		/// <summary>
-		/// 事件：鼠标（左|右键）按下《删除步》
-		///  左键 1.获取当前步，当前步对应的stepIndex
-		///	       2.通过stepIndex，DeleteStep(index);
-		///		   3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
-		///  右键 新建DeleteStepForm并显示
+		/// 事件：鼠标（左|右键）按下《删除步》	
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deleteStepSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				deleteStepClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				deleteSomeStepClick();
-			}
+			deleteStepClick(e.Button);
 		}
 
 		/// <summary>
@@ -1310,18 +1275,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void copyStepSkinButton_Click(object sender, EventArgs e)
 		{
-
-			if (getCurrentStepWrapper() == null)
-			{
-				MessageBox.Show("当前步数据为空，无法复制");
-			}
-			else
-			{
-				tempStep = getCurrentStepWrapper();
-				pasteStepSkinButton.Enabled = true;
-			}
+			copyStepClick();
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《粘贴步》
 		/// </summary>
@@ -2080,6 +2036,7 @@ namespace LightController.MyForm
 		{
 			if (e.Error != null)
 			{
+				Console.WriteLine("Dickov : bgWorker_WorkerCompleted");
 				MessageBox.Show(e.Error.ToString());
 				return;
 			}

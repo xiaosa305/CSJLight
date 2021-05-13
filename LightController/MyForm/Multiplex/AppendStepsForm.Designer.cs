@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm.Multiplex
 {
-	partial class AddStepsForm
+	partial class AppendStepsForm
 	{
 		/// <summary>
 		/// Required designer variable.

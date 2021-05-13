@@ -602,8 +602,11 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				// 切换失败，只给提示，不更改原来的状态
-				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("切换中控配置失败:") + msg, true, false);
+				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("切换中控配置失败：") + msg, true, false);
 				setBusy(false);
+
+				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
+				reconnectDevice();
 			});
 		}
 		
@@ -734,6 +737,9 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate
 			{
 				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]",false,true);
+				
+				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
+				reconnectDevice();
 			});
 		}
 
@@ -895,8 +901,11 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate
 			{
 				// 切换失败，只给提示，不更改原来的状态
-				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("切换灯控配置失败:") + msg, true, false);
+				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("切换灯控配置失败：") + msg, true, false);
 				setBusy(false);
+
+				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
+				reconnectDevice();
 			});
 		}
 
@@ -928,6 +937,9 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate {
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("回读灯控配置失败:") + msg, true, false);
 				setBusy(false);
+
+				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
+				reconnectDevice();
 			});
 		}
 
@@ -950,7 +962,10 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("灯控配置下载失败:") + msg, true, false);
+				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("灯控配置下载失败：") + msg, true, false);
+
+				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
+				reconnectDevice();
 			});
 		}
 

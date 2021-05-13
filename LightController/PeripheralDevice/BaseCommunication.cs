@@ -139,7 +139,7 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = true;
                 this.IsSending = false;
                 LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
-                this.CommandFailed("通信超时");
+                this.CommandFailed("通信超时，请重新连接设备");
                 this.CloseTransactionTimer();
             }
         }

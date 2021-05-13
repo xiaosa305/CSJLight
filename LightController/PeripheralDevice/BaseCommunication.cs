@@ -1032,7 +1032,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1080,7 +1080,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1126,7 +1126,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1206,7 +1206,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1259,7 +1259,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1307,7 +1307,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1357,7 +1357,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1406,7 +1406,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1500,7 +1500,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1549,7 +1549,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -1599,7 +1599,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                if ((!this.IsSending))
+                if (this.IsSending)
                 {
                     error(START_TASK_ERROR_1);
                 }
@@ -2293,7 +2293,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }
@@ -2360,7 +2360,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }
@@ -2430,7 +2430,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }
@@ -2495,7 +2495,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }
@@ -2573,7 +2573,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }
@@ -2628,7 +2628,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }
@@ -2685,7 +2685,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    if ((!this.IsSending))
+                    if (this.IsSending)
                     {
                         error(START_TASK_ERROR_1);
                     }

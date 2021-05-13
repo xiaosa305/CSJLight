@@ -603,9 +603,6 @@
     <Content Include="MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HardwareSet.ini">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </Content>
     <Content Include="irisSkins\Calmness.ssk">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -586,7 +586,7 @@
 			this.partitionTimeNUD.TabIndex = 126;
 			this.partitionTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.partitionTimeNUD.Value = new decimal(new int[] {
-            20,
+            80,
             0,
             0,
             0});

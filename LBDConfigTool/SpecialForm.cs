@@ -45,13 +45,6 @@ namespace LBDConfigTool
 				MessageBox.Show("密码必须为6位");
 				return;
 			}
-			
-			//if (oldPswTB.Text != oldPassword) {
-			//	if (DialogResult.No == MessageBox.Show("检测到您输入的旧密码有误，可能无法更改相关设置，是否继续？", "继续操作？", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
-			//	{
-			//		return;
-			//	}
-			//}
 
 			try
 			{
@@ -72,6 +65,16 @@ namespace LBDConfigTool
 				return;
 			}			
 				
+		}
+
+		/// <summary>
+		/// 事件：点击《取消》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			Dispose();
 		}
 	}
 }

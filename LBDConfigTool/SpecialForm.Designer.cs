@@ -127,6 +127,7 @@
 			this.cancelButton.TabIndex = 74;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// oldPswTB
 			// 
@@ -196,6 +197,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.GrayText;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(269, 341);
 			this.Controls.Add(this.cardRB2);
 			this.Controls.Add(this.cardRB1);

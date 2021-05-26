@@ -22,9 +22,9 @@ namespace LBDConfigTool
 	{
 		private CSJNetCommunitor cnc;
 		private bool isSuccessShow = true;
-		private CSJConf specialCC;  // 辅助的cc，在程序初始化后应该设为一个默认值，除非用户进行修改
+		private CSJConf specialCC;  // 辅助的cc，在程序初始化后应该设为一个默认值，除非用户进行修改		
+		private CSJConf hideCC; // 辅助的cc，在初始化后应设为默认值；在回读时可能进行更改
 
-		private string deviceIP ;  // 必须是从设备回读的信息，才能设为true。即必须是readCompleted方法：
 		private bool isRecording = false; //正在录制时，设为true；
 		private DMXManager simulator;  // 录制功能的实例对象
 		private string dirPath ; //录制文件存储路径
@@ -32,10 +32,7 @@ namespace LBDConfigTool
 		public ConfForm()
 		{
 			InitializeComponent();
-
-			// 加密panel是否显示
-			securePanel.Visible = Properties.Settings.Default.showSecure;
-
+			
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
@@ -50,8 +47,7 @@ namespace LBDConfigTool
 			{
 				icCB.Items.Add(iniUtils.ReadString("main", "EN" + typeIndex, ""));
 			}
-			icCB.SelectedIndex = 0;
-			baudCB.SelectedIndex = 3;
+			icCB.SelectedIndex = 0;			
 
 			#region  添加上次更改的各种配置
 
@@ -102,7 +98,6 @@ namespace LBDConfigTool
 			partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
 			fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
 
-			secureTB.Text = Properties.Settings.Default.secureStr;
 			scuNameTB.Text = Properties.Settings.Default.scuName;
 			fileNameTB.Text =  Properties.Settings.Default.fileName;
 			suffixTB.Text = Properties.Settings.Default.suffixName;
@@ -125,12 +120,11 @@ namespace LBDConfigTool
 			fpgaWaitTimeNUD.MouseWheel += someNUD_MouseWheel;
 
 			//specialCC,填充默认值
-			makeSpecialCC();
+			makeDefault2CC();
 
 			// 每次启动后，加载默认的配置			
-			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\default.abin");
-			SetSpecialCC(cc);
-			renderAllControls(cc);
+			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\default.abin");			
+			renderCC(cc); // ConfForm()
 
 		}
 		
@@ -161,7 +155,7 @@ namespace LBDConfigTool
 		/// <summary>
 		/// 辅助方法：填充默认的specialCC
 		/// </summary>
-		private void makeSpecialCC()
+		private void makeDefault2CC()
 		{
 			specialCC = new CSJConf()
 			{
@@ -171,6 +165,15 @@ namespace LBDConfigTool
 				CardType = 0,
 				SumUseTimes = 0,
 				CurrUseTimes = 0
+			};
+
+			hideCC = new CSJConf()
+			{
+				Baud = 3,
+				LedName = "",
+				Max_scan_dot = 1024,
+				Led_gam = 1,
+				DiskFlag = 0
 			};
 		}
 
@@ -205,9 +208,8 @@ namespace LBDConfigTool
 		/// <param name="msg"></param>
 		private void readCompleted(object obj, string msg)
 		{
-			CSJConf cc = obj as CSJConf;
-			SetSpecialCC(cc);
-			renderAllControls(cc);
+			CSJConf cc = obj as CSJConf;			
+			renderCC(cc); // readCompleted()
 			setNotice(1,msg, isSuccessShow);
 		}
 
@@ -250,22 +252,25 @@ namespace LBDConfigTool
 				cc.SumUseTimes = specialCC.SumUseTimes;
 				cc.CurrUseTimes = specialCC.CurrUseTimes;
 
+				// 再填入hideCC的内容（只有两种选项：默认值 或 回读回来的数据，无法通过软件更改）
+				cc.Baud = hideCC.Baud; // 波特率		
+				cc.LedName = hideCC.LedName; // 显示屏标识（字节数上限为16,无下限）
+				cc.Max_scan_dot = hideCC.Max_scan_dot; //最大扫描点
+				cc.Led_gam = hideCC.Led_gam; //Gamma
+				cc.DiskFlag = hideCC.DiskFlag; // 存储类型
+
 				// 普通参数
 				cc.Addr = int.Parse(addrTB.Text);
-				cc.Baud = baudCB.SelectedIndex;				
-				cc.DiskFlag = int.Parse(diskFlagTB.Text);
 				cc.Play_Mod = playModeCB.SelectedIndex;
 				cc.PlayScene = decimal.ToInt32(sceneNUD.Value);
-				cc.LedName = ledNameTB.Text.Trim(); // 上限为16,无下限
-				cc.Ver = verTB.Text.Trim(); //上限为16，,无下限
-				cc.Max_scan_dot = int.Parse(maxDotTB.Text);
+				cc.Ver = verTB.Text.Trim(); //上限为16，,无下限				
 				cc.Led_out_type = outTypeCB.SelectedIndex;
 				cc.Led_fx = fxCheckBox.Checked ? 1:0; 
 				cc.RGB_Type = rgbCB.SelectedIndex;
 				cc.IC_Type = icCB.SelectedIndex;
 				cc.Play_hz = decimal.ToInt32(stepTimeNUD.Value);
 				cc.Clk_shzhong = int.Parse(clockTB.Text);
-				cc.Led_gam = int.Parse(ledGamTB.Text);
+				
 				cc.Led_ld = decimal.ToInt32(dimmerNUD.Value);
 				cc.R_LD = decimal.ToInt32(rNUD.Value);
 				cc.G_LD = decimal.ToInt32(gNUD.Value);
@@ -314,26 +319,23 @@ namespace LBDConfigTool
 		/// 辅助方法：使能所有的控件，并填入cc的内容；
 		/// </summary>
 		/// <param name="v"></param>
-		private void renderAllControls(CSJConf cc)
+		private void renderCC(CSJConf cc)
 		{
 			// 根据cc,渲染各个控件
 			if (cc != null)
 			{
-				addrTB.Text = cc.Addr + "";
-				baudCB.SelectedIndex = cc.Baud;				
-				diskFlagTB.Text = cc.DiskFlag + "";
+				addrTB.Text = cc.Addr + "";				
 				playModeCB.SelectedIndex = cc.Play_Mod;
 				sceneNUD.Value = cc.PlayScene;
-				ledNameTB.Text = cc.LedName; // 上限为16,无下限
 				verTB.Text = cc.Ver; //上限为16，,无下限
-				maxDotTB.Text = cc.Max_scan_dot + "";
+				
 				outTypeCB.SelectedIndex = cc.Led_out_type;
 				fxCheckBox.Checked = cc.Led_fx == 1;
 				rgbCB.SelectedIndex = cc.RGB_Type;
 				icCB.SelectedIndex = cc.IC_Type;
 				stepTimeNUD.Value = cc.Play_hz;
 				clockTB.Text = cc.Clk_shzhong + "";
-				ledGamTB.Text = cc.Led_gam + "";
+				
 				dimmerNUD.Value = cc.Led_ld;
 				rNUD.Value = cc.R_LD;
 				gNUD.Value = cc.G_LD;
@@ -349,6 +351,15 @@ namespace LBDConfigTool
 				aPerTB.Text = cc.Art_Net_Pre + "";
 				aTdLenTB.Text = cc.Art_Net_td_len + "";
 				aFKHTB.Text = cc.Art_Net_fk_id + "";
+							   
+				// 修改speicialCC和hideCC的内容	
+				SetSpecialCC(cc);
+				hideCC.Baud = cc.Baud; // 波特率		
+				hideCC.LedName = cc.LedName; // 显示屏标识（字节数上限为16,无下限）
+				hideCC.Max_scan_dot = cc.Max_scan_dot; //最大扫描点
+				hideCC.Led_gam = cc.Led_gam; //Gamma
+				hideCC.DiskFlag = cc.DiskFlag; // 存储类型
+
 			}
 		}
 
@@ -385,9 +396,7 @@ namespace LBDConfigTool
 				try
 				{
 					CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject(binPath);
-					// 根据情况，决定是否在加载本地配置后，设置相关的加密的内容；
-					SetSpecialCC(cc);
-					renderAllControls(cc);
+					renderCC(cc); // loadButton_Click
 					setNotice(1, "成功加载本地配置文件(" + abinOpenDialog.SafeFileName + ")。", isSuccessShow);
 				}
 				catch (Exception ex)
@@ -610,25 +619,28 @@ namespace LBDConfigTool
 			Properties.Settings.Default.fpgaWaitTime = decimal.ToInt32(fpgaWaitTimeNUD.Value);
 			Properties.Settings.Default.Save();
 		}
-		
-		#endregion		
 
-		#region 录制文件相关
-
+		private int clickTime2 = 0;
 		/// <summary>
-		/// 事件：点击最后一Tab时，需要判断是否已经回读网址，才可以进入此tab(否则e.Cancel = true,直接无视此操作)
+		///  双击三次可以弹出修改参数的窗口
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+		private void firmwareTab_DoubleClick(object sender, EventArgs e)
 		{
-			// 根据判断是否已经回读了设备参数，才允许进行之后的操作
-			if (string.IsNullOrEmpty(deviceIP) && e.TabPageIndex == 3)
+			clickTime2++;
+			if (clickTime2 == 3)
 			{
-				//e.Cancel = true;
+				firmwareGroupBox.Show();
+				clickTime2 = 0;
 			}
 		}
 
+
+		#endregion
+
+		#region 录制文件相关
+		
 		private void recordButton_Click(object sender, EventArgs e)
 		{
 			if (simulator == null) {
@@ -804,18 +816,7 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			//RecordTest.GetInstance().Test();
-			//Console.WriteLine(specialCC);
-
-			//if (pswTB.Text.Trim().Length != 16) {
-			//	setNotice(1, "加密文本必须是16位。", true);
-			//	return;
-			//}
-
-			cnc.WriteEncrypt(secureTB.Text, null, null);
-
-			Properties.Settings.Default.secureStr = secureTB.Text;
-			Properties.Settings.Default.Save();
+			
 		}
 
 
@@ -826,6 +827,7 @@ namespace LBDConfigTool
 
 		#endregion
 
+	
 	}
 
 }

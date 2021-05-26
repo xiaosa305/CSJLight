@@ -32,14 +32,52 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.readButton = new System.Windows.Forms.Button();
-			this.writeButton = new System.Windows.Forms.Button();
-			this.tabControl = new System.Windows.Forms.TabControl();
+			this.abinOpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
+			this.ebinSelectDialog = new System.Windows.Forms.OpenFileDialog();
+			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
+			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.recordTab = new System.Windows.Forms.TabPage();
+			this.label37 = new System.Windows.Forms.Label();
+			this.suffixTB = new System.Windows.Forms.TextBox();
+			this.fileNameTB = new System.Windows.Forms.TextBox();
+			this.scuNameTB = new System.Windows.Forms.TextBox();
+			this.label34 = new System.Windows.Forms.Label();
+			this.button2 = new System.Windows.Forms.Button();
+			this.setFilePathButton = new System.Windows.Forms.Button();
+			this.nameLabel = new System.Windows.Forms.Label();
+			this.label31 = new System.Windows.Forms.Label();
+			this.ScuLabel = new System.Windows.Forms.Label();
+			this.dirPathLabel = new System.Windows.Forms.Label();
+			this.recordButton = new System.Windows.Forms.Button();
+			this.firmwareTab = new System.Windows.Forms.TabPage();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label25 = new System.Windows.Forms.Label();
+			this.label26 = new System.Windows.Forms.Label();
+			this.packageSizeNUD = new System.Windows.Forms.NumericUpDown();
+			this.fpgaWaitTimeNUD = new System.Windows.Forms.NumericUpDown();
+			this.relayTimeNUD = new System.Windows.Forms.NumericUpDown();
+			this.label23 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.partitionSizeNUD = new System.Windows.Forms.NumericUpDown();
+			this.firstRelayNUD = new System.Windows.Forms.NumericUpDown();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.partitionTimeNUD = new System.Windows.Forms.NumericUpDown();
+			this.zbinProgressBar = new System.Windows.Forms.ProgressBar();
+			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
+			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
+			this.zbinPathLabel = new System.Windows.Forms.Label();
+			this.fbinPathLabel = new System.Windows.Forms.Label();
+			this.ebinPathLabel = new System.Windows.Forms.Label();
+			this.zbinUpdateButton = new System.Windows.Forms.Button();
+			this.fpgaUpdateButton = new System.Windows.Forms.Button();
+			this.zbinSelectButton = new System.Windows.Forms.Button();
+			this.mcuUpdateButton = new System.Windows.Forms.Button();
+			this.fbinSelectButton = new System.Windows.Forms.Button();
+			this.ebinSelectButton = new System.Windows.Forms.Button();
 			this.paramTab = new System.Windows.Forms.TabPage();
-			this.securePanel = new System.Windows.Forms.Panel();
-			this.label28 = new System.Windows.Forms.Label();
-			this.testButton = new System.Windows.Forms.Button();
-			this.secureTB = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.artnetGroupBox = new System.Windows.Forms.GroupBox();
 			this.label27 = new System.Windows.Forms.Label();
@@ -93,69 +131,31 @@
 			this.clockTB = new System.Windows.Forms.TextBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
-			this.iniTab = new System.Windows.Forms.TabPage();
-			this.label26 = new System.Windows.Forms.Label();
-			this.fpgaWaitTimeNUD = new System.Windows.Forms.NumericUpDown();
-			this.label23 = new System.Windows.Forms.Label();
-			this.partitionSizeNUD = new System.Windows.Forms.NumericUpDown();
-			this.label20 = new System.Windows.Forms.Label();
-			this.partitionTimeNUD = new System.Windows.Forms.NumericUpDown();
-			this.label25 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.firstRelayNUD = new System.Windows.Forms.NumericUpDown();
-			this.label4 = new System.Windows.Forms.Label();
-			this.relayTimeNUD = new System.Windows.Forms.NumericUpDown();
-			this.packageSizeNUD = new System.Windows.Forms.NumericUpDown();
-			this.baudCB = new System.Windows.Forms.ComboBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
+			this.readButton = new System.Windows.Forms.Button();
+			this.writeButton = new System.Windows.Forms.Button();
+			this.tabControl = new System.Windows.Forms.TabControl();
 			this.label10 = new System.Windows.Forms.Label();
 			this.ledGamTB = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
 			this.ledNameTB = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
 			this.diskFlagTB = new System.Windows.Forms.TextBox();
 			this.maxDotTB = new System.Windows.Forms.TextBox();
+			this.baudCB = new System.Windows.Forms.ComboBox();
 			this.label15 = new System.Windows.Forms.Label();
-			this.firmwareTab = new System.Windows.Forms.TabPage();
-			this.zbinProgressBar = new System.Windows.Forms.ProgressBar();
-			this.fpgaProgressBar = new System.Windows.Forms.ProgressBar();
-			this.mcuProgressBar = new System.Windows.Forms.ProgressBar();
-			this.zbinPathLabel = new System.Windows.Forms.Label();
-			this.fbinPathLabel = new System.Windows.Forms.Label();
-			this.ebinPathLabel = new System.Windows.Forms.Label();
-			this.zbinUpdateButton = new System.Windows.Forms.Button();
-			this.fpgaUpdateButton = new System.Windows.Forms.Button();
-			this.zbinSelectButton = new System.Windows.Forms.Button();
-			this.mcuUpdateButton = new System.Windows.Forms.Button();
-			this.fbinSelectButton = new System.Windows.Forms.Button();
-			this.ebinSelectButton = new System.Windows.Forms.Button();
-			this.recordTab = new System.Windows.Forms.TabPage();
-			this.label37 = new System.Windows.Forms.Label();
-			this.suffixTB = new System.Windows.Forms.TextBox();
-			this.label34 = new System.Windows.Forms.Label();
-			this.button2 = new System.Windows.Forms.Button();
-			this.fileNameTB = new System.Windows.Forms.TextBox();
-			this.setFilePathButton = new System.Windows.Forms.Button();
-			this.nameLabel = new System.Windows.Forms.Label();
-			this.label31 = new System.Windows.Forms.Label();
-			this.ScuLabel = new System.Windows.Forms.Label();
-			this.dirPathLabel = new System.Windows.Forms.Label();
-			this.scuNameTB = new System.Windows.Forms.TextBox();
-			this.recordButton = new System.Windows.Forms.Button();
-			this.abinOpenDialog = new System.Windows.Forms.OpenFileDialog();
-			this.abinSaveDialog = new System.Windows.Forms.SaveFileDialog();
-			this.ebinSelectDialog = new System.Windows.Forms.OpenFileDialog();
-			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
-			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.label3 = new System.Windows.Forms.Label();
 			this.zbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.statusStrip1.SuspendLayout();
-			this.tabControl.SuspendLayout();
+			this.recordTab.SuspendLayout();
+			this.firmwareTab.SuspendLayout();
+			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.fpgaWaitTimeNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.firstRelayNUD)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).BeginInit();
 			this.paramTab.SuspendLayout();
-			this.securePanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.artnetGroupBox.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -168,17 +168,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.stepTimeNUD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sceneNUD)).BeginInit();
 			this.groupBox1.SuspendLayout();
-			this.iniTab.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.fpgaWaitTimeNUD)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.firstRelayNUD)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).BeginInit();
-			this.firmwareTab.SuspendLayout();
-			this.recordTab.SuspendLayout();
-			this.groupBox4.SuspendLayout();
-			this.groupBox5.SuspendLayout();
+			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -207,47 +197,505 @@
 			this.myStatusLabel2.Size = new System.Drawing.Size(434, 17);
 			this.myStatusLabel2.Spring = true;
 			// 
-			// readButton
+			// abinOpenDialog
 			// 
-			this.readButton.Location = new System.Drawing.Point(623, 524);
-			this.readButton.Name = "readButton";
-			this.readButton.Size = new System.Drawing.Size(91, 42);
-			this.readButton.TabIndex = 3;
-			this.readButton.Text = "搜索控制器";
-			this.readButton.UseVisualStyleBackColor = true;
-			this.readButton.Click += new System.EventHandler(this.readButton_Click);
+			this.abinOpenDialog.Filter = "abin配置文件|*.abin";
 			// 
-			// writeButton
+			// abinSaveDialog
 			// 
-			this.writeButton.BackColor = System.Drawing.Color.Tomato;
-			this.writeButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.writeButton.Location = new System.Drawing.Point(736, 524);
-			this.writeButton.Name = "writeButton";
-			this.writeButton.Size = new System.Drawing.Size(91, 42);
-			this.writeButton.TabIndex = 3;
-			this.writeButton.Text = "下载参数";
-			this.writeButton.UseVisualStyleBackColor = false;
-			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
+			this.abinSaveDialog.Filter = "abin配置文件|*.abin";
 			// 
-			// tabControl
+			// ebinSelectDialog
 			// 
-			this.tabControl.Controls.Add(this.paramTab);
-			this.tabControl.Controls.Add(this.iniTab);
-			this.tabControl.Controls.Add(this.firmwareTab);
-			this.tabControl.Controls.Add(this.recordTab);
-			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl.ItemSize = new System.Drawing.Size(60, 30);
-			this.tabControl.Location = new System.Drawing.Point(0, 0);
-			this.tabControl.Name = "tabControl";
-			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(884, 639);
-			this.tabControl.TabIndex = 27;
-			this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
+			this.ebinSelectDialog.Filter = "Ebin固件包|*.Ebin";
+			// 
+			// fbinSelectDialog
+			// 
+			this.fbinSelectDialog.Filter = "fpga升级包|*.bin";
+			this.fbinSelectDialog.Title = "请谨慎选择升级包，如果选错可能造成严重后果！！！";
+			// 
+			// recordFolderBrowserDialog
+			// 
+			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
+			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
+			// 
+			// recordTab
+			// 
+			this.recordTab.Controls.Add(this.label37);
+			this.recordTab.Controls.Add(this.suffixTB);
+			this.recordTab.Controls.Add(this.fileNameTB);
+			this.recordTab.Controls.Add(this.scuNameTB);
+			this.recordTab.Controls.Add(this.label34);
+			this.recordTab.Controls.Add(this.button2);
+			this.recordTab.Controls.Add(this.setFilePathButton);
+			this.recordTab.Controls.Add(this.nameLabel);
+			this.recordTab.Controls.Add(this.label31);
+			this.recordTab.Controls.Add(this.ScuLabel);
+			this.recordTab.Controls.Add(this.dirPathLabel);
+			this.recordTab.Controls.Add(this.recordButton);
+			this.recordTab.Location = new System.Drawing.Point(4, 34);
+			this.recordTab.Name = "recordTab";
+			this.recordTab.Padding = new System.Windows.Forms.Padding(3);
+			this.recordTab.Size = new System.Drawing.Size(876, 601);
+			this.recordTab.TabIndex = 4;
+			this.recordTab.Text = "录制";
+			this.recordTab.UseVisualStyleBackColor = true;
+			// 
+			// label37
+			// 
+			this.label37.AutoSize = true;
+			this.label37.Location = new System.Drawing.Point(87, 262);
+			this.label37.Name = "label37";
+			this.label37.Size = new System.Drawing.Size(665, 12);
+			this.label37.TabIndex = 91;
+			this.label37.Text = "提示：录制时，级联分控数、分控路数、每路通道数和ARTNet起始空间得进行相应的配置，否则录制文件可能会不符合预期。";
+			// 
+			// suffixTB
+			// 
+			this.suffixTB.Location = new System.Drawing.Point(375, 162);
+			this.suffixTB.Name = "suffixTB";
+			this.suffixTB.Size = new System.Drawing.Size(60, 21);
+			this.suffixTB.TabIndex = 90;
+			// 
+			// fileNameTB
+			// 
+			this.fileNameTB.Location = new System.Drawing.Point(198, 162);
+			this.fileNameTB.Name = "fileNameTB";
+			this.fileNameTB.Size = new System.Drawing.Size(145, 21);
+			this.fileNameTB.TabIndex = 87;
+			// 
+			// scuNameTB
+			// 
+			this.scuNameTB.Location = new System.Drawing.Point(198, 120);
+			this.scuNameTB.Name = "scuNameTB";
+			this.scuNameTB.Size = new System.Drawing.Size(145, 21);
+			this.scuNameTB.TabIndex = 84;
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label34.Location = new System.Drawing.Point(349, 159);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(23, 24);
+			this.label34.TabIndex = 89;
+			this.label34.Text = ".";
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(713, 450);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(93, 58);
+			this.button2.TabIndex = 88;
+			this.button2.Text = "V+ Button";
+			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Visible = false;
+			// 
+			// setFilePathButton
+			// 
+			this.setFilePathButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.setFilePathButton.Location = new System.Drawing.Point(87, 62);
+			this.setFilePathButton.Name = "setFilePathButton";
+			this.setFilePathButton.Size = new System.Drawing.Size(87, 34);
+			this.setFilePathButton.TabIndex = 74;
+			this.setFilePathButton.Text = "选择存放目录";
+			this.setFilePathButton.UseVisualStyleBackColor = true;
+			this.setFilePathButton.Click += new System.EventHandler(this.setFilePathButton_Click);
+			// 
+			// nameLabel
+			// 
+			this.nameLabel.AutoSize = true;
+			this.nameLabel.Location = new System.Drawing.Point(87, 165);
+			this.nameLabel.Name = "nameLabel";
+			this.nameLabel.Size = new System.Drawing.Size(107, 12);
+			this.nameLabel.TabIndex = 77;
+			this.nameLabel.Text = "设置录制文件名： ";
+			// 
+			// label31
+			// 
+			this.label31.AutoSize = true;
+			this.label31.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label31.Location = new System.Drawing.Point(352, 123);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(39, 14);
+			this.label31.TabIndex = 86;
+			this.label31.Text = ".scu";
+			// 
+			// ScuLabel
+			// 
+			this.ScuLabel.AutoSize = true;
+			this.ScuLabel.Location = new System.Drawing.Point(87, 123);
+			this.ScuLabel.Name = "ScuLabel";
+			this.ScuLabel.Size = new System.Drawing.Size(107, 12);
+			this.ScuLabel.TabIndex = 85;
+			this.ScuLabel.Text = "请输入scu文件名：";
+			// 
+			// dirPathLabel
+			// 
+			this.dirPathLabel.Location = new System.Drawing.Point(197, 64);
+			this.dirPathLabel.Name = "dirPathLabel";
+			this.dirPathLabel.Size = new System.Drawing.Size(480, 30);
+			this.dirPathLabel.TabIndex = 75;
+			this.dirPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// recordButton
+			// 
+			this.recordButton.BackColor = System.Drawing.Color.Red;
+			this.recordButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.recordButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.recordButton.Location = new System.Drawing.Point(713, 111);
+			this.recordButton.Name = "recordButton";
+			this.recordButton.Size = new System.Drawing.Size(93, 72);
+			this.recordButton.TabIndex = 73;
+			this.recordButton.Text = "录制数据";
+			this.recordButton.UseVisualStyleBackColor = false;
+			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
+			// 
+			// firmwareTab
+			// 
+			this.firmwareTab.Controls.Add(this.groupBox4);
+			this.firmwareTab.Controls.Add(this.zbinProgressBar);
+			this.firmwareTab.Controls.Add(this.fpgaProgressBar);
+			this.firmwareTab.Controls.Add(this.mcuProgressBar);
+			this.firmwareTab.Controls.Add(this.zbinPathLabel);
+			this.firmwareTab.Controls.Add(this.fbinPathLabel);
+			this.firmwareTab.Controls.Add(this.ebinPathLabel);
+			this.firmwareTab.Controls.Add(this.zbinUpdateButton);
+			this.firmwareTab.Controls.Add(this.fpgaUpdateButton);
+			this.firmwareTab.Controls.Add(this.zbinSelectButton);
+			this.firmwareTab.Controls.Add(this.mcuUpdateButton);
+			this.firmwareTab.Controls.Add(this.fbinSelectButton);
+			this.firmwareTab.Controls.Add(this.ebinSelectButton);
+			this.firmwareTab.Location = new System.Drawing.Point(4, 34);
+			this.firmwareTab.Name = "firmwareTab";
+			this.firmwareTab.Size = new System.Drawing.Size(876, 601);
+			this.firmwareTab.TabIndex = 2;
+			this.firmwareTab.Text = "固件升级";
+			this.firmwareTab.UseVisualStyleBackColor = true;
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.label25);
+			this.groupBox4.Controls.Add(this.label26);
+			this.groupBox4.Controls.Add(this.packageSizeNUD);
+			this.groupBox4.Controls.Add(this.fpgaWaitTimeNUD);
+			this.groupBox4.Controls.Add(this.relayTimeNUD);
+			this.groupBox4.Controls.Add(this.label23);
+			this.groupBox4.Controls.Add(this.label4);
+			this.groupBox4.Controls.Add(this.partitionSizeNUD);
+			this.groupBox4.Controls.Add(this.firstRelayNUD);
+			this.groupBox4.Controls.Add(this.label20);
+			this.groupBox4.Controls.Add(this.label1);
+			this.groupBox4.Controls.Add(this.partitionTimeNUD);
+			this.groupBox4.Location = new System.Drawing.Point(51, 468);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(776, 117);
+			this.groupBox4.TabIndex = 128;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "固件升级·相关参数";
+			// 
+			// label25
+			// 
+			this.label25.AutoSize = true;
+			this.label25.BackColor = System.Drawing.Color.Transparent;
+			this.label25.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label25.Location = new System.Drawing.Point(28, 44);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(77, 12);
+			this.label25.TabIndex = 115;
+			this.label25.Text = "首包延时(ms)";
+			// 
+			// label26
+			// 
+			this.label26.AutoSize = true;
+			this.label26.BackColor = System.Drawing.Color.Transparent;
+			this.label26.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label26.Location = new System.Drawing.Point(553, 77);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(95, 12);
+			this.label26.TabIndex = 121;
+			this.label26.Text = "FPGA等待时间(s)";
+			// 
+			// packageSizeNUD
+			// 
+			this.packageSizeNUD.Location = new System.Drawing.Point(415, 40);
+			this.packageSizeNUD.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.packageSizeNUD.Name = "packageSizeNUD";
+			this.packageSizeNUD.Size = new System.Drawing.Size(53, 21);
+			this.packageSizeNUD.TabIndex = 118;
+			this.packageSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.packageSizeNUD.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			// 
+			// fpgaWaitTimeNUD
+			// 
+			this.fpgaWaitTimeNUD.Location = new System.Drawing.Point(671, 73);
+			this.fpgaWaitTimeNUD.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+			this.fpgaWaitTimeNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.fpgaWaitTimeNUD.Name = "fpgaWaitTimeNUD";
+			this.fpgaWaitTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.fpgaWaitTimeNUD.TabIndex = 124;
+			this.fpgaWaitTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.fpgaWaitTimeNUD.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+			// 
+			// relayTimeNUD
+			// 
+			this.relayTimeNUD.Location = new System.Drawing.Point(132, 73);
+			this.relayTimeNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.relayTimeNUD.Name = "relayTimeNUD";
+			this.relayTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.relayTimeNUD.TabIndex = 120;
+			this.relayTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.relayTimeNUD.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.BackColor = System.Drawing.Color.Transparent;
+			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label23.Location = new System.Drawing.Point(552, 44);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(89, 12);
+			this.label23.TabIndex = 122;
+			this.label23.Text = "扇区大小(byte)";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
+			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label4.Location = new System.Drawing.Point(282, 44);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(101, 12);
+			this.label4.TabIndex = 117;
+			this.label4.Text = "数据包大小(byte)";
+			// 
+			// partitionSizeNUD
+			// 
+			this.partitionSizeNUD.Location = new System.Drawing.Point(670, 40);
+			this.partitionSizeNUD.Maximum = new decimal(new int[] {
+            409600,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+			this.partitionSizeNUD.Name = "partitionSizeNUD";
+			this.partitionSizeNUD.Size = new System.Drawing.Size(53, 21);
+			this.partitionSizeNUD.TabIndex = 125;
+			this.partitionSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.partitionSizeNUD.Value = new decimal(new int[] {
+            4096,
+            0,
+            0,
+            0});
+			// 
+			// firstRelayNUD
+			// 
+			this.firstRelayNUD.Location = new System.Drawing.Point(132, 40);
+			this.firstRelayNUD.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.firstRelayNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.firstRelayNUD.Name = "firstRelayNUD";
+			this.firstRelayNUD.Size = new System.Drawing.Size(53, 21);
+			this.firstRelayNUD.TabIndex = 119;
+			this.firstRelayNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.firstRelayNUD.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.BackColor = System.Drawing.Color.Transparent;
+			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label20.Location = new System.Drawing.Point(282, 77);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(101, 12);
+			this.label20.TabIndex = 123;
+			this.label20.Text = "扇区通信延时(ms)";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
+			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.label1.Location = new System.Drawing.Point(28, 77);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(77, 12);
+			this.label1.TabIndex = 116;
+			this.label1.Text = "通讯延迟(ms)";
+			// 
+			// partitionTimeNUD
+			// 
+			this.partitionTimeNUD.Location = new System.Drawing.Point(415, 73);
+			this.partitionTimeNUD.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.partitionTimeNUD.Name = "partitionTimeNUD";
+			this.partitionTimeNUD.Size = new System.Drawing.Size(53, 21);
+			this.partitionTimeNUD.TabIndex = 126;
+			this.partitionTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.partitionTimeNUD.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			// 
+			// zbinProgressBar
+			// 
+			this.zbinProgressBar.Location = new System.Drawing.Point(199, 391);
+			this.zbinProgressBar.Name = "zbinProgressBar";
+			this.zbinProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.zbinProgressBar.TabIndex = 115;
+			// 
+			// fpgaProgressBar
+			// 
+			this.fpgaProgressBar.Location = new System.Drawing.Point(199, 245);
+			this.fpgaProgressBar.Name = "fpgaProgressBar";
+			this.fpgaProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.fpgaProgressBar.TabIndex = 115;
+			// 
+			// mcuProgressBar
+			// 
+			this.mcuProgressBar.Location = new System.Drawing.Point(199, 105);
+			this.mcuProgressBar.Name = "mcuProgressBar";
+			this.mcuProgressBar.Size = new System.Drawing.Size(628, 23);
+			this.mcuProgressBar.TabIndex = 115;
+			// 
+			// zbinPathLabel
+			// 
+			this.zbinPathLabel.Location = new System.Drawing.Point(199, 324);
+			this.zbinPathLabel.Name = "zbinPathLabel";
+			this.zbinPathLabel.Size = new System.Drawing.Size(628, 27);
+			this.zbinPathLabel.TabIndex = 1;
+			this.zbinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// fbinPathLabel
+			// 
+			this.fbinPathLabel.Location = new System.Drawing.Point(199, 178);
+			this.fbinPathLabel.Name = "fbinPathLabel";
+			this.fbinPathLabel.Size = new System.Drawing.Size(628, 27);
+			this.fbinPathLabel.TabIndex = 1;
+			this.fbinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// ebinPathLabel
+			// 
+			this.ebinPathLabel.Location = new System.Drawing.Point(199, 48);
+			this.ebinPathLabel.Name = "ebinPathLabel";
+			this.ebinPathLabel.Size = new System.Drawing.Size(628, 27);
+			this.ebinPathLabel.TabIndex = 1;
+			this.ebinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// zbinUpdateButton
+			// 
+			this.zbinUpdateButton.Location = new System.Drawing.Point(51, 383);
+			this.zbinUpdateButton.Name = "zbinUpdateButton";
+			this.zbinUpdateButton.Size = new System.Drawing.Size(112, 39);
+			this.zbinUpdateButton.TabIndex = 0;
+			this.zbinUpdateButton.Text = "更新字库";
+			this.zbinUpdateButton.UseVisualStyleBackColor = true;
+			this.zbinUpdateButton.Click += new System.EventHandler(this.zbinUpdateButton_Click);
+			// 
+			// fpgaUpdateButton
+			// 
+			this.fpgaUpdateButton.Location = new System.Drawing.Point(51, 237);
+			this.fpgaUpdateButton.Name = "fpgaUpdateButton";
+			this.fpgaUpdateButton.Size = new System.Drawing.Size(112, 39);
+			this.fpgaUpdateButton.TabIndex = 0;
+			this.fpgaUpdateButton.Text = "FPGA升级";
+			this.fpgaUpdateButton.UseVisualStyleBackColor = true;
+			this.fpgaUpdateButton.Click += new System.EventHandler(this.fpgaUpdateButton_Click);
+			// 
+			// zbinSelectButton
+			// 
+			this.zbinSelectButton.Location = new System.Drawing.Point(51, 318);
+			this.zbinSelectButton.Name = "zbinSelectButton";
+			this.zbinSelectButton.Size = new System.Drawing.Size(112, 39);
+			this.zbinSelectButton.TabIndex = 0;
+			this.zbinSelectButton.Text = "选择字库文件";
+			this.zbinSelectButton.UseVisualStyleBackColor = true;
+			this.zbinSelectButton.Click += new System.EventHandler(this.zbinSelectButton_Click);
+			// 
+			// mcuUpdateButton
+			// 
+			this.mcuUpdateButton.Location = new System.Drawing.Point(51, 97);
+			this.mcuUpdateButton.Name = "mcuUpdateButton";
+			this.mcuUpdateButton.Size = new System.Drawing.Size(112, 39);
+			this.mcuUpdateButton.TabIndex = 0;
+			this.mcuUpdateButton.Text = "MCU升级";
+			this.mcuUpdateButton.UseVisualStyleBackColor = true;
+			this.mcuUpdateButton.Click += new System.EventHandler(this.mcuUpdateButton_Click);
+			// 
+			// fbinSelectButton
+			// 
+			this.fbinSelectButton.Location = new System.Drawing.Point(51, 172);
+			this.fbinSelectButton.Name = "fbinSelectButton";
+			this.fbinSelectButton.Size = new System.Drawing.Size(112, 39);
+			this.fbinSelectButton.TabIndex = 0;
+			this.fbinSelectButton.Text = "选择FPGA升级包";
+			this.fbinSelectButton.UseVisualStyleBackColor = true;
+			this.fbinSelectButton.Click += new System.EventHandler(this.fbinSelectButton_Click);
+			// 
+			// ebinSelectButton
+			// 
+			this.ebinSelectButton.Location = new System.Drawing.Point(51, 42);
+			this.ebinSelectButton.Name = "ebinSelectButton";
+			this.ebinSelectButton.Size = new System.Drawing.Size(112, 39);
+			this.ebinSelectButton.TabIndex = 0;
+			this.ebinSelectButton.Text = "选择Ebin升级包";
+			this.ebinSelectButton.UseVisualStyleBackColor = true;
+			this.ebinSelectButton.Click += new System.EventHandler(this.ebinSelectButton_Click);
 			// 
 			// paramTab
 			// 
 			this.paramTab.BackColor = System.Drawing.Color.SlateGray;
-			this.paramTab.Controls.Add(this.securePanel);
 			this.paramTab.Controls.Add(this.panel1);
 			this.paramTab.Controls.Add(this.button1);
 			this.paramTab.Controls.Add(this.loadButton);
@@ -260,45 +708,6 @@
 			this.paramTab.TabIndex = 0;
 			this.paramTab.Text = "参数配置";
 			this.paramTab.DoubleClick += new System.EventHandler(this.paramTab_DoubleClick);
-			// 
-			// securePanel
-			// 
-			this.securePanel.Controls.Add(this.label28);
-			this.securePanel.Controls.Add(this.testButton);
-			this.securePanel.Controls.Add(this.secureTB);
-			this.securePanel.Location = new System.Drawing.Point(19, 505);
-			this.securePanel.Name = "securePanel";
-			this.securePanel.Size = new System.Drawing.Size(254, 72);
-			this.securePanel.TabIndex = 32;
-			this.securePanel.Visible = false;
-			// 
-			// label28
-			// 
-			this.label28.AutoSize = true;
-			this.label28.ForeColor = System.Drawing.Color.Snow;
-			this.label28.Location = new System.Drawing.Point(15, 19);
-			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(65, 12);
-			this.label28.TabIndex = 31;
-			this.label28.Text = "加密文本：";
-			// 
-			// testButton
-			// 
-			this.testButton.Location = new System.Drawing.Point(166, 17);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(75, 41);
-			this.testButton.TabIndex = 28;
-			this.testButton.Text = "加密";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
-			// 
-			// secureTB
-			// 
-			this.secureTB.Location = new System.Drawing.Point(15, 37);
-			this.secureTB.MaxLength = 16;
-			this.secureTB.Name = "secureTB";
-			this.secureTB.Size = new System.Drawing.Size(125, 21);
-			this.secureTB.TabIndex = 30;
 			// 
 			// panel1
 			// 
@@ -572,7 +981,7 @@
 			// label24
 			// 
 			this.label24.AutoSize = true;
-			this.label24.Location = new System.Drawing.Point(27, 195);
+			this.label24.Location = new System.Drawing.Point(30, 195);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(41, 12);
 			this.label24.TabIndex = 96;
@@ -864,211 +1273,92 @@
 			this.loadButton.UseVisualStyleBackColor = true;
 			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
 			// 
-			// iniTab
+			// readButton
 			// 
-			this.iniTab.Controls.Add(this.groupBox5);
-			this.iniTab.Controls.Add(this.groupBox4);
-			this.iniTab.Location = new System.Drawing.Point(4, 34);
-			this.iniTab.Name = "iniTab";
-			this.iniTab.Padding = new System.Windows.Forms.Padding(3);
-			this.iniTab.Size = new System.Drawing.Size(876, 601);
-			this.iniTab.TabIndex = 3;
-			this.iniTab.Text = "以后放到ini的配置";
-			this.iniTab.UseVisualStyleBackColor = true;
+			this.readButton.Location = new System.Drawing.Point(623, 524);
+			this.readButton.Name = "readButton";
+			this.readButton.Size = new System.Drawing.Size(91, 42);
+			this.readButton.TabIndex = 3;
+			this.readButton.Text = "搜索控制器";
+			this.readButton.UseVisualStyleBackColor = true;
+			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
-			// label26
+			// writeButton
 			// 
-			this.label26.AutoSize = true;
-			this.label26.BackColor = System.Drawing.Color.Transparent;
-			this.label26.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label26.Location = new System.Drawing.Point(27, 202);
-			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(95, 12);
-			this.label26.TabIndex = 121;
-			this.label26.Text = "FPGA等待时间(s)";
+			this.writeButton.BackColor = System.Drawing.Color.Tomato;
+			this.writeButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.writeButton.Location = new System.Drawing.Point(736, 524);
+			this.writeButton.Name = "writeButton";
+			this.writeButton.Size = new System.Drawing.Size(91, 42);
+			this.writeButton.TabIndex = 3;
+			this.writeButton.Text = "下载参数";
+			this.writeButton.UseVisualStyleBackColor = false;
+			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
 			// 
-			// fpgaWaitTimeNUD
+			// tabControl
 			// 
-			this.fpgaWaitTimeNUD.Location = new System.Drawing.Point(159, 198);
-			this.fpgaWaitTimeNUD.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-			this.fpgaWaitTimeNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.fpgaWaitTimeNUD.Name = "fpgaWaitTimeNUD";
-			this.fpgaWaitTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.fpgaWaitTimeNUD.TabIndex = 124;
-			this.fpgaWaitTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.fpgaWaitTimeNUD.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
+			this.tabControl.Controls.Add(this.paramTab);
+			this.tabControl.Controls.Add(this.firmwareTab);
+			this.tabControl.Controls.Add(this.recordTab);
+			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl.ItemSize = new System.Drawing.Size(60, 30);
+			this.tabControl.Location = new System.Drawing.Point(0, 0);
+			this.tabControl.Name = "tabControl";
+			this.tabControl.SelectedIndex = 0;
+			this.tabControl.Size = new System.Drawing.Size(884, 639);
+			this.tabControl.TabIndex = 27;
 			// 
-			// label23
+			// label10
 			// 
-			this.label23.AutoSize = true;
-			this.label23.BackColor = System.Drawing.Color.Transparent;
-			this.label23.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label23.Location = new System.Drawing.Point(27, 169);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(89, 12);
-			this.label23.TabIndex = 122;
-			this.label23.Text = "扇区大小(byte)";
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(22, 109);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(65, 12);
+			this.label10.TabIndex = 100;
 			// 
-			// partitionSizeNUD
+			// ledGamTB
 			// 
-			this.partitionSizeNUD.Location = new System.Drawing.Point(159, 165);
-			this.partitionSizeNUD.Maximum = new decimal(new int[] {
-            409600,
-            0,
-            0,
-            0});
-			this.partitionSizeNUD.Minimum = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-			this.partitionSizeNUD.Name = "partitionSizeNUD";
-			this.partitionSizeNUD.Size = new System.Drawing.Size(53, 21);
-			this.partitionSizeNUD.TabIndex = 125;
-			this.partitionSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.partitionSizeNUD.Value = new decimal(new int[] {
-            4096,
-            0,
-            0,
-            0});
+			this.ledGamTB.Location = new System.Drawing.Point(120, 139);
+			this.ledGamTB.Name = "ledGamTB";
+			this.ledGamTB.Size = new System.Drawing.Size(108, 21);
+			this.ledGamTB.TabIndex = 108;
 			// 
-			// label20
+			// label5
 			// 
-			this.label20.AutoSize = true;
-			this.label20.BackColor = System.Drawing.Color.Transparent;
-			this.label20.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label20.Location = new System.Drawing.Point(27, 136);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(101, 12);
-			this.label20.TabIndex = 123;
-			this.label20.Text = "扇区通信延时(ms)";
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(22, 175);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(53, 12);
+			this.label5.TabIndex = 101;
 			// 
-			// partitionTimeNUD
+			// ledNameTB
 			// 
-			this.partitionTimeNUD.Location = new System.Drawing.Point(159, 132);
-			this.partitionTimeNUD.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.partitionTimeNUD.Name = "partitionTimeNUD";
-			this.partitionTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.partitionTimeNUD.TabIndex = 126;
-			this.partitionTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.partitionTimeNUD.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
+			this.ledNameTB.Location = new System.Drawing.Point(120, 75);
+			this.ledNameTB.Name = "ledNameTB";
+			this.ledNameTB.Size = new System.Drawing.Size(108, 21);
+			this.ledNameTB.TabIndex = 106;
 			// 
-			// label25
+			// label8
 			// 
-			this.label25.AutoSize = true;
-			this.label25.BackColor = System.Drawing.Color.Transparent;
-			this.label25.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label25.Location = new System.Drawing.Point(27, 37);
-			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(77, 12);
-			this.label25.TabIndex = 115;
-			this.label25.Text = "首包延时(ms)";
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(22, 79);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(65, 12);
+			this.label8.TabIndex = 102;
 			// 
-			// label1
+			// diskFlagTB
 			// 
-			this.label1.AutoSize = true;
-			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label1.Location = new System.Drawing.Point(27, 70);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(77, 12);
-			this.label1.TabIndex = 116;
-			this.label1.Text = "通讯延迟(ms)";
+			this.diskFlagTB.Location = new System.Drawing.Point(120, 171);
+			this.diskFlagTB.Name = "diskFlagTB";
+			this.diskFlagTB.Size = new System.Drawing.Size(108, 21);
+			this.diskFlagTB.TabIndex = 105;
 			// 
-			// firstRelayNUD
+			// maxDotTB
 			// 
-			this.firstRelayNUD.Location = new System.Drawing.Point(159, 33);
-			this.firstRelayNUD.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.firstRelayNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.firstRelayNUD.Name = "firstRelayNUD";
-			this.firstRelayNUD.Size = new System.Drawing.Size(53, 21);
-			this.firstRelayNUD.TabIndex = 119;
-			this.firstRelayNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.firstRelayNUD.Value = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.BackColor = System.Drawing.Color.Transparent;
-			this.label4.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.label4.Location = new System.Drawing.Point(27, 103);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(101, 12);
-			this.label4.TabIndex = 117;
-			this.label4.Text = "数据包大小(byte)";
-			// 
-			// relayTimeNUD
-			// 
-			this.relayTimeNUD.Location = new System.Drawing.Point(159, 66);
-			this.relayTimeNUD.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.relayTimeNUD.Name = "relayTimeNUD";
-			this.relayTimeNUD.Size = new System.Drawing.Size(53, 21);
-			this.relayTimeNUD.TabIndex = 120;
-			this.relayTimeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.relayTimeNUD.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			// 
-			// packageSizeNUD
-			// 
-			this.packageSizeNUD.Location = new System.Drawing.Point(159, 99);
-			this.packageSizeNUD.Maximum = new decimal(new int[] {
-            1024,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.Minimum = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-			this.packageSizeNUD.Name = "packageSizeNUD";
-			this.packageSizeNUD.Size = new System.Drawing.Size(53, 21);
-			this.packageSizeNUD.TabIndex = 118;
-			this.packageSizeNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.packageSizeNUD.Value = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
+			this.maxDotTB.Location = new System.Drawing.Point(120, 105);
+			this.maxDotTB.Name = "maxDotTB";
+			this.maxDotTB.Size = new System.Drawing.Size(108, 21);
+			this.maxDotTB.TabIndex = 104;
 			// 
 			// baudCB
 			// 
@@ -1085,73 +1375,6 @@
 			this.baudCB.Size = new System.Drawing.Size(80, 20);
 			this.baudCB.TabIndex = 109;
 			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(22, 47);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(41, 12);
-			this.label3.TabIndex = 103;
-			this.label3.Text = "波特率";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(22, 79);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(65, 12);
-			this.label8.TabIndex = 102;
-			this.label8.Text = "显示屏标识";
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(22, 175);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(53, 12);
-			this.label5.TabIndex = 101;
-			this.label5.Text = "存储类型";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(22, 109);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(65, 12);
-			this.label10.TabIndex = 100;
-			this.label10.Text = "最大扫描点";
-			// 
-			// ledGamTB
-			// 
-			this.ledGamTB.Location = new System.Drawing.Point(120, 139);
-			this.ledGamTB.Name = "ledGamTB";
-			this.ledGamTB.Size = new System.Drawing.Size(108, 21);
-			this.ledGamTB.TabIndex = 108;
-			this.ledGamTB.Text = "1";
-			// 
-			// ledNameTB
-			// 
-			this.ledNameTB.Location = new System.Drawing.Point(120, 75);
-			this.ledNameTB.Name = "ledNameTB";
-			this.ledNameTB.Size = new System.Drawing.Size(108, 21);
-			this.ledNameTB.TabIndex = 106;
-			// 
-			// diskFlagTB
-			// 
-			this.diskFlagTB.Location = new System.Drawing.Point(120, 171);
-			this.diskFlagTB.Name = "diskFlagTB";
-			this.diskFlagTB.Size = new System.Drawing.Size(108, 21);
-			this.diskFlagTB.TabIndex = 105;
-			this.diskFlagTB.Text = "0";
-			// 
-			// maxDotTB
-			// 
-			this.maxDotTB.Location = new System.Drawing.Point(120, 105);
-			this.maxDotTB.Name = "maxDotTB";
-			this.maxDotTB.Size = new System.Drawing.Size(108, 21);
-			this.maxDotTB.TabIndex = 104;
-			this.maxDotTB.Text = "1024";
-			// 
 			// label15
 			// 
 			this.label15.AutoSize = true;
@@ -1159,337 +1382,19 @@
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(47, 12);
 			this.label15.TabIndex = 107;
-			this.label15.Text = "Led_gam";
 			// 
-			// firmwareTab
+			// label3
 			// 
-			this.firmwareTab.Controls.Add(this.zbinProgressBar);
-			this.firmwareTab.Controls.Add(this.fpgaProgressBar);
-			this.firmwareTab.Controls.Add(this.mcuProgressBar);
-			this.firmwareTab.Controls.Add(this.zbinPathLabel);
-			this.firmwareTab.Controls.Add(this.fbinPathLabel);
-			this.firmwareTab.Controls.Add(this.ebinPathLabel);
-			this.firmwareTab.Controls.Add(this.zbinUpdateButton);
-			this.firmwareTab.Controls.Add(this.fpgaUpdateButton);
-			this.firmwareTab.Controls.Add(this.zbinSelectButton);
-			this.firmwareTab.Controls.Add(this.mcuUpdateButton);
-			this.firmwareTab.Controls.Add(this.fbinSelectButton);
-			this.firmwareTab.Controls.Add(this.ebinSelectButton);
-			this.firmwareTab.Location = new System.Drawing.Point(4, 34);
-			this.firmwareTab.Name = "firmwareTab";
-			this.firmwareTab.Size = new System.Drawing.Size(876, 601);
-			this.firmwareTab.TabIndex = 2;
-			this.firmwareTab.Text = "固件升级";
-			this.firmwareTab.UseVisualStyleBackColor = true;
-			// 
-			// zbinProgressBar
-			// 
-			this.zbinProgressBar.Location = new System.Drawing.Point(199, 473);
-			this.zbinProgressBar.Name = "zbinProgressBar";
-			this.zbinProgressBar.Size = new System.Drawing.Size(628, 23);
-			this.zbinProgressBar.TabIndex = 115;
-			// 
-			// fpgaProgressBar
-			// 
-			this.fpgaProgressBar.Location = new System.Drawing.Point(199, 291);
-			this.fpgaProgressBar.Name = "fpgaProgressBar";
-			this.fpgaProgressBar.Size = new System.Drawing.Size(628, 23);
-			this.fpgaProgressBar.TabIndex = 115;
-			// 
-			// mcuProgressBar
-			// 
-			this.mcuProgressBar.Location = new System.Drawing.Point(199, 124);
-			this.mcuProgressBar.Name = "mcuProgressBar";
-			this.mcuProgressBar.Size = new System.Drawing.Size(628, 23);
-			this.mcuProgressBar.TabIndex = 115;
-			// 
-			// zbinPathLabel
-			// 
-			this.zbinPathLabel.Location = new System.Drawing.Point(199, 406);
-			this.zbinPathLabel.Name = "zbinPathLabel";
-			this.zbinPathLabel.Size = new System.Drawing.Size(628, 27);
-			this.zbinPathLabel.TabIndex = 1;
-			this.zbinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// fbinPathLabel
-			// 
-			this.fbinPathLabel.Location = new System.Drawing.Point(199, 224);
-			this.fbinPathLabel.Name = "fbinPathLabel";
-			this.fbinPathLabel.Size = new System.Drawing.Size(628, 27);
-			this.fbinPathLabel.TabIndex = 1;
-			this.fbinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// ebinPathLabel
-			// 
-			this.ebinPathLabel.Location = new System.Drawing.Point(199, 67);
-			this.ebinPathLabel.Name = "ebinPathLabel";
-			this.ebinPathLabel.Size = new System.Drawing.Size(628, 27);
-			this.ebinPathLabel.TabIndex = 1;
-			this.ebinPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// zbinUpdateButton
-			// 
-			this.zbinUpdateButton.Location = new System.Drawing.Point(51, 465);
-			this.zbinUpdateButton.Name = "zbinUpdateButton";
-			this.zbinUpdateButton.Size = new System.Drawing.Size(112, 39);
-			this.zbinUpdateButton.TabIndex = 0;
-			this.zbinUpdateButton.Text = "更新字库";
-			this.zbinUpdateButton.UseVisualStyleBackColor = true;
-			this.zbinUpdateButton.Click += new System.EventHandler(this.zbinUpdateButton_Click);
-			// 
-			// fpgaUpdateButton
-			// 
-			this.fpgaUpdateButton.Location = new System.Drawing.Point(51, 283);
-			this.fpgaUpdateButton.Name = "fpgaUpdateButton";
-			this.fpgaUpdateButton.Size = new System.Drawing.Size(112, 39);
-			this.fpgaUpdateButton.TabIndex = 0;
-			this.fpgaUpdateButton.Text = "FPGA升级";
-			this.fpgaUpdateButton.UseVisualStyleBackColor = true;
-			this.fpgaUpdateButton.Click += new System.EventHandler(this.fpgaUpdateButton_Click);
-			// 
-			// zbinSelectButton
-			// 
-			this.zbinSelectButton.Location = new System.Drawing.Point(51, 400);
-			this.zbinSelectButton.Name = "zbinSelectButton";
-			this.zbinSelectButton.Size = new System.Drawing.Size(112, 39);
-			this.zbinSelectButton.TabIndex = 0;
-			this.zbinSelectButton.Text = "选择字库文件";
-			this.zbinSelectButton.UseVisualStyleBackColor = true;
-			this.zbinSelectButton.Click += new System.EventHandler(this.zbinSelectButton_Click);
-			// 
-			// mcuUpdateButton
-			// 
-			this.mcuUpdateButton.Location = new System.Drawing.Point(51, 116);
-			this.mcuUpdateButton.Name = "mcuUpdateButton";
-			this.mcuUpdateButton.Size = new System.Drawing.Size(112, 39);
-			this.mcuUpdateButton.TabIndex = 0;
-			this.mcuUpdateButton.Text = "MCU升级";
-			this.mcuUpdateButton.UseVisualStyleBackColor = true;
-			this.mcuUpdateButton.Click += new System.EventHandler(this.mcuUpdateButton_Click);
-			// 
-			// fbinSelectButton
-			// 
-			this.fbinSelectButton.Location = new System.Drawing.Point(51, 218);
-			this.fbinSelectButton.Name = "fbinSelectButton";
-			this.fbinSelectButton.Size = new System.Drawing.Size(112, 39);
-			this.fbinSelectButton.TabIndex = 0;
-			this.fbinSelectButton.Text = "选择FPGA升级包";
-			this.fbinSelectButton.UseVisualStyleBackColor = true;
-			this.fbinSelectButton.Click += new System.EventHandler(this.fbinSelectButton_Click);
-			// 
-			// ebinSelectButton
-			// 
-			this.ebinSelectButton.Location = new System.Drawing.Point(51, 61);
-			this.ebinSelectButton.Name = "ebinSelectButton";
-			this.ebinSelectButton.Size = new System.Drawing.Size(112, 39);
-			this.ebinSelectButton.TabIndex = 0;
-			this.ebinSelectButton.Text = "选择Ebin升级包";
-			this.ebinSelectButton.UseVisualStyleBackColor = true;
-			this.ebinSelectButton.Click += new System.EventHandler(this.ebinSelectButton_Click);
-			// 
-			// recordTab
-			// 
-			this.recordTab.Controls.Add(this.label37);
-			this.recordTab.Controls.Add(this.suffixTB);
-			this.recordTab.Controls.Add(this.label34);
-			this.recordTab.Controls.Add(this.button2);
-			this.recordTab.Controls.Add(this.fileNameTB);
-			this.recordTab.Controls.Add(this.setFilePathButton);
-			this.recordTab.Controls.Add(this.nameLabel);
-			this.recordTab.Controls.Add(this.label31);
-			this.recordTab.Controls.Add(this.ScuLabel);
-			this.recordTab.Controls.Add(this.dirPathLabel);
-			this.recordTab.Controls.Add(this.scuNameTB);
-			this.recordTab.Controls.Add(this.recordButton);
-			this.recordTab.Location = new System.Drawing.Point(4, 34);
-			this.recordTab.Name = "recordTab";
-			this.recordTab.Padding = new System.Windows.Forms.Padding(3);
-			this.recordTab.Size = new System.Drawing.Size(876, 601);
-			this.recordTab.TabIndex = 4;
-			this.recordTab.Text = "录制";
-			this.recordTab.UseVisualStyleBackColor = true;
-			// 
-			// label37
-			// 
-			this.label37.AutoSize = true;
-			this.label37.Location = new System.Drawing.Point(87, 262);
-			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(665, 12);
-			this.label37.TabIndex = 91;
-			this.label37.Text = "提示：录制时，级联分控数、分控路数、每路通道数和ARTNet起始空间得进行相应的配置，否则录制文件可能会不符合预期。";
-			// 
-			// suffixTB
-			// 
-			this.suffixTB.Location = new System.Drawing.Point(375, 162);
-			this.suffixTB.Name = "suffixTB";
-			this.suffixTB.Size = new System.Drawing.Size(60, 21);
-			this.suffixTB.TabIndex = 90;
-			// 
-			// label34
-			// 
-			this.label34.AutoSize = true;
-			this.label34.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label34.Location = new System.Drawing.Point(349, 159);
-			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(23, 24);
-			this.label34.TabIndex = 89;
-			this.label34.Text = ".";
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(713, 450);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(93, 58);
-			this.button2.TabIndex = 88;
-			this.button2.Text = "V+ Button";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Visible = false;
-			// 
-			// fileNameTB
-			// 
-			this.fileNameTB.Location = new System.Drawing.Point(198, 162);
-			this.fileNameTB.Name = "fileNameTB";
-			this.fileNameTB.Size = new System.Drawing.Size(145, 21);
-			this.fileNameTB.TabIndex = 87;
-			// 
-			// setFilePathButton
-			// 
-			this.setFilePathButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.setFilePathButton.Location = new System.Drawing.Point(87, 62);
-			this.setFilePathButton.Name = "setFilePathButton";
-			this.setFilePathButton.Size = new System.Drawing.Size(87, 34);
-			this.setFilePathButton.TabIndex = 74;
-			this.setFilePathButton.Text = "选择存放目录";
-			this.setFilePathButton.UseVisualStyleBackColor = true;
-			this.setFilePathButton.Click += new System.EventHandler(this.setFilePathButton_Click);
-			// 
-			// nameLabel
-			// 
-			this.nameLabel.AutoSize = true;
-			this.nameLabel.Location = new System.Drawing.Point(87, 165);
-			this.nameLabel.Name = "nameLabel";
-			this.nameLabel.Size = new System.Drawing.Size(107, 12);
-			this.nameLabel.TabIndex = 77;
-			this.nameLabel.Text = "设置录制文件名： ";
-			// 
-			// label31
-			// 
-			this.label31.AutoSize = true;
-			this.label31.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label31.Location = new System.Drawing.Point(352, 123);
-			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(39, 14);
-			this.label31.TabIndex = 86;
-			this.label31.Text = ".scu";
-			// 
-			// ScuLabel
-			// 
-			this.ScuLabel.AutoSize = true;
-			this.ScuLabel.Location = new System.Drawing.Point(87, 123);
-			this.ScuLabel.Name = "ScuLabel";
-			this.ScuLabel.Size = new System.Drawing.Size(107, 12);
-			this.ScuLabel.TabIndex = 85;
-			this.ScuLabel.Text = "请输入scu文件名：";
-			// 
-			// dirPathLabel
-			// 
-			this.dirPathLabel.Location = new System.Drawing.Point(197, 64);
-			this.dirPathLabel.Name = "dirPathLabel";
-			this.dirPathLabel.Size = new System.Drawing.Size(480, 30);
-			this.dirPathLabel.TabIndex = 75;
-			this.dirPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// scuNameTB
-			// 
-			this.scuNameTB.Location = new System.Drawing.Point(198, 120);
-			this.scuNameTB.Name = "scuNameTB";
-			this.scuNameTB.Size = new System.Drawing.Size(145, 21);
-			this.scuNameTB.TabIndex = 84;
-			// 
-			// recordButton
-			// 
-			this.recordButton.BackColor = System.Drawing.Color.Red;
-			this.recordButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.recordButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.recordButton.Location = new System.Drawing.Point(713, 111);
-			this.recordButton.Name = "recordButton";
-			this.recordButton.Size = new System.Drawing.Size(93, 72);
-			this.recordButton.TabIndex = 73;
-			this.recordButton.Text = "录制数据";
-			this.recordButton.UseVisualStyleBackColor = false;
-			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
-			// 
-			// abinOpenDialog
-			// 
-			this.abinOpenDialog.Filter = "abin配置文件|*.abin";
-			// 
-			// abinSaveDialog
-			// 
-			this.abinSaveDialog.Filter = "abin配置文件|*.abin";
-			// 
-			// ebinSelectDialog
-			// 
-			this.ebinSelectDialog.Filter = "Ebin固件包|*.Ebin";
-			// 
-			// fbinSelectDialog
-			// 
-			this.fbinSelectDialog.Filter = "fpga升级包|*.bin";
-			this.fbinSelectDialog.Title = "请谨慎选择升级包，如果选错可能造成严重后果！！！";
-			// 
-			// recordFolderBrowserDialog
-			// 
-			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
-			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
-			// 
-			// openFileDialog1
-			// 
-			this.openFileDialog1.Filter = "字库文件|*.bin";
-			this.openFileDialog1.Title = "请谨慎选择字库文件，如果选错可能造成严重后果！！！";
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(22, 47);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(41, 12);
+			this.label3.TabIndex = 103;
 			// 
 			// zbinSelectDialog
 			// 
 			this.zbinSelectDialog.Filter = "字库文件|*.bin";
 			this.zbinSelectDialog.Title = "请谨慎选择字库文件，如果选错可能造成严重后果！！！";
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.Controls.Add(this.label25);
-			this.groupBox4.Controls.Add(this.label26);
-			this.groupBox4.Controls.Add(this.packageSizeNUD);
-			this.groupBox4.Controls.Add(this.fpgaWaitTimeNUD);
-			this.groupBox4.Controls.Add(this.relayTimeNUD);
-			this.groupBox4.Controls.Add(this.label23);
-			this.groupBox4.Controls.Add(this.label4);
-			this.groupBox4.Controls.Add(this.partitionSizeNUD);
-			this.groupBox4.Controls.Add(this.firstRelayNUD);
-			this.groupBox4.Controls.Add(this.label20);
-			this.groupBox4.Controls.Add(this.label1);
-			this.groupBox4.Controls.Add(this.partitionTimeNUD);
-			this.groupBox4.Location = new System.Drawing.Point(40, 313);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(348, 250);
-			this.groupBox4.TabIndex = 127;
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "固件升级·相关参数";
-			// 
-			// groupBox5
-			// 
-			this.groupBox5.Controls.Add(this.label3);
-			this.groupBox5.Controls.Add(this.label15);
-			this.groupBox5.Controls.Add(this.baudCB);
-			this.groupBox5.Controls.Add(this.maxDotTB);
-			this.groupBox5.Controls.Add(this.diskFlagTB);
-			this.groupBox5.Controls.Add(this.label8);
-			this.groupBox5.Controls.Add(this.ledNameTB);
-			this.groupBox5.Controls.Add(this.label5);
-			this.groupBox5.Controls.Add(this.ledGamTB);
-			this.groupBox5.Controls.Add(this.label10);
-			this.groupBox5.Location = new System.Drawing.Point(40, 34);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(348, 228);
-			this.groupBox5.TabIndex = 128;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "参数配置·隐藏选项";
 			// 
 			// ConfForm
 			// 
@@ -1504,10 +1409,18 @@
 			this.Load += new System.EventHandler(this.ConfForm_Load);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			this.tabControl.ResumeLayout(false);
+			this.recordTab.ResumeLayout(false);
+			this.recordTab.PerformLayout();
+			this.firmwareTab.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.fpgaWaitTimeNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.firstRelayNUD)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).EndInit();
 			this.paramTab.ResumeLayout(false);
-			this.securePanel.ResumeLayout(false);
-			this.securePanel.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.artnetGroupBox.ResumeLayout(false);
 			this.artnetGroupBox.PerformLayout();
@@ -1524,20 +1437,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.sceneNUD)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
-			this.iniTab.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.fpgaWaitTimeNUD)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.partitionSizeNUD)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.partitionTimeNUD)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.firstRelayNUD)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.relayTimeNUD)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.packageSizeNUD)).EndInit();
-			this.firmwareTab.ResumeLayout(false);
-			this.recordTab.ResumeLayout(false);
-			this.recordTab.PerformLayout();
-			this.groupBox4.ResumeLayout(false);
-			this.groupBox4.PerformLayout();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
+			this.tabControl.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1545,127 +1445,120 @@
 
 		#endregion
 		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.Button readButton;
-		private System.Windows.Forms.Button writeButton;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel1;
-		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.TabPage paramTab;
-		private System.Windows.Forms.Button testButton;
-		private System.Windows.Forms.Button loadButton;
 		private System.Windows.Forms.OpenFileDialog abinOpenDialog;
-		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.SaveFileDialog abinSaveDialog;
-		private System.Windows.Forms.TabPage firmwareTab;
-		private System.Windows.Forms.Button fpgaUpdateButton;
-		private System.Windows.Forms.Button mcuUpdateButton;
-		private System.Windows.Forms.Button ebinSelectButton;
-		private System.Windows.Forms.Label ebinPathLabel;
 		private System.Windows.Forms.OpenFileDialog ebinSelectDialog;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label27;
-		private System.Windows.Forms.Label label29;
-		private System.Windows.Forms.TextBox aTdLenTB;
-		private System.Windows.Forms.TextBox aPerTB;
-		private System.Windows.Forms.TextBox aStartTB;
-		private System.Windows.Forms.TextBox aJLFKSTB;
-		private System.Windows.Forms.TextBox aFKHTB;
-		private System.Windows.Forms.TextBox aMacTB;
-		private System.Windows.Forms.TextBox aFKLSTB;
-		private System.Windows.Forms.Label label30;
-		private System.Windows.Forms.TextBox aIpTB;
-		private System.Windows.Forms.Label label32;
-		private System.Windows.Forms.Label label33;
-		private System.Windows.Forms.Label label35;
-		private System.Windows.Forms.Label label38;
-		private System.Windows.Forms.Label label36;
-		private System.Windows.Forms.ComboBox rgbCB;
-		private System.Windows.Forms.ComboBox outTypeCB;
-		private System.Windows.Forms.NumericUpDown wNUD;
-		private System.Windows.Forms.NumericUpDown bNUD;
-		private System.Windows.Forms.NumericUpDown gNUD;
-		private System.Windows.Forms.NumericUpDown rNUD;
-		private System.Windows.Forms.NumericUpDown dimmerNUD;
-		private System.Windows.Forms.NumericUpDown sceneNUD;
-		private System.Windows.Forms.ComboBox playModeCB;
-		private System.Windows.Forms.NumericUpDown stepTimeNUD;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label24;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label22;
-		private System.Windows.Forms.Label label21;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.TextBox addrTB;
-		private System.Windows.Forms.TextBox clockTB;
-		private System.Windows.Forms.TextBox verTB;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.Label label19;
-		private System.Windows.Forms.Label label18;
-		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.Label label17;
-		private System.Windows.Forms.Label fbinPathLabel;
-		private System.Windows.Forms.Button fbinSelectButton;
 		private System.Windows.Forms.OpenFileDialog fbinSelectDialog;
-		private System.Windows.Forms.ComboBox icCB;
-		private System.Windows.Forms.CheckBox fxCheckBox;
-		private System.Windows.Forms.ProgressBar fpgaProgressBar;
-		private System.Windows.Forms.ProgressBar mcuProgressBar;
-		private System.Windows.Forms.GroupBox artnetGroupBox;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.TabPage iniTab;
-		private System.Windows.Forms.ComboBox baudCB;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.TextBox ledGamTB;
-		private System.Windows.Forms.TextBox ledNameTB;
-		private System.Windows.Forms.TextBox diskFlagTB;
-		private System.Windows.Forms.TextBox maxDotTB;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label28;
-		private System.Windows.Forms.TextBox secureTB;
-		private System.Windows.Forms.TabPage recordTab;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel2;
-		private System.Windows.Forms.Button recordButton;
-		private System.Windows.Forms.Button setFilePathButton;
-		private System.Windows.Forms.Label dirPathLabel;
-		private System.Windows.Forms.Label nameLabel;
 		private System.Windows.Forms.FolderBrowserDialog recordFolderBrowserDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
+		private System.Windows.Forms.TabPage recordTab;
+		private System.Windows.Forms.Label label37;
+		private System.Windows.Forms.TextBox suffixTB;
 		private System.Windows.Forms.TextBox fileNameTB;
+		private System.Windows.Forms.TextBox scuNameTB;
+		private System.Windows.Forms.Label label34;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button setFilePathButton;
+		private System.Windows.Forms.Label nameLabel;
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.Label ScuLabel;
-		private System.Windows.Forms.TextBox scuNameTB;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.TextBox suffixTB;
-		private System.Windows.Forms.Label label34;
-		private System.Windows.Forms.Label label37;
-		private System.Windows.Forms.Panel securePanel;
-		private System.Windows.Forms.Label label26;
-		private System.Windows.Forms.NumericUpDown fpgaWaitTimeNUD;
-		private System.Windows.Forms.Label label23;
-		private System.Windows.Forms.NumericUpDown partitionSizeNUD;
-		private System.Windows.Forms.Label label20;
-		private System.Windows.Forms.NumericUpDown partitionTimeNUD;
-		private System.Windows.Forms.Label label25;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.NumericUpDown firstRelayNUD;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.NumericUpDown relayTimeNUD;
-		private System.Windows.Forms.NumericUpDown packageSizeNUD;
-		private System.Windows.Forms.ProgressBar zbinProgressBar;
-		private System.Windows.Forms.Label zbinPathLabel;
-		private System.Windows.Forms.Button zbinUpdateButton;
-		private System.Windows.Forms.Button zbinSelectButton;
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
-		private System.Windows.Forms.OpenFileDialog zbinSelectDialog;
-		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.Label dirPathLabel;
+		private System.Windows.Forms.Button recordButton;
+		private System.Windows.Forms.TabPage firmwareTab;
 		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Label label25;
+		private System.Windows.Forms.Label label26;
+		private System.Windows.Forms.NumericUpDown packageSizeNUD;
+		private System.Windows.Forms.NumericUpDown fpgaWaitTimeNUD;
+		private System.Windows.Forms.NumericUpDown relayTimeNUD;
+		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.NumericUpDown partitionSizeNUD;
+		private System.Windows.Forms.NumericUpDown firstRelayNUD;
+		private System.Windows.Forms.Label label20;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown partitionTimeNUD;
+		private System.Windows.Forms.ProgressBar zbinProgressBar;
+		private System.Windows.Forms.ProgressBar fpgaProgressBar;
+		private System.Windows.Forms.ProgressBar mcuProgressBar;
+		private System.Windows.Forms.Label zbinPathLabel;
+		private System.Windows.Forms.Label fbinPathLabel;
+		private System.Windows.Forms.Label ebinPathLabel;
+		private System.Windows.Forms.Button zbinUpdateButton;
+		private System.Windows.Forms.Button fpgaUpdateButton;
+		private System.Windows.Forms.Button zbinSelectButton;
+		private System.Windows.Forms.Button mcuUpdateButton;
+		private System.Windows.Forms.Button fbinSelectButton;
+		private System.Windows.Forms.Button ebinSelectButton;
+		private System.Windows.Forms.TabPage paramTab;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.GroupBox artnetGroupBox;
+		private System.Windows.Forms.Label label27;
+		private System.Windows.Forms.TextBox addrTB;
+		private System.Windows.Forms.Label label29;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TextBox aTdLenTB;
+		private System.Windows.Forms.Label label36;
+		private System.Windows.Forms.TextBox aPerTB;
+		private System.Windows.Forms.Label label38;
+		private System.Windows.Forms.TextBox aStartTB;
+		private System.Windows.Forms.Label label35;
+		private System.Windows.Forms.TextBox aJLFKSTB;
+		private System.Windows.Forms.Label label33;
+		private System.Windows.Forms.TextBox aFKHTB;
+		private System.Windows.Forms.Label label32;
+		private System.Windows.Forms.TextBox aMacTB;
+		private System.Windows.Forms.TextBox aIpTB;
+		private System.Windows.Forms.TextBox aFKLSTB;
+		private System.Windows.Forms.Label label30;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.Label label21;
+		private System.Windows.Forms.NumericUpDown wNUD;
+		private System.Windows.Forms.Label label22;
+		private System.Windows.Forms.NumericUpDown bNUD;
+		private System.Windows.Forms.Label label24;
+		private System.Windows.Forms.NumericUpDown gNUD;
+		private System.Windows.Forms.NumericUpDown dimmerNUD;
+		private System.Windows.Forms.NumericUpDown rNUD;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.TextBox verTB;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.NumericUpDown stepTimeNUD;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.ComboBox playModeCB;
+		private System.Windows.Forms.NumericUpDown sceneNUD;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.CheckBox fxCheckBox;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.ComboBox icCB;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.ComboBox rgbCB;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.ComboBox outTypeCB;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.TextBox clockTB;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button loadButton;
+		private System.Windows.Forms.Button readButton;
+		private System.Windows.Forms.Button writeButton;
+		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.TextBox ledGamTB;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox ledNameTB;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.TextBox diskFlagTB;
+		private System.Windows.Forms.TextBox maxDotTB;
+		private System.Windows.Forms.ComboBox baudCB;
+		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.OpenFileDialog zbinSelectDialog;
 	}
 }

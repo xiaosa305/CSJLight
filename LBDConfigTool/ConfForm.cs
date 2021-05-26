@@ -23,8 +23,7 @@ namespace LBDConfigTool
 		private CSJNetCommunitor cnc;
 		private bool isSuccessShow = true;
 		private CSJConf specialCC;  // 辅助的cc，在程序初始化后应该设为一个默认值，除非用户进行修改
-
-		private string deviceIP ;  // 必须是从设备回读的信息，才能设为true。即必须是readCompleted方法：
+				
 		private bool isRecording = false; //正在录制时，设为true；
 		private DMXManager simulator;  // 录制功能的实例对象
 		private string dirPath ; //录制文件存储路径
@@ -33,8 +32,6 @@ namespace LBDConfigTool
 		{
 			InitializeComponent();
 
-			// 加密panel是否显示
-			securePanel.Visible = Properties.Settings.Default.showSecure;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
@@ -95,14 +92,13 @@ namespace LBDConfigTool
 			dirPath = Properties.Settings.Default.recordPath;
 			setRecordPathLabel();
 
-			firstRelayNUD.Value = Properties.Settings.Default.firstRelayTime;
-			relayTimeNUD.Value = Properties.Settings.Default.relayTime;
-			packageSizeNUD.Value = Properties.Settings.Default.packageSize;
-			partitionTimeNUD.Value = Properties.Settings.Default.partitionTime;
-			partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
-			fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
+			//firstRelayNUD.Value = Properties.Settings.Default.firstRelayTime;
+			//relayTimeNUD.Value = Properties.Settings.Default.relayTime;
+			//packageSizeNUD.Value = Properties.Settings.Default.packageSize;
+			//partitionTimeNUD.Value = Properties.Settings.Default.partitionTime;
+			//partitionSizeNUD.Value = Properties.Settings.Default.partitionSize;
+			//fpgaWaitTimeNUD.Value = Properties.Settings.Default.fpgaWaitTime;
 
-			secureTB.Text = Properties.Settings.Default.secureStr;
 			scuNameTB.Text = Properties.Settings.Default.scuName;
 			fileNameTB.Text =  Properties.Settings.Default.fileName;
 			suffixTB.Text = Properties.Settings.Default.suffixName;
@@ -125,7 +121,7 @@ namespace LBDConfigTool
 			fpgaWaitTimeNUD.MouseWheel += someNUD_MouseWheel;
 
 			//specialCC,填充默认值
-			makeSpecialCC();
+			makeDefaultSpecialCC();
 
 			// 每次启动后，加载默认的配置			
 			CSJConf cc = (CSJConf)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\default.abin");
@@ -161,7 +157,7 @@ namespace LBDConfigTool
 		/// <summary>
 		/// 辅助方法：填充默认的specialCC
 		/// </summary>
-		private void makeSpecialCC()
+		private void makeDefaultSpecialCC()
 		{
 			specialCC = new CSJConf()
 			{
@@ -199,7 +195,7 @@ namespace LBDConfigTool
 		}
 
 		/// <summary>
-		/// 回读成功后的操作
+		/// 回调方法：回读成功后的操作
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="msg"></param>
@@ -505,8 +501,7 @@ namespace LBDConfigTool
 		private void fpgaDrawProgress(int progressPercent)
 		{
 			setNotice(1,"正在升级固件(fpga)，请稍候...", false);
-			fpgaProgressBar.Value = progressPercent;
-			
+			fpgaProgressBar.Value = progressPercent;			
 		}
 			
 		/// <summary>
@@ -565,9 +560,9 @@ namespace LBDConfigTool
 				FPGAUpdateCompletedIntervalTime = decimal.ToInt32(fpgaWaitTimeNUD.Value) * 1000,
 			};
 		}
-		
+
 		/// <summary>
-		/// 升级失败回调方法
+		/// 回调方法：升级成功
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="msg"></param>
@@ -581,7 +576,7 @@ namespace LBDConfigTool
 		}
 
 		/// <summary>
-		/// 升级失败回调方法
+		/// 回调方法：升级失败
 		/// </summary>
 		/// <param name="msg"></param>
 		private void UpdateError(string msg)
@@ -600,8 +595,6 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void saveNUD_ValueChanged(object sender, EventArgs e)
 		{
-			Console.WriteLine("saveNUD_ValueChanged");
-
 			Properties.Settings.Default.firstRelayTime = decimal.ToInt32(firstRelayNUD.Value);
 			Properties.Settings.Default.relayTime = decimal.ToInt32(relayTimeNUD.Value);
 			Properties.Settings.Default.packageSize = decimal.ToInt32(packageSizeNUD.Value);
@@ -614,20 +607,6 @@ namespace LBDConfigTool
 		#endregion		
 
 		#region 录制文件相关
-
-		/// <summary>
-		/// 事件：点击最后一Tab时，需要判断是否已经回读网址，才可以进入此tab(否则e.Cancel = true,直接无视此操作)
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
-		{
-			// 根据判断是否已经回读了设备参数，才允许进行之后的操作
-			if (string.IsNullOrEmpty(deviceIP) && e.TabPageIndex == 3)
-			{
-				//e.Cancel = true;
-			}
-		}
 
 		private void recordButton_Click(object sender, EventArgs e)
 		{
@@ -804,18 +783,7 @@ namespace LBDConfigTool
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			//RecordTest.GetInstance().Test();
-			//Console.WriteLine(specialCC);
-
-			//if (pswTB.Text.Trim().Length != 16) {
-			//	setNotice(1, "加密文本必须是16位。", true);
-			//	return;
-			//}
-
-			cnc.WriteEncrypt(secureTB.Text, null, null);
-
-			Properties.Settings.Default.secureStr = secureTB.Text;
-			Properties.Settings.Default.Save();
+		
 		}
 
 

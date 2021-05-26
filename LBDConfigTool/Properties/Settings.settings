@@ -8,32 +8,11 @@
     <Setting Name="fbinPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="relayTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
-    </Setting>
-    <Setting Name="packageSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">256</Value>
-    </Setting>
     <Setting Name="abinPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="partitionSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">4096</Value>
-    </Setting>
-    <Setting Name="partitionTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
-    </Setting>
-    <Setting Name="firstRelayTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">80</Value>
-    </Setting>
-    <Setting Name="fpgaWaitTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15</Value>
-    </Setting>
     <Setting Name="recordPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Temp\CSJ_SC</Value>
-    </Setting>
-    <Setting Name="secureStr" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="scuName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -44,11 +23,26 @@
     <Setting Name="suffixName" Type="System.String" Scope="User">
       <Value Profile="(Default)">dat</Value>
     </Setting>
-    <Setting Name="showSecure" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="zbinPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="firstRelayTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">80</Value>
+    </Setting>
+    <Setting Name="partitionTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="partitionSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4096</Value>
+    </Setting>
+    <Setting Name="packageSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">256</Value>
+    </Setting>
+    <Setting Name="relayTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="fpgaWaitTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
     </Setting>
   </Settings>
 </SettingsFile>

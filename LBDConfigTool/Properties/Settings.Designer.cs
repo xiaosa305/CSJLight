@@ -46,45 +46,6 @@ namespace LBDConfigTool.Properties {
                 this["fbinPath"] = value;
             }
         }
-
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("")]
-		public string zbinPath
-		{
-			get
-			{
-				return ((string)(this["zbinPath"]));
-			}
-			set
-			{
-				this["zbinPath"] = value;
-			}
-		}
-
-		[global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int relayTime {
-            get {
-                return ((int)(this["relayTime"]));
-            }
-            set {
-                this["relayTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("256")]
-        public int packageSize {
-            get {
-                return ((int)(this["packageSize"]));
-            }
-            set {
-                this["packageSize"] = value;
-            }
-        }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -100,54 +61,6 @@ namespace LBDConfigTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4096")]
-        public int partitionSize {
-            get {
-                return ((int)(this["partitionSize"]));
-            }
-            set {
-                this["partitionSize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
-        public int partitionTime {
-            get {
-                return ((int)(this["partitionTime"]));
-            }
-            set {
-                this["partitionTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("80")]
-        public int firstRelayTime {
-            get {
-                return ((int)(this["firstRelayTime"]));
-            }
-            set {
-                this["firstRelayTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15")]
-        public int fpgaWaitTime {
-            get {
-                return ((int)(this["fpgaWaitTime"]));
-            }
-            set {
-                this["fpgaWaitTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Temp\\CSJ_SC")]
         public string recordPath {
             get {
@@ -155,18 +68,6 @@ namespace LBDConfigTool.Properties {
             }
             set {
                 this["recordPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string secureStr {
-            get {
-                return ((string)(this["secureStr"]));
-            }
-            set {
-                this["secureStr"] = value;
             }
         }
         
@@ -206,14 +107,88 @@ namespace LBDConfigTool.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool showSecure {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string zbinPath {
             get {
-                return ((bool)(this["showSecure"]));
+                return ((string)(this["zbinPath"]));
+            }
+            set {
+                this["zbinPath"] = value;
             }
         }
-
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        public int firstRelayTime {
+            get {
+                return ((int)(this["firstRelayTime"]));
+            }
+            set {
+                this["firstRelayTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int partitionTime {
+            get {
+                return ((int)(this["partitionTime"]));
+            }
+            set {
+                this["partitionTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4096")]
+        public int partitionSize {
+            get {
+                return ((int)(this["partitionSize"]));
+            }
+            set {
+                this["partitionSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("256")]
+        public int packageSize {
+            get {
+                return ((int)(this["packageSize"]));
+            }
+            set {
+                this["packageSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int relayTime {
+            get {
+                return ((int)(this["relayTime"]));
+            }
+            set {
+                this["relayTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int fpgaWaitTime {
+            get {
+                return ((int)(this["fpgaWaitTime"]));
+            }
+            set {
+                this["fpgaWaitTime"] = value;
+            }
+        }
     }
 }

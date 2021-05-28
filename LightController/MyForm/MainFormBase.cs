@@ -3335,7 +3335,6 @@ namespace LightController.MyForm
 			// (2)分开操作，不在列表内的直接加步，在表内的则复用 √
 			//		①不在表内的都添加最后一步
 			//		②在列表中的使用复制的方法(同步模式才这样选择)
-
 			for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 			{
 				if (selectedIndices.Contains(lightIndex))
@@ -3352,11 +3351,12 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					if (isSyncMode) {
-						StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
-						StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, CurrentMode);
+					if (isSyncMode) {										
 						for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
 						{
+							// 210528修复一个bug：下面这两个语句必须写在for循环内，否则会出现多步复用后面的所有步使用的是同一个对象！
+							StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
+							StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, CurrentMode);
 							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 						}
 					}

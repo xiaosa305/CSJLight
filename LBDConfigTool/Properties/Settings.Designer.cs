@@ -121,7 +121,7 @@ namespace LBDConfigTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
         public int relayTime {
             get {
                 return ((int)(this["relayTime"]));
@@ -133,7 +133,7 @@ namespace LBDConfigTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public int partitionTime {
             get {
                 return ((int)(this["partitionTime"]));
@@ -181,7 +181,7 @@ namespace LBDConfigTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int firstRelayTime {
             get {
                 return ((int)(this["firstRelayTime"]));

@@ -1147,7 +1147,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiLightSkinButton_Click(object sender, EventArgs e)
 		{
-			enterMultiMode(  !IsMultiMode , lightsSkinListView );			
+			enterMultiMode(!IsMultiMode , lightsSkinListView );
 		}
 		
 		/// <summary>

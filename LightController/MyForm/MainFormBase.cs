@@ -2630,6 +2630,9 @@ namespace LightController.MyForm
 
 		#region stepPanel相关
 
+		/// <summary>
+		/// 辅助方法：进入|退出多灯模式
+		/// </summary>		
 		protected void enterMultiMode(bool enter, ListView lightsListView)
 		{
 			// 进入多灯模式
@@ -2675,7 +2678,7 @@ namespace LightController.MyForm
 					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
 				}
 			}
-		} //进入|退出多灯模式				
+		}	
 
 		/// <summary>
 		/// 辅助方法：点击《上一步》
@@ -3574,7 +3577,6 @@ namespace LightController.MyForm
 			}
 			// 否则退出多灯模式
 			else {
-				//DOTO 	enterMultiMode(false,null);
 				enterMultiMode(false, lightsListView);
 			}			
 		}

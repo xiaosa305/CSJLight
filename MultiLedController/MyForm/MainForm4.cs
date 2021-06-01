@@ -446,7 +446,7 @@ namespace MultiLedController.MyForm
 				{
 					simulator.Close();
 				}
-				simulator = new VirtualProClientsManager(mainIP, mainIP, neededVipList, spaceCount, interfaceCount, controllerCount);
+				simulator = new VirtualProClientsManager(mainIP, mainIP, neededVipList, spaceCount, interfaceCount, controllerCount,typeComboBox.SelectedIndex);
 				simulator.Start();
 
 				DateTime afterDT = System.DateTime.Now;

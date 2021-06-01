@@ -28,7 +28,7 @@ namespace MultiLedController.MyForm
             int space = 6;
             int ledInterface = 8;
             int control = 1;
-            manager = new VirtualProClientsManager("192.168.31.235", "192.168.31.235", ips, space, ledInterface, control);
+            //manager = new VirtualProClientsManager("192.168.31.235", "192.168.31.235", ips, space, ledInterface, control);
             manager.Start();
         }
 

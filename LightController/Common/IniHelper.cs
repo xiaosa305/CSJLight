@@ -161,12 +161,12 @@ namespace LightController.Common
 		#region 自定义的一些辅助方法：
 		
 		/// <summary>
-		/// 辅助方法：取出是否显示按钮；默认不显示，比较安全。
+		/// 辅助方法：取出某个bool值；默认为false，比较安全。
 		/// </summary>
 		/// <returns></returns>
-		public static bool GetIsShow(string controlName)
+		public static bool GetParamBool(string paramName)
 		{			
-			return defaultIniHelper.ReadString("Show", controlName, "false").Trim().ToLower().Equals("true");
+			return defaultIniHelper.ReadString("Show", paramName, "false").Trim().ToLower().Equals("true");
 		}
 
 		/// <summary>

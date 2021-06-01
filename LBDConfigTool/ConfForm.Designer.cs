@@ -80,6 +80,7 @@
 			this.fbinSelectButton = new System.Windows.Forms.Button();
 			this.ebinSelectButton = new System.Windows.Forms.Button();
 			this.paramTab = new System.Windows.Forms.TabPage();
+			this.button3 = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.artnetGroupBox = new System.Windows.Forms.GroupBox();
 			this.label27 = new System.Windows.Forms.Label();
@@ -699,6 +700,7 @@
 			// paramTab
 			// 
 			this.paramTab.BackColor = System.Drawing.Color.SlateGray;
+			this.paramTab.Controls.Add(this.button3);
 			this.paramTab.Controls.Add(this.panel1);
 			this.paramTab.Controls.Add(this.button1);
 			this.paramTab.Controls.Add(this.loadButton);
@@ -711,6 +713,16 @@
 			this.paramTab.TabIndex = 0;
 			this.paramTab.Text = "参数配置";
 			this.paramTab.DoubleClick += new System.EventHandler(this.paramTab_DoubleClick);
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(32, 524);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(91, 42);
+			this.button3.TabIndex = 30;
+			this.button3.Text = "加密设置";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// panel1
 			// 
@@ -1295,7 +1307,7 @@
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(91, 42);
 			this.writeButton.TabIndex = 3;
-			this.writeButton.Text = "下载参数";
+			this.writeButton.Text = "高级参数";
 			this.writeButton.UseVisualStyleBackColor = false;
 			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
 			// 
@@ -1320,6 +1332,10 @@
 			this.ClientSize = new System.Drawing.Size(884, 661);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.statusStrip1);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(900, 700);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(900, 700);
 			this.Name = "ConfForm";
 			this.Text = "数据配置器";
 			this.Load += new System.EventHandler(this.ConfForm_Load);
@@ -1467,5 +1483,6 @@
 		private System.Windows.Forms.Button readButton;
 		private System.Windows.Forms.Button writeButton;
 		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.Button button3;
 	}
 }

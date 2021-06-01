@@ -49,9 +49,10 @@ namespace MultiLedController.MyForm
 			
 			// 动态从ini文件内读取相应的数据
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
-			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "interfaceCount4", 0);
-			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "spaceCount4", 0);
-			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet4", "controllerCount4", 1);
+			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "interfaceCount", 0);
+			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "spaceCount", 0);
+			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet4", "controllerCount", 1);
+			typeComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "lightType", 0);
 			autosetControllerCountNUDMaxinum();
 		}
 
@@ -493,7 +494,8 @@ namespace MultiLedController.MyForm
 			iniHelper.WriteInt("CommonSet", "interfaceCount", interfaceCountComboBox.SelectedIndex);
 			iniHelper.WriteInt("CommonSet", "spaceCount", spaceCountComboBox.SelectedIndex);
 			iniHelper.WriteInt("CommonSet", "controllerCount", controllerCountNUD.Value);
-			setNotice(2, "成功保存当前配置", false);
+			iniHelper.WriteInt("CommonSet", "lightType", typeComboBox.SelectedIndex);
+			setNotice(2, "成功保存当前配置(CommonSet.ini)", false);
 		}
 
 		/// <summary>

@@ -191,7 +191,7 @@ namespace LightController.MyForm
 			#region 皮肤 及 panel样式 相关代码
 
 			setDeepStyle(false);
-			isUseSkin = IniHelper.GetIsShow( "useSkin");
+			isUseSkin = IniHelper.GetParamBool( "useSkin");
 			if( isUseSkin ) {
 				//加载皮肤列表		
 				DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");

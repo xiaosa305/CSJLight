@@ -363,7 +363,7 @@ namespace LBDConfigTool
 			}
 		}
 
-		private int clickTime = 0;
+		//private int clickTime = 0;
 		/// <summary>
 		/// 事件：多次双击参数配置Tab的空白处，会出现加密工具框
 		/// </summary>
@@ -375,13 +375,23 @@ namespace LBDConfigTool
 			//	return;
 			//}			
 
-			clickTime++;
-			if (clickTime == 3)
-			{
-				new SpecialForm(this, specialCC).ShowDialog();
-				clickTime = 0;
-			}
-		}		
+			//clickTime++;
+			//if (clickTime == 3)
+			//{
+			//	new SpecialForm(this, specialCC).ShowDialog();
+			//	clickTime = 0;
+			//}
+		}
+
+		/// <summary>
+		/// 事件：点击《高级参数》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void button3_Click(object sender, EventArgs e)
+		{
+			new SpecialForm(this, specialCC).ShowDialog();
+		}
 
 		/// <summary>
 		/// 事件：点击《打开配置文件》
@@ -755,7 +765,7 @@ namespace LBDConfigTool
 			dirPathLabel.Text = dirPath;
 			myToolTip.SetToolTip(dirPathLabel, dirPath);
 		}
-
+		
 		#endregion
 
 		#region 通用方法
@@ -825,9 +835,10 @@ namespace LBDConfigTool
 			RecordTest.GetInstance().Test();
 		}
 
+
 		#endregion
 
-	
+		
 	}
 
 }

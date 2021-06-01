@@ -4077,9 +4077,9 @@ namespace LightController.MyForm
 
 			//从GlobalSet.ini文件读取内容
 			SavePath = IniHelper.GetSavePath();
-			IsShowTestButton = IniHelper.GetIsShow( "testButton");
-			IsShowSaPanels = IniHelper.GetIsShow("saPanels");
-			IsNoticeUnifyTd = IniHelper.GetIsShow("unifyTd");
+			IsShowTestButton = IniHelper.GetParamBool( "testButton");
+			IsShowSaPanels = IniHelper.GetParamBool("saPanels");
+			IsNoticeUnifyTd = IniHelper.GetParamBool("unifyTd");
 
 			MAX_StTimes = IniHelper.GetSystemCount( "maxStTimes",250);
 			MAX_STEP = IniHelper.GetSystemCount( "maxStep",100);				

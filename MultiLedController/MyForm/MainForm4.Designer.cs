@@ -72,6 +72,8 @@
 			this.ipLabel2 = new System.Windows.Forms.Label();
 			this.ipLabel = new System.Windows.Forms.Label();
 			this.refreshNetcardButton = new System.Windows.Forms.Button();
+			this.label5 = new System.Windows.Forms.Label();
+			this.typeComboBox = new System.Windows.Forms.ComboBox();
 			this.statusStrip.SuspendLayout();
 			this.bottomPanel.SuspendLayout();
 			this.topPanel.SuspendLayout();
@@ -112,7 +114,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(66, 79);
+			this.label3.Location = new System.Drawing.Point(66, 61);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(53, 12);
 			this.label3.TabIndex = 0;
@@ -317,10 +319,12 @@
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.typeComboBox);
 			this.panel1.Controls.Add(this.controllerCountNUD);
 			this.panel1.Controls.Add(this.spaceCountComboBox);
 			this.panel1.Controls.Add(this.interfaceCountComboBox);
 			this.panel1.Controls.Add(this.label3);
+			this.panel1.Controls.Add(this.label5);
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Location = new System.Drawing.Point(14, 241);
@@ -330,7 +334,7 @@
 			// 
 			// controllerCountNUD
 			// 
-			this.controllerCountNUD.Location = new System.Drawing.Point(187, 127);
+			this.controllerCountNUD.Location = new System.Drawing.Point(187, 91);
 			this.controllerCountNUD.Maximum = new decimal(new int[] {
             10,
             0,
@@ -358,7 +362,7 @@
 			this.spaceCountComboBox.Items.AddRange(new object[] {
             "6",
             "4"});
-			this.spaceCountComboBox.Location = new System.Drawing.Point(187, 75);
+			this.spaceCountComboBox.Location = new System.Drawing.Point(187, 57);
 			this.spaceCountComboBox.Name = "spaceCountComboBox";
 			this.spaceCountComboBox.Size = new System.Drawing.Size(60, 20);
 			this.spaceCountComboBox.TabIndex = 3;
@@ -380,7 +384,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(66, 131);
+			this.label2.Location = new System.Drawing.Point(66, 95);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(53, 12);
 			this.label2.TabIndex = 0;
@@ -540,6 +544,27 @@
 			this.refreshNetcardButton.UseVisualStyleBackColor = true;
 			this.refreshNetcardButton.Click += new System.EventHandler(this.refreshNetcardButton_Click);
 			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(66, 129);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(65, 12);
+			this.label5.TabIndex = 0;
+			this.label5.Text = "灯带类型：";
+			// 
+			// typeComboBox
+			// 
+			this.typeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.typeComboBox.FormattingEnabled = true;
+			this.typeComboBox.Items.AddRange(new object[] {
+            "RGB",
+            "RGBW"});
+			this.typeComboBox.Location = new System.Drawing.Point(187, 125);
+			this.typeComboBox.Name = "typeComboBox";
+			this.typeComboBox.Size = new System.Drawing.Size(61, 20);
+			this.typeComboBox.TabIndex = 5;
+			// 
 			// MainForm4
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -618,5 +643,7 @@
 		private System.Windows.Forms.Label ipLabel;
 		private System.Windows.Forms.Button refreshNetcardButton;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.ComboBox typeComboBox;
+		private System.Windows.Forms.Label label5;
 	}
 }

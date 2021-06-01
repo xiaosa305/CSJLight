@@ -21,20 +21,22 @@ namespace MultiLedController.multidevice.multidevicepromax
         private UdpClient ArtNetReceiveClient { get; set; }
         private bool IsReceive { get; set; }
         private DMXDataManager Manager { get; set; }
+        private DMXDataCacheSync DMXSync { get; set; }
         private int ClientIndex { get; set; }
 
         public delegate void DMXDataManager(int cliendIndex,int port,List<byte> dmxData);
+        public delegate void DMXDataCacheSync();
 
         private VirtualProClient()
         {
         }
 
-        public static VirtualProClient Build(int clientIndex,String localIP,int portCount, DMXDataManager manager)
+        public static VirtualProClient Build(int clientIndex,String localIP,int portCount, DMXDataManager manager,DMXDataCacheSync sync)
         {
-            return VirtualProClient.Build(clientIndex,localIP, localIP, portCount, manager);
+            return VirtualProClient.Build(clientIndex,localIP, localIP, portCount, manager,sync);
         }
 
-        public static VirtualProClient Build(int clientIndex, String localIP,String ArtNetServerIP,int portCount, DMXDataManager manager)
+        public static VirtualProClient Build(int clientIndex, String localIP,String ArtNetServerIP,int portCount, DMXDataManager manager,DMXDataCacheSync sync)
         {
             VirtualProClient client = new VirtualProClient()
             {
@@ -42,7 +44,8 @@ namespace MultiLedController.multidevice.multidevicepromax
                 ArtNetServerIP = ArtNetServerIP,
                 OutPortCount = portCount,
                 Manager = manager,
-                ClientIndex = clientIndex
+                ClientIndex = clientIndex,
+                DMXSync = sync  
             };
             client.StartArtNetClient();
             return client;
@@ -125,6 +128,22 @@ namespace MultiLedController.multidevice.multidevicepromax
                             this.ReplyServer(startPort, index);
                             index++;
                         }
+                    }
+                    else if (receiveBuff.Length == 13 &&
+                             receiveBuff[0] == 0x4D &&
+                             receiveBuff[1] == 0x61 &&
+                             receiveBuff[2] == 0x64 &&
+                             receiveBuff[3] == 0x72 &&
+                             receiveBuff[4] == 0x69 &&
+                             receiveBuff[5] == 0x78 &&
+                             receiveBuff[6] == 0x4E &&
+                             receiveBuff[7] == 0x00 &&
+                             receiveBuff[8] == 0x02 &&
+                             receiveBuff[9] == 0x52 &&
+                             receiveBuff[10] == 0x00 &&
+                             receiveBuff[11] == 0x0E)
+                    {
+                        this.DMXSync();
                     }
                 }
                 catch (Exception ex)

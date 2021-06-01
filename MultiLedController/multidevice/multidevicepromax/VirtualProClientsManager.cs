@@ -38,6 +38,7 @@ namespace MultiLedController.multidevice.multidevicepromax
         private string ConfigPath { get; set; }
         private List<string> VirtualIPS { get; set; }
         private List<VirtualProClient> VirtualClients { get; set; }
+        private bool IsRGB { get; set; }
 
 
         private ConcurrentDictionary<int, List<byte>> SpaceDmxData { get; set; }
@@ -68,11 +69,24 @@ namespace MultiLedController.multidevice.multidevicepromax
         public delegate void GetDebugFrameCount(int frameCount);
         public delegate void GetRecordFrameCount(int frameCount);
 
+        private bool isSycnFirstFrame { get; set; }
+
         private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
 
-        public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber)
+        public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber,int ledType)
         {
+            switch (ledType)
+            {
+                case 1:
+                    this.IsRGB = false;
+                    break;
+                case 0:
+                default:
+                    this.IsRGB = true;
+                    break;
+            }
+            this.isSycnFirstFrame = false;
             this.localIP = localIP;
             this.ArtNetServerIP = artnetServerIP;
             this.VirtualIPS = virtualIP;
@@ -81,7 +95,6 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.LedControlNumber = ledControlNumber;
             this.Init();
             this.InitLedServer();
-            //createVirtualClient
             int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
             for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
             {
@@ -94,7 +107,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                 {
                     portCount = 256;
                 }
-                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager));
+                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager,this.SyncDMXDataCache));
             }
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
@@ -152,13 +165,6 @@ namespace MultiLedController.multidevice.multidevicepromax
             }
         }
 
-
-        public static void Test()
-        {
-            //VirtualProClient.Build("192.168.50.44","192.168.50.43", 256, Manager);
-            //VirtualProClient.Build("192.168.50.45", "192.168.50.43", 256, Manager);
-        }
-
         public void Close()
         {
             try
@@ -204,6 +210,7 @@ namespace MultiLedController.multidevice.multidevicepromax
         public VirtualProClientsManager Start()
         {
             this.IsStartReceiveDmxDataStatus = true;
+            this.isSycnFirstFrame = false;
             return this;
         }
 
@@ -267,85 +274,54 @@ namespace MultiLedController.multidevice.multidevicepromax
             return this;
         }
 
+        private void SyncDMXDataCache()
+        {
+            if (this.IsStartReceiveDmxDataStatus)
+            {
+                lock (this.SYNCHROLOCK_KEY)
+                {
+                    if (this.isSycnFirstFrame)
+                    {
+                        if (this.IsDebugDmxData)
+                        {
+                            lock (this.DebugDmxDataQueue)
+                            {
+                                this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
+                            }
+                        }
+                        if (this.IsRecordDmxData)
+                        {
+                            lock (this.RecordDmxDataQueue)
+                            {
+                                this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
+                            }
+                        }
+                        List<int> keys = this.SpaceDmxData.Keys.ToList();
+                        this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
+                        this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
+                        foreach (int spaceIndex in keys)
+                        {
+                            this.SpaceDmxData.TryAdd(spaceIndex, new List<byte>());
+                            this.SpaceDmxDataReceiveStatus.TryAdd(spaceIndex, false);
+                        }
+                    }
+                    else
+                    {
+                        this.isSycnFirstFrame = true;
+                    }
+                }
+            }
+        }
+
         private void Manager(int clientIndex,int space,List<byte> dmxData)
         {
             int port = clientIndex * 256 + space;
             try
             {
-                lock (this.SYNCHROLOCK_KEY)
+                if (this.IsStartReceiveDmxDataStatus && this.isSycnFirstFrame)
                 {
-                    if (this.IsStartReceiveDmxDataStatus)
+                    lock (this.SYNCHROLOCK_KEY)
                     {
-                        long frameIntervalTIme = 0;
-                        if (-1 == this.LastFrameReceiveTime)
-                        {
-                            this.LastFrameReceiveTime = DateTime.Now.Ticks;
-                        }
-                        else
-                        {
-                            long nowTime = DateTime.Now.Ticks;
-                            frameIntervalTIme = (nowTime - this.LastFrameReceiveTime) / 10000;
-                            this.LastFrameReceiveTime = nowTime;
-                        }
-                        if (frameIntervalTIme > 5 && this.IsFirstFrame)
-                        {
-                            this.IsFirstFrame = false;
-                            foreach (int spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
-                            {
-                                if (this.SpaceDmxDataReceiveStatus[spaceIndex])
-                                {
-                                    this.LastFramePacketSequence += spaceIndex;
-                                }
-                            }
-                        }
-                        else if (frameIntervalTIme > 5 && ! this.IsFirstFrame)
-                        {
-                            int nowPacketSequence = 0;
-                            foreach (int  spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
-                            {
-                                if (this.SpaceDmxDataReceiveStatus[spaceIndex])
-                                {
-                                    nowPacketSequence += spaceIndex;
-                                }
-                            }
-                            if (nowPacketSequence == this.LastFramePacketSequence)
-                            {
-                                bool flag = true;
-                                var keyList = this.SpaceDmxData.Keys;
-                                /*
-                                foreach (int spaceIndex in this.SpaceDmxData.Keys)
-                                {
-                                    if (this.SpaceDmxData[spaceIndex].Count > 510)
-                                    {
-                                        flag = false;
-                                    }
-                                }
-                                */
-                                if (this.IsDebugDmxData && flag)
-                                {
-                                    lock (this.DebugDmxDataQueue)
-                                    {
-                                        this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
-                                    }
-                                }
-                                if (this.IsRecordDmxData)
-                                {
-                                    lock (this.RecordDmxDataQueue)
-                                    {
-                                        this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
-                                    }
-                                }
-                                List<int> keys = this.SpaceDmxData.Keys.ToList();
-                                this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
-                                this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
-                                foreach (int spaceIndex in keys)
-                                {
-                                    this.SpaceDmxData.TryAdd(spaceIndex, new List<byte>());
-                                    this.SpaceDmxDataReceiveStatus.TryAdd(spaceIndex, false);
-                                }
-                            }
-                            this.LastFramePacketSequence = nowPacketSequence;
-                        }
                         this.SpaceDmxData[port] = dmxData;
                         this.SpaceDmxDataReceiveStatus[port] = true;
                     }
@@ -626,7 +602,8 @@ namespace MultiLedController.multidevice.multidevicepromax
                     {
                         maxLength = maxLength > dmxDataBuff[controlNo][index + 1].Count ? maxLength : dmxDataBuff[controlNo][index + 1].Count;
                     }
-                    int count = maxLength % 3 == 0 ? 3 : 4;
+                    //int count = maxLength % 3 == 0 ? 3 : 4;
+                    int count = this.IsRGB ? 3 : 4;
                     for (int dataIndex = 0; dataIndex < maxLength; dataIndex += count)
                     {
                         //R
@@ -794,7 +771,9 @@ namespace MultiLedController.multidevice.multidevicepromax
                         int spaceNo = ledInterfaceIndex * this.LedSpaceNumber + spaceIndex;
                         ledInterfaceBuff.AddRange(dmxData[spaceNo]);
                     }
-                    int ledInterfaceDataLength = ledInterfaceBuff.Count % 3 == 0 ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
+                    //int ledInterfaceDataLength = ledInterfaceBuff.Count % 3 == 0 ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
+                    int ledInterfaceDataLength = this.IsRGB ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
+
                     buff.AddRange(new byte[] {  Convert.ToByte(ledInterfaceDataLength & 0xFF),
                                         Convert.ToByte((ledInterfaceDataLength>> 8 ) & 0xFF),
                                         Convert.ToByte((ledInterfaceDataLength >> 16) & 0xFF),

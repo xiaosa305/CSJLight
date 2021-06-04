@@ -248,9 +248,9 @@
 			this.label37.AutoSize = true;
 			this.label37.Location = new System.Drawing.Point(87, 262);
 			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(665, 12);
+			this.label37.Size = new System.Drawing.Size(713, 12);
 			this.label37.TabIndex = 91;
-			this.label37.Text = "提示：录制时，级联分控数、分控路数、每路通道数和ARTNet起始空间得进行相应的配置，否则录制文件可能会不符合预期。";
+			this.label37.Text = "提示：录制时，RGBW、级联分控数、分控路数、每路通道数和ARTNet起始空间等得进行相应的配置，否则录制文件可能会不符合预期。";
 			// 
 			// suffixTB
 			// 
@@ -1256,9 +1256,10 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
+			this.label14.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label14.Location = new System.Drawing.Point(303, 78);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(29, 12);
+			this.label14.Size = new System.Drawing.Size(33, 12);
 			this.label14.TabIndex = 86;
 			this.label14.Text = "RGBW";
 			// 

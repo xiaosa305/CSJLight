@@ -39,6 +39,7 @@ namespace LBDConfigTool.utils.record
         private bool IsRecordDmxData { get; set; }
         private bool IsFirstFrameByRecord { get; set; }
         private bool IsStartReceiveDmxDataStatus { get; set; }
+        private CSJConf CSJConf { get; set; }
 
         private ConcurrentQueue<ConcurrentDictionary<int, List<byte>>> RecordDmxDataQueue { get; set; }
 
@@ -51,6 +52,7 @@ namespace LBDConfigTool.utils.record
         public DMXManager(CSJConf conf)
         {
             this.Init();
+            this.CSJConf = conf;
             this.LedControlNumber = conf.Jl_fk_num;
             this.LedInterfaceNumber = conf.Fk_lushu;
             this.LedSpaceNumber = conf.Art_Net_Pre;
@@ -292,7 +294,8 @@ namespace LBDConfigTool.utils.record
                     {
                         maxLength = maxLength > dmxDataBuff[controlNo][index + 1].Count ? maxLength : dmxDataBuff[controlNo][index + 1].Count;
                     }
-                    int count = maxLength % 3 == 0 ? 3 : 4;
+                    //int count = maxLength % 3 == 0 ? 3 : 4;
+                    int count = CSJConf.RGB_Type == 0 ? 3 : 4;
                     for (int dataIndex = 0; dataIndex < maxLength; dataIndex += count)
                     {
                         //R
@@ -468,7 +471,7 @@ namespace LBDConfigTool.utils.record
                         int spaceNo = ledInterfaceIndex * this.LedSpaceNumber + spaceIndex;
                         ledInterfaceBuff.AddRange(dmxData[spaceNo]);
                     }
-                    int ledInterfaceDataLength = ledInterfaceBuff.Count % 3 == 0 ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
+                    int ledInterfaceDataLength = this.CSJConf.RGB_Type == 0 ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
                     buff.AddRange(new byte[] {  Convert.ToByte(ledInterfaceDataLength & 0xFF),
                                         Convert.ToByte((ledInterfaceDataLength>> 8 ) & 0xFF),
                                         Convert.ToByte((ledInterfaceDataLength >> 16) & 0xFF),

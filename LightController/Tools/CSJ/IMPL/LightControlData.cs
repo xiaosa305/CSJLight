@@ -192,8 +192,8 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 80 - data.Count).ToArray());
                     data.AddRange(this.SequencerData.GetData());
+                    data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 498 - data.Count).ToArray());
                 }
-                data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 498 - data.Count).ToArray());
             }
             catch (Exception ex)
             {

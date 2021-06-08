@@ -165,15 +165,6 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(PlaceHolder1));//14
             data.Add(Convert.ToByte(PlaceHolder2));//15
 
-            //TEST
-            for (int i = 0; i < 7; i++)
-            {
-                this.SequencerData.RelaySwitchNames[i] = "继电器" + i;
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                this.SequencerData.RelaySwitchDelayTimes[i] = i + 1;
-            }
 
             for (int relayDataIndex = 0; relayDataIndex < RelayDataSize; relayDataIndex++)
             {

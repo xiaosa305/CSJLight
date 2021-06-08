@@ -30,6 +30,9 @@ namespace LightController.Tools.CSJ.IMPL
 		public bool[,] SceneData { get; set; }//Address16~15 + (17 * ((RelayCount - 1) / 8 + 1))  : 1true 0 false
         public int[] DmxData { get; set; }//Address16
 
+
+        public SequencerData SequencerData { get; set; }
+
         public static LightControlData GetTestData()
         {
             LightControlData data = new LightControlData();
@@ -102,7 +105,10 @@ namespace LightController.Tools.CSJ.IMPL
                     DmxData[i] = data[15 + 17 * RelayDataSize + i];
                 }
             }
+            this.SequencerData = SequencerData.Build(data.ToArray());
         }
+
+        //未使用
         public LightControlData(IList<string> data)
         {
             RelayCount = Convert.ToInt32(data[0]);//0
@@ -158,6 +164,17 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(CloseAirConditionChannel));//13
             data.Add(Convert.ToByte(PlaceHolder1));//14
             data.Add(Convert.ToByte(PlaceHolder2));//15
+
+            //TEST
+            for (int i = 0; i < 7; i++)
+            {
+                this.SequencerData.RelaySwitchNames[i] = "继电器" + i;
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                this.SequencerData.RelaySwitchDelayTimes[i] = i + 1;
+            }
+
             for (int relayDataIndex = 0; relayDataIndex < RelayDataSize; relayDataIndex++)
             {
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
@@ -178,6 +195,20 @@ namespace LightController.Tools.CSJ.IMPL
                     data.Add(Convert.ToByte(DmxData[i]));
                 }
             }
+            try
+            {
+                if (this.SequencerData != null)
+                {
+                    data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 80 - data.Count).ToArray());
+                    data.AddRange(this.SequencerData.GetData());
+                }
+                data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 498 - data.Count).ToArray());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+          
             data.AddRange(CRCTools.GetInstance().GetLightControlCRC(data.ToArray()));
             return data.ToArray();
         }

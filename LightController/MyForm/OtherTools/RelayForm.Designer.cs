@@ -140,7 +140,7 @@
 			this.readButton.TabIndex = 3;
 			this.readButton.Text = "回读配置";
 			this.readButton.UseVisualStyleBackColor = true;
-			this.readButton.Click += new System.EventHandler(this.button5_Click);
+			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
 			// button6
 			// 

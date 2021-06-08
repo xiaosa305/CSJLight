@@ -39,7 +39,7 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
 			this.readButton = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
+			this.writeButton = new System.Windows.Forms.Button();
 			this.relayFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.relayPanelDemo = new System.Windows.Forms.Panel();
 			this.relayButtonDemo = new CCWin.SkinControl.SkinButton();
@@ -142,16 +142,17 @@
 			this.readButton.UseVisualStyleBackColor = true;
 			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
-			// button6
+			// writeButton
 			// 
-			this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.button6.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.button6.Location = new System.Drawing.Point(592, 370);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(75, 48);
-			this.button6.TabIndex = 3;
-			this.button6.Text = "下载配置";
-			this.button6.UseVisualStyleBackColor = false;
+			this.writeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.writeButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.writeButton.Location = new System.Drawing.Point(592, 370);
+			this.writeButton.Name = "writeButton";
+			this.writeButton.Size = new System.Drawing.Size(75, 48);
+			this.writeButton.TabIndex = 3;
+			this.writeButton.Text = "下载配置";
+			this.writeButton.UseVisualStyleBackColor = false;
+			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
 			// 
 			// relayFLP
 			// 
@@ -290,7 +291,7 @@
 			this.ClientSize = new System.Drawing.Size(704, 481);
 			this.Controls.Add(this.noticeStatusStrip);
 			this.Controls.Add(this.relayFLP);
-			this.Controls.Add(this.button6);
+			this.Controls.Add(this.writeButton);
 			this.Controls.Add(this.button4);
 			this.Controls.Add(this.readButton);
 			this.Controls.Add(this.button3);
@@ -326,7 +327,7 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.Button button4;
 		private System.Windows.Forms.Button readButton;
-		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.Button writeButton;
 		private System.Windows.Forms.ImageList lightImageList;
 		private System.Windows.Forms.FlowLayoutPanel relayFLP;
 		private System.Windows.Forms.Panel relayPanelDemo;

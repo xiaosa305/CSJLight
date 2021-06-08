@@ -961,9 +961,7 @@ namespace LightController.MyForm
 				chooseStep(finalStep);  // 此处不适用RefreshStep()，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。但相应的，因为计算公式不同，chooseStep反而有效。
 			}
 		}
-
-
-
+			   
 		/// <summary>
 		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)
 		/// </summary>
@@ -2579,18 +2577,26 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《(新)外设配置》
+		/// 辅助方法：点击《外设配置》
 		/// </summary>
-		protected void newToolClick()
+		protected void toolButtonClick()
 		{
-			// Mark3.0413  newToolClick()-disConnect
-			//DisConnect(); //newToolClick()
-			//new NewToolsForm(this).ShowDialog();
-
 			if (IsConnected)
 			{
 				stopPreview();
 				new ToolsForm(this).ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《继电器配置》
+		/// </summary>
+		protected void relayButtonClick()
+		{
+			if (IsConnected)
+			{
+				stopPreview();
+				new RelayForm(this).ShowDialog();
 			}
 		}
 

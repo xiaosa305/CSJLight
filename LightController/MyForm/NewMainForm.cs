@@ -379,7 +379,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			newToolClick();
+			toolButtonClick();
 		}
 
 		/// <summary>

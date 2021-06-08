@@ -310,7 +310,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void otherToolsSkinButton_Click(object sender, EventArgs e)
 		{
-			newToolClick();
+			toolButtonClick();
 		}
 			
 		/// <summary>
@@ -1928,7 +1928,8 @@ namespace LightController.MyForm
 
 			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetSkinButton.Enabled = connected;
-			newToolsSkinButton.Enabled = connected;
+			toolsSkinButton.Enabled = connected;
+			relaySkinButton.Enabled = connected; 
 			projectUpdateSkinButton.Enabled = connected;
 	
 			keepSkinButton.Enabled = IsConnected && !IsPreviewing;
@@ -2092,7 +2093,11 @@ namespace LightController.MyForm
 			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
 		}
 
-
+		private void relaySkinButton_Click(object sender, EventArgs e)
+		{
+			relayButtonClick();
+		}
+		
 	}
 	   
 }

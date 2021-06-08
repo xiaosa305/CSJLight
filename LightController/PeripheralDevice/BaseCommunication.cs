@@ -470,7 +470,7 @@ namespace LightController.PeripheralDevice
             {
                 if (ReadBuff[0] == 0xAA && ReadBuff[1] == 0xBB && ReadBuff[2] == 0x00 && ReadBuff[5] == 2)
                 {
-                    int packDataSize = (ReadBuff[3] & 0xFF) | ((ReadBuff[4] << 8) & 0xFF);
+                    int packDataSize = (int)((ReadBuff[3] & 0xFF) | ((ReadBuff[4] & 0xFF) << 8));
                     if (ReadBuff.Count == packDataSize + PACKHEADLENGTH)
                     {
                         byte[] packCRC = new byte[] { ReadBuff[6], ReadBuff[7] };
@@ -484,10 +484,20 @@ namespace LightController.PeripheralDevice
                             this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
+                        else
+                        {
+                            Console.WriteLine(Data.Length);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine(Data.Length);
+
                     }
                 }
                 else
                 {
+                    Console.WriteLine(Data.Length);
                     ReadBuff.Clear();
                 }
             }
@@ -697,13 +707,17 @@ namespace LightController.PeripheralDevice
             {
                 if (this.IsDone == true)
                 {
+                    //LightControlData value = new LightControlData(data);
+                    //this.StopTimeOut();
+                    //this.IsSending = false;
+                    //this.Completed_Event(value, "灯控读取配置数据成功");
                     byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
                     if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
                     {
                         this.StopTimeOut();
                         this.IsSending = false;
                         LightControlData value = new LightControlData(data);
-                        this.Completed_Event(value,"灯控读取配置数据成功");
+                        this.Completed_Event(value, "灯控读取配置数据成功");
                     }
                 }
             }

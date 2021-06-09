@@ -112,10 +112,12 @@ namespace LightController.MyForm.OtherTools
 				timePanels[timeIndex].Controls.Add(timeNUDs[timeIndex]);
 				relayFLP.Controls.Add(timePanels[timeIndex]);
 			}
+
 		}
 
 		private void RelayForm_Load(object sender, EventArgs e)
 		{
+			Location = MousePosition;
 			switchLCMode();
 		}
 
@@ -127,6 +129,11 @@ namespace LightController.MyForm.OtherTools
 				mainForm.SleepBetweenSend(1);
 				mainForm.MyConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
 			}
+			else {
+				setBusy(false);
+				setNotice("设备未连接，本窗口将关闭。",true,true);
+				Dispose();
+			}
 
 		}
 
@@ -136,15 +143,13 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="obj"></param>
 		public void LCConnectCompleted(Object obj, string msg)
 		{
-			Invoke((EventHandler)delegate {
-				Console.WriteLine(" --------------------------   ");
+			Invoke((EventHandler)delegate {				
 				setNotice( "已切换成灯控配置(connStatus=lc)", false, true);
 				isConnLC = true;
 				setBusy(false);
 				
-
-				// 当还没有任何形式地加载lcEntity时，主动从机器回读
-				if (lcEntity == null) readButton_Click(null, null);
+				// 只要连接上就主动读取设备信息
+				readButton_Click(null, null);
 			});
 		}
 
@@ -241,17 +246,18 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate {
 				if (lcDataTemp == null)
 				{
-					setNotice(  "继电器配置回读异常(lcDataTemp==null)", true, true);
+					setNotice("继电器配置回读异常(lc为null)。", true, true);
 					setBusy(false);
+					Dispose();
 					return;
 				}
 				lcEntity = lcDataTemp as LightControlData ;
 				if (lcEntity.SequencerData == null) {
-					setNotice("继电器配置回读异常,请确认该设备为最新的固件版本。", true, true);
+					setNotice("继电器配置回读失败：请确认该设备的固件版本为最新。", true, true);
 					setBusy(false);
+					Dispose();
 					return;
 				}
-
 				relayRender();
 				setNotice( "成功回读继电器配置", true, true);
 				setBusy(false);
@@ -266,12 +272,13 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate {
 				setNotice(LanguageHelper.TranslateSentence("回读继电器配置失败:") + msg, true, false);
 				setBusy(false);
-
-				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
-				//reconnectDevice();
+				Dispose();
 			});
 		}
 
+		/// <summary>
+		/// 辅助方法：根据继电器的配置信息，渲染各个控件；
+		/// </summary>
 		private void relayRender() {
 
 			try
@@ -303,16 +310,23 @@ namespace LightController.MyForm.OtherTools
 			}
 
 			setNotice("正在下载继电器配置，请稍候...", false, true);
+			makeLC();
+			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+		}
+
+		/// <summary>
+		/// 辅助方法：把当前控件内数据，填入lcEntity中
+		/// </summary>
+		private void makeLC() {
+
 			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
 			{
-				lcEntity.SequencerData.RelaySwitchNames[relayIndex]  = relayTBs[relayIndex].Text.Trim();
+				lcEntity.SequencerData.RelaySwitchNames[relayIndex] = relayTBs[relayIndex].Text.Trim();
 			}
 			for (int timeIndex = 0; timeIndex < relayCount - 1; timeIndex++)
 			{
 				lcEntity.SequencerData.RelaySwitchDelayTimes[timeIndex] = decimal.ToInt32(timeNUDs[timeIndex].Value);
 			}
-			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
-
 		}
 
 		/// <summary>
@@ -352,7 +366,7 @@ namespace LightController.MyForm.OtherTools
 			mainForm.ConnForm.ShowDialog();
 			if (mainForm.IsConnected)
 			{
-				switchLCMode();
+				switchLCMode();	
 			}
 			else
 			{
@@ -394,8 +408,53 @@ namespace LightController.MyForm.OtherTools
 			LanguageHelper.TranslateControl(sender as Control);
 		}
 
+
 		#endregion
 
+		/// <summary>
+		/// 事件：点击《打开配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void loadButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == lbinOpenDialog.ShowDialog())
+			{
+				string rbinPath = lbinOpenDialog.FileName;
+				try
+				{
+					lcEntity  = (LightControlData)SerializeUtils.DeserializeToObject(rbinPath);
+					relayRender(); // loadButton_Click
+					setNotice("成功加载本地配置文件(" + lbinOpenDialog.SafeFileName + ")。", true,true);
+				}
+				catch (Exception ex)
+				{
+					setNotice("加载本地配置文件时发生异常：" + ex.Message, true,true);
+				}
+			}
+		}
 
+		/// <summary>
+		/// 事件：点击《保存配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == lbinSaveDialog.ShowDialog())
+			{
+				makeLC();
+				try
+				{
+					string lbinPath = lbinSaveDialog.FileName;
+					SerializeUtils.SerializeObject(lbinPath, lcEntity);
+					setNotice("成功保存配置到本地。", true,true);
+				}
+				catch (Exception ex)
+				{
+					setNotice( "保存配置时发生异常：" + ex.Message, true,true);
+				}				
+			}
+		}
 	}
 }

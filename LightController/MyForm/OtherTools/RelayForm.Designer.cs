@@ -36,8 +36,8 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
-			this.button3 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
+			this.loadButton = new System.Windows.Forms.Button();
+			this.saveButton = new System.Windows.Forms.Button();
 			this.readButton = new System.Windows.Forms.Button();
 			this.writeButton = new System.Windows.Forms.Button();
 			this.relayFLP = new System.Windows.Forms.FlowLayoutPanel();
@@ -50,6 +50,8 @@
 			this.timeNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lbinOpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.lbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.relayFLP.SuspendLayout();
 			this.relayPanelDemo.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -114,23 +116,25 @@
 			this.lightImageList.Images.SetKeyName(1, "Ok3w.Net图标15.png");
 			this.lightImageList.Images.SetKeyName(2, "墙板按钮.png");
 			// 
-			// button3
+			// loadButton
 			// 
-			this.button3.Location = new System.Drawing.Point(38, 370);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 48);
-			this.button3.TabIndex = 3;
-			this.button3.Text = "打开配置";
-			this.button3.UseVisualStyleBackColor = true;
+			this.loadButton.Location = new System.Drawing.Point(38, 370);
+			this.loadButton.Name = "loadButton";
+			this.loadButton.Size = new System.Drawing.Size(75, 48);
+			this.loadButton.TabIndex = 3;
+			this.loadButton.Text = "打开配置";
+			this.loadButton.UseVisualStyleBackColor = true;
+			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
 			// 
-			// button4
+			// saveButton
 			// 
-			this.button4.Location = new System.Drawing.Point(153, 370);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(75, 48);
-			this.button4.TabIndex = 3;
-			this.button4.Text = "保存配置";
-			this.button4.UseVisualStyleBackColor = true;
+			this.saveButton.Location = new System.Drawing.Point(153, 370);
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(75, 48);
+			this.saveButton.TabIndex = 3;
+			this.saveButton.Text = "保存配置";
+			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
 			// readButton
 			// 
@@ -283,6 +287,14 @@
 			this.noticeLabel.Spring = true;
 			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// lbinOpenDialog
+			// 
+			this.lbinOpenDialog.Filter = "lbin固件包|*.lbin";
+			// 
+			// lbinSaveDialog
+			// 
+			this.lbinSaveDialog.Filter = "lbin配置文件|*.lbin";
+			// 
 			// RelayForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -292,14 +304,18 @@
 			this.Controls.Add(this.noticeStatusStrip);
 			this.Controls.Add(this.relayFLP);
 			this.Controls.Add(this.writeButton);
-			this.Controls.Add(this.button4);
+			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.readButton);
-			this.Controls.Add(this.button3);
+			this.Controls.Add(this.loadButton);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.openButton);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(720, 520);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(720, 520);
 			this.Name = "RelayForm";
 			this.Text = "时序器设置";
 			this.Load += new System.EventHandler(this.RelayForm_Load);
@@ -324,8 +340,8 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Button loadButton;
+		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Button readButton;
 		private System.Windows.Forms.Button writeButton;
 		private System.Windows.Forms.ImageList lightImageList;
@@ -339,5 +355,7 @@
 		private System.Windows.Forms.NumericUpDown timeNUDDemo;
 		private System.Windows.Forms.StatusStrip noticeStatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel noticeLabel;
+		private System.Windows.Forms.OpenFileDialog lbinOpenDialog;
+		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
 	}
 }

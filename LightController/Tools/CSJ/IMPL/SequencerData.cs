@@ -5,7 +5,8 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    public class SequencerData
+	[Serializable]
+	public class SequencerData
     {
         private const int RELAY_SWITCH_NAME_COUNT = 7;
         private const int RELAY_DELAY_TIME_COUNT = 6;

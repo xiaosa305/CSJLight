@@ -38,7 +38,6 @@
 			this.fbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.zbinSelectDialog = new System.Windows.Forms.OpenFileDialog();
 			this.recordTab = new System.Windows.Forms.TabPage();
 			this.label37 = new System.Windows.Forms.Label();
@@ -132,7 +131,7 @@
 			this.outTypeCB = new System.Windows.Forms.ComboBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.clockTB = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.saveButton = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
 			this.readButton = new System.Windows.Forms.Button();
 			this.writeButton = new System.Windows.Forms.Button();
@@ -210,11 +209,6 @@
 			// 
 			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
 			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
-			// 
-			// openFileDialog1
-			// 
-			this.openFileDialog1.Filter = "字库文件|*.bin";
-			this.openFileDialog1.Title = "请谨慎选择字库文件，如果选错可能造成严重后果！！！";
 			// 
 			// zbinSelectDialog
 			// 
@@ -702,7 +696,7 @@
 			this.paramTab.BackColor = System.Drawing.Color.SlateGray;
 			this.paramTab.Controls.Add(this.button3);
 			this.paramTab.Controls.Add(this.panel1);
-			this.paramTab.Controls.Add(this.button1);
+			this.paramTab.Controls.Add(this.saveButton);
 			this.paramTab.Controls.Add(this.loadButton);
 			this.paramTab.Controls.Add(this.readButton);
 			this.paramTab.Controls.Add(this.writeButton);
@@ -1270,15 +1264,15 @@
 			this.clockTB.Size = new System.Drawing.Size(80, 21);
 			this.clockTB.TabIndex = 90;
 			// 
-			// button1
+			// saveButton
 			// 
-			this.button1.Location = new System.Drawing.Point(438, 524);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(91, 42);
-			this.button1.TabIndex = 28;
-			this.button1.Text = "保存配置文件";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.saveButton_Click);
+			this.saveButton.Location = new System.Drawing.Point(438, 524);
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(91, 42);
+			this.saveButton.TabIndex = 28;
+			this.saveButton.Text = "保存配置文件";
+			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
 			// loadButton
 			// 
@@ -1308,7 +1302,7 @@
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(91, 42);
 			this.writeButton.TabIndex = 3;
-			this.writeButton.Text = "高级参数";
+			this.writeButton.Text = "下载参数";
 			this.writeButton.UseVisualStyleBackColor = false;
 			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
 			// 
@@ -1386,7 +1380,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel2;
 		private System.Windows.Forms.FolderBrowserDialog recordFolderBrowserDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.OpenFileDialog zbinSelectDialog;
 		private System.Windows.Forms.TabPage recordTab;
 		private System.Windows.Forms.Label label37;
@@ -1479,7 +1472,7 @@
 		private System.Windows.Forms.ComboBox outTypeCB;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.TextBox clockTB;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Button loadButton;
 		private System.Windows.Forms.Button readButton;
 		private System.Windows.Forms.Button writeButton;

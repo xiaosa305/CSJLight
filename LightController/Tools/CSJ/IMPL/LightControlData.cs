@@ -7,6 +7,7 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
+	[Serializable]
 	public class LightControlData : ICSJFile
 	{
 		private const int SCENECOUNT = 17;

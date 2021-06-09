@@ -99,6 +99,7 @@ namespace LightController.MyForm.MainFormAst
 			deviceRefreshButton.Enabled = false;
 			deviceConnectButton.Text = "连接设备"; // 每次点击刷新列表，都需要重连设备
 			deviceConnectButton.Enabled = false;
+			refreshRestartButton();
 			Refresh();
 
 			NetworkConnect.ClearDeviceList();
@@ -154,22 +155,18 @@ namespace LightController.MyForm.MainFormAst
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
 			if (mainForm.IsConnected)
 			{
-				setNotice("正在断开连接，请稍候...", false, true);
-				mainForm.DisConnect();  // deviceConnectButton_Click() 主动断开连接
-				deviceComboBox.Enabled = true;
-				deviceRefreshButton.Enabled = true;
-				deviceConnectButton.Text = "连接设备";
-				setNotice("已断开连接。", false, true);				
+				disconnectDevice();
 			}
 			else
 			{
 				setNotice("正在连接设备，请稍候...",false,true);
 				if (mainForm.Connect(networkDeviceList[deviceComboBox.SelectedIndex]))
-				{					
-					setNotice("设备连接成功。", false, true);
+				{										
 					deviceComboBox.Enabled = false;
 					deviceRefreshButton.Enabled = false;
-					deviceConnectButton.Text = "断开连接";				
+					deviceConnectButton.Text = "断开连接";
+					refreshRestartButton();
+					setNotice("设备连接成功。", false, true);
 				}
 				else
 				{
@@ -178,16 +175,45 @@ namespace LightController.MyForm.MainFormAst
 			}		
 		}
 
+
+		private void refreshRestartButton() {
+			deviceRestartButton.Visible = mainForm.IsConnected;
+			deviceRestartButton.Enabled = mainForm.IsConnected;
+			Size = mainForm.IsConnected ? new Size(372, 173) : new Size(285,173);
+		}
+
+
 		/// <summary>
-		/// 辅助方法：断开连接
+		/// 辅助方法：主动断开连接
 		/// </summary>
-		protected void disConnect()
+		private void disconnectDevice() {
+
+			setNotice("正在断开连接，请稍候...", false, true);
+			mainForm.DisConnect();  // deviceConnectButton_Click() 主动断开连接
+			deviceComboBox.Enabled = true;
+			deviceRefreshButton.Enabled = true;
+			deviceConnectButton.Text = "连接设备";
+			refreshRestartButton();
+			setNotice("已断开连接。", false, true);
+		}
+
+		/// <summary>
+		/// 事件：点击《重启设备》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void restartButton_Click(object sender, EventArgs e)
 		{
 			if (mainForm.IsConnected)
 			{
+				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
 
+				mainForm.MyConnect.ResetDevice(); // 发送命令
+				disconnectDevice();// 断开连接
+				deviceRefreshButton_Click(null,null); //刷新设备
 			}
 		}
+
 
 		#region 通用方法
 
@@ -211,8 +237,10 @@ namespace LightController.MyForm.MainFormAst
 			statusStrip1.Refresh();
 		}
 
+
+
 		#endregion
 
-
+		
 	}	
 }

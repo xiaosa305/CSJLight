@@ -377,7 +377,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void newToolStripMenuItem_Click(object sender, EventArgs e)
+		private void toolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			toolButtonClick();
 		}
@@ -1820,7 +1820,8 @@ namespace LightController.MyForm
 
 			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetToolStripMenuItem.Enabled = connected;
-			newToolStripMenuItem.Enabled = connected;
+			toolStripMenuItem.Enabled = connected;
+			relayToolStripMenuItem.Enabled = connected;
 			projectUpdateToolStripMenuItem.Enabled = connected;
 
 			keepButton.Enabled = IsConnected && !IsPreviewing;
@@ -1888,13 +1889,23 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《硬件配置》
+		/// 事件：点击《硬件配置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void hardwareSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			hardwareSetButtonClick();
-		}			
+		}
+
+		/// <summary>
+		/// 事件：点击《继电器配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void relayToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			relayButtonClick();
+		}
 	}
 }

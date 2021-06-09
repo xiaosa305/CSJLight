@@ -3741,6 +3741,7 @@ namespace LightController.MyForm
 		{			
 			if (IsConnected) {
 				SleepBetweenSend(1);
+				Console.WriteLine(" StartPreviewTime : " + new DateTime() );
 				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);
 			}			
 		}
@@ -3753,6 +3754,7 @@ namespace LightController.MyForm
 			if (IsConnected)
 			{
 				SleepBetweenSend(1);
+				Console.WriteLine(" stopPreview : " + new DateTime());
 				playTools.StopPreview();
 			}
 		}

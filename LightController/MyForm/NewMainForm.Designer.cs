@@ -38,7 +38,8 @@ namespace LightController.MyForm
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.relayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -170,7 +171,8 @@ namespace LightController.MyForm
             this.toolStripMenuItem3,
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
-            this.newToolStripMenuItem,
+            this.toolStripMenuItem,
+            this.relayToolStripMenuItem,
             this.toolStripMenuItem1,
             this.projectUpdateToolStripMenuItem,
             this.lightListToolStripMenuItem,
@@ -214,13 +216,21 @@ namespace LightController.MyForm
 			this.hardwareSetToolStripMenuItem.Text = "硬件配置";
 			this.hardwareSetToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetToolStripMenuItem_Click);
 			// 
-			// newToolStripMenuItem
+			// toolStripMenuItem
 			// 
-			this.newToolStripMenuItem.Enabled = false;
-			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.newToolStripMenuItem.Text = "外设配置";
-			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+			this.toolStripMenuItem.Enabled = false;
+			this.toolStripMenuItem.Name = "toolStripMenuItem";
+			this.toolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.toolStripMenuItem.Text = "外设配置";
+			this.toolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem_Click);
+			// 
+			// relayToolStripMenuItem
+			// 
+			this.relayToolStripMenuItem.Enabled = false;
+			this.relayToolStripMenuItem.Name = "relayToolStripMenuItem";
+			this.relayToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+			this.relayToolStripMenuItem.Text = "继电器配置";
+			this.relayToolStripMenuItem.Click += new System.EventHandler(this.relayToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem1
 			// 
@@ -1255,7 +1265,7 @@ namespace LightController.MyForm
 		private System.Windows.Forms.ToolStripMenuItem lightLibraryToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardwareSetToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem;
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button makeSoundButton;
 		private System.Windows.Forms.Label lightTypeLabel;
@@ -1347,5 +1357,6 @@ namespace LightController.MyForm
 		private Label lightsAddrLabel;
 		private ToolStripMenuItem connectToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem3;
+		private ToolStripMenuItem relayToolStripMenuItem;
 	}
 }

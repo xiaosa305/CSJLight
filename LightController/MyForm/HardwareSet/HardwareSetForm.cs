@@ -285,26 +285,7 @@ namespace LightController.MyForm.HardwareSet
 		}
 
 		#endregion
-
-		#region 设备调试相关
-
-		/// <summary>
-		/// 事件：点击《设备重启》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void restartButton_Click(object sender, EventArgs e)
-		{
-			if (mainForm.IsConnected)
-			{
-				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
-				mainForm.MyConnect.ResetDevice();
-				reconnectDevice();
-			}
-		}
-
-		#endregion
-
+			   
 		#region 通用方法
 
 		/// <summary>
@@ -490,8 +471,7 @@ namespace LightController.MyForm.HardwareSet
 		}
 
 		#endregion
-
-
+		
 		private int clickTimes = 0;
 		/// <summary>
 		///  事件：《双击》硬件配置空白位置，长达三次，可弹出修改AI及远程服务器相关参数的设置界面

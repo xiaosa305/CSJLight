@@ -45,15 +45,13 @@
 			this.hardwarePage = new System.Windows.Forms.TabPage();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.hidePanel = new System.Windows.Forms.Panel();
-			this.protocolTextBox = new System.Windows.Forms.TextBox();
 			this.protocolLabel = new System.Windows.Forms.Label();
+			this.protocolTextBox = new System.Windows.Forms.TextBox();
 			this.firmwarePage = new System.Windows.Forms.TabPage();
 			this.fileOpenButton = new System.Windows.Forms.Button();
 			this.pathLabel = new System.Windows.Forms.Label();
 			this.versionButton = new System.Windows.Forms.Button();
 			this.updateButton = new System.Windows.Forms.Button();
-			this.debugPage = new System.Windows.Forms.TabPage();
-			this.restartButton = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -63,7 +61,6 @@
 			this.hardwarePage.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.firmwarePage.SuspendLayout();
-			this.debugPage.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -204,7 +201,6 @@
 			// 
 			this.tabControl1.Controls.Add(this.hardwarePage);
 			this.tabControl1.Controls.Add(this.firmwarePage);
-			this.tabControl1.Controls.Add(this.debugPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
@@ -251,19 +247,11 @@
 			// 
 			// hidePanel
 			// 
-			this.hidePanel.Location = new System.Drawing.Point(286, 24);
+			this.hidePanel.Location = new System.Drawing.Point(294, 30);
 			this.hidePanel.Name = "hidePanel";
-			this.hidePanel.Size = new System.Drawing.Size(205, 39);
+			this.hidePanel.Size = new System.Drawing.Size(186, 21);
 			this.hidePanel.TabIndex = 18;
 			this.hidePanel.DoubleClick += new System.EventHandler(this.hidePanel_DoubleClick);
-			// 
-			// protocolTextBox
-			// 
-			this.protocolTextBox.Location = new System.Drawing.Point(371, 30);
-			this.protocolTextBox.Margin = new System.Windows.Forms.Padding(2);
-			this.protocolTextBox.Name = "protocolTextBox";
-			this.protocolTextBox.Size = new System.Drawing.Size(109, 21);
-			this.protocolTextBox.TabIndex = 14;
 			// 
 			// protocolLabel
 			// 
@@ -274,6 +262,14 @@
 			this.protocolLabel.Size = new System.Drawing.Size(41, 12);
 			this.protocolLabel.TabIndex = 8;
 			this.protocolLabel.Text = "协议：";
+			// 
+			// protocolTextBox
+			// 
+			this.protocolTextBox.Location = new System.Drawing.Point(371, 30);
+			this.protocolTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this.protocolTextBox.Name = "protocolTextBox";
+			this.protocolTextBox.Size = new System.Drawing.Size(109, 21);
+			this.protocolTextBox.TabIndex = 14;
 			// 
 			// firmwarePage
 			// 
@@ -335,33 +331,13 @@
 			this.updateButton.UseVisualStyleBackColor = false;
 			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
-			// debugPage
-			// 
-			this.debugPage.Controls.Add(this.restartButton);
-			this.debugPage.Location = new System.Drawing.Point(4, 22);
-			this.debugPage.Name = "debugPage";
-			this.debugPage.Size = new System.Drawing.Size(526, 261);
-			this.debugPage.TabIndex = 2;
-			this.debugPage.Text = "设备调试";
-			this.debugPage.UseVisualStyleBackColor = true;
-			// 
-			// restartButton
-			// 
-			this.restartButton.Location = new System.Drawing.Point(35, 35);
-			this.restartButton.Name = "restartButton";
-			this.restartButton.Size = new System.Drawing.Size(75, 38);
-			this.restartButton.TabIndex = 0;
-			this.restartButton.Text = "设备重启";
-			this.restartButton.UseVisualStyleBackColor = true;
-			this.restartButton.Click += new System.EventHandler(this.restartButton_Click);
-			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.BackColor = System.Drawing.Color.White;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.myStatusLabel,
-			this.myProgressBar,
-			this.progressStatusLabel});
+            this.myStatusLabel,
+            this.myProgressBar,
+            this.progressStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 287);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(534, 22);
@@ -395,7 +371,7 @@
 			// 
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			// 
-			// NewHardwareSetForm
+			// HardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -407,7 +383,7 @@
 			this.MaximumSize = new System.Drawing.Size(550, 348);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(550, 348);
-			this.Name = "NewHardwareSetForm";
+			this.Name = "HardwareSetForm";
 			this.Text = "硬件配置";
 			this.Load += new System.EventHandler(this.NewHardwareSet_Load);
 			this.Shown += new System.EventHandler(this.NewHardwareSetForm_Shown);
@@ -416,7 +392,6 @@
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.firmwarePage.ResumeLayout(false);
-			this.debugPage.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -451,8 +426,6 @@
 		private System.Windows.Forms.ToolStripProgressBar myProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel progressStatusLabel;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
-		private System.Windows.Forms.TabPage debugPage;
-		private System.Windows.Forms.Button restartButton;
 		private System.Windows.Forms.TextBox protocolTextBox;
 		private System.Windows.Forms.Label protocolLabel;
 		private System.Windows.Forms.Panel hidePanel;

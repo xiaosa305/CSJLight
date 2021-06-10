@@ -227,6 +227,12 @@ namespace LightController.PeripheralDevice
                 case Constant.ORDER_END_DEBUG:
                     result = this.GetOrderForStopIntentPreviewMark();
                     break;
+                case Constant.ORDER_OPEN_SCENE:
+                    result = this.GetOrderForOpenSceneMark();
+                    break;
+                case Constant.ORDER_CLOSE_SCENE:
+                    result = this.GetOrderForCloseSceneMark();
+                    break;
                 case "Reset":
                     result = 0x01;
                     break;
@@ -362,6 +368,17 @@ namespace LightController.PeripheralDevice
         {
             return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
         }
+
+        private Byte GetOrderForOpenSceneMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+
+        private Byte GetOrderForCloseSceneMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+
 
 
         /// <summary>
@@ -3076,7 +3093,7 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void OpenSceneReceiveManager(List<byte> data)
         {
-            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT_PARAM))
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
             {
                 this.Successed(null, "开台成功");
             }
@@ -3091,7 +3108,7 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void CloseSceneReceiveManager(List<byte> data)
         {
-            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT_PARAM))
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
             {
                 this.Successed(null, "关台成功");
             }

@@ -125,7 +125,6 @@ namespace LightController.MyForm.OtherTools
 			//LanguageHelper.InitForm(this);
 			//LanguageHelper.TranslateListView(protocolListView);
 			//LanguageHelper.TranslateListView(keypressListView);		
-
 			//deviceNameLabel.Text = mainForm.MyConnect.DeviceName;
 
 			loadProtocols(Properties.Settings.Default.protocolIndex); //主动加载协议,并选择注册表中记录的选项			
@@ -186,7 +185,7 @@ namespace LightController.MyForm.OtherTools
 			if (mainForm.IsConnected)
 			{
 				setBusy(true);
-				mainForm.SleepBetweenSend(1);
+				mainForm.SleepBetweenSend("Order : 切换外设状态" ,1);
 				switch (tabControl1.SelectedIndex)
 				{
 					case 0:

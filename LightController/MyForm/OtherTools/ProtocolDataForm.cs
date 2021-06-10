@@ -81,7 +81,7 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void ccDecodeButton_Click(object sender, EventArgs e)
 		{
-			mainForm.SleepBetweenSend(1);
+			mainForm.SleepBetweenSend("Order : 关闭或开启红外解码" ,1);
 			// 点击《关闭解码》
 			if (isDecoding)
 			{				

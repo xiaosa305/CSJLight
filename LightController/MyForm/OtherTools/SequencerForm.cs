@@ -113,25 +113,29 @@ namespace LightController.MyForm.OtherTools
 				timePanels[timeIndex].Controls.Add(timeNUDs[timeIndex]);
 				relayFLP.Controls.Add(timePanels[timeIndex]);
 			}
-
 		}
 
-		private void RelayForm_Load(object sender, EventArgs e)
+		private void SequencerForm_Load(object sender, EventArgs e)
 		{
-			Location = MousePosition;
-			switchLCMode();
+			Location = MousePosition;			
 		}
 
-		private void switchLCMode() {
+		private void SequencerForm_Shown(object sender, EventArgs e)
+		{
+			switchLCMode(); //把这个方法写在此处，可避免打开本窗口过短时容易在灯控模式时超时的bug
+		}
 
+		/// <summary>
+		/// 辅助方法：切换为灯控模式
+		/// </summary>
+		private void switchLCMode() {
 			if (mainForm.IsConnected)
 			{
 				setBusy(true);
-				mainForm.SleepBetweenSend(1);
+				mainForm.SleepBetweenSend("Order : SwitchLCMode", 1);	
 				mainForm.MyConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
 			}
 			else {
-				setBusy(false);
 				setNotice("设备未连接，本窗口将关闭。",true,true);
 				Dispose();
 			}
@@ -168,9 +172,8 @@ namespace LightController.MyForm.OtherTools
 				Dispose();
 			});
 		}
-
-
-		#region  暂时屏蔽
+		
+		#region  开台|关台相关
 
 		/// <summary>
 		/// 事件：点击《开台》
@@ -179,15 +182,41 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			Enabled = false;
-			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++) {
-				relayButtons[relayIndex].ImageKey = "Ok3w.Net图标15.png";
-				Refresh();
-				if (relayIndex < relayCount - 1) {
-					Thread.Sleep(   decimal.ToInt32(timeNUDs[relayIndex].Value) * 1000);					
-				}
-			}
-			Enabled = true;
+			setNotice("正在发送开台命令，请稍候...",false,true);
+			mainForm.MyConnect.OpenScene( OpenSceneCompleted,OpenSceneError);			
+		}
+
+		/// <summary>
+		/// 辅助回调方法：灯控数据回读成功
+		/// </summary>
+		/// <param name="lcDataTemp"></param>
+		public void OpenSceneCompleted(Object lcDataTemp, string msg)
+		{
+			Invoke((EventHandler)delegate {
+				setNotice("发送开台命令成功，正在模拟(开台)继电器工作流程...", false, true);
+				setBusy(true);
+				for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
+				{
+					relayButtons[relayIndex].ImageKey = "Ok3w.Net图标15.png";
+					Refresh();
+					if (relayIndex < relayCount - 1)
+					{
+						Thread.Sleep(decimal.ToInt32(timeNUDs[relayIndex].Value) * 1000);
+					}
+				}				
+				setBusy(false);
+				setNotice("开台成功。",false,true);
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：灯控配置回读失败
+		/// </summary>
+		public void OpenSceneError(string msg)
+		{
+			Invoke((EventHandler)delegate {
+				setNotice("发送开台命令失败：" + msg, true, true);
+			});
 		}
 
 		/// <summary>
@@ -197,17 +226,42 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void closeButton_Click(object sender, EventArgs e)
 		{
-			Enabled = false;
-			for (int relayIndex = 6; relayIndex >= 0; )
-			{
-				relayButtons[relayIndex].ImageKey = "Ok3w.Net图标1.png";
-				Refresh();
-				relayIndex--;
-				if (relayIndex >= 0) {
-					Thread.Sleep(decimal.ToInt32(timeNUDs[relayIndex ].Value) * 1000);
+			setNotice("正在发送关台命令，请稍候...", false, true);
+			mainForm.MyConnect.CloseScene(CloseSceneCompleted, CloseSceneError);
+		}
+
+		/// <summary>
+		/// 辅助回调方法：灯控数据回读成功
+		/// </summary>
+		/// <param name="lcDataTemp"></param>
+		public void CloseSceneCompleted(Object lcDataTemp, string msg)
+		{
+			Invoke((EventHandler)delegate {
+				setNotice("发送关台命令成功，正在模拟(关台)继电器工作流程...", false, false);
+				setBusy(true);
+				for (int relayIndex = 6; relayIndex >= 0;)
+				{
+					relayButtons[relayIndex].ImageKey = "Ok3w.Net图标1.png";
+					Refresh();
+					relayIndex--;
+					if (relayIndex >= 0)
+					{
+						Thread.Sleep(decimal.ToInt32(timeNUDs[relayIndex].Value) * 1000);
+					}
 				}
-			}
-			Enabled = true;
+				setBusy(false);
+				setNotice("关台成功。", false, true);
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：灯控配置回读失败
+		/// </summary>
+		public void CloseSceneError(string msg)
+		{
+			Invoke((EventHandler)delegate {
+				setNotice("发送关台命令失败：" + msg, true, true);
+			});
 		}
 
 		#endregion
@@ -346,6 +400,51 @@ namespace LightController.MyForm.OtherTools
 			});
 		}
 
+		/// <summary>
+		/// 事件：点击《打开配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void loadButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == lbinOpenDialog.ShowDialog())
+			{
+				string rbinPath = lbinOpenDialog.FileName;
+				try
+				{
+					lcEntity = (LightControlData)SerializeUtils.DeserializeToObject(rbinPath);
+					relayRender(); // loadButton_Click
+					setNotice("成功加载本地配置文件(" + lbinOpenDialog.SafeFileName + ")。", true, true);
+				}
+				catch (Exception ex)
+				{
+					setNotice("加载本地配置文件时发生异常：" + ex.Message, true, true);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《保存配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveButton_Click(object sender, EventArgs e)
+		{
+			if (DialogResult.OK == lbinSaveDialog.ShowDialog())
+			{
+				makeLC();
+				try
+				{
+					string lbinPath = lbinSaveDialog.FileName;
+					SerializeUtils.SerializeObject(lbinPath, lcEntity);
+					setNotice("成功保存配置到本地。", true, true);
+				}
+				catch (Exception ex)
+				{
+					setNotice("保存配置时发生异常：" + ex.Message, true, true);
+				}
+			}
+		}
 
 		#region 通用方法
 
@@ -389,6 +488,7 @@ namespace LightController.MyForm.OtherTools
 		private void setBusy(bool busy)
 		{
 			Enabled = !busy;
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 		}
 
 		/// <summary>
@@ -404,50 +504,6 @@ namespace LightController.MyForm.OtherTools
 
 		#endregion
 
-		/// <summary>
-		/// 事件：点击《打开配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void loadButton_Click(object sender, EventArgs e)
-		{
-			if (DialogResult.OK == lbinOpenDialog.ShowDialog())
-			{
-				string rbinPath = lbinOpenDialog.FileName;
-				try
-				{
-					lcEntity  = (LightControlData)SerializeUtils.DeserializeToObject(rbinPath);
-					relayRender(); // loadButton_Click
-					setNotice("成功加载本地配置文件(" + lbinOpenDialog.SafeFileName + ")。", true,true);
-				}
-				catch (Exception ex)
-				{
-					setNotice("加载本地配置文件时发生异常：" + ex.Message, true,true);
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《保存配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saveButton_Click(object sender, EventArgs e)
-		{
-			if (DialogResult.OK == lbinSaveDialog.ShowDialog())
-			{
-				makeLC();
-				try
-				{
-					string lbinPath = lbinSaveDialog.FileName;
-					SerializeUtils.SerializeObject(lbinPath, lcEntity);
-					setNotice("成功保存配置到本地。", true,true);
-				}
-				catch (Exception ex)
-				{
-					setNotice( "保存配置时发生异常：" + ex.Message, true,true);
-				}				
-			}
-		}
+		
 	}
 }

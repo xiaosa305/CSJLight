@@ -3740,7 +3740,7 @@ namespace LightController.MyForm
 		protected  void startPreview()
 		{			
 			if (IsConnected) {
-				SleepBetweenSend(1);
+				SleepBetweenSend("Order : StartPreview",1 );
 				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);				
 			}
 		}
@@ -3752,7 +3752,7 @@ namespace LightController.MyForm
 		{
 			if (IsConnected)
 			{
-				SleepBetweenSend(1);
+				SleepBetweenSend("Order : StopPreview", 1);
 				playTools.StopPreview();
 			}
 		}
@@ -3760,15 +3760,14 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：为硬件发送新命令之前，先检查上次发送的时间，如果时间还不够长，把时间补足；
 		/// </summary>
-		public void SleepBetweenSend(int times) {
-			
-			long currTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;  // 毫秒
-			if (currTime - LastSendTime < ConnectForm.SEND_WAITTIME)
+		public void SleepBetweenSend(string orderName ,int times) {			
+			long pastTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000 - LastSendTime; 
+			if ( pastTime < ConnectForm.SEND_WAITTIME * times)
 			{
-				Thread.Sleep(ConnectForm.SEND_WAITTIME * times) ;			
+				Thread.Sleep( ConnectForm.SEND_WAITTIME * times - (int)pastTime) ;	
 			}
 			LastSendTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;
-			Console.WriteLine("SleepBetweenSend : " + DateTime.Now);
+			Console.WriteLine(orderName + "   ==   " + DateTime.Now);
 		}
 		
 		/// <summary>

@@ -158,7 +158,7 @@ namespace LightController.MyForm.MainFormAst
 		/// </summary>
 		public void DownloadProject()
 		{
-			MainForm.SleepBetweenSend(1);
+			MainForm.SleepBetweenSend("Order : DownloadProject", 1);
 			MainForm.MyConnect.DownloadProject(DownloadCompleted, DownloadError, DrawProgress);
 		}
 

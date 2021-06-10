@@ -52,6 +52,7 @@
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lbinOpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.lbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.relayFLP.SuspendLayout();
 			this.relayPanelDemo.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -67,6 +68,7 @@
 			this.openButton.Size = new System.Drawing.Size(59, 75);
 			this.openButton.TabIndex = 0;
 			this.openButton.Text = "开台";
+			this.myToolTip.SetToolTip(this.openButton, "下载配置后，软件才能根据当前的配置模拟设备的继电器开启流程。");
 			this.openButton.UseVisualStyleBackColor = true;
 			this.openButton.Click += new System.EventHandler(this.openButton_Click);
 			// 
@@ -77,6 +79,7 @@
 			this.closeButton.Size = new System.Drawing.Size(59, 75);
 			this.closeButton.TabIndex = 0;
 			this.closeButton.Text = "关台";
+			this.myToolTip.SetToolTip(this.closeButton, "下载配置后，软件才能根据当前的配置模拟设备的继电器关闭流程。");
 			this.closeButton.UseVisualStyleBackColor = true;
 			this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
 			// 
@@ -296,7 +299,7 @@
 			// 
 			this.lbinSaveDialog.Filter = "lbin配置文件|*.lbin";
 			// 
-			// RelayForm
+			// SequencerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -317,9 +320,10 @@
 			this.MaximumSize = new System.Drawing.Size(720, 520);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(720, 520);
-			this.Name = "RelayForm";
+			this.Name = "SequencerForm";
 			this.Text = "时序器配置";
-			this.Load += new System.EventHandler(this.RelayForm_Load);
+			this.Load += new System.EventHandler(this.SequencerForm_Load);
+			this.Shown += new System.EventHandler(this.SequencerForm_Shown);
 			this.relayFLP.ResumeLayout(false);
 			this.relayPanelDemo.ResumeLayout(false);
 			this.relayPanelDemo.PerformLayout();
@@ -358,5 +362,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel noticeLabel;
 		private System.Windows.Forms.OpenFileDialog lbinOpenDialog;
 		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
+		private System.Windows.Forms.ToolTip myToolTip;
 	}
 }

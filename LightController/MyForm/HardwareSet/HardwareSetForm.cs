@@ -86,7 +86,7 @@ namespace LightController.MyForm.HardwareSet
 		private void readButton_Click(object sender, EventArgs e)
 		{
 			setNotice("正在回读设备信息，请稍候...", false, true);
-			mainForm.SleepBetweenSend(1);
+			mainForm.SleepBetweenSend("Order : GetParam" , 1);
 			mainForm.MyConnect.GetParam(GetParamCompleted, GetParamError);			
 		}
 

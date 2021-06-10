@@ -93,7 +93,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(303, 76);
+			this.label3.Location = new System.Drawing.Point(307, 76);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(89, 12);
 			this.label3.TabIndex = 1;
@@ -102,7 +102,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(310, 26);
+			this.label2.Location = new System.Drawing.Point(307, 26);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(89, 12);
 			this.label2.TabIndex = 1;
@@ -211,9 +211,10 @@
 			// 
 			// relayTBDemo
 			// 
-			this.relayTBDemo.Location = new System.Drawing.Point(11, 111);
+			this.relayTBDemo.Location = new System.Drawing.Point(7, 111);
+			this.relayTBDemo.MaxLength = 16;
 			this.relayTBDemo.Name = "relayTBDemo";
-			this.relayTBDemo.Size = new System.Drawing.Size(54, 21);
+			this.relayTBDemo.Size = new System.Drawing.Size(70, 21);
 			this.relayTBDemo.TabIndex = 15;
 			this.relayTBDemo.Text = "音响";
 			this.relayTBDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -317,7 +318,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(720, 520);
 			this.Name = "RelayForm";
-			this.Text = "时序器设置";
+			this.Text = "时序器0配置";
 			this.Load += new System.EventHandler(this.RelayForm_Load);
 			this.relayFLP.ResumeLayout(false);
 			this.relayPanelDemo.ResumeLayout(false);

@@ -47,7 +47,6 @@ namespace LightController.MyForm
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.playFLP = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
@@ -471,21 +470,13 @@ namespace LightController.MyForm
 			// 
 			// playFLP
 			// 
-			this.playFLP.Controls.Add(this.panel1);
 			this.playFLP.Controls.Add(this.keepSkinButton);
 			this.playFLP.Controls.Add(this.previewSkinButton);
 			this.playFLP.Controls.Add(this.makeSoundSkinButton);
 			this.playFLP.Location = new System.Drawing.Point(800, 3);
 			this.playFLP.Name = "playFLP";
-			this.playFLP.Size = new System.Drawing.Size(290, 95);
+			this.playFLP.Size = new System.Drawing.Size(254, 95);
 			this.playFLP.TabIndex = 28;
-			// 
-			// panel1
-			// 
-			this.panel1.Location = new System.Drawing.Point(3, 3);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(25, 100);
-			this.panel1.TabIndex = 12;
 			// 
 			// keepSkinButton
 			// 
@@ -504,7 +495,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.keepSkinButton.InheritColor = true;
 			this.keepSkinButton.IsDrawBorder = false;
-			this.keepSkinButton.Location = new System.Drawing.Point(33, 2);
+			this.keepSkinButton.Location = new System.Drawing.Point(2, 2);
 			this.keepSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.keepSkinButton.MouseBack = null;
 			this.keepSkinButton.Name = "keepSkinButton";
@@ -534,7 +525,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(117, 2);
+			this.previewSkinButton.Location = new System.Drawing.Point(86, 2);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";
@@ -564,7 +555,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(201, 2);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(170, 2);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
@@ -579,9 +570,9 @@ namespace LightController.MyForm
 			// flowLayoutPanel6
 			// 
 			this.flowLayoutPanel6.Controls.Add(this.helpSkinButton);
-			this.flowLayoutPanel6.Location = new System.Drawing.Point(1096, 3);
+			this.flowLayoutPanel6.Location = new System.Drawing.Point(1060, 3);
 			this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-			this.flowLayoutPanel6.Size = new System.Drawing.Size(53, 95);
+			this.flowLayoutPanel6.Size = new System.Drawing.Size(83, 95);
 			this.flowLayoutPanel6.TabIndex = 28;
 			// 
 			// helpSkinButton
@@ -607,7 +598,7 @@ namespace LightController.MyForm
 			this.helpSkinButton.MouseBack = null;
 			this.helpSkinButton.Name = "helpSkinButton";
 			this.helpSkinButton.NormlBack = null;
-			this.helpSkinButton.Size = new System.Drawing.Size(59, 90);
+			this.helpSkinButton.Size = new System.Drawing.Size(70, 90);
 			this.helpSkinButton.TabIndex = 4;
 			this.helpSkinButton.Text = "帮助";
 			this.helpSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -2293,7 +2284,6 @@ namespace LightController.MyForm
 		private FlowLayoutPanel projectFLP;
 		private FlowLayoutPanel playFLP;
 		private FlowLayoutPanel flowLayoutPanel6;
-		private Panel panel1;
 		private SkinLabel modeLabel;
 		private SkinLabel frameLabel;
 		private SkinButton relaySkinButton;

@@ -75,7 +75,8 @@ namespace LightController.MyForm.OtherTools
 				{
 					Location = relayTBDemo.Location,
 					Size = relayTBDemo.Size,
-					TextAlign = relayTBDemo.TextAlign
+					TextAlign = relayTBDemo.TextAlign,
+					MaxLength = relayTBDemo.MaxLength,
 				};
 
 				relayPanels[relayIndex] = new Panel
@@ -134,7 +135,6 @@ namespace LightController.MyForm.OtherTools
 				setNotice("设备未连接，本窗口将关闭。",true,true);
 				Dispose();
 			}
-
 		}
 
 		/// <summary>
@@ -179,31 +179,14 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			int relayTime = 1;
-
 			Enabled = false;
-
-			//relayButton1.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-			//Thread.Sleep(relayTime * 1000);			
-			//relayButton2.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-			//Thread.Sleep(relayTime * 1000);
-			//relayButton3.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-			//Thread.Sleep(relayTime * 1000);
-			//relayButton4.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-			//Thread.Sleep(relayTime * 1000);
-			//relayButton5.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-			//Thread.Sleep(relayTime * 1000);
-			//relayButton6.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-			//Thread.Sleep(relayTime * 1000);
-			//relayButton7.ImageKey = "Ok3w.Net图标15.png";
-			//Refresh();
-
+			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++) {
+				relayButtons[relayIndex].ImageKey = "Ok3w.Net图标15.png";
+				Refresh();
+				if (relayIndex < relayCount - 1) {
+					Thread.Sleep(   decimal.ToInt32(timeNUDs[relayIndex].Value) * 1000);					
+				}
+			}
 			Enabled = true;
 		}
 
@@ -214,7 +197,17 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void closeButton_Click(object sender, EventArgs e)
 		{
-
+			Enabled = false;
+			for (int relayIndex = 6; relayIndex >= 0; )
+			{
+				relayButtons[relayIndex].ImageKey = "Ok3w.Net图标1.png";
+				Refresh();
+				relayIndex--;
+				if (relayIndex >= 0) {
+					Thread.Sleep(decimal.ToInt32(timeNUDs[relayIndex ].Value) * 1000);
+				}
+			}
+			Enabled = true;
 		}
 
 		#endregion

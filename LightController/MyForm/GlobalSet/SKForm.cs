@@ -62,7 +62,7 @@ namespace LightController.MyForm
 		{
 			iniAst.WriteInt("SK", frame + "ST", frameStepTimeNumericUpDown.Value / eachStepTime2);
 			iniAst.WriteInt("SK", frame + "JG", jgtNumericUpDown.Value);
-			iniAst.WriteString("SK", frame + "LK", mFrameLKTextBox.Text);
+			iniAst.WriteString("SK", frame + "LK", mFrameLKTextBox.Text.Trim());
 			MessageBox.Show(LanguageHelper.TranslateSentence("设置保存成功"));
 
 			Dispose();

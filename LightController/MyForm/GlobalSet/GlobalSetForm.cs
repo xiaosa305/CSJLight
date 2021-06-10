@@ -357,11 +357,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skSaveButton_Click(object sender, EventArgs e)
 		{
-			for (int i = 0; i < frameCount; i++)
+			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
 			{
-				iniAst.WriteString("SK", i + "ST", (skStepTimeNumericUpDowns[i].Value / eachStepTime2).ToString());
-				iniAst.WriteString("SK", i + "JG", skJGTimeNumericUpDowns[i].Text);
-				iniAst.WriteString("SK", i + "LK", lkTextBoxes[i].Text.Trim());
+				iniAst.WriteInt("SK", frameIndex + "ST", skStepTimeNumericUpDowns[frameIndex].Value / eachStepTime2);
+				iniAst.WriteInt("SK", frameIndex + "JG", skJGTimeNumericUpDowns[frameIndex].Value);
+				iniAst.WriteString("SK", frameIndex + "LK", lkTextBoxes[frameIndex].Text.Trim());
 			}
 			MessageBox.Show(LanguageHelper.TranslateSentence("音频场景设置保存成功"));
 		}

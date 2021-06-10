@@ -2595,7 +2595,7 @@ namespace LightController.MyForm
 		{
 			if (IsConnected)
 			{
-				stopPreview();
+				stopPreview();				
 				new RelayForm(this).ShowDialog();
 			}
 		}
@@ -3741,9 +3741,8 @@ namespace LightController.MyForm
 		{			
 			if (IsConnected) {
 				SleepBetweenSend(1);
-				Console.WriteLine(" StartPreviewTime : " + new DateTime() );
-				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);
-			}			
+				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);				
+			}
 		}
 
 		/// <summary>
@@ -3754,7 +3753,6 @@ namespace LightController.MyForm
 			if (IsConnected)
 			{
 				SleepBetweenSend(1);
-				Console.WriteLine(" stopPreview : " + new DateTime());
 				playTools.StopPreview();
 			}
 		}
@@ -3763,6 +3761,7 @@ namespace LightController.MyForm
 		/// 辅助方法：为硬件发送新命令之前，先检查上次发送的时间，如果时间还不够长，把时间补足；
 		/// </summary>
 		public void SleepBetweenSend(int times) {
+			
 			long currTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;  // 毫秒
 			if (currTime - LastSendTime < ConnectForm.SEND_WAITTIME)
 			{

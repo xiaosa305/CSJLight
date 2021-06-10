@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm.OtherTools
 {
-	public partial class RelayForm : Form
+	public partial class SequencerForm : Form
 	{
 		private MainFormBase mainForm;
 		private bool isConnLC = false;
@@ -26,7 +26,7 @@ namespace LightController.MyForm.OtherTools
 		private Panel[] timePanels; 
 		private NumericUpDown[] timeNUDs;
 
-		public RelayForm(MainFormBase mainForm)
+		public SequencerForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

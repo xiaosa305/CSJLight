@@ -41,7 +41,7 @@ namespace LightController.MyForm
 			this.deviceFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.toolsSkinButton = new CCWin.SkinControl.SkinButton();
-			this.relaySkinButton = new CCWin.SkinControl.SkinButton();
+			this.seqSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
@@ -275,7 +275,7 @@ namespace LightController.MyForm
 			// 
 			this.deviceFLP.Controls.Add(this.hardwareSetSkinButton);
 			this.deviceFLP.Controls.Add(this.toolsSkinButton);
-			this.deviceFLP.Controls.Add(this.relaySkinButton);
+			this.deviceFLP.Controls.Add(this.seqSkinButton);
 			this.deviceFLP.Controls.Add(this.projectUpdateSkinButton);
 			this.deviceFLP.Location = new System.Drawing.Point(200, 3);
 			this.deviceFLP.Name = "deviceFLP";
@@ -341,35 +341,35 @@ namespace LightController.MyForm
 			this.toolsSkinButton.UseVisualStyleBackColor = false;
 			this.toolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
 			// 
-			// relaySkinButton
+			// seqSkinButton
 			// 
-			this.relaySkinButton.AutoSize = true;
-			this.relaySkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.relaySkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.relaySkinButton.BorderColor = System.Drawing.Color.White;
-			this.relaySkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.relaySkinButton.DownBack = null;
-			this.relaySkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.relaySkinButton.Enabled = false;
-			this.relaySkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.relaySkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.relaySkinButton.ForeColorSuit = true;
-			this.relaySkinButton.Image = global::LightController.Properties.Resources.全局配置;
-			this.relaySkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.relaySkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.relaySkinButton.InheritColor = true;
-			this.relaySkinButton.IsDrawBorder = false;
-			this.relaySkinButton.Location = new System.Drawing.Point(190, 2);
-			this.relaySkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.relaySkinButton.MouseBack = null;
-			this.relaySkinButton.Name = "relaySkinButton";
-			this.relaySkinButton.NormlBack = null;
-			this.relaySkinButton.Size = new System.Drawing.Size(92, 90);
-			this.relaySkinButton.TabIndex = 6;
-			this.relaySkinButton.Text = "时序器配置";
-			this.relaySkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.relaySkinButton.UseVisualStyleBackColor = false;
-			this.relaySkinButton.Click += new System.EventHandler(this.relaySkinButton_Click);
+			this.seqSkinButton.AutoSize = true;
+			this.seqSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.seqSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.seqSkinButton.BorderColor = System.Drawing.Color.White;
+			this.seqSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.seqSkinButton.DownBack = null;
+			this.seqSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.seqSkinButton.Enabled = false;
+			this.seqSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.seqSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.seqSkinButton.ForeColorSuit = true;
+			this.seqSkinButton.Image = global::LightController.Properties.Resources.全局配置;
+			this.seqSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.seqSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.seqSkinButton.InheritColor = true;
+			this.seqSkinButton.IsDrawBorder = false;
+			this.seqSkinButton.Location = new System.Drawing.Point(190, 2);
+			this.seqSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.seqSkinButton.MouseBack = null;
+			this.seqSkinButton.Name = "seqSkinButton";
+			this.seqSkinButton.NormlBack = null;
+			this.seqSkinButton.Size = new System.Drawing.Size(92, 90);
+			this.seqSkinButton.TabIndex = 6;
+			this.seqSkinButton.Text = "时序器配置";
+			this.seqSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.seqSkinButton.UseVisualStyleBackColor = false;
+			this.seqSkinButton.Click += new System.EventHandler(this.seqSkinButton_Click);
 			// 
 			// projectUpdateSkinButton
 			// 
@@ -2286,6 +2286,6 @@ namespace LightController.MyForm
 		private FlowLayoutPanel flowLayoutPanel6;
 		private SkinLabel modeLabel;
 		private SkinLabel frameLabel;
-		private SkinButton relaySkinButton;
+		private SkinButton seqSkinButton;
 	}
 }

@@ -384,11 +384,11 @@
     <Compile Include="MyForm\OtherTools\ProtocolDataForm.Designer.cs">
       <DependentUpon>ProtocolDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\RelayForm.cs">
+    <Compile Include="MyForm\OtherTools\SequencerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OtherTools\RelayForm.Designer.cs">
-      <DependentUpon>RelayForm.cs</DependentUpon>
+    <Compile Include="MyForm\OtherTools\SequencerForm.Designer.cs">
+      <DependentUpon>SequencerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\OtherTools\ToolsForm.cs">
       <SubType>Form</SubType>
@@ -501,8 +501,8 @@
     <EmbeddedResource Include="MyForm\OtherTools\ProtocolDataForm.resx">
       <DependentUpon>ProtocolDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\RelayForm.resx">
-      <DependentUpon>RelayForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\OtherTools\SequencerForm.resx">
+      <DependentUpon>SequencerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>

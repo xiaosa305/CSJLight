@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm.OtherTools
 {
-	partial class RelayForm
+	partial class SequencerForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RelayForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SequencerForm));
 			this.openButton = new System.Windows.Forms.Button();
 			this.closeButton = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -318,7 +318,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(720, 520);
 			this.Name = "RelayForm";
-			this.Text = "时序器0配置";
+			this.Text = "时序器配置";
 			this.Load += new System.EventHandler(this.RelayForm_Load);
 			this.relayFLP.ResumeLayout(false);
 			this.relayPanelDemo.ResumeLayout(false);

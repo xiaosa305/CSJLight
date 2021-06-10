@@ -39,7 +39,7 @@ namespace LightController.MyForm
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.relayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.seqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -172,7 +172,7 @@ namespace LightController.MyForm
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
             this.toolStripMenuItem,
-            this.relayToolStripMenuItem,
+            this.seqToolStripMenuItem,
             this.toolStripMenuItem1,
             this.projectUpdateToolStripMenuItem,
             this.lightListToolStripMenuItem,
@@ -224,13 +224,13 @@ namespace LightController.MyForm
 			this.toolStripMenuItem.Text = "外设配置";
 			this.toolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem_Click);
 			// 
-			// relayToolStripMenuItem
+			// seqToolStripMenuItem
 			// 
-			this.relayToolStripMenuItem.Enabled = false;
-			this.relayToolStripMenuItem.Name = "relayToolStripMenuItem";
-			this.relayToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
-			this.relayToolStripMenuItem.Text = "继电器配置";
-			this.relayToolStripMenuItem.Click += new System.EventHandler(this.relayToolStripMenuItem_Click);
+			this.seqToolStripMenuItem.Enabled = false;
+			this.seqToolStripMenuItem.Name = "seqToolStripMenuItem";
+			this.seqToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+			this.seqToolStripMenuItem.Text = "继电器配置";
+			this.seqToolStripMenuItem.Click += new System.EventHandler(this.seqToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem1
 			// 
@@ -1357,6 +1357,6 @@ namespace LightController.MyForm
 		private Label lightsAddrLabel;
 		private ToolStripMenuItem connectToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem3;
-		private ToolStripMenuItem relayToolStripMenuItem;
+		private ToolStripMenuItem seqToolStripMenuItem;
 	}
 }

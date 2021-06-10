@@ -2591,12 +2591,12 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：点击《继电器配置》
 		/// </summary>
-		protected void relayButtonClick()
+		protected void sequencerButtonClick()
 		{
 			if (IsConnected)
 			{
 				stopPreview();				
-				new RelayForm(this).ShowDialog();
+				new SequencerForm(this).ShowDialog();
 			}
 		}
 

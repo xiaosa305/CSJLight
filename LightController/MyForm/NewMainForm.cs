@@ -1821,7 +1821,7 @@ namespace LightController.MyForm
 			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetToolStripMenuItem.Enabled = connected;
 			toolStripMenuItem.Enabled = connected;
-			relayToolStripMenuItem.Enabled = connected;
+			seqToolStripMenuItem.Enabled = connected;
 			projectUpdateToolStripMenuItem.Enabled = connected;
 
 			keepButton.Enabled = IsConnected && !IsPreviewing;
@@ -1903,9 +1903,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void relayToolStripMenuItem_Click(object sender, EventArgs e)
+		private void seqToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			relayButtonClick();
+			sequencerButtonClick();
 		}
 	}
 }

@@ -70,6 +70,8 @@ namespace LightController.Tools
         public const string ORDER_BEGIN_SEND = "BeginSend";
         public const string ORDER_END_SEND = "EndSend";
         public const string ORDER_GET_PARAM = "GetParam";
+        public const string ORDER_OPEN_SCENE = "OpenScene";
+        public const string ORDER_CLOSE_SCENE = "CloseScene";
         public const string ORDER_SEARCH = "Search";
         public const string ORDER_UPDATE = "UpDate";
         public const string ORDER_START_DEBUG = "StartDebug";

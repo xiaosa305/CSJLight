@@ -539,6 +539,12 @@ namespace LightController.PeripheralDevice
                 case Constant.ORDER_END_DEBUG:
                     this.StopIntentPreviewReceiveManager(data);
                     break;
+                case Constant.ORDER_OPEN_SCENE:
+                    this.OpenSceneReceiveManager(data);
+                    break;
+                case Constant.ORDER_CLOSE_SCENE:
+                    this.CloseSceneReceiveManager(data);
+                    break;
             }
         }
 
@@ -2740,6 +2746,118 @@ namespace LightController.PeripheralDevice
             }
         }
 
+
+        public void OpenScene(Completed completed,Error error)
+        {
+            try
+            {
+                if ((!this.IsSending) && this.IsConnected())
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.ProgressEvent = null;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => OpenSceneStart(s, e));
+                    this.TransactionTimer.Start();
+                }
+                else
+                {
+                    if (this.IsSending)
+                    {
+                        error(START_TASK_ERROR_1);
+                    }
+                    else
+                    {
+                        error(START_TASK_ERROR_2);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "开台任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("开台任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        private void OpenSceneStart(Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.OPEN_SCENE;
+                this.SendOrder(null, Constant.ORDER_OPEN_SCENE, null);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "开台失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event(START_TASK_ERROR_2);
+                this.CloseTransactionTimer();
+            }
+        }
+        public void CloseScene(Completed completed, Error error)
+        {
+            try
+            {
+                if ((!this.IsSending) && this.IsConnected())
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.ProgressEvent = null;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => CloseSceneStart(s, e));
+                    this.TransactionTimer.Start();
+                }
+                else
+                {
+                    if (this.IsSending)
+                    {
+                        error(START_TASK_ERROR_1);
+                    }
+                    else
+                    {
+                        error(START_TASK_ERROR_2);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关台任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("关台任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        private void CloseSceneStart(Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.CLOSE_SCENE;
+                this.SendOrder(null, Constant.ORDER_CLOSE_SCENE, null);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关台失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event(START_TASK_ERROR_2);
+                this.CloseTransactionTimer();
+            }
+        }
+
         public void ResetDevice()
         {
             try
@@ -2952,6 +3070,36 @@ namespace LightController.PeripheralDevice
             this.IsSending = false;
             this.CloseTransactionTimer();
         }
+        /// <summary>
+        /// 开台回复消息管理
+        /// </summary>
+        /// <param name="data"></param>
+        private void OpenSceneReceiveManager(List<byte> data)
+        {
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT_PARAM))
+            {
+                this.Successed(null, "开台成功");
+            }
+            else
+            {
+                this.Failed("开台失败");
+            }
+        }
+        /// <summary>
+        /// 关台回复消息管理
+        /// </summary>
+        /// <param name="data"></param>
+        private void CloseSceneReceiveManager(List<byte> data)
+        {
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT_PARAM))
+            {
+                this.Successed(null, "关台成功");
+            }
+            else
+            {
+                this.Failed("关台失败");
+            }
+        }
     }
 
     //事件传递数据结构
@@ -3005,6 +3153,7 @@ namespace LightController.PeripheralDevice
         DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,GET_FIRMWARE_VERSION,
         START_INTENT_PREVIEW,STOP_INTENT_PREVIEW,
         SERVER_SET_SESSION_ID, SERVER_BIND_DEVICE, SERVER_CHANGE_BIND_DEVICE, SERVER_UNBIND_DEVICE, SERVER_GET_DEVICES,
+        OPEN_SCENE,CLOSE_SCENE,
         RESET
     }
 }

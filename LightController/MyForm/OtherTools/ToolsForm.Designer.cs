@@ -106,6 +106,7 @@
 			this.deviceTypeLabel = new System.Windows.Forms.Label();
 			this.deviceNameLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
@@ -313,6 +314,7 @@
 			// lightTabPage
 			// 
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
+			this.lightTabPage.Controls.Add(this.label1);
 			this.lightTabPage.Controls.Add(this.groupBox3);
 			this.lightTabPage.Controls.Add(this.label23);
 			this.lightTabPage.Controls.Add(this.sceneComboBox);
@@ -320,7 +322,7 @@
 			this.lightTabPage.Location = new System.Drawing.Point(64, 4);
 			this.lightTabPage.Name = "lightTabPage";
 			this.lightTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.lightTabPage.Size = new System.Drawing.Size(1156, 567);
+			this.lightTabPage.Size = new System.Drawing.Size(1196, 567);
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
 			// 
@@ -514,7 +516,7 @@
 			this.keyTabPage.Location = new System.Drawing.Point(64, 4);
 			this.keyTabPage.Name = "keyTabPage";
 			this.keyTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.keyTabPage.Size = new System.Drawing.Size(1156, 567);
+			this.keyTabPage.Size = new System.Drawing.Size(1196, 567);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
 			// 
@@ -618,7 +620,7 @@
 			this.keypressListView.HideSelection = false;
 			this.keypressListView.Location = new System.Drawing.Point(3, 3);
 			this.keypressListView.Name = "keypressListView";
-			this.keypressListView.Size = new System.Drawing.Size(1150, 402);
+			this.keypressListView.Size = new System.Drawing.Size(1190, 402);
 			this.keypressListView.TabIndex = 1;
 			this.keypressListView.UseCompatibleStateImageBehavior = false;
 			this.keypressListView.View = System.Windows.Forms.View.Details;
@@ -802,14 +804,14 @@
 			// 
 			this.leftStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
 			this.leftStatusLabel.Name = "leftStatusLabel";
-			this.leftStatusLabel.Size = new System.Drawing.Size(604, 17);
+			this.leftStatusLabel.Size = new System.Drawing.Size(624, 17);
 			this.leftStatusLabel.Spring = true;
 			// 
 			// rightStatusLabel
 			// 
 			this.rightStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
 			this.rightStatusLabel.Name = "rightStatusLabel";
-			this.rightStatusLabel.Size = new System.Drawing.Size(604, 17);
+			this.rightStatusLabel.Size = new System.Drawing.Size(624, 17);
 			this.rightStatusLabel.Spring = true;
 			// 
 			// renderMainFormSceneButton
@@ -875,6 +877,17 @@
 			this.label6.Size = new System.Drawing.Size(65, 12);
 			this.label6.TabIndex = 25;
 			this.label6.Text = "设备名称：";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label1.ForeColor = System.Drawing.Color.DimGray;
+			this.label1.Location = new System.Drawing.Point(30, 73);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(287, 12);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
 			// 
 			// ToolsForm
 			// 
@@ -994,5 +1007,6 @@
 		private System.Windows.Forms.Label deviceTypeLabel;
 		private System.Windows.Forms.Label deviceNameLabel;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label label1;
 	}
 }

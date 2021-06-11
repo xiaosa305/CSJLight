@@ -835,6 +835,9 @@ namespace LightController.MyForm.OtherTools
 			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
 			{
 				relayButtons[relayIndex].ImageIndex = lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex] ? 1 : 0;
+				if (lcEntity.SequencerData != null) {
+					relayButtons[relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex];
+				}
 			}
 			debugLC();
 		}

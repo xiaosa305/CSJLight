@@ -300,11 +300,11 @@
 			// 
 			this.lbinSaveDialog.Filter = "lbin配置文件|*.lbin";
 			// 
-			// useCheckBox
+			// openCheckBox
 			// 
 			this.openCheckBox.AutoSize = true;
-			this.openCheckBox.Location = new System.Drawing.Point(41, 376);
-			this.openCheckBox.Name = "useCheckBox";
+			this.openCheckBox.Location = new System.Drawing.Point(41, 370);
+			this.openCheckBox.Name = "openCheckBox";
 			this.openCheckBox.Size = new System.Drawing.Size(108, 16);
 			this.openCheckBox.TabIndex = 29;
 			this.openCheckBox.Text = "是否启用时序器";

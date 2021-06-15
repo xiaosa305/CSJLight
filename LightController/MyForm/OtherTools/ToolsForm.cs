@@ -849,14 +849,14 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void lcLoadButton_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.OK == cfgOpenFileDialog.ShowDialog())
+			if (DialogResult.OK == lbinOpenFileDialog.ShowDialog())
 			{
 				setNotice(StatusLabel.RIGHT, "正在打开本地灯控配置文件，请稍候...", false, true);
-				IList<string> paramList = getParamListFromPath(cfgOpenFileDialog.FileName);
+				IList<string> paramList = getParamListFromPath(lbinOpenFileDialog.FileName);
 				lcEntity = new LightControlData(paramList);
 				lcRender();
 				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + cfgOpenFileDialog.FileName,
+					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + lbinOpenFileDialog.FileName,
 					true, false);
 			}
 		}
@@ -868,12 +868,12 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void lcSaveButton_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.OK == cfgSaveFileDialog.ShowDialog())
+			if (DialogResult.OK == lbinSaveFileDialog.ShowDialog())
 			{
 				processLC();
-				lcEntity.WriteToFile(cfgSaveFileDialog.FileName);
+				lcEntity.WriteToFile(lbinSaveFileDialog.FileName);
 				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + cfgSaveFileDialog.FileName,
+					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + lbinSaveFileDialog.FileName,
 					true, false);
 			}
 		}

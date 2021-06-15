@@ -53,6 +53,7 @@
 			this.lbinOpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.lbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.useCheckBox = new System.Windows.Forms.CheckBox();
 			this.relayFLP.SuspendLayout();
 			this.relayPanelDemo.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -121,7 +122,7 @@
 			// 
 			// loadButton
 			// 
-			this.loadButton.Location = new System.Drawing.Point(38, 370);
+			this.loadButton.Location = new System.Drawing.Point(282, 370);
 			this.loadButton.Name = "loadButton";
 			this.loadButton.Size = new System.Drawing.Size(75, 48);
 			this.loadButton.TabIndex = 3;
@@ -131,7 +132,7 @@
 			// 
 			// saveButton
 			// 
-			this.saveButton.Location = new System.Drawing.Point(153, 370);
+			this.saveButton.Location = new System.Drawing.Point(371, 370);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(75, 48);
 			this.saveButton.TabIndex = 3;
@@ -141,7 +142,7 @@
 			// 
 			// readButton
 			// 
-			this.readButton.Location = new System.Drawing.Point(480, 370);
+			this.readButton.Location = new System.Drawing.Point(501, 370);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(75, 48);
 			this.readButton.TabIndex = 3;
@@ -153,7 +154,7 @@
 			// 
 			this.writeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.writeButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.writeButton.Location = new System.Drawing.Point(592, 370);
+			this.writeButton.Location = new System.Drawing.Point(590, 370);
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(75, 48);
 			this.writeButton.TabIndex = 3;
@@ -293,11 +294,21 @@
 			// 
 			// lbinOpenDialog
 			// 
-			this.lbinOpenDialog.Filter = "lbin固件包|*.lbin";
+			this.lbinOpenDialog.Filter = "lbin配置文件|*.lbin";
 			// 
 			// lbinSaveDialog
 			// 
 			this.lbinSaveDialog.Filter = "lbin配置文件|*.lbin";
+			// 
+			// useCheckBox
+			// 
+			this.useCheckBox.AutoSize = true;
+			this.useCheckBox.Location = new System.Drawing.Point(41, 376);
+			this.useCheckBox.Name = "useCheckBox";
+			this.useCheckBox.Size = new System.Drawing.Size(108, 16);
+			this.useCheckBox.TabIndex = 29;
+			this.useCheckBox.Text = "是否启用时序器";
+			this.useCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// SequencerForm
 			// 
@@ -305,6 +316,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
 			this.ClientSize = new System.Drawing.Size(704, 481);
+			this.Controls.Add(this.useCheckBox);
 			this.Controls.Add(this.noticeStatusStrip);
 			this.Controls.Add(this.relayFLP);
 			this.Controls.Add(this.writeButton);
@@ -363,5 +375,6 @@
 		private System.Windows.Forms.OpenFileDialog lbinOpenDialog;
 		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
+		private System.Windows.Forms.CheckBox useCheckBox;
 	}
 }

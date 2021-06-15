@@ -53,6 +53,7 @@
 			this.com0Label = new System.Windows.Forms.Label();
 			this.com1Label = new System.Windows.Forms.Label();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
+			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.lcDownloadButton = new System.Windows.Forms.Button();
 			this.lcLoadButton = new System.Windows.Forms.Button();
@@ -93,11 +94,11 @@
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.cfgOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.cfgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.lbinOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.lbinSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.protocolSaveButton = new System.Windows.Forms.Button();
 			this.pbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.leftStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.rightStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.renderMainFormSceneButton = new System.Windows.Forms.Button();
@@ -106,7 +107,6 @@
 			this.deviceTypeLabel = new System.Windows.Forms.Label();
 			this.deviceNameLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
@@ -114,7 +114,7 @@
 			this.lightGroupBox.SuspendLayout();
 			this.relayFLP.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
+			this.myStatusStrip.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -325,6 +325,17 @@
 			this.lightTabPage.Size = new System.Drawing.Size(1196, 567);
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label1.ForeColor = System.Drawing.Color.DimGray;
+			this.label1.Location = new System.Drawing.Point(30, 73);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(287, 12);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
 			// 
 			// groupBox3
 			// 
@@ -763,13 +774,13 @@
 			// 
 			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
 			// 
-			// cfgOpenFileDialog
+			// lbinOpenFileDialog
 			// 
-			this.cfgOpenFileDialog.Filter = "cfg配置文件|*.cfg";
+			this.lbinOpenFileDialog.Filter = "lbin配置文件|*.lbin|cfg配置文件(旧版)|*.cfg";
 			// 
-			// cfgSaveFileDialog
+			// lbinSaveFileDialog
 			// 
-			this.cfgSaveFileDialog.Filter = "cfg配置文件|*.cfg";
+			this.lbinSaveFileDialog.Filter = "cfg配置文件|*.cfg";
 			// 
 			// protocolSaveButton
 			// 
@@ -788,17 +799,17 @@
 			// 
 			this.pbinSaveDialog.Filter = "pbin配置文件|*.pbin";
 			// 
-			// statusStrip1
+			// myStatusStrip
 			// 
-			this.statusStrip1.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.myStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.leftStatusLabel,
             this.rightStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 659);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
-			this.statusStrip1.SizingGrip = false;
-			this.statusStrip1.TabIndex = 30;
+			this.myStatusStrip.Location = new System.Drawing.Point(0, 659);
+			this.myStatusStrip.Name = "myStatusStrip";
+			this.myStatusStrip.Size = new System.Drawing.Size(1264, 22);
+			this.myStatusStrip.SizingGrip = false;
+			this.myStatusStrip.TabIndex = 30;
 			// 
 			// leftStatusLabel
 			// 
@@ -878,17 +889,6 @@
 			this.label6.TabIndex = 25;
 			this.label6.Text = "设备名称：";
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label1.ForeColor = System.Drawing.Color.DimGray;
-			this.label1.Location = new System.Drawing.Point(30, 73);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(287, 12);
-			this.label1.TabIndex = 6;
-			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
-			// 
 			// ToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -897,7 +897,7 @@
 			this.ClientSize = new System.Drawing.Size(1264, 681);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.tabControl1);
-			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.myStatusStrip);
 			this.Controls.Add(this.renderMainFormSceneButton);
 			this.Controls.Add(this.protocolSaveButton);
 			this.Controls.Add(this.protocolComboBox);
@@ -921,8 +921,8 @@
 			this.relayFLP.ResumeLayout(false);
 			this.keyTabPage.ResumeLayout(false);
 			this.keyTabPage.PerformLayout();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			this.myStatusStrip.ResumeLayout(false);
+			this.myStatusStrip.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
@@ -983,13 +983,13 @@
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.OpenFileDialog keyOpenFileDialog;
 		private System.Windows.Forms.SaveFileDialog keySaveFileDialog;
-		private System.Windows.Forms.OpenFileDialog cfgOpenFileDialog;
-		private System.Windows.Forms.SaveFileDialog cfgSaveFileDialog;
+		private System.Windows.Forms.OpenFileDialog lbinOpenFileDialog;
+		private System.Windows.Forms.SaveFileDialog lbinSaveFileDialog;
 		private System.Windows.Forms.ImageList lightImageList;
 		private CCWin.SkinControl.SkinButton relayButtonDemo;
 		private System.Windows.Forms.Button protocolSaveButton;
 		private System.Windows.Forms.SaveFileDialog pbinSaveDialog;
-		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.StatusStrip myStatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel leftStatusLabel;
 		private System.Windows.Forms.ToolStripStatusLabel rightStatusLabel;
 		private System.Windows.Forms.ColumnHeader columnHeader11;

@@ -849,14 +849,29 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void lcLoadButton_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.OK == lbinOpenFileDialog.ShowDialog())
+			if (DialogResult.OK == lbinOpenDialog.ShowDialog())
 			{
 				setNotice(StatusLabel.RIGHT, "正在打开本地灯控配置文件，请稍候...", false, true);
-				IList<string> paramList = getParamListFromPath(lbinOpenFileDialog.FileName);
-				lcEntity = new LightControlData(paramList);
+				try
+				{
+					if (lbinOpenDialog.SafeFileName.EndsWith("lbin"))
+					{
+						lcEntity = (LightControlData)SerializeUtils.DeserializeToObject(lbinOpenDialog.FileName);
+					}
+					else //兼容旧版cfg文件：SequencerData=null
+					{
+						lcEntity = new LightControlData(getParamListFromPath(lbinOpenDialog.FileName));
+					}
+				}
+				catch (Exception ex)
+				{
+					setNotice(StatusLabel.RIGHT,"加载本地配置文件时发生异常：" + ex.Message, true, true);
+					return;
+				}
+			
 				lcRender();
 				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + lbinOpenFileDialog.FileName,
+					LanguageHelper.TranslateSentence("已加载本地灯控配置文件：") + lbinOpenDialog.FileName,
 					true, false);
 			}
 		}
@@ -868,13 +883,21 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void lcSaveButton_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.OK == lbinSaveFileDialog.ShowDialog())
+			if (DialogResult.OK == lbinSaveDialog.ShowDialog())
 			{
 				processLC();
-				lcEntity.WriteToFile(lbinSaveFileDialog.FileName);
-				setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + lbinSaveFileDialog.FileName,
-					true, false);
+				try
+				{
+					string lbinPath = lbinSaveDialog.FileName;
+					SerializeUtils.SerializeObject(lbinPath, lcEntity);
+					setNotice(StatusLabel.RIGHT,
+					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + lbinSaveDialog.FileName,
+						true, false);
+				}
+				catch (Exception ex)
+				{
+					setNotice(StatusLabel.RIGHT, "保存配置时发生异常：" + ex.Message, true, true);
+				}				
 			}
 		}
 			   
@@ -1230,9 +1253,9 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void kpLoadButton_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.OK == keyOpenFileDialog.ShowDialog()) {
+			if (DialogResult.OK == keyOpenDialog.ShowDialog()) {
 
-				string keyPath = keyOpenFileDialog.FileName;
+				string keyPath = keyOpenDialog.FileName;
 
 				IList<string> paramList = getParamListFromPath(keyPath);
 				if (paramList == null || paramList.Count != 50)
@@ -1265,8 +1288,8 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void kpSaveButton_Click(object sender, EventArgs e)
 		{
-			if (DialogResult.OK == keySaveFileDialog.ShowDialog()) {
-				string keyPath = keySaveFileDialog.FileName;
+			if (DialogResult.OK == keySaveDialog.ShowDialog()) {
+				string keyPath = keySaveDialog.FileName;
 				kpEntity.WriteToFile(keyPath);
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("成功保存墙板配置文件：") + keyPath, true, false);
 			}

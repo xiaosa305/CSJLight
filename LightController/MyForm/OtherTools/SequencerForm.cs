@@ -330,6 +330,7 @@ namespace LightController.MyForm.OtherTools
 
 			try
 			{
+				openCheckBox.Checked = lcEntity.SequencerData.IsOpenSequencer;
 				for (int relayIndex = 0; relayIndex < relayCount; relayIndex++) {
 					relayTBs[relayIndex].Text =  lcEntity.SequencerData.RelaySwitchNames[relayIndex];
 				}
@@ -355,7 +356,6 @@ namespace LightController.MyForm.OtherTools
 				setNotice("尚未加载继电器配置，无法下载。", true, true);
 				return;
 			}
-
 			setNotice("正在下载继电器配置，请稍候...", false, true);
 			makeLC();
 			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
@@ -366,6 +366,7 @@ namespace LightController.MyForm.OtherTools
 		/// </summary>
 		private void makeLC() {
 
+			lcEntity.SequencerData.IsOpenSequencer = openCheckBox.Checked; 
 			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
 			{
 				lcEntity.SequencerData.RelaySwitchNames[relayIndex] = relayTBs[relayIndex].Text.Trim();
@@ -409,10 +410,10 @@ namespace LightController.MyForm.OtherTools
 		{
 			if (DialogResult.OK == lbinOpenDialog.ShowDialog())
 			{
-				string rbinPath = lbinOpenDialog.FileName;
+				string lbinPath = lbinOpenDialog.FileName;
 				try
 				{
-					lcEntity = (LightControlData)SerializeUtils.DeserializeToObject(rbinPath);
+					lcEntity = (LightControlData)SerializeUtils.DeserializeToObject(lbinPath);
 					relayRender(); // loadButton_Click
 					setNotice("成功加载本地配置文件(" + lbinOpenDialog.SafeFileName + ")。", true, true);
 				}

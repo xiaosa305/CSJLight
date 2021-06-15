@@ -109,8 +109,11 @@ namespace LightController.Tools.CSJ.IMPL
             this.SequencerData = SequencerData.Build(data.ToArray());
         }
 
-        //未使用
-       /* public LightControlData(IList<string> data)
+        /// <summary>
+		/// Dickov：逐行读取cfg文件，并把内容填入lcEntity中（旧版的读灯控配置的方法，需保留以兼容）
+		/// </summary>
+		/// <param name="data"></param>
+        public LightControlData(IList<string> data)
         {
             RelayCount = Convert.ToInt32(data[0]);//0
             DmxCount = Convert.ToInt32(data[1]);//1
@@ -146,7 +149,7 @@ namespace LightController.Tools.CSJ.IMPL
 			}
 		}
 
-        */
+        
 		//MARK：此处我有稍微修改：SceneData[][] -> SceneData[,] ；后期需测试 --By Dickov
         public byte[] GetData()
         {

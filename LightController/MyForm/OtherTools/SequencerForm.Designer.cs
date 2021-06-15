@@ -53,7 +53,7 @@
 			this.lbinOpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.lbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.useCheckBox = new System.Windows.Forms.CheckBox();
+			this.openCheckBox = new System.Windows.Forms.CheckBox();
 			this.relayFLP.SuspendLayout();
 			this.relayPanelDemo.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -302,13 +302,13 @@
 			// 
 			// useCheckBox
 			// 
-			this.useCheckBox.AutoSize = true;
-			this.useCheckBox.Location = new System.Drawing.Point(41, 376);
-			this.useCheckBox.Name = "useCheckBox";
-			this.useCheckBox.Size = new System.Drawing.Size(108, 16);
-			this.useCheckBox.TabIndex = 29;
-			this.useCheckBox.Text = "是否启用时序器";
-			this.useCheckBox.UseVisualStyleBackColor = true;
+			this.openCheckBox.AutoSize = true;
+			this.openCheckBox.Location = new System.Drawing.Point(41, 376);
+			this.openCheckBox.Name = "useCheckBox";
+			this.openCheckBox.Size = new System.Drawing.Size(108, 16);
+			this.openCheckBox.TabIndex = 29;
+			this.openCheckBox.Text = "是否启用时序器";
+			this.openCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// SequencerForm
 			// 
@@ -316,7 +316,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
 			this.ClientSize = new System.Drawing.Size(704, 481);
-			this.Controls.Add(this.useCheckBox);
+			this.Controls.Add(this.openCheckBox);
 			this.Controls.Add(this.noticeStatusStrip);
 			this.Controls.Add(this.relayFLP);
 			this.Controls.Add(this.writeButton);
@@ -375,6 +375,6 @@
 		private System.Windows.Forms.OpenFileDialog lbinOpenDialog;
 		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
-		private System.Windows.Forms.CheckBox useCheckBox;
+		private System.Windows.Forms.CheckBox openCheckBox;
 	}
 }

@@ -92,10 +92,10 @@
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.lbinOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.lbinSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.keyOpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.keySaveDialog = new System.Windows.Forms.SaveFileDialog();
+			this.lbinOpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.lbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.protocolSaveButton = new System.Windows.Forms.Button();
 			this.pbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
@@ -766,21 +766,21 @@
 			this.myToolTip.ReshowDelay = 100;
 			this.myToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
-			// keyOpenFileDialog
+			// keyOpenDialog
 			// 
-			this.keyOpenFileDialog.Filter = "墙板配置文件(key)|*.key";
+			this.keyOpenDialog.Filter = "墙板配置文件(key)|*.key";
 			// 
-			// keySaveFileDialog
+			// keySaveDialog
 			// 
-			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
+			this.keySaveDialog.Filter = "墙板配置文件(key)|*.key";
 			// 
-			// lbinOpenFileDialog
+			// lbinOpenDialog
 			// 
-			this.lbinOpenFileDialog.Filter = "lbin配置文件|*.lbin|cfg配置文件(旧版)|*.cfg";
+			this.lbinOpenDialog.Filter = "lbin灯控配置文件|*.lbin|cfg配置文件(旧版)|*.cfg";
 			// 
-			// lbinSaveFileDialog
+			// lbinSaveDialog
 			// 
-			this.lbinSaveFileDialog.Filter = "cfg配置文件|*.cfg";
+			this.lbinSaveDialog.Filter = "lbin灯控配置文件|*.lbin";
 			// 
 			// protocolSaveButton
 			// 
@@ -981,10 +981,10 @@
 		private System.Windows.Forms.Button kpSaveButton;
 		private System.Windows.Forms.TextBox kpKey0TextBox;
 		private System.Windows.Forms.ToolTip myToolTip;
-		private System.Windows.Forms.OpenFileDialog keyOpenFileDialog;
-		private System.Windows.Forms.SaveFileDialog keySaveFileDialog;
-		private System.Windows.Forms.OpenFileDialog lbinOpenFileDialog;
-		private System.Windows.Forms.SaveFileDialog lbinSaveFileDialog;
+		private System.Windows.Forms.OpenFileDialog keyOpenDialog;
+		private System.Windows.Forms.SaveFileDialog keySaveDialog;
+		private System.Windows.Forms.OpenFileDialog lbinOpenDialog;
+		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
 		private System.Windows.Forms.ImageList lightImageList;
 		private CCWin.SkinControl.SkinButton relayButtonDemo;
 		private System.Windows.Forms.Button protocolSaveButton;

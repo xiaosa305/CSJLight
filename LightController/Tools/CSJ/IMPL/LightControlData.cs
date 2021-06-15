@@ -110,7 +110,7 @@ namespace LightController.Tools.CSJ.IMPL
         }
 
         //未使用
-        public LightControlData(IList<string> data)
+       /* public LightControlData(IList<string> data)
         {
             RelayCount = Convert.ToInt32(data[0]);//0
             DmxCount = Convert.ToInt32(data[1]);//1
@@ -145,6 +145,8 @@ namespace LightController.Tools.CSJ.IMPL
 				}
 			}
 		}
+
+        */
 		//MARK：此处我有稍微修改：SceneData[][] -> SceneData[,] ；后期需测试 --By Dickov
         public byte[] GetData()
         {
@@ -192,6 +194,7 @@ namespace LightController.Tools.CSJ.IMPL
                 if (this.SequencerData != null)
                 {
                     data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 80 - data.Count).ToArray());
+                    data[60] = this.SequencerData.IsOpenSequencer ? Convert.ToByte(0x01) : Convert.ToByte(0x00);
                     data.AddRange(this.SequencerData.GetData());
                     data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 498 - data.Count).ToArray());
                 }

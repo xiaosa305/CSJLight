@@ -74,7 +74,7 @@ namespace LBDConfigTool.utils.communication
             this.SendCompleted();
         }
 
-        private void ReceiveCallback(IAsyncResult result)
+        private void ReceiveCallback(IAsyncResult result) 
         {
             EndPoint iPEnd = new IPEndPoint(IPAddress.Any, PORT);
             IPEndPoint aa = ((IPEndPoint)iPEnd);

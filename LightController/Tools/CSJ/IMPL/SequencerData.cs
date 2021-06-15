@@ -13,6 +13,7 @@ namespace LightController.Tools.CSJ.IMPL
 
         public String[] RelaySwitchNames { get; set; }
         public int[] RelaySwitchDelayTimes { get; set; }
+        public bool IsOpenSequencer { get; set; }
 
         public byte[] GetData()
         {
@@ -54,7 +55,8 @@ namespace LightController.Tools.CSJ.IMPL
                 SequencerData sequencer = new SequencerData
                 {
                     RelaySwitchNames = new string[RELAY_SWITCH_NAME_COUNT],
-                    RelaySwitchDelayTimes = new int[RELAY_DELAY_TIME_COUNT]
+                    RelaySwitchDelayTimes = new int[RELAY_DELAY_TIME_COUNT],
+                    IsOpenSequencer = data[60] == 0x01
                 };
                 List<byte> buff = new List<byte>();
                 for (int relayIndex = 0; relayIndex < RELAY_SWITCH_NAME_COUNT; relayIndex++)

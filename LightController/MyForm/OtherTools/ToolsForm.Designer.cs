@@ -269,7 +269,7 @@
 			this.ccDownloadButton.Name = "ccDownloadButton";
 			this.ccDownloadButton.Size = new System.Drawing.Size(75, 48);
 			this.ccDownloadButton.TabIndex = 12;
-			this.ccDownloadButton.Text = "下载协议";
+			this.ccDownloadButton.Text = "写入设备";
 			this.ccDownloadButton.UseVisualStyleBackColor = false;
 			this.ccDownloadButton.Click += new System.EventHandler(this.ccDownloadButton_Click);
 			// 
@@ -358,7 +358,7 @@
 			this.lcDownloadButton.Name = "lcDownloadButton";
 			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcDownloadButton.TabIndex = 4;
-			this.lcDownloadButton.Text = "下载配置";
+			this.lcDownloadButton.Text = "写入设备";
 			this.lcDownloadButton.UseVisualStyleBackColor = false;
 			this.lcDownloadButton.Click += new System.EventHandler(this.lcDownloadButton_Click);
 			// 
@@ -735,7 +735,7 @@
 			this.kpDownloadButton.Name = "kpDownloadButton";
 			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpDownloadButton.TabIndex = 5;
-			this.kpDownloadButton.Text = "下载到墙板";
+			this.kpDownloadButton.Text = "写入墙板";
 			this.kpDownloadButton.UseVisualStyleBackColor = false;
 			this.kpDownloadButton.Click += new System.EventHandler(this.kpDownloadButton_Click);
 			// 

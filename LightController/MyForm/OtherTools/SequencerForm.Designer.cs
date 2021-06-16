@@ -54,6 +54,7 @@
 			this.lbinSaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.openCheckBox = new System.Windows.Forms.CheckBox();
+			this.label4 = new System.Windows.Forms.Label();
 			this.relayFLP.SuspendLayout();
 			this.relayPanelDemo.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -64,22 +65,22 @@
 			// 
 			// openButton
 			// 
-			this.openButton.Location = new System.Drawing.Point(38, 26);
+			this.openButton.Location = new System.Drawing.Point(29, 137);
 			this.openButton.Name = "openButton";
 			this.openButton.Size = new System.Drawing.Size(59, 75);
 			this.openButton.TabIndex = 0;
-			this.openButton.Text = "开台";
+			this.openButton.Text = "开台\r\n模拟";
 			this.myToolTip.SetToolTip(this.openButton, "下载配置后，软件才能根据当前的配置模拟设备的继电器开启流程。");
 			this.openButton.UseVisualStyleBackColor = true;
 			this.openButton.Click += new System.EventHandler(this.openButton_Click);
 			// 
 			// closeButton
 			// 
-			this.closeButton.Location = new System.Drawing.Point(608, 26);
+			this.closeButton.Location = new System.Drawing.Point(782, 137);
 			this.closeButton.Name = "closeButton";
 			this.closeButton.Size = new System.Drawing.Size(59, 75);
 			this.closeButton.TabIndex = 0;
-			this.closeButton.Text = "关台";
+			this.closeButton.Text = "关台\r\n模拟";
 			this.myToolTip.SetToolTip(this.closeButton, "下载配置后，软件才能根据当前的配置模拟设备的继电器关闭流程。");
 			this.closeButton.UseVisualStyleBackColor = true;
 			this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
@@ -87,17 +88,16 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(187, 43);
+			this.label1.Location = new System.Drawing.Point(273, 46);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(329, 24);
+			this.label1.Size = new System.Drawing.Size(329, 12);
 			this.label1.TabIndex = 1;
-			this.label1.Text = "----------------------------------------------------->\r\n<------------------------" +
-    "-----------------------------";
+			this.label1.Text = "----------------------------------------------------->\r\n";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(307, 76);
+			this.label3.Location = new System.Drawing.Point(393, 330);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(89, 12);
 			this.label3.TabIndex = 1;
@@ -106,7 +106,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(307, 26);
+			this.label2.Location = new System.Drawing.Point(393, 21);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(89, 12);
 			this.label2.TabIndex = 1;
@@ -122,7 +122,7 @@
 			// 
 			// loadButton
 			// 
-			this.loadButton.Location = new System.Drawing.Point(282, 370);
+			this.loadButton.Location = new System.Drawing.Point(273, 384);
 			this.loadButton.Name = "loadButton";
 			this.loadButton.Size = new System.Drawing.Size(75, 48);
 			this.loadButton.TabIndex = 3;
@@ -132,7 +132,7 @@
 			// 
 			// saveButton
 			// 
-			this.saveButton.Location = new System.Drawing.Point(371, 370);
+			this.saveButton.Location = new System.Drawing.Point(362, 384);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(75, 48);
 			this.saveButton.TabIndex = 3;
@@ -142,7 +142,7 @@
 			// 
 			// readButton
 			// 
-			this.readButton.Location = new System.Drawing.Point(501, 370);
+			this.readButton.Location = new System.Drawing.Point(587, 384);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(75, 48);
 			this.readButton.TabIndex = 3;
@@ -154,11 +154,11 @@
 			// 
 			this.writeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.writeButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.writeButton.Location = new System.Drawing.Point(590, 370);
+			this.writeButton.Location = new System.Drawing.Point(676, 384);
 			this.writeButton.Name = "writeButton";
 			this.writeButton.Size = new System.Drawing.Size(75, 48);
 			this.writeButton.TabIndex = 3;
-			this.writeButton.Text = "下载配置";
+			this.writeButton.Text = "写入设备";
 			this.writeButton.UseVisualStyleBackColor = false;
 			this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
 			// 
@@ -168,7 +168,7 @@
 			this.relayFLP.Controls.Add(this.relayPanelDemo);
 			this.relayFLP.Controls.Add(this.labelPanel);
 			this.relayFLP.Controls.Add(this.timePanelDemo);
-			this.relayFLP.Location = new System.Drawing.Point(38, 128);
+			this.relayFLP.Location = new System.Drawing.Point(123, 78);
 			this.relayFLP.Name = "relayFLP";
 			this.relayFLP.Size = new System.Drawing.Size(629, 193);
 			this.relayFLP.TabIndex = 4;
@@ -278,7 +278,7 @@
             this.noticeLabel});
 			this.noticeStatusStrip.Location = new System.Drawing.Point(0, 459);
 			this.noticeStatusStrip.Name = "noticeStatusStrip";
-			this.noticeStatusStrip.Size = new System.Drawing.Size(704, 22);
+			this.noticeStatusStrip.Size = new System.Drawing.Size(863, 22);
 			this.noticeStatusStrip.SizingGrip = false;
 			this.noticeStatusStrip.TabIndex = 28;
 			// 
@@ -288,7 +288,7 @@
 			this.noticeLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.noticeLabel.ForeColor = System.Drawing.Color.DimGray;
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(689, 17);
+			this.noticeLabel.Size = new System.Drawing.Size(848, 17);
 			this.noticeLabel.Spring = true;
 			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -303,19 +303,29 @@
 			// openCheckBox
 			// 
 			this.openCheckBox.AutoSize = true;
-			this.openCheckBox.Location = new System.Drawing.Point(41, 370);
+			this.openCheckBox.Location = new System.Drawing.Point(49, 401);
 			this.openCheckBox.Name = "openCheckBox";
-			this.openCheckBox.Size = new System.Drawing.Size(108, 16);
+			this.openCheckBox.Size = new System.Drawing.Size(84, 16);
 			this.openCheckBox.TabIndex = 29;
-			this.openCheckBox.Text = "是否启用时序器";
+			this.openCheckBox.Text = "启用时序器";
 			this.openCheckBox.UseVisualStyleBackColor = true;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(273, 299);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(329, 12);
+			this.label4.TabIndex = 30;
+			this.label4.Text = "<-----------------------------------------------------";
 			// 
 			// SequencerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
-			this.ClientSize = new System.Drawing.Size(704, 481);
+			this.ClientSize = new System.Drawing.Size(863, 481);
+			this.Controls.Add(this.label4);
 			this.Controls.Add(this.openCheckBox);
 			this.Controls.Add(this.noticeStatusStrip);
 			this.Controls.Add(this.relayFLP);
@@ -328,10 +338,6 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.openButton);
-			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(720, 520);
-			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(720, 520);
 			this.Name = "SequencerForm";
 			this.Text = "时序器配置";
 			this.Load += new System.EventHandler(this.SequencerForm_Load);
@@ -376,5 +382,6 @@
 		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.CheckBox openCheckBox;
+		private System.Windows.Forms.Label label4;
 	}
 }

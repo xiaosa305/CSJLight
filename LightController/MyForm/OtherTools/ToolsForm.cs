@@ -604,8 +604,7 @@ namespace LightController.MyForm.OtherTools
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("切换中控配置失败：") + msg, true, false);
 				setBusy(false);
 
-				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
-				reconnectDevice();
+				reconnectDevice(); //CCConnectError
 			});
 		}
 		
@@ -641,7 +640,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				setNotice(StatusLabel.RIGHT, "中控配置下载成功,请等待设备重启(约耗时5s)，重新搜索并连接设备。", true, true);
-				reconnectDevice();
+				reconnectDevice();  //CCDownloadCompleted
 			});
 		}
 
@@ -683,6 +682,7 @@ namespace LightController.MyForm.OtherTools
 					lcEntity.SceneData[frameIndex, relayIndex] = tempLightOnMode;
 				}
 			}
+
 			debugLC();
 		}
 
@@ -708,10 +708,11 @@ namespace LightController.MyForm.OtherTools
 			if (connStatus != ConnectStatus.Lc)
 			{
 				return;
-			}
+			}			
 			setNotice(StatusLabel.RIGHT, "正在发送《灯控开关》调试数据..." ,false,true);
 			Refresh();
 			byte[] tempData = lcEntity.GetFrameBytes(sceneComboBox.SelectedIndex);
+			mainForm.SleepBetweenSend("debugLC",1);
 			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
 		}
 
@@ -735,10 +736,8 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]",false,true);
-				
-				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
-				reconnectDevice();
+				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]",false,true);				
+				reconnectDevice();  // LCSendError
 			});
 		}
 
@@ -929,8 +928,7 @@ namespace LightController.MyForm.OtherTools
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("切换灯控配置失败：") + msg, true, false);
 				setBusy(false);
 
-				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
-				reconnectDevice();
+				reconnectDevice(); //LCConnectError
 			});
 		}
 
@@ -963,8 +961,7 @@ namespace LightController.MyForm.OtherTools
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("回读灯控配置失败:") + msg, true, false);
 				setBusy(false);
 
-				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
-				reconnectDevice();
+				reconnectDevice(); //LCReadError
 			});
 		}
 
@@ -976,7 +973,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {				
 				setNotice(StatusLabel.RIGHT, "灯控配置下载成功,请等待设备重启(约耗时5s)，重新搜索并连接设备。", true, true);
-				reconnectDevice();
+				reconnectDevice(); // LCDownloadCompleted
 			});
 		}
 
@@ -988,9 +985,7 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate
 			{
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("灯控配置下载失败：") + msg, true, false);
-
-				//MARK 210513 切换失败时可能是连接出错，可以断开连接再重连；
-				reconnectDevice();
+				reconnectDevice(); //LCDownloadError
 			});
 		}
 

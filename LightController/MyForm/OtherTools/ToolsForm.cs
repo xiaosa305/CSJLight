@@ -682,8 +682,7 @@ namespace LightController.MyForm.OtherTools
 					lcEntity.SceneData[frameIndex, relayIndex] = tempLightOnMode;
 				}
 			}
-
-			debugLC();
+			debugLC(); //relayButtons_Click
 		}
 
 		/// <summary>
@@ -711,8 +710,7 @@ namespace LightController.MyForm.OtherTools
 			}			
 			setNotice(StatusLabel.RIGHT, "正在发送《灯控开关》调试数据..." ,false,true);
 			Refresh();
-			byte[] tempData = lcEntity.GetFrameBytes(sceneComboBox.SelectedIndex);
-			mainForm.SleepBetweenSend("debugLC",1);
+			byte[] tempData = lcEntity.GetFrameBytes(sceneComboBox.SelectedIndex);		
 			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
 		}
 
@@ -790,8 +788,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			if (connStatus == ConnectStatus.Lc) {
 				setBusy(true);
-				setNotice(StatusLabel.RIGHT,"正在回读灯控配置，请稍候...",false,true);
-				//mainForm.SleepBetweenSend(1); // 回读灯控配置无需延时
+				setNotice(StatusLabel.RIGHT,"正在回读灯控配置，请稍候...",false,true);				
 				mainForm.MyConnect.LightControlRead(LCReadCompleted, LCReadError);
 			}		
 		}
@@ -811,7 +808,7 @@ namespace LightController.MyForm.OtherTools
 
 			try
 			{				
-				lightGroupBox.Enabled = lcEntity.RelayCount != 0;				
+				lightGroupBox.Enabled = lcEntity.RelayCount != 0;
 				reloadLightGroupBox();
 				refreshButtons();
 			}
@@ -835,10 +832,10 @@ namespace LightController.MyForm.OtherTools
 			{
 				relayButtons[relayIndex].ImageIndex = lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex] ? 1 : 0;
 				if (lcEntity.SequencerData != null) {
-					relayButtons[relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex];
+					relayButtons[relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex]; 
 				}
 			}
-			debugLC();
+			debugLC(); //reloadLightGroupBox
 		}
 
 		/// <summary>
@@ -947,7 +944,7 @@ namespace LightController.MyForm.OtherTools
 				}
 				lcEntity = lcDataTemp as LightControlData;
 				lcRender();
-				setNotice(StatusLabel.RIGHT, "成功回读灯控配置", true, true);
+				setNotice(StatusLabel.RIGHT, "成功回读灯控配置", false, true);
 				setBusy(false);
 			});
 		}

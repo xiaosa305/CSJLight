@@ -202,7 +202,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.projectFLP);
 			this.flowLayoutPanel1.Controls.Add(this.playFLP);
 			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel6);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 3);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 4);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(1158, 101);
 			this.flowLayoutPanel1.TabIndex = 5;

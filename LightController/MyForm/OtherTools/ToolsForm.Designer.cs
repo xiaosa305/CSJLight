@@ -107,6 +107,7 @@
 			this.deviceTypeLabel = new System.Windows.Forms.Label();
 			this.deviceNameLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
@@ -164,6 +165,7 @@
 			this.centerTabPage.Controls.Add(this.PS2Label);
 			this.centerTabPage.Controls.Add(this.com0Label);
 			this.centerTabPage.Controls.Add(this.com1Label);
+			this.centerTabPage.Controls.Add(this.label2);
 			this.centerTabPage.Location = new System.Drawing.Point(64, 4);
 			this.centerTabPage.Name = "centerTabPage";
 			this.centerTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -255,7 +257,7 @@
 			// 
 			// ccSearchTextBox
 			// 
-			this.ccSearchTextBox.Location = new System.Drawing.Point(603, 26);
+			this.ccSearchTextBox.Location = new System.Drawing.Point(660, 26);
 			this.ccSearchTextBox.Name = "ccSearchTextBox";
 			this.ccSearchTextBox.Size = new System.Drawing.Size(100, 21);
 			this.ccSearchTextBox.TabIndex = 14;
@@ -276,7 +278,7 @@
 			// ccSearchButton
 			// 
 			this.ccSearchButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSearchButton.Location = new System.Drawing.Point(725, 21);
+			this.ccSearchButton.Location = new System.Drawing.Point(782, 21);
 			this.ccSearchButton.Name = "ccSearchButton";
 			this.ccSearchButton.Size = new System.Drawing.Size(75, 30);
 			this.ccSearchButton.TabIndex = 12;
@@ -889,6 +891,15 @@
 			this.label6.TabIndex = 25;
 			this.label6.Text = "设备名称：";
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(568, 30);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(89, 12);
+			this.label2.TabIndex = 15;
+			this.label2.Text = "输入功能描述：";
+			// 
 			// ToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1008,5 +1019,6 @@
 		private System.Windows.Forms.Label deviceNameLabel;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
 	}
 }

@@ -204,7 +204,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel6);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 4);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(1158, 101);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(1164, 101);
 			this.flowLayoutPanel1.TabIndex = 5;
 			// 
 			// firstFLP
@@ -579,7 +579,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel6.Controls.Add(this.helpSkinButton);
 			this.flowLayoutPanel6.Location = new System.Drawing.Point(1059, 3);
 			this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-			this.flowLayoutPanel6.Size = new System.Drawing.Size(83, 95);
+			this.flowLayoutPanel6.Size = new System.Drawing.Size(99, 95);
 			this.flowLayoutPanel6.TabIndex = 28;
 			// 
 			// helpSkinButton
@@ -605,7 +605,7 @@ namespace LightController.MyForm
 			this.helpSkinButton.MouseBack = null;
 			this.helpSkinButton.Name = "helpSkinButton";
 			this.helpSkinButton.NormlBack = null;
-			this.helpSkinButton.Size = new System.Drawing.Size(70, 90);
+			this.helpSkinButton.Size = new System.Drawing.Size(90, 90);
 			this.helpSkinButton.TabIndex = 4;
 			this.helpSkinButton.Text = "帮助";
 			this.helpSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;

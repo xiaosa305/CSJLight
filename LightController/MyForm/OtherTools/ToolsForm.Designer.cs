@@ -52,20 +52,25 @@
 			this.PS2Label = new System.Windows.Forms.Label();
 			this.com0Label = new System.Windows.Forms.Label();
 			this.com1Label = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
-			this.label1 = new System.Windows.Forms.Label();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.lcDownloadButton = new System.Windows.Forms.Button();
-			this.lcLoadButton = new System.Windows.Forms.Button();
-			this.lcSaveButton = new System.Windows.Forms.Button();
-			this.lcReadButton = new System.Windows.Forms.Button();
-			this.label23 = new System.Windows.Forms.Label();
-			this.sceneComboBox = new System.Windows.Forms.ComboBox();
-			this.lightGroupBox = new System.Windows.Forms.GroupBox();
-			this.relayFLP = new System.Windows.Forms.FlowLayoutPanel();
+			this.relayBigFLP = new System.Windows.Forms.FlowLayoutPanel();
+			this.relayFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
+			this.relayPanelDemo = new System.Windows.Forms.Panel();
+			this.sceneCBDemo = new System.Windows.Forms.CheckBox();
+			this.sceneLabelDemo = new System.Windows.Forms.Label();
 			this.relayButtonDemo = new CCWin.SkinControl.SkinButton();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
+			this.skinButton1 = new CCWin.SkinControl.SkinButton();
+			this.skinButton2 = new CCWin.SkinControl.SkinButton();
+			this.skinButton3 = new CCWin.SkinControl.SkinButton();
+			this.skinButton4 = new CCWin.SkinControl.SkinButton();
+			this.skinButton5 = new CCWin.SkinControl.SkinButton();
+			this.lcDownloadButton = new System.Windows.Forms.Button();
+			this.lcLoadButton = new System.Windows.Forms.Button();
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
+			this.lcSaveButton = new System.Windows.Forms.Button();
+			this.lcReadButton = new System.Windows.Forms.Button();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
 			this.fillCodeAllButton = new System.Windows.Forms.Button();
 			this.kpSearchTextBox = new System.Windows.Forms.TextBox();
@@ -91,6 +96,9 @@
 			this.kpDownloadButton = new System.Windows.Forms.Button();
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label23 = new System.Windows.Forms.Label();
+			this.sceneComboBox = new System.Windows.Forms.ComboBox();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.keyOpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveDialog = new System.Windows.Forms.SaveFileDialog();
@@ -107,13 +115,13 @@
 			this.deviceTypeLabel = new System.Windows.Forms.Label();
 			this.deviceNameLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
+			this.debugNoticeLabel = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
-			this.groupBox3.SuspendLayout();
-			this.lightGroupBox.SuspendLayout();
-			this.relayFLP.SuspendLayout();
+			this.relayBigFLP.SuspendLayout();
+			this.relayFLPDemo.SuspendLayout();
+			this.relayPanelDemo.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
 			this.myStatusStrip.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -257,7 +265,7 @@
 			// 
 			// ccSearchTextBox
 			// 
-			this.ccSearchTextBox.Location = new System.Drawing.Point(660, 26);
+			this.ccSearchTextBox.Location = new System.Drawing.Point(663, 30);
 			this.ccSearchTextBox.Name = "ccSearchTextBox";
 			this.ccSearchTextBox.Size = new System.Drawing.Size(100, 21);
 			this.ccSearchTextBox.TabIndex = 14;
@@ -267,7 +275,7 @@
 			this.ccDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.ccDownloadButton.Enabled = false;
 			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDownloadButton.Location = new System.Drawing.Point(1056, 12);
+			this.ccDownloadButton.Location = new System.Drawing.Point(1056, 16);
 			this.ccDownloadButton.Name = "ccDownloadButton";
 			this.ccDownloadButton.Size = new System.Drawing.Size(75, 48);
 			this.ccDownloadButton.TabIndex = 12;
@@ -278,7 +286,7 @@
 			// ccSearchButton
 			// 
 			this.ccSearchButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSearchButton.Location = new System.Drawing.Point(782, 21);
+			this.ccSearchButton.Location = new System.Drawing.Point(782, 25);
 			this.ccSearchButton.Name = "ccSearchButton";
 			this.ccSearchButton.Size = new System.Drawing.Size(75, 30);
 			this.ccSearchButton.TabIndex = 12;
@@ -289,7 +297,7 @@
 			// PS2Label
 			// 
 			this.PS2Label.AutoSize = true;
-			this.PS2Label.Location = new System.Drawing.Point(311, 30);
+			this.PS2Label.Location = new System.Drawing.Point(311, 34);
 			this.PS2Label.Name = "PS2Label";
 			this.PS2Label.Size = new System.Drawing.Size(41, 12);
 			this.PS2Label.TabIndex = 11;
@@ -298,7 +306,7 @@
 			// com0Label
 			// 
 			this.com0Label.AutoSize = true;
-			this.com0Label.Location = new System.Drawing.Point(30, 30);
+			this.com0Label.Location = new System.Drawing.Point(30, 34);
 			this.com0Label.Name = "com0Label";
 			this.com0Label.Size = new System.Drawing.Size(53, 12);
 			this.com0Label.TabIndex = 11;
@@ -307,20 +315,31 @@
 			// com1Label
 			// 
 			this.com1Label.AutoSize = true;
-			this.com1Label.Location = new System.Drawing.Point(170, 30);
+			this.com1Label.Location = new System.Drawing.Point(170, 34);
 			this.com1Label.Name = "com1Label";
 			this.com1Label.Size = new System.Drawing.Size(53, 12);
 			this.com1Label.TabIndex = 11;
 			this.com1Label.Text = "串口1 = ";
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(560, 34);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(101, 12);
+			this.label2.TabIndex = 15;
+			this.label2.Text = "请输入功能描述：";
+			// 
 			// lightTabPage
 			// 
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
-			this.lightTabPage.Controls.Add(this.label1);
-			this.lightTabPage.Controls.Add(this.groupBox3);
-			this.lightTabPage.Controls.Add(this.label23);
-			this.lightTabPage.Controls.Add(this.sceneComboBox);
-			this.lightTabPage.Controls.Add(this.lightGroupBox);
+			this.lightTabPage.Controls.Add(this.debugNoticeLabel);
+			this.lightTabPage.Controls.Add(this.relayBigFLP);
+			this.lightTabPage.Controls.Add(this.lcDownloadButton);
+			this.lightTabPage.Controls.Add(this.lcLoadButton);
+			this.lightTabPage.Controls.Add(this.keepLightOnCheckBox);
+			this.lightTabPage.Controls.Add(this.lcSaveButton);
+			this.lightTabPage.Controls.Add(this.lcReadButton);
 			this.lightTabPage.Location = new System.Drawing.Point(64, 4);
 			this.lightTabPage.Name = "lightTabPage";
 			this.lightTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -328,133 +347,63 @@
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
 			// 
-			// label1
+			// relayBigFLP
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label1.ForeColor = System.Drawing.Color.DimGray;
-			this.label1.Location = new System.Drawing.Point(30, 73);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(287, 12);
-			this.label1.TabIndex = 6;
-			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
+			this.relayBigFLP.AutoScroll = true;
+			this.relayBigFLP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.relayBigFLP.Controls.Add(this.relayFLPDemo);
+			this.relayBigFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.relayBigFLP.Location = new System.Drawing.Point(3, 83);
+			this.relayBigFLP.Name = "relayBigFLP";
+			this.relayBigFLP.Size = new System.Drawing.Size(1190, 481);
+			this.relayBigFLP.TabIndex = 7;
 			// 
-			// groupBox3
+			// relayFLPDemo
 			// 
-			this.groupBox3.Controls.Add(this.lcDownloadButton);
-			this.groupBox3.Controls.Add(this.lcLoadButton);
-			this.groupBox3.Controls.Add(this.lcSaveButton);
-			this.groupBox3.Controls.Add(this.lcReadButton);
-			this.groupBox3.Location = new System.Drawing.Point(362, 23);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(349, 63);
-			this.groupBox3.TabIndex = 5;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "系统";
+			this.relayFLPDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.relayFLPDemo.Controls.Add(this.relayPanelDemo);
+			this.relayFLPDemo.Controls.Add(this.relayButtonDemo);
+			this.relayFLPDemo.Controls.Add(this.skinButton1);
+			this.relayFLPDemo.Controls.Add(this.skinButton2);
+			this.relayFLPDemo.Controls.Add(this.skinButton3);
+			this.relayFLPDemo.Controls.Add(this.skinButton4);
+			this.relayFLPDemo.Controls.Add(this.skinButton5);
+			this.relayFLPDemo.Location = new System.Drawing.Point(3, 3);
+			this.relayFLPDemo.Name = "relayFLPDemo";
+			this.relayFLPDemo.Size = new System.Drawing.Size(538, 79);
+			this.relayFLPDemo.TabIndex = 0;
+			this.relayFLPDemo.Visible = false;
 			// 
-			// lcDownloadButton
+			// relayPanelDemo
 			// 
-			this.lcDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
-			this.lcDownloadButton.Enabled = false;
-			this.lcDownloadButton.Location = new System.Drawing.Point(87, 20);
-			this.lcDownloadButton.Name = "lcDownloadButton";
-			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
-			this.lcDownloadButton.TabIndex = 4;
-			this.lcDownloadButton.Text = "写入设备";
-			this.lcDownloadButton.UseVisualStyleBackColor = false;
-			this.lcDownloadButton.Click += new System.EventHandler(this.lcDownloadButton_Click);
+			this.relayPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.relayPanelDemo.Controls.Add(this.sceneCBDemo);
+			this.relayPanelDemo.Controls.Add(this.sceneLabelDemo);
+			this.relayPanelDemo.Location = new System.Drawing.Point(3, 3);
+			this.relayPanelDemo.Name = "relayPanelDemo";
+			this.relayPanelDemo.Size = new System.Drawing.Size(118, 69);
+			this.relayPanelDemo.TabIndex = 15;
 			// 
-			// lcLoadButton
+			// sceneCBDemo
 			// 
-			this.lcLoadButton.Location = new System.Drawing.Point(185, 20);
-			this.lcLoadButton.Name = "lcLoadButton";
-			this.lcLoadButton.Size = new System.Drawing.Size(75, 30);
-			this.lcLoadButton.TabIndex = 4;
-			this.lcLoadButton.Text = "打开配置";
-			this.lcLoadButton.UseVisualStyleBackColor = true;
-			this.lcLoadButton.Click += new System.EventHandler(this.lcLoadButton_Click);
+			this.sceneCBDemo.AutoSize = true;
+			this.sceneCBDemo.Location = new System.Drawing.Point(34, 48);
+			this.sceneCBDemo.Name = "sceneCBDemo";
+			this.sceneCBDemo.Size = new System.Drawing.Size(48, 16);
+			this.sceneCBDemo.TabIndex = 1;
+			this.sceneCBDemo.Text = "全开";
+			this.sceneCBDemo.UseVisualStyleBackColor = true;
+			this.sceneCBDemo.CheckedChanged += new System.EventHandler(this.sceneCBs_CheckedChanged);
 			// 
-			// lcSaveButton
+			// sceneLabelDemo
 			// 
-			this.lcSaveButton.Enabled = false;
-			this.lcSaveButton.Location = new System.Drawing.Point(263, 20);
-			this.lcSaveButton.Name = "lcSaveButton";
-			this.lcSaveButton.Size = new System.Drawing.Size(75, 30);
-			this.lcSaveButton.TabIndex = 4;
-			this.lcSaveButton.Text = "保存配置";
-			this.lcSaveButton.UseVisualStyleBackColor = true;
-			this.lcSaveButton.Click += new System.EventHandler(this.lcSaveButton_Click);
-			// 
-			// lcReadButton
-			// 
-			this.lcReadButton.BackColor = System.Drawing.Color.Transparent;
-			this.lcReadButton.Enabled = false;
-			this.lcReadButton.Location = new System.Drawing.Point(9, 20);
-			this.lcReadButton.Name = "lcReadButton";
-			this.lcReadButton.Size = new System.Drawing.Size(75, 30);
-			this.lcReadButton.TabIndex = 4;
-			this.lcReadButton.Text = "回读配置";
-			this.lcReadButton.UseVisualStyleBackColor = false;
-			this.lcReadButton.Click += new System.EventHandler(this.lcReadButton_Click);
-			// 
-			// label23
-			// 
-			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(28, 43);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(65, 12);
-			this.label23.TabIndex = 2;
-			this.label23.Text = "选择场景：";
-			// 
-			// sceneComboBox
-			// 
-			this.sceneComboBox.BackColor = System.Drawing.Color.Linen;
-			this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.sceneComboBox.FormattingEnabled = true;
-			this.sceneComboBox.Items.AddRange(new object[] {
-            "开机场景",
-            "场景1",
-            "场景2",
-            "场景3",
-            "场景4",
-            "场景5",
-            "场景6",
-            "场景7",
-            "场景8",
-            "场景9",
-            "场景10",
-            "场景11",
-            "场景12",
-            "场景13",
-            "场景14",
-            "场景15",
-            "场景16"});
-			this.sceneComboBox.Location = new System.Drawing.Point(112, 39);
-			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.sceneComboBox.Name = "sceneComboBox";
-			this.sceneComboBox.Size = new System.Drawing.Size(143, 20);
-			this.sceneComboBox.TabIndex = 0;
-			this.sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
-			// 
-			// lightGroupBox
-			// 
-			this.lightGroupBox.Controls.Add(this.relayFLP);
-			this.lightGroupBox.Controls.Add(this.keepLightOnCheckBox);
-			this.lightGroupBox.Location = new System.Drawing.Point(22, 120);
-			this.lightGroupBox.Name = "lightGroupBox";
-			this.lightGroupBox.Size = new System.Drawing.Size(689, 211);
-			this.lightGroupBox.TabIndex = 2;
-			this.lightGroupBox.TabStop = false;
-			this.lightGroupBox.Text = "各开关设置";
-			// 
-			// relayFLP
-			// 
-			this.relayFLP.Controls.Add(this.relayButtonDemo);
-			this.relayFLP.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.relayFLP.Location = new System.Drawing.Point(3, 17);
-			this.relayFLP.Name = "relayFLP";
-			this.relayFLP.Size = new System.Drawing.Size(683, 191);
-			this.relayFLP.TabIndex = 7;
+			this.sceneLabelDemo.Location = new System.Drawing.Point(3, 7);
+			this.sceneLabelDemo.Name = "sceneLabelDemo";
+			this.sceneLabelDemo.Size = new System.Drawing.Size(110, 38);
+			this.sceneLabelDemo.TabIndex = 0;
+			this.sceneLabelDemo.Text = "场景1";
+			this.sceneLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.sceneLabelDemo.Click += new System.EventHandler(this.sceneLabels_Click);
 			// 
 			// relayButtonDemo
 			// 
@@ -473,13 +422,13 @@
 			this.relayButtonDemo.ImageSize = new System.Drawing.Size(45, 45);
 			this.relayButtonDemo.InheritColor = true;
 			this.relayButtonDemo.IsDrawBorder = false;
-			this.relayButtonDemo.Location = new System.Drawing.Point(2, 2);
+			this.relayButtonDemo.Location = new System.Drawing.Point(126, 2);
 			this.relayButtonDemo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
 			this.relayButtonDemo.MouseBack = null;
 			this.relayButtonDemo.Name = "relayButtonDemo";
 			this.relayButtonDemo.NormlBack = null;
-			this.relayButtonDemo.Size = new System.Drawing.Size(63, 85);
-			this.relayButtonDemo.TabIndex = 13;
+			this.relayButtonDemo.Size = new System.Drawing.Size(63, 70);
+			this.relayButtonDemo.TabIndex = 14;
 			this.relayButtonDemo.Tag = "9999";
 			this.relayButtonDemo.Text = "开关1";
 			this.relayButtonDemo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -495,15 +444,206 @@
 			this.lightImageList.Images.SetKeyName(1, "Ok3w.Net图标15.png");
 			this.lightImageList.Images.SetKeyName(2, "墙板按钮.png");
 			// 
+			// skinButton1
+			// 
+			this.skinButton1.BackColor = System.Drawing.Color.Transparent;
+			this.skinButton1.BaseColor = System.Drawing.Color.Transparent;
+			this.skinButton1.BorderColor = System.Drawing.Color.White;
+			this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skinButton1.DownBack = null;
+			this.skinButton1.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.skinButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.skinButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.skinButton1.ForeColorSuit = true;
+			this.skinButton1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.skinButton1.ImageIndex = 0;
+			this.skinButton1.ImageSize = new System.Drawing.Size(45, 45);
+			this.skinButton1.InheritColor = true;
+			this.skinButton1.IsDrawBorder = false;
+			this.skinButton1.Location = new System.Drawing.Point(193, 2);
+			this.skinButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.skinButton1.MouseBack = null;
+			this.skinButton1.Name = "skinButton1";
+			this.skinButton1.NormlBack = null;
+			this.skinButton1.Size = new System.Drawing.Size(63, 70);
+			this.skinButton1.TabIndex = 14;
+			this.skinButton1.Tag = "9999";
+			this.skinButton1.Text = "开关1";
+			this.skinButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.skinButton1.UseVisualStyleBackColor = true;
+			this.skinButton1.Visible = false;
+			// 
+			// skinButton2
+			// 
+			this.skinButton2.BackColor = System.Drawing.Color.Transparent;
+			this.skinButton2.BaseColor = System.Drawing.Color.Transparent;
+			this.skinButton2.BorderColor = System.Drawing.Color.White;
+			this.skinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skinButton2.DownBack = null;
+			this.skinButton2.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.skinButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.skinButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.skinButton2.ForeColorSuit = true;
+			this.skinButton2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.skinButton2.ImageIndex = 0;
+			this.skinButton2.ImageSize = new System.Drawing.Size(45, 45);
+			this.skinButton2.InheritColor = true;
+			this.skinButton2.IsDrawBorder = false;
+			this.skinButton2.Location = new System.Drawing.Point(260, 2);
+			this.skinButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.skinButton2.MouseBack = null;
+			this.skinButton2.Name = "skinButton2";
+			this.skinButton2.NormlBack = null;
+			this.skinButton2.Size = new System.Drawing.Size(63, 70);
+			this.skinButton2.TabIndex = 14;
+			this.skinButton2.Tag = "9999";
+			this.skinButton2.Text = "开关1";
+			this.skinButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.skinButton2.UseVisualStyleBackColor = true;
+			this.skinButton2.Visible = false;
+			// 
+			// skinButton3
+			// 
+			this.skinButton3.BackColor = System.Drawing.Color.Transparent;
+			this.skinButton3.BaseColor = System.Drawing.Color.Transparent;
+			this.skinButton3.BorderColor = System.Drawing.Color.White;
+			this.skinButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skinButton3.DownBack = null;
+			this.skinButton3.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.skinButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.skinButton3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.skinButton3.ForeColorSuit = true;
+			this.skinButton3.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.skinButton3.ImageIndex = 0;
+			this.skinButton3.ImageSize = new System.Drawing.Size(45, 45);
+			this.skinButton3.InheritColor = true;
+			this.skinButton3.IsDrawBorder = false;
+			this.skinButton3.Location = new System.Drawing.Point(327, 2);
+			this.skinButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.skinButton3.MouseBack = null;
+			this.skinButton3.Name = "skinButton3";
+			this.skinButton3.NormlBack = null;
+			this.skinButton3.Size = new System.Drawing.Size(63, 70);
+			this.skinButton3.TabIndex = 14;
+			this.skinButton3.Tag = "9999";
+			this.skinButton3.Text = "开关1";
+			this.skinButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.skinButton3.UseVisualStyleBackColor = true;
+			this.skinButton3.Visible = false;
+			// 
+			// skinButton4
+			// 
+			this.skinButton4.BackColor = System.Drawing.Color.Transparent;
+			this.skinButton4.BaseColor = System.Drawing.Color.Transparent;
+			this.skinButton4.BorderColor = System.Drawing.Color.White;
+			this.skinButton4.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skinButton4.DownBack = null;
+			this.skinButton4.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.skinButton4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.skinButton4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.skinButton4.ForeColorSuit = true;
+			this.skinButton4.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.skinButton4.ImageIndex = 0;
+			this.skinButton4.ImageSize = new System.Drawing.Size(45, 45);
+			this.skinButton4.InheritColor = true;
+			this.skinButton4.IsDrawBorder = false;
+			this.skinButton4.Location = new System.Drawing.Point(394, 2);
+			this.skinButton4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.skinButton4.MouseBack = null;
+			this.skinButton4.Name = "skinButton4";
+			this.skinButton4.NormlBack = null;
+			this.skinButton4.Size = new System.Drawing.Size(63, 70);
+			this.skinButton4.TabIndex = 14;
+			this.skinButton4.Tag = "9999";
+			this.skinButton4.Text = "开关1";
+			this.skinButton4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.skinButton4.UseVisualStyleBackColor = true;
+			this.skinButton4.Visible = false;
+			// 
+			// skinButton5
+			// 
+			this.skinButton5.BackColor = System.Drawing.Color.Transparent;
+			this.skinButton5.BaseColor = System.Drawing.Color.Transparent;
+			this.skinButton5.BorderColor = System.Drawing.Color.White;
+			this.skinButton5.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skinButton5.DownBack = null;
+			this.skinButton5.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.skinButton5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.skinButton5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.skinButton5.ForeColorSuit = true;
+			this.skinButton5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.skinButton5.ImageIndex = 0;
+			this.skinButton5.ImageSize = new System.Drawing.Size(45, 45);
+			this.skinButton5.InheritColor = true;
+			this.skinButton5.IsDrawBorder = false;
+			this.skinButton5.Location = new System.Drawing.Point(461, 2);
+			this.skinButton5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
+			this.skinButton5.MouseBack = null;
+			this.skinButton5.Name = "skinButton5";
+			this.skinButton5.NormlBack = null;
+			this.skinButton5.Size = new System.Drawing.Size(63, 70);
+			this.skinButton5.TabIndex = 14;
+			this.skinButton5.Tag = "9999";
+			this.skinButton5.Text = "开关1";
+			this.skinButton5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.skinButton5.UseVisualStyleBackColor = true;
+			this.skinButton5.Visible = false;
+			// 
+			// lcDownloadButton
+			// 
+			this.lcDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.lcDownloadButton.Enabled = false;
+			this.lcDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lcDownloadButton.Location = new System.Drawing.Point(1056, 16);
+			this.lcDownloadButton.Name = "lcDownloadButton";
+			this.lcDownloadButton.Size = new System.Drawing.Size(75, 48);
+			this.lcDownloadButton.TabIndex = 4;
+			this.lcDownloadButton.Text = "写入设备";
+			this.lcDownloadButton.UseVisualStyleBackColor = false;
+			this.lcDownloadButton.Click += new System.EventHandler(this.lcDownloadButton_Click);
+			// 
+			// lcLoadButton
+			// 
+			this.lcLoadButton.Location = new System.Drawing.Point(733, 16);
+			this.lcLoadButton.Name = "lcLoadButton";
+			this.lcLoadButton.Size = new System.Drawing.Size(75, 48);
+			this.lcLoadButton.TabIndex = 4;
+			this.lcLoadButton.Text = "打开配置";
+			this.lcLoadButton.UseVisualStyleBackColor = true;
+			this.lcLoadButton.Click += new System.EventHandler(this.lcLoadButton_Click);
+			// 
 			// keepLightOnCheckBox
 			// 
 			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(144, -2);
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(41, 32);
 			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
 			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.keepLightOnCheckBox.TabIndex = 9;
 			this.keepLightOnCheckBox.Text = "常亮模式";
 			this.keepLightOnCheckBox.UseVisualStyleBackColor = true;
+			// 
+			// lcSaveButton
+			// 
+			this.lcSaveButton.Enabled = false;
+			this.lcSaveButton.Location = new System.Drawing.Point(826, 16);
+			this.lcSaveButton.Name = "lcSaveButton";
+			this.lcSaveButton.Size = new System.Drawing.Size(75, 48);
+			this.lcSaveButton.TabIndex = 4;
+			this.lcSaveButton.Text = "保存配置";
+			this.lcSaveButton.UseVisualStyleBackColor = true;
+			this.lcSaveButton.Click += new System.EventHandler(this.lcSaveButton_Click);
+			// 
+			// lcReadButton
+			// 
+			this.lcReadButton.BackColor = System.Drawing.Color.Transparent;
+			this.lcReadButton.Enabled = false;
+			this.lcReadButton.Location = new System.Drawing.Point(960, 16);
+			this.lcReadButton.Name = "lcReadButton";
+			this.lcReadButton.Size = new System.Drawing.Size(75, 48);
+			this.lcReadButton.TabIndex = 4;
+			this.lcReadButton.Text = "回读配置";
+			this.lcReadButton.UseVisualStyleBackColor = false;
+			this.lcReadButton.Click += new System.EventHandler(this.lcReadButton_Click);
 			// 
 			// keyTabPage
 			// 
@@ -733,9 +873,9 @@
 			this.kpDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.kpDownloadButton.Enabled = false;
 			this.kpDownloadButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.kpDownloadButton.Location = new System.Drawing.Point(1037, 512);
+			this.kpDownloadButton.Location = new System.Drawing.Point(1056, 504);
 			this.kpDownloadButton.Name = "kpDownloadButton";
-			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
+			this.kpDownloadButton.Size = new System.Drawing.Size(75, 48);
 			this.kpDownloadButton.TabIndex = 5;
 			this.kpDownloadButton.Text = "写入墙板";
 			this.kpDownloadButton.UseVisualStyleBackColor = false;
@@ -760,6 +900,55 @@
 			this.kpKey0TextBox.Size = new System.Drawing.Size(50, 21);
 			this.kpKey0TextBox.TabIndex = 1;
 			this.kpKey0TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label1.ForeColor = System.Drawing.Color.DimGray;
+			this.label1.Location = new System.Drawing.Point(585, 52);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(287, 12);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.Location = new System.Drawing.Point(583, 22);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(65, 12);
+			this.label23.TabIndex = 2;
+			this.label23.Text = "选择场景：";
+			// 
+			// sceneComboBox
+			// 
+			this.sceneComboBox.BackColor = System.Drawing.Color.Linen;
+			this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.sceneComboBox.FormattingEnabled = true;
+			this.sceneComboBox.Items.AddRange(new object[] {
+            "开机场景",
+            "场景1",
+            "场景2",
+            "场景3",
+            "场景4",
+            "场景5",
+            "场景6",
+            "场景7",
+            "场景8",
+            "场景9",
+            "场景10",
+            "场景11",
+            "场景12",
+            "场景13",
+            "场景14",
+            "场景15",
+            "场景16"});
+			this.sceneComboBox.Location = new System.Drawing.Point(667, 18);
+			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.sceneComboBox.Name = "sceneComboBox";
+			this.sceneComboBox.Size = new System.Drawing.Size(143, 20);
+			this.sceneComboBox.TabIndex = 0;
 			// 
 			// myToolTip
 			// 
@@ -847,7 +1036,7 @@
 			this.panel1.Controls.Add(this.deviceTypeLabel);
 			this.panel1.Controls.Add(this.deviceNameLabel);
 			this.panel1.Controls.Add(this.label6);
-			this.panel1.Location = new System.Drawing.Point(994, 10);
+			this.panel1.Location = new System.Drawing.Point(1056, 10);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(200, 68);
 			this.panel1.TabIndex = 31;
@@ -891,14 +1080,15 @@
 			this.label6.TabIndex = 25;
 			this.label6.Text = "设备名称：";
 			// 
-			// label2
+			// debugNoticeLabel
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(568, 30);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(89, 12);
-			this.label2.TabIndex = 15;
-			this.label2.Text = "输入功能描述：";
+			this.debugNoticeLabel.AutoSize = true;
+			this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
+			this.debugNoticeLabel.Location = new System.Drawing.Point(157, 34);
+			this.debugNoticeLabel.Name = "debugNoticeLabel";
+			this.debugNoticeLabel.Size = new System.Drawing.Size(365, 12);
+			this.debugNoticeLabel.TabIndex = 10;
+			this.debugNoticeLabel.Text = "提示：点击场景名，会向机器发送此场景的《灯控开关》调试数据。";
 			// 
 			// ToolsForm
 			// 
@@ -907,8 +1097,11 @@
 			this.BackColor = System.Drawing.Color.Silver;
 			this.ClientSize = new System.Drawing.Size(1264, 681);
 			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.myStatusStrip);
+			this.Controls.Add(this.label23);
+			this.Controls.Add(this.sceneComboBox);
 			this.Controls.Add(this.renderMainFormSceneButton);
 			this.Controls.Add(this.protocolSaveButton);
 			this.Controls.Add(this.protocolComboBox);
@@ -926,10 +1119,10 @@
 			this.centerTabPage.PerformLayout();
 			this.lightTabPage.ResumeLayout(false);
 			this.lightTabPage.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
-			this.lightGroupBox.ResumeLayout(false);
-			this.lightGroupBox.PerformLayout();
-			this.relayFLP.ResumeLayout(false);
+			this.relayBigFLP.ResumeLayout(false);
+			this.relayFLPDemo.ResumeLayout(false);
+			this.relayPanelDemo.ResumeLayout(false);
+			this.relayPanelDemo.PerformLayout();
 			this.keyTabPage.ResumeLayout(false);
 			this.keyTabPage.PerformLayout();
 			this.myStatusStrip.ResumeLayout(false);
@@ -965,16 +1158,12 @@
 		private System.Windows.Forms.Label com0Label;
 		private System.Windows.Forms.Label com1Label;
 		private System.Windows.Forms.TabPage lightTabPage;
-		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Button lcDownloadButton;
 		private System.Windows.Forms.Button lcLoadButton;
 		private System.Windows.Forms.Button lcSaveButton;
 		private System.Windows.Forms.Button lcReadButton;
 		private System.Windows.Forms.Label label23;
 		private System.Windows.Forms.ComboBox sceneComboBox;
-		private System.Windows.Forms.GroupBox lightGroupBox;
-		private System.Windows.Forms.FlowLayoutPanel relayFLP;
-		private System.Windows.Forms.CheckBox keepLightOnCheckBox;
 		private System.Windows.Forms.TabPage keyTabPage;
 		private System.Windows.Forms.Button kpReadButton;
 		private System.Windows.Forms.ListView keypressListView;
@@ -997,7 +1186,6 @@
 		private System.Windows.Forms.OpenFileDialog lbinOpenDialog;
 		private System.Windows.Forms.SaveFileDialog lbinSaveDialog;
 		private System.Windows.Forms.ImageList lightImageList;
-		private CCWin.SkinControl.SkinButton relayButtonDemo;
 		private System.Windows.Forms.Button protocolSaveButton;
 		private System.Windows.Forms.SaveFileDialog pbinSaveDialog;
 		private System.Windows.Forms.StatusStrip myStatusStrip;
@@ -1020,5 +1208,18 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.FlowLayoutPanel relayBigFLP;
+		private System.Windows.Forms.FlowLayoutPanel relayFLPDemo;
+		private System.Windows.Forms.Panel relayPanelDemo;
+		private System.Windows.Forms.Label sceneLabelDemo;
+		private CCWin.SkinControl.SkinButton relayButtonDemo;
+		private System.Windows.Forms.CheckBox sceneCBDemo;
+		private System.Windows.Forms.CheckBox keepLightOnCheckBox;
+		private CCWin.SkinControl.SkinButton skinButton1;
+		private CCWin.SkinControl.SkinButton skinButton2;
+		private CCWin.SkinControl.SkinButton skinButton3;
+		private CCWin.SkinControl.SkinButton skinButton4;
+		private CCWin.SkinControl.SkinButton skinButton5;
+		private System.Windows.Forms.Label debugNoticeLabel;
 	}
 }

@@ -44,10 +44,16 @@ namespace LightController.MyForm.OtherTools
 		private const int END_DECODING_TIME = 200; // 关闭中控解码需要一定的时间，才能往下操作；正常情况下200毫秒应该足够，但应设为可调节的		
 		private bool isDecoding = false; //中控是否开启解码
 
-		private LightControlData lcEntity; //灯控封装对象		
-		private Button[] relayButtons;  // 动态添加的按钮组（灯控各个开关）	
+		private LightControlData lcEntity; //灯控封装对象	
+		private int sceneCount = 17; // 场景的数量（开机场景 + 16）
 		private int relayCount = 6; // 开关的数量		 		
-			
+		//private Button[] relayButtons;  // 动态添加的按钮组（灯控各个开关）	
+		private FlowLayoutPanel[] relayFLPs;
+		private Panel[] relayPanels;
+		private Label[] sceneLabels;
+		private CheckBox[] sceneCBs;
+		private Button[,] relayButtons;
+
 		private KeyEntity kpEntity;  // 墙板封装对象
 		private List<string> kpCodeList;   // 记录搜索到的码值列表（不用Dictionary，因为没有存储功能描述的必要，且Dictionary无序）		
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
@@ -65,41 +71,87 @@ namespace LightController.MyForm.OtherTools
 			sceneComboBox.SelectedIndex = 0;
 
 			// 各强电开关
-			relayButtons = new SkinButton[relayCount];
-			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
-			{
-				relayButtons[relayIndex] = new SkinButton
-				{
-					BackColor = relayButtonDemo.BackColor,
-					BaseColor = relayButtonDemo.BaseColor,
-					BorderColor = relayButtonDemo.BorderColor,
-					ControlState = relayButtonDemo.ControlState,
-					DownBack = relayButtonDemo.DownBack,
-					DrawType = relayButtonDemo.DrawType,
-					Font = relayButtonDemo.Font,
-					ForeColor = relayButtonDemo.ForeColor,
-					ForeColorSuit = relayButtonDemo.ForeColorSuit,
-					ImageAlign = relayButtonDemo.ImageAlign,
-					ImageIndex = relayButtonDemo.ImageIndex,
-					ImageList = relayButtonDemo.ImageList,
-					ImageSize = relayButtonDemo.ImageSize,
-					InheritColor = relayButtonDemo.InheritColor,
-					IsDrawBorder = relayButtonDemo.IsDrawBorder,
-					Location = relayButtonDemo.Location,
-					Margin = relayButtonDemo.Margin,
-					MouseBack = relayButtonDemo.MouseBack,
-					NormlBack = relayButtonDemo.NormlBack,
-					Size = relayButtonDemo.Size,
-					Tag = relayButtonDemo.Tag,
-					TextAlign = relayButtonDemo.TextAlign,
-					UseVisualStyleBackColor = relayButtonDemo.UseVisualStyleBackColor,
-					Visible = true,
-					Name = "switchButtons" + (relayIndex + 1),
-					Text = LanguageHelper.TranslateWord("开关") + (relayIndex + 1)
-				};
-				relayButtons[relayIndex].Click += relayButtons_Click;
+			relayFLPs = new FlowLayoutPanel[sceneCount];
+			relayPanels = new Panel[sceneCount];
+			sceneLabels = new Label[sceneCount];
+			sceneCBs = new CheckBox[sceneCount];
+			relayButtons = new SkinButton[sceneCount , relayCount];
 
-				relayFLP.Controls.Add(relayButtons[relayIndex]);
+			for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++) {
+
+				relayFLPs[sceneIndex] = new FlowLayoutPanel
+				{
+					BorderStyle = relayFLPDemo.BorderStyle,
+					Location = relayFLPDemo.Location,
+					Size = relayFLPDemo.Size
+				};
+				relayBigFLP.Controls.Add(relayFLPs[sceneIndex]);
+
+				relayPanels[sceneIndex] = new Panel()
+				{
+					Location = relayPanelDemo.Location,
+					Size = relayPanelDemo.Size,
+					BorderStyle = relayPanelDemo.BorderStyle,
+				};
+
+				sceneLabels[sceneIndex] = new Label
+				{
+					Location = sceneLabelDemo.Location,
+					Size = sceneLabelDemo.Size,
+					TextAlign = sceneLabelDemo.TextAlign,
+					Name = sceneIndex.ToString()
+				};
+				sceneLabels[sceneIndex].Click += sceneLabels_Click;
+				sceneCBs[sceneIndex] = new CheckBox
+				{
+					AutoSize = sceneCBDemo.AutoSize = true,
+					Location = sceneCBDemo.Location,
+					Size = sceneCBDemo.Size,
+					UseVisualStyleBackColor = sceneCBDemo.UseVisualStyleBackColor,
+					Text = sceneCBDemo.Text,
+					Name = sceneIndex.ToString()
+				};
+				sceneCBs[sceneIndex].CheckedChanged += sceneCBs_CheckedChanged;
+
+				relayPanels[sceneIndex].Controls.Add(sceneLabels[sceneIndex]);
+				relayPanels[sceneIndex].Controls.Add(sceneCBs[sceneIndex]);
+
+				relayFLPs[sceneIndex].Controls.Add(relayPanels[sceneIndex]);
+				for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
+				{
+					relayButtons[sceneIndex,relayIndex] = new SkinButton
+					{
+						BackColor = relayButtonDemo.BackColor,
+						BaseColor = relayButtonDemo.BaseColor,
+						BorderColor = relayButtonDemo.BorderColor,
+						ControlState = relayButtonDemo.ControlState,
+						DownBack = relayButtonDemo.DownBack,
+						DrawType = relayButtonDemo.DrawType,
+						Font = relayButtonDemo.Font,
+						ForeColor = relayButtonDemo.ForeColor,
+						ForeColorSuit = relayButtonDemo.ForeColorSuit,
+						ImageAlign = relayButtonDemo.ImageAlign,
+						ImageIndex = relayButtonDemo.ImageIndex,
+						ImageList = relayButtonDemo.ImageList,
+						ImageSize = relayButtonDemo.ImageSize,
+						InheritColor = relayButtonDemo.InheritColor,
+						IsDrawBorder = relayButtonDemo.IsDrawBorder,
+						Location = relayButtonDemo.Location,
+						Margin = relayButtonDemo.Margin,
+						MouseBack = relayButtonDemo.MouseBack,
+						NormlBack = relayButtonDemo.NormlBack,
+						Size = relayButtonDemo.Size,
+						Tag = relayButtonDemo.Tag,
+						TextAlign = relayButtonDemo.TextAlign,
+						UseVisualStyleBackColor = relayButtonDemo.UseVisualStyleBackColor,
+						Visible = true,
+						Name = sceneIndex + "," + relayIndex ,
+						Text = LanguageHelper.TranslateWord("开关") + (relayIndex + 1)
+					};
+					relayButtons[sceneIndex,relayIndex].Click += relayButtons_Click ;
+					relayFLPs[sceneIndex].Controls.Add(relayButtons[sceneIndex, relayIndex]);
+				}
+
 			}
 
 			myToolTip.SetToolTip(renderMainFormSceneButton,
@@ -185,7 +237,7 @@ namespace LightController.MyForm.OtherTools
 			if (mainForm.IsConnected)
 			{
 				setBusy(true);
-				mainForm.SleepBetweenSend("Order : 切换外设状态" ,1);
+				mainForm.SleepBetweenSend("Order : 切换外设状态[" + tabControl1.SelectedIndex+"]", 1);
 				switch (tabControl1.SelectedIndex)
 				{
 					case 0:
@@ -429,14 +481,11 @@ namespace LightController.MyForm.OtherTools
 				int lcSceneIndex = sceneComboBox.SelectedIndex;     // 先记录当前灯控选中的场景index，在渲染后重新选择				
 				if (sceneCodeList != null && sceneCodeList.Count == 16)
 				{
-					sceneComboBox.Items.Clear();
-					sceneComboBox.Items.Add("开机场景");
-
+					sceneLabels[0].Text = "开机场景";
 					for (int codeIndex = 0; codeIndex < 16; codeIndex++)
 					{
-						sceneComboBox.Items.Add(ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function);
+						sceneLabels[codeIndex+1].Text = ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function;
 					}
-					sceneComboBox.SelectedIndex = lcSceneIndex;
 				}
 			}
 			refreshButtons();
@@ -657,128 +706,8 @@ namespace LightController.MyForm.OtherTools
 
 		#endregion
 
-		#region 灯控相关
-
-		/// <summary>
-		/// 事件：点击《开关按键(1-6)》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void relayButtons_Click(object sender, EventArgs e)
-		{
-			if (lcEntity == null)
-			{
-				return;
-			}
-
-			int relayIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-			setLightButtonValue(relayIndex);
-			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
-			if (keepLightOnCheckBox.Checked)
-			{
-				bool tempLightOnMode = lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex];
-				for (int frameIndex = 0; frameIndex < 17; frameIndex++)
-				{
-					lcEntity.SceneData[frameIndex, relayIndex] = tempLightOnMode;
-				}
-			}
-			debugLC(); //relayButtons_Click
-		}
-
-		/// <summary>
-		///  辅助方法：在点击《开关按键》时，更改相关的lcEntity内的数据；
-		/// </summary>
-		/// <param name="relayIndex"></param>
-		private void setLightButtonValue(int relayIndex)
-		{
-			if (lcEntity == null)
-			{
-				return;
-			}
-			lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex] = !lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex];
-			relayButtons[relayIndex].ImageIndex = lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex] ? 1 : 0;
-		}
-
-		/// <summary>
-		/// 辅助方法：向设备发送当前场景的灯光通道数据。
-		/// </summary>
-		private void debugLC()
-		{
-			if (connStatus != ConnectStatus.Lc)
-			{
-				return;
-			}			
-			setNotice(StatusLabel.RIGHT, "正在发送《灯控开关》调试数据..." ,false,true);
-			Refresh();
-			byte[] tempData = lcEntity.GetFrameBytes(sceneComboBox.SelectedIndex);		
-			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
-		}
-
-		/// <summary>
-		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
-		/// </summary>
-		/// <param name="obj"></param>
-		public void LCSendCompleted(Object obj, string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				setNotice( StatusLabel.RIGHT, "已成功发送《灯控开关》调试数据。", false,true);
-			});
-		}
-
-		/// <summary>
-		///  辅助回调方法：灯控debug发送出错
-		/// </summary>
-		/// <param name="obj"></param>
-		public void LCSendError(string msg)
-		{
-			Invoke((EventHandler)delegate
-			{
-				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]",false,true);				
-				reconnectDevice();  // LCSendError
-			});
-		}
-
-		/// <summary>
-		/// 事件：更改了场景之后，重新填充灯光通道数据
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void qdFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			reloadLightGroupBox();
-		}
-
-		/// <summary>
-		/// 事件：点击《(灯控)下载配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lcDownloadButton_Click(object sender, EventArgs e)
-		{
-			setNotice(StatusLabel.RIGHT, "正在下载灯控配置，请稍候...", false, true);
-			processLC();
-			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
-		}
-
-		/// <summary>
-		/// 辅助方法：把LC中SceneData内大于6的继电器的所有值都设为false，有两处调用：写入配置和保存配置
-		/// </summary>
-		private void processLC()
-		{
-			if (lcEntity != null)
-			{
-				// 下载之前，因为设备处理的原因，需要把屏蔽掉的通道（启用排风或空调）的SceneData都设为false
-				for (int scene = 0; scene < 17; scene++)
-				{
-					for (int relayIndex = 6; relayIndex < 12; relayIndex++)
-					{
-						lcEntity.SceneData[scene, relayIndex] = false;
-					}
-				}
-			}
-		}
-		
+		#region 灯控相关		
+						
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -800,44 +729,34 @@ namespace LightController.MyForm.OtherTools
 		{
 			if (lcEntity == null)
 			{
-				lightGroupBox.Enabled = false;
+				relayBigFLP.Enabled = false;
 				refreshButtons();
 				setNotice(0, "lcEntity==null。", true, false);
 				return;
 			}
 
 			try
-			{				
-				lightGroupBox.Enabled = lcEntity.RelayCount != 0;
-				reloadLightGroupBox();
+			{
+				relayBigFLP.Enabled = lcEntity.RelayCount != 0;
+				for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
+				{
+					for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
+					{
+						relayButtons[sceneIndex,relayIndex].ImageIndex = lcEntity.SceneData[sceneIndex, relayIndex] ? 1 : 0;
+						if (lcEntity.SequencerData != null)
+						{
+							relayButtons[sceneIndex,relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex];
+						}
+					}
+				}
 				refreshButtons();
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
 			}
-		}
-		
-		/// <summary>
-		/// 辅助方法：当场景编号改变时，动态加载内存中的lcData.SceneData[selectedFrameIndex]；
-		/// </summary>
-		private void reloadLightGroupBox()
-		{
-			if (lcEntity == null)
-			{
-				return;
-			}
-
-			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
-			{
-				relayButtons[relayIndex].ImageIndex = lcEntity.SceneData[sceneComboBox.SelectedIndex, relayIndex] ? 1 : 0;
-				if (lcEntity.SequencerData != null) {
-					relayButtons[relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex]; 
-				}
-			}
-			debugLC(); //reloadLightGroupBox
-		}
-
+		}	
+	
 		/// <summary>
 		/// 事件：点击《(灯控)打开配置》
 		/// </summary>
@@ -881,7 +800,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			if (DialogResult.OK == lbinSaveDialog.ShowDialog())
 			{
-				processLC();
+				processLC(); //lcSaveButton_Click
 				try
 				{
 					string lbinPath = lbinSaveDialog.FileName;
@@ -944,7 +863,7 @@ namespace LightController.MyForm.OtherTools
 				}
 				lcEntity = lcDataTemp as LightControlData;
 				lcRender();
-				setNotice(StatusLabel.RIGHT, "成功回读灯控配置", false, true);
+				setNotice(StatusLabel.RIGHT, "成功回读灯控配置", true, true);
 				setBusy(false);
 			});
 		}
@@ -960,6 +879,36 @@ namespace LightController.MyForm.OtherTools
 
 				reconnectDevice(); //LCReadError
 			});
+		}
+
+		/// <summary>
+		/// 事件：点击《(灯控)下载配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcDownloadButton_Click(object sender, EventArgs e)
+		{
+			setNotice(StatusLabel.RIGHT, "正在下载灯控配置，请稍候...", false, true);
+			processLC(); // lcDownloadButton_Click
+			mainForm.MyConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+		}
+
+		/// <summary>
+		/// 辅助方法：把LC中SceneData内大于6的继电器的所有值都设为false，有两处调用：写入配置和保存配置
+		/// </summary>
+		private void processLC()
+		{
+			if (lcEntity != null)
+			{
+				// 下载之前，因为设备处理的原因，需要把屏蔽掉的通道（启用排风或空调）的SceneData都设为false
+				for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
+				{
+					for (int relayIndex = 6; relayIndex < 12; relayIndex++)
+					{
+						lcEntity.SceneData[sceneIndex, relayIndex] = false;
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -984,6 +933,97 @@ namespace LightController.MyForm.OtherTools
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("灯控配置下载失败：") + msg, true, false);
 				reconnectDevice(); //LCDownloadError
 			});
+		}
+
+		/// <summary>
+		///  事件：点击《灯控配置-场景名》，发送调试数据
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sceneLabels_Click(object sender, EventArgs e)
+		{
+			if (connStatus != ConnectStatus.Lc)
+			{
+				return;
+			}
+			setNotice(StatusLabel.RIGHT, "正在发送选中场景的《灯控开关》调试数据，请稍候...", false, true);
+			Refresh();
+			int sceneIndex = int.Parse((sender as Label).Name);
+			byte[] tempData = lcEntity.GetFrameBytes(sceneIndex);
+			mainForm.SleepBetweenSend("DebugLC" , 1);
+			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
+		}
+
+		/// <summary>
+		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void LCSendCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setNotice(StatusLabel.RIGHT, "已成功发送《灯控开关》调试数据。", false, true);
+			});
+		}
+
+		/// <summary>
+		///  辅助回调方法：灯控debug发送出错
+		/// </summary>
+		/// <param name="obj"></param>
+		public void LCSendError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]", false, true);
+				reconnectDevice();  // LCSendError
+			});
+		}
+
+		/// <summary>
+		///  事件：点击《灯控配置-场景全开复选框》，则此场景的所有灯光都开起来或关闭
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sceneCBs_CheckedChanged(object sender, EventArgs e)
+		{
+			CheckBox sceneCB = sender as CheckBox;
+			int sceneIndex = int.Parse(sceneCB.Name);
+			bool tempRelayOn = sceneCB.Checked;
+
+			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
+			{
+				lcEntity.SceneData[sceneIndex, relayIndex] = tempRelayOn;
+				relayButtons[sceneIndex, relayIndex].ImageIndex = tempRelayOn ? 1 : 0;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《开关按键(1-6)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void relayButtons_Click(object sender, EventArgs e)
+		{
+			if (lcEntity == null)
+			{
+				return;
+			}
+
+			Button relayButton = sender as Button;
+			int sceneIndex = int.Parse(relayButton.Name.Split(',')[0]);
+			int relayIndex = int.Parse(relayButton.Name.Split(',')[1]);
+			bool tempRelayOn = !lcEntity.SceneData[sceneIndex, relayIndex];
+
+			for (int sceneIndex2 = 0; sceneIndex2 < sceneCount; sceneIndex2++)
+			{
+				// 两种情况要把相应的通道给亮上：1.点击按键；2.常亮模式
+				if (sceneIndex == sceneIndex2 || keepLightOnCheckBox.Checked) 
+				{
+					lcEntity.SceneData[sceneIndex2, relayIndex] = tempRelayOn;
+					relayButtons[sceneIndex2, relayIndex].ImageIndex = tempRelayOn ? 1 : 0;
+				}
+			}
+
 		}
 
 		#endregion
@@ -1454,8 +1494,8 @@ namespace LightController.MyForm.OtherTools
 		{
 			LanguageHelper.TranslateControl(sender as Control);
 		}
-		
+
 		#endregion
-			
+		
 	}
 }

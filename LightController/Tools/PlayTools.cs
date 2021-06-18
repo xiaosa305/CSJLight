@@ -112,12 +112,10 @@ namespace LightController.Tools
 
         private void Compelted(Object obj,string msg)
         {
-            Console.WriteLine("PlayTool-StopPreview_Completed");
         }
 
         private void Error(string msg)
         {
-            Console.WriteLine("PlayTool-StopPreview_Faild");
         }
 
         public static PlayTools GetInstance()
@@ -245,7 +243,6 @@ namespace LightController.Tools
             {
                 if (this.Config.Music_Control_Enable[this.SceneNo] == 0 || !this.PreviewTimer.Enabled || !this.MusicData)
                 {
-                    Console.WriteLine("正在触发音频，已取消1");
                     return;
                 }
                 if (this.MusicWaiting)
@@ -265,7 +262,6 @@ namespace LightController.Tools
                 }
                 else
                 {
-                    Console.WriteLine("正在触发音频，已取消2");
                     return;
                 }
             }
@@ -337,7 +333,6 @@ namespace LightController.Tools
         {
             try
             {
-                Console.WriteLine("音频触发成功");
                 if (Interlocked.Exchange(ref MusicControlTimerStatus, 1) == 0)
                 {
                     if (this.MusicStepPoint == this.StepListCount)

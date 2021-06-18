@@ -37,7 +37,6 @@ namespace LightController.PeripheralDevice
         {
             if (this.Socket != null)
             {
-                Console.WriteLine(this.Socket.Connected);
                 return this.Socket.Connected;
             }
             else

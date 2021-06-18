@@ -44,7 +44,6 @@ namespace LightController.PeripheralDevice
                 {
                     this.Server.Close();
                     this.Server = null;
-                    Console.WriteLine("关闭");
                 }
                 this.LocalIP = localIp;
                 this.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
@@ -71,7 +70,6 @@ namespace LightController.PeripheralDevice
                 packageBuff[6] = CRC[0];
                 packageBuff[7] = CRC[1];
                 this.Server.BeginSendTo(packageBuff.ToArray(), 0, packageBuff.Count, SocketFlags.None, new IPEndPoint(IPAddress.Broadcast, 7060), this.SendCallBack, this);
-                Console.WriteLine("LocalIP：" + this.LocalIP);
             }
             catch (Exception ex)
             {
@@ -110,7 +108,6 @@ namespace LightController.PeripheralDevice
                     byte[] buff = new byte[count - 8];
                     Array.Copy(connect.ReceiveBuff, 8, buff, 0, count - 8);
                     string str = Encoding.Default.GetString(buff);
-                    Console.WriteLine("收到数据包：" + str);
                     string strBuff = Encoding.Default.GetString(buff);
                     string[] strarrau = strBuff.Split(' ');
                     NetworkDeviceInfo info = new NetworkDeviceInfo();
@@ -119,7 +116,6 @@ namespace LightController.PeripheralDevice
                     info.DeviceAddr = addr;
                     info.LocalIp = LocalIP;
                     info.DeviceName = strBuff.Split(' ')[2];
-                    Console.WriteLine(Encoding.Default.GetString(buff));
                     if (!Devices[LocalIP].ContainsKey(info.DeviceIp))
                     {
                         Devices[LocalIP].Add(info.DeviceIp, info);

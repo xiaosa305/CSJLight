@@ -497,24 +497,13 @@ namespace LightController.PeripheralDevice
                         if (packCRC[0] == CaluPackCRC[0] && packCRC[1] == CaluPackCRC[1])
                         {
                             List<byte> data = ReadBuff.Skip(PACKHEADLENGTH).ToList();
-                            //LogTools.Debug(Constant.TAG_XIAOSA, "Receive Data:" + Encoding.Default.GetString(data.ToArray()));
                             this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
-                        else
-                        {
-                            Console.WriteLine(Data.Length);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine(Data.Length);
-
                     }
                 }
                 else
                 {
-                    Console.WriteLine(Data.Length);
                     ReadBuff.Clear();
                 }
             }
@@ -1491,7 +1480,6 @@ namespace LightController.PeripheralDevice
                     {
                         this.IsAck = false;
                         this.IsDone = false;
-                        Console.WriteLine("包序：" + PackIndex);
                         if (this.PackIndex == this.PackCount)
                         {
                             this.IsSending = false;
@@ -2898,7 +2886,6 @@ namespace LightController.PeripheralDevice
         private void DownloadProjectReceiveManager(List<byte> data)
         {
             this.StopTimeOut();
-            Console.WriteLine("ReceiveMsg : " + Encoding.Default.GetString(data.ToArray()));
             switch (this.MainOrder)
             {
                 case Constant.ORDER_BEGIN_SEND:

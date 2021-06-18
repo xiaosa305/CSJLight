@@ -949,7 +949,7 @@ namespace LightController.MyForm.OtherTools
 			setNotice(StatusLabel.RIGHT, "正在发送选中场景的《灯控开关》调试数据，请稍候...", false, true);
 			Refresh();
 			int sceneIndex = int.Parse((sender as Label).Name);
-			byte[] tempData = lcEntity.GetFrameBytes(sceneIndex);
+			byte[] tempData = lcEntity.GetSceneRelayBytes(sceneIndex);
 			mainForm.SleepBetweenSend("DebugLC" , 1);
 			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
 		}

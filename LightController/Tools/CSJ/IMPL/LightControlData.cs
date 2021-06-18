@@ -225,15 +225,19 @@ namespace LightController.Tools.CSJ.IMPL
 			return base.ToString();
 		}
 
-		public byte[] GetFrameBytes(int frame)
+		/// <summary>
+		///  辅助方法：把某个场景的开关列表，转为byte数组
+		/// </summary>
+		/// <param name="sceneIndex"></param>
+		/// <returns></returns>
+		public byte[] GetSceneRelayBytes(int sceneIndex)
 		{
-
 			byte[] data = new byte[RelayDataSize];
 
 			string tempStr = "";
 			for (int relayIndex = 0; relayIndex < RelayCount; relayIndex++)
 			{
-				tempStr += SceneData[frame, relayIndex] ? "1" : "0";
+				tempStr += SceneData[sceneIndex, relayIndex] ? "1" : "0";
 			}
 
 			if (RelayCount <= 8)
@@ -245,8 +249,7 @@ namespace LightController.Tools.CSJ.IMPL
 			{
 				tempStr = tempStr.PadRight(16, '0');
 				string str1 = StringHelper.ReverseString(tempStr.Substring(0, 8));
-				data[0] = Convert.ToByte(str1, 2);
-				Console.WriteLine(tempStr.Length);
+				data[0] = Convert.ToByte(str1, 2);				
 				string str2 = StringHelper.ReverseString(tempStr.Substring(8, 8));
 				data[1] = Convert.ToByte(str2, 2);
 			}

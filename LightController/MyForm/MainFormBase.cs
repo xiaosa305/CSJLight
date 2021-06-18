@@ -3767,7 +3767,7 @@ namespace LightController.MyForm
 				Thread.Sleep( ConnectForm.SEND_WAITTIME * times - (int)pastTime) ;	
 			}
 			LastSendTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;
-			Console.WriteLine(orderName + "   ==   " + DateTime.Now);
+			Console.WriteLine(DateTime.Now + " ：" + orderName );
 		}
 		
 		/// <summary>

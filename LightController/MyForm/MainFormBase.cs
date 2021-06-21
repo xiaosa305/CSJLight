@@ -3710,9 +3710,7 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		public bool Connect(NetworkDeviceInfo networkDeviceInfo)
 		{
-			//DOTO 0621  
 			if (MyConnect == null) {
-				Console.WriteLine("0621  DEBUG ：MyConnect");
 				MyConnect = new NetworkConnect();
 			}			
 			if (MyConnect.Connect(networkDeviceInfo))
@@ -3732,9 +3730,8 @@ namespace LightController.MyForm
 		/// </summary>
 		public void DisConnect()
 		{
-			MyConnect.DisConnect();
-			//DOTO 0621  
-			//MyConnect = null;			
+			MyConnect.DisConnect();			
+			MyConnect = null;			
 			EnableConnectedButtons(false, IsPreviewing);
 			SetNotice("设备已断开连接。", false, false);
 		}

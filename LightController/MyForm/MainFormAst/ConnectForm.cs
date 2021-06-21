@@ -175,13 +175,11 @@ namespace LightController.MyForm.MainFormAst
 			}		
 		}
 
-
 		private void refreshRestartButton() {
 			deviceRestartButton.Visible = mainForm.IsConnected;
 			deviceRestartButton.Enabled = mainForm.IsConnected;
 			Size = mainForm.IsConnected ? new Size(372, 173) : new Size(285,173);
 		}
-
 
 		/// <summary>
 		/// 辅助方法：主动断开连接

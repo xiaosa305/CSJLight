@@ -75,14 +75,14 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 辅助方法：刷新《工程更新》按键是否可用（启动后 及 更改路径Lable后执行）
+		/// 辅助方法：刷新《工程下载》按键是否可用（启动后 及 更改路径Lable后执行）
 		/// </summary>
 		private void refreshButtons()
 		{
 			dirPanel.Visible = exportedCheckBox.Checked;
 			updateButton.Enabled = MainForm.IsConnected && //必要条件
-				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《更新已有工程》
-				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择更新当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
+				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《下载已有工程》
+				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 事件：选中《更新当前工程》
+		/// 事件：选中《下载当前工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -111,7 +111,7 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 事件：点击《更新工程》
+		/// 事件：点击《下载工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -119,32 +119,32 @@ namespace LightController.MyForm.MainFormAst
 		{
 			// 0.最开始的提示
 			DialogResult dr = MessageBox.Show(
-					LanguageHelper.TranslateSentence("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
-					LanguageHelper.TranslateSentence("是否继续更新工程?"),
+					LanguageHelper.TranslateSentence("下载工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
+					LanguageHelper.TranslateSentence("是否继续下载工程?"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 			if (dr == DialogResult.Cancel)	return;
 			
-			// 1.决定更新后，先设为忙时
+			// 1.决定下载后，先设为忙时
 			SetBusy(true);
 			
-			// 1.1更新已有工程
+			// 1.1下载已有工程
 			if (exportedCheckBox.Checked) 
 			{
 				if (string.IsNullOrEmpty(exportProjectPath) || Directory.GetFiles(exportProjectPath).Length == 0)
 				{
-					SetNotice("未选择工程目录或所选目录为空，无法更新工程。请选择正确的已有工程目录，并重新更新。", true, true);
+					SetNotice("未选择工程目录或所选目录为空，无法下载工程。请选择正确的已有工程目录，并重新下载。", true, true);
 					SetBusy(false);
 					return;
 				}
 				FileUtils.CopyFileToDownloadDir(exportProjectPath);
 				DownloadProject();
 			}
-			// 1.2更新当前工程
+			// 1.2下载当前工程
 			else {			
 				if (string.IsNullOrEmpty(MainForm.GlobalIniPath) )
 				{
-					SetNotice("主界面尚未打开工程，无法更新工程。", true, true);
+					SetNotice("主界面尚未打开工程，无法下载工程。", true, true);
 					SetBusy(false);
 					return;
 				}
@@ -163,28 +163,28 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 辅助回调方法：工程更新成功
+		/// 辅助回调方法：工程下载成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void DownloadCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("工程更新成功。", true, true);
+				SetNotice("工程下载成功。", true, true);
 				myProgressBar.Value = 0;
 				SetBusy(false);
 			});
 		}
 
 		/// <summary>
-		/// 辅助回调方法：工程更新失败
+		/// 辅助回调方法：工程下载失败
 		/// </summary>
 		/// <param name="obj"></param>
 		public void DownloadError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("工程更新失败[" + msg + "]", true, false);
+				SetNotice("工程下载失败[" + msg + "]", true, false);
 				myProgressBar.Value = 0;
 				SetBusy(false);
 				
@@ -192,7 +192,7 @@ namespace LightController.MyForm.MainFormAst
 				MainForm.ConnForm.ShowDialog();
 				if (! MainForm.IsConnected )
 				{
-					MessageBox.Show("请重新连接设备，否则无法更新工程!");
+					MessageBox.Show("请重新连接设备，否则无法下载工程!");
 					Dispose();
 				}
 

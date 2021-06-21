@@ -61,7 +61,7 @@
 			this.updateButton.Name = "updateButton";
 			this.updateButton.Size = new System.Drawing.Size(81, 59);
 			this.updateButton.TabIndex = 17;
-			this.updateButton.Text = "更新工程";
+			this.updateButton.Text = "下载工程";
 			this.updateButton.UseVisualStyleBackColor = false;
 			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
@@ -91,7 +91,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(334, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(365, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -113,7 +113,7 @@
 			this.exportedCheckBox.Name = "exportedCheckBox";
 			this.exportedCheckBox.Size = new System.Drawing.Size(96, 16);
 			this.exportedCheckBox.TabIndex = 37;
-			this.exportedCheckBox.Text = "更新已有工程";
+			this.exportedCheckBox.Text = "下载已有工程";
 			this.exportedCheckBox.UseVisualStyleBackColor = true;
 			this.exportedCheckBox.CheckedChanged += new System.EventHandler(this.currentCheckBox_CheckedChanged);
 			// 
@@ -145,7 +145,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(578, 225);
 			this.Name = "ProjectUpdateForm";
-			this.Text = "工程更新";
+			this.Text = "工程下载";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProjectUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewProjectUpdateForm_Load);
 			this.statusStrip1.ResumeLayout(false);

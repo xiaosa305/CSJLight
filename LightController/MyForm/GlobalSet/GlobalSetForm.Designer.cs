@@ -73,6 +73,11 @@ private System.ComponentModel.IContainer components = null;
 			this.label21 = new System.Windows.Forms.Label();
 			this.label22 = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label13 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.label12 = new System.Windows.Forms.Label();
 			this.label23 = new System.Windows.Forms.Label();
@@ -87,11 +92,6 @@ private System.ComponentModel.IContainer components = null;
 			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.frameLabel = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -104,13 +104,13 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
 			this.panel3.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.skFlowLayoutPanel.SuspendLayout();
 			this.skPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.groupBox1.SuspendLayout();
-			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
@@ -610,6 +610,55 @@ private System.ComponentModel.IContainer components = null;
 			this.panel3.Size = new System.Drawing.Size(1170, 58);
 			this.panel3.TabIndex = 0;
 			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.label8);
+			this.panel1.Controls.Add(this.label10);
+			this.panel1.Controls.Add(this.label11);
+			this.panel1.Controls.Add(this.label13);
+			this.panel1.Location = new System.Drawing.Point(570, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(454, 50);
+			this.panel1.TabIndex = 13;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(12, 24);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(41, 12);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "场景名";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(186, 20);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(41, 12);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "步时间";
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(269, 20);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(53, 12);
+			this.label11.TabIndex = 0;
+			this.label11.Text = "间隔时间";
+			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(376, 21);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(53, 12);
+			this.label13.TabIndex = 0;
+			this.label13.Text = "音频链表";
+			// 
 			// panel2
 			// 
 			this.panel2.Controls.Add(this.label12);
@@ -780,55 +829,6 @@ private System.ComponentModel.IContainer components = null;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "音频场景设置";
 			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label10);
-			this.panel1.Controls.Add(this.label11);
-			this.panel1.Controls.Add(this.label13);
-			this.panel1.Location = new System.Drawing.Point(570, 3);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(454, 50);
-			this.panel1.TabIndex = 13;
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(12, 24);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(41, 12);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "场景名";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(186, 20);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(41, 12);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "步时间";
-			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(269, 20);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(53, 12);
-			this.label11.TabIndex = 0;
-			this.label11.Text = "间隔时间";
-			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(376, 21);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(53, 12);
-			this.label13.TabIndex = 0;
-			this.label13.Text = "音频链表";
-			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -844,7 +844,7 @@ private System.ComponentModel.IContainer components = null;
 			this.MinimizeBox = false;
 			this.Name = "GlobalSetForm";
 			this.Padding = new System.Windows.Forms.Padding(4);
-			this.Text = "全局设置";
+			this.Text = "工程全局设置";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GlobalSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.GlobalSetForm_Load);
 			this.dmxGroupBox.ResumeLayout(false);
@@ -862,6 +862,8 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
 			this.panel3.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			this.skFlowLayoutPanel.ResumeLayout(false);
@@ -870,8 +872,6 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
 			this.groupBox1.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

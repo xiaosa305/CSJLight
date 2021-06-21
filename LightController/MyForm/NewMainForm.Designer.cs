@@ -38,8 +38,8 @@ namespace LightController.MyForm
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.seqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,8 +171,8 @@ namespace LightController.MyForm
             this.toolStripMenuItem3,
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
-            this.toolStripMenuItem,
             this.seqToolStripMenuItem,
+            this.toolStripMenuItem,
             this.toolStripMenuItem1,
             this.projectUpdateToolStripMenuItem,
             this.lightListToolStripMenuItem,
@@ -213,16 +213,8 @@ namespace LightController.MyForm
 			this.hardwareSetToolStripMenuItem.Enabled = false;
 			this.hardwareSetToolStripMenuItem.Name = "hardwareSetToolStripMenuItem";
 			this.hardwareSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.hardwareSetToolStripMenuItem.Text = "硬件配置";
+			this.hardwareSetToolStripMenuItem.Text = "网络配置";
 			this.hardwareSetToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem
-			// 
-			this.toolStripMenuItem.Enabled = false;
-			this.toolStripMenuItem.Name = "toolStripMenuItem";
-			this.toolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.toolStripMenuItem.Text = "外设配置";
-			this.toolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem_Click);
 			// 
 			// seqToolStripMenuItem
 			// 
@@ -231,6 +223,14 @@ namespace LightController.MyForm
 			this.seqToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
 			this.seqToolStripMenuItem.Text = "继电器配置";
 			this.seqToolStripMenuItem.Click += new System.EventHandler(this.seqToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem
+			// 
+			this.toolStripMenuItem.Enabled = false;
+			this.toolStripMenuItem.Name = "toolStripMenuItem";
+			this.toolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.toolStripMenuItem.Text = "外设配置";
+			this.toolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem1
 			// 
@@ -244,7 +244,7 @@ namespace LightController.MyForm
 			this.projectUpdateToolStripMenuItem.Enabled = false;
 			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
 			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.projectUpdateToolStripMenuItem.Text = "工程更新";
+			this.projectUpdateToolStripMenuItem.Text = "工程下载";
 			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
 			// 
 			// lightListToolStripMenuItem
@@ -252,7 +252,7 @@ namespace LightController.MyForm
 			this.lightListToolStripMenuItem.Enabled = false;
 			this.lightListToolStripMenuItem.Name = "lightListToolStripMenuItem";
 			this.lightListToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.lightListToolStripMenuItem.Text = "灯具列表";
+			this.lightListToolStripMenuItem.Text = "添加灯具";
 			this.lightListToolStripMenuItem.Click += new System.EventHandler(this.lightListToolStripMenuItem_Click);
 			// 
 			// globalSetToolStripMenuItem
@@ -260,7 +260,7 @@ namespace LightController.MyForm
 			this.globalSetToolStripMenuItem.Enabled = false;
 			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
 			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.globalSetToolStripMenuItem.Text = "全局设置";
+			this.globalSetToolStripMenuItem.Text = "工程全局";
 			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globalSetToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem2

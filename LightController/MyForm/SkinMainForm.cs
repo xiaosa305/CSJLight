@@ -271,7 +271,7 @@ namespace LightController.MyForm
 		#region 工具按钮组 - 非工程相关
 
 		/// <summary>
-		/// 事件：点击“灯库编辑”
+		/// 事件：点击《灯库编辑》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -287,9 +287,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void hardwareSetSkinButton_Click(object sender, EventArgs e)
 		{
-			//MARK0412  修改《硬件设置》点击事件 ：用NewHardwareSetForm处理
-			//new HardwareSetChooseForm(this).ShowDialog();
-
 			hardwareSetButtonClick();
 		}		
 

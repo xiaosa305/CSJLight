@@ -384,7 +384,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(550, 348);
 			this.Name = "HardwareSetForm";
-			this.Text = "硬件配置";
+			this.Text = "网络配置";
 			this.Load += new System.EventHandler(this.NewHardwareSet_Load);
 			this.Shown += new System.EventHandler(this.NewHardwareSetForm_Shown);
 			this.tabControl1.ResumeLayout(false);

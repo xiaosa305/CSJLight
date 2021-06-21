@@ -3730,7 +3730,8 @@ namespace LightController.MyForm
 		/// </summary>
 		public void DisConnect()
 		{
-			MyConnect.DisConnect();			
+			MyConnect.DisConnect();
+			//DOTO 0621  
 			MyConnect = null;			
 			EnableConnectedButtons(false, IsPreviewing);
 			SetNotice("设备已断开连接。", false, false);

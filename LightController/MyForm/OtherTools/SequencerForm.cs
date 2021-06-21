@@ -103,6 +103,7 @@ namespace LightController.MyForm.OtherTools
 					TextAlign = timeNUDDemo.TextAlign,
 					Value = timeNUDDemo.Value
 				};
+				timeNUDs[timeIndex].MouseWheel += someNUD_MouseWheel;
 
 				timePanels[timeIndex] = new Panel
 				{
@@ -502,9 +503,41 @@ namespace LightController.MyForm.OtherTools
 			LanguageHelper.TranslateControl(sender as Control);
 		}
 
+		/// <summary>
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = dd;
+				}
+			}
+		}
 
 		#endregion
 
-		
+
 	}
 }

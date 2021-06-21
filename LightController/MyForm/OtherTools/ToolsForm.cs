@@ -371,7 +371,7 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
+		{			
 			// 一进来先把ccEntity置空
 			ccEntity = null;
 			string protocolName = "";

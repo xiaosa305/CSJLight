@@ -716,6 +716,7 @@
 			this.button3.TabIndex = 30;
 			this.button3.Text = "加密设置";
 			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Visible = false;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// panel1

@@ -70,8 +70,6 @@ namespace LightController.MyForm.OtherTools
 
 			sceneCodeList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneCode");
 			pbinSaveDialog.InitialDirectory = Application.StartupPath + @"\protocol";
-			// 初始化灯控（强电）各配置
-			sceneComboBox.SelectedIndex = 0;
 
 			// 各强电开关
 			relayFLPs = new FlowLayoutPanel[sceneCount];
@@ -481,7 +479,6 @@ namespace LightController.MyForm.OtherTools
 				Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
 				Properties.Settings.Default.Save();
 
-				int lcSceneIndex = sceneComboBox.SelectedIndex;     // 先记录当前灯控选中的场景index，在渲染后重新选择				
 				if (sceneCodeList != null && sceneCodeList.Count == 16)
 				{
 					sceneLabels[0].Text = "开机场景";

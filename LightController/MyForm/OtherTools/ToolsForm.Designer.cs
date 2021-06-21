@@ -92,9 +92,6 @@
 			this.kpDownloadButton = new System.Windows.Forms.Button();
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label23 = new System.Windows.Forms.Label();
-			this.sceneComboBox = new System.Windows.Forms.ComboBox();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.keyOpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveDialog = new System.Windows.Forms.SaveFileDialog();
@@ -346,11 +343,11 @@
 			// 
 			this.debugNoticeLabel.AutoSize = true;
 			this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
-			this.debugNoticeLabel.Location = new System.Drawing.Point(157, 34);
+			this.debugNoticeLabel.Location = new System.Drawing.Point(157, 22);
 			this.debugNoticeLabel.Name = "debugNoticeLabel";
-			this.debugNoticeLabel.Size = new System.Drawing.Size(365, 12);
+			this.debugNoticeLabel.Size = new System.Drawing.Size(341, 36);
 			this.debugNoticeLabel.TabIndex = 10;
-			this.debugNoticeLabel.Text = "提示：点击场景名，会向机器发送此场景的《灯控开关》调试数据。";
+			this.debugNoticeLabel.Text = "提示：\r\n1.点击场景名，会向机器发送此场景的《灯控开关》调试数据。\r\n2.如果设备为JKC-910AP版本，则开机场景无效。";
 			// 
 			// relayBigFLP
 			// 
@@ -756,55 +753,6 @@
 			this.kpKey0TextBox.TabIndex = 1;
 			this.kpKey0TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label1.ForeColor = System.Drawing.Color.DimGray;
-			this.label1.Location = new System.Drawing.Point(585, 52);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(287, 12);
-			this.label1.TabIndex = 6;
-			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
-			// 
-			// label23
-			// 
-			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(583, 22);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(65, 12);
-			this.label23.TabIndex = 2;
-			this.label23.Text = "选择场景：";
-			// 
-			// sceneComboBox
-			// 
-			this.sceneComboBox.BackColor = System.Drawing.Color.Linen;
-			this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.sceneComboBox.FormattingEnabled = true;
-			this.sceneComboBox.Items.AddRange(new object[] {
-            "开机场景",
-            "场景1",
-            "场景2",
-            "场景3",
-            "场景4",
-            "场景5",
-            "场景6",
-            "场景7",
-            "场景8",
-            "场景9",
-            "场景10",
-            "场景11",
-            "场景12",
-            "场景13",
-            "场景14",
-            "场景15",
-            "场景16"});
-			this.sceneComboBox.Location = new System.Drawing.Point(667, 18);
-			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.sceneComboBox.Name = "sceneComboBox";
-			this.sceneComboBox.Size = new System.Drawing.Size(143, 20);
-			this.sceneComboBox.TabIndex = 0;
-			// 
 			// myToolTip
 			// 
 			this.myToolTip.AutoPopDelay = 10000;
@@ -942,11 +890,8 @@
 			this.BackColor = System.Drawing.Color.Silver;
 			this.ClientSize = new System.Drawing.Size(1264, 681);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.myStatusStrip);
-			this.Controls.Add(this.label23);
-			this.Controls.Add(this.sceneComboBox);
 			this.Controls.Add(this.renderMainFormSceneButton);
 			this.Controls.Add(this.protocolSaveButton);
 			this.Controls.Add(this.protocolComboBox);
@@ -1007,8 +952,6 @@
 		private System.Windows.Forms.Button lcLoadButton;
 		private System.Windows.Forms.Button lcSaveButton;
 		private System.Windows.Forms.Button lcReadButton;
-		private System.Windows.Forms.Label label23;
-		private System.Windows.Forms.ComboBox sceneComboBox;
 		private System.Windows.Forms.TabPage keyTabPage;
 		private System.Windows.Forms.Button kpReadButton;
 		private System.Windows.Forms.ListView keypressListView;
@@ -1051,7 +994,6 @@
 		private System.Windows.Forms.Label deviceTypeLabel;
 		private System.Windows.Forms.Label deviceNameLabel;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.FlowLayoutPanel relayBigFLP;
 		private System.Windows.Forms.FlowLayoutPanel relayFLPDemo;

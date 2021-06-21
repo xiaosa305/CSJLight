@@ -278,7 +278,7 @@
             this.noticeLabel});
 			this.noticeStatusStrip.Location = new System.Drawing.Point(0, 459);
 			this.noticeStatusStrip.Name = "noticeStatusStrip";
-			this.noticeStatusStrip.Size = new System.Drawing.Size(863, 22);
+			this.noticeStatusStrip.Size = new System.Drawing.Size(864, 22);
 			this.noticeStatusStrip.SizingGrip = false;
 			this.noticeStatusStrip.TabIndex = 28;
 			// 
@@ -288,7 +288,7 @@
 			this.noticeLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.noticeLabel.ForeColor = System.Drawing.Color.DimGray;
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(848, 17);
+			this.noticeLabel.Size = new System.Drawing.Size(849, 17);
 			this.noticeLabel.Spring = true;
 			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -324,7 +324,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
-			this.ClientSize = new System.Drawing.Size(863, 481);
+			this.ClientSize = new System.Drawing.Size(864, 481);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.openCheckBox);
 			this.Controls.Add(this.noticeStatusStrip);
@@ -338,6 +338,10 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.openButton);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(880, 520);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(880, 520);
 			this.Name = "SequencerForm";
 			this.Text = "时序器配置";
 			this.Load += new System.EventHandler(this.SequencerForm_Load);

@@ -120,10 +120,7 @@ namespace LightController.PeripheralDevice
                     byte[] buff = new byte[count];
                     Array.Copy(connect.ReceiveBuff, buff, count);
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
-                    if (count > 24)
-                    {
-                        Console.WriteLine(BitConverter.ToString(buff));
-                    }
+                    Console.WriteLine(BitConverter.ToString(buff));
                     for (int i = 0; i < buff.Length; i++)
                     {
                         ReadBuff.Add(buff[i]);

@@ -106,6 +106,10 @@ namespace LightController.PeripheralDevice
             try
             {
                 NetworkConnect connect = asyncResult.AsyncState as NetworkConnect;
+                if (connect.Socket == null || !connect.Socket.Connected)
+                {
+                    return;
+                }
                 int count = connect.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
@@ -115,9 +119,17 @@ namespace LightController.PeripheralDevice
                 {
                     byte[] buff = new byte[count];
                     Array.Copy(connect.ReceiveBuff, buff, count);
-                    ReadBuff.AddRange(buff);
-                    this.Receive();
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
+                    if (count > 24)
+                    {
+                        Console.WriteLine(BitConverter.ToString(buff));
+                    }
+                    for (int i = 0; i < buff.Length; i++)
+                    {
+                        ReadBuff.Add(buff[i]);
+                        this.Receive();
+                    }
+                    //ReadBuff.AddRange(buff);
                     this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
                 }
             }

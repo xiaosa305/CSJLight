@@ -91,12 +91,15 @@ namespace LightController.PeripheralDevice
                 int count = 0;
                 try
                 {
+                    if (connect.Server == null)
+                    {
+                        return;
+                    }
                     count = connect.Server.EndReceive(asyncResult);
                 }
-                catch (Exception ex)
+                catch (ArgumentException ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
+                    Console.WriteLine("Receive Failed Message By SearchDevice");
                 }
                 if (count <= 0)
                 {

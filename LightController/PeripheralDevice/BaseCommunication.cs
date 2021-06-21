@@ -24,7 +24,7 @@ namespace LightController.PeripheralDevice
         private const string START_TASK_ERROR_1 = "当前任务正在执行中，请稍后再进行操作";
         private const string START_TASK_ERROR_2 = "设备已断开连接，请重新连接设备";
         protected const int DEFAULT_PACKSIZE = 512;
-        protected const double TIMEOUT = 2000;//超时等待时长
+        protected const double TIMEOUT = 4000;//超时等待时长
         protected const int UDPADDR = 255;
         protected const int PACKHEADLENGTH = 8;//协议头大小
         protected const byte PACKFLAG1 = 0xAA;//协议标记1

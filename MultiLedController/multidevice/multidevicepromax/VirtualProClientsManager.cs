@@ -74,6 +74,8 @@ namespace MultiLedController.multidevice.multidevicepromax
         private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
 
+
+        //MAIN
         public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber,int ledType)
         {
             switch (ledType)
@@ -286,14 +288,20 @@ namespace MultiLedController.multidevice.multidevicepromax
                         {
                             lock (this.DebugDmxDataQueue)
                             {
-                                this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                if (this.SpaceDmxData.Count > 0)
+                                {
+                                    this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                }
                             }
                         }
                         if (this.IsRecordDmxData)
                         {
                             lock (this.RecordDmxDataQueue)
                             {
-                                this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                if (this.SpaceDmxData.Count > 0)
+                                {
+                                    this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                }
                             }
                         }
                         List<int> keys = this.SpaceDmxData.Keys.ToList();

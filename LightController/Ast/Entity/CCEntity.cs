@@ -92,7 +92,7 @@ namespace LightController.Entity
                 }
                 code = Convert.ToInt32(item.Code, 16);
                 //int.TryParse(item.Code, out int code);
-                Console.WriteLine("码值为：" + code);
+                //Console.WriteLine("码值为：" + code);
                 //读取串口0上行数据组
                 if (item.Com0Up == null)
                 {

@@ -10,6 +10,8 @@ using System.Threading;
 
 namespace MultiLedController.multidevice.multidevicepromax
 {
+
+    //main
     public class VirtualProClient
     {
         private const int ARTNET_PORT = 6454;
@@ -139,6 +141,22 @@ namespace MultiLedController.multidevice.multidevicepromax
                              receiveBuff[6] == 0x4E &&
                              receiveBuff[7] == 0x00 &&
                              receiveBuff[8] == 0x02 &&
+                             receiveBuff[9] == 0x52 &&
+                             receiveBuff[10] == 0x00 &&
+                             receiveBuff[11] == 0x0E)
+                    {
+                        this.DMXSync();
+                    }
+                    else if (receiveBuff.Length == 13 &&
+                             receiveBuff[0] == 0x41 &&
+                             receiveBuff[1] == 0x72 &&
+                             receiveBuff[2] == 0x74 &&
+                             receiveBuff[3] == 0x2D &&
+                             receiveBuff[4] == 0x4E &&
+                             receiveBuff[5] == 0x65 &&
+                             receiveBuff[6] == 0x74 &&
+                             receiveBuff[7] == 0x00 &&
+                             receiveBuff[8] == 0x00 &&
                              receiveBuff[9] == 0x52 &&
                              receiveBuff[10] == 0x00 &&
                              receiveBuff[11] == 0x0E)

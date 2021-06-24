@@ -104,6 +104,8 @@ namespace LightController.MyForm.OtherTools
 					Value = timeNUDDemo.Value
 				};
 				timeNUDs[timeIndex].MouseWheel += someNUD_MouseWheel;
+				timeNUDs[timeIndex].KeyPress += timeNUD_KeyPress;
+				myToolTip.SetToolTip(timeNUDs[timeIndex], "更改时延后，点击a键可统一设置；时延的范围为1-15s。");
 
 				timePanels[timeIndex] = new Panel
 				{
@@ -536,8 +538,39 @@ namespace LightController.MyForm.OtherTools
 			}
 		}
 
+
 		#endregion
 
+		/// <summary>
+		/// 事件：《时延输入框》的键盘点击事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void timeNUD_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ( e.KeyChar == 'a' || e.KeyChar == 'A' )
+			{
+				decimal unifySt = (sender as NumericUpDown).Value;
+
+				// 设置了提示，且用户点击了取消，则return。否则继续往下走
+				if (mainForm.IsNoticeUnifyTd)
+				{
+					if (DialogResult.Cancel == MessageBox.Show(
+							LanguageHelper.TranslateSentence("确定要将所有时延都设为") + "【" + unifySt + " S】?",
+							LanguageHelper.TranslateSentence("统一时延"),
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question))
+					{
+						return;
+					}
+				}
+
+				for (int timeIndex = 0; timeIndex < timeNUDs.Length; timeIndex++)
+				{
+					timeNUDs[timeIndex].Value = unifySt;
+				}
+			}
+		}
 
 	}
 }

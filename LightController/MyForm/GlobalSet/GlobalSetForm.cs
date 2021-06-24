@@ -329,7 +329,6 @@ namespace LightController.MyForm
 				mainForm.ChangeEachStepTime(eachStepTime); // 主界面的时间因子，也要更改一下
 			}
 
-
 			MessageBox.Show(LanguageHelper.TranslateSentence("开机场景、场景切换跳渐变\n等全局设置保存成功")) ;
 		}
 			

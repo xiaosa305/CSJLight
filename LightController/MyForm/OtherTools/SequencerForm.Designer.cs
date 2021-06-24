@@ -239,6 +239,7 @@
 			this.label5.Size = new System.Drawing.Size(47, 12);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "时延(S)";
+			this.myToolTip.SetToolTip(this.label5, "更改时延后，点击a键可统一设置；时延的范围为1-15s。");
 			// 
 			// timePanelDemo
 			// 
@@ -271,6 +272,7 @@
             0,
             0,
             0});
+			this.timeNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.timeNUD_KeyPress);
 			// 
 			// noticeStatusStrip
 			// 
@@ -338,6 +340,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.openButton);
+			this.HelpButton = true;
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(880, 520);
 			this.MinimizeBox = false;

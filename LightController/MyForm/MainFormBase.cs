@@ -3730,8 +3730,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public void DisConnect()
 		{
-			MyConnect.DisConnect();
-			//DOTO 0621  
+			MyConnect.DisConnect();			
 			MyConnect = null;			
 			EnableConnectedButtons(false, IsPreviewing);
 			SetNotice("设备已断开连接。", false, false);
@@ -3763,6 +3762,8 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：为硬件发送新命令之前，先检查上次发送的时间，如果时间还不够长，把时间补足；
 		/// </summary>
+		/// <param name="orderName">命令名，方便调试</param>
+		/// <param name="times">暂停时间的倍数（有些命令需要更长的等待时间）</param>
 		public void SleepBetweenSend(string orderName ,int times) {			
 			long pastTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000 - LastSendTime; 
 			if ( pastTime < ConnectForm.SEND_WAITTIME * times)

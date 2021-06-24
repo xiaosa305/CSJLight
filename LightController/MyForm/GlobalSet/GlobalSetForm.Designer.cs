@@ -48,24 +48,24 @@ private System.ComponentModel.IContainer components = null;
 			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
 			this.mFrameSaveButton = new System.Windows.Forms.Button();
-			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
+			this.zuheSceneComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
 			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
-			this.frame0NumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.scene0NumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label34 = new System.Windows.Forms.Label();
-			this.frame4numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frame3numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frame2numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frame4ComboBox = new System.Windows.Forms.ComboBox();
-			this.frame3ComboBox = new System.Windows.Forms.ComboBox();
-			this.frame2ComboBox = new System.Windows.Forms.ComboBox();
-			this.frame1ComboBox = new System.Windows.Forms.ComboBox();
+			this.scene4numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.scene3numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.scene2numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.scene4ComboBox = new System.Windows.Forms.ComboBox();
+			this.scene3ComboBox = new System.Windows.Forms.ComboBox();
+			this.scene2ComboBox = new System.Windows.Forms.ComboBox();
+			this.scene1ComboBox = new System.Windows.Forms.ComboBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label35 = new System.Windows.Forms.Label();
-			this.frame1numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.scene1numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -73,44 +73,44 @@ private System.ComponentModel.IContainer components = null;
 			this.label21 = new System.Windows.Forms.Label();
 			this.label22 = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.label12 = new System.Windows.Forms.Label();
 			this.label23 = new System.Windows.Forms.Label();
 			this.skNoticeButton = new System.Windows.Forms.Button();
 			this.skSaveButton = new System.Windows.Forms.Button();
-			this.skFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.skFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.skPanelDemo = new System.Windows.Forms.Panel();
-			this.jgLabel = new System.Windows.Forms.Label();
-			this.stLabel = new System.Windows.Forms.Label();
-			this.lkTextBox = new System.Windows.Forms.TextBox();
-			this.jgNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frameLabel = new System.Windows.Forms.Label();
+			this.jgLabelDemo = new System.Windows.Forms.Label();
+			this.stLabelDemo = new System.Windows.Forms.Label();
+			this.lkTBDemo = new System.Windows.Forms.TextBox();
+			this.jgNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.stNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.sceneLabelDemo = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label13 = new System.Windows.Forms.Label();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
 			this.zuheGroupBox.SuspendLayout();
 			this.zuheEnableGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.frame0NumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame4numericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame3numericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene0NumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene4numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene3numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene2numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
 			this.panel3.SuspendLayout();
-			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
-			this.skFlowLayoutPanel.SuspendLayout();
+			this.skFLP.SuspendLayout();
 			this.skPanelDemo.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.jgNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).BeginInit();
 			this.groupBox1.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
@@ -288,7 +288,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.zuheGroupBox.BackColor = System.Drawing.SystemColors.Window;
 			this.zuheGroupBox.Controls.Add(this.mFrameSaveButton);
-			this.zuheGroupBox.Controls.Add(this.zuheFrameComboBox);
+			this.zuheGroupBox.Controls.Add(this.zuheSceneComboBox);
 			this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
 			this.zuheGroupBox.Controls.Add(this.zuheEnableGroupBox);
 			this.zuheGroupBox.Controls.Add(this.label3);
@@ -313,16 +313,16 @@ private System.ComponentModel.IContainer components = null;
 			this.mFrameSaveButton.UseVisualStyleBackColor = false;
 			this.mFrameSaveButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
 			// 
-			// zuheFrameComboBox
+			// zuheSceneComboBox
 			// 
-			this.zuheFrameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.zuheFrameComboBox.FormattingEnabled = true;
-			this.zuheFrameComboBox.Location = new System.Drawing.Point(13, 26);
-			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
-			this.zuheFrameComboBox.Size = new System.Drawing.Size(158, 20);
-			this.zuheFrameComboBox.TabIndex = 2;
-			this.zuheFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.zuheFrameComboBox_SelectedIndexChanged);
+			this.zuheSceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.zuheSceneComboBox.FormattingEnabled = true;
+			this.zuheSceneComboBox.Location = new System.Drawing.Point(13, 26);
+			this.zuheSceneComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.zuheSceneComboBox.Name = "zuheSceneComboBox";
+			this.zuheSceneComboBox.Size = new System.Drawing.Size(158, 20);
+			this.zuheSceneComboBox.TabIndex = 2;
+			this.zuheSceneComboBox.SelectedIndexChanged += new System.EventHandler(this.zuheFrameComboBox_SelectedIndexChanged);
 			// 
 			// zuheCheckBox
 			// 
@@ -338,21 +338,21 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// zuheEnableGroupBox
 			// 
-			this.zuheEnableGroupBox.Controls.Add(this.frame0NumericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.scene0NumericUpDown);
 			this.zuheEnableGroupBox.Controls.Add(this.label34);
-			this.zuheEnableGroupBox.Controls.Add(this.frame4numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.frame3numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.frame2numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.frame4ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame3ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame2ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame1ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.scene4numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.scene3numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.scene2numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.scene4ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.scene3ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.scene2ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.scene1ComboBox);
 			this.zuheEnableGroupBox.Controls.Add(this.label9);
 			this.zuheEnableGroupBox.Controls.Add(this.label7);
 			this.zuheEnableGroupBox.Controls.Add(this.label6);
 			this.zuheEnableGroupBox.Controls.Add(this.label5);
 			this.zuheEnableGroupBox.Controls.Add(this.label35);
-			this.zuheEnableGroupBox.Controls.Add(this.frame1numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.scene1numericUpDown);
 			this.zuheEnableGroupBox.Controls.Add(this.label4);
 			this.zuheEnableGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.zuheEnableGroupBox.Enabled = false;
@@ -365,19 +365,19 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheEnableGroupBox.TabStop = false;
 			this.zuheEnableGroupBox.Text = "播放设置";
 			// 
-			// frame0NumericUpDown
+			// scene0NumericUpDown
 			// 
-			this.frame0NumericUpDown.Location = new System.Drawing.Point(15, 102);
-			this.frame0NumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame0NumericUpDown.Maximum = new decimal(new int[] {
+			this.scene0NumericUpDown.Location = new System.Drawing.Point(15, 102);
+			this.scene0NumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.scene0NumericUpDown.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
-			this.frame0NumericUpDown.Name = "frame0NumericUpDown";
-			this.frame0NumericUpDown.Size = new System.Drawing.Size(87, 21);
-			this.frame0NumericUpDown.TabIndex = 4;
-			this.frame0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.scene0NumericUpDown.Name = "scene0NumericUpDown";
+			this.scene0NumericUpDown.Size = new System.Drawing.Size(87, 21);
+			this.scene0NumericUpDown.TabIndex = 4;
+			this.scene0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label34
 			// 
@@ -389,87 +389,87 @@ private System.ComponentModel.IContainer components = null;
 			this.label34.TabIndex = 5;
 			this.label34.Text = "主场景播放时间(s)";
 			// 
-			// frame4numericUpDown
+			// scene4numericUpDown
 			// 
-			this.frame4numericUpDown.Location = new System.Drawing.Point(714, 104);
-			this.frame4numericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame4numericUpDown.Maximum = new decimal(new int[] {
+			this.scene4numericUpDown.Location = new System.Drawing.Point(714, 104);
+			this.scene4numericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.scene4numericUpDown.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
-			this.frame4numericUpDown.Name = "frame4numericUpDown";
-			this.frame4numericUpDown.Size = new System.Drawing.Size(74, 21);
-			this.frame4numericUpDown.TabIndex = 6;
-			this.frame4numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.scene4numericUpDown.Name = "scene4numericUpDown";
+			this.scene4numericUpDown.Size = new System.Drawing.Size(74, 21);
+			this.scene4numericUpDown.TabIndex = 6;
+			this.scene4numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// frame3numericUpDown
+			// scene3numericUpDown
 			// 
-			this.frame3numericUpDown.Location = new System.Drawing.Point(546, 104);
-			this.frame3numericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame3numericUpDown.Maximum = new decimal(new int[] {
+			this.scene3numericUpDown.Location = new System.Drawing.Point(546, 104);
+			this.scene3numericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.scene3numericUpDown.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
-			this.frame3numericUpDown.Name = "frame3numericUpDown";
-			this.frame3numericUpDown.Size = new System.Drawing.Size(74, 21);
-			this.frame3numericUpDown.TabIndex = 5;
-			this.frame3numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.scene3numericUpDown.Name = "scene3numericUpDown";
+			this.scene3numericUpDown.Size = new System.Drawing.Size(74, 21);
+			this.scene3numericUpDown.TabIndex = 5;
+			this.scene3numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// frame2numericUpDown
+			// scene2numericUpDown
 			// 
-			this.frame2numericUpDown.Location = new System.Drawing.Point(378, 104);
-			this.frame2numericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame2numericUpDown.Maximum = new decimal(new int[] {
+			this.scene2numericUpDown.Location = new System.Drawing.Point(378, 104);
+			this.scene2numericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.scene2numericUpDown.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
-			this.frame2numericUpDown.Name = "frame2numericUpDown";
-			this.frame2numericUpDown.Size = new System.Drawing.Size(74, 21);
-			this.frame2numericUpDown.TabIndex = 4;
-			this.frame2numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.scene2numericUpDown.Name = "scene2numericUpDown";
+			this.scene2numericUpDown.Size = new System.Drawing.Size(74, 21);
+			this.scene2numericUpDown.TabIndex = 4;
+			this.scene2numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// frame4ComboBox
+			// scene4ComboBox
 			// 
-			this.frame4ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.frame4ComboBox.FormattingEnabled = true;
-			this.frame4ComboBox.Location = new System.Drawing.Point(714, 66);
-			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.frame4ComboBox.Name = "frame4ComboBox";
-			this.frame4ComboBox.Size = new System.Drawing.Size(158, 20);
-			this.frame4ComboBox.TabIndex = 3;
+			this.scene4ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.scene4ComboBox.FormattingEnabled = true;
+			this.scene4ComboBox.Location = new System.Drawing.Point(714, 66);
+			this.scene4ComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.scene4ComboBox.Name = "scene4ComboBox";
+			this.scene4ComboBox.Size = new System.Drawing.Size(158, 20);
+			this.scene4ComboBox.TabIndex = 3;
 			// 
-			// frame3ComboBox
+			// scene3ComboBox
 			// 
-			this.frame3ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.frame3ComboBox.FormattingEnabled = true;
-			this.frame3ComboBox.Location = new System.Drawing.Point(546, 66);
-			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.frame3ComboBox.Name = "frame3ComboBox";
-			this.frame3ComboBox.Size = new System.Drawing.Size(158, 20);
-			this.frame3ComboBox.TabIndex = 3;
+			this.scene3ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.scene3ComboBox.FormattingEnabled = true;
+			this.scene3ComboBox.Location = new System.Drawing.Point(546, 66);
+			this.scene3ComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.scene3ComboBox.Name = "scene3ComboBox";
+			this.scene3ComboBox.Size = new System.Drawing.Size(158, 20);
+			this.scene3ComboBox.TabIndex = 3;
 			// 
-			// frame2ComboBox
+			// scene2ComboBox
 			// 
-			this.frame2ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.frame2ComboBox.FormattingEnabled = true;
-			this.frame2ComboBox.Location = new System.Drawing.Point(378, 66);
-			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.frame2ComboBox.Name = "frame2ComboBox";
-			this.frame2ComboBox.Size = new System.Drawing.Size(158, 20);
-			this.frame2ComboBox.TabIndex = 3;
+			this.scene2ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.scene2ComboBox.FormattingEnabled = true;
+			this.scene2ComboBox.Location = new System.Drawing.Point(378, 66);
+			this.scene2ComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.scene2ComboBox.Name = "scene2ComboBox";
+			this.scene2ComboBox.Size = new System.Drawing.Size(158, 20);
+			this.scene2ComboBox.TabIndex = 3;
 			// 
-			// frame1ComboBox
+			// scene1ComboBox
 			// 
-			this.frame1ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.frame1ComboBox.FormattingEnabled = true;
-			this.frame1ComboBox.Location = new System.Drawing.Point(210, 66);
-			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.frame1ComboBox.Name = "frame1ComboBox";
-			this.frame1ComboBox.Size = new System.Drawing.Size(158, 20);
-			this.frame1ComboBox.TabIndex = 3;
+			this.scene1ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.scene1ComboBox.FormattingEnabled = true;
+			this.scene1ComboBox.Location = new System.Drawing.Point(210, 66);
+			this.scene1ComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.scene1ComboBox.Name = "scene1ComboBox";
+			this.scene1ComboBox.Size = new System.Drawing.Size(158, 20);
+			this.scene1ComboBox.TabIndex = 3;
 			// 
 			// label9
 			// 
@@ -521,19 +521,19 @@ private System.ComponentModel.IContainer components = null;
 			this.label35.TabIndex = 1;
 			this.label35.Text = "时间(s)";
 			// 
-			// frame1numericUpDown
+			// scene1numericUpDown
 			// 
-			this.frame1numericUpDown.Location = new System.Drawing.Point(210, 104);
-			this.frame1numericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame1numericUpDown.Maximum = new decimal(new int[] {
+			this.scene1numericUpDown.Location = new System.Drawing.Point(210, 104);
+			this.scene1numericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.scene1numericUpDown.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
-			this.frame1numericUpDown.Name = "frame1numericUpDown";
-			this.frame1numericUpDown.Size = new System.Drawing.Size(74, 21);
-			this.frame1numericUpDown.TabIndex = 0;
-			this.frame1numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.scene1numericUpDown.Name = "scene1numericUpDown";
+			this.scene1numericUpDown.Size = new System.Drawing.Size(74, 21);
+			this.scene1numericUpDown.TabIndex = 0;
+			this.scene1numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label4
 			// 
@@ -578,7 +578,7 @@ private System.ComponentModel.IContainer components = null;
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(186, 20);
+			this.label21.Location = new System.Drawing.Point(180, 20);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(41, 12);
 			this.label21.TabIndex = 0;
@@ -589,7 +589,7 @@ private System.ComponentModel.IContainer components = null;
 			// label22
 			// 
 			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(269, 20);
+			this.label22.Location = new System.Drawing.Point(271, 20);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(53, 12);
 			this.label22.TabIndex = 0;
@@ -600,64 +600,15 @@ private System.ComponentModel.IContainer components = null;
 			// panel3
 			// 
 			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel3.Controls.Add(this.panel1);
 			this.panel3.Controls.Add(this.panel2);
 			this.panel3.Controls.Add(this.skNoticeButton);
 			this.panel3.Controls.Add(this.skSaveButton);
+			this.panel3.Controls.Add(this.panel1);
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel3.Location = new System.Drawing.Point(3, 17);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(1170, 58);
 			this.panel3.TabIndex = 0;
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label10);
-			this.panel1.Controls.Add(this.label11);
-			this.panel1.Controls.Add(this.label13);
-			this.panel1.Location = new System.Drawing.Point(570, 3);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(454, 50);
-			this.panel1.TabIndex = 13;
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(12, 24);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(41, 12);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "场景名";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(186, 20);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(41, 12);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "步时间";
-			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(269, 20);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(53, 12);
-			this.label11.TabIndex = 0;
-			this.label11.Text = "间隔时间";
-			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(376, 21);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(53, 12);
-			this.label13.TabIndex = 0;
-			this.label13.Text = "音频链表";
 			// 
 			// panel2
 			// 
@@ -673,7 +624,7 @@ private System.ComponentModel.IContainer components = null;
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(12, 24);
+			this.label12.Location = new System.Drawing.Point(11, 24);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(41, 12);
 			this.label12.TabIndex = 0;
@@ -682,7 +633,7 @@ private System.ComponentModel.IContainer components = null;
 			// label23
 			// 
 			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(376, 21);
+			this.label23.Location = new System.Drawing.Point(377, 21);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(53, 12);
 			this.label23.TabIndex = 0;
@@ -708,118 +659,119 @@ private System.ComponentModel.IContainer components = null;
 			this.skSaveButton.UseVisualStyleBackColor = true;
 			this.skSaveButton.Click += new System.EventHandler(this.skSaveButton_Click);
 			// 
-			// skFlowLayoutPanel
+			// skFLP
 			// 
-			this.skFlowLayoutPanel.AutoScroll = true;
-			this.skFlowLayoutPanel.BackColor = System.Drawing.Color.AliceBlue;
-			this.skFlowLayoutPanel.Controls.Add(this.skPanelDemo);
-			this.skFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.skFlowLayoutPanel.Location = new System.Drawing.Point(3, 75);
-			this.skFlowLayoutPanel.Name = "skFlowLayoutPanel";
-			this.skFlowLayoutPanel.Size = new System.Drawing.Size(1170, 266);
-			this.skFlowLayoutPanel.TabIndex = 6;
+			this.skFLP.AutoScroll = true;
+			this.skFLP.BackColor = System.Drawing.Color.AliceBlue;
+			this.skFLP.Controls.Add(this.skPanelDemo);
+			this.skFLP.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.skFLP.Location = new System.Drawing.Point(3, 75);
+			this.skFLP.Name = "skFLP";
+			this.skFLP.Size = new System.Drawing.Size(1170, 266);
+			this.skFLP.TabIndex = 6;
 			// 
 			// skPanelDemo
 			// 
 			this.skPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.skPanelDemo.Controls.Add(this.jgLabel);
-			this.skPanelDemo.Controls.Add(this.stLabel);
-			this.skPanelDemo.Controls.Add(this.lkTextBox);
-			this.skPanelDemo.Controls.Add(this.jgNumericUpDown);
-			this.skPanelDemo.Controls.Add(this.stNumericUpDown);
-			this.skPanelDemo.Controls.Add(this.frameLabel);
+			this.skPanelDemo.Controls.Add(this.jgLabelDemo);
+			this.skPanelDemo.Controls.Add(this.stLabelDemo);
+			this.skPanelDemo.Controls.Add(this.lkTBDemo);
+			this.skPanelDemo.Controls.Add(this.jgNUDDemo);
+			this.skPanelDemo.Controls.Add(this.stNUDDemo);
+			this.skPanelDemo.Controls.Add(this.sceneLabelDemo);
 			this.skPanelDemo.Location = new System.Drawing.Point(3, 3);
 			this.skPanelDemo.Name = "skPanelDemo";
 			this.skPanelDemo.Size = new System.Drawing.Size(569, 33);
 			this.skPanelDemo.TabIndex = 12;
 			this.skPanelDemo.Visible = false;
 			// 
-			// jgLabel
+			// jgLabelDemo
 			// 
-			this.jgLabel.AutoSize = true;
-			this.jgLabel.Location = new System.Drawing.Point(341, 7);
-			this.jgLabel.Name = "jgLabel";
-			this.jgLabel.Size = new System.Drawing.Size(17, 12);
-			this.jgLabel.TabIndex = 12;
-			this.jgLabel.Text = "ms";
+			this.jgLabelDemo.AutoSize = true;
+			this.jgLabelDemo.Location = new System.Drawing.Point(341, 7);
+			this.jgLabelDemo.Name = "jgLabelDemo";
+			this.jgLabelDemo.Size = new System.Drawing.Size(17, 12);
+			this.jgLabelDemo.TabIndex = 12;
+			this.jgLabelDemo.Text = "ms";
 			// 
-			// stLabel
+			// stLabelDemo
 			// 
-			this.stLabel.AutoSize = true;
-			this.stLabel.Location = new System.Drawing.Point(236, 7);
-			this.stLabel.Name = "stLabel";
-			this.stLabel.Size = new System.Drawing.Size(11, 12);
-			this.stLabel.TabIndex = 11;
-			this.stLabel.Text = "s";
+			this.stLabelDemo.AutoSize = true;
+			this.stLabelDemo.Location = new System.Drawing.Point(244, 7);
+			this.stLabelDemo.Name = "stLabelDemo";
+			this.stLabelDemo.Size = new System.Drawing.Size(11, 12);
+			this.stLabelDemo.TabIndex = 11;
+			this.stLabelDemo.Text = "s";
 			// 
-			// lkTextBox
+			// lkTBDemo
 			// 
-			this.lkTextBox.BackColor = System.Drawing.Color.White;
-			this.lkTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lkTextBox.Location = new System.Drawing.Point(374, 5);
-			this.lkTextBox.MaxLength = 20;
-			this.lkTextBox.Multiline = true;
-			this.lkTextBox.Name = "lkTextBox";
-			this.lkTextBox.Size = new System.Drawing.Size(172, 22);
-			this.lkTextBox.TabIndex = 10;
-			this.lkTextBox.Text = "12345678901234567890";
-			this.lkTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.lkTBDemo.BackColor = System.Drawing.Color.White;
+			this.lkTBDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.lkTBDemo.Location = new System.Drawing.Point(374, 5);
+			this.lkTBDemo.MaxLength = 20;
+			this.lkTBDemo.Multiline = true;
+			this.lkTBDemo.Name = "lkTBDemo";
+			this.lkTBDemo.Size = new System.Drawing.Size(172, 22);
+			this.lkTBDemo.TabIndex = 10;
+			this.lkTBDemo.Text = "12345678901234567890";
+			this.lkTBDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// jgNumericUpDown
+			// jgNUDDemo
 			// 
-			this.jgNumericUpDown.Font = new System.Drawing.Font("宋体", 10F);
-			this.jgNumericUpDown.Location = new System.Drawing.Point(269, 5);
-			this.jgNumericUpDown.Maximum = new decimal(new int[] {
-            600000,
+			this.jgNUDDemo.Font = new System.Drawing.Font("宋体", 10F);
+			this.jgNUDDemo.Location = new System.Drawing.Point(269, 5);
+			this.jgNUDDemo.Maximum = new decimal(new int[] {
+            100000,
             0,
             0,
             0});
-			this.jgNumericUpDown.Name = "jgNumericUpDown";
-			this.jgNumericUpDown.Size = new System.Drawing.Size(65, 23);
-			this.jgNumericUpDown.TabIndex = 1;
-			this.jgNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.jgNumericUpDown.Value = new decimal(new int[] {
-            500000,
+			this.jgNUDDemo.Name = "jgNUDDemo";
+			this.jgNUDDemo.Size = new System.Drawing.Size(65, 23);
+			this.jgNUDDemo.TabIndex = 1;
+			this.jgNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.jgNUDDemo.Value = new decimal(new int[] {
+            100000,
             0,
             0,
             0});
 			// 
-			// stNumericUpDown
+			// stNUDDemo
 			// 
-			this.stNumericUpDown.Font = new System.Drawing.Font("宋体", 10F);
-			this.stNumericUpDown.Increment = new decimal(new int[] {
+			this.stNUDDemo.DecimalPlaces = 2;
+			this.stNUDDemo.Font = new System.Drawing.Font("宋体", 10F);
+			this.stNUDDemo.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-			this.stNumericUpDown.Location = new System.Drawing.Point(182, 4);
-			this.stNumericUpDown.Maximum = new decimal(new int[] {
+			this.stNUDDemo.Location = new System.Drawing.Point(177, 4);
+			this.stNUDDemo.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-			this.stNumericUpDown.Name = "stNumericUpDown";
-			this.stNumericUpDown.Size = new System.Drawing.Size(50, 23);
-			this.stNumericUpDown.TabIndex = 1;
-			this.stNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.stNumericUpDown.Value = new decimal(new int[] {
-            9999,
+			this.stNUDDemo.Name = "stNUDDemo";
+			this.stNUDDemo.Size = new System.Drawing.Size(60, 23);
+			this.stNUDDemo.TabIndex = 1;
+			this.stNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stNUDDemo.Value = new decimal(new int[] {
+            1250,
             0,
             0,
-            0});
+            131072});
 			// 
-			// frameLabel
+			// sceneLabelDemo
 			// 
-			this.frameLabel.AutoSize = true;
-			this.frameLabel.Location = new System.Drawing.Point(8, 8);
-			this.frameLabel.Name = "frameLabel";
-			this.frameLabel.Size = new System.Drawing.Size(77, 12);
-			this.frameLabel.TabIndex = 0;
-			this.frameLabel.Text = "辅助场景十二";
+			this.sceneLabelDemo.AutoSize = true;
+			this.sceneLabelDemo.Location = new System.Drawing.Point(8, 8);
+			this.sceneLabelDemo.Name = "sceneLabelDemo";
+			this.sceneLabelDemo.Size = new System.Drawing.Size(77, 12);
+			this.sceneLabelDemo.TabIndex = 0;
+			this.sceneLabelDemo.Text = "辅助场景十二";
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.skFlowLayoutPanel);
+			this.groupBox1.Controls.Add(this.skFLP);
 			this.groupBox1.Controls.Add(this.panel3);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.groupBox1.Location = new System.Drawing.Point(4, 277);
@@ -828,6 +780,55 @@ private System.ComponentModel.IContainer components = null;
 			this.groupBox1.TabIndex = 7;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "音频场景设置";
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.label8);
+			this.panel1.Controls.Add(this.label10);
+			this.panel1.Controls.Add(this.label11);
+			this.panel1.Controls.Add(this.label13);
+			this.panel1.Location = new System.Drawing.Point(576, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(454, 50);
+			this.panel1.TabIndex = 13;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(9, 24);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(41, 12);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "场景名";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(180, 20);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(41, 12);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "步时间";
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(271, 20);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(53, 12);
+			this.label11.TabIndex = 0;
+			this.label11.Text = "间隔时间";
+			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(377, 21);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(53, 12);
+			this.label13.TabIndex = 0;
+			this.label13.Text = "音频链表";
 			// 
 			// GlobalSetForm
 			// 
@@ -855,23 +856,23 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheGroupBox.PerformLayout();
 			this.zuheEnableGroupBox.ResumeLayout(false);
 			this.zuheEnableGroupBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.frame0NumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame4numericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame3numericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene0NumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene4numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene3numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene2numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.scene1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
 			this.panel3.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
-			this.skFlowLayoutPanel.ResumeLayout(false);
+			this.skFLP.ResumeLayout(false);
 			this.skPanelDemo.ResumeLayout(false);
 			this.skPanelDemo.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.jgNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.stNUDDemo)).EndInit();
 			this.groupBox1.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -882,7 +883,7 @@ private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.GroupBox zuheGroupBox;
 		private System.Windows.Forms.CheckBox zuheCheckBox;
 		private System.Windows.Forms.GroupBox zuheEnableGroupBox;
-		private System.Windows.Forms.ComboBox zuheFrameComboBox;
+		private System.Windows.Forms.ComboBox zuheSceneComboBox;
 	
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label7;
@@ -894,17 +895,17 @@ private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.ComboBox[] skComboBoxes = new System.Windows.Forms.ComboBox[24];
 		private System.Windows.Forms.Label label34;
 
-		private System.Windows.Forms.ComboBox[] frameComboBoxes = new System.Windows.Forms.ComboBox[4];
-		private System.Windows.Forms.ComboBox frame4ComboBox;
-		private System.Windows.Forms.ComboBox frame2ComboBox;
-		private System.Windows.Forms.ComboBox frame1ComboBox;
-		private System.Windows.Forms.ComboBox frame3ComboBox;
-		private System.Windows.Forms.NumericUpDown frame0NumericUpDown;
-		private System.Windows.Forms.NumericUpDown[] frameNumericUpDowns = new System.Windows.Forms.NumericUpDown[4];
-		private System.Windows.Forms.NumericUpDown frame4numericUpDown;
-		private System.Windows.Forms.NumericUpDown frame3numericUpDown;
-		private System.Windows.Forms.NumericUpDown frame2numericUpDown;
-		private System.Windows.Forms.NumericUpDown frame1numericUpDown;
+		private System.Windows.Forms.ComboBox[] sceneComboBoxes = new System.Windows.Forms.ComboBox[4];
+		private System.Windows.Forms.ComboBox scene4ComboBox;
+		private System.Windows.Forms.ComboBox scene2ComboBox;
+		private System.Windows.Forms.ComboBox scene1ComboBox;
+		private System.Windows.Forms.ComboBox scene3ComboBox;
+		private System.Windows.Forms.NumericUpDown scene0NumericUpDown;
+		private System.Windows.Forms.NumericUpDown[] sceneNumericUpDowns = new System.Windows.Forms.NumericUpDown[4];
+		private System.Windows.Forms.NumericUpDown scene4numericUpDown;
+		private System.Windows.Forms.NumericUpDown scene3numericUpDown;
+		private System.Windows.Forms.NumericUpDown scene2numericUpDown;
+		private System.Windows.Forms.NumericUpDown scene1numericUpDown;
 		//private System.Windows.Forms.ComboBox[] frameMethodComboBoxes = new System.Windows.Forms.ComboBox[4];
 		private System.Windows.Forms.Label label35;
 		private System.Windows.Forms.GroupBox globalGroupBox;
@@ -923,7 +924,7 @@ private System.ComponentModel.IContainer components = null;
 		private Button mFrameSaveButton;
 		private ToolTip myToolTip;
 		private Panel panel3;
-		private FlowLayoutPanel skFlowLayoutPanel;
+		private FlowLayoutPanel skFLP;
 		private Label label22;
 		private Label label21;
 		private Label label12;
@@ -932,12 +933,12 @@ private System.ComponentModel.IContainer components = null;
 		private Button skNoticeButton;
 		private Button skSaveButton;
 		private Panel skPanelDemo;
-		private Label jgLabel;
-		private Label stLabel;
-		private TextBox lkTextBox;
-		private NumericUpDown jgNumericUpDown;
-		private NumericUpDown stNumericUpDown;
-		private Label frameLabel;
+		private Label jgLabelDemo;
+		private Label stLabelDemo;
+		private TextBox lkTBDemo;
+		private NumericUpDown jgNUDDemo;
+		private NumericUpDown stNUDDemo;
+		private Label sceneLabelDemo;
 		private Button ymButton;
 		private Panel panel2;
 		private Panel panel1;

@@ -23,6 +23,9 @@ namespace LightController.PeripheralDevice
         private Socket Socket { get; set; }//网络连接套接字
         private byte[] ReceiveBuff { get; set; }//接收缓存区
         private int BuffCount { get; set; }
+        private Thread TCPServerReceiveThread { get; set; }
+        private bool IsReceive { get; set; }
+
         //901灯控功能设备搜索
         private const int UDP_INTENT_PREVIEW_PORT = 7080;
         private Socket IntentPreviewUDPSender { get; set; }
@@ -63,7 +66,15 @@ namespace LightController.PeripheralDevice
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
-                this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+
+
+                //TODO XIAOSA 客户端连接同步接收测试1
+                this.TCPServerReceiveThread = new Thread(TCPServerReceive) { IsBackground = true };
+                this.IsReceive = true;
+                this.TCPServerReceiveThread.Start();
+
+
+                //this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
                 LogTools.Debug(Constant.TAG_XIAOSA, "连接设备成功!");
                 return true;
             }
@@ -87,7 +98,9 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         protected override void Send(byte[] data)
         {
-            this.Socket.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
+            this.Socket.Send(data);
+            this.SendDataCompleted();
+            //this.Socket.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
         }
         /// <summary>
         /// 网络发送完成回调方法
@@ -97,6 +110,40 @@ namespace LightController.PeripheralDevice
         {
             this.SendDataCompleted();
         }
+
+
+        //TODO XIAOSA 客户端连接同步接收测试2
+        /// <summary>
+        /// 网络同步接收数据
+        /// </summary>
+        private void TCPServerReceive()
+        {
+            try
+            {
+                while (this.IsReceive)
+                {
+                    byte[] buff = new byte[1024];
+                    if (this.Socket == null || !this.Socket.Connected)
+                    {
+                        break;
+                    }
+                    int count = this.Socket.Receive(buff);
+                    if (count > 0)
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            ReadBuff.Add(buff[i]);
+                            this.Receive();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA,"TCP接收消息异常", ex);
+            }
+        }
+
         /// <summary>
         /// 网络回复数据接受
         /// </summary>
@@ -120,10 +167,7 @@ namespace LightController.PeripheralDevice
                     byte[] buff = new byte[count];
                     Array.Copy(connect.ReceiveBuff, buff, count);
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
-                    if (count > 24)
-                    {
-                        Console.WriteLine(BitConverter.ToString(buff));
-                    }
+                    Console.WriteLine(BitConverter.ToString(buff));
                     for (int i = 0; i < buff.Length; i++)
                     {
                         ReadBuff.Add(buff[i]);

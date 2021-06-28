@@ -422,7 +422,6 @@
     </Compile>
     <Compile Include="PeripheralDevice\BaseCommunication.cs" />
     <Compile Include="PeripheralDevice\NetworkConnect.cs" />
-    <Compile Include="PeripheralDevice\OnlineConnect.cs" />
     <Compile Include="PeripheralDevice\OnlineDeviceInfo.cs" />
     <Compile Include="PeripheralDevice\SeachDeviceUtils.cs" />
     <Compile Include="PeripheralDevice\SerialConnect.cs" />
@@ -433,7 +432,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Conn.cs" />
     <Compile Include="Tools\Constant.cs" />
     <Compile Include="Tools\CRCTools.cs" />
     <Compile Include="Tools\CSJLogs.cs" />

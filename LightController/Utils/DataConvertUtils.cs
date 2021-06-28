@@ -10,31 +10,55 @@ using System.Linq;
 using System.Diagnostics;
 using LightController.MyForm;
 using LightController.Utils.Ver2;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Utils
 {
     public class DataConvertUtils
     {
-        private static Dictionary<int, Dictionary<int, bool>> C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-        private static Dictionary<int, bool> C_DMXSceneState = new Dictionary<int, bool>();
-        private static Dictionary<int, Dictionary<int, bool>> M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-        private static Dictionary<int, bool> M_DMXSceneState = new Dictionary<int, bool>();
-        private static Dictionary<int, bool> C_PreviewDataState = new Dictionary<int, bool>();
-        private static Dictionary<int, bool> M_PreviewDataState = new Dictionary<int, bool>();
-        private static CSJ_SceneData C_PreviewSceneData { get; set; }
-        private static CSJ_SceneData M_PreviewSceneData { get; set; }
-        public static readonly int MODE_PREVIEW = FileUtils.MODE_PREVIEW;
-        public static readonly int MODE_MAKEFILE = FileUtils.MODE_MAKEFILE;
-        private static int BuildMode { get; set; }
+       
+
+        private static DataConvertUtils Instance;
+        public const int MODE_PREVIEW = 11;
+        public const int MODE_MAKEFILE = 12;
         private const int WriteBufferSize = 1024 * 50;
-        private static ISaveProjectCallBack CallBack { get; set; }
 
-        public static bool Flag = false;
+        public static bool Flag { get; set; }
 
-        public static void InitThreadPool()
+        private Dictionary<int, Dictionary<int, bool>> C_DMXSceneChannelData { get; set; }
+        private  Dictionary<int, bool> C_DMXSceneState { get; set; }
+        private  Dictionary<int, Dictionary<int, bool>> M_DMXSceneChannelData { get; set; }
+        private  Dictionary<int, bool> M_DMXSceneState { get; set; }
+        private  Dictionary<int, bool> C_PreviewDataState { get; set; }
+        private  Dictionary<int, bool> M_PreviewDataState { get; set; }
+        private  CSJ_SceneData C_PreviewSceneData { get; set; }
+        private  CSJ_SceneData M_PreviewSceneData { get; set; }
+        private int BuildMode { get; set; }
+        private Completed Completed_Event { get; set; }
+        private Error Error_Event { get; set; }
+        private UpdateProgress updateProgress_Event { get; set; }
+
+
+        private DataConvertUtils()
         {
-            ThreadPool.SetMaxThreads(100, 10);
+            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            C_DMXSceneState = new Dictionary<int, bool>();
+            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            M_DMXSceneState = new Dictionary<int, bool>();
+            C_PreviewDataState = new Dictionary<int, bool>();
+            M_PreviewDataState = new Dictionary<int, bool>();
+            Flag = false;
         }
+
+        public DataConvertUtils GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new DataConvertUtils();
+            }
+            return Instance;
+        }
+
         /// <summary>
         /// 生成单场景数据入口
         /// </summary>
@@ -43,10 +67,11 @@ namespace LightController.Utils
         /// <param name="configPath"></param>
         /// <param name="callBack"></param>
         /// <param name="sceneNo"></param>
-        public static void SaveSingleFrameFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,ISaveProjectCallBack callBack,int sceneNo)
+        public  void SaveSingleFrameFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,int sceneNo,Completed completed,Error error,UpdateProgress update)
         {
-            InitThreadPool();
-            CallBack = callBack;
+            Completed_Event = completed;
+            Error_Event = error;
+            updateProgress_Event = update;
             BuildMode = MODE_MAKEFILE;
             FileUtils.ClearCacheData();
             FileUtils.ClearSingleFrameData(sceneNo);
@@ -63,7 +88,7 @@ namespace LightController.Utils
         /// 单场景数据库检索获取数据
         /// </summary>
         /// <param name="obj"></param>
-        private static void GeneratedSingleFrameDBSceneData(Object obj)
+        private  void GeneratedSingleFrameDBSceneData(Object obj)
         {
             SingleFrameDBData data = obj as SingleFrameDBData;
             DBWrapper wrapper = data.Wrapper;
@@ -98,7 +123,6 @@ namespace LightController.Utils
             {
                 Flag = false;
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_C, configPath));
-                //TODO 测试
                 while (true)
                 {
                     if (Flag)
@@ -111,7 +135,6 @@ namespace LightController.Utils
             {
                 Flag = false;
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_M, configPath));
-                //TODO 测试
                 while (true)
                 {
                     if (Flag)
@@ -127,10 +150,11 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="valueDAO"></param>
         /// <param name="configPath"></param>
-        public static void SaveProjectFile(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
+        public  void SaveProjectFile(DBWrapper wrapper, MainFormInterface mainForm, string configPath, Completed completed, Error error, UpdateProgress update)
         {
-            InitThreadPool();
-            CallBack = callBack;
+            Completed_Event = completed;
+            Error_Event = error;
+            updateProgress_Event = update;
             BuildMode = MODE_MAKEFILE;
             FileUtils.ClearCacheData();
             FileUtils.ClearProjectData();
@@ -147,7 +171,7 @@ namespace LightController.Utils
         /// 检索数据库获取数据
         /// </summary>
         /// <param name="obj"></param>
-        private static void GeneratedDBSceneData(Object obj)
+        private  void GeneratedDBSceneData(Object obj)
         {
             DBData data = obj as DBData;
             DBWrapper wrapper = data.Wrapper;
@@ -157,7 +181,7 @@ namespace LightController.Utils
             List<int> m_SceneNos = new List<int>();
             if (wrapper.stepCountList.Count == 0)
             {
-                CallBack.Completed();
+                Completed_Event();
             }
             foreach (DB_StepCount item in data.Wrapper.stepCountList)
             {
@@ -188,7 +212,6 @@ namespace LightController.Utils
             {
                 Flag = false;
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_C, configPath));
-                //TODO 测试
                 while (true)
                 {
                     if (Flag)
@@ -202,7 +225,6 @@ namespace LightController.Utils
             {
                 Flag = false;
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_M, configPath));
-                //TODO 测试
                 while (true)
                 {
                     if (Flag)
@@ -216,7 +238,7 @@ namespace LightController.Utils
         /// 生成场景数据库数据
         /// </summary>
         /// <param name="obj"></param>
-        private static void GetSceneDataWaitCallback(Object obj)
+        private  void GetSceneDataWaitCallback(Object obj)
         {
             SceneThreadDataInfo data = obj as SceneThreadDataInfo;
             IList<CSJ_ChannelData> channelDatas = new List<CSJ_ChannelData>();
@@ -230,7 +252,6 @@ namespace LightController.Utils
                     }
                     else
                     {
-                        
                         IList<TongdaoWrapper> values = data.MainForm.GetFMTDList(new DB_ValuePK()
                         {
                             Frame = data.SceneNo,
@@ -324,7 +345,7 @@ namespace LightController.Utils
                     C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
                     C_DMXSceneState = new Dictionary<int, bool>();
                     FileUtils.CreateGradientData();
-                    CallBack.Completed();
+                    Completed_Event();
                 }
                 else
                 {
@@ -333,12 +354,10 @@ namespace LightController.Utils
             }
             else
             {
-                //TODO 测试同步语句效率
                 GeneratedSceneData(new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
             }
         }
-        private static void GeneratedSceneData(Object obj)
+        private  void GeneratedSceneData(Object obj)
         {
             SceneDBData data = obj as SceneDBData;
             int mode = data.Mode;
@@ -360,7 +379,7 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="configPath"></param>
         /// <returns></returns>
-        private static void GeneratedC_SceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath)
+        private  void GeneratedC_SceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath)
         {
             sceneData.ChannelCount = sceneData.ChannelDatas.Count;
             string sceneFileName = "C" + (sceneData.SceneNo + 1) + ".bin";
@@ -459,12 +478,10 @@ namespace LightController.Utils
                 }
                 C_ChannelThreadDataInfo dataInfo = new C_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, sceneNo, rate);
                 dataInfo.SetName("C1-" + Constant.GetNumber(cSJ_ChannelData.ChannelNo) + ".bin");
-                //TODO 测试同步语句效率-基础场景
                 ConvertC_DataWaitCallback(dataInfo);
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), dataInfo);
             }
         }
-        private static void ConvertC_DataWaitCallback(Object obj)
+        private  void ConvertC_DataWaitCallback(Object obj)
         {
             float value = 0;
             int intValue = 0;
@@ -546,7 +563,6 @@ namespace LightController.Utils
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "计算生成常规文件数据出错-" + fileName,ex);
-                
             }
         }
 
@@ -557,7 +573,7 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="configPath"></param>
         /// <returns></returns>
-        private static void GeneratedM_SceneData(CSJ_SceneData scenedata, DBWrapper wrapperdata, string configpath)
+        private  void GeneratedM_SceneData(CSJ_SceneData scenedata, DBWrapper wrapperdata, string configpath)
         {
             try
             {
@@ -681,9 +697,7 @@ namespace LightController.Utils
                         }
                     }
                     M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
-                    //TODO 测试同步语句效率-音频场景
                     ConvertM_DataWaitCallback(dataInfo);
-                    //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
                 }
             }
             catch (Exception ex)
@@ -691,7 +705,7 @@ namespace LightController.Utils
                 LogTools.Error(Constant.TAG_XIAOSA, "音频场景数据处理出现异常", ex);
             }
         }
-        private static void ConvertM_DataWaitCallback(Object obj)
+        private  void ConvertM_DataWaitCallback(Object obj)
         {
             M_ChannelThreadDataInfo dataInfo = obj as M_ChannelThreadDataInfo;
             CSJ_ChannelData channelData = dataInfo.ChannelData;
@@ -787,14 +801,14 @@ namespace LightController.Utils
         /// <param name="sceneNo"></param>
         /// <param name="channelNo"></param>
         /// <param name="mode"></param>
-        private static void DataCacheWriteCompleted(int sceneNo, int channelNo, int mode)
+        private  void DataCacheWriteCompleted(int sceneNo, int channelNo, int mode)
         {
             switch (mode)
             {
                 case Constant.MODE_C:
-                    if (CallBack != null)
+                    if (updateProgress_Event != null)
                     {
-                        CallBack.UpdateProgress("基础场景" + (sceneNo + 1) + "-" + channelNo + "完成");
+                        updateProgress_Event("基础场景" + (sceneNo + 1) + "-" + channelNo + "完成");
                     }
                     lock (C_DMXSceneChannelData)
                     {
@@ -806,8 +820,7 @@ namespace LightController.Utils
                         {
                             C_DMXSceneState[sceneNo] = true;
                         }
-                        //TODO 测试
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), CallBack);
+                        FileUtils.MergeFile_Old(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), Completed_Event,Error_Event);
                     }
                     if (!C_DMXSceneState.ContainsValue(false))
                     {
@@ -816,9 +829,9 @@ namespace LightController.Utils
                     }
                     break;
                 case Constant.MODE_M:
-                    if (CallBack != null)
+                    if (updateProgress_Event != null)
                     {
-                        CallBack.UpdateProgress("音频场景" + (sceneNo + 1) + "-" + channelNo + "完成");
+                        updateProgress_Event("音频场景" + (sceneNo + 1) + "-" + channelNo + "完成");
                     }
                     lock (M_DMXSceneChannelData)
                     {
@@ -830,8 +843,7 @@ namespace LightController.Utils
                         {
                             M_DMXSceneState[sceneNo] = true;
                         }
-                        //TODO 测试
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), CallBack);
+                        FileUtils.MergeFile_Old(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), Completed_Event,Error_Event);
                     }
                     if (!M_DMXSceneState.ContainsValue(false))
                     {
@@ -844,33 +856,15 @@ namespace LightController.Utils
         /// <summary>
         ///预览数据生成入口
         /// </summary>
-        public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,ISaveProjectCallBack callBack)
+        public  void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,Completed completed,Error error,UpdateProgress update)
         {
             
             try
             {
-                CallBack = callBack;
-
-
-                ////TODO 待删除
+                Completed_Event = completed;
+                Error_Event = error;
+                updateProgress_Event = update;
                 ChannelDataGeneratior.GetInstance().PreviewFileBuild(wrapper, new GlobalBean(configPath, wrapper.lightList), sceneNo, TestCompleted, TestError);
-                if (false)
-                {
-                    FileUtils.ClearPreviewCacheData();
-                    FileUtils.ClearPreviewProjectData();
-                    BuildMode = MODE_PREVIEW;
-                    C_PreviewDataState = new Dictionary<int, bool>();
-                    M_PreviewDataState = new Dictionary<int, bool>();
-                    C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-                    C_DMXSceneState = new Dictionary<int, bool>();
-                    M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-                    M_DMXSceneState = new Dictionary<int, bool>();
-                    C_PreviewSceneData = null;
-                    M_PreviewSceneData = null;
-                    //TODO 测试同步语句效率-整理预览数据
-                    GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
-                    //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
-                }
             }
 			catch (Exception ex)
 			{
@@ -878,25 +872,22 @@ namespace LightController.Utils
 			}
         }
 
-        private static void TestCompleted(string msg)
+        private  void TestCompleted(string msg)
         {
             Console.WriteLine("数据生成：" + msg);
-            CallBack.Completed();
+            Completed_Event();
         }
 
-        private static void TestError(string msg)
+        private  void TestError(string msg)
         {
             Console.WriteLine("数据生成：" + msg);
-            CallBack.Error(msg);
+            Error_Event(msg);
         }
-
-
-
         /// <summary>
         /// 整理生成预览场景数据
         /// </summary>
         /// <param name="obj"></param>
-        private static void GeneratedPreviewSceneData(Object obj)
+        private  void GeneratedPreviewSceneData(Object obj)
         {
             DBWrapper wrapper = (obj as PreviewData).Wrapper;
             string configPath = (obj as PreviewData).ConfigPath;
@@ -941,7 +932,7 @@ namespace LightController.Utils
             }
             if (c_StepCount ==0)
             {
-                CallBack.Error("当前场景没有灯光数据");
+                Error_Event("当前场景没有灯光数据");
             }
             if (c_StepCount > 0)
             {
@@ -1047,9 +1038,7 @@ namespace LightController.Utils
                 }
                 else
                 {
-                    //TODO 测试同步语句效率-预览基础场景数据
                     GeneratedSceneData(new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
-                    //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
                 }
             }
             if (m_StepCount > 0)
@@ -1062,9 +1051,7 @@ namespace LightController.Utils
                 }
                 else
                 {
-                    //TODO 测试同步语句效率-预览基础场景数据
                     GeneratedSceneData(new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
-                    //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
                 }
             }
         }
@@ -1204,7 +1191,5 @@ namespace LightController.Utils
                 this.Name = name;
             }
         }
-        private delegate void Completed();
-        private delegate void Failed();
     }
 }

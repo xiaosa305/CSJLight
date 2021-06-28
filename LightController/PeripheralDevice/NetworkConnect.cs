@@ -66,15 +66,9 @@ namespace LightController.PeripheralDevice
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
-
-
-                //TODO XIAOSA 客户端连接同步接收测试1
                 this.TCPServerReceiveThread = new Thread(TCPServerReceive) { IsBackground = true };
                 this.IsReceive = true;
                 this.TCPServerReceiveThread.Start();
-
-
-                //this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
                 LogTools.Debug(Constant.TAG_XIAOSA, "连接设备成功!");
                 return true;
             }
@@ -112,7 +106,6 @@ namespace LightController.PeripheralDevice
         }
 
 
-        //TODO XIAOSA 客户端连接同步接收测试2
         /// <summary>
         /// 网络同步接收数据
         /// </summary>
@@ -144,44 +137,6 @@ namespace LightController.PeripheralDevice
             }
         }
 
-        /// <summary>
-        /// 网络回复数据接受
-        /// </summary>
-        /// <param name="asyncResult"></param>
-        private void NetworkReceive(IAsyncResult asyncResult)
-        {
-            try
-            {
-                NetworkConnect connect = asyncResult.AsyncState as NetworkConnect;
-                if (connect.Socket == null || !connect.Socket.Connected)
-                {
-                    return;
-                }
-                int count = connect.Socket.EndReceive(asyncResult);
-                if (count <= 0)
-                {
-                    return;
-                }
-                else
-                {
-                    byte[] buff = new byte[count];
-                    Array.Copy(connect.ReceiveBuff, buff, count);
-                    connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
-                    Console.WriteLine(BitConverter.ToString(buff));
-                    for (int i = 0; i < buff.Length; i++)
-                    {
-                        ReadBuff.Add(buff[i]);
-                        this.Receive();
-                    }
-                    //ReadBuff.AddRange(buff);
-                    this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogTools.Error(Constant.TAG_XIAOSA, "网络设备已断开或网络接收模块发生异常", ex);
-            }
-        }
         /// <summary>
         /// 断开连接
         /// </summary>

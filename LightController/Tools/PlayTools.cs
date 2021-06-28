@@ -1,5 +1,4 @@
-﻿using FTD2XX_NET;
-using LightController.Ast;
+﻿using LightController.Ast;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
@@ -15,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using static LightController.PeripheralDevice.BaseCommunication;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Tools
 {
@@ -47,8 +47,8 @@ namespace LightController.Tools
         private List<PlayPoint> M_PlayPoints { get; set; }
         private List<PlayPoint> C_PlayPoints { get; set; }
         private NetworkConnect Communication { get; set; }
-        private BaseCommunication.Completed StartIntentPreviewCompleted { get; set; }
-        private BaseCommunication.Error StartIntentPreviewError { get; set; }
+        private Completed_TakeMsgAndObj StartIntentPreviewCompleted { get; set; }
+        private Error StartIntentPreviewError { get; set; }
         private PlayTools()
         {
             try
@@ -83,7 +83,7 @@ namespace LightController.Tools
             }
            
         }
-        public void StartPreview(NetworkConnect communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
+        public void StartPreview(NetworkConnect communication, Completed_TakeMsgAndObj completed, Error error, int timeFactory)
         {
             //Thread.Sleep(250);
             this.Communication = communication;
@@ -104,7 +104,7 @@ namespace LightController.Tools
             this.Communication.StopIntentPreview(Compelted, Error);
             this.DebugStatus = false;
         }
-        public void StopPreview(Completed completed,Error error)
+        public void StopPreview(Completed_TakeMsgAndObj completed,Error error)
         {
             this.Communication.StopIntentPreview(completed, error);
             this.DebugStatus = false;

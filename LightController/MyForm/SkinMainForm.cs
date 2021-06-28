@@ -331,14 +331,7 @@ namespace LightController.MyForm
 		/// 事件：点击《使用说明》->导航功能
 		/// </summary>
 		/// <param name="noticeText"></param>
-		private void helpSkinButton_Click(object sender, EventArgs e)	{
-
-			
-			byte[] stepBytes = new byte[512];
-			stepBytes[0] = 120;
-			SerialPlayTools.OLOSView(stepBytes);
-
-		}
+		private void helpSkinButton_Click(object sender, EventArgs e)	{ }
 
 		/// <summary>
 		/// 事件：鼠标左右键按下《使用说明》
@@ -347,14 +340,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void helpSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			//if (e.Button == MouseButtons.Left)
-			//{
-			//	helpButtonClick();
-			//}
-			//else if (e.Button == MouseButtons.Right)
-			//{
-			//	updateLogButtonClick();
-			//}
+			if (e.Button == MouseButtons.Left)
+			{
+				helpButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				updateLogButtonClick();
+			}
 		}
 		
 		#endregion
@@ -372,7 +365,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《全局配置》
+		///  事件：点击《工程全局（配置）》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -382,13 +375,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：《工程更新》按钮
+		/// 事件：《工程下载》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void projectUpdateSkinButton_Click(object sender, EventArgs e)
+		private void projectDownloadSkinButton_Click(object sender, EventArgs e)
 		{
-			projectUpdateClick();
+			projectDownloadClick();
 		}
 
 		#endregion
@@ -547,16 +540,6 @@ namespace LightController.MyForm
 				);
 			}
 			Refresh();
-		}
-		
-		/// <summary>
-		///  辅助方法：设定是否显示《 （调试区域的N个按钮）panel》
-		/// </summary>
-		/// <param name="visible"></param>
-		protected override void enablePlayPanel(bool enable)
-		{
-			//MARK 3.0413 设定是否显示《 （调试区域的N个按钮）panel》
-			//playFlowLayoutPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1906,7 +1889,7 @@ namespace LightController.MyForm
 				keepSkinButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1933,26 +1916,26 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected,bool previewing)
+		protected override void enableConnectedButtons(bool connected,bool previewing)
 		{
-			base.EnableConnectedButtons(connected, previewing);
+			base.enableConnectedButtons(connected, previewing);
 
 			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetSkinButton.Enabled = connected;
 			toolsSkinButton.Enabled = connected;
 			seqSkinButton.Enabled = connected; 
-			projectUpdateSkinButton.Enabled = connected;
+			projectDownloadSkinButton.Enabled = connected;
 	
-			keepSkinButton.Enabled = IsDeviceConnected && !IsPreviewing;
-			previewSkinButton.Enabled = IsDeviceConnected;
-			makeSoundSkinButton.Enabled = IsDeviceConnected && IsPreviewing;
+			keepSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && !IsPreviewing ;
+			previewSkinButton.Enabled = IsDeviceConnected || IsDMXConnected;
+			makeSoundSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing;
 			
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsDeviceConnected && !IsPreviewing)
+			if ((IsDeviceConnected || IsDMXConnected) && !IsPreviewing)
 			{
-				RefreshStep();
+				refreshStep();
 			}
 		}
 

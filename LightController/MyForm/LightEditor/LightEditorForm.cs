@@ -764,35 +764,21 @@ namespace LightEditor
 		/// </summary>
 		private void oneStepPlay()
 		{
-			// DOTO 210628 灯库编辑内的oneStepPlay
-
-			//// 若 设备连接为空 且 未打开DMX512串口，则不再往下走
-			//if ( )
-			//{
-			//	return;
-			//}
-
-			//byte[] stepBytes = new byte[512];
-			//if (tongdaoList != null && tongdaoList.Count > 0)
-			//{
-			//	foreach (TongdaoWrapper td in tongdaoList)
-			//	{
-			//		// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
-			//		// --> tongdaoIndex  = 1 + 1 -2；
-			//		int tongdaoIndex = firstTDValue + td.Address - 2;
-			//		stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
-			//	}
-			//}
-
-			//// 这两个语句顺序有很大关系：先判断的优先级更高：《网络设备连接》>《DMX512连接》
-			//if (devicePlayer != null)
-			//{
-			//	devicePlayer.OLOSView(stepBytes);
-			//}
-			//else if (isComConnected)
-			//{
-			//	dmxPlayer.Preview(stepBytes);
-			//}
+			if (mainForm.IsEnableOneStepPlay())
+			{
+				byte[] stepBytes = new byte[512];
+				if (tongdaoList != null && tongdaoList.Count > 0)
+				{
+					foreach (TongdaoWrapper td in tongdaoList)
+					{
+						// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
+						// --> tongdaoIndex  = 1 + 1 -2；
+						int tongdaoIndex = firstTDValue + td.Address - 2;
+						stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+					}
+				}
+				mainForm.OneStepPlay(stepBytes,null);
+			}
 		}
 
 		#endregion

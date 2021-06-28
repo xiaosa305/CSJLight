@@ -110,7 +110,7 @@ namespace LightController.MyForm.Multiplex
 					endView();
 				}
 				else {
-					mainForm.OneStepPlay(null);
+					mainForm.OneStepPlay(null,null); // ColorForm_FormClosed
 				}				
 			}			
 		}
@@ -324,10 +324,10 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		private void oneStepPlay()
 		{
-			if (mainForm.IsDeviceConnected && !mainForm.IsPreviewing)
+			if ( mainForm.IsEnableOneStepPlay() )
 			{
 				generateSingleMaterial(); // 若未选中色块，则material = null,此时mainForm会直接跑原来的步数据
-				mainForm.OneStepPlay(material);
+				mainForm.OneStepPlay(null,material); // oneStepPlay()
 			}
 		}
 

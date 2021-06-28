@@ -65,7 +65,7 @@ namespace LightController.MyForm.MainFormAst
 		{
 			e.Cancel = true;
 			if (DialogResult.Yes == MessageBox.Show("设备出厂时的默认IP地址为192.168.2.10；如果当前电脑当前不在此网段内(即本机IP非192.168.2.X)，将无法搜到设备。是否要打开《网络连接》设置本地IP?",
-				"设置IP？",
+				"设置本地IP",
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question))
 			{

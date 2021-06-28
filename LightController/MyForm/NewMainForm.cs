@@ -493,9 +493,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void projectUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+		private void projectDownloadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			projectUpdateClick();
+			projectDownloadClick();
 		}
 
 		#endregion
@@ -653,15 +653,6 @@ namespace LightController.MyForm
 				);
 			}
 			Refresh();
-		}
-
-		/// <summary>
-		/// 辅助方法：是否显示playPanel
-		/// </summary>
-		/// <param name="enable"></param>
-		protected override void enablePlayPanel(bool enable)
-		{
-			//playPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1787,7 +1778,7 @@ namespace LightController.MyForm
 				keepButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1814,15 +1805,14 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected,bool previewing)
+		protected override void enableConnectedButtons(bool connected,bool previewing)
 		{
-			base.EnableConnectedButtons(connected, previewing);
+			base.enableConnectedButtons(connected, previewing);
 
-			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetToolStripMenuItem.Enabled = connected;
 			toolStripMenuItem.Enabled = connected;
 			seqToolStripMenuItem.Enabled = connected;
-			projectUpdateToolStripMenuItem.Enabled = connected;
+			projectDownloadToolStripMenuItem.Enabled = connected;
 
 			keepButton.Enabled = IsDeviceConnected && !IsPreviewing;
 			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
@@ -1831,7 +1821,7 @@ namespace LightController.MyForm
 			
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
 			if (IsDeviceConnected && !IsPreviewing) {
-				RefreshStep();
+				refreshStep();
 			}						
 		}
 
@@ -1877,17 +1867,23 @@ namespace LightController.MyForm
 		{
 			LanguageHelper.TranslateControl( sender as Button);
 		}
-
+			   
 		/// <summary>
-		/// 辅助方法：点击《设备连接》
+		/// 事件：点击《设备连接》->导航用
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectToolStripMenuItem_Click(object sender, EventArgs e)	{
-
-			//DOTO : 210628 改造NewMainForm.ConnectButtonClick
-			connectButtonClick(MouseButtons.Left);				
-		}	
+		private void connectToolStripMenuItem_Click(object sender, EventArgs e)	{	}
+					
+		/// <summary>
+		/// 事件：左右键按《设备连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
+		{
+			connectButtonClick(e.Button);
+		}
 
 		/// <summary>
 		/// 事件：点击《硬件配置》
@@ -1908,5 +1904,7 @@ namespace LightController.MyForm
 		{
 			sequencerButtonClick();
 		}
+
+		
 	}
 }

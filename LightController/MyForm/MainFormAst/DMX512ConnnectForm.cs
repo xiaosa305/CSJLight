@@ -72,9 +72,8 @@ namespace LightController.MyForm.MainFormAst
 				portComboBox.Enabled = true;
 				portRefreshButton.Enabled = true;				
 				connectButton.Text = "连接灯具";
-				mainForm.IsDMXConnected = false;
+				mainForm.EnableConnectedButtons(false);
 				
-
 				setNotice("已断开DMX512连接。", false, true);
 
 			}
@@ -85,7 +84,7 @@ namespace LightController.MyForm.MainFormAst
 				portComboBox.Enabled = false;
 				portRefreshButton.Enabled = false;
 				connectButton.Text = "断开连接";
-				mainForm.IsDMXConnected = true;
+				mainForm.EnableConnectedButtons(true);
 
 				setNotice("已使用DMX512线连接灯具，可用以调试。", false, true);
 			}			

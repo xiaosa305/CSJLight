@@ -51,7 +51,7 @@
 			// 
 			this.myStatusLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(223, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(254, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -59,9 +59,9 @@
 			// 
 			this.portRefreshButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.portRefreshButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.portRefreshButton.Location = new System.Drawing.Point(45, 65);
+			this.portRefreshButton.Location = new System.Drawing.Point(32, 65);
 			this.portRefreshButton.Name = "portRefreshButton";
-			this.portRefreshButton.Size = new System.Drawing.Size(73, 23);
+			this.portRefreshButton.Size = new System.Drawing.Size(88, 30);
 			this.portRefreshButton.TabIndex = 31;
 			this.portRefreshButton.Text = "刷新串口";
 			this.portRefreshButton.UseVisualStyleBackColor = false;
@@ -69,13 +69,14 @@
 			// 
 			// connectButton
 			// 
-			this.connectButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.connectButton.BackColor = System.Drawing.Color.Tomato;
 			this.connectButton.Enabled = false;
+			this.connectButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.connectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.connectButton.Location = new System.Drawing.Point(160, 65);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(73, 23);
+			this.connectButton.Size = new System.Drawing.Size(88, 30);
 			this.connectButton.TabIndex = 30;
 			this.connectButton.Text = "连接灯具";
 			this.connectButton.UseVisualStyleBackColor = false;
@@ -86,10 +87,10 @@
 			this.portComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.portComboBox.Enabled = false;
 			this.portComboBox.FormattingEnabled = true;
-			this.portComboBox.Location = new System.Drawing.Point(30, 24);
+			this.portComboBox.Location = new System.Drawing.Point(21, 23);
 			this.portComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.portComboBox.Name = "portComboBox";
-			this.portComboBox.Size = new System.Drawing.Size(213, 20);
+			this.portComboBox.Size = new System.Drawing.Size(232, 20);
 			this.portComboBox.TabIndex = 29;
 			// 
 			// DMX512ConnnectForm

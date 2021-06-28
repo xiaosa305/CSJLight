@@ -41,7 +41,7 @@ namespace LightController.MyForm
 			this.seqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.projectDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,6 +129,7 @@ namespace LightController.MyForm
 			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -169,12 +170,13 @@ namespace LightController.MyForm
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectToolStripMenuItem,
             this.toolStripMenuItem3,
-            this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
             this.seqToolStripMenuItem,
             this.toolStripMenuItem,
+            this.projectDownloadToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.projectUpdateToolStripMenuItem,
+            this.lightLibraryToolStripMenuItem,
+            this.toolStripMenuItem4,
             this.lightListToolStripMenuItem,
             this.globalSetToolStripMenuItem,
             this.toolStripMenuItem2,
@@ -193,6 +195,7 @@ namespace LightController.MyForm
 			this.connectToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.connectToolStripMenuItem.Text = "设备连接";
 			this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+			this.connectToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.connectToolStripMenuItem_MouseDown);
 			// 
 			// toolStripMenuItem3
 			// 
@@ -239,13 +242,13 @@ namespace LightController.MyForm
 			this.toolStripMenuItem1.Size = new System.Drawing.Size(23, 26);
 			this.toolStripMenuItem1.Text = "|";
 			// 
-			// projectUpdateToolStripMenuItem
+			// projectDownloadToolStripMenuItem
 			// 
-			this.projectUpdateToolStripMenuItem.Enabled = false;
-			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
-			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.projectUpdateToolStripMenuItem.Text = "工程下载";
-			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
+			this.projectDownloadToolStripMenuItem.Enabled = false;
+			this.projectDownloadToolStripMenuItem.Name = "projectDownloadToolStripMenuItem";
+			this.projectDownloadToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.projectDownloadToolStripMenuItem.Text = "工程下载";
+			this.projectDownloadToolStripMenuItem.Click += new System.EventHandler(this.projectDownloadToolStripMenuItem_Click);
 			// 
 			// lightListToolStripMenuItem
 			// 
@@ -1208,6 +1211,13 @@ namespace LightController.MyForm
 			this.lightRemarkLabel.TabIndex = 7;
 			this.lightRemarkLabel.Text = " ";
 			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Enabled = false;
+			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(23, 26);
+			this.toolStripMenuItem4.Text = "|";
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1348,7 +1358,7 @@ namespace LightController.MyForm
 		private ToolStripMenuItem toolStripMenuItem1;
 		private ToolStripMenuItem lightListToolStripMenuItem;
 		private ToolStripMenuItem globalSetToolStripMenuItem;
-		private ToolStripMenuItem projectUpdateToolStripMenuItem;
+		private ToolStripMenuItem projectDownloadToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem2;
 		private Panel saPanelDemo;
 		private ToolStripSeparator toolStripSeparator1;
@@ -1358,5 +1368,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem connectToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem3;
 		private ToolStripMenuItem seqToolStripMenuItem;
+		private ToolStripMenuItem toolStripMenuItem4;
 	}
 }

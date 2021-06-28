@@ -41,7 +41,7 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.seqSkinButton = new CCWin.SkinControl.SkinButton();
 			this.toolsSkinButton = new CCWin.SkinControl.SkinButton();
-			this.projectUpdateSkinButton = new CCWin.SkinControl.SkinButton();
+			this.projectDownloadSkinButton = new CCWin.SkinControl.SkinButton();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
 			this.lightLibrarySkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectFLP = new System.Windows.Forms.FlowLayoutPanel();
@@ -253,7 +253,7 @@ namespace LightController.MyForm
 			this.deviceFLP.Controls.Add(this.hardwareSetSkinButton);
 			this.deviceFLP.Controls.Add(this.seqSkinButton);
 			this.deviceFLP.Controls.Add(this.toolsSkinButton);
-			this.deviceFLP.Controls.Add(this.projectUpdateSkinButton);
+			this.deviceFLP.Controls.Add(this.projectDownloadSkinButton);
 			this.deviceFLP.Location = new System.Drawing.Point(98, 3);
 			this.deviceFLP.Name = "deviceFLP";
 			this.deviceFLP.Size = new System.Drawing.Size(368, 95);
@@ -350,32 +350,32 @@ namespace LightController.MyForm
 			// 
 			// projectUpdateSkinButton
 			// 
-			this.projectUpdateSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.projectUpdateSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.projectUpdateSkinButton.BorderColor = System.Drawing.Color.White;
-			this.projectUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.projectUpdateSkinButton.DownBack = null;
-			this.projectUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.projectUpdateSkinButton.Enabled = false;
-			this.projectUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.projectUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.projectUpdateSkinButton.ForeColorSuit = true;
-			this.projectUpdateSkinButton.Image = global::LightController.Properties.Resources.在线升级;
-			this.projectUpdateSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.projectUpdateSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.projectUpdateSkinButton.InheritColor = true;
-			this.projectUpdateSkinButton.IsDrawBorder = false;
-			this.projectUpdateSkinButton.Location = new System.Drawing.Point(276, 2);
-			this.projectUpdateSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.projectUpdateSkinButton.MouseBack = null;
-			this.projectUpdateSkinButton.Name = "projectUpdateSkinButton";
-			this.projectUpdateSkinButton.NormlBack = null;
-			this.projectUpdateSkinButton.Size = new System.Drawing.Size(85, 90);
-			this.projectUpdateSkinButton.TabIndex = 4;
-			this.projectUpdateSkinButton.Text = "工程下载";
-			this.projectUpdateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.projectUpdateSkinButton.UseVisualStyleBackColor = false;
-			this.projectUpdateSkinButton.Click += new System.EventHandler(this.projectUpdateSkinButton_Click);
+			this.projectDownloadSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.projectDownloadSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.projectDownloadSkinButton.BorderColor = System.Drawing.Color.White;
+			this.projectDownloadSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.projectDownloadSkinButton.DownBack = null;
+			this.projectDownloadSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.projectDownloadSkinButton.Enabled = false;
+			this.projectDownloadSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.projectDownloadSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.projectDownloadSkinButton.ForeColorSuit = true;
+			this.projectDownloadSkinButton.Image = global::LightController.Properties.Resources.在线升级;
+			this.projectDownloadSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.projectDownloadSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.projectDownloadSkinButton.InheritColor = true;
+			this.projectDownloadSkinButton.IsDrawBorder = false;
+			this.projectDownloadSkinButton.Location = new System.Drawing.Point(276, 2);
+			this.projectDownloadSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.projectDownloadSkinButton.MouseBack = null;
+			this.projectDownloadSkinButton.Name = "projectUpdateSkinButton";
+			this.projectDownloadSkinButton.NormlBack = null;
+			this.projectDownloadSkinButton.Size = new System.Drawing.Size(85, 90);
+			this.projectDownloadSkinButton.TabIndex = 4;
+			this.projectDownloadSkinButton.Text = "工程下载";
+			this.projectDownloadSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.projectDownloadSkinButton.UseVisualStyleBackColor = false;
+			this.projectDownloadSkinButton.Click += new System.EventHandler(this.projectDownloadSkinButton_Click);
 			// 
 			// flowLayoutPanel2
 			// 
@@ -2210,7 +2210,7 @@ namespace LightController.MyForm
 		#endregion
 		private CCWin.SkinControl.SkinButton globalSetSkinButton;
 		private CCWin.SkinControl.SkinButton lightListSkinButton;
-		private CCWin.SkinControl.SkinButton projectUpdateSkinButton;
+		private CCWin.SkinControl.SkinButton projectDownloadSkinButton;
 		private CCWin.SkinControl.SkinButton hardwareSetSkinButton;
 		private CCWin.SkinControl.SkinButton lightLibrarySkinButton;
 		private CCWin.SkinControl.SkinButton deviceConnectButton;

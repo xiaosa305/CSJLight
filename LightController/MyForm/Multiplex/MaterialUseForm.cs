@@ -277,7 +277,7 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		private void oneStepPlay(bool colorChanged)
 		{
-			if (mainForm.IsDeviceConnected && !mainForm.IsPreviewing)
+			if ( mainForm.IsEnableOneStepPlay() )
 			{								
 				// 一旦颜色模块发生任何变化，则处理singleColorMat：先设为null，再根据是否启用颜色来决定是否生成颜色块（）
 				if (colorChanged) { 
@@ -303,7 +303,7 @@ namespace LightController.MyForm.Multiplex
 					}
 				}				
 				MaterialAst singleMat  = MaterialAst.ProcessMaterialAst( singleColorMat , generateTdDict() , mainForm.CurrentMode );	 
-				mainForm.OneStepPlay(singleMat);
+				mainForm.OneStepPlay(null,singleMat);
 				previewButton.Text = "预览"; 
 			}
 		}		

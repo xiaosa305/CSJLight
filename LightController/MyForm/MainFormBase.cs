@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 
 using System.IO;
-using Microsoft.VisualBasic;
 using System.Collections;
-using System.Data.SQLite;
 using DMX512;
 using LightController.Ast;
-using LightController.MyForm;
 using LightController.Common;
 using LightController.Tools;
 using System.Windows.Forms;
@@ -147,12 +144,10 @@ namespace LightController.MyForm
 		// 调试变量
 		public ConnectForm ConnForm; // 《设备连接》的窗口，只留一个实体即可
 		public NetworkConnect MyConnect;  // 与设备的连接
+		protected DMX512ConnnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可	
 
-		protected DMX512ConnnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可
-	
-
-		public PlayTools NetworkPlayTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
-		public SerialPortDMXPlay SerialPlayTools = SerialPortDMXPlay.GetInstance();			
+		protected PlayTools networkPlayTools = PlayTools.GetInstance(); // 通过设备，调试512灯具的对象
+		public SerialPortDMXPlay SerialPlayTools = SerialPortDMXPlay.GetInstance();		// 通过DMX512调试线直连设备，调试512灯具的对象
 
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 		public bool IsDeviceConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
@@ -186,11 +181,11 @@ namespace LightController.MyForm
 		protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中	
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
 		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons	
-												  // 通道面板		
+		 // 通道面板		
 		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据		
 		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
-													  // 调试面板
-		public virtual void EnableConnectedButtons(bool connected, bool previewing)
+		 // 调试面板
+		protected virtual void enableConnectedButtons(bool connected, bool previewing)
 		{
 			IsDeviceConnected = connected;
 			IsPreviewing = previewing;
@@ -198,10 +193,20 @@ namespace LightController.MyForm
 			Text = SoftwareName + projectStr + ConnectStr;			
 		} //设置《连接按钮组》是否可用	
 
-		protected virtual void enablePlayPanel(bool enable) { }// 是否使能PlayPanel(调试面板)
+		/// <summary>
+		///  辅助方法：供《DMX512连接Form》使用，使可以更改一些数据
+		/// </summary>
+		public void EnableConnectedButtons(bool isDMXConnected ) {
+			//DOTO 210628 新增一个供《DMX512连接Form》使用的public方法，用以调用当前的enableConnectedButtons
+			IsDMXConnected = isDMXConnected;
+			enableConnectedButtons(IsDeviceConnected, IsPreviewing);
+		}
+
 		protected virtual void deviceRefresh() { } //	刷新设备列表
 		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示			
+		public bool IsEnableOneStepPlay() { 	return (IsDeviceConnected || IsDMXConnected) && !IsPreviewing;	} // 返回是否可以单步调试（抽象以避免重复）
+
 
 		#endregion
 
@@ -294,7 +299,7 @@ namespace LightController.MyForm
 		{
 			this.eachStepTime = eachStepTime;
 			this.EachStepTime2 = eachStepTime / 1000m;
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -303,8 +308,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void autosetEnabledPlayAndRefreshPic()
 		{
-			bool enable = LightAstList != null && LightAstList.Count > 0;
-			enablePlayPanel(enable);
+			bool enable = LightAstList != null && LightAstList.Count > 0;			
 			enableRefreshPic(enable);
 		}
 
@@ -885,7 +889,7 @@ namespace LightController.MyForm
 					}
 				}
 
-				RefreshStep();
+				refreshStep();
 			}
 			// 选择覆盖时的操作：后插法
 			//（当前步也要被覆盖，除非没有当前步-》totalStep == currentStep == 0）
@@ -1324,7 +1328,7 @@ namespace LightController.MyForm
 			}
 
 			// 改完数值后再刷新步
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1364,7 +1368,7 @@ namespace LightController.MyForm
 					return; //generateLightData()代码中已包含RefreshStep，故如果运行后可直接return；不return的则由最后的RefreshStep()来收尾
 				}
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1388,7 +1392,7 @@ namespace LightController.MyForm
 					LightWrapperList[index].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
 				}
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1704,9 +1708,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected virtual void clearAllData()
 		{
-			//MARK 3.0413 clearAllData()-disConnect()
-			//disConnect(); //clearAllData() 【原来的代码只是停止预览，用断开连接更完善】
-
 			currentProjectName = null;
 			currentProjectPath = null;
 			GlobalIniPath = null;
@@ -2478,7 +2479,7 @@ namespace LightController.MyForm
 			}
 
 			EnterSyncMode(false); //UseOtherForm
-			RefreshStep();
+			refreshStep();
 			SetNotice(LanguageHelper.TranslateSentence("成功调用场景：") + AllSceneList[selectedSceneIndex], true, false);
 		}
 
@@ -2546,7 +2547,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：点击《工程升级》
 		/// </summary>
-		protected void projectUpdateClick()
+		protected void projectDownloadClick()
 		{
 			// Mark3.0413  projectUpdateClick()-disConnect
 			if (IsDeviceConnected)
@@ -2785,7 +2786,7 @@ namespace LightController.MyForm
 				}
 			}
 						
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -2811,7 +2812,7 @@ namespace LightController.MyForm
 			if (mouseButton == MouseButtons.Left)
 			{
 				addStep();
-				RefreshStep();
+				refreshStep();
 			} 
 			else {
 				new AppendStepsForm(this, MAX_STEP - getCurrentTotalStep()).ShowDialog();
@@ -2831,7 +2832,7 @@ namespace LightController.MyForm
 				{
 					addStep();
 				}
-				RefreshStep();
+				refreshStep();
 				return null;
 			}
 			catch (Exception ex) {
@@ -2930,7 +2931,7 @@ namespace LightController.MyForm
 					MessageBox.Show(ex.Message);
 					return;
 				}
-				RefreshStep();
+				refreshStep();
 			}
 			// 如果右键点击，则弹出删除多步的窗口
 			else{
@@ -2974,7 +2975,7 @@ namespace LightController.MyForm
 						}
 					}
 				}
-				RefreshStep();
+				refreshStep();
 				return null;
 			}
 			catch (Exception ex)
@@ -3008,7 +3009,7 @@ namespace LightController.MyForm
 				return;
 			}
 			tempStep = getCurrentStepWrapper();
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -3050,7 +3051,7 @@ namespace LightController.MyForm
 			}
 
 			//4.刷新当前步
-			RefreshStep();
+			refreshStep();
 		}
 		
 		/// <summary>
@@ -3159,7 +3160,7 @@ namespace LightController.MyForm
 			EnterSyncMode(false);
 
 			//最后都要用上RefreshStep()
-			RefreshStep();
+			refreshStep();
 
 			MAX_STEP = IniHelper.GetSystemCount(CurrentMode==0?"maxStep":"maxStepSound" ,0);
 			if (MAX_STEP == 0) {
@@ -3252,7 +3253,7 @@ namespace LightController.MyForm
 			{
 				SetNotice("尚未选择灯具。", false, true);
 				editLightInfo(null);
-				RefreshStep();
+				refreshStep();
 				return;
 			}
 
@@ -3276,7 +3277,7 @@ namespace LightController.MyForm
 			enableStepPanel(true);
 
 			//3.手动刷新当前步信息
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -3323,11 +3324,8 @@ namespace LightController.MyForm
 				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep); //chooseStep
 				from0on = false;
 			}
-			
-			if (IsDeviceConnected && !IsPreviewing )
-			{
-				OneStepPlay(null ); // chooseStep
-			}
+
+			OneStepPlay( null,null ); // chooseStep			
 		}
 
 		/// <summary>
@@ -3379,7 +3377,7 @@ namespace LightController.MyForm
 				}					
 			}
 
-			RefreshStep();
+			refreshStep();
 			return null;
 		}
 
@@ -3690,7 +3688,7 @@ namespace LightController.MyForm
 			{
 				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		#endregion
@@ -3741,12 +3739,12 @@ namespace LightController.MyForm
 			}			
 			if (MyConnect.Connect(networkDeviceInfo))
 			{
-				EnableConnectedButtons(true, IsPreviewing);     //Connect
+				enableConnectedButtons(true, IsPreviewing);     //Connect
 				return true;
 			}
 			else
 			{
-				EnableConnectedButtons(false, IsPreviewing); //Connect
+				enableConnectedButtons(false, IsPreviewing); //Connect
 				return false;
 			}			
 		}
@@ -3758,7 +3756,7 @@ namespace LightController.MyForm
 		{
 			MyConnect.DisConnect();			
 			MyConnect = null;			
-			EnableConnectedButtons(false, IsPreviewing); //DisConnect
+			enableConnectedButtons(false, IsPreviewing); //DisConnect
 			SetNotice("设备已断开连接。", false, false);
 		}
 
@@ -3769,7 +3767,7 @@ namespace LightController.MyForm
 		{			
 			if (IsDeviceConnected) {
 				SleepBetweenSend("Order : StartPreview",1 );
-				NetworkPlayTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);				
+				networkPlayTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);				
 			}
 		}
 
@@ -3781,7 +3779,7 @@ namespace LightController.MyForm
 			if (IsDeviceConnected)
 			{
 				SleepBetweenSend("Order : StopPreview", 1);
-				NetworkPlayTools.StopPreview();
+				networkPlayTools.StopPreview();
 			}
 		}
 
@@ -3803,59 +3801,66 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：单(多)灯单步发送DMX512帧数据
 		/// </summary>
-		public void OneStepPlay(MaterialAst material)
+		public void OneStepPlay(byte[] stepBytes , MaterialAst material )
 		{
 			// 未连接的情况下，无法发送数据。 
-			if (!IsDeviceConnected || IsPreviewing)
+			if ( !IsEnableOneStepPlay() )
 			{
-				SetNotice("未连接设备或正在预览中，无法实时调试。", false, true);
+				//SetNotice("未连接设备或正在预览中，无法实时调试。", false, true);
 				return;
 			}
 
-			byte[] stepBytes = new byte[512];
-			int currentStep = getCurrentStep();
+			string prevStr = "正在调试单步数据 ";
+			// 当stepBytes为空时，才需要根据material处理，否则直接使用此stepBytes播放即可；
+			if (stepBytes == null) {
 
-			//MARK0412 : 只有当前有灯具时，才可能修改相关的stepBytes
-			if (LightWrapperList != null && LightWrapperList.Count > 0) {
+				stepBytes = new byte[512];
+				int currentStep = getCurrentStep();
 
-				for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+				if (LightWrapperList != null && LightWrapperList.Count > 0)
 				{
-					if (lightIndex == selectedIndex // 当前灯具一定会动
-						|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
-						|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
-						|| isSyncMode  // 同步状态下，所有灯一起动
-						)
-					{
-						StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
-						if (stepWrapper != null)
-						{
-							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-							{
-								stepBytes[td.Address - 1] = (byte)td.ScrollValue;
-							}
-						}
-					}
-				}
 
-				//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
-				if (material != null)
-				{
 					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 					{
-						if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
+						if (lightIndex == selectedIndex // 当前灯具一定会动
+							|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
+							|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
+							|| isSyncMode  // 同步状态下，所有灯一起动
+							)
 						{
-
-							IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
-							foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+							StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
+							if (stepWrapper != null)
 							{
-								stepBytes[tdList[mi.CurrentTDIndex].Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
+								foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+								{
+									stepBytes[td.Address - 1] = (byte)td.ScrollValue;
+								}
+							}
+						}
+					}
+
+					//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
+					if (material != null)
+					{
+						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+						{
+							if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
+							{
+
+								IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+								foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+								{
+									stepBytes[tdList[mi.CurrentTDIndex].Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
+								}
 							}
 						}
 					}
 				}
-			}		
-			
-			//MARK : 1219 处理调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
+
+				prevStr = LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + LanguageHelper.TranslateWord("，当前步：") + currentStep;
+			}
+						
+			// 打印单步调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
 			string tdValueStr = "";
 			if (tdValues != null && tdValues.Count > 0)
 			{
@@ -3868,21 +3873,27 @@ namespace LightController.MyForm
 				tdValueStr += "】";
 			}
 
-			NetworkPlayTools.OLOSView(stepBytes);
+			// 当使用网络连接设备时，用NetworkPlayTools播放；
+			if (IsDeviceConnected)
+			{
+				networkPlayTools.OLOSView(stepBytes);
+			}
+			else {
+				SerialPlayTools.OLOSView(stepBytes); 
+			}		
 			
-			SetNotice(LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + LanguageHelper.TranslateWord("，当前步：") + currentStep +	tdValueStr, false,	false);			
-			
+			SetNotice(  prevStr +	tdValueStr, false,	false);			
 		}
-		
+
 		/// <summary>
 		/// 辅助方法：点击《预览效果》
 		/// </summary>
 		internal void Preview()
 		{			
 			SetNotice("预览数据生成成功,即将开始预览。",false, true);
-			EnableConnectedButtons(true,true); //Preview
+			enableConnectedButtons(true,true); //Preview
 
-			NetworkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
+			networkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
 		}
 		
 		/// <summary>
@@ -3890,7 +3901,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void endview()
 		{
-			NetworkPlayTools.EndView();	
+			networkPlayTools.EndView();	
 		}
 
 		/// <summary>
@@ -3901,7 +3912,7 @@ namespace LightController.MyForm
 			if (!IsDeviceConnected)
 			{
 				SetNotice("尚未连接设备，无法预览效果（或停止预览）。", true,true);
-				EnableConnectedButtons(false, false); //PreviewButtonClick
+				enableConnectedButtons(false, false); //PreviewButtonClick
 				return;
 			}
 
@@ -3909,7 +3920,7 @@ namespace LightController.MyForm
 			if (IsPreviewing)
 			{
 				endview();
-				EnableConnectedButtons(true, false); //PreviewButtonClick
+				enableConnectedButtons(true, false); //PreviewButtonClick
 				SetNotice("已结束预览,并恢复到实时调试模式。",false, true);
 			}
 			// 开始预览
@@ -3986,14 +3997,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void makeSoundButtonClick() {
 			// 若还在触发状态中，则不再触发
-			if (!NetworkPlayTools.GetMusicStatus())
+			if (!networkPlayTools.GetMusicStatus())
 			{
 				Console.WriteLine("Dickov:GetMusicStatus==true（触发中，或无音频）,故此操作不生效...");
 				return;
 			}
 
 			setMakeSound(true);
-			NetworkPlayTools.MusicControl();
+			networkPlayTools.MusicControl();
 			setMakeSound(false);
 		}
 
@@ -4231,7 +4242,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新当前步;
 		/// </summary>
-		public void RefreshStep()
+		protected void refreshStep()
 		{
 			chooseStep(getCurrentStep());  // RefreshStep
 		}
@@ -4251,11 +4262,7 @@ namespace LightController.MyForm
 				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
 			}
 
-			// 是否实时单灯单步
-			if (IsDeviceConnected && !IsPreviewing)
-			{
-				OneStepPlay(null); //changeScrollValue()
-			}
+			OneStepPlay(null,null); // changeScrollValue()			
 		}
 
 		/// <summary>
@@ -4364,7 +4371,7 @@ namespace LightController.MyForm
 		public void StartPreviewCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(true,false);  //StartPreviewCompleted
+				enableConnectedButtons(true,false);  //StartPreviewCompleted
 			});
 		}
 				

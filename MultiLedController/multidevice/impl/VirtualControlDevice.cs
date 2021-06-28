@@ -172,7 +172,6 @@ namespace MultiLedController.multidevice.impl
             this.ControlDeviceRecordThread.Start();
         }
 
-        //TODO XIAOSA 待删除
         /// <summary>
         /// 功能：穿件虚拟客户端接收DMX数据
         /// </summary>

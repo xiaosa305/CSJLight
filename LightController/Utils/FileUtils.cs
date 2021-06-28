@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using static LightController.Utils.DataGenerationProgram;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Utils
 {
@@ -149,8 +150,6 @@ namespace LightController.Utils
                 {
                     filePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + @"\" + fileName;
                 }
-                //TODO 修改中
-                //using (isCreate ? stream = new FileStream(filePath, FileMode.Create,FileAccess.Write) : stream = new FileStream(filePath, FileMode.Append,FileAccess.Write))
                 using (stream = new FileStream(filePath, isCreate ? FileMode.Create : FileMode.Append))
                 {
                     stream.Write(datas, 0, length);
@@ -177,8 +176,6 @@ namespace LightController.Utils
                 {
                     filePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + @"/" + fileName;
                 }
-                //TODO 修改中
-                //using (isCreate ? stream = new FileStream(filePath, FileMode.Create,FileAccess.Write) : stream = new FileStream(filePath, FileMode.Append,FileAccess.Write))
                 using (stream = new FileStream(filePath, isCreate ? FileMode.Create : FileMode.Append))
                 {
                     stream.WriteByte(data);
@@ -205,8 +202,6 @@ namespace LightController.Utils
                 {
                     filePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + @"/" + fileName;
                 }
-                //TODO 修改中
-                //using (isCreate ? stream = new FileStream(filePath, FileMode.Create,FileAccess.Write) : stream = new FileStream(filePath, FileMode.Open, FileAccess.Write))
                 using (stream = new FileStream(filePath, isCreate ? FileMode.Create : FileMode.Open, FileAccess.Write))
                 {
                     stream.Seek(seek, SeekOrigin.Begin);
@@ -219,7 +214,7 @@ namespace LightController.Utils
                 LogTools.Error(Constant.TAG_XIAOSA,"写数据到文件出错",ex);
             }
         }
-        public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted , ISaveProjectCallBack callBack)
+        public static void MergeFile_Old(int sceneNo, int mode, bool isMakeFile, bool isCompleted , Completed complet_Event, Error error_Event)
         {
             
             string projectFilePath =  (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + (mode == Constant.MODE_C ? @"\C" : @"\M") + (sceneNo + 1) + ".bin";
@@ -264,12 +259,8 @@ namespace LightController.Utils
                             fileCount++;
                             using (readStream = new FileStream(filePath, FileMode.Open))
                             {
-                                //FileInfo fileInfo = new FileInfo(filePath);
                                 channelDatasSize = readStream.Length;
                                 seek = seek + 8;
-                                //TODO 2.0版本
-                                //seek = seek + 10;
-
                                 if (sceneNo == 6 && intChannelNo == 1)
                                 {
                                     Console.WriteLine();
@@ -280,11 +271,6 @@ namespace LightController.Utils
                             Convert.ToByte((intChannelNo >> 8) & 0xFF),
                             Convert.ToByte(channelDatasSize & 0xFF),
                             Convert.ToByte((channelDatasSize >> 8) & 0xFF),
-
-                            //TODO 2.0版本
-                            //Convert.ToByte((channelDatasSize >> 16) & 0xFF),
-                            //Convert.ToByte((channelDatasSize >> 24) & 0xFF),
-
                             Convert.ToByte(seek & 0xFF),
                             Convert.ToByte((seek >> 8) & 0xFF),
                             Convert.ToByte((seek >> 16) & 0xFF),
@@ -296,7 +282,6 @@ namespace LightController.Utils
                                     Write(readBuff, readSize, projectFileInfo.Name, isMakeFile, false, false);
                                 }
                                 seek = seek + channelDatasSize;
-                                //readStream.Close();
                             }
                         }
                     }
@@ -318,7 +303,6 @@ namespace LightController.Utils
                     }
 
                 }
-                //LogTools.Debug(Constant.TAG_XIAOSA, "文件整合完成");
             }
             catch (Exception ex)
             {
@@ -326,7 +310,7 @@ namespace LightController.Utils
                 {
                     readStream.Close();
                 }
-                callBack.Error("生成场景数据文件失败");
+                error_Event("生成场景数据文件失败");
                 LogTools.Error(Constant.TAG_XIAOSA,"数据整合出错",ex);
             }finally
             {
@@ -336,14 +320,13 @@ namespace LightController.Utils
                     {
                         CreateGradientData();
                     }
-                    //LogTools.Debug(Constant.TAG_XIAOSA, "数据全部整合完毕");
-                    callBack.Completed();
+                    complet_Event();
                 }
                 DataConvertUtils.Flag = true;
             }
         }
 
-        public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted,Complet complet_Event, Error error_Event)
+        public static void MergeFile_New(int sceneNo, int mode, bool isMakeFile, bool isCompleted,Completed complet_Event, Error error_Event)
         {
             string projectFilePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + (mode == Constant.MODE_C ? @"\C" : @"\M") + (sceneNo + 1) + ".bin";
             FileInfo projectFileInfo = new FileInfo(projectFilePath);
@@ -389,19 +372,12 @@ namespace LightController.Utils
                             {
                                 channelDatasSize = readStream.Length;
                                 seek = seek + 8;
-                                //TODO 2.0版本
-                                //seek = seek + 10;
                                 byte[] channelDataHead = new byte[]
                                 {
                                       Convert.ToByte(intChannelNo & 0xFF),
                             Convert.ToByte((intChannelNo >> 8) & 0xFF),
                             Convert.ToByte(channelDatasSize & 0xFF),
                             Convert.ToByte((channelDatasSize >> 8) & 0xFF),
-
-                            //TODO 2.0版本
-                            //Convert.ToByte((channelDatasSize >> 16) & 0xFF),
-                            //Convert.ToByte((channelDatasSize >> 24) & 0xFF),
-
                             Convert.ToByte(seek & 0xFF),
                             Convert.ToByte((seek >> 8) & 0xFF),
                             Convert.ToByte((seek >> 16) & 0xFF),
@@ -413,7 +389,6 @@ namespace LightController.Utils
                                     Write(readBuff, readSize, projectFileInfo.Name, isMakeFile, false, false);
                                 }
                                 seek = seek + channelDatasSize;
-                                //readStream.Close();
                             }
                         }
                     }
@@ -442,7 +417,7 @@ namespace LightController.Utils
                 {
                     readStream.Close();
                 }
-                error_Event();
+                error_Event("");
                 Console.WriteLine(ex.Message);
                 throw ex;
             }
@@ -586,9 +561,6 @@ namespace LightController.Utils
 
                     dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
                     seek = seek + 2;
-                    //TODO 2.0-1
-                    //dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
-                    //seek = seek + 4;
                     //读取字节偏移量
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);
@@ -638,9 +610,6 @@ namespace LightController.Utils
 
                     dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
                     seek = seek + 2;
-                    //TODO 2.0-2
-                    //dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 16);
-                    //seek = seek + 4;
                     //读取字节偏移量
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);

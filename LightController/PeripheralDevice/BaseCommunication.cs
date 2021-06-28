@@ -16,6 +16,8 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
+using LightController.Xiaosa.Entity;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.PeripheralDevice
 {
@@ -48,11 +50,7 @@ namespace LightController.PeripheralDevice
         protected bool IsCenterControlDownload { get; set; }
         protected bool IsDone { get; set; }
 
-        public delegate void Completed(Object obj,string message);
-        public delegate void Error(string message);
-        public delegate void KeyPressClick(Object obj);
-        public delegate void CopyListener(Object obj);
-        public event Completed Completed_Event;
+        public event Completed_TakeMsgAndObj Completed_Event;
         public event Error Error_Event;
         protected event KeyPressClick KeyPressClick_Event;
         protected event CopyListener CopyListener_Event;
@@ -465,7 +463,6 @@ namespace LightController.PeripheralDevice
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
 
-            //TODO 下载进度显示部分
             if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
             {
                 this.CurrentDownloadCompletedSize += packData.Count();
@@ -563,7 +560,7 @@ namespace LightController.PeripheralDevice
             this.Error_Event(msg);
         }
 
-        protected void SetCompletedEvent(Completed completed)
+        protected void SetCompletedEvent(Completed_TakeMsgAndObj completed)
         {
             this.Completed_Event = completed;
         }
@@ -1040,7 +1037,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 灯控设备链接
         /// </summary>
-        public void LightControlConnect(Completed completed,Error error)
+        public void LightControlConnect(Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1087,7 +1084,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 灯控设备读取
         /// </summary>
-        public void LightControlRead(Completed completed,Error error)
+        public void LightControlRead(Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1134,7 +1131,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 灯控设备下载
         /// </summary>
-        public void LightControlDownload(LightControlData data,Completed completed,Error error)
+        public void LightControlDownload(LightControlData data, Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1214,7 +1211,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 灯控设备调试
         /// </summary>
-        public void LightControlDebug(byte[] data ,Completed completed , Error error)
+        public void LightControlDebug(byte[] data , Completed_TakeMsgAndObj completed , Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1267,7 +1264,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void CenterControlConnect(Completed completed,Error error)
+        public void CenterControlConnect(Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1314,7 +1311,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 中控设备开启解码
         /// </summary>
-        public void CenterControlStartCopy(Completed completed,Error error,CopyListener copyListener)
+        public void CenterControlStartCopy(Completed_TakeMsgAndObj completed,Error error,CopyListener copyListener)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1364,16 +1361,14 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void CenterControlStopCopy(Completed completed,Error error)
+        public void CenterControlStopCopy(Completed_TakeMsgAndObj completed,Error error)
         {
-            //TODO XIAOSA:添加测试
             if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlStopCopyStart), null);
                 this.CenterControlStopCopyStart(null);
             }
             else
@@ -1415,7 +1410,7 @@ namespace LightController.PeripheralDevice
         /// <param name="entity"></param>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void CenterControlDownload(CCEntity entity,Completed completed,Error error)
+        public void CenterControlDownload(CCEntity entity, Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1507,7 +1502,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void PassThroughKeyPressConnect(Completed completed,Error error)
+        public void PassThroughKeyPressConnect(Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1556,7 +1551,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void PassThroughKeyPressRead(Completed completed,Error error)
+        public void PassThroughKeyPressRead(Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1606,7 +1601,7 @@ namespace LightController.PeripheralDevice
         /// <param name="entity"></param>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void PassThroughKeyPressDownload(KeyEntity entity,Completed completed,Error error)
+        public void PassThroughKeyPressDownload(KeyEntity entity,Completed_TakeMsgAndObj completed,Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1704,7 +1699,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 透传模式灯控设备链接
         /// </summary>
-        public void PassThroughLightControlConnect(Completed completed, Error error)
+        public void PassThroughLightControlConnect(Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1739,7 +1734,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 透传模式灯控设备读取
         /// </summary>
-        public void PassThroughLightControlRead(Completed completed, Error error)
+        public void PassThroughLightControlRead(Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1774,7 +1769,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 透传模式灯控设备下载
         /// </summary>
-        public void PassThroughLightControlDownload(LightControlData data, Completed completed, Error error)
+        public void PassThroughLightControlDownload(LightControlData data, Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1841,7 +1836,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 透传模式灯控设备调试
         /// </summary>
-        public void PassThroughLightControlDebug(byte[] data,Completed completed, Error error)
+        public void PassThroughLightControlDebug(byte[] data, Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1882,7 +1877,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void PassThroughCenterControlConnect(Completed completed, Error error)
+        public void PassThroughCenterControlConnect(Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1917,7 +1912,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 透传模式中控设备开启解码
         /// </summary>
-        public void PassThroughCenterControlStartCopy(Completed completed, Error error, CopyListener copyListener)
+        public void PassThroughCenterControlStartCopy(Completed_TakeMsgAndObj completed, Error error, CopyListener copyListener)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1955,7 +1950,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void PassThroughCenterControlStopCopy(Completed completed, Error error)
+        public void PassThroughCenterControlStopCopy(Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -1993,7 +1988,7 @@ namespace LightController.PeripheralDevice
         /// <param name="entity"></param>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void PassThroughCenterControlDownload(CCEntity entity, Completed completed, Error error)
+        public void PassThroughCenterControlDownload(CCEntity entity, Completed_TakeMsgAndObj completed, Error error)
         {
             if ((!this.IsSending) && this.IsConnected())
             {
@@ -2132,7 +2127,7 @@ namespace LightController.PeripheralDevice
         /// <param name="configPath">全局配置文件路径</param>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void DownloadProject(Completed completed,Error error,Progress progress)
+        public void DownloadProject(Completed_TakeMsgAndObj completed,Error error,Progress progress)
         {
             try
             {
@@ -2294,7 +2289,7 @@ namespace LightController.PeripheralDevice
         /// <param name="filePath">硬件配置文件路径</param>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void PutParam(CSJ_Hardware hardware,Completed completed,Error error)
+        public void PutParam(CSJ_Hardware hardware, Completed_TakeMsgAndObj completed,Error error)
         {
             try
             {
@@ -2350,7 +2345,7 @@ namespace LightController.PeripheralDevice
                 string fileCrc = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                 this.SendOrder(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Failed(START_TASK_ERROR_2);
             }
@@ -2361,7 +2356,7 @@ namespace LightController.PeripheralDevice
         /// <param name="filePath">硬件配置文件路径</param>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void PutParam(string filePath, Completed completed, Error error)
+        public void PutParam(string filePath, Completed_TakeMsgAndObj completed, Error error)
         {
             try
             {
@@ -2430,7 +2425,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public bool GetParam(Completed completed,Error error)
+        public bool GetParam(Completed_TakeMsgAndObj completed,Error error)
         {
             try
             {
@@ -2495,7 +2490,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void UpdateDeviceSystem(string filePath, Completed completed,Error error,Progress progress)
+        public void UpdateDeviceSystem(string filePath, Completed_TakeMsgAndObj completed,Error error,Progress progress)
         {
             try
             {
@@ -2573,7 +2568,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void StartIntentPreview(int timeFactory, Completed completed,Error error)
+        public void StartIntentPreview(int timeFactory, Completed_TakeMsgAndObj completed,Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -2603,7 +2598,7 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Failed("启动网络调试模式任务启动失败");
             }
@@ -2619,7 +2614,7 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.START_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_START_DEBUG, new string[]{ Convert.ToString(startIntentPreviewData.TimeFactory)});
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Failed(START_TASK_ERROR_2);
             }
@@ -2629,7 +2624,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void StopIntentPreview(Completed completed, Error error)
+        public void StopIntentPreview(Completed_TakeMsgAndObj completed, Error error)
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
@@ -2658,7 +2653,7 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 this.Failed("关闭网络调试模式任务启动失败");
             }
@@ -2676,7 +2671,7 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.Successed(null,"关闭网络调试");
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 this.Failed(START_TASK_ERROR_2);
             }
@@ -2686,7 +2681,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        private void GetFirmwareVersion(Completed completed,Error error)
+        private void GetFirmwareVersion(Completed_TakeMsgAndObj completed,Error error)
         {
             try
             {
@@ -2747,7 +2742,7 @@ namespace LightController.PeripheralDevice
         }
 
 
-        public void OpenScene(Completed completed,Error error)
+        public void OpenScene(Completed_TakeMsgAndObj completed,Error error)
         {
             try
             {
@@ -2802,7 +2797,7 @@ namespace LightController.PeripheralDevice
                 this.CloseTransactionTimer();
             }
         }
-        public void CloseScene(Completed completed, Error error)
+        public void CloseScene(Completed_TakeMsgAndObj completed, Error error)
         {
             try
             {
@@ -2867,7 +2862,7 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.RESET;
                 this.SendOrder(null, "Reset", null);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 this.Failed("关闭网络调试模式任务启动失败");
             }

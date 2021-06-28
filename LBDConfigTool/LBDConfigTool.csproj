@@ -35,8 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>我罗.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
@@ -143,6 +142,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="我罗.ico" />
     <Content Include="更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

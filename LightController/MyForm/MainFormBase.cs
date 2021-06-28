@@ -25,6 +25,7 @@ using System.Drawing;
 using LightController.MyForm.MainFormAst;
 using LightController.MyForm.HardwareSet;
 using LightController.MyForm.OtherTools;
+using LightController.Xiaosa.Tools;
 
 namespace LightController.MyForm
 {
@@ -147,7 +148,10 @@ namespace LightController.MyForm
 		public ConnectForm ConnForm; // 《设备连接》的窗口
 		public NetworkConnect MyConnect;  // 与设备的连接（串口、网口）
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
-		protected bool isConnectCom = false; //默认情况下，用串口连接设备。 --》 去掉COM口
+
+		protected SerialPortDMXPlay sPlayTools ;
+		//protected bool isConnectCom = false; // 串口线,是否已经连接
+
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false

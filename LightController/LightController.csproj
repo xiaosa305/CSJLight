@@ -475,6 +475,7 @@
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
+    <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
     <Content Include="Protocol\SceneList_BAK.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

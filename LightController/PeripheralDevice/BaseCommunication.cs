@@ -129,12 +129,7 @@ namespace LightController.PeripheralDevice
         /// <param name="e"></param>
         private void SendTimeOut(object sender, ElapsedEventArgs e)
         {
-           
-            if (this.SecondOrder == Order.STOP_INTENT_PREVIEW)
-            {
-
-            }
-            else
+            if (this.SecondOrder != Order.STOP_INTENT_PREVIEW)
             {
                 this.IsStopThread = true;
                 this.IsSending = false;

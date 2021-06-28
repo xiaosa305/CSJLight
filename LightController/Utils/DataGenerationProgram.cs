@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Utils
 {
@@ -17,8 +18,7 @@ namespace LightController.Utils
         private const int MODE_PREVIEW = 11;
         private const int MODE_MAKEFILE = 12;
         private const int WRITE_BUFFER_SIZE = 1024 * 50;
-        public delegate void Complet();
-        public delegate void Error();
+      
         private static DataGenerationProgram Instance { get; set; }
         private string ConfigPath { get; set; }
         private DBWrapper Wrapper { get; set; }
@@ -26,10 +26,7 @@ namespace LightController.Utils
 
         private Dictionary<int, bool> cSceneStatus { get; set; }
         private Dictionary<int, bool> mSceneStatus { get; set; }
-        //private Dictionary<int, Dictionary<int, bool>> cSceneChannelStatus { get; set; }
-        //private Dictionary<int, Dictionary<int, bool>> mSceneChannelStatus { get; set; }
-
-        private Complet Complet_Event { get; set; }
+        private Completed Complet_Event { get; set; }
         private Error Error_Event { get; set; }
         private DataGenerationProgram()
         {
@@ -50,7 +47,7 @@ namespace LightController.Utils
             this.cSceneStatus.Clear();
             this.mSceneStatus.Clear();
         }
-        public void BuildProjectFile(DBWrapper wrapper,string configPath,Complet complet,Error error)
+        public void BuildProjectFile(DBWrapper wrapper,string configPath,Completed complet,Error error)
         {
             this.Wrapper = wrapper;
             this.ConfigPath = configPath;
@@ -298,7 +295,7 @@ namespace LightController.Utils
                 }
             }
             this.cSceneStatus[sceneNo] = true;
-            FileUtils.MergeFile(Constant.GetNumber(sceneNo), Constant.MODE_C, BuildMode == MODE_MAKEFILE, (!cSceneStatus.ContainsValue(false)) && (!mSceneStatus.ContainsValue(false)), this.Complet_Event,this.Error_Event);
+            FileUtils.MergeFile_New(Constant.GetNumber(sceneNo), Constant.MODE_C, BuildMode == MODE_MAKEFILE, (!cSceneStatus.ContainsValue(false)) && (!mSceneStatus.ContainsValue(false)), this.Complet_Event,this.Error_Event);
             Console.WriteLine("单场景完成");
         }
         private void GeneratedM_SceneData(Dictionary<int, Dictionary<int, DB_Value>> values, int sceneNo, Dictionary<int, int> fineTuneIndex, Dictionary<int, int> fineTuneMaxValue)

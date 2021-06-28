@@ -97,7 +97,7 @@ namespace LightController.PeripheralDevice
                     }
                     count = connect.Server.EndReceive(asyncResult);
                 }
-                catch (ArgumentException ex)
+                catch (ArgumentException )
                 {
                     Console.WriteLine("Receive Failed Message By SearchDevice");
                 }

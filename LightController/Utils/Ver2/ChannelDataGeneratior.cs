@@ -1,15 +1,13 @@
 ﻿using DMX512;
 using LightController.Ast;
-using NPOI.SS.Formula.Functions;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Utils.Ver2
 {
@@ -31,14 +29,9 @@ namespace LightController.Utils.Ver2
         private bool TaskStatus { get; set; }
 
 
-        private Completed Completed_Event { get; set; }
+        private Completed_TakeMsg Completed_Event { get; set; }
         private Error Error_Event { get; set; }
-
-
-        //Test
         private Stopwatch Stopwatch { get; set; }
-
-
         private ChannelDataGeneratior()
         {
             this.InitParam();
@@ -81,7 +74,7 @@ namespace LightController.Utils.Ver2
             }
         }
 
-        public void PreviewFileBuild(DBWrapper wrapper, GlobalBean global, int sceneNo, Completed completed, Error error)
+        public void PreviewFileBuild(DBWrapper wrapper, GlobalBean global, int sceneNo, Completed_TakeMsg completed, Error error)
         {
             try
             {
@@ -569,7 +562,7 @@ namespace LightController.Utils.Ver2
         }
 
         /// <summary>
-        /// TODO 生成工程基础场景文件
+        /// 生成工程基础场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
         private  void BasicProjectFileSynthesising(int sceneNo,GlobalBean global)
@@ -590,7 +583,7 @@ namespace LightController.Utils.Ver2
         }
 
         /// <summary>
-        /// TODO 生成工程音频场景文件
+        /// 生成工程音频场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
         private  void MusicProjectFileSynthesising(int sceneNo,GlobalBean global)
@@ -844,8 +837,6 @@ namespace LightController.Utils.Ver2
         }
     }
 
-    public delegate void Completed(string msg);
-    public delegate void Error(string msg);
 
     enum Mode
     {

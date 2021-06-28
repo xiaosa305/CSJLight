@@ -434,11 +434,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Tools\Conn.cs" />
-    <Compile Include="Tools\ConnectTools.cs" />
     <Compile Include="Tools\Constant.cs" />
     <Compile Include="Tools\CRCTools.cs" />
     <Compile Include="Tools\CSJLogs.cs" />
-    <Compile Include="Tools\CSJ\ICommunicator.cs" />
     <Compile Include="Tools\CSJ\ICSJFile.cs" />
     <Compile Include="Tools\CSJ\IMPL\ChannelData.cs" />
     <Compile Include="Tools\CSJ\IMPL\CombineScene.cs" />
@@ -451,8 +449,6 @@
     <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\SequencerData.cs" />
     <Compile Include="Tools\PlayTools.cs" />
-    <Compile Include="Tools\SerialPortTools.cs" />
-    <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test\DmxRecordTest.cs" />
     <Compile Include="Tools\Test\XiaosaTestForm.cs">
       <SubType>Form</SubType>
@@ -475,6 +471,7 @@
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
+    <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
     <Content Include="Protocol\SceneList_BAK.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

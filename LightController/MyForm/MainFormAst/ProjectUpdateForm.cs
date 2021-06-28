@@ -52,7 +52,7 @@ namespace LightController.MyForm.MainFormAst
 			LanguageHelper.TranslateControl(this);
 			
 			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
-			if (!MainForm.IsConnected) Dispose();			
+			if (!MainForm.IsDeviceConnected) Dispose();			
 		}
 
 		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -80,7 +80,7 @@ namespace LightController.MyForm.MainFormAst
 		private void refreshButtons()
 		{
 			dirPanel.Visible = exportedCheckBox.Checked;
-			updateButton.Enabled = MainForm.IsConnected && //必要条件
+			updateButton.Enabled = MainForm.IsDeviceConnected && //必要条件
 				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《下载已有工程》
 				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
 		}
@@ -190,7 +190,7 @@ namespace LightController.MyForm.MainFormAst
 				
 				MainForm.DisConnect();
 				MainForm.ConnForm.ShowDialog();
-				if (! MainForm.IsConnected )
+				if (! MainForm.IsDeviceConnected )
 				{
 					MessageBox.Show("请重新连接设备，否则无法下载工程!");
 					Dispose();

@@ -46,7 +46,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void ActionForm_Activated(object sender, EventArgs e)
 		{
-			previewButton.Visible = mainForm.IsConnected; 
+			previewButton.Visible = mainForm.IsDeviceConnected; 
 
 			StNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2;
 			StNumericUpDown.Minimum =  mainForm.EachStepTime2;
@@ -71,7 +71,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			if (!mainForm.IsConnected)
+			if (!mainForm.IsDeviceConnected)
 			{
 				setNotice("尚未连接设备", true,true);
 				return;

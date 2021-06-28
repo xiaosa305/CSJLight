@@ -227,6 +227,12 @@
     <Compile Include="MyForm\MainFormAst\ConnectForm.Designer.cs">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainFormAst\DMX512ConnnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainFormAst\DMX512ConnnectForm.Designer.cs">
+      <DependentUpon>DMX512ConnnectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -495,6 +501,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainFormAst\DMX512ConnnectForm.resx">
+      <DependentUpon>DMX512ConnnectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>

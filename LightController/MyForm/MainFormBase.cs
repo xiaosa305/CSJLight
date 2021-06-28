@@ -145,15 +145,18 @@ namespace LightController.MyForm
 		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
 		// 调试变量
-		public ConnectForm ConnForm; // 《设备连接》的窗口
-		public NetworkConnect MyConnect;  // 与设备的连接（串口、网口）
-		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
+		public ConnectForm ConnForm; // 《设备连接》的窗口，只留一个实体即可
+		public NetworkConnect MyConnect;  // 与设备的连接
 
-		protected SerialPortDMXPlay sPlayTools ;
-		//protected bool isConnectCom = false; // 串口线,是否已经连接
+		protected DMX512ConnnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可
+	
+
+		public PlayTools NetworkPlayTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
+		public SerialPortDMXPlay SerialPlayTools = SerialPortDMXPlay.GetInstance();			
 
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
-		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
+		public bool IsDeviceConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
+		public bool IsDMXConnected = false; // 辅助bool值，当DMX512线已经连接时设为true，反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		public bool IsPreviewing = false; // 是否预览状态中
 		public long LastSendTime; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；		
@@ -189,9 +192,9 @@ namespace LightController.MyForm
 													  // 调试面板
 		public virtual void EnableConnectedButtons(bool connected, bool previewing)
 		{
-			IsConnected = connected;
+			IsDeviceConnected = connected;
 			IsPreviewing = previewing;
-			ConnectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName + " ]" : "[ 设备未连接 ]";
+			ConnectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName + " ]" : (IsDMXConnected?"[ 以《DMX512调试线》连接灯具 ]":"[ 设备未连接 ]" );
 			Text = SoftwareName + projectStr + ConnectStr;			
 		} //设置《连接按钮组》是否可用	
 
@@ -2546,7 +2549,7 @@ namespace LightController.MyForm
 		protected void projectUpdateClick()
 		{
 			// Mark3.0413  projectUpdateClick()-disConnect
-			if (IsConnected)
+			if (IsDeviceConnected)
 			{
 				stopPreview();
 				new ProjectUpdateForm(this).ShowDialog();
@@ -2565,7 +2568,7 @@ namespace LightController.MyForm
 			if (IsPreviewing) {
 				PreviewButtonClick(null);
 			}
-			new LightEditor.LightEditorForm(this, playTools).ShowDialog();
+			new LightEditor.LightEditorForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -2573,7 +2576,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void hardwareSetButtonClick()
 		{
-			if (IsConnected)
+			if (IsDeviceConnected)
 			{
 				stopPreview();
 				new HardwareSetForm(this).ShowDialog();
@@ -2585,7 +2588,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void toolButtonClick()
 		{
-			if (IsConnected)
+			if (IsDeviceConnected)
 			{
 				stopPreview();
 				new ToolsForm(this).ShowDialog();
@@ -2597,7 +2600,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void sequencerButtonClick()
 		{
-			if (IsConnected)
+			if (IsDeviceConnected)
 			{
 				stopPreview();				
 				new SequencerForm(this).ShowDialog();
@@ -3321,7 +3324,7 @@ namespace LightController.MyForm
 				from0on = false;
 			}
 			
-			if (IsConnected && !IsPreviewing )
+			if (IsDeviceConnected && !IsPreviewing )
 			{
 				OneStepPlay(null ); // chooseStep
 			}
@@ -3693,18 +3696,37 @@ namespace LightController.MyForm
 		#endregion
 
 		#region playPanel相关
-			   
-		/// <summary>
-		/// 辅助方法：点击《设备连接》
-		/// </summary>
-		protected void connectButtonClick() {
 
-			//MARK3 0413 
-			if (ConnForm == null)
+		private int clickTime = 0;
+		/// <summary>
+		/// 辅助方法：点击《设备连接》(左键直接弹出《(网络)设备连接Form》；右键为隐藏功能，单击六下才能触发，弹出《Dmx512连接(直连灯具)Form》)
+		/// </summary>
+		protected void connectButtonClick(MouseButtons mouseButton) {			
+
+			// 当点击左键时，直接弹出《网络连接》界面
+			if (mouseButton == MouseButtons.Left)
 			{
-				ConnForm = new ConnectForm(this);
+				if (ConnForm == null)
+				{
+					ConnForm = new ConnectForm(this);
+				}
+				ConnForm.ShowDialog();
 			}
-			ConnForm.ShowDialog();
+			// 当点击右键时，1.未使用网络方式连接；2.点击次数达到6次 ；满足这两个条件才弹出DMX512连接的界面
+			else if( mouseButton == MouseButtons.Right){
+				if (MyConnect == null ||  !IsDeviceConnected ) {
+					clickTime++;
+					if (clickTime == 6)
+					{
+						if (dmxConnForm == null)
+						{
+							dmxConnForm = new DMX512ConnnectForm(this);
+						}
+						dmxConnForm.ShowDialog();
+						clickTime = 0;
+					}
+				}			
+			}
 		}
 
 		/// <summary>
@@ -3719,12 +3741,12 @@ namespace LightController.MyForm
 			}			
 			if (MyConnect.Connect(networkDeviceInfo))
 			{
-				EnableConnectedButtons(true, IsPreviewing);				
+				EnableConnectedButtons(true, IsPreviewing);     //Connect
 				return true;
 			}
 			else
 			{
-				EnableConnectedButtons(false, IsPreviewing);
+				EnableConnectedButtons(false, IsPreviewing); //Connect
 				return false;
 			}			
 		}
@@ -3736,7 +3758,7 @@ namespace LightController.MyForm
 		{
 			MyConnect.DisConnect();			
 			MyConnect = null;			
-			EnableConnectedButtons(false, IsPreviewing);
+			EnableConnectedButtons(false, IsPreviewing); //DisConnect
 			SetNotice("设备已断开连接。", false, false);
 		}
 
@@ -3745,9 +3767,9 @@ namespace LightController.MyForm
 		/// </summary>
 		protected  void startPreview()
 		{			
-			if (IsConnected) {
+			if (IsDeviceConnected) {
 				SleepBetweenSend("Order : StartPreview",1 );
-				playTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);				
+				NetworkPlayTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);				
 			}
 		}
 
@@ -3756,10 +3778,10 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void stopPreview()
 		{
-			if (IsConnected)
+			if (IsDeviceConnected)
 			{
 				SleepBetweenSend("Order : StopPreview", 1);
-				playTools.StopPreview();
+				NetworkPlayTools.StopPreview();
 			}
 		}
 
@@ -3784,7 +3806,7 @@ namespace LightController.MyForm
 		public void OneStepPlay(MaterialAst material)
 		{
 			// 未连接的情况下，无法发送数据。 
-			if (!IsConnected || IsPreviewing)
+			if (!IsDeviceConnected || IsPreviewing)
 			{
 				SetNotice("未连接设备或正在预览中，无法实时调试。", false, true);
 				return;
@@ -3846,7 +3868,7 @@ namespace LightController.MyForm
 				tdValueStr += "】";
 			}
 
-			playTools.OLOSView(stepBytes);
+			NetworkPlayTools.OLOSView(stepBytes);
 			
 			SetNotice(LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + LanguageHelper.TranslateWord("，当前步：") + currentStep +	tdValueStr, false,	false);			
 			
@@ -3858,9 +3880,9 @@ namespace LightController.MyForm
 		internal void Preview()
 		{			
 			SetNotice("预览数据生成成功,即将开始预览。",false, true);
-			EnableConnectedButtons(true,true);
+			EnableConnectedButtons(true,true); //Preview
 
-			playTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
+			NetworkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
 		}
 		
 		/// <summary>
@@ -3868,7 +3890,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void endview()
 		{
-			playTools.EndView();	
+			NetworkPlayTools.EndView();	
 		}
 
 		/// <summary>
@@ -3876,10 +3898,10 @@ namespace LightController.MyForm
 		/// </summary>
 		public void PreviewButtonClick(MaterialAst material)
 		{
-			if (!IsConnected)
+			if (!IsDeviceConnected)
 			{
 				SetNotice("尚未连接设备，无法预览效果（或停止预览）。", true,true);
-				EnableConnectedButtons(false, false);
+				EnableConnectedButtons(false, false); //PreviewButtonClick
 				return;
 			}
 
@@ -3887,7 +3909,7 @@ namespace LightController.MyForm
 			if (IsPreviewing)
 			{
 				endview();
-				EnableConnectedButtons(true, false);	
+				EnableConnectedButtons(true, false); //PreviewButtonClick
 				SetNotice("已结束预览,并恢复到实时调试模式。",false, true);
 			}
 			// 开始预览
@@ -3964,14 +3986,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void makeSoundButtonClick() {
 			// 若还在触发状态中，则不再触发
-			if (!playTools.GetMusicStatus())
+			if (!NetworkPlayTools.GetMusicStatus())
 			{
 				Console.WriteLine("Dickov:GetMusicStatus==true（触发中，或无音频）,故此操作不生效...");
 				return;
 			}
 
 			setMakeSound(true);
-			playTools.MusicControl();
+			NetworkPlayTools.MusicControl();
 			setMakeSound(false);
 		}
 
@@ -4230,7 +4252,7 @@ namespace LightController.MyForm
 			}
 
 			// 是否实时单灯单步
-			if (IsConnected && !IsPreviewing)
+			if (IsDeviceConnected && !IsPreviewing)
 			{
 				OneStepPlay(null); //changeScrollValue()
 			}
@@ -4342,7 +4364,7 @@ namespace LightController.MyForm
 		public void StartPreviewCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(true,false);	
+				EnableConnectedButtons(true,false);  //StartPreviewCompleted
 			});
 		}
 				
@@ -4362,63 +4384,61 @@ namespace LightController.MyForm
 			});
 		}
 		
-		#endregion	
-		
+		#endregion			
 	}
 
-	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
-	{
-		private MainFormBase mainForm;
+	//public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
+	//{
+	//	private MainFormBase mainForm;
 
-		public NetworkDebugReceiveCallBack(MainFormBase mainForm)
-		{
-			this.mainForm = mainForm;
-		}
+	//	public NetworkDebugReceiveCallBack(MainFormBase mainForm)
+	//	{
+	//		this.mainForm = mainForm;
+	//	}
 
-		public void Completed(string deviceTag)
-		{			
-			mainForm.EnableConnectedButtons(true,false);
-		}
+	//	public void Completed(string deviceTag)
+	//	{			
+	//		mainForm.EnableConnectedButtons(true,false); //NetworkDebugReceiveCallBack
+	//	}
 
-		public void Error(string deviceTag, string errorMessage)
-		{
-			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。",false, false);
-		}
+	//	public void Error(string deviceTag, string errorMessage)
+	//	{
+	//		mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。",false, false);
+	//	}
 
-		public void GetParam(CSJ_Hardware hardware)
-		{
-			throw new NotImplementedException();
-		}
+	//	public void GetParam(CSJ_Hardware hardware)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
 
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			throw new NotImplementedException();
-		}
-	}
+	//	public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
+	//}
 
-	public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
-	{
-		public void Completed(string deviceTag)
-		{
-			throw new NotImplementedException();
-		}
+	//public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
+	//{
+	//	public void Completed(string deviceTag)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
 
-		public void Error(string deviceTag, string errorMessage)
-		{
-			throw new NotImplementedException();
-		}
+	//	public void Error(string deviceTag, string errorMessage)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
 
-		public void GetParam(CSJ_Hardware hardware)
-		{
-			throw new NotImplementedException();
-		}
+	//	public void GetParam(CSJ_Hardware hardware)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
 
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			throw new NotImplementedException();
-		}
-
-	}
+	//	public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
+	//}
 
 	public class PreviewCallBack : ISaveProjectCallBack
 	{

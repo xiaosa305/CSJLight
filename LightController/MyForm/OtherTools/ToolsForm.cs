@@ -235,7 +235,7 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setBusy(true);
 				mainForm.SleepBetweenSend("Order : 切换外设状态[" + tabControl1.SelectedIndex+"]", 1);
@@ -308,7 +308,7 @@ namespace LightController.MyForm.OtherTools
 			mainForm.DisConnect();
 			setConnStatus(ConnectStatus.No);
 			mainForm.ConnForm.ShowDialog();
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setConnStatus(ConnectStatus.Normal);
 				tabControl1_SelectedIndexChanged(null, null);

@@ -50,7 +50,7 @@ namespace LightController.MyForm.MainFormAst
 		private void ConnectForm_Shown(object sender, EventArgs e)
 		{
 			Console.WriteLine("ConnectForm_Shown ");
-			if (!mainForm.IsConnected)
+			if (!mainForm.IsDeviceConnected)
 			{
 				deviceRefreshButton_Click(null, null);
 			}
@@ -153,9 +153,9 @@ namespace LightController.MyForm.MainFormAst
 		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
-				disconnectDevice();
+				disconnectDevice();  //deviceConnectButton_Click
 			}
 			else
 			{
@@ -165,7 +165,7 @@ namespace LightController.MyForm.MainFormAst
 					deviceComboBox.Enabled = false;
 					deviceRefreshButton.Enabled = false;
 					deviceConnectButton.Text = "断开连接";
-					refreshRestartButton();
+					refreshRestartButton();					
 					setNotice("设备连接成功。", false, true);
 				}
 				else
@@ -176,9 +176,9 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		private void refreshRestartButton() {
-			deviceRestartButton.Visible = mainForm.IsConnected;
-			deviceRestartButton.Enabled = mainForm.IsConnected;
-			Size = mainForm.IsConnected ? new Size(372, 173) : new Size(285,173);
+			deviceRestartButton.Visible = mainForm.IsDeviceConnected;
+			deviceRestartButton.Enabled = mainForm.IsDeviceConnected;
+			Size = mainForm.IsDeviceConnected ? new Size(372, 173) : new Size(285,173);
 		}
 
 		/// <summary>
@@ -202,12 +202,12 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void restartButton_Click(object sender, EventArgs e)
 		{
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
 
 				mainForm.MyConnect.ResetDevice(); // 发送命令
-				disconnectDevice();// 断开连接
+				disconnectDevice();// restartButton_Click
 				deviceRefreshButton_Click(null,null); //刷新设备
 			}
 		}
@@ -234,8 +234,6 @@ namespace LightController.MyForm.MainFormAst
 			myStatusLabel.Text = msg;
 			statusStrip1.Refresh();
 		}
-
-
 
 		#endregion
 

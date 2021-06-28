@@ -100,6 +100,7 @@ namespace LightController.MyForm
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.stepSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.button1 = new System.Windows.Forms.Button();
 			this.syncSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiplexSkinButton = new CCWin.SkinControl.SkinButton();
 			this.useMaterialSkinButton = new CCWin.SkinControl.SkinButton();
@@ -244,6 +245,7 @@ namespace LightController.MyForm
 			this.deviceConnectButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.deviceConnectButton.UseVisualStyleBackColor = false;
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
+			this.deviceConnectButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deviceConnectButton_MouseDown);
 			// 
 			// deviceFLP
 			// 
@@ -1286,6 +1288,7 @@ namespace LightController.MyForm
 			// 
 			this.stepSkinPanel.AutoScroll = true;
 			this.stepSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+			this.stepSkinPanel.Controls.Add(this.button1);
 			this.stepSkinPanel.Controls.Add(this.syncSkinButton);
 			this.stepSkinPanel.Controls.Add(this.multiplexSkinButton);
 			this.stepSkinPanel.Controls.Add(this.useMaterialSkinButton);
@@ -1316,6 +1319,16 @@ namespace LightController.MyForm
 			this.stepSkinPanel.NormlBack = null;
 			this.stepSkinPanel.Size = new System.Drawing.Size(1049, 100);
 			this.stepSkinPanel.TabIndex = 11;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(586, 61);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 27;
+			this.button1.Text = "Test";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// syncSkinButton
 			// 
@@ -2305,5 +2318,6 @@ namespace LightController.MyForm
 		private SkinLabel frameLabel;
 		private SkinButton seqSkinButton;
 		private FlowLayoutPanel flowLayoutPanel2;
+		private Button button1;
 	}
 }

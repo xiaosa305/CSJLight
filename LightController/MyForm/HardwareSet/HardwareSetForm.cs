@@ -42,7 +42,7 @@ namespace LightController.MyForm.HardwareSet
 				Properties.Settings.Default.xbinPath = xbinPath;
 				Properties.Settings.Default.Save();
 			}
-			updateButton.Enabled = mainForm.IsConnected && !string.IsNullOrEmpty(xbinPath);
+			updateButton.Enabled = mainForm.IsDeviceConnected && !string.IsNullOrEmpty(xbinPath);
 		}
 
 		/// <summary>
@@ -213,7 +213,7 @@ namespace LightController.MyForm.HardwareSet
 				Properties.Settings.Default.Save();
 
 				pathLabel.Text = xbinPath;
-				updateButton.Enabled = mainForm.IsConnected && !string.IsNullOrEmpty(xbinPath);
+				updateButton.Enabled = mainForm.IsDeviceConnected && !string.IsNullOrEmpty(xbinPath);
 			}
 		}
 
@@ -224,7 +224,7 @@ namespace LightController.MyForm.HardwareSet
 		/// <param name="e"></param>
 		private void updateButton_Click(object sender, EventArgs e)
 		{
-			if (!mainForm.IsConnected)
+			if (!mainForm.IsDeviceConnected)
 			{
 				setNotice("尚未连接设备，请连接后重试。", true, true);
 				return;
@@ -336,7 +336,7 @@ namespace LightController.MyForm.HardwareSet
 		{
 			mainForm.DisConnect();
 			mainForm.ConnForm.ShowDialog();
-			if (!mainForm.IsConnected)
+			if (!mainForm.IsDeviceConnected)
 			{
 				MessageBox.Show("请重新连接设备，否则无法进行硬件配置!");
 				Dispose();

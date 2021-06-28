@@ -57,7 +57,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void ColorForm_Activated(object sender, EventArgs e)
 		{
-			previewButton.Visible = mainForm.IsConnected && mainForm.CurrentMode == 0; // 音频模式就不让预览了，没有意义
+			previewButton.Visible = mainForm.IsDeviceConnected && mainForm.CurrentMode == 0; // 音频模式就不让预览了，没有意义
 
 			// 当时间因子发生变化时，需要重新渲染步时间；
 			if ( eachStepTime != mainForm.EachStepTime2 ) {								
@@ -104,7 +104,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void ColorForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (mainForm.IsConnected) {
+			if (mainForm.IsDeviceConnected) {
 				if (mainForm.IsPreviewing)
 				{
 					endView();
@@ -238,7 +238,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
  		private void previewButton_Click(object sender, EventArgs e){
 
-			if ( !mainForm.IsConnected)
+			if ( !mainForm.IsDeviceConnected)
 			{
 				setNotice("尚未连接设备", true,true);
 				return;
@@ -313,7 +313,7 @@ namespace LightController.MyForm.Multiplex
 
 			stepCount = colorFLP.Controls.Count - 1;
 			clearButton.Enabled = stepCount > 0;
-			previewButton.Enabled = mainForm.IsConnected && (mainForm.IsPreviewing || stepCount>0 ); // 必须是连接模式；如果正在预览中则一直可用；否则需要判断是否有色块
+			previewButton.Enabled = mainForm.IsDeviceConnected && (mainForm.IsPreviewing || stepCount>0 ); // 必须是连接模式；如果正在预览中则一直可用；否则需要判断是否有色块
 			previewButton.Text = mainForm.IsPreviewing ? "停止预览" : "预览";
 
 			oneStepPlay(); //selectColorPanel
@@ -324,7 +324,7 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		private void oneStepPlay()
 		{
-			if (mainForm.IsConnected && !mainForm.IsPreviewing)
+			if (mainForm.IsDeviceConnected && !mainForm.IsPreviewing)
 			{
 				generateSingleMaterial(); // 若未选中色块，则material = null,此时mainForm会直接跑原来的步数据
 				mainForm.OneStepPlay(material);
@@ -412,7 +412,7 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		private void endView() {
 		
-			if (mainForm .IsConnected && mainForm.IsPreviewing ) {
+			if (mainForm .IsDeviceConnected && mainForm.IsPreviewing ) {
 				mainForm.PreviewButtonClick(null);
 				previewButton.Text = "预览";				
 				setNotice("已停止预览", false, true);

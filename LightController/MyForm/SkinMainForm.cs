@@ -291,13 +291,20 @@ namespace LightController.MyForm
 		}		
 
 		/// <summary>
-		///  事件：点击《设备连接》按钮
+		///  事件：点击《设备连接》按钮（空方法，导航用） 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void deviceConnectButton_Click(object sender, EventArgs e)
+		private void deviceConnectButton_Click(object sender, EventArgs e)	{		}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《追加步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deviceConnectButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			connectButtonClick();
+			connectButtonClick(e.Button);
 		}
 
 		/// <summary>
@@ -324,7 +331,14 @@ namespace LightController.MyForm
 		/// 事件：点击《使用说明》->导航功能
 		/// </summary>
 		/// <param name="noticeText"></param>
-		private void helpSkinButton_Click(object sender, EventArgs e)	{	}
+		private void helpSkinButton_Click(object sender, EventArgs e)	{
+
+			
+			byte[] stepBytes = new byte[512];
+			stepBytes[0] = 120;
+			SerialPlayTools.OLOSView(stepBytes);
+
+		}
 
 		/// <summary>
 		/// 事件：鼠标左右键按下《使用说明》
@@ -333,14 +347,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void helpSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				helpButtonClick();
-			}
-			else if (e.Button == MouseButtons.Right)
-			{
-				updateLogButtonClick();
-			}
+			//if (e.Button == MouseButtons.Left)
+			//{
+			//	helpButtonClick();
+			//}
+			//else if (e.Button == MouseButtons.Right)
+			//{
+			//	updateLogButtonClick();
+			//}
 		}
 		
 		#endregion
@@ -1929,14 +1943,14 @@ namespace LightController.MyForm
 			seqSkinButton.Enabled = connected; 
 			projectUpdateSkinButton.Enabled = connected;
 	
-			keepSkinButton.Enabled = IsConnected && !IsPreviewing;
-			previewSkinButton.Enabled = IsConnected;
-			makeSoundSkinButton.Enabled = IsConnected && IsPreviewing;
+			keepSkinButton.Enabled = IsDeviceConnected && !IsPreviewing;
+			previewSkinButton.Enabled = IsDeviceConnected;
+			makeSoundSkinButton.Enabled = IsDeviceConnected && IsPreviewing;
 			
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !IsPreviewing)
+			if (IsDeviceConnected && !IsPreviewing)
 			{
 				RefreshStep();
 			}
@@ -2094,7 +2108,13 @@ namespace LightController.MyForm
 		{
 			sequencerButtonClick();
 		}
-		
+
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			
+
+		}
 	}
 	   
 }

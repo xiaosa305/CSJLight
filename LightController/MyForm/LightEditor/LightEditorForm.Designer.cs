@@ -68,7 +68,6 @@
 			this.tdNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.tdLabelDemo = new System.Windows.Forms.Label();
 			this.lightGroupBox = new System.Windows.Forms.GroupBox();
-			this.openPictureBox = new System.Windows.Forms.PictureBox();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -77,18 +76,16 @@
 			this.saBigPanel = new System.Windows.Forms.Panel();
 			this.saSmallPanel = new System.Windows.Forms.Panel();
 			this.unifyValueButton = new System.Windows.Forms.Button();
-			this.connectButton = new System.Windows.Forms.Button();
-			this.comComboBox = new System.Windows.Forms.ComboBox();
 			this.zeroButton = new System.Windows.Forms.Button();
-			this.refreshButton = new System.Windows.Forms.Button();
 			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.setFirstTDButton = new System.Windows.Forms.Button();
 			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.setInitButton = new System.Windows.Forms.Button();
 			this.setCurrentToInitButton = new System.Windows.Forms.Button();
 			this.playGroupBox = new System.Windows.Forms.GroupBox();
-			this.connectLabel = new System.Windows.Forms.Label();
 			this.mainPanel = new System.Windows.Forms.Panel();
+			this.openPictureBox = new System.Windows.Forms.PictureBox();
+			this.connectLabel = new System.Windows.Forms.Label();
 			this.tdNamePanel.SuspendLayout();
 			this.noticePanel.SuspendLayout();
 			this.saFLPDemo.SuspendLayout();
@@ -102,7 +99,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
 			this.lightGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
 			this.myStatusStrip.SuspendLayout();
 			this.saBigPanel.SuspendLayout();
 			this.saSmallPanel.SuspendLayout();
@@ -110,6 +106,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			this.playGroupBox.SuspendLayout();
 			this.mainPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// renameButton
@@ -571,20 +568,6 @@
 			this.lightGroupBox.TabStop = false;
 			this.lightGroupBox.Visible = false;
 			// 
-			// openPictureBox
-			// 
-			this.openPictureBox.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.openPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.openPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("openPictureBox.Image")));
-			this.openPictureBox.Location = new System.Drawing.Point(242, 25);
-			this.openPictureBox.Margin = new System.Windows.Forms.Padding(2);
-			this.openPictureBox.Name = "openPictureBox";
-			this.openPictureBox.Size = new System.Drawing.Size(94, 93);
-			this.openPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.openPictureBox.TabIndex = 15;
-			this.openPictureBox.TabStop = false;
-			this.openPictureBox.Click += new System.EventHandler(this.openPictureBox_Click);
-			// 
 			// myStatusStrip
 			// 
 			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -649,31 +632,6 @@
 			this.unifyValueButton.UseVisualStyleBackColor = true;
 			this.unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
 			// 
-			// connectButton
-			// 
-			this.connectButton.Enabled = false;
-			this.connectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.connectButton.Location = new System.Drawing.Point(201, 30);
-			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(73, 23);
-			this.connectButton.TabIndex = 4;
-			this.connectButton.Text = "连接设备";
-			this.connectButton.UseVisualStyleBackColor = true;
-			this.connectButton.Visible = false;
-			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
-			// 
-			// comComboBox
-			// 
-			this.comComboBox.Enabled = false;
-			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(26, 30);
-			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(71, 20);
-			this.comComboBox.TabIndex = 0;
-			this.comComboBox.Visible = false;
-			// 
 			// zeroButton
 			// 
 			this.zeroButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -685,18 +643,6 @@
 			this.zeroButton.Text = "全部归零";
 			this.zeroButton.UseVisualStyleBackColor = true;
 			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
-			// 
-			// refreshButton
-			// 
-			this.refreshButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.refreshButton.Location = new System.Drawing.Point(122, 30);
-			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(73, 23);
-			this.refreshButton.TabIndex = 5;
-			this.refreshButton.Text = "刷新串口";
-			this.refreshButton.UseVisualStyleBackColor = true;
-			this.refreshButton.Visible = false;
-			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// unifyValueNumericUpDown
 			// 
@@ -774,10 +720,6 @@
 			// 
 			// playGroupBox
 			// 
-			this.playGroupBox.Controls.Add(this.connectLabel);
-			this.playGroupBox.Controls.Add(this.refreshButton);
-			this.playGroupBox.Controls.Add(this.connectButton);
-			this.playGroupBox.Controls.Add(this.comComboBox);
 			this.playGroupBox.Controls.Add(this.setCurrentToInitButton);
 			this.playGroupBox.Controls.Add(this.setInitButton);
 			this.playGroupBox.Controls.Add(this.firstTDNumericUpDown);
@@ -785,6 +727,7 @@
 			this.playGroupBox.Controls.Add(this.unifyValueNumericUpDown);
 			this.playGroupBox.Controls.Add(this.zeroButton);
 			this.playGroupBox.Controls.Add(this.unifyValueButton);
+			this.playGroupBox.Controls.Add(this.connectLabel);
 			this.playGroupBox.ForeColor = System.Drawing.SystemColors.ControlLightLight;
 			this.playGroupBox.Location = new System.Drawing.Point(484, 20);
 			this.playGroupBox.Margin = new System.Windows.Forms.Padding(2);
@@ -795,16 +738,6 @@
 			this.playGroupBox.TabStop = false;
 			this.playGroupBox.Text = "调试";
 			this.playGroupBox.Visible = false;
-			// 
-			// connectLabel
-			// 
-			this.connectLabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.connectLabel.Location = new System.Drawing.Point(20, 33);
-			this.connectLabel.Name = "connectLabel";
-			this.connectLabel.Size = new System.Drawing.Size(254, 14);
-			this.connectLabel.TabIndex = 6;
-			this.connectLabel.Text = "超长的占位符";
-			this.connectLabel.DoubleClick += new System.EventHandler(this.connectLabel_DoubleClick);
 			// 
 			// mainPanel
 			// 
@@ -819,6 +752,29 @@
 			this.mainPanel.Name = "mainPanel";
 			this.mainPanel.Size = new System.Drawing.Size(791, 234);
 			this.mainPanel.TabIndex = 30;
+			// 
+			// openPictureBox
+			// 
+			this.openPictureBox.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.openPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.openPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("openPictureBox.Image")));
+			this.openPictureBox.Location = new System.Drawing.Point(242, 25);
+			this.openPictureBox.Margin = new System.Windows.Forms.Padding(2);
+			this.openPictureBox.Name = "openPictureBox";
+			this.openPictureBox.Size = new System.Drawing.Size(94, 93);
+			this.openPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.openPictureBox.TabIndex = 15;
+			this.openPictureBox.TabStop = false;
+			this.openPictureBox.Click += new System.EventHandler(this.openPictureBox_Click);
+			// 
+			// connectLabel
+			// 
+			this.connectLabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.connectLabel.Location = new System.Drawing.Point(20, 33);
+			this.connectLabel.Name = "connectLabel";
+			this.connectLabel.Size = new System.Drawing.Size(254, 14);
+			this.connectLabel.TabIndex = 6;
+			this.connectLabel.Text = "超长的占位符";
 			// 
 			// LightEditorForm
 			// 
@@ -854,7 +810,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
 			this.lightGroupBox.ResumeLayout(false);
 			this.lightGroupBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).EndInit();
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();
 			this.saBigPanel.ResumeLayout(false);
@@ -863,6 +818,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).EndInit();
 			this.playGroupBox.ResumeLayout(false);
 			this.mainPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -910,10 +866,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button unifyValueButton;
-		private System.Windows.Forms.Button connectButton;
-		private System.Windows.Forms.ComboBox comComboBox;
 		private System.Windows.Forms.Button zeroButton;
-		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.NumericUpDown unifyValueNumericUpDown;
 		private System.Windows.Forms.Button setFirstTDButton;
 		private System.Windows.Forms.NumericUpDown firstTDNumericUpDown;

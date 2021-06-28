@@ -132,7 +132,7 @@ namespace LightController.MyForm.OtherTools
 		/// 辅助方法：切换为灯控模式
 		/// </summary>
 		private void switchLCMode() {
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setBusy(true);
 				mainForm.SleepBetweenSend("Order : SwitchLCMode", 1);	
@@ -460,7 +460,7 @@ namespace LightController.MyForm.OtherTools
 			mainForm.DisConnect();
 			isConnLC = false;
 			mainForm.ConnForm.ShowDialog();
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				switchLCMode();	
 			}

@@ -1824,13 +1824,13 @@ namespace LightController.MyForm
 			seqToolStripMenuItem.Enabled = connected;
 			projectUpdateToolStripMenuItem.Enabled = connected;
 
-			keepButton.Enabled = IsConnected && !IsPreviewing;
+			keepButton.Enabled = IsDeviceConnected && !IsPreviewing;
 			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
-			previewButton.Enabled = IsConnected ;
-			makeSoundButton.Enabled = IsConnected && IsPreviewing;		
+			previewButton.Enabled = IsDeviceConnected ;
+			makeSoundButton.Enabled = IsDeviceConnected && IsPreviewing;		
 			
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !IsPreviewing) {
+			if (IsDeviceConnected && !IsPreviewing) {
 				RefreshStep();
 			}						
 		}
@@ -1883,10 +1883,11 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			connectButtonClick();
-		}
+		private void connectToolStripMenuItem_Click(object sender, EventArgs e)	{
+
+			//DOTO : 210628 改造NewMainForm.ConnectButtonClick
+			connectButtonClick(MouseButtons.Left);				
+		}	
 
 		/// <summary>
 		/// 事件：点击《硬件配置》

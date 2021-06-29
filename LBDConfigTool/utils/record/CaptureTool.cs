@@ -110,7 +110,6 @@ namespace LBDConfigTool.utils.record
                         int dataLength = (int)(data[42 + 17] & 0xFF) | ((data[42 + 16] & 0xFF) << 8);
                         if (dataLength != 0 && data.Length == (dataLength + 18 + 42))
                         {
-                            Console.WriteLine("Receive DMXData");
                             byte[] DMXDataBuff = new byte[dataLength];
                             Array.Copy(data, 42 + 18, DMXDataBuff, 0, dataLength);
                             this.DMXDataCaptureed_Event(port - this.StartSpace + 1, new List<byte>(DMXDataBuff));
@@ -118,7 +117,6 @@ namespace LBDConfigTool.utils.record
                     }
                     else if (data[42 + 0] == 0x4D && data[42 + 1] == 0x61 && data[42 + 2] == 0x64 && data[42 + 3] == 0x72 && data[42 + 4] == 0x69 && data[42 + 5] == 0x78 && data[42 + 6] == 0x4E && data[42 + 7] == 0x00 && data[42 + 8] == 0x02 && data[42 + 9] == 0x52 && data[42 + 10] == 0x00)
                     {
-                        Console.WriteLine("Receive FrameSync");
                         if (this.IsFirstFrame)
                         {
                             this.IsFirstFrame = false;
@@ -131,7 +129,29 @@ namespace LBDConfigTool.utils.record
                     }
                     else if (data[42 + 0] == 0x4D && data[42 + 1] == 0x61 && data[42 + 2] == 0x64 && data[42 + 3] == 0x72 && data[42 + 4] == 0x69 && data[42 + 5] == 0x78 && data[42 + 6] == 0x4E && data[42 + 7] == 0x00 && data[42 + 8] == 0x01 && data[42 + 9] == 0x51 && data[42 + 10] == 0x00)
                     {
-                        Console.WriteLine("Receive FrameSync");
+                        if (this.IsFirstFrame)
+                        {
+                            this.IsFirstFrame = false;
+                        }
+                        else
+                        {
+                            this.IsFirstFrame = false;
+                            this.FrameSync_Event();
+                        }
+                    }
+                    else if (data[42 + 0] == 0x41
+                        && data[42 + 1] == 0x72
+                        && data[42 + 2] == 0x74
+                        && data[42 + 3] == 0x2D
+                        && data[42 + 4] == 0x4E
+                        && data[42 + 5] == 0x65
+                        && data[42 + 6] == 0x74
+                        && data[42 + 7] == 0x00
+                        && data[42 + 8] == 0x00
+                        && data[42 + 9] == 0x52
+                        && data[42 + 10] == 0x00
+                        && data[42 + 11] == 0x0E)
+                    {
                         if (this.IsFirstFrame)
                         {
                             this.IsFirstFrame = false;

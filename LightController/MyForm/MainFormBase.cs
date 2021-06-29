@@ -183,7 +183,7 @@ namespace LightController.MyForm
 		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
 		 // 调试面板
 		protected virtual void refreshConnectedControls(bool isDeviceConnected, bool isPreviewing)
-		{
+		{			
 			IsDeviceConnected = isDeviceConnected;
 			IsPreviewing = isPreviewing;
 			ConnectStr = " [ " 
@@ -192,21 +192,19 @@ namespace LightController.MyForm
 				+ " ]";
 			Text = SoftwareName + projectStr + ConnectStr;			
 		} //设置《连接按钮组》是否可用	
+
 		/// <summary>
 		///  辅助方法：供《DMX512连接Form》使用，使可以更改一些数据
 		/// </summary>
-		public void RefreshConnectedControls(bool isDMXConnected ) {
-			//DOTO 210628 新增一个供《DMX512连接Form》使用的public方法，用以调用当前的enableConnectedButtons
+		public void RefreshConnectedControls(bool isDMXConnected ) {			
 			IsDMXConnected = isDMXConnected;
 			refreshConnectedControls(IsDeviceConnected, IsPreviewing);
 		}
 
-		protected virtual void deviceRefresh() { } //	刷新设备列表
 		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示			
-		public bool IsEnableOneStepPlay() { 	return (IsDeviceConnected || IsDMXConnected) && !IsPreviewing;	} // 返回是否可以单步调试（抽象以避免重复）
-
-
+		public bool IsEnableOneStepPlay() { return (IsDeviceConnected || IsDMXConnected) && !IsPreviewing; } // 返回是否可以单步调试（抽象以避免重复）
+		
 		#endregion
 
 		#region 存储一些供其他Form使用的变量，比如已打开的升级文件、工程文件等
@@ -270,13 +268,19 @@ namespace LightController.MyForm
 					foreach (string lightPath in lightSet) {
 						File.Copy(SavePath + @"\LightLibrary\" + lightPath, SavePath + @"\Source\LightLibrary\" + lightPath, true);
 					}
-					// 1124：连带把灯具图片也保存起来
+					// 把灯具图片也保存起来：但如果图片不存在，则跳过不理，避免触发异常（否则整个流程都直接跳出，Source.zip不会生成）
 					di = new DirectoryInfo(SavePath + @"\Source\LightPic");
 					di.Create();
 					foreach (string lightPic in picSet) {
-						File.Copy(SavePath + @"\LightPic\" + lightPic, SavePath + @"\Source\LightPic\" + lightPic, true);
+						string sourcePicPath = SavePath + @"\LightPic\" + lightPic;
+						if (File.Exists(sourcePicPath)){
+							File.Copy(sourcePicPath, SavePath + @"\Source\LightPic\" + lightPic, true);
+						}
+						else
+						{
+							Console.WriteLine("灯具图片(" + sourcePicPath + ")不存在...");
+						}																				
 					}
-
 					// MARK 3.0416 压缩文件直接继承到同一个方法中，过后把考虑Source工作目录直接删掉；
 					ZipHelper.CompressAllToZip(SavePath + @"\Source", zipPath, 9, null, SavePath + @"\");
 					di = new DirectoryInfo(SavePath + @"\Source");
@@ -2143,7 +2147,6 @@ namespace LightController.MyForm
 
 			SetNotice("正在导出工程，请稍候...", false, true);
 			setBusy(true);
-			//DOTO 0628 把《导出工程》的回调方法移回MainFormBase
 			DataConvertUtils.GetInstance().SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath,ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
 		}
 
@@ -2172,8 +2175,8 @@ namespace LightController.MyForm
 
 			//MARK 导出单场景具体实现 2. 修改打开文件夹对话框的提示
 			exportFolderBrowserDialog.Description =
-				LanguageHelper.TranslateSentence("请选择当前工程之前已导出过的工程所在目录（即CSJ文件夹），导出工程（只修改当前场景数据）时，"
-								+ "程序将只改动C"+(CurrentScene+1)+ ".bin、M" + (CurrentScene + 1) + ".bin、Config.bin及GradientData.bin文件，请稍等片刻即可。");
+				LanguageHelper.TranslateSentence("请选择当前工程以前的导出目录（即CSJ文件夹）。导出工程（只修改当前场景数据）时，"
+								+ "程序将只改动C"+(CurrentScene+1)+ ".bin、M" + (CurrentScene + 1) + ".bin、Config.bin及GradientData.bin文件。请稍等片刻即可。");
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
@@ -2230,8 +2233,7 @@ namespace LightController.MyForm
 				return; //只要出现异常，就一定要退出本方法；
 			}
 
-			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）
-			//DOTO 0628 把《导出工程（单一场景）》的回调方法移回MainFormBase
+			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）			
 			DataConvertUtils.GetInstance().SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, CurrentScene,ExportProjectCompleted,ExportProjectError, ExportProjectProgress);
 		}
 
@@ -3181,7 +3183,7 @@ namespace LightController.MyForm
 
 			setBusy(true);
 			SetNotice("正在切换场景,请稍候...", false, true);
-			endview();          // 只要更改了场景，直接结束预览
+			endview(); // sceneSelectedChanged (只要更改了场景，直接结束预览)
 
 			DialogResult dr = MessageBox.Show(
 				LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllSceneList[CurrentScene] + "?",
@@ -3738,12 +3740,12 @@ namespace LightController.MyForm
 			}			
 			if (MyConnect.Connect(networkDeviceInfo))
 			{
-				refreshConnectedControls(true, IsPreviewing);     //Connect
+				refreshConnectedControls(true, IsPreviewing); //Connect() 内连接成功
 				return true;
 			}
 			else
 			{
-				refreshConnectedControls(false, IsPreviewing); //Connect
+				refreshConnectedControls(false, IsPreviewing); //Connect() 内连接失败
 				return false;
 			}			
 		}
@@ -3755,7 +3757,7 @@ namespace LightController.MyForm
 		{
 			MyConnect.DisConnect();			
 			MyConnect = null;			
-			refreshConnectedControls(false, IsPreviewing); //DisConnect
+			refreshConnectedControls(false, IsPreviewing); //DisConnect()
 			SetNotice("设备已断开连接。", false, false);
 		}
 
@@ -3884,18 +3886,7 @@ namespace LightController.MyForm
 			
 			SetNotice(  prevStr +	tdValueStr, false,	false);			
 		}
-
-		/// <summary>
-		/// 辅助方法：点击《预览效果》
-		/// </summary>
-		internal void Preview()
-		{			
-			SetNotice("预览数据生成成功,即将开始预览。",false, true);
-			refreshConnectedControls(true,true); //Preview
-
-			networkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
-		}
-		
+	
 		/// <summary>
 		/// 辅助方法：结束预览
 		/// </summary>
@@ -3909,18 +3900,18 @@ namespace LightController.MyForm
 		/// </summary>
 		public void PreviewButtonClick(MaterialAst material)
 		{
-			if (!IsDeviceConnected)
+			if (!IsDeviceConnected && !IsDMXConnected )
 			{
-				SetNotice("尚未连接设备，无法预览效果（或停止预览）。", true,true);
-				refreshConnectedControls(false, false); //PreviewButtonClick
+				SetNotice("尚未连接设备（或灯具），无法预览效果（或停止预览）。", true,true);
+				refreshConnectedControls(false, false); //PreviewButtonClick()
 				return;
 			}
 
 			// 停止预览
 			if (IsPreviewing)
 			{
-				endview();
-				refreshConnectedControls(true, false); //PreviewButtonClick
+				endview(); // PreviewButtonClick
+				refreshConnectedControls(IsDeviceConnected, false); //PreviewButtonClick
 				SetNotice("已结束预览,并恢复到实时调试模式。",false, true);
 			}
 			// 开始预览
@@ -3978,7 +3969,6 @@ namespace LightController.MyForm
 					else {
 						dbWrapperTemp = GetDBWrapper(false);
 					}
-					//DOTO 0628 把《预览场景》回调函数从外部类放到MainFormBase中
 					DataConvertUtils.GetInstance().SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
 				}
 				catch (Exception ex)
@@ -3997,16 +3987,23 @@ namespace LightController.MyForm
 		/// 辅助方法：点击触发音频
 		/// </summary>
 		protected void makeSoundButtonClick() {
-			// 若还在触发状态中，则不再触发
-			if (!networkPlayTools.GetMusicStatus())
+
+			if ((IsDeviceConnected || IsDMXConnected) && IsPreviewing)
 			{
-				Console.WriteLine("Dickov:GetMusicStatus==true（触发中，或无音频）,故此操作不生效...");
-				return;
+				if ( !networkPlayTools.GetMusicStatus() 
+					|| !SerialPlayTools.GetMusicStatus() ) 
+				{
+					Console.WriteLine("Dickov :  音频正在触发中或无音频，故此操作不生效...");
+					return;
+				}
+
+				setMakeSound(true);
+				if (IsDeviceConnected) networkPlayTools.MusicControl();
+				if (IsDMXConnected) SerialPlayTools.MusicControl();
+				setMakeSound(false);
+
 			}
 
-			setMakeSound(true);
-			networkPlayTools.MusicControl();
-			setMakeSound(false);
 		}
 
 		#endregion
@@ -4372,7 +4369,7 @@ namespace LightController.MyForm
 		public void StartPreviewCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				refreshConnectedControls(true,false);  //StartPreviewCompleted
+				refreshConnectedControls(IsDeviceConnected , false);  //StartPreviewCompleted
 			});
 		}
 				
@@ -4399,7 +4396,17 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				Preview();
+				SetNotice("预览数据生成成功,即将开始预览。", false, true);
+				refreshConnectedControls(IsDeviceConnected, true); //Preview
+
+				if (IsDeviceConnected)
+				{
+					networkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);
+				}
+				if (IsDMXConnected)
+				{
+					SerialPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);
+				}
 			});			
 		}
 

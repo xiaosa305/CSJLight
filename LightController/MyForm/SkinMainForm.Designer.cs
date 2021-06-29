@@ -348,7 +348,7 @@ namespace LightController.MyForm
 			this.toolsSkinButton.UseVisualStyleBackColor = false;
 			this.toolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
 			// 
-			// projectUpdateSkinButton
+			// projectDownloadSkinButton
 			// 
 			this.projectDownloadSkinButton.BackColor = System.Drawing.Color.Transparent;
 			this.projectDownloadSkinButton.BaseColor = System.Drawing.Color.Transparent;
@@ -368,7 +368,7 @@ namespace LightController.MyForm
 			this.projectDownloadSkinButton.Location = new System.Drawing.Point(276, 2);
 			this.projectDownloadSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.projectDownloadSkinButton.MouseBack = null;
-			this.projectDownloadSkinButton.Name = "projectUpdateSkinButton";
+			this.projectDownloadSkinButton.Name = "projectDownloadSkinButton";
 			this.projectDownloadSkinButton.NormlBack = null;
 			this.projectDownloadSkinButton.Size = new System.Drawing.Size(85, 90);
 			this.projectDownloadSkinButton.TabIndex = 4;
@@ -563,7 +563,6 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.makeSoundSkinButton.DownBack = null;
 			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.makeSoundSkinButton.Enabled = false;
 			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.makeSoundSkinButton.ForeColorSuit = true;
@@ -1328,6 +1327,7 @@ namespace LightController.MyForm
 			this.button1.TabIndex = 27;
 			this.button1.Text = "Test";
 			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Visible = false;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// syncSkinButton

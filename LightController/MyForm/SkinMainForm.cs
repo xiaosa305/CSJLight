@@ -229,7 +229,7 @@ namespace LightController.MyForm
 		
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
-			startPreview();
+			startPreview(); //SkinMainForm_Activated
 		}
 
 		/// <summary>
@@ -2095,7 +2095,7 @@ namespace LightController.MyForm
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			
+			Console.WriteLine( networkPlayTools + " | " + SerialPlayTools);
 
 		}
 	}

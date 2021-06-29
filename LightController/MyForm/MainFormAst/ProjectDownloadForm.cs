@@ -27,7 +27,7 @@ namespace LightController.MyForm.MainFormAst
 
 			exportedCheckBox.Checked = Properties.Settings.Default.updateExported;
 
-			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。");
+			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择已导出的工程目录（即CSJ文件夹），本操作会将该目录下的所有文件传给设备。");
 			// 当注册表内存储的文件夹不存在时，直接设为null并保存起来
 			exportProjectPath = Properties.Settings.Default.exportProjectPath;
 			if (Directory.Exists(exportProjectPath))
@@ -149,7 +149,6 @@ namespace LightController.MyForm.MainFormAst
 					return;
 				}
 				setNotice("正在实时生成工程数据，请耐心等待...", false, true);
-				//DOTO 0628 把《下载工程》的回调方法移回ProjectDownloadForm
 				DataConvertUtils.GetInstance().SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
 			}
 		}

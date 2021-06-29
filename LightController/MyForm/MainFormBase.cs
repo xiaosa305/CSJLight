@@ -3987,23 +3987,20 @@ namespace LightController.MyForm
 		/// 辅助方法：点击触发音频
 		/// </summary>
 		protected void makeSoundButtonClick() {
-
 			if ((IsDeviceConnected || IsDMXConnected) && IsPreviewing)
 			{
-				if ( !networkPlayTools.GetMusicStatus() 
-					|| !SerialPlayTools.GetMusicStatus() ) 
+				if (networkPlayTools.GetMusicStatus() || SerialPlayTools.GetMusicStatus())
 				{
-					Console.WriteLine("Dickov :  音频正在触发中或无音频，故此操作不生效...");
-					return;
+					setMakeSound(true);
+					if (IsDeviceConnected) networkPlayTools.MusicControl();
+					if (IsDMXConnected) SerialPlayTools.MusicControl();
+					setMakeSound(false);
 				}
-
-				setMakeSound(true);
-				if (IsDeviceConnected) networkPlayTools.MusicControl();
-				if (IsDMXConnected) SerialPlayTools.MusicControl();
-				setMakeSound(false);
-
+				else {				
+					Console.WriteLine("Dickov :  音频正在触发中或无音频，故此操作不生效...");
+					return;				
+				}				
 			}
-
 		}
 
 		#endregion

@@ -1920,16 +1920,14 @@ namespace LightController.MyForm
 		{
 			base.refreshConnectedControls(connected, previewing);
 
-			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetSkinButton.Enabled = connected;
 			toolsSkinButton.Enabled = connected;
 			seqSkinButton.Enabled = connected; 
 			projectDownloadSkinButton.Enabled = connected;
 	
-			keepSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && !IsPreviewing ;
+			keepSkinButton.Enabled = IsDeviceConnected || IsDMXConnected ;
 			previewSkinButton.Enabled = IsDeviceConnected || IsDMXConnected;
-			makeSoundSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing;
-			
+			makeSoundSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing;	
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)

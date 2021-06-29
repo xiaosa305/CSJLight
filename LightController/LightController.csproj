@@ -239,34 +239,22 @@
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.Designer.cs">
       <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.cs">
+    <Compile Include="MyForm\MainFormAst\ProjectDownloadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.Designer.cs">
-      <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\ProjectDownloadForm.Designer.cs">
+      <DependentUpon>ProjectDownloadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Ast\TongdaoWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Tools\OneLightOneStep.cs" />
-    <Compile Include="MyForm\Multiplex\ActionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\ActionForm.Designer.cs">
-      <DependentUpon>ActionForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\Multiplex\AppendStepsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\Multiplex\AppendStepsForm.Designer.cs">
       <DependentUpon>AppendStepsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\ColorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\ColorForm.Designer.cs">
-      <DependentUpon>ColorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\DeleteStepsForm.cs">
       <SubType>Form</SubType>
@@ -500,8 +488,8 @@
     <EmbeddedResource Include="MyForm\MainFormAst\DMX512ConnnectForm.resx">
       <DependentUpon>DMX512ConnnectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
-      <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\ProjectDownloadForm.resx">
+      <DependentUpon>ProjectDownloadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\ProtocolDataForm.resx">
       <DependentUpon>ProtocolDataForm.cs</DependentUpon>
@@ -529,14 +517,8 @@
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\ActionForm.resx">
-      <DependentUpon>ActionForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\AppendStepsForm.resx">
       <DependentUpon>AppendStepsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\ColorForm.resx">
-      <DependentUpon>ColorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>

@@ -1916,9 +1916,9 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		protected override void enableConnectedButtons(bool connected,bool previewing)
+		protected override void refreshConnectedControls(bool connected,bool previewing)
 		{
-			base.enableConnectedButtons(connected, previewing);
+			base.refreshConnectedControls(connected, previewing);
 
 			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetSkinButton.Enabled = connected;

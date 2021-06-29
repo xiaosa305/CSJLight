@@ -84,23 +84,21 @@ namespace LightController.MyForm
 
 		// 程序运行后，动态变化的变量
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
-		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
-		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。		
+		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。		
 
 		// 工程相关的变量（只在工程载入后才用到的变量）
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
 		protected string currentProjectPath; //存放当前工程所在目录
 		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
+		private string exportPath; // 导出工程的目录（每次都可能会发生变动）
 
 		protected bool isEncrypt = false; //是否加密				
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）【不为static的原因是，这个在软件运行时可能会发生改变。】
 		protected string groupIniPath; // 存放编组文件存放路径
 		public IList<GroupAst> GroupList; // 存放编组	
-		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
 
-		protected ColorForm colorForm; // 存储一个全局的colorForm，以便使用之前数据；
 		public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
 		public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
 
@@ -148,8 +146,7 @@ namespace LightController.MyForm
 
 		protected PlayTools networkPlayTools = PlayTools.GetInstance(); // 通过设备，调试512灯具的对象
 		public SerialPortDMXPlay SerialPlayTools = SerialPortDMXPlay.GetInstance();		// 通过DMX512调试线直连设备，调试512灯具的对象
-
-		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
+				
 		public bool IsDeviceConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		public bool IsDMXConnected = false; // 辅助bool值，当DMX512线已经连接时设为true，反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
@@ -185,21 +182,23 @@ namespace LightController.MyForm
 		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据		
 		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
 		 // 调试面板
-		protected virtual void enableConnectedButtons(bool connected, bool previewing)
+		protected virtual void refreshConnectedControls(bool isDeviceConnected, bool isPreviewing)
 		{
-			IsDeviceConnected = connected;
-			IsPreviewing = previewing;
-			ConnectStr = connected ? " [ 设备已连接: " + MyConnect.DeviceName + " ]" : (IsDMXConnected?"[ 以《DMX512调试线》连接灯具 ]":"[ 设备未连接 ]" );
+			IsDeviceConnected = isDeviceConnected;
+			IsPreviewing = isPreviewing;
+			ConnectStr = " [ " 
+				+  (IsDeviceConnected ? "设备已连接：" + MyConnect.DeviceName  : "设备未连接" )
+				+   (IsDMXConnected ?  " #" :"" )
+				+ " ]";
 			Text = SoftwareName + projectStr + ConnectStr;			
 		} //设置《连接按钮组》是否可用	
-
 		/// <summary>
 		///  辅助方法：供《DMX512连接Form》使用，使可以更改一些数据
 		/// </summary>
-		public void EnableConnectedButtons(bool isDMXConnected ) {
+		public void RefreshConnectedControls(bool isDMXConnected ) {
 			//DOTO 210628 新增一个供《DMX512连接Form》使用的public方法，用以调用当前的enableConnectedButtons
 			IsDMXConnected = isDMXConnected;
-			enableConnectedButtons(IsDeviceConnected, IsPreviewing);
+			refreshConnectedControls(IsDeviceConnected, IsPreviewing);
 		}
 
 		protected virtual void deviceRefresh() { } //	刷新设备列表
@@ -2127,7 +2126,7 @@ namespace LightController.MyForm
 			{
 				return;
 			}
-			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+			exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
 			{
@@ -2144,7 +2143,8 @@ namespace LightController.MyForm
 
 			SetNotice("正在导出工程，请稍候...", false, true);
 			setBusy(true);
-			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath));
+			//DOTO 0628 把《导出工程》的回调方法移回MainFormBase
+			DataConvertUtils.GetInstance().SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath,ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
 		}
 
 		/// <summary>
@@ -2172,8 +2172,8 @@ namespace LightController.MyForm
 
 			//MARK 导出单场景具体实现 2. 修改打开文件夹对话框的提示
 			exportFolderBrowserDialog.Description =
-				LanguageHelper.TranslateSentence("请选择当前工程之前已导出过的工程文件夹(CSJ文件夹的上一层)，导出工程（只修改当前场景数据）时，"
-								+ "程序将只改动当前场景的两个bin文件、Config.bin及GradientData文件，其他文件不会发生变化，请稍等片刻即可。");
+				LanguageHelper.TranslateSentence("请选择当前工程之前已导出过的工程所在目录（即CSJ文件夹），导出工程（只修改当前场景数据）时，"
+								+ "程序将只改动C"+(CurrentScene+1)+ ".bin、M" + (CurrentScene + 1) + ".bin、Config.bin及GradientData.bin文件，请稍等片刻即可。");
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
@@ -2181,7 +2181,7 @@ namespace LightController.MyForm
 			}
 
 			//MARK 导出单场景具体实现 3. 检测选中的文件夹不为空（数据数量不得为0），若此文件夹为空，则不应导出单场景
-			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+			exportPath = exportFolderBrowserDialog.SelectedPath;
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (!di.Exists || di.GetFiles().Length == 0)
 			{
@@ -2192,7 +2192,7 @@ namespace LightController.MyForm
 			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...", false, true);
 			setBusy(true);
 
-			exportFrame(exportPath);
+			exportFrame();
 		}
 
 		//MARK 导出单场景具体实现 4. 把选中文件夹内的所有数据拷到临时文件夹中（DataCache\Project\CSJ），拷贝前需要先清空目标文件夹；并逐一把所有CX.bin、MX.bin文件都拷贝过去		
@@ -2200,16 +2200,16 @@ namespace LightController.MyForm
 		/// 辅助方法：当拷贝文件发生错误时，用递归的方法重新操作
 		/// </summary>
 		/// <param name="exportPath"></param>
-		private void exportFrame(string exportPath)
+		private void exportFrame()
 		{
 			try
 			{
 				FileUtils.ClearProjectData();
 				string destPath = Application.StartupPath + @"\DataCache\Project\CSJ";
-				for (int frame = 1; frame <= SceneCount; frame++)
+				for (int sceneIndex = 1; sceneIndex <= SceneCount; sceneIndex++)
 				{
-					FileHelper.CopyFile(exportPath + @"\C" + frame + ".bin", destPath, true);
-					FileHelper.CopyFile(exportPath + @"\M" + frame + ".bin", destPath, true);
+					FileHelper.CopyFile(exportPath + @"\C" + sceneIndex + ".bin", destPath, true);
+					FileHelper.CopyFile(exportPath + @"\M" + sceneIndex + ".bin", destPath, true);
 				}
 			}
 			catch (Exception ex) {
@@ -2219,7 +2219,7 @@ namespace LightController.MyForm
 						MessageBoxIcon.Error);
 				if (dialogResult == DialogResult.Retry)
 				{
-					exportFrame(exportPath);
+					exportFrame();
 				}
 				else
 				{
@@ -2231,7 +2231,8 @@ namespace LightController.MyForm
 			}
 
 			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）
-			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath), CurrentScene);
+			//DOTO 0628 把《导出工程（单一场景）》的回调方法移回MainFormBase
+			DataConvertUtils.GetInstance().SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, CurrentScene,ExportProjectCompleted,ExportProjectError, ExportProjectProgress);
 		}
 
 		/// <summary>
@@ -2253,56 +2254,54 @@ namespace LightController.MyForm
 		/// 辅助方法：拷贝已生成工程到指定目录（并在此期间生成并压缩源文件），在SaveProjectFile成功后回调
 		/// </summary>
 		/// <param name="exportPath"></param>
-		/// <param name="success"></param>
-		public void CopyProject(string exportPath, bool success)
+		/// <param name="success">SaveProjectFile成功为true，失败为false</param>
+		protected void copyProject()
 		{
-			if (success)
+			try
 			{
-				try
+				FileUtils.ExportProjectFile(exportPath);
+			}
+			catch (Exception ex) {
+				DialogResult dialogResult =
+					MessageBox.Show("拷贝工程文件失败，原因为：\n" + ex.Message + "\n请《取消(拷贝)》或在处理完成后点击《重试》。",
+					"是否重试？",
+					MessageBoxButtons.RetryCancel,
+					MessageBoxIcon.Error);
+				if (dialogResult == DialogResult.Retry)
 				{
-					FileUtils.ExportProjectFile(exportPath);
+					copyProject(); //若点击重试，则再跑一遍本方法						
 				}
-				catch (Exception ex) {
-					DialogResult dialogResult =
-						MessageBox.Show("拷贝工程文件失败，原因为：\n" + ex.Message + "\n请在处理完成后点击《重试》或《取消》拷贝。",
-						"是否重试？",
-						MessageBoxButtons.RetryCancel,
-						MessageBoxIcon.Error);
-					if (dialogResult == DialogResult.Retry)
-					{
-						CopyProject(exportPath, success); //若点击重试，则再跑一遍本方法						
-					}
-					else {
-						//若点击取消，则直接把忙时设为false，因为不会再往下走了;
-						setBusy(false);
-					}
-					return; //只要出现异常，就一定要退出本方法；
+				else {
+					//若点击取消，则直接把忙时设为false，因为不会再往下走了;
+					setBusy(false);
 				}
-
-				SetNotice("正在源文件,请稍候...", false, true);
-				// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
-				if (GenerateSourceZip(exportPath + @"\Source.zip"))
-				{
-					SetNotice("已成功压缩源文件(Source.zip)。", false, true);
-				}
-				else
-				{
-					SetNotice("工程源文件生成失败。", false, true);
-				}
-
-				DialogResult dr = MessageBox.Show(
-						LanguageHelper.TranslateSentence("导出工程成功,是否打开导出文件夹？"),
-						LanguageHelper.TranslateSentence("打开导出文件夹？"),
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question);
-				if (dr == DialogResult.OK)
-				{
-					System.Diagnostics.Process.Start(exportPath);
-				}
+				return; //只要出现异常，就一定要退出本方法；
 			}
 
+			SetNotice("正在源文件,请稍候...", false, true);
+			// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
+			//DOTO 0629 GenerateSourceZip也改写一下，在图片丢失的时候，也可以导出源文件；
+			if (GenerateSourceZip(exportPath + @"\Source.zip"))
+			{
+				SetNotice("已成功压缩源文件(Source.zip)。", false, true);
+			}
+			else
+			{
+				SetNotice("工程源文件生成失败。", false, true);
+			}
+
+			DialogResult dr = MessageBox.Show(
+					LanguageHelper.TranslateSentence("导出工程成功,是否打开导出文件夹？"),
+					LanguageHelper.TranslateSentence("打开导出文件夹？"),
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+			if (dr == DialogResult.OK)
+			{
+				System.Diagnostics.Process.Start(exportPath);
+			}
+			
 			setBusy(false);
-			SetNotice("导出工程" + (success ? "成功" : "出错"), false, true);
+			SetNotice("导出工程成功", false, true);
 		}
 
 		/// <summary>
@@ -2553,7 +2552,7 @@ namespace LightController.MyForm
 			if (IsDeviceConnected)
 			{
 				stopPreview();
-				new ProjectUpdateForm(this).ShowDialog();
+				new ProjectDownloadForm(this).ShowDialog();
 			}
 		}
 
@@ -3710,9 +3709,9 @@ namespace LightController.MyForm
 				}
 				ConnForm.ShowDialog();
 			}
-			// 当点击右键时，1.未使用网络方式连接；2.点击次数达到6次 ；满足这两个条件才弹出DMX512连接的界面
+			// 当点击右键时，1.未使用网络方式连接（暂时取消）；2.点击次数达到6次 ；满足这两个条件才弹出DMX512连接的界面
 			else if( mouseButton == MouseButtons.Right){
-				if (MyConnect == null ||  !IsDeviceConnected ) {
+				//if (MyConnect == null ||  !IsDeviceConnected ) {
 					clickTime++;
 					if (clickTime == 6)
 					{
@@ -3723,7 +3722,7 @@ namespace LightController.MyForm
 						dmxConnForm.ShowDialog();
 						clickTime = 0;
 					}
-				}			
+				//}			
 			}
 		}
 
@@ -3739,12 +3738,12 @@ namespace LightController.MyForm
 			}			
 			if (MyConnect.Connect(networkDeviceInfo))
 			{
-				enableConnectedButtons(true, IsPreviewing);     //Connect
+				refreshConnectedControls(true, IsPreviewing);     //Connect
 				return true;
 			}
 			else
 			{
-				enableConnectedButtons(false, IsPreviewing); //Connect
+				refreshConnectedControls(false, IsPreviewing); //Connect
 				return false;
 			}			
 		}
@@ -3756,7 +3755,7 @@ namespace LightController.MyForm
 		{
 			MyConnect.DisConnect();			
 			MyConnect = null;			
-			enableConnectedButtons(false, IsPreviewing); //DisConnect
+			refreshConnectedControls(false, IsPreviewing); //DisConnect
 			SetNotice("设备已断开连接。", false, false);
 		}
 
@@ -3878,7 +3877,8 @@ namespace LightController.MyForm
 			{
 				networkPlayTools.OLOSView(stepBytes);
 			}
-			else {
+			// 当DMX512调试线也连接在灯具时，也可调试；（双规并行）
+			if( IsDMXConnected )  {
 				SerialPlayTools.OLOSView(stepBytes); 
 			}		
 			
@@ -3891,7 +3891,7 @@ namespace LightController.MyForm
 		internal void Preview()
 		{			
 			SetNotice("预览数据生成成功,即将开始预览。",false, true);
-			enableConnectedButtons(true,true); //Preview
+			refreshConnectedControls(true,true); //Preview
 
 			networkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);			
 		}
@@ -3912,7 +3912,7 @@ namespace LightController.MyForm
 			if (!IsDeviceConnected)
 			{
 				SetNotice("尚未连接设备，无法预览效果（或停止预览）。", true,true);
-				enableConnectedButtons(false, false); //PreviewButtonClick
+				refreshConnectedControls(false, false); //PreviewButtonClick
 				return;
 			}
 
@@ -3920,7 +3920,7 @@ namespace LightController.MyForm
 			if (IsPreviewing)
 			{
 				endview();
-				enableConnectedButtons(true, false); //PreviewButtonClick
+				refreshConnectedControls(true, false); //PreviewButtonClick
 				SetNotice("已结束预览,并恢复到实时调试模式。",false, true);
 			}
 			// 开始预览
@@ -3978,7 +3978,8 @@ namespace LightController.MyForm
 					else {
 						dbWrapperTemp = GetDBWrapper(false);
 					}
-					DataConvertUtils.SaveProjectFileByPreviewData( dbWrapperTemp , GlobalIniPath, CurrentScene, new PreviewCallBack(this));
+					//DOTO 0628 把Preview回调函数从外部类放到MainFormBase中
+					DataConvertUtils.GetInstance().SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
 				}
 				catch (Exception ex)
 				{
@@ -4371,7 +4372,7 @@ namespace LightController.MyForm
 		public void StartPreviewCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				enableConnectedButtons(true,false);  //StartPreviewCompleted
+				refreshConnectedControls(true,false);  //StartPreviewCompleted
 			});
 		}
 				
@@ -4391,107 +4392,77 @@ namespace LightController.MyForm
 			});
 		}
 		
-		#endregion			
+		/// <summary>
+		/// 辅助回调方法：预览数据生成成功
+		/// </summary>
+		public void PreviewDataGenerateCompleted()
+		{
+			Invoke((EventHandler)delegate
+			{
+				Preview();
+			});			
+		}
+
+		/// <summary>
+		/// 辅助回调方法：预览数据生成出错
+		/// </summary>
+		public void PreviewDataGenerateError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				SetPreview(false);
+				SetNotice("预览数据生成出错,无法预览,。错误原因为：" + msg, true, false);
+			});				
+		}
+
+		/// <summary>
+		/// 辅助回调方法：预览数据生成进度提示
+		/// </summary>
+		public void PreviewDataGenerateProgress(string name)
+		{
+			Invoke((EventHandler)delegate
+			{
+				SetNotice(LanguageHelper.TranslateSentence("预览数据生成中")+"(" + name + ")", false, true);
+			});
+		}
+		
+		/// <summary>
+		/// 辅助回调函数：工程导出成功
+		/// </summary>
+		public void ExportProjectCompleted()
+		{
+			Invoke((EventHandler)delegate
+			{
+				SetNotice("工程导出成功，即将拷贝到相关目录...", false, true);
+				copyProject();
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调函数：工程导出失败
+		/// </summary>
+		public void ExportProjectError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setBusy(false);
+				SetNotice("工程导出出错：" + msg , false, true);
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调函数：工程导出进度
+		/// </summary>
+		public void ExportProjectProgress(string name)
+		{
+			Invoke((EventHandler)delegate
+			{
+				SetNotice(LanguageHelper.TranslateSentence("正在生成工程文件")	+ "(" + name + ")", false, false);
+			});
+		}
+
+		#endregion
 	}
 
-	//public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
-	//{
-	//	private MainFormBase mainForm;
-
-	//	public NetworkDebugReceiveCallBack(MainFormBase mainForm)
-	//	{
-	//		this.mainForm = mainForm;
-	//	}
-
-	//	public void Completed(string deviceTag)
-	//	{			
-	//		mainForm.EnableConnectedButtons(true,false); //NetworkDebugReceiveCallBack
-	//	}
-
-	//	public void Error(string deviceTag, string errorMessage)
-	//	{
-	//		mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。",false, false);
-	//	}
-
-	//	public void GetParam(CSJ_Hardware hardware)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-
-	//	public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-	//}
-
-	//public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
-	//{
-	//	public void Completed(string deviceTag)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-
-	//	public void Error(string deviceTag, string errorMessage)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-
-	//	public void GetParam(CSJ_Hardware hardware)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-
-	//	public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-	//}
-
-	public class PreviewCallBack : ISaveProjectCallBack
-	{
-		MainFormBase mainForm;
-		public PreviewCallBack(MainFormBase mainForm)
-		{
-			this.mainForm = mainForm;
-		}
-		public void Completed()
-		{			
-			mainForm.Preview();			
-		}
-		public void Error(string msg)
-		{
-            mainForm.SetPreview(false);
-            mainForm.SetNotice("预览数据生成出错,无法预览,。错误原因为：" + msg , true, false);            
-		}
-		public void UpdateProgress(string name)
-		{
-			mainForm.SetNotice("预览数据生成中(" + name + ")" , false, true);
-		}
-	}
-
-	public class ExportProjectCallBack : ISaveProjectCallBack
-	{
-		private MainFormBase mainForm;
-		private string exportFolder;
-		public ExportProjectCallBack(MainFormBase mainForm, string exportFolder)
-		{
-			this.mainForm = mainForm;
-			this.exportFolder = exportFolder;
-		}
-		public void Completed()
-		{
-			mainForm.CopyProject(exportFolder, true);
-		}
-		public void Error(string msg)
-		{
-			mainForm.CopyProject(exportFolder, false);
-		}
-		public void UpdateProgress(string name)
-		{
-			mainForm.SetNotice(
-				LanguageHelper.TranslateSentence("正在生成工程文件")
-				+"("+name+")" ,false,false);
-		}
-	}	
 
 }

@@ -31,7 +31,7 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.portRefreshButton = new System.Windows.Forms.Button();
-			this.connectButton = new System.Windows.Forms.Button();
+			this.portConnectButton = new System.Windows.Forms.Button();
 			this.portComboBox = new System.Windows.Forms.ComboBox();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -67,20 +67,20 @@
 			this.portRefreshButton.UseVisualStyleBackColor = false;
 			this.portRefreshButton.Click += new System.EventHandler(this.portRefreshButton_Click);
 			// 
-			// connectButton
+			// portConnectButton
 			// 
-			this.connectButton.BackColor = System.Drawing.Color.Tomato;
-			this.connectButton.Enabled = false;
-			this.connectButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.connectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.connectButton.Location = new System.Drawing.Point(160, 65);
-			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(88, 30);
-			this.connectButton.TabIndex = 30;
-			this.connectButton.Text = "连接灯具";
-			this.connectButton.UseVisualStyleBackColor = false;
-			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			this.portConnectButton.BackColor = System.Drawing.Color.Tomato;
+			this.portConnectButton.Enabled = false;
+			this.portConnectButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.portConnectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.portConnectButton.Location = new System.Drawing.Point(160, 65);
+			this.portConnectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.portConnectButton.Name = "portConnectButton";
+			this.portConnectButton.Size = new System.Drawing.Size(88, 30);
+			this.portConnectButton.TabIndex = 30;
+			this.portConnectButton.Text = "连接灯具";
+			this.portConnectButton.UseVisualStyleBackColor = false;
+			this.portConnectButton.Click += new System.EventHandler(this.portConnectButton_Click);
 			// 
 			// portComboBox
 			// 
@@ -100,7 +100,7 @@
 			this.BackColor = System.Drawing.Color.Gray;
 			this.ClientSize = new System.Drawing.Size(269, 134);
 			this.Controls.Add(this.portRefreshButton);
-			this.Controls.Add(this.connectButton);
+			this.Controls.Add(this.portConnectButton);
 			this.Controls.Add(this.portComboBox);
 			this.Controls.Add(this.statusStrip1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -119,7 +119,7 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.Button portRefreshButton;
-		private System.Windows.Forms.Button connectButton;
+		private System.Windows.Forms.Button portConnectButton;
 		private System.Windows.Forms.ComboBox portComboBox;
 	}
 }

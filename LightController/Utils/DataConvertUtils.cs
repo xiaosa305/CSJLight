@@ -50,7 +50,7 @@ namespace LightController.Utils
             Flag = false;
         }
 
-        public DataConvertUtils GetInstance()
+        public static DataConvertUtils GetInstance()
         {
             if (Instance == null)
             {

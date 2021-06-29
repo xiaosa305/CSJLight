@@ -39,6 +39,7 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void ConnectForm_Load(object sender, EventArgs e)
 		{
+			//Console.WriteLine("ConnectForm_Load");
 			Location = MousePosition;
 		}
 
@@ -49,7 +50,7 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void ConnectForm_Shown(object sender, EventArgs e)
 		{
-			Console.WriteLine("ConnectForm_Shown ");
+			//Console.WriteLine("ConnectForm_Shown ");
 			if (!mainForm.IsDeviceConnected)
 			{
 				deviceRefreshButton_Click(null, null);

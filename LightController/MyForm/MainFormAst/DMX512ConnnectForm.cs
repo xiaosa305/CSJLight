@@ -19,6 +19,10 @@ namespace LightController.MyForm.MainFormAst
 		private void DMX512ConnnectForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			if (!mainForm.IsDMXConnected)
+			{
+				portRefreshButton_Click(null, null);
+			}
 		}
 
 		/// <summary>
@@ -28,14 +32,6 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void portRefreshButton_Click(object sender, EventArgs e)
 		{
-			refreshPortList();
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新串口列表
-		/// </summary>
-		private void refreshPortList() {
-
 			string[] portNameList = SerialPort.GetPortNames();
 			portComboBox.Items.Clear();
 			portComboBox.Text = "";
@@ -47,22 +43,22 @@ namespace LightController.MyForm.MainFormAst
 				}
 				portComboBox.SelectedIndex = 0;
 				portComboBox.Enabled = true;
-				connectButton.Enabled = true;
+				portConnectButton.Enabled = true;
 			}
 			else
 			{
 				portComboBox.SelectedIndex = -1;
 				portComboBox.Enabled = false;
-				connectButton.Enabled = false;
+				portConnectButton.Enabled = false;
 			}
 		}
-		
+			
 		/// <summary>
 		/// 事件：点击《连接灯具|断开连接》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectButton_Click(object sender, EventArgs e)
+		private void portConnectButton_Click(object sender, EventArgs e)
 		{
 			if (mainForm.IsDMXConnected)
 			{
@@ -71,8 +67,8 @@ namespace LightController.MyForm.MainFormAst
 				mainForm.SerialPlayTools.SerialPortSwitch(null, false);
 				portComboBox.Enabled = true;
 				portRefreshButton.Enabled = true;				
-				connectButton.Text = "连接灯具";
-				mainForm.EnableConnectedButtons(false);
+				portConnectButton.Text = "连接灯具";
+				mainForm.RefreshConnectedControls(false);
 				
 				setNotice("已断开DMX512连接。", false, true);
 
@@ -83,8 +79,8 @@ namespace LightController.MyForm.MainFormAst
 				mainForm.SerialPlayTools.SerialPortSwitch(  portComboBox.Text , true);
 				portComboBox.Enabled = false;
 				portRefreshButton.Enabled = false;
-				connectButton.Text = "断开连接";
-				mainForm.EnableConnectedButtons(true);
+				portConnectButton.Text = "断开连接";
+				mainForm.RefreshConnectedControls(true);
 
 				setNotice("已使用DMX512线连接灯具，可用以调试。", false, true);
 			}			

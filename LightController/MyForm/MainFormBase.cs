@@ -3978,7 +3978,7 @@ namespace LightController.MyForm
 					else {
 						dbWrapperTemp = GetDBWrapper(false);
 					}
-					//DOTO 0628 把Preview回调函数从外部类放到MainFormBase中
+					//DOTO 0628 把《预览场景》回调函数从外部类放到MainFormBase中
 					DataConvertUtils.GetInstance().SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
 				}
 				catch (Exception ex)

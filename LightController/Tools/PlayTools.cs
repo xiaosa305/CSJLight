@@ -277,15 +277,23 @@ namespace LightController.Tools
         /// <returns></returns>
         public bool GetMusicStatus()
         {
-            if (this.Config.Music_Control_Enable[this.SceneNo] == 0 || !this.PreviewTimer.Enabled || !this.MusicData)
+            try
             {
-                return false;
+                if (this.Config.Music_Control_Enable[this.SceneNo] == 0 || !this.PreviewTimer.Enabled || !this.MusicData)
+                {
+                    return false;
+                }
+                if (!this.MusicWaiting)
+                {
+                    return false;
+                }
+                return true;
             }
-            if (!this.MusicWaiting)
+            catch (Exception)
             {
-                return false;
+                LogTools.Debug(Constant.TAG_XIAOSA, "PlayTools 触发音频失败");
             }
-            return true;
+            return false;
         }
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
         {

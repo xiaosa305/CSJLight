@@ -563,6 +563,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.makeSoundSkinButton.DownBack = null;
 			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.makeSoundSkinButton.Enabled = false;
 			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.makeSoundSkinButton.ForeColorSuit = true;
@@ -1497,6 +1498,7 @@ namespace LightController.MyForm
 			this.modeSkinComboBox.BaseColor = System.Drawing.Color.Gray;
 			this.modeSkinComboBox.BorderColor = System.Drawing.Color.Gray;
 			this.modeSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.modeSkinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.modeSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.modeSkinComboBox.FormattingEnabled = true;
 			this.modeSkinComboBox.Location = new System.Drawing.Point(52, 60);
@@ -1832,6 +1834,7 @@ namespace LightController.MyForm
 			this.sceneSkinComboBox.BaseColor = System.Drawing.Color.Gray;
 			this.sceneSkinComboBox.BorderColor = System.Drawing.Color.Gray;
 			this.sceneSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.sceneSkinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.sceneSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.sceneSkinComboBox.FormattingEnabled = true;
 			this.sceneSkinComboBox.Location = new System.Drawing.Point(52, 14);

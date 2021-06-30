@@ -1,26 +1,10 @@
-﻿using DMX512;
-using ICSharpCode.SharpZipLib.Zip;
-using LightController.Ast;
+﻿using LightController.Ast;
 using LightController.Common;
-using LightController.MyForm.Multiplex;
-using LightController.PeripheralDevice;
-using LightController.Tools;
-using LightController.Tools.CSJ.IMPL;
-using LightController.Utils;
 using LightEditor.Ast;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.MyForm
@@ -1814,7 +1798,7 @@ namespace LightController.MyForm
 			seqToolStripMenuItem.Enabled = connected;
 			projectDownloadToolStripMenuItem.Enabled = connected;
 
-			keepButton.Enabled = IsDeviceConnected || IsDMXConnected ;
+			keepButton.Enabled = (IsDeviceConnected || IsDMXConnected) && !IsPreviewing;
 			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
 			previewButton.Enabled = IsDeviceConnected || IsDMXConnected ; 
 			makeSoundButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing ;		

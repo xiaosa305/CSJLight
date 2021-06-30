@@ -7,23 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Threading;
-using DMX512;
 using LightController.Ast;
-using LightController.Tools;
 using LightController.Common;
 using CCWin.SkinControl;
 using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using LightController.Utils;
-using LightController.Tools.CSJ.IMPL;
 using LightEditor.Ast;
-using LightController.PeripheralDevice;
-using LightController.MyForm.Multiplex;
-using Newtonsoft.Json;
-using LightController.MyForm.HardwareSet;
-using LightController.MyForm.MainFormAst;
 
 namespace LightController.MyForm
 {
@@ -1925,7 +1913,7 @@ namespace LightController.MyForm
 			seqSkinButton.Enabled = connected; 
 			projectDownloadSkinButton.Enabled = connected;
 	
-			keepSkinButton.Enabled = IsDeviceConnected || IsDMXConnected ;
+			keepSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected ) && !IsPreviewing  ;
 			previewSkinButton.Enabled = IsDeviceConnected || IsDMXConnected;
 			makeSoundSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing;	
 			SetPreview(IsPreviewing);

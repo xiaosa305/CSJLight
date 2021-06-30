@@ -203,7 +203,9 @@ namespace LightController.MyForm
 
 		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示			
-		public bool IsEnableOneStepPlay() { return (IsDeviceConnected || IsDMXConnected) && !IsPreviewing; } // 返回是否可以单步调试（抽象以避免重复）
+
+		public bool IsOneMoreConnected() { return IsDeviceConnected || IsDMXConnected; }
+		public bool IsEnableOneStepPlay() { return IsOneMoreConnected() && !IsPreviewing; } // 返回是否可以单步调试（抽象以避免重复）
 		
 		#endregion
 
@@ -2598,7 +2600,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《继电器配置》
+		/// 辅助方法：点击《时序器配置》
 		/// </summary>
 		protected void sequencerButtonClick()
 		{
@@ -3804,87 +3806,85 @@ namespace LightController.MyForm
 		/// </summary>
 		public void OneStepPlay(byte[] stepBytes , MaterialAst material )
 		{
-			// 未连接的情况下，无法发送数据。 
-			if ( !IsEnableOneStepPlay() )
+			if (IsEnableOneStepPlay())
 			{
-				//SetNotice("未连接设备或正在预览中，无法实时调试。", false, true);
-				return;
-			}
-
-			string prevStr = "正在调试单步数据 ";
-			// 当stepBytes为空时，才需要根据material处理，否则直接使用此stepBytes播放即可；
-			if (stepBytes == null) {
-
-				stepBytes = new byte[512];
-				int currentStep = getCurrentStep();
-
-				if (LightWrapperList != null && LightWrapperList.Count > 0)
+				string prevStr = "正在调试单步数据 ";
+				// 当stepBytes为空时，才需要根据material处理，否则直接使用此stepBytes播放即可；
+				if (stepBytes == null)
 				{
 
-					for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-					{
-						if (lightIndex == selectedIndex // 当前灯具一定会动
-							|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
-							|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
-							|| isSyncMode  // 同步状态下，所有灯一起动
-							)
-						{
-							StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
-							if (stepWrapper != null)
-							{
-								foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
-								{
-									stepBytes[td.Address - 1] = (byte)td.ScrollValue;
-								}
-							}
-						}
-					}
+					stepBytes = new byte[512];
+					int currentStep = getCurrentStep();
 
-					//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
-					if (material != null)
+					if (LightWrapperList != null && LightWrapperList.Count > 0)
 					{
+
 						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 						{
-							if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
+							if (lightIndex == selectedIndex // 当前灯具一定会动
+								|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
+								|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
+								|| isSyncMode  // 同步状态下，所有灯一起动
+								)
 							{
-
-								IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
-								foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+								StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
+								if (stepWrapper != null)
 								{
-									stepBytes[tdList[mi.CurrentTDIndex].Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
+									foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+									{
+										stepBytes[td.Address - 1] = (byte)td.ScrollValue;
+									}
+								}
+							}
+						}
+
+						//MARK : 1221 OneStepPlay添加material后，实时生成(基于现有stepBytes进行处理)。
+						if (material != null)
+						{
+							for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+							{
+								if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
+								{
+
+									IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+									foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+									{
+										stepBytes[tdList[mi.CurrentTDIndex].Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
+									}
 								}
 							}
 						}
 					}
+
+					prevStr = LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + LanguageHelper.TranslateWord("，当前步：") + currentStep;
 				}
 
-				prevStr = LanguageHelper.TranslateWord("正在调试灯具：") + (selectedIndex + 1) + LanguageHelper.TranslateWord("，当前步：") + currentStep;
-			}
-						
-			// 打印单步调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
-			string tdValueStr = "";
-			if (tdValues != null && tdValues.Count > 0)
-			{
-				tdValueStr += "【";
-				foreach (int tdIndex in tdValues)
+				// 打印单步调试时的某些通道值（注意这个方法必须写在这个位置，否则可能直接无数据）
+				string tdValueStr = "";
+				if (tdValues != null && tdValues.Count > 0)
 				{
-					tdValueStr += stepBytes[tdIndex] + " ";
+					tdValueStr += "【";
+					foreach (int tdIndex in tdValues)
+					{
+						tdValueStr += stepBytes[tdIndex] + " ";
+					}
+					tdValueStr = tdValueStr.TrimEnd(); // 去掉结尾的空格
+					tdValueStr += "】";
 				}
-				tdValueStr = tdValueStr.TrimEnd(); // 去掉结尾的空格
-				tdValueStr += "】";
-			}
 
-			// 当使用网络连接设备时，用NetworkPlayTools播放；
-			if (IsDeviceConnected)
-			{
-				networkPlayTools.OLOSView(stepBytes);
+				// 当使用网络连接设备时，用NetworkPlayTools播放；
+				if (IsDeviceConnected)
+				{
+					networkPlayTools.OLOSView(stepBytes);
+				}
+				// 当DMX512调试线也连接在灯具时，也可调试；（双规并行）
+				if (IsDMXConnected)
+				{
+					SerialPlayTools.OLOSView(stepBytes);
+				}
+
+				SetNotice(prevStr + tdValueStr, false, false);
 			}
-			// 当DMX512调试线也连接在灯具时，也可调试；（双规并行）
-			if( IsDMXConnected )  {
-				SerialPlayTools.OLOSView(stepBytes); 
-			}		
-			
-			SetNotice(  prevStr +	tdValueStr, false,	false);			
 		}
 	
 		/// <summary>
@@ -3900,7 +3900,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public void PreviewButtonClick(MaterialAst material)
 		{
-			if (!IsDeviceConnected && !IsDMXConnected )
+			if ( !IsOneMoreConnected() )
 			{
 				SetNotice("尚未连接设备（或灯具），无法预览效果（或停止预览）。", true,true);
 				refreshConnectedControls(false, false); //PreviewButtonClick()
@@ -3987,7 +3987,7 @@ namespace LightController.MyForm
 		/// 辅助方法：点击触发音频
 		/// </summary>
 		protected void makeSoundButtonClick() {
-			if ((IsDeviceConnected || IsDMXConnected) && IsPreviewing)
+			if ( IsOneMoreConnected() && IsPreviewing)
 			{
 				if (networkPlayTools.GetMusicStatus() || SerialPlayTools.GetMusicStatus())
 				{

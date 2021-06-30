@@ -148,7 +148,7 @@ namespace LightController.MyForm.Multiplex
 			oldEachStepTime = mainForm.EachStepTime2;
 						
 			materialTreeView.ExpandAll(); // 不论渲染成什么样，都要主动展开树，否则winForm会自己收纳起来。
-			previewButton.Visible = mainForm.IsDeviceConnected & mainForm.CurrentMode == 0; // 音频模式就不要预览了，没有意义
+			previewButton.Visible = mainForm.IsOneMoreConnected() && mainForm.CurrentMode == 0; // 音频模式就不要预览了，没有意义
 
 			oneStepPlay(true);  //MaterialForm_Load：色块有可能发生变化，基于花销，直接传true(之前计划使用一个局部bool colorChanged，但可能会出现在预览过程中更改了色块，重新load时仍可能出现不匹配的问题)
 		}		
@@ -315,7 +315,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			if (!mainForm.IsDeviceConnected)
+			if ( ! mainForm.IsOneMoreConnected() )
 			{
 				setNotice("尚未连接设备", true, true);
 				return;
@@ -390,7 +390,7 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		private void endView()
 		{
-			if (mainForm.IsDeviceConnected && mainForm.IsPreviewing)
+			if ( mainForm.IsOneMoreConnected() && mainForm.IsPreviewing)
 			{
 				mainForm.PreviewButtonClick(null);
 				previewButton.Text = "预览";

@@ -1798,13 +1798,13 @@ namespace LightController.MyForm
 			seqToolStripMenuItem.Enabled = connected;
 			projectDownloadToolStripMenuItem.Enabled = connected;
 
-			keepButton.Enabled = (IsDeviceConnected || IsDMXConnected) && !IsPreviewing;
+			keepButton.Enabled = IsEnableOneStepPlay();
 			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
-			previewButton.Enabled = IsDeviceConnected || IsDMXConnected ; 
-			makeSoundButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing ;		
+			previewButton.Enabled = IsOneMoreConnected(); 
+			makeSoundButton.Enabled = IsOneMoreConnected() && IsPreviewing ;		
 			
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if ((IsDeviceConnected || IsDMXConnected) && !IsPreviewing) {
+			if ( IsEnableOneStepPlay() ) {
 				refreshStep();
 			}						
 		}

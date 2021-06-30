@@ -1913,13 +1913,13 @@ namespace LightController.MyForm
 			seqSkinButton.Enabled = connected; 
 			projectDownloadSkinButton.Enabled = connected;
 	
-			keepSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected ) && !IsPreviewing  ;
-			previewSkinButton.Enabled = IsDeviceConnected || IsDMXConnected;
-			makeSoundSkinButton.Enabled = (IsDeviceConnected || IsDMXConnected) && IsPreviewing;	
+			keepSkinButton.Enabled = IsEnableOneStepPlay();
+			previewSkinButton.Enabled =IsOneMoreConnected();
+			makeSoundSkinButton.Enabled = IsOneMoreConnected() && IsPreviewing;	
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if ((IsDeviceConnected || IsDMXConnected) && !IsPreviewing)
+			if ( IsEnableOneStepPlay() )
 			{
 				refreshStep();
 			}

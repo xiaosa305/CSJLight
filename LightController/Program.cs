@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using LightController.PeripheralDevice;
 using LightController.Ast;
+using System.Reflection;
 
 namespace LightController
 {
@@ -30,14 +31,8 @@ namespace LightController
 			{
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				if (IniHelper.GetParamBool("newMainForm"))
-				{
-					Application.Run(new NewMainForm());
-				}
-				else
-				{
-					Application.Run(new SkinMainForm());
-				}
+				//用反射创建MainForm( 得转成Form类型，且为全限定类名(=包名+类名，带包路径的用"."隔开) )
+				Application.Run( Assembly.GetExecutingAssembly().CreateInstance("LightController.MyForm."+ (IniHelper.GetParamBool("newMainForm")? "NewMainForm":"SkinMainForm")) as Form	);
 				mutex.ReleaseMutex();
 			}
 			else
@@ -45,7 +40,7 @@ namespace LightController
 				MessageBox.Show("有一个和本程序相同的应用程序已经在运行，请不要同时运行多个本程序。");
 				Application.Exit();
 			}
-		}
-		
+
+		}		
 	}
 }

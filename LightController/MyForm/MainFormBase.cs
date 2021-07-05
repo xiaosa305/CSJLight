@@ -26,7 +26,7 @@ using LightController.Xiaosa.Tools;
 
 namespace LightController.MyForm
 {
-	public class MainFormBase : System.Windows.Forms.Form, MainFormInterface
+	public class MainFormBase : Form, MainFormInterface
 	{
 		/// <summary>
 		/// 枚举类型：《多步(多通道)调节》参数的一种
@@ -4466,6 +4466,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
+
 	}
 
 

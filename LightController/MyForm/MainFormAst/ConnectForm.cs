@@ -19,10 +19,10 @@ namespace LightController.MyForm.MainFormAst
 	{
 		public static int SEARCH_WAITTIME = 1000; //网络搜索时的通用暂停时间
 		public static int REBOOT_WATITIME = 5000; //设备重启时间
-		public static int SEND_WAITTIME = 500; // 发送指令后等待时间
+		public static int SEND_WAITTIME = 500; // 发送指令后等待时间	
 		private MainFormBase mainForm;
 		private IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)		
-
+		
 		public ConnectForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
@@ -39,7 +39,6 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void ConnectForm_Load(object sender, EventArgs e)
 		{
-			//Console.WriteLine("ConnectForm_Load");
 			Location = MousePosition;
 		}
 
@@ -50,7 +49,6 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void ConnectForm_Shown(object sender, EventArgs e)
 		{
-			//Console.WriteLine("ConnectForm_Shown ");
 			if (!mainForm.IsDeviceConnected)
 			{
 				deviceRefreshButton_Click(null, null);
@@ -93,6 +91,7 @@ namespace LightController.MyForm.MainFormAst
 		private void deviceRefreshButton_Click(object sender, EventArgs e)
 		{
 			setNotice("正在搜索设备，请稍候...", false, true);
+			setBusy(true);
 
 			deviceComboBox.Items.Clear();
 			deviceComboBox.SelectedIndex = -1;
@@ -143,7 +142,10 @@ namespace LightController.MyForm.MainFormAst
 			{
 				setNotice("未找到可用的网络设备，请确认后重试。", false, true);
 			}
+			Application.DoEvents();
 			deviceRefreshButton.Enabled = true;
+
+			setBusy(false);			
 		}
 
 		/// <summary>
@@ -215,6 +217,15 @@ namespace LightController.MyForm.MainFormAst
 
 
 		#region 通用方法
+
+		/// <summary>
+		///  辅助方法：是否忙时
+		/// </summary>
+		/// <param name="busy"></param>
+		private void setBusy(bool busy) {			
+			Enabled = !busy;
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+		}
 
 		/// <summary>
 		/// 辅助方法：显示信息

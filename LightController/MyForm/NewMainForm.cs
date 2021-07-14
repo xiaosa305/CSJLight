@@ -253,7 +253,6 @@ namespace LightController.MyForm
 			formClosing(e);
 		}
 
-
 		/// <summary>
 		/// 辅助公用方法：渲染场景选择框
 		/// </summary>
@@ -1204,17 +1203,6 @@ namespace LightController.MyForm
 		protected override void refreshMultiModeControls(bool isMultiMode)
 		{
 			IsMultiMode = isMultiMode;
-			
-			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
-			lightListToolStripMenuItem.Enabled = !isMultiMode;
-			lightsListView.Enabled = !isMultiMode;
-			sceneComboBox.Enabled = !isMultiMode;
-			modeComboBox.Enabled = !isMultiMode;
-			copyFrameButton.Enabled = !isMultiMode;
-			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
-
-			// DOTO 0713  RefreshMultiModeButtons ：groupButton.Text 
-			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
 
 			// 刷新ListView、astPanel的显示
 			if (IsMultiMode)
@@ -1226,7 +1214,7 @@ namespace LightController.MyForm
 				lightsAddrLabel.Text = "灯具地址列表：";
 				foreach (int lightIndex in selectedIndexList)
 				{
-					lightsAddrLabel.Text += (lightIndex == selectedIndex ? "(" : "") + LightAstList[lightIndex].LightAddr + (lightIndex == selectedIndex ? "(" : "");					
+					lightsAddrLabel.Text += lightIndex == selectedIndex ?  ("("+ LightAstList[lightIndex].LightAddr + ") ") : ( LightAstList[lightIndex].LightAddr + " ");
 				}
 				lightsListView.Select();
 			}
@@ -1247,6 +1235,18 @@ namespace LightController.MyForm
 				}
 			}
 
+
+			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
+			lightListToolStripMenuItem.Enabled = !IsMultiMode;
+			lightsListView.Enabled = !IsMultiMode;
+			sceneComboBox.Enabled = !IsMultiMode;
+			modeComboBox.Enabled = !IsMultiMode;
+			copyFrameButton.Enabled = !IsMultiMode;
+			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
+
+			// DOTO 0713  RefreshMultiModeButtons ：groupButton.Text 
+			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
+			
 		}
 
 		/// <summary>

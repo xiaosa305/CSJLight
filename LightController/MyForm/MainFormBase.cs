@@ -1429,10 +1429,9 @@ namespace LightController.MyForm
 					StepWrapper currentStepTemplate = LightWrapperList[index].StepTemplate;
 					LightWrapperList[index].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
 				}				
-			}			
-			refreshMultiModeControls( selectedIndexList.Count > 1);
-
+			}
 			refreshStep();
+			refreshMultiModeControls( selectedIndexList.Count > 1);			
 		}
 		
 		/// <summary>

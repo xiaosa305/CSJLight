@@ -100,7 +100,6 @@ namespace LightController.MyForm
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.stepSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.button1 = new System.Windows.Forms.Button();
 			this.syncSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiplexSkinButton = new CCWin.SkinControl.SkinButton();
 			this.useMaterialSkinButton = new CCWin.SkinControl.SkinButton();
@@ -111,7 +110,6 @@ namespace LightController.MyForm
 			this.modeLabel = new CCWin.SkinControl.SkinLabel();
 			this.copyFrameSkinButton = new CCWin.SkinControl.SkinButton();
 			this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.multiLightSkinButton = new CCWin.SkinControl.SkinButton();
 			this.nextStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.copyStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.pasteStepSkinButton = new CCWin.SkinControl.SkinButton();
@@ -1288,7 +1286,6 @@ namespace LightController.MyForm
 			// 
 			this.stepSkinPanel.AutoScroll = true;
 			this.stepSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-			this.stepSkinPanel.Controls.Add(this.button1);
 			this.stepSkinPanel.Controls.Add(this.syncSkinButton);
 			this.stepSkinPanel.Controls.Add(this.multiplexSkinButton);
 			this.stepSkinPanel.Controls.Add(this.useMaterialSkinButton);
@@ -1299,7 +1296,6 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Controls.Add(this.modeLabel);
 			this.stepSkinPanel.Controls.Add(this.copyFrameSkinButton);
 			this.stepSkinPanel.Controls.Add(this.chooseStepNumericUpDown);
-			this.stepSkinPanel.Controls.Add(this.multiLightSkinButton);
 			this.stepSkinPanel.Controls.Add(this.nextStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.copyStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.pasteStepSkinButton);
@@ -1319,17 +1315,6 @@ namespace LightController.MyForm
 			this.stepSkinPanel.NormlBack = null;
 			this.stepSkinPanel.Size = new System.Drawing.Size(1049, 100);
 			this.stepSkinPanel.TabIndex = 11;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(586, 61);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 27;
-			this.button1.Text = "Test";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Visible = false;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// syncSkinButton
 			// 
@@ -1539,7 +1524,7 @@ namespace LightController.MyForm
 			this.copyFrameSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.copyFrameSkinButton.InheritColor = true;
 			this.copyFrameSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.copyFrameSkinButton.Location = new System.Drawing.Point(200, 49);
+			this.copyFrameSkinButton.Location = new System.Drawing.Point(197, 5);
 			this.copyFrameSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.copyFrameSkinButton.MouseBack = null;
 			this.copyFrameSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -1576,37 +1561,6 @@ namespace LightController.MyForm
             0,
             0,
             0});
-			// 
-			// multiLightSkinButton
-			// 
-			this.multiLightSkinButton.AutoSize = true;
-			this.multiLightSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.multiLightSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.multiLightSkinButton.BorderColor = System.Drawing.Color.Transparent;
-			this.multiLightSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.multiLightSkinButton.DownBack = null;
-			this.multiLightSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiLightSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.multiLightSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.multiLightSkinButton.ForeColorSuit = true;
-			this.multiLightSkinButton.Image = global::LightController.Properties.Resources.复制灯1;
-			this.multiLightSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.multiLightSkinButton.ImageSize = new System.Drawing.Size(20, 20);
-			this.multiLightSkinButton.InheritColor = true;
-			this.multiLightSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiLightSkinButton.Location = new System.Drawing.Point(200, 8);
-			this.multiLightSkinButton.Margin = new System.Windows.Forms.Padding(0);
-			this.multiLightSkinButton.MouseBack = null;
-			this.multiLightSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.multiLightSkinButton.Name = "multiLightSkinButton";
-			this.multiLightSkinButton.NormlBack = null;
-			this.multiLightSkinButton.Size = new System.Drawing.Size(114, 45);
-			this.multiLightSkinButton.TabIndex = 7;
-			this.multiLightSkinButton.Text = "多灯模式";
-			this.multiLightSkinButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.multiLightSkinButton.UseVisualStyleBackColor = false;
-			this.multiLightSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
-			this.multiLightSkinButton.Click += new System.EventHandler(this.multiLightSkinButton_Click);
 			// 
 			// nextStepSkinButton
 			// 
@@ -2254,7 +2208,6 @@ namespace LightController.MyForm
 		private Panel unifyPanel;
 		private SkinButton exportSkinButton;
 		private FlowLayoutPanel flowLayoutPanel1;
-		private SkinButton multiLightSkinButton;
 		private Label lightsAddrLabel;
 		private Label lightTypeLabel;
 		private Label lightNameLabel;
@@ -2321,6 +2274,5 @@ namespace LightController.MyForm
 		private SkinLabel frameLabel;
 		private SkinButton seqSkinButton;
 		private FlowLayoutPanel flowLayoutPanel2;
-		private Button button1;
 	}
 }

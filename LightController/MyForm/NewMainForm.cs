@@ -1010,25 +1010,17 @@ namespace LightController.MyForm
 				tdCmComboBoxes,	
 				tdStNumericUpDowns,	
 				thirdLabel );
-		}		
+		}
 
 		/// <summary>
-		/// 事件：点击切换《多灯模式|单灯模式》
-		/// 	 一.多灯模式：
-		///		0.至少选择两个灯具，才能使用多灯模式
-		///		1.判断所有选中的灯，是否同类型；若选中的不是同类型的灯无法进入此模式(直接return)
-		///		2.若是同类型的，应选择其中之一作为编组的组长（其他灯直接使用此灯的数据 ：先复制组长的数据，然后后台直接粘贴到其余灯具上面）
-		///		3.之后每次编辑灯具，都是编辑组内的所有数据 （包括添加步、删除步，步调节等）
-		///		4.下面的调试按钮中"单灯单步"-》“多灯单步”；
-		///		5.若是选择其他模式或者场景，应自动恢复《单灯调节》模式 
-		/// 二.单灯模式（与单灯刚好是反操作）：	
+		/// 事件：点击《音频链表》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiLightButton_Click(object sender, EventArgs e)
+		private void soundListButton_Click(object sender, EventArgs e)
 		{
-			enterMultiMode(!IsMultiMode , lightsListView);		
-		}	
+			new SKForm(this, CurrentScene, sceneComboBox.Text).ShowDialog();
+		}
 
 		/// <summary>
 		///  事件：点击《上一步》
@@ -1207,42 +1199,12 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  9.16 辅助方法：进入《多灯模式》
+		/// 辅助方法：《进入|退出编组》后的刷新相关控件显示
 		/// </summary>
-		/// <param name="captainIndex"></param>
-		public override void EnterMultiMode(int captainIndex, bool isCopyAll)
+		protected override void refreshMultiModeControls(bool isMultiMode)
 		{
-			// 基类中统一的处理
-			base.EnterMultiMode(captainIndex, isCopyAll);
-
-			// 以下为单独针对本Form的方法：			
-			foreach (ListViewItem item in lightsListView.Items)
-			{
-				item.BackColor = Color.White;
-			}
-			lightsAddrLabel.Text = "灯具地址列表：";
-			foreach (int lightIndex in SelectedIndices)
-			{
-				if (lightIndex == selectedIndex)
-				{
-					lightsAddrLabel.Text += "(" + LightAstList[lightIndex].LightAddr + ") ";
-				}
-				else
-				{
-					lightsAddrLabel.Text += LightAstList[lightIndex].LightAddr + " ";
-				}
-			}
-			RefreshMultiModeButtons(true);
-		}
-
-		/// <summary>
-		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
-		/// </summary>
-		/// <param name="exit"></param>
-		protected override void RefreshMultiModeButtons(bool isMultiMode)
-		{
-			this.IsMultiMode = isMultiMode;		
-
+			IsMultiMode = isMultiMode;
+			
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = !isMultiMode;
 			lightsListView.Enabled = !isMultiMode;
@@ -1251,7 +1213,40 @@ namespace LightController.MyForm
 			copyFrameButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
-			multiLightButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
+			// DOTO 0713  RefreshMultiModeButtons ：groupButton.Text 
+			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
+
+			// 刷新ListView、astPanel的显示
+			if (IsMultiMode)
+			{
+				foreach (ListViewItem item in lightsListView.Items)
+				{
+					item.BackColor = Color.White;
+				}
+				lightsAddrLabel.Text = "灯具地址列表：";
+				foreach (int lightIndex in selectedIndexList)
+				{
+					lightsAddrLabel.Text += (lightIndex == selectedIndex ? "(" : "") + LightAstList[lightIndex].LightAddr + (lightIndex == selectedIndex ? "(" : "");					
+				}
+				lightsListView.Select();
+			}
+			else
+			{
+				try
+				{
+					for (int listIndex = 0; listIndex < lightsListView.Items.Count; listIndex++)
+					{
+						lightsListView.Items[listIndex].BackColor = Color.White;
+						lightsListView.Items[listIndex].Selected = listIndex == selectedIndex;
+					}
+					lightsListView.Select();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("退出多灯模式时出现异常：\n" + ex.Message);
+				}
+			}
+
 		}
 
 		/// <summary>
@@ -1563,25 +1558,16 @@ namespace LightController.MyForm
 		#region unifyPanel（辅助调节面板）
 
 		/// <summary>
-		/// 事件：点击《灯具编组》
+		/// 事件：点击《灯具编组 | 退出编组》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void groupButton_Click(object sender, EventArgs e)
 		{
+			//DOTO 0713 groupButton_Click()
 			groupButtonClick(lightsListView);
 		}		
-
-		/// <summary>
-		/// 事件：点击《音频链表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void soundListButton_Click(object sender, EventArgs e)
-		{
-			new SKForm(this, CurrentScene, sceneComboBox.Text).ShowDialog();
-		}
-		
+				
 		/// <summary>
 		/// 事件：点击《多步调节》
 		/// </summary>
@@ -1606,7 +1592,11 @@ namespace LightController.MyForm
 			}
 		}
 
-		//为方便定位的空方法
+		/// <summary>
+		/// 事件：点击《多步联调》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void detailMultiButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
@@ -1730,11 +1720,11 @@ namespace LightController.MyForm
 			{
 				item.Selected = false;
 			}
-			for (int i = 0; i < SelectedIndices.Count; i++) {
-				if (i == SelectedIndices.Count - 1) {
+			for (int i = 0; i < selectedIndexList.Count; i++) {
+				if (i == selectedIndexList.Count - 1) {
 					generateNow = true;
 				}
-				int lightIndex = SelectedIndices[i];
+				int lightIndex = selectedIndexList[i];
 				lightsListView.Items[lightIndex].Selected = true;
 			}
 		}		

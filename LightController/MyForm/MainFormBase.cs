@@ -127,11 +127,10 @@ namespace LightController.MyForm
 
 		// 通道数据操作时的变量		
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
-		public bool IsMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
-		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
+		public bool IsMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；	
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
-		public IList<int> SelectedIndices; //选择的灯具的index列表（多选情况下）
+		protected IList<int> selectedIndexList = new List<int>();  //选择的灯具的index列表（多选情况下）
 
 		public int CurrentScene = 0; // 表示场景编号(selectedIndex)
 		public int CurrentMode = 0;  // 表示模式编号(selectedIndex)；0.常规模式； 1.音频模式
@@ -157,31 +156,38 @@ namespace LightController.MyForm
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）			
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用
+		
 		// 全局
 		protected virtual void setBusy(bool buzy) { } //设置是否忙时
 		public virtual void SetNotice(string notice, bool msgBoxShow, bool isTranslate) { } //设置提示信息（有些重要提示，则需弹窗）
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值	
-														   // 工程面板
+		
+		// 工程面板
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
-																	  // listView相关
+		
+		// listView相关
 		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
 		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
 		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
 		protected virtual void enableStepPanel(bool enable) { } //是否使能《步数面板》
-																// 步数面板
+		
+		// 步数面板
 		public virtual void RenderSceneCB() { } //渲染场景下拉框（外设配置也用得到）
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
-		protected virtual void changeCurrentScene(int sceneIndex) { } //MARK 只开单场景：02.0 改变当前Frame
-		protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
-																			  // 辅助面板
+		protected virtual void changeCurrentScene(int sceneIndex) { } //MARK 只开单场景：02.0 改变当前Frame		
+		
+		// 辅助面板
 		protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中	
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
 		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons	
-		 // 通道面板		
+		protected virtual void refreshMultiModeControls(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（让子Form自行控制各个控件的显示等）
+
+		// 通道面板		
 		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据		
 		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
-		 // 调试面板
+		
+		// 调试面板
 		protected virtual void refreshConnectedControls(bool isDeviceConnected, bool isPreviewing)
 		{			
 			IsDeviceConnected = isDeviceConnected;
@@ -191,8 +197,7 @@ namespace LightController.MyForm
 				+   (IsDMXConnected ?  " #" :"" )
 				+ " ]";
 			Text = SoftwareName + projectStr + ConnectStr;			
-		} //设置《连接按钮组》是否可用	
-
+		} //设置《连接按钮组》是否可用
 		/// <summary>
 		///  辅助方法：供《DMX512连接Form》使用，使可以更改一些数据
 		/// </summary>
@@ -200,10 +205,8 @@ namespace LightController.MyForm
 			IsDMXConnected = isDMXConnected;
 			refreshConnectedControls(IsDeviceConnected, IsPreviewing);
 		}
-
 		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示			
-
 		public bool IsOneMoreConnected() { return IsDeviceConnected || IsDMXConnected; }
 		public bool IsEnableOneStepPlay() { return IsOneMoreConnected() && !IsPreviewing; } // 返回是否可以单步调试（抽象以避免重复）
 		
@@ -368,7 +371,7 @@ namespace LightController.MyForm
 			}
 
 			selectedIndex = -1;
-			SelectedIndices = new List<int>();
+			selectedIndexList = new List<int>();
 
 			//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
 			EnterSyncMode(false); // 修改了灯具后，一定要退出同步模式
@@ -867,7 +870,7 @@ namespace LightController.MyForm
 
 				if (IsMultiMode)
 				{
-					foreach (int lightIndex in SelectedIndices)
+					foreach (int lightIndex in selectedIndexList)
 					{
 						if (lightIndex != selectedIndex)
 						{
@@ -941,7 +944,7 @@ namespace LightController.MyForm
 
 				if (IsMultiMode)
 				{
-					foreach (int lightIndex in SelectedIndices)
+					foreach (int lightIndex in selectedIndexList)
 					{
 						if (lightIndex != selectedIndex)
 						{
@@ -1308,7 +1311,7 @@ namespace LightController.MyForm
 			// 多灯模式，将值赋给每个编组的灯具中
 			if (IsMultiMode)
 			{
-				foreach (int lightIndex in SelectedIndices)
+				foreach (int lightIndex in selectedIndexList)
 				{
 					LightStepWrapper lsWrapper = getSelectedLightStepWrapper(lightIndex);
 					for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)
@@ -1350,9 +1353,9 @@ namespace LightController.MyForm
 			}
 
 			// 多灯模式 且 所选灯具在当前的多灯组内，将值赋给每个编组的灯具中
-			if (IsMultiMode && SelectedIndices.Contains(selectedLightIndex))
+			if (IsMultiMode && selectedIndexList.Contains(selectedLightIndex))
 			{
-				foreach (int lightIndex in SelectedIndices)
+				foreach (int lightIndex in selectedIndexList)
 				{
 					getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
 				}
@@ -1377,29 +1380,61 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 辅助方法：供《灯具编组Form》使用：成功为true(跳过或真的编组)，失败false（无法编组）
+		/// </summary>
+		/// <param name="group"></param>
+		/// <returns></returns>
+		public bool MakeGroup(GroupAst group)
+		{
+
+			// 当编组名为空时，直接返回true，表示跳过存储编组；
+			if (string.IsNullOrWhiteSpace(group.GroupName))
+			{
+				return true;
+			}
+
+			if (GroupList == null)
+			{
+				MessageBox.Show("GroupList==null");
+				return false;
+			}
+			if (!GroupAst.CheckGroupName(GroupList, group.GroupName))
+			{
+				MessageBox.Show("编组名已存在");
+				return false;
+			}
+
+			GroupList.Add(group);
+			refreshGroupPanels();
+			return true;
+		}
+
+		/// <summary>
 		/// 9.16 辅助方法：进入多灯模式
 		///		1.取出选中的组长，
 		///		2.使用组长数据，替代其他灯具（在该F/M）的所有步数集合。
 		/// </summary>
 		/// <param name="captainIndex"></param>
-		public virtual void EnterMultiMode(int captainIndex, bool isCopyAll)
+		public void EnterMultiMode(GroupAst group, bool isCopyAll)
 		{
-			this.isCopyAll = isCopyAll;
-			// captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置
-			selectedIndex = SelectedIndices[captainIndex];
-			if (isCopyAll)
-			{
+			//DOTO 0713 EnterMultiMode()
+			selectedIndexList = new List<int>(group.LightIndexList);
+			selectedIndex = selectedIndexList[group.CaptainIndex]; // captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置			
+			if (selectedIndexList.Count > 1 && isCopyAll)
+			{				
 				LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
-				foreach (int index in SelectedIndices)
+				foreach (int index in selectedIndexList)
 				{
 					//通过组长生成相关的数据
 					StepWrapper currentStepTemplate = LightWrapperList[index].StepTemplate;
 					LightWrapperList[index].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
-				}
-			}
+				}				
+			}			
+			refreshMultiModeControls( selectedIndexList.Count > 1);
+
 			refreshStep();
 		}
-
+		
 		/// <summary>
 		/// 辅助方法：多灯模式中，利用此方法，将修改不多的组长数据（如部分通道值、渐变方式、步时间等），用此改动较少的方法，赋给所有的组员
 		/// </summary>
@@ -1408,7 +1443,7 @@ namespace LightController.MyForm
 		{
 			LightStepWrapper mainLSWrapper = getCurrentLightStepWrapper(); //取出组长
 			int currentStep = getCurrentStep();     // 取出组长的当前步
-			foreach (int index in SelectedIndices)
+			foreach (int index in selectedIndexList)
 			{
 				if (getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1] != null) {
 					switch (where)
@@ -1434,7 +1469,7 @@ namespace LightController.MyForm
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长			
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
 
-			foreach (int index in SelectedIndices)
+			foreach (int index in selectedIndexList)
 			{
 				if (getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1] != null)
 				{
@@ -1462,7 +1497,7 @@ namespace LightController.MyForm
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
 
-			foreach (int lightIndex in SelectedIndices)
+			foreach (int lightIndex in selectedIndexList)
 			{
 				if (getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1] != null)
 				{
@@ -1488,13 +1523,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：供MultiLightForm使用，检查当前的所有选中灯具的所有步数，是否一致。--》只需都和第一个灯进行对比，稍有不同，即不通过。
+		///  辅助方法：（供GroupForm调用）检查当前的所有选中灯具的所有步数，是否一致。--》只需都和第一个灯进行对比，稍有不同，即不通过。
 		/// </summary>
 		/// <returns></returns>
 		public bool CheckSameStepCounts() {
-			int firstIndex = SelectedIndices[0];
+			int firstIndex = selectedIndexList[0];
 			int firstStepCounts = getSelectedLightTotalStep(firstIndex);
-			foreach (int index in SelectedIndices)
+			foreach (int index in selectedIndexList)
 			{
 				int tempStepCounts = getSelectedLightTotalStep(index);
 				if (tempStepCounts != firstStepCounts) {
@@ -1505,7 +1540,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：检查是否所有灯具的步数都一致，若有不同，直接返回false
+		/// 辅助方法：(供同步模式使用)检查是否所有灯具的步数都一致，若有不同，直接返回false
 		/// </summary>
 		protected bool CheckAllSameStepCounts()
 		{
@@ -1537,7 +1572,7 @@ namespace LightController.MyForm
 			{
 				if (IsMultiMode)
 				{
-					if (!SelectedIndices.Contains(lightIndex))
+					if (!selectedIndexList.Contains(lightIndex))
 						allIndices.Add(lightIndex);
 				}
 				else {
@@ -1727,7 +1762,7 @@ namespace LightController.MyForm
 			lightDictionary = null;
 
 			selectedIndex = -1;
-			SelectedIndices = new List<int>();
+			selectedIndexList = new List<int>();
 
 			disposeDmaForm();
 
@@ -1745,7 +1780,7 @@ namespace LightController.MyForm
 			Text = SoftwareName + projectStr + ConnectStr;
 
 			EnterSyncMode(false);  //退出《同步模式》
-			RefreshMultiModeButtons(false); // 刷新为单灯状态的按钮可用性
+			refreshMultiModeControls(false); // 刷新为单灯状态的按钮可用性
 			autoEnableSLArrange();  // clearAllData
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
 			autosetEnabledPlayAndRefreshPic();  //clearAllData()
@@ -2283,8 +2318,7 @@ namespace LightController.MyForm
 			}
 
 			SetNotice("正在源文件,请稍候...", false, true);
-			// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
-			//DOTO 0629 GenerateSourceZip也改写一下，在图片丢失的时候，也可以导出源文件；
+			// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中			
 			if (GenerateSourceZip(exportPath + @"\Source.zip"))
 			{
 				SetNotice("已成功压缩源文件(Source.zip)。", false, true);
@@ -2647,56 +2681,7 @@ namespace LightController.MyForm
 
 		#region stepPanel相关
 
-		/// <summary>
-		/// 辅助方法：进入|退出多灯模式
-		/// </summary>		
-		protected void enterMultiMode(bool enter, ListView lightsListView)
-		{
-			// 进入多灯模式
-			if (enter)
-			{
-				if (lightsListView.SelectedIndices.Count < 2)
-				{
-					SetNotice("请选择至少两个(同型)灯具，否则无法使用多灯模式。", true, true);
-					return;
-				}
-				if (!checkSameLights(lightsListView))
-				{
-					SetNotice("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。", true, true);
-					return;
-				}
-				SelectedIndices = new List<int>();
-				foreach (int item in lightsListView.SelectedIndices)
-				{
-					SelectedIndices.Add(item);
-				}
-				new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
-
-			}
-			// 退出多灯模式
-			else
-			{
-				foreach (ListViewItem item in lightsListView.Items)
-				{
-					item.BackColor = Color.White;
-				}
-				RefreshMultiModeButtons(false);
-
-				try
-				{
-					for (int i = 0; i < lightsListView.Items.Count; i++)
-					{
-						lightsListView.Items[i].Selected = i == selectedIndex;
-					}
-					lightsListView.Select();
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-				}
-			}
-		}	
-
+	
 		/// <summary>
 		/// 辅助方法：点击《上一步》
 		/// </summary>
@@ -2772,7 +2757,7 @@ namespace LightController.MyForm
 			}
 			else if (IsMultiMode)
 			{
-				foreach (int lightIndex in SelectedIndices)
+				foreach (int lightIndex in selectedIndexList)
 				{
 					if (lightIndex != selectedIndex)
 					{
@@ -2867,7 +2852,7 @@ namespace LightController.MyForm
 			}
 			else if (IsMultiMode)
 			{
-				foreach (int lightIndex in SelectedIndices)
+				foreach (int lightIndex in selectedIndexList)
 				{
 					if (lightIndex != selectedIndex)
 					{
@@ -2920,7 +2905,7 @@ namespace LightController.MyForm
 					}
 					else if (IsMultiMode)
 					{
-						foreach (int lightIndex in SelectedIndices)
+						foreach (int lightIndex in selectedIndexList)
 						{
 							if (lightIndex != selectedIndex)
 							{
@@ -2969,7 +2954,7 @@ namespace LightController.MyForm
 					}
 					else if (IsMultiMode)
 					{
-						foreach (int lightIndex in SelectedIndices)
+						foreach (int lightIndex in selectedIndexList)
 						{
 							if (lightIndex != selectedIndex)
 							{
@@ -3141,7 +3126,7 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					selectedIndices2 = SelectedIndices;
+					selectedIndices2 = selectedIndexList;
 				}
 			}			
 
@@ -3309,7 +3294,7 @@ namespace LightController.MyForm
 
 				if (IsMultiMode)
 				{
-					foreach (int lightIndex in SelectedIndices)
+					foreach (int lightIndex in selectedIndexList)
 					{
 						getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum;
 					}
@@ -3330,60 +3315,7 @@ namespace LightController.MyForm
 
 			OneStepPlay( null,null ); // chooseStep			
 		}
-
-		/// <summary>
-		/// 辅助方法：复用多灯多步
-		/// </summary>
-		/// <param name="selectedIndices"></param>
-		/// <param name="startStep"></param>
-		/// <param name="endStep"></param>
-		/// <param name="times">复用次数</param>
-		/// <returns>复用成功返回null，否则返回相应的错误信息</returns>
-		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times )
-		{
-			// 检查剩余步数 是否大于 复用会添加的的步数
-			int addStepCount = (endStep - startStep + 1) * times;
-			if ((MAX_STEP - getSelectedLightTotalStep(0)) < addStepCount) {
-				return "剩余步数小于复用占用步数，无法复用。";
-			}		
 			
-			// 解决方案（两种）：
-			// (1)先把所有的步数用新步数填上，再通过SelectedIndices来更改相应的数据 X
-			// (2)分开操作，不在列表内的直接加步，在表内的则复用 √
-			//		①不在表内的都添加最后一步
-			//		②在列表中的使用复制的方法(同步模式才这样选择)
-			for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-			{
-				if (selectedIndices.Contains(lightIndex))
-				{
-					for (int time = 1; time <= times; time++) //循环次数
-					{
-						for (int copyStepIndex = startStep - 1; copyStepIndex < endStep; copyStepIndex++)
-						{
-							StepWrapper copyStep = getSelectedLightSelectedStepWrapper(lightIndex, copyStepIndex);
-							StepWrapper newStep = StepWrapper.GenerateNewStep(copyStep, CurrentMode);
-							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
-						}
-					}
-				}
-				else
-				{
-					if (isSyncMode) {										
-						for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
-						{
-							// 210528修复一个bug：下面这两个语句必须写在for循环内，否则会出现多步复用后面的所有步使用的是同一个对象！
-							StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
-							StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, CurrentMode);
-							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
-						}
-					}
-				}					
-			}
-
-			refreshStep();
-			return null;
-		}
-
 		/// <summary>
 		/// 辅助方法：点击通道名，弹出相应的子属性窗口
 		/// </summary>
@@ -3430,7 +3362,62 @@ namespace LightController.MyForm
 		#endregion
 
 		#region astPanel相关
-		
+
+		/// <summary>
+		/// 辅助方法：复用多灯多步
+		/// </summary>
+		/// <param name="selectedIndices"></param>
+		/// <param name="startStep"></param>
+		/// <param name="endStep"></param>
+		/// <param name="times">复用次数</param>
+		/// <returns>复用成功返回null，否则返回相应的错误信息</returns>
+		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
+		{
+			// 检查剩余步数 是否大于 复用会添加的的步数
+			int addStepCount = (endStep - startStep + 1) * times;
+			if ((MAX_STEP - getSelectedLightTotalStep(0)) < addStepCount)
+			{
+				return "剩余步数小于复用占用步数，无法复用。";
+			}
+
+			// 解决方案（两种）：
+			// (1)先把所有的步数用新步数填上，再通过SelectedIndices来更改相应的数据 X
+			// (2)分开操作，不在列表内的直接加步，在表内的则复用 √
+			//		①不在表内的都添加最后一步
+			//		②在列表中的使用复制的方法(同步模式才这样选择)
+			for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+			{
+				if (selectedIndices.Contains(lightIndex))
+				{
+					for (int time = 1; time <= times; time++) //循环次数
+					{
+						for (int copyStepIndex = startStep - 1; copyStepIndex < endStep; copyStepIndex++)
+						{
+							StepWrapper copyStep = getSelectedLightSelectedStepWrapper(lightIndex, copyStepIndex);
+							StepWrapper newStep = StepWrapper.GenerateNewStep(copyStep, CurrentMode);
+							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+						}
+					}
+				}
+				else
+				{
+					if (isSyncMode)
+					{
+						for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
+						{
+							// 210528修复一个bug：下面这两个语句必须写在for循环内，否则会出现多步复用后面的所有步使用的是同一个对象！
+							StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
+							StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, CurrentMode);
+							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+						}
+					}
+				}
+			}
+
+			refreshStep();
+			return null;
+		}
+			
 		/// <summary>
 		/// 辅助方法：点击《多步调节》
 		/// </summary>
@@ -3479,68 +3466,50 @@ namespace LightController.MyForm
 			}
 			DmaForm.ShowDialog();
 		}
-
+			   
 		/// <summary>
-		/// 辅助方法：点击《灯具编组》
+		/// 辅助方法：点击《灯具编组|退出编组》
 		/// </summary>
 		/// <param name="lightsListView"></param>
-		protected void groupButtonClick(ListView lightsListView)
-		{
-			if (lightsListView.SelectedIndices.Count < 1)
+		protected void groupButtonClick(ListView lightsListView) {
+
+			if (IsMultiMode)
 			{
-				SetNotice("请选择至少一个灯具，否则无法进行编组。",true,true);
-				return;
+				refreshMultiModeControls(false);
 			}
+			else {
+				if (lightsListView.SelectedIndices.Count < 1)
+				{
+					SetNotice("请选择至少一个灯具，否则无法进行编组。", true, true);
+					return;
+				}
+				if (!checkSameLights(lightsListView))
+				{
+					SetNotice("未选中灯具或选中的灯具并非同一类型，无法进行编组；请再次选择后重试。", true, true);
+					return;
+				}
 
-			if (!checkSameLights(lightsListView))
-			{
-				SetNotice("未选中灯具或选中的灯具并非同一类型，无法进行编组；请再次选择后重试。",true,true);
-				return;
+				selectedIndexList = new List<int>();
+				foreach (int item in lightsListView.SelectedIndices)
+				{
+					selectedIndexList.Add(item);
+				}
+				new GroupForm(this, LightAstList, selectedIndexList).ShowDialog();
 			}
-
-			SelectedIndices = new List<int>();
-			foreach (int item in lightsListView.SelectedIndices)
-			{
-				SelectedIndices.Add(item);
-			}
-			new GroupForm(this, LightAstList, SelectedIndices).ShowDialog();
-		}
-
-		/// <summary>
-		/// 辅助方法：灯具编组执行方法，成功则返回null；否则返回失败原因（string）
-		/// </summary>
-		/// <param name="groupName"></param>
-		/// <param name="selectedIndices"></param>
-		/// <returns></returns>
-		public string MakeGroup(string groupName, int captainIndex)
-		{
-			if (GroupList == null)
-			{
-				return "尚未生成编组列表，请先创建列表后重试。";
-			}
-			if (!GroupAst.CheckGroupName(GroupList, groupName))
-			{
-				return "编组名称已被使用，请使用其他名称。";
-			}
-
-			GroupList.Add(new GroupAst()
-			{
-				GroupName = groupName,
-				LightIndexList = SelectedIndices,
-				CaptainIndex = captainIndex
-			});
-
-			refreshGroupPanels(); // CreateGroup()
-
-			return null;
-		}
-			   
+		}		
+		   
 		/// <summary>
 		/// 辅助方法：点击《进入编组按键》
 		/// </summary>
 		/// <param name="sender"></param>
 		protected void groupInButtonClick(object sender,ListView lightsListView)
 		{
+			// 通过点击的按键，生成组对象（GroupAst）；
+			if (GroupList == null || GroupList.Count == 0)
+			{
+				SetNotice("当前工程groupList为空，无法使用编组。", true, true);
+				return;
+			}
 			int groupIndex;
 			try
 			{
@@ -3549,12 +3518,6 @@ namespace LightController.MyForm
 			catch (Exception ex)
 			{
 				MessageBox.Show("按钮的Tag无法转化为groupIndex:\n" + ex.Message);
-				return;
-			}
-
-			if (GroupList == null || GroupList.Count == 0)
-			{
-				SetNotice("当前工程groupList为空，无法使用编组。",true,true);
 				return;
 			}
 			if (groupIndex >= GroupList.Count)
@@ -3568,31 +3531,19 @@ namespace LightController.MyForm
 				SetNotice("选中编组的组员数量小于1，无法使用编组。",true,true);
 				return;
 			}
-
 			if (!checkIndexAllInLightList(group.LightIndexList))
 			{
 				SetNotice("编组内的部分灯具索引超过了当前工程的灯具数量，无法使用编组。",true,true);
 				return;
 			}
-			
 			if (!checkSameLightsAndSteps(group.LightIndexList))
 			{
 				SetNotice("编组内的灯具并非同一类型或步数不一致，无法使用编组。",true,true);
 				return;
-			}	
-
-			SelectedIndices = group.LightIndexList;
-			selectLights();
-
-			// 如果灯数超过1，则进入多灯模式
-			if (group.LightIndexList.Count > 1)
-			{
-				EnterMultiMode(group.CaptainIndex, false);
 			}
-			// 否则退出多灯模式
-			else {
-				enterMultiMode(false, lightsListView);
-			}			
+
+			//DOTO 0713 改造groupInButtonClick，统一传groupAst给EnterMultiMode
+			EnterMultiMode(  group , false); 			
 		}
 
 		/// <summary>
@@ -3822,7 +3773,7 @@ namespace LightController.MyForm
 						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 						{
 							if (lightIndex == selectedIndex // 当前灯具一定会动
-								|| IsMultiMode && SelectedIndices.Contains(lightIndex)  // 多灯模式下，组员也要动
+								|| IsMultiMode && selectedIndexList.Contains(lightIndex)  // 多灯模式下，组员也要动
 								|| isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
 								|| isSyncMode  // 同步状态下，所有灯一起动
 								)
@@ -3843,7 +3794,7 @@ namespace LightController.MyForm
 						{
 							for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 							{
-								if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
+								if (lightIndex == selectedIndex || IsMultiMode && selectedIndexList.Contains(lightIndex))
 								{
 
 									IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
@@ -3938,7 +3889,7 @@ namespace LightController.MyForm
 						IList<DB_Value> valueList = new List<DB_Value>();
 						for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 						{
-							if (lightIndex == selectedIndex || IsMultiMode && SelectedIndices.Contains(lightIndex))
+							if (lightIndex == selectedIndex || IsMultiMode && selectedIndexList.Contains(lightIndex))
 							{
 								IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
 								for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++) 

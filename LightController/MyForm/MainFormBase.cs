@@ -1419,14 +1419,17 @@ namespace LightController.MyForm
 			selectedIndexList = new List<int>(group.LightIndexList);			
 			selectedIndex = selectedIndexList[group.CaptainIndex]; // captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置
 
-			if (selectedIndexList.Count > 1 && isCopyAll)
+			if ( isCopyAll )
 			{				
-				LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
+				LightStepWrapper captainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
 				foreach (int listIndex in selectedIndexList)
 				{
-					//通过组长生成相关的数据
-					StepWrapper currentStepTemplate = LightWrapperList[listIndex].StepTemplate;
-					LightWrapperList[listIndex].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
+					//DOTO 0714 此处有优化
+					if (listIndex != selectedIndex) { 
+						//通过组长生成相关的数据，当然组长自身无需复制；
+						StepWrapper currentStepTemplate = LightWrapperList[listIndex].StepTemplate;
+						LightWrapperList[listIndex].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(captainLSWrapper, currentStepTemplate, CurrentMode);
+					}					
 				}				
 			}		
 			refreshMultiModeControls( selectedIndexList.Count > 1);

@@ -668,14 +668,11 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
-		{	
+		{
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsListView.SelectedIndices[0];				
-				if ( generateNow)
-				{
-					generateLightData(); //lightsListView_SelectedIndexChanged
-				}
+				selectedIndex = lightsListView.SelectedIndices[0];
+				generateLightData(); //lightsListView_SelectedIndexChanged				
 			}
 		}	
 
@@ -1202,39 +1199,22 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void refreshMultiModeControls(bool isMultiMode)
 		{
+			//DOTO 0714 refreshMultiModeControls
 			IsMultiMode = isMultiMode;
 
-			// 刷新ListView、astPanel的显示
-			if (IsMultiMode)
+			if (!IsMultiMode && selectedIndex != -1)
 			{
-				foreach (ListViewItem item in lightsListView.Items)
-				{
-					item.BackColor = Color.White;
-				}
-				lightsAddrLabel.Text = "灯具地址列表：";
-				foreach (int lightIndex in selectedIndexList)
-				{
-					lightsAddrLabel.Text += lightIndex == selectedIndex ?  ("("+ LightAstList[lightIndex].LightAddr + ") ") : ( LightAstList[lightIndex].LightAddr + " ");
-				}
-				lightsListView.Select();
-			}
-			else
-			{
-				try
-				{
-					for (int listIndex = 0; listIndex < lightsListView.Items.Count; listIndex++)
-					{
-						lightsListView.Items[listIndex].BackColor = Color.White;
-						lightsListView.Items[listIndex].Selected = listIndex == selectedIndex;
-					}
-					lightsListView.Select();
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("退出多灯模式时出现异常：\n" + ex.Message);
-				}
+				selectedIndexList = new List<int>() { selectedIndex };
 			}
 
+			lightsAddrLabel.Text = getAddrStr();
+
+			lightsListView.SelectedIndexChanged -= lightsListView_SelectedIndexChanged;
+			for(int lightIndex = 0; lightIndex< lightsListView.Items.Count; lightIndex++)
+			{
+				lightsListView.Items[lightIndex].Selected = selectedIndexList.Contains(lightIndex);			
+			}
+			lightsListView.SelectedIndexChanged += lightsListView_SelectedIndexChanged;
 
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = !IsMultiMode;
@@ -1243,10 +1223,8 @@ namespace LightController.MyForm
 			modeComboBox.Enabled = !IsMultiMode;
 			copyFrameButton.Enabled = !IsMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
+			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";			
 
-			// DOTO 0713  RefreshMultiModeButtons ：groupButton.Text 
-			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
-			
 		}
 
 		/// <summary>
@@ -1281,16 +1259,16 @@ namespace LightController.MyForm
 
 			//3 设定《复制|粘贴步、保存素材》、《多步复用》等是否可用
 			copyStepButton.Enabled = currentStep > 0;
-			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
-			
+			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;			
 			saveMaterialButton.Enabled = currentStep > 0;
-			multiplexButton.Enabled = currentStep > 0;
 
-			// 4.设定统一调整区是否可用						
-			groupButton.Enabled = LightAstList != null && lightsListView.SelectedIndices.Count > 0; // 只有工程非空（有灯具列表）且选择项不为空才可点击
+			// 4.设定统一调整区是否可用
+			// DOTO 0714 showStepLabel几个按键可用性
+			groupButton.Enabled = (LightAstList != null && lightsListView.SelectedIndices.Count > 0) || IsMultiMode; // 只有工程非空（有灯具列表）且选择项不为空才可点击
 			groupFlowLayoutPanel.Enabled = LightAstList != null;
 			multiButton.Enabled = totalStep != 0;
 			detailMultiButton.Enabled = totalStep != 0;
+			multiplexButton.Enabled = currentStep > 0;
 			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1;
 
 			// 5.处理选择步数的框及按钮
@@ -1564,7 +1542,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupButton_Click(object sender, EventArgs e)
 		{
-			//DOTO 0713 groupButton_Click()
 			groupButtonClick(lightsListView);
 		}		
 				
@@ -1643,7 +1620,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			SaButtonClick(sender);
+			saButtonClick(sender);
 		}
 
 		/// <summary>
@@ -1709,25 +1686,6 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Controls.Add(panel);
 			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
 		}
-
-		/// <summary>
-		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具(在这个过程中，就不再生成相应的灯具描述和子属性按钮组了)
-		/// </summary>
-		protected override void selectLights()
-		{
-			generateNow = false;
-			foreach (ListViewItem item in lightsListView.Items)
-			{
-				item.Selected = false;
-			}
-			for (int i = 0; i < selectedIndexList.Count; i++) {
-				if (i == selectedIndexList.Count - 1) {
-					generateNow = true;
-				}
-				int lightIndex = selectedIndexList[i];
-				lightsListView.Items[lightIndex].Selected = true;
-			}
-		}		
 
 		#endregion
 
@@ -1879,6 +1837,9 @@ namespace LightController.MyForm
 			sequencerButtonClick();
 		}
 
-		
+		private void currentLightPictureBox_Click(object sender, EventArgs e)
+		{
+			testButtonClick();
+		}
 	}
 }

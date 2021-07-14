@@ -153,7 +153,6 @@ namespace LightController.MyForm
 		public long LastSendTime; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；		
 
 		protected ImageList lightImageList;
-		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）			
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用
 		
@@ -179,9 +178,8 @@ namespace LightController.MyForm
 		
 		// 辅助面板
 		protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中	
-		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
-		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons	
-		protected virtual void refreshMultiModeControls(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（让子Form自行控制各个控件的显示等）
+		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels		
+		protected virtual void refreshMultiModeControls(bool isMultiMode) {}  //进入或退出多灯模式后的相关操作（让子Form自行控制各个控件的显示等）
 
 		// 通道面板		
 		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据		
@@ -1410,7 +1408,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 9.16 辅助方法：进入多灯模式
+		/// 辅助方法：进入编组
 		///		1.取出选中的组长，
 		///		2.使用组长数据，替代其他灯具（在该F/M）的所有步数集合。
 		/// </summary>
@@ -1418,20 +1416,21 @@ namespace LightController.MyForm
 		public void EnterMultiMode(GroupAst group, bool isCopyAll)
 		{
 			//DOTO 0713 EnterMultiMode()
-			selectedIndexList = new List<int>(group.LightIndexList);
-			selectedIndex = selectedIndexList[group.CaptainIndex]; // captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置			
+			selectedIndexList = new List<int>(group.LightIndexList);			
+			selectedIndex = selectedIndexList[group.CaptainIndex]; // captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置
+
 			if (selectedIndexList.Count > 1 && isCopyAll)
 			{				
 				LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
-				foreach (int index in selectedIndexList)
+				foreach (int listIndex in selectedIndexList)
 				{
 					//通过组长生成相关的数据
-					StepWrapper currentStepTemplate = LightWrapperList[index].StepTemplate;
-					LightWrapperList[index].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
+					StepWrapper currentStepTemplate = LightWrapperList[listIndex].StepTemplate;
+					LightWrapperList[listIndex].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, CurrentMode);
 				}				
-			}
+			}		
+			refreshMultiModeControls( selectedIndexList.Count > 1);
 			refreshStep();
-			refreshMultiModeControls( selectedIndexList.Count > 1);			
 		}
 		
 		/// <summary>
@@ -2679,8 +2678,7 @@ namespace LightController.MyForm
 		#endregion
 
 		#region stepPanel相关
-
-	
+			
 		/// <summary>
 		/// 辅助方法：点击《上一步》
 		/// </summary>
@@ -3474,6 +3472,7 @@ namespace LightController.MyForm
 
 			if (IsMultiMode)
 			{
+				selectedIndexList = new List<int>();
 				refreshMultiModeControls(false);
 			}
 			else {
@@ -3503,7 +3502,6 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		protected void groupInButtonClick(object sender,ListView lightsListView)
 		{
-			// 通过点击的按键，生成组对象（GroupAst）；
 			if (GroupList == null || GroupList.Count == 0)
 			{
 				SetNotice("当前工程groupList为空，无法使用编组。", true, true);
@@ -3541,8 +3539,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			//DOTO 0713 改造groupInButtonClick，统一传groupAst给EnterMultiMode
-			EnterMultiMode(  group , false); 			
+			EnterMultiMode(group,false); 	
 		}
 
 		/// <summary>
@@ -3618,12 +3615,25 @@ namespace LightController.MyForm
 			GroupList.RemoveAt(groupIndex);
 			refreshGroupPanels(); //groupDelButtonClick()
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：（供refreshMultiModeControls调用）通过一些全局变量，生成灯具地址字符串
+		/// </summary>
+		/// <returns></returns>
+		protected string getAddrStr( ) {
+			string lightsAddrStr = "地址：";
+			foreach (int lightIndex in selectedIndexList)
+			{
+				lightsAddrStr += (selectedIndexList.Count>1 && lightIndex == selectedIndex) ? ("(" + LightAstList[lightIndex].LightAddr + ") ") : (LightAstList[lightIndex].LightAddr + " ");
+			}
+			return lightsAddrStr;
+		}
+			   
 		/// <summary>
 		/// 辅助方法：点击《子属性》
 		/// </summary>
 		/// <param name="sender"></param>
-		protected void SaButtonClick(object sender)
+		protected void saButtonClick(object sender)
 		{
 			if (getCurrentStepWrapper() == null)
 			{
@@ -4416,6 +4426,14 @@ namespace LightController.MyForm
 		}
 
 		#endregion
+
+		/// <summary>
+		/// 辅助方法：点击测试按键
+		/// </summary>
+		protected void testButtonClick()
+		{
+				
+		}
 
 	}
 

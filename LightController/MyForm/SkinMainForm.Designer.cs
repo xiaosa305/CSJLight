@@ -84,7 +84,7 @@ namespace LightController.MyForm
 			this.groupDelButtonDemo = new System.Windows.Forms.Button();
 			this.commonButtonPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
-			this.soundListButton = new System.Windows.Forms.Button();
+			this.multiplexButton = new System.Windows.Forms.Button();
 			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.unifyLabelPanel = new CCWin.SkinControl.SkinPanel();
@@ -101,7 +101,7 @@ namespace LightController.MyForm
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.stepSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.syncSkinButton = new CCWin.SkinControl.SkinButton();
-			this.multiplexSkinButton = new CCWin.SkinControl.SkinButton();
+			this.soundListButton = new CCWin.SkinControl.SkinButton();
 			this.useMaterialSkinButton = new CCWin.SkinControl.SkinButton();
 			this.saveMaterialSkinButton = new CCWin.SkinControl.SkinButton();
 			this.stepLabel = new CCWin.SkinControl.SkinLabel();
@@ -1078,7 +1078,7 @@ namespace LightController.MyForm
 			// commonButtonPanel
 			// 
 			this.commonButtonPanel.Controls.Add(this.groupButton);
-			this.commonButtonPanel.Controls.Add(this.soundListButton);
+			this.commonButtonPanel.Controls.Add(this.multiplexButton);
 			this.commonButtonPanel.Controls.Add(this.detailMultiButton);
 			this.commonButtonPanel.Controls.Add(this.multiButton);
 			this.commonButtonPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1101,19 +1101,19 @@ namespace LightController.MyForm
 			this.groupButton.UseVisualStyleBackColor = false;
 			this.groupButton.Click += new System.EventHandler(this.groupSkinButton_Click);
 			// 
-			// soundListButton
+			// multiplexButton
 			// 
-			this.soundListButton.BackColor = System.Drawing.Color.Transparent;
-			this.soundListButton.Enabled = false;
-			this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.soundListButton.ForeColor = System.Drawing.Color.Black;
-			this.soundListButton.Location = new System.Drawing.Point(24, 49);
-			this.soundListButton.Name = "soundListButton";
-			this.soundListButton.Size = new System.Drawing.Size(94, 25);
-			this.soundListButton.TabIndex = 30;
-			this.soundListButton.Text = "音频链表";
-			this.soundListButton.UseVisualStyleBackColor = false;
-			this.soundListButton.Click += new System.EventHandler(this.soundListButton_Click);
+			this.multiplexButton.BackColor = System.Drawing.Color.Transparent;
+			this.multiplexButton.Enabled = false;
+			this.multiplexButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiplexButton.ForeColor = System.Drawing.Color.Black;
+			this.multiplexButton.Location = new System.Drawing.Point(24, 49);
+			this.multiplexButton.Name = "multiplexButton";
+			this.multiplexButton.Size = new System.Drawing.Size(94, 25);
+			this.multiplexButton.TabIndex = 30;
+			this.multiplexButton.Text = "多步复用";
+			this.multiplexButton.UseVisualStyleBackColor = false;
+			this.multiplexButton.Click += new System.EventHandler(this.multiplexSkinButton_Click);
 			// 
 			// detailMultiButton
 			// 
@@ -1250,6 +1250,7 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 0;
 			this.currentLightPictureBox.TabStop = false;
+			this.currentLightPictureBox.Click += new System.EventHandler(this.currentLightPictureBox_Click);
 			// 
 			// lightsAddrLabel
 			// 
@@ -1287,7 +1288,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.AutoScroll = true;
 			this.stepSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
 			this.stepSkinPanel.Controls.Add(this.syncSkinButton);
-			this.stepSkinPanel.Controls.Add(this.multiplexSkinButton);
+			this.stepSkinPanel.Controls.Add(this.soundListButton);
 			this.stepSkinPanel.Controls.Add(this.useMaterialSkinButton);
 			this.stepSkinPanel.Controls.Add(this.saveMaterialSkinButton);
 			this.stepSkinPanel.Controls.Add(this.stepLabel);
@@ -1346,34 +1347,35 @@ namespace LightController.MyForm
 			this.syncSkinButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
 			this.syncSkinButton.Click += new System.EventHandler(this.syncSkinButton_Click);
 			// 
-			// multiplexSkinButton
+			// soundListButton
 			// 
-			this.multiplexSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.multiplexSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.multiplexSkinButton.BorderColor = System.Drawing.Color.Transparent;
-			this.multiplexSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.multiplexSkinButton.DownBack = null;
-			this.multiplexSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiplexSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.multiplexSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.multiplexSkinButton.ForeColorSuit = true;
-			this.multiplexSkinButton.Image = global::LightController.Properties.Resources.粘贴步;
-			this.multiplexSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.multiplexSkinButton.ImageSize = new System.Drawing.Size(20, 20);
-			this.multiplexSkinButton.InheritColor = true;
-			this.multiplexSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiplexSkinButton.Location = new System.Drawing.Point(928, 48);
-			this.multiplexSkinButton.Margin = new System.Windows.Forms.Padding(0);
-			this.multiplexSkinButton.MouseBack = null;
-			this.multiplexSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.multiplexSkinButton.Name = "multiplexSkinButton";
-			this.multiplexSkinButton.NormlBack = null;
-			this.multiplexSkinButton.Size = new System.Drawing.Size(112, 45);
-			this.multiplexSkinButton.TabIndex = 4;
-			this.multiplexSkinButton.Text = "多步复用";
-			this.multiplexSkinButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.multiplexSkinButton.UseVisualStyleBackColor = false;
-			this.multiplexSkinButton.Click += new System.EventHandler(this.multiplexSkinButton_Click);
+			this.soundListButton.BackColor = System.Drawing.Color.Transparent;
+			this.soundListButton.BaseColor = System.Drawing.Color.Transparent;
+			this.soundListButton.BorderColor = System.Drawing.Color.Transparent;
+			this.soundListButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.soundListButton.DownBack = null;
+			this.soundListButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.soundListButton.Enabled = false;
+			this.soundListButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.soundListButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.soundListButton.ForeColorSuit = true;
+			this.soundListButton.Image = global::LightController.Properties.Resources.粘贴步;
+			this.soundListButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.soundListButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.soundListButton.InheritColor = true;
+			this.soundListButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.soundListButton.Location = new System.Drawing.Point(193, 48);
+			this.soundListButton.Margin = new System.Windows.Forms.Padding(0);
+			this.soundListButton.MouseBack = null;
+			this.soundListButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.soundListButton.Name = "soundListButton";
+			this.soundListButton.NormlBack = null;
+			this.soundListButton.Size = new System.Drawing.Size(112, 45);
+			this.soundListButton.TabIndex = 4;
+			this.soundListButton.Text = "音频链表";
+			this.soundListButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.soundListButton.UseVisualStyleBackColor = false;
+			this.soundListButton.Click += new System.EventHandler(this.soundListButton_Click);
 			// 
 			// useMaterialSkinButton
 			// 
@@ -2238,7 +2240,7 @@ namespace LightController.MyForm
 		private ToolStripStatusLabel noticeLabel;
 		private Label lightRemarkLabel;
 		private SkinButton helpSkinButton;
-		private SkinButton multiplexSkinButton;
+		private SkinButton soundListButton;
 		private ToolTip saToolTip;
 		private ToolTip groupToolTip;
 		private FlowLayoutPanel groupFlowLayoutPanel;
@@ -2246,7 +2248,7 @@ namespace LightController.MyForm
 		private Button groupDelButtonDemo;
         private Button multiButton;
         private Button groupButton;
-        private Button soundListButton;
+        private Button multiplexButton;
 		private Panel commonButtonPanel;
 		private SkinButton copyStepSkinButton;
 		private SkinButton pasteStepSkinButton;

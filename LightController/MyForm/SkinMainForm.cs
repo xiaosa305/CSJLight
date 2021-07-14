@@ -319,7 +319,7 @@ namespace LightController.MyForm
 		/// 事件：点击《使用说明》->导航功能
 		/// </summary>
 		/// <param name="noticeText"></param>
-		private void helpSkinButton_Click(object sender, EventArgs e)	{ }
+		private void helpSkinButton_Click(object sender, EventArgs e)	{	}
 
 		/// <summary>
 		/// 事件：鼠标左右键按下《使用说明》
@@ -564,11 +564,8 @@ namespace LightController.MyForm
 		{
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsSkinListView.SelectedIndices[0];				
-				if (generateNow)
-				{					
-					generateLightData();    //lightsSkinListView_SelectedIndexChanged
-				}
+				selectedIndex = lightsSkinListView.SelectedIndices[0];											
+				generateLightData();    //lightsSkinListView_SelectedIndexChanged			
 			}
 		}
 		
@@ -588,10 +585,10 @@ namespace LightController.MyForm
 
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic):global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
-			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;			
 			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
 			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
-		
+
 		}
 
 		/// <summary>
@@ -1328,19 +1325,19 @@ namespace LightController.MyForm
 			//3 设定《复制|粘贴步、保存素材》、《多步复用》等是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
-
 			saveMaterialSkinButton.Enabled = currentStep > 0; // 当前步不为0时才能保存素材；但无论什么情况都能使用素材，故不做判断
-			multiplexSkinButton.Enabled = currentStep > 0;						
 
 			// 4.设定统一调整区是否可用
-			groupButton.Enabled = LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
+			// DOTO 0714 showStepLabel几个按键可用性
+			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || IsMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; 			
 			multiButton.Enabled = totalStep != 0;
 			detailMultiButton.Enabled = totalStep != 0;
-			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1 ;
+			multiplexButton.Enabled = currentStep > 0;
+			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1;
 
-            // 5. 处理选择步数的框及按钮
-            chooseStepNumericUpDown.Enabled = totalStep != 0;			
+			// 5. 处理选择步数的框及按钮
+			chooseStepNumericUpDown.Enabled = totalStep != 0;			
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
@@ -1620,7 +1617,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupSkinButton_Click(object sender, EventArgs e)
 		{
-			//DOTO 0713 groupSkinButton_Click
 			groupButtonClick(lightsSkinListView);
 		}
 
@@ -1629,45 +1625,23 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void refreshMultiModeControls(bool isMultiMode)
 		{
+			//DOTO 0714 refreshMultiModeControls
 			IsMultiMode = isMultiMode;
 
-			if (IsMultiMode)
-			{
-				foreach (ListViewItem item in lightsSkinListView.Items)
-				{
-					item.BackColor = Color.White;
-				}
-				lightsAddrLabel.Text = "灯具地址列表：";
-				foreach (int lightIndex in selectedIndexList)
-				{
-					if (lightIndex == selectedIndex)
-					{
-						lightsAddrLabel.Text += "(" + LightAstList[lightIndex].LightAddr + ") ";
-						lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
-					}
-					else
-					{
-						lightsAddrLabel.Text += LightAstList[lightIndex].LightAddr + " ";
-						lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
-					}
-				}
+			if (! IsMultiMode && selectedIndex != -1) {
+				selectedIndexList = new List<int>() { selectedIndex };
 			}
-			else
+
+			lightsAddrLabel.Text = getAddrStr();
+
+			lightsSkinListView.SelectedIndexChanged -= lightsSkinListView_SelectedIndexChanged;
+			for (int lightIndex = 0; lightIndex < lightsSkinListView.Items.Count; lightIndex++)
 			{
-				try
-				{
-					for (int listIndex = 0; listIndex < lightsSkinListView.Items.Count; listIndex++)
-					{
-						lightsSkinListView.Items[listIndex].BackColor = Color.White;
-						lightsSkinListView.Items[listIndex].Selected = listIndex == selectedIndex;
-					}
-					lightsSkinListView.Select();
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("退出多灯模式时出现异常：\n" + ex.Message);
-				}
+				lightsSkinListView.Items[lightIndex].Selected = selectedIndexList.Contains(lightIndex) || selectedIndex == lightIndex ;
+				lightsSkinListView.Items[lightIndex].BackColor = (IsMultiMode && selectedIndexList.Contains(lightIndex)) ? (lightIndex == selectedIndex ? Color.LightSkyBlue : Color.SkyBlue) : Color.Transparent;				
 			}
+			lightsSkinListView.Select();
+			lightsSkinListView.SelectedIndexChanged += lightsSkinListView_SelectedIndexChanged;			
 
 			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
 			lightListSkinButton.Enabled = !IsMultiMode;
@@ -1676,11 +1650,9 @@ namespace LightController.MyForm
 			modeSkinComboBox.Enabled = !IsMultiMode;
 			copyFrameSkinButton.Enabled = !IsMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
-
-			// DOTO 0713 RefreshMultiModeButtons ：groupButton.Text 
 			groupButton.Text = !IsMultiMode ? "灯具编组" : "退出编组";
+						
 		}
-
 
 		/// <summary>
 		/// 事件：点击《多步调节》按钮
@@ -1758,7 +1730,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			SaButtonClick(sender);
+			saButtonClick(sender);
 		}
 
 		/// <summary>
@@ -1820,28 +1792,7 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Controls.Add(panel);
 			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
 		}
-
-		/// <summary>
-		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具(在这个过程中，就不再生成相应的灯具描述和子属性按钮组了)
-		/// </summary>
-		protected override void selectLights()
-		{
-			generateNow = false;
-			foreach (ListViewItem item in lightsSkinListView.Items)
-			{
-				item.Selected = false;
-			}
-			for (int i = 0; i < selectedIndexList.Count; i++)
-			{
-				if (i == selectedIndexList.Count - 1)
-				{
-					generateNow = true;
-				}
-				int lightIndex = selectedIndexList[i];
-				lightsSkinListView.Items[lightIndex].Selected = true;
-			}
-		}
-			   	
+			   			   	
 		#endregion
 
 		//MARK：SkinMainForm：playPanel相关点击事件及辅助方法	
@@ -2063,7 +2014,12 @@ namespace LightController.MyForm
 		{
 			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
 		}
-			
+
+		private void currentLightPictureBox_Click(object sender, EventArgs e)
+		{
+			testButtonClick();
+		}
+		
 	}
 	   
 }

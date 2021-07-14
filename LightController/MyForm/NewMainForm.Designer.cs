@@ -1189,6 +1189,7 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 6;
 			this.currentLightPictureBox.TabStop = false;
+			this.currentLightPictureBox.Click += new System.EventHandler(this.currentLightPictureBox_Click);
 			// 
 			// lightRemarkLabel
 			// 

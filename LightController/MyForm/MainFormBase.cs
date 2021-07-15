@@ -1440,7 +1440,7 @@ namespace LightController.MyForm
 				}
 			}
 			
-			showLightsInfo(); //refreshMultiModeControls			
+			showLightsInfo(); //EnterMultiMode
 			refreshMultiModeControls(); //EnterMultiMode()
 			refreshStep(); //最后刷新步：此处代码用到了模板方法...
 		}
@@ -3271,7 +3271,7 @@ namespace LightController.MyForm
 			}
 
 			//3.更新当前灯具信息、并刷新步
-			showLightsInfo(); // generateLightData()
+			showLightsInfo(); //generateLightData()
 			refreshStep();
 		}
 

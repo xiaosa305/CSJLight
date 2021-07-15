@@ -573,7 +573,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void showLightsInfo()
 		{
-			//DOTO 0715 重写editLightInfo()为showLightsInfo()
 			if(checkNoLightSelected())
 			{
 				currentLightPictureBox.Image = null;
@@ -1328,8 +1327,7 @@ namespace LightController.MyForm
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 			saveMaterialSkinButton.Enabled = currentStep > 0; // 当前步不为0时才能保存素材；但无论什么情况都能使用素材，故不做判断
 
-			// 4.设定统一调整区是否可用
-			// DOTO 0714 showStepLabel几个按键可用性
+			// 4.设定统一调整区是否可用		
 			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; 			
 			multiButton.Enabled = totalStep != 0;
@@ -1625,8 +1623,7 @@ namespace LightController.MyForm
 		/// 辅助方法：《进入|退出编组》后的刷新相关控件显示
 		/// </summary>
 		protected override void refreshMultiModeControls()
-		{
-			//DOTO 0714 refreshMultiModeControls			
+		{		
 			//MARK 只开单场景：15.2 《灯具列表》是否可用，由是否编组决定
 			lightListSkinButton.Enabled = !isMultiMode;
 			lightsSkinListView.Enabled = !isMultiMode;
@@ -1635,13 +1632,13 @@ namespace LightController.MyForm
 			copyFrameSkinButton.Enabled = !isMultiMode;						
 			groupButton.Text = !isMultiMode ? "灯具编组" : "退出编组";
 			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
-					
-			//把ListView相关放到最后面：可以把Select()放一起，避免相关代码分开；
+			
+			//DOTO 0714 refreshMultiModeControls			
 			lightsSkinListView.SelectedIndexChanged -= lightsSkinListView_SelectedIndexChanged;
 			for (int lightIndex = 0; lightIndex < lightsSkinListView.Items.Count; lightIndex++)
 			{
 				lightsSkinListView.Items[lightIndex].Selected = !isMultiMode && selectedIndex == lightIndex; // 满足两个条件，才会选中项（非编组模式 且 灯具为selectedIndex）
-				lightsSkinListView.Items[lightIndex].BackColor = (isMultiMode && selectedIndexList.Contains(lightIndex)) ? (lightIndex == selectedIndex ? Color.LightSkyBlue : Color.SkyBlue) : Color.Transparent;
+				lightsSkinListView.Items[lightIndex].BackColor = (isMultiMode && selectedIndexList.Contains(lightIndex)) ? (lightIndex == selectedIndex ? Color.DeepSkyBlue : Color.LightSkyBlue) : Color.Transparent;
 			}
 			lightsSkinListView.SelectedIndexChanged += lightsSkinListView_SelectedIndexChanged;			
 			lightsSkinListView.Select(); // 需要在最后激活一下ListView以高亮选中项；

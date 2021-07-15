@@ -681,7 +681,6 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		protected override void showLightsInfo()
 		{
-			//DOTO 0715 重写editLightInfo()为showLightsInfo()
 			if(checkNoLightSelected())
 			{
 				currentLightPictureBox.Image = null;
@@ -1199,7 +1198,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void refreshMultiModeControls()
 		{
-			//DOTO 0714 refreshMultiModeControls	
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = !isMultiMode;
 			lightsListView.Enabled = !isMultiMode;
@@ -1209,6 +1207,7 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
 
+			//DOTO 0714 refreshMultiModeControls	
 			lightsListView.SelectedIndexChanged -= lightsListView_SelectedIndexChanged;
 			for (int lightIndex = 0; lightIndex < lightsListView.Items.Count; lightIndex++)
 			{
@@ -1253,7 +1252,6 @@ namespace LightController.MyForm
 			saveMaterialButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
-			// DOTO 0714 showStepLabel几个按键可用性
 			groupButton.Enabled = (LightAstList != null && lightsListView.SelectedIndices.Count > 0) || isMultiMode; // 只有工程非空（有灯具列表）且选择项不为空才可点击
 			groupFlowLayoutPanel.Enabled = LightAstList != null;
 			multiButton.Enabled = totalStep != 0;

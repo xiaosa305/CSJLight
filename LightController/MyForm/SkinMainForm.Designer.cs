@@ -1364,13 +1364,13 @@ namespace LightController.MyForm
 			this.soundListButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.soundListButton.InheritColor = true;
 			this.soundListButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.soundListButton.Location = new System.Drawing.Point(193, 48);
+			this.soundListButton.Location = new System.Drawing.Point(197, 48);
 			this.soundListButton.Margin = new System.Windows.Forms.Padding(0);
 			this.soundListButton.MouseBack = null;
 			this.soundListButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.soundListButton.Name = "soundListButton";
 			this.soundListButton.NormlBack = null;
-			this.soundListButton.Size = new System.Drawing.Size(112, 45);
+			this.soundListButton.Size = new System.Drawing.Size(108, 45);
 			this.soundListButton.TabIndex = 4;
 			this.soundListButton.Text = "音频链表";
 			this.soundListButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;

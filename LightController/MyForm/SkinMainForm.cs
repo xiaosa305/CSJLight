@@ -504,8 +504,7 @@ namespace LightController.MyForm
 			base.clearAllData();
 
 			lightsSkinListView.Clear();			
-			stepSkinPanel.Enabled = false;
-			editLightInfo(null);			
+			stepSkinPanel.Enabled = false;			
 		}
 
 		/// <summary>
@@ -565,16 +564,18 @@ namespace LightController.MyForm
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsSkinListView.SelectedIndices[0];											
-				generateLightData();    //lightsSkinListView_SelectedIndexChanged			
+				generateLightData(); //lightsSkinListView_SelectedIndexChanged			
 			}
 		}
 		
 		/// <summary>
 		///  辅助方法：通过LightAst，显示选中灯具信息
 		/// </summary>
-		protected override void editLightInfo(LightAst la)
+		protected override void showLightsInfo()
 		{
-			if (la == null) {
+			//DOTO 0715 重写editLightInfo()为showLightsInfo()
+			if(checkNoLightSelected())
+			{
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
@@ -583,13 +584,13 @@ namespace LightController.MyForm
 				return;
 			}
 
+			LightAst la = LightAstList[selectedIndex];
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic):global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
-			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;			
-			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
-			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
-
-		}
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：")  + (isMultiMode ? "" : la.Remark);
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + generateAddrStr();	
+		}	
 
 		/// <summary>
 		/// 辅助方法：
@@ -1292,7 +1293,7 @@ namespace LightController.MyForm
 		/// <summary>
 		///辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void EnterSyncMode(bool isSyncMode)
+		protected override void enterSyncMode(bool isSyncMode)
 		{
 			this.isSyncMode = isSyncMode;
 			syncSkinButton.Text = isSyncMode ? "退出同步" : "进入同步";			
@@ -1305,7 +1306,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="currentStep"></param>
 		/// <param name="totalStep"></param>
-		protected override void showStepLabel(int currentStep, int totalStep)
+		protected override void showStepLabelMore(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
@@ -1329,7 +1330,7 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用
 			// DOTO 0714 showStepLabel几个按键可用性
-			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || IsMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
+			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; 			
 			multiButton.Enabled = totalStep != 0;
 			detailMultiButton.Enabled = totalStep != 0;
@@ -1504,7 +1505,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
-			if (IsMultiMode) {
+			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
 			}						
 		}
@@ -1570,7 +1571,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
-			if (IsMultiMode) {
+			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
 			}
 		}
@@ -1619,39 +1620,31 @@ namespace LightController.MyForm
 		{
 			groupButtonClick(lightsSkinListView);
 		}
-
+		
 		/// <summary>
 		/// 辅助方法：《进入|退出编组》后的刷新相关控件显示
 		/// </summary>
-		protected override void refreshMultiModeControls(bool isMultiMode)
+		protected override void refreshMultiModeControls()
 		{
-			//DOTO 0714 refreshMultiModeControls
-			IsMultiMode = isMultiMode;
-
-			if (! IsMultiMode && selectedIndex != -1) {
-				selectedIndexList = new List<int>() { selectedIndex };
-			}
-
-			lightsAddrLabel.Text = getAddrStr();
-
+			//DOTO 0714 refreshMultiModeControls			
+			//MARK 只开单场景：15.2 《灯具列表》是否可用，由是否编组决定
+			lightListSkinButton.Enabled = !isMultiMode;
+			lightsSkinListView.Enabled = !isMultiMode;
+			sceneSkinComboBox.Enabled = !isMultiMode;
+			modeSkinComboBox.Enabled = !isMultiMode;
+			copyFrameSkinButton.Enabled = !isMultiMode;						
+			groupButton.Text = !isMultiMode ? "灯具编组" : "退出编组";
+			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
+					
+			//把ListView相关放到最后面：可以把Select()放一起，避免相关代码分开；
 			lightsSkinListView.SelectedIndexChanged -= lightsSkinListView_SelectedIndexChanged;
 			for (int lightIndex = 0; lightIndex < lightsSkinListView.Items.Count; lightIndex++)
 			{
-				lightsSkinListView.Items[lightIndex].Selected = selectedIndexList.Contains(lightIndex) || selectedIndex == lightIndex ;
-				lightsSkinListView.Items[lightIndex].BackColor = (IsMultiMode && selectedIndexList.Contains(lightIndex)) ? (lightIndex == selectedIndex ? Color.LightSkyBlue : Color.SkyBlue) : Color.Transparent;				
+				lightsSkinListView.Items[lightIndex].Selected = !isMultiMode && selectedIndex == lightIndex; // 满足两个条件，才会选中项（非编组模式 且 灯具为selectedIndex）
+				lightsSkinListView.Items[lightIndex].BackColor = (isMultiMode && selectedIndexList.Contains(lightIndex)) ? (lightIndex == selectedIndex ? Color.LightSkyBlue : Color.SkyBlue) : Color.Transparent;
 			}
-			lightsSkinListView.Select();
 			lightsSkinListView.SelectedIndexChanged += lightsSkinListView_SelectedIndexChanged;			
-
-			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
-			lightListSkinButton.Enabled = !IsMultiMode;
-			lightsSkinListView.Enabled = !IsMultiMode;
-			sceneSkinComboBox.Enabled = !IsMultiMode;
-			modeSkinComboBox.Enabled = !IsMultiMode;
-			copyFrameSkinButton.Enabled = !IsMultiMode;
-			groupFlowLayoutPanel.Enabled = LightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
-			groupButton.Text = !IsMultiMode ? "灯具编组" : "退出编组";
-						
+			lightsSkinListView.Select(); // 需要在最后激活一下ListView以高亮选中项；
 		}
 
 		/// <summary>
@@ -2017,6 +2010,7 @@ namespace LightController.MyForm
 
 		private void currentLightPictureBox_Click(object sender, EventArgs e)
 		{
+			lightsSkinListView.Select();
 			testButtonClick();
 		}
 		

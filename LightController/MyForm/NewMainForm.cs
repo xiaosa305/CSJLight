@@ -612,8 +612,7 @@ namespace LightController.MyForm
 			base.clearAllData();
 
 			lightsListView.Clear();
-			stepPanel.Enabled = false;
-			editLightInfo(null);	
+			stepPanel.Enabled = false;			
 		}
 
 		/// <summary>
@@ -680,9 +679,10 @@ namespace LightController.MyForm
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
 		/// <param name="la"></param>
-		protected override void editLightInfo(LightAst la)
-		{			
-			if (la == null)
+		protected override void showLightsInfo()
+		{
+			//DOTO 0715 重写editLightInfo()为showLightsInfo()
+			if(checkNoLightSelected())
 			{
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
@@ -692,12 +692,12 @@ namespace LightController.MyForm
 				return;
 			}
 
+			LightAst la = LightAstList[selectedIndex];
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic) : global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
-			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
-			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
-			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
-			myToolTip.SetToolTip(lightRemarkLabel, LanguageHelper.TranslateWord("备注：") +"\n" + la.Remark);		
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;			
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + (isMultiMode ? "" : la.Remark);
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + generateAddrStr();
 		}
 
 		/// <summary>
@@ -1197,40 +1197,30 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：《进入|退出编组》后的刷新相关控件显示
 		/// </summary>
-		protected override void refreshMultiModeControls(bool isMultiMode)
+		protected override void refreshMultiModeControls()
 		{
-			//DOTO 0714 refreshMultiModeControls
-			IsMultiMode = isMultiMode;
-
-			if (!IsMultiMode && selectedIndex != -1)
-			{
-				selectedIndexList = new List<int>() { selectedIndex };
-			}
-
-			lightsAddrLabel.Text = getAddrStr();
+			//DOTO 0714 refreshMultiModeControls	
+			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
+			lightListToolStripMenuItem.Enabled = !isMultiMode;
+			lightsListView.Enabled = !isMultiMode;
+			sceneComboBox.Enabled = !isMultiMode;
+			modeComboBox.Enabled = !isMultiMode;
+			copyFrameButton.Enabled = !isMultiMode;
+			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
+			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
 
 			lightsListView.SelectedIndexChanged -= lightsListView_SelectedIndexChanged;
-			for(int lightIndex = 0; lightIndex< lightsListView.Items.Count; lightIndex++)
+			for (int lightIndex = 0; lightIndex < lightsListView.Items.Count; lightIndex++)
 			{
-				lightsListView.Items[lightIndex].Selected = selectedIndexList.Contains(lightIndex);			
+				lightsListView.Items[lightIndex].Selected = selectedIndexList.Contains(lightIndex);
 			}
 			lightsListView.SelectedIndexChanged += lightsListView_SelectedIndexChanged;
-
-			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
-			lightListToolStripMenuItem.Enabled = !IsMultiMode;
-			lightsListView.Enabled = !IsMultiMode;
-			sceneComboBox.Enabled = !IsMultiMode;
-			modeComboBox.Enabled = !IsMultiMode;
-			copyFrameButton.Enabled = !IsMultiMode;
-			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
-			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";			
-
 		}
 
 		/// <summary>
 		/// 辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void EnterSyncMode(bool isSyncMode)
+		protected override void enterSyncMode(bool isSyncMode)
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
@@ -1240,7 +1230,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：显示步数标签，并判断stepPanel按钮组是否可用
 		/// </summary>		
-		protected override void showStepLabel(int currentStep, int totalStep)
+		protected override void showStepLabelMore(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
@@ -1264,7 +1254,7 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用
 			// DOTO 0714 showStepLabel几个按键可用性
-			groupButton.Enabled = (LightAstList != null && lightsListView.SelectedIndices.Count > 0) || IsMultiMode; // 只有工程非空（有灯具列表）且选择项不为空才可点击
+			groupButton.Enabled = (LightAstList != null && lightsListView.SelectedIndices.Count > 0) || isMultiMode; // 只有工程非空（有灯具列表）且选择项不为空才可点击
 			groupFlowLayoutPanel.Enabled = LightAstList != null;
 			multiButton.Enabled = totalStep != 0;
 			detailMultiButton.Enabled = totalStep != 0;
@@ -1438,7 +1428,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
-			if (IsMultiMode)
+			if (isMultiMode)
 			{
 				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
 			}
@@ -1505,7 +1495,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
-			if (IsMultiMode) {
+			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
 			}
 		}

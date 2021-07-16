@@ -139,7 +139,6 @@ namespace LightController.MyForm
 			this.secondLabel = new System.Windows.Forms.Label();
 			this.firstLabel = new System.Windows.Forms.Label();
 			this.middleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.bgWorker = new System.ComponentModel.BackgroundWorker();
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.menuSkinPanel.SuspendLayout();
@@ -1279,7 +1278,7 @@ namespace LightController.MyForm
 			this.noticeLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.noticeLabel.ForeColor = System.Drawing.Color.DimGray;
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(1409, 17);
+			this.noticeLabel.Size = new System.Drawing.Size(1378, 17);
 			this.noticeLabel.Spring = true;
 			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -2085,14 +2084,6 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.Size = new System.Drawing.Size(1055, 712);
 			this.middleTableLayoutPanel.TabIndex = 29;
 			// 
-			// bgWorker
-			// 
-			this.bgWorker.WorkerReportsProgress = true;
-			this.bgWorker.WorkerSupportsCancellation = true;
-			this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
-			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
-			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
-			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2235,7 +2226,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem refreshPicToolStripMenuItem;
 		private SkinButton closeSkinButton;
 		private SkinButton syncSkinButton;
-		private System.ComponentModel.BackgroundWorker bgWorker;
 		private StatusStrip noticeStatusStrip;
 		private ToolStripStatusLabel noticeLabel;
 		private Label lightRemarkLabel;

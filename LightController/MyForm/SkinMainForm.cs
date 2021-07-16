@@ -1911,53 +1911,6 @@ namespace LightController.MyForm
 
 		#endregion
 
-		#region bgWorker相关事件
-
-		/// <summary>
-		/// 事件：bgWorker的后台工作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		public void bgWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			for (int i = 0; i <= 100; i++)
-			{
-				if (bgWorker.CancellationPending)
-				{
-					e.Cancel = true;
-					return;
-				}
-				else
-				{
-					bgWorker.ReportProgress(i, "Working");
-					System.Threading.Thread.Sleep(100);
-				}
-			}
-		}
-
-		public void bgWorker_ProgessChanged(object sender, ProgressChangedEventArgs e)
-		{
-			//string state = (string)e.UserState;//接收ReportProgress方法传递过来的userState
-			//this.progressBar1.Value = e.ProgressPercentage;
-			//this.label1.Text = "处理进度:" + Convert.ToString(e.ProgressPercentage) + "%";
-		}
-
-		public void bgWorker_WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			if (e.Error != null)
-			{
-				Console.WriteLine("Dickov : bgWorker_WorkerCompleted");
-				MessageBox.Show(e.Error.ToString());
-				return;
-			}
-			//if (!e.Cancelled)
-			//	this.label1.Text = "处理完毕!";
-			//else
-			//	this.label1.Text = "处理终止!";
-		}
-
-		#endregion
-
 		#region 测试按钮及废弃方法块
 
 		/// <summary>

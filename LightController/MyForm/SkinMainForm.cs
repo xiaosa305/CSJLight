@@ -1911,33 +1911,6 @@ namespace LightController.MyForm
 
 		#endregion
 
-		#region 测试按钮及废弃方法块
-
-		/// <summary>
-		///  事件：《（曾维佳）测试按钮组》点击事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void newTestButton_Click(object sender, EventArgs e)
-		{
-			int buttonIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-			Console.WriteLine(buttonIndex);
-			//Test test = new Test(GetDBWrapper(true) );
-		}
-
-		/// <summary>
-		/// 事件：点击《自定义测试按钮》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void bigTestButton_Click(object sender, EventArgs e)	{
-
-			LanguageHelper.SetLanguage("en-US");
-
-		}
-
-		#endregion
-
 		/// <summary>
 		/// 部分Control文本更新，需要进行翻译
 		/// </summary>
@@ -1958,9 +1931,13 @@ namespace LightController.MyForm
 			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
 		}
 
+		/// <summary>
+		/// 事件：点击当前灯具图片（基本作为测试按键）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void currentLightPictureBox_Click(object sender, EventArgs e)
 		{
-			lightsSkinListView.Select();
 			testButtonClick();
 		}
 		

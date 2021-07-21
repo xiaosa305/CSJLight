@@ -22,7 +22,7 @@ namespace LightController.Tools.CSJ.IMPL
                 List<byte> buff = new List<byte>();
                 for (int relayIndex = 0; relayIndex < RELAY_SWITCH_NAME_COUNT; relayIndex++)
                 {
-                    byte[] nameBuff = Encoding.Default.GetBytes(this.RelaySwitchNames[relayIndex]);
+                    byte[] nameBuff = Encoding.UTF8.GetBytes(this.RelaySwitchNames[relayIndex]);
                     for (int nameIndex = 0; nameIndex < 32; nameIndex++)
                     {
                         if (nameIndex >= nameBuff.Length)
@@ -70,7 +70,7 @@ namespace LightController.Tools.CSJ.IMPL
                         }
                     }
                     sequencer.RelaySwitchNames[relayIndex] = "";
-                    if(buff.Count > 0) sequencer.RelaySwitchNames[relayIndex] = Encoding.Default.GetString(buff.ToArray());
+                    if (buff.Count > 0) sequencer.RelaySwitchNames[relayIndex] = Encoding.UTF8.GetString(buff.ToArray());
                     buff.Clear();
                 }
                 for (int relayDelayTimeIndex = 0; relayDelayTimeIndex < RELAY_DELAY_TIME_COUNT; relayDelayTimeIndex++)

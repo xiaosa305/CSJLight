@@ -51,6 +51,7 @@ namespace LightController.Tools.CSJ.IMPL
         {
             try
             {
+                if (data.Length < 60) return null;
                 int point = 80;
                 SequencerData sequencer = new SequencerData
                 {
@@ -65,15 +66,19 @@ namespace LightController.Tools.CSJ.IMPL
                     {
                         if (data[point + relayIndex * 32 + index] != Convert.ToByte(0x00))
                         {
-                            buff.Add(data[point + relayIndex * 32 + index]);
+                            if (data[point + relayIndex * 32 + index] != Convert.ToByte(0xFF)) buff.Add(data[point + relayIndex * 32 + index]);
                         }
                     }
-                    sequencer.RelaySwitchNames[relayIndex] = Encoding.Default.GetString(buff.ToArray());
+                    sequencer.RelaySwitchNames[relayIndex] = "";
+                    if(buff.Count > 0) sequencer.RelaySwitchNames[relayIndex] = Encoding.Default.GetString(buff.ToArray());
                     buff.Clear();
                 }
                 for (int relayDelayTimeIndex = 0; relayDelayTimeIndex < RELAY_DELAY_TIME_COUNT; relayDelayTimeIndex++)
                 {
-                    sequencer.RelaySwitchDelayTimes[relayDelayTimeIndex] = Convert.ToInt32(data[point + 7 * 32 + relayDelayTimeIndex]);
+                    int value = Convert.ToInt32(data[point + 7 * 32 + relayDelayTimeIndex]);
+                    if (value > 15) value = 15;
+                    else if (value < 1) value = 1;
+                    sequencer.RelaySwitchDelayTimes[relayDelayTimeIndex] = value;
                 }
                 return sequencer;
             }

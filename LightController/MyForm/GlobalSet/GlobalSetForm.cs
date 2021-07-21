@@ -19,16 +19,16 @@ namespace LightController.MyForm
 		private int eachStepTime = 40;
 		private decimal eachStepTime2 = .04m;
 
-		private int frameCount = 0 ;
+		private int sceneCount = MainFormBase.AllSceneList.Count; 
 		public static int MULTI_SCENE_COUNT = 16 ;
 
 		private Panel[] skPanels;
 		private Label[] skLabels;
-		private NumericUpDown[] skStepTimeNumericUpDowns;
+		private NumericUpDown[] stNUDs;
 		private Label[] stLabels;
-		private NumericUpDown[] skJGTimeNumericUpDowns;
+		private NumericUpDown[] jgNUDs;
 		private Label[] jgLabels;
-		private TextBox[] lkTextBoxes;	
+		private TextBox[] lkTBs;	
 
 		public GlobalSetForm(MainFormBase mainForm) {
 
@@ -36,78 +36,161 @@ namespace LightController.MyForm
 
 			InitializeComponent();
 
-			#region 初始化辅助数组，及其他默认选项
-		
-			// 初始化多场景组合播放输入项
-			this.frameComboBoxes[0] = frame1ComboBox;
-			this.frameComboBoxes[1] = frame2ComboBox;
-			this.frameComboBoxes[2] = frame3ComboBox;
-			this.frameComboBoxes[3] = frame4ComboBox;
+			#region 初始化DMX512设置
 
-			this.frameNumericUpDowns[0] = frame1numericUpDown;
-			this.frameNumericUpDowns[1] = frame2numericUpDown;
-			this.frameNumericUpDowns[2] = frame3numericUpDown;
-			this.frameNumericUpDowns[3] = frame4numericUpDown;
-						
 			// 将所有的场景加入到《开机启动场景》及《强电选择框》中			
-			foreach (string scene in MainFormBase.AllSceneList)
+			foreach (string sceneName in MainFormBase.AllSceneList)
 			{
-				startupComboBox.Items.Add(scene);
-			}
-			// 组合播放只有前面 n 个场景可以用(全局静态变量，便于随时改动)。
-			for (int i = 0; i < MULTI_SCENE_COUNT; i++)
-			{
-				zuheFrameComboBox.Items.Add(MainFormBase.AllSceneList[i]);
-			}
-			// 组合播放可调用的子场景--》目前全部可用
-			for (int i = 0; i < 32; i++)
-			{
-				frame1ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
-				frame2ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
-				frame3ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
-				frame4ComboBox.Items.Add(MainFormBase.AllSceneList[i]);
+				startupComboBox.Items.Add(sceneName);
 			}
 
-			//各个下拉框的默认值
-			zuheFrameComboBox.SelectedIndex = 0; 
 			startupComboBox.SelectedIndex = 1; // 开机启动默认设为标准，但用户也可以选择不设置开机场景
 			tongdaoCountComboBox.SelectedIndex = 0;
 			eachStepTimeNumericUpDown.Value = 40;
+			eachStepTimeNumericUpDown.MouseWheel += someNUD_MouseWheel;
 			eachChangeModeComboBox.SelectedIndex = 0;
+
+			#endregion
+
+			#region  初始化多场景组合播放
+
+			sceneComboBoxes[0] = scene1ComboBox;
+			sceneComboBoxes[1] = scene2ComboBox;
+			sceneComboBoxes[2] = scene3ComboBox;
+			sceneComboBoxes[3] = scene4ComboBox;
+
+			sceneNumericUpDowns[0] = scene1numericUpDown;
+			sceneNumericUpDowns[1] = scene2numericUpDown;
+			sceneNumericUpDowns[2] = scene3numericUpDown;
+			sceneNumericUpDowns[3] = scene4numericUpDown;						
+
+			// 组合播放只有前面 MULTI_SCENE_COUNT 个场景可以用(全局静态变量，便于随时改动)。
+			for (int sceneIndex = 0; sceneIndex < MULTI_SCENE_COUNT; sceneIndex++)
+			{
+				zuheSceneComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
+			}
+
+			// 组合播放可调用的子场景--》目前全部可用
+			for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
+			{
+				scene1ComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
+				scene2ComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
+				scene3ComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
+				scene4ComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
+			}
+
+			//各个下拉框的默认值
+			zuheSceneComboBox.SelectedIndex = 0; 			
+			scene1ComboBox.SelectedIndex = 0;
+			scene2ComboBox.SelectedIndex = 0;
+			scene3ComboBox.SelectedIndex = 0;
+			scene4ComboBox.SelectedIndex = 0;
+
+			#endregion
+
+			#region 初始化音频场景设置
+
+			skPanels = new Panel[sceneCount];
+			skLabels = new Label[sceneCount];
+			stNUDs = new NumericUpDown[sceneCount];
+			stLabels = new Label[sceneCount];
+			jgNUDs = new NumericUpDown[sceneCount];
+			jgLabels = new Label[sceneCount];
+			lkTBs = new TextBox[sceneCount];			
+
+			for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
+			{
+				skPanels[sceneIndex] = new Panel
+				{
+					Location = skPanelDemo.Location,
+					Size = skPanelDemo.Size,
+					BorderStyle = skPanelDemo.BorderStyle
+				};
+
+				skLabels[sceneIndex] = new Label
+				{
+					AutoSize = sceneLabelDemo.AutoSize,
+					Location = sceneLabelDemo.Location,
+					Size = sceneLabelDemo.Size,
+					Text = MainFormBase.AllSceneList[sceneIndex],
+				};
+				myToolTip.SetToolTip(skLabels[sceneIndex], MainFormBase.AllSceneList[sceneIndex]);
+
+				// 步时间NUD
+				stNUDs[sceneIndex] = new NumericUpDown
+				{
+					Location = stNUDDemo.Location,
+					Size = stNUDDemo.Size,
+					Font = stNUDDemo.Font,
+					TextAlign = stNUDDemo.TextAlign,
+					DecimalPlaces = stNUDDemo.DecimalPlaces
+				};
+				stNUDs[sceneIndex].ValueChanged += stNUD_ValueChanged;
+				stNUDs[sceneIndex].MouseWheel += someNUD_MouseWheel;
+
+				// 步时间Label
+				stLabels[sceneIndex] = new Label
+				{
+					AutoSize = stLabelDemo.AutoSize,
+					Location = stLabelDemo.Location,
+					Size = stLabelDemo.Size,
+					Text = stLabelDemo.Text
+				};
+
+				// 间隔时间NUD
+				jgNUDs[sceneIndex] = new NumericUpDown
+				{
+					Location = jgNUDDemo.Location,
+					Size = jgNUDDemo.Size,
+					Font = jgNUDDemo.Font,
+					TextAlign = jgNUDDemo.TextAlign,
+					Maximum = jgNUDDemo.Maximum,
+				};
+
+				// 间隔时间Label
+				jgLabels[sceneIndex] = new Label
+				{
+					AutoSize = jgLabelDemo.AutoSize,
+					Location = jgLabelDemo.Location,
+					Size = jgLabelDemo.Size,
+					Text = jgLabelDemo.Text
+				};
+
+				// 链表输入框
+				lkTBs[sceneIndex] = new TextBox
+				{
+					BackColor = lkTBDemo.BackColor,
+					Location = lkTBDemo.Location,
+					Size = lkTBDemo.Size,
+					MaxLength = lkTBDemo.MaxLength,
+				};
+				lkTBs[sceneIndex].KeyPress += lkTB_KeyPress;
+
+				skPanels[sceneIndex].Controls.Add(skLabels[sceneIndex]);
+				skPanels[sceneIndex].Controls.Add(stNUDs[sceneIndex]);
+				skPanels[sceneIndex].Controls.Add(stLabels[sceneIndex]);
+				skPanels[sceneIndex].Controls.Add(jgNUDs[sceneIndex]);
+				skPanels[sceneIndex].Controls.Add(jgLabels[sceneIndex]);
+				skPanels[sceneIndex].Controls.Add(lkTBs[sceneIndex]);
+
+				skFLP.Controls.Add(skPanels[sceneIndex]);							
+		}
 			
-			frame1ComboBox.SelectedIndex = 0;
-			frame2ComboBox.SelectedIndex = 0;
-			frame3ComboBox.SelectedIndex = 0;
-			frame4ComboBox.SelectedIndex = 0;
-
-			//	9.12 动态添加各种场景panel
-			frameCount =  MainFormBase.AllSceneList.Count;
-
-			skPanels = new Panel[frameCount];
-			skLabels = new Label[frameCount];
-			skStepTimeNumericUpDowns = new NumericUpDown[frameCount];
-			stLabels = new Label[frameCount];
-			skJGTimeNumericUpDowns = new NumericUpDown[frameCount];
-			jgLabels = new Label[frameCount];
-			lkTextBoxes = new TextBox[frameCount];
-
-			eachStepTimeNumericUpDown.MouseWheel += eachStepTimeNumericUpDown_MouseWheel;
-
 			#endregion
 
 			// 初始化iniAst
 			iniAst = new IniHelper(mainForm.GlobalIniPath);
-			isInit = true;			
-		}
+			isInit = true;
 
-		
+		}		
 
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);
 			LanguageHelper.InitForm(this);
 
-			loadGlobalSet();
+			// 下列三行先后顺序也很重要，loadGlobalSet必须放在loadSKSet前面，因为有个读取eachStepTime的操作，skSet依赖于此数据；
+			loadGlobalSet(); 
 			loadZuheSet(0);
 			loadSKSet();
 		}
@@ -119,14 +202,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void GlobalSetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
-		#region 四个读取ini内容并载入form中的辅助方法
+		#region 几个读取ini内容并载入form中的辅助方法
 
 		/// <summary>
-		/// 辅助方法：读取四个全局配置：通道总数、开机播放场景、时间因子、场景间切换跳渐变
+		/// 辅助方法：读取四个全局设置：通道总数、开机播放场景、时间因子、场景间切换跳渐变
 		/// </summary>
 		private void loadGlobalSet()
 		{
@@ -135,136 +218,51 @@ namespace LightController.MyForm
 				tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
 				startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 1);
 				int sjyz = iniAst.ReadInt("Set", "EachStepTime", 40);
-				eachStepTimeNumericUpDown.Value =  sjyz<30?30:sjyz;
+				eachStepTimeNumericUpDown.Value = sjyz < 30 ? 30 : sjyz;
 				eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
 			}
-			catch (Exception) {
+			catch (Exception)
+			{
 				tongdaoCountComboBox.SelectedIndex = 0;
 				startupComboBox.SelectedIndex = 1;
-				eachStepTimeNumericUpDown.Value =  40;
-				eachChangeModeComboBox.SelectedIndex = 0 ;
+				eachStepTimeNumericUpDown.Value = 40;
+				eachChangeModeComboBox.SelectedIndex = 0;
 			}
-			eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
+			eachStepTime = decimal.ToInt32(eachStepTimeNumericUpDown.Value);
 			eachStepTime2 = eachStepTime / 1000m;
 		}
 
 		/// <summary>
-		/// 辅助方法：读取组合的配置，根据选进来的frame来设置
+		/// 辅助方法：根据填入的sceneIndex值，读取多场景的配置；供Load时和更改组合场景时调用
 		/// </summary>
-		/// <param name="frame"></param>
-		private void loadZuheSet(int frame)
+		/// <param name="sceneIndex"></param>
+		private void loadZuheSet(int sceneIndex)
 		{
-			zuheCheckBox.Checked = ( iniAst.ReadInt("Multiple", frame + "OPEN", 0) != 0 );
-			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 
-				9);
-			
-			//frame0methodComboBox.SelectedIndex = iniAst.ReadInt("Multiple", frame + "F0M", 0);
-			frame0NumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);
-			for (int i = 0; i < 4; i++) {
-				frameComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F"+(i+1)+"F", 0);
-				frameNumericUpDowns[i].Value = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "V", 0);
+			zuheCheckBox.Checked = ( iniAst.ReadInt("Multiple", sceneIndex + "OPEN", 0) != 0 );
+			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", sceneIndex + "CT", 9);			
+			scene0NumericUpDown.Value = iniAst.ReadInt("Multiple", sceneIndex + "F0V", 0);
+			for (int zuheIndex = 0; zuheIndex < 4; zuheIndex++) {
+				sceneComboBoxes[zuheIndex].SelectedIndex = iniAst.ReadInt("Multiple", sceneIndex + "F"+(zuheIndex+1)+"F", 0);
+				sceneNumericUpDowns[zuheIndex].Value = iniAst.ReadInt("Multiple", sceneIndex + "F" + (zuheIndex + 1) + "V", 0);
 			}
 		}
 
 		/// <summary>
-		/// 辅助方法：读取声控程序的所有设置
+		/// 辅助方法：读取声控设置
 		/// </summary>
 		private void loadSKSet()
-		{			
-			for (int frameIndex = 0; frameIndex < frameCount;  frameIndex++)
-			{
-				addFramePanel(frameIndex, MainFormBase.AllSceneList[frameIndex]);
-
-				int currentStepTime = iniAst.ReadInt("SK", frameIndex + "ST", 0);
-				skStepTimeNumericUpDowns[frameIndex].Value = currentStepTime * eachStepTime2;
-				skStepTimeNumericUpDowns[frameIndex].ValueChanged += new EventHandler(skStepTimeNumericUpDowns_ValueChanged);
-				skStepTimeNumericUpDowns[frameIndex].MouseWheel += new MouseEventHandler(this.skStepTimeNumericUpDowns_MouseWheel);
-
-				skJGTimeNumericUpDowns[frameIndex].Value = iniAst.ReadInt("SK", frameIndex + "JG", 0);
-
-				lkTextBoxes[frameIndex].Text = iniAst.ReadString("SK", frameIndex + "LK","");
-				lkTextBoxes[frameIndex].KeyPress += new KeyPressEventHandler(skFrameTextBox_KeyPress);
-			}			
-		}
-
-		/// <summary>
-		/// 辅助方法：添加自动添加的panel到skFrameFlowLayoutPanel中；
-		/// </summary>
-		/// <param name="frameIndex"></param>
-		private void addFramePanel(int frameIndex, string frameName)
 		{
-			skPanels[frameIndex] = new Panel
+			for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
 			{
-				Location = skPanelDemo.Location,	
-				Size = skPanelDemo.Size,
-				BorderStyle = skPanelDemo.BorderStyle
-			};
+				int currentStepTime = iniAst.ReadInt("SK", sceneIndex + "ST", 0);
 
-			skLabels[frameIndex] = new Label
-			{
-				AutoSize = frameLabel.AutoSize,
-				Location = frameLabel.Location,
-				Size = frameLabel.Size,
-				Text = frameName
-			};			
-			myToolTip.SetToolTip(skLabels[frameIndex], frameName);
+				stNUDs[sceneIndex].Maximum = MainFormBase.MAX_StTimes * eachStepTime2;
+				stNUDs[sceneIndex].Increment = eachStepTime2;
+				stNUDs[sceneIndex].Value = currentStepTime * eachStepTime2;				
 
-			// 步时间
-			skStepTimeNumericUpDowns[frameIndex] = new NumericUpDown
-			{
-				Location = stNumericUpDown.Location,
-				Size = stNumericUpDown.Size,				
-				Font  =stNumericUpDown.Font,
-				TextAlign = stNumericUpDown.TextAlign,
-				Maximum = MainFormBase.MAX_StTimes * eachStepTime2,
-				Increment = eachStepTime2,
-				DecimalPlaces = 2
-			};
-
-			// 步时间的Label
-			stLabels[frameIndex] = new Label
-			{
-				AutoSize = stLabel.AutoSize,
-				Location = stLabel.Location,				
-				Size =stLabel.Size,				
-				Text = stLabel.Text
-			};		
-
-			// 间隔时间
-			skJGTimeNumericUpDowns[frameIndex] = new NumericUpDown
-			{
-				Location = jgNumericUpDown.Location,
-				Size = jgNumericUpDown.Size,
-				Font = jgNumericUpDown.Font,
-				TextAlign = jgNumericUpDown.TextAlign,
-				Maximum = new decimal(new int[] { 10000, 0, 0, 0 })
-			};
-
-			// 间隔时间的Label
-			jgLabels[frameIndex] = new Label
-			{
-				AutoSize = jgLabel.AutoSize,
-				Location = jgLabel.Location,			
-				Size = jgLabel.Size,
-				Text = jgLabel.Text
-			};
-
-			// 链表输入框
-			lkTextBoxes[frameIndex] = new TextBox {
-				BackColor = lkTextBox.BackColor,	
-				Location = lkTextBox.Location,
-				Size = lkTextBox.Size,
-				MaxLength = 20				
-			};
-
-			skPanels[frameIndex].Controls.Add(skLabels[frameIndex]);
-			skPanels[frameIndex].Controls.Add(skStepTimeNumericUpDowns[frameIndex]);
-			skPanels[frameIndex].Controls.Add(stLabels[frameIndex]);
-			skPanels[frameIndex].Controls.Add(skJGTimeNumericUpDowns[frameIndex]);
-			skPanels[frameIndex].Controls.Add(jgLabels[frameIndex]);
-			skPanels[frameIndex].Controls.Add(lkTextBoxes[frameIndex]);
-
-			skFlowLayoutPanel.Controls.Add(skPanels[frameIndex]);
+				jgNUDs[sceneIndex].Value = iniAst.ReadInt("SK", sceneIndex + "JG", 0);
+				lkTBs[sceneIndex].Text = iniAst.ReadString("SK", sceneIndex + "LK", "");							
+			}			
 		}
 
 		#endregion
@@ -290,7 +288,7 @@ namespace LightController.MyForm
 		private void zuheFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (isInit)
-				loadZuheSet(zuheFrameComboBox.SelectedIndex);
+				loadZuheSet(zuheSceneComboBox.SelectedIndex);
 		}
 				
 		/// <summary>
@@ -301,20 +299,35 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void globalSaveButton_Click(object sender, EventArgs e)
 		{
+			// 这几栏的写法很简单，只要把当前值设好即可，数据量小，无需判断是否更改过；
 			iniAst.WriteInt("Set","TongdaoCount",tongdaoCountComboBox.SelectedIndex);		
 			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;				
 			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
+			
+			//如果更改了时间因子，则每个音频的步时间也需要更改显示（但实际上，底层数据无需更改）
+			if (decimal.ToInt32(eachStepTimeNumericUpDown.Value) != eachStepTime) {
+								
+				// 保存新的《时间因子》，用WriteInt方法
+				eachStepTime = decimal.ToInt32(eachStepTimeNumericUpDown.Value);
+				iniAst.WriteInt("Set", "EachStepTime", eachStepTime);
 
-			// 更改时间因子
-			iniAst.WriteString("Set", "EachStepTime", eachStepTimeNumericUpDown.Text);
-			eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
-			eachStepTime2 = eachStepTime / 1000m;
-			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
-			{
-				int currentStepTime = iniAst.ReadInt("SK", frameIndex + "ST", 0);
-				skStepTimeNumericUpDowns[frameIndex].Value = currentStepTime * eachStepTime2;
+				// 某些与时间因子相关的控件，它们的显示值也要一起更改；
+				decimal oldEachStepTime2 = eachStepTime2 ;  //decimal是传值而非传地址，可以直接用"="赋值，此处留一个eachStepTime2的备份，便于之后的运算；
+				eachStepTime2 = eachStepTime / 1000m;
+				for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
+				{
+					decimal currentStepTime = stNUDs[sceneIndex].Value / oldEachStepTime2;					
+
+					stNUDs[sceneIndex].ValueChanged -= stNUD_ValueChanged;
+
+					stNUDs[sceneIndex].Maximum = MainFormBase.MAX_StTimes * eachStepTime2;
+					stNUDs[sceneIndex].Increment = eachStepTime2;
+					stNUDs[sceneIndex].Value = currentStepTime * eachStepTime2; // 先后顺序可能有影响（比如说时间因子调大，Maximum还没调时，Value可能设不到最新的Maximum）
+
+					stNUDs[sceneIndex].ValueChanged += stNUD_ValueChanged;
+				}
+				mainForm.ChangeEachStepTime(eachStepTime); // 主界面的时间因子，也要更改一下
 			}
-			mainForm.ChangeEachStepTime(eachStepTime); // 主界面的时间因子，也要更改一下
 
 			MessageBox.Show(LanguageHelper.TranslateSentence("开机场景、场景切换跳渐变\n等全局设置保存成功")) ;
 		}
@@ -326,17 +339,17 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multipleFrameSaveButton_Click(object sender, EventArgs e)
 		{
-			int frame = zuheFrameComboBox.SelectedIndex;
+			int frame = zuheSceneComboBox.SelectedIndex;
 			iniAst.WriteInt("Multiple", frame + "OPEN", (zuheCheckBox.Checked ? 1 : 0));
 			iniAst.WriteString("Multiple", frame + "CT",  circleTimeNumericUpDown.Text);
-			iniAst.WriteInt("Multiple", frame + "F0V", frame0NumericUpDown.Value);
+			iniAst.WriteInt("Multiple", frame + "F0V", scene0NumericUpDown.Value);
 			for(int i = 0; i < 4; i++)
 			{
-				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
-				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Text );
+				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  sceneComboBoxes[i].SelectedIndex);
+				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  sceneNumericUpDowns[i].Text );
 			}
 			MessageBox.Show(LanguageHelper.TranslateSentence("场景") 
-				+  "【" +zuheFrameComboBox.Text + "】"
+				+  "【" +zuheSceneComboBox.Text + "】"
 				+ LanguageHelper.TranslateSentence("的组合播放设置保存成功") );
 		}
 
@@ -347,6 +360,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skNoticeButton_Click(object sender, EventArgs e)
 		{
+			NumericUpDown obj = stNUDs[0];
+			Console.WriteLine(obj.Increment + "   -   "+obj.Maximum );
 			MessageBox.Show(LanguageHelper.TranslateSentence("请在音频链表文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。")	);
 		}
 
@@ -357,84 +372,54 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skSaveButton_Click(object sender, EventArgs e)
 		{
-			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
+			for (int frameIndex = 0; frameIndex < sceneCount; frameIndex++)
 			{
-				iniAst.WriteInt("SK", frameIndex + "ST", skStepTimeNumericUpDowns[frameIndex].Value / eachStepTime2);
-				iniAst.WriteInt("SK", frameIndex + "JG", skJGTimeNumericUpDowns[frameIndex].Value);
-				iniAst.WriteString("SK", frameIndex + "LK", lkTextBoxes[frameIndex].Text.Trim());
+				iniAst.WriteInt("SK", frameIndex + "ST", stNUDs[frameIndex].Value / eachStepTime2);
+				iniAst.WriteInt("SK", frameIndex + "JG", jgNUDs[frameIndex].Value);
+				iniAst.WriteString("SK", frameIndex + "LK", lkTBs[frameIndex].Text.Trim());
 			}
 			MessageBox.Show(LanguageHelper.TranslateSentence("音频场景设置保存成功"));
 		}
-			   
-		#region  《声控全局配置》各种监听事件
+
+		#region  各种输入框监听事件
 
 		/// <summary>
-		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、回退键
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void skFrameTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
 		{
-			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
-			{
-				e.Handled = false;
-			}
-			else
-			{
-				e.Handled = true;
-			}
-		}
-
-		/// <summary>
-		/// 事件：更改《音频步时间》的值时，实时生成真实步时间
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void skStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
-		{					
-			NumericUpDown nud = (NumericUpDown)sender;
-			int stepTime = Decimal.ToInt32(nud.Value / mainForm.EachStepTime2);
-			nud.Value = stepTime * mainForm.EachStepTime2;
-		}
-
-		/// <summary>
-		///  事件：鼠标滚动时，步时间值每次只变动一个Increment值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void skStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
-		{
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			NumericUpDown nud = sender as NumericUpDown;
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
 				hme.Handled = true;
 			}
+			// 向上滚
 			if (e.Delta > 0)
 			{
-				decimal dd = skStepTimeNumericUpDowns[tdIndex].Value + skStepTimeNumericUpDowns[tdIndex].Increment;
-				if (dd <= skStepTimeNumericUpDowns[tdIndex].Maximum)
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
 				{
-					skStepTimeNumericUpDowns[tdIndex].Value = dd;
+					nud.Value = dd;
 				}
 			}
+			// 向下滚
 			else if (e.Delta < 0)
 			{
-				decimal dd = skStepTimeNumericUpDowns[tdIndex].Value - skStepTimeNumericUpDowns[tdIndex].Increment;
-				if (dd >= skStepTimeNumericUpDowns[tdIndex].Minimum)
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
 				{
-					skStepTimeNumericUpDowns[tdIndex].Value = dd;
+					nud.Value = dd;
 				}
 			}
 		}
 
-		#endregion
-		
 		/// <summary>
-		/// 事件：单独处理时间因子输入框，以免用户手动输入时出错
+		/// 事件：单独处理时间因子输入框，以免用户手动输入时出错（这个监听方法不可省略，否则用户可能输入非法数值）
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender"></param>		
 		private void eachStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			NumericUpDown nud = (NumericUpDown)sender;
@@ -447,40 +432,42 @@ namespace LightController.MyForm
 			{
 				nud.Value = 40;
 			}
-			else {
+			else
+			{
 				nud.Value = 50;
-			}		
+			}
 		}
 
 		/// <summary>
-		///  事件：鼠标滚动时，步时间值每次只变动一个Increment值
+		/// 事件：手动更改《音频步时间》的值时，主动把stepTime设为整型， 再换算回来，避免用户输入错误的数字（这个监听方法不可省略！）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void eachStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{			
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
+		private void stNUD_ValueChanged(object sender, EventArgs e)
+		{
+			NumericUpDown nud = (NumericUpDown)sender;
+			int stepTime = decimal.ToInt32(nud.Value / eachStepTime2);
+			nud.Value = stepTime * eachStepTime2;
+		}
+
+		/// <summary>
+		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、回退键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lkTB_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
 			{
-				hme.Handled = true;
+				e.Handled = false;
 			}
-			if (e.Delta > 0)
+			else
 			{
-				decimal dd =  eachStepTimeNumericUpDown.Value +  eachStepTimeNumericUpDown.Increment;
-				if (dd <=  eachStepTimeNumericUpDown.Maximum)
-				{
-					 eachStepTimeNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd =  eachStepTimeNumericUpDown.Value -  eachStepTimeNumericUpDown.Increment;
-				if (dd >=  eachStepTimeNumericUpDown.Minimum)
-				{
-					 eachStepTimeNumericUpDown.Value = dd;
-				}
+				e.Handled = true;
 			}
 		}
+		
+		#endregion
 
 		/// <summary>
 		/// 事件：点击《摇麦设置》
@@ -491,5 +478,6 @@ namespace LightController.MyForm
 		{
 			new YMSetForm(mainForm.GlobalIniPath).ShowDialog();
 		}
+
 	}
 }

@@ -27,7 +27,9 @@ namespace LightController.MyForm.OtherTools
 		{
 			No,	Normal,Lc,Cc,	Kp
 		}
-
+		/// <summary>
+		/// 状态栏的枚举
+		/// </summary>
 		enum StatusLabel
 		{
 			LEFT, RIGHT
@@ -47,12 +49,13 @@ namespace LightController.MyForm.OtherTools
 		private LightControlData lcEntity; //灯控封装对象	
 		private int sceneCount = 17; // 场景的数量（开机场景 + 16）
 		private int relayCount = 6; // 开关的数量		 		
-		//private Button[] relayButtons;  // 动态添加的按钮组（灯控各个开关）	
 		private FlowLayoutPanel[] relayFLPs;
 		private Panel[] relayPanels;
 		private Label[] sceneLabels;
 		private CheckBox[] sceneCBs;
 		private Button[,] relayButtons;
+		private bool isDebuging = false; // 是否正在发送调试数据，只有Completed|Error回调后，才会设为false；
+		private string selectedSceneName;
 
 		private KeyEntity kpEntity;  // 墙板封装对象
 		private List<string> kpCodeList;   // 记录搜索到的码值列表（不用Dictionary，因为没有存储功能描述的必要，且Dictionary无序）		
@@ -67,8 +70,6 @@ namespace LightController.MyForm.OtherTools
 
 			sceneCodeList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneCode");
 			pbinSaveDialog.InitialDirectory = Application.StartupPath + @"\protocol";
-			// 初始化灯控（强电）各配置
-			sceneComboBox.SelectedIndex = 0;
 
 			// 各强电开关
 			relayFLPs = new FlowLayoutPanel[sceneCount];
@@ -234,7 +235,7 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setBusy(true);
 				mainForm.SleepBetweenSend("Order : 切换外设状态[" + tabControl1.SelectedIndex+"]", 1);
@@ -307,7 +308,7 @@ namespace LightController.MyForm.OtherTools
 			mainForm.DisConnect();
 			setConnStatus(ConnectStatus.No);
 			mainForm.ConnForm.ShowDialog();
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setConnStatus(ConnectStatus.Normal);
 				tabControl1_SelectedIndexChanged(null, null);
@@ -370,7 +371,7 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
+		{			
 			// 一进来先把ccEntity置空
 			ccEntity = null;
 			string protocolName = "";
@@ -478,7 +479,6 @@ namespace LightController.MyForm.OtherTools
 				Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
 				Properties.Settings.Default.Save();
 
-				int lcSceneIndex = sceneComboBox.SelectedIndex;     // 先记录当前灯控选中的场景index，在渲染后重新选择				
 				if (sceneCodeList != null && sceneCodeList.Count == 16)
 				{
 					sceneLabels[0].Text = "开机场景";
@@ -934,7 +934,7 @@ namespace LightController.MyForm.OtherTools
 				reconnectDevice(); //LCDownloadError
 			});
 		}
-
+				
 		/// <summary>
 		///  事件：点击《灯控配置-场景名》，发送调试数据
 		/// </summary>
@@ -942,15 +942,16 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void sceneLabels_Click(object sender, EventArgs e)
 		{
-			if (connStatus != ConnectStatus.Lc)
+			if (connStatus != ConnectStatus.Lc && !isDebuging)
 			{
 				return;
 			}
-			setNotice(StatusLabel.RIGHT, "正在发送选中场景的《灯控开关》调试数据，请稍候...", false, true);
-			Refresh();
-			int sceneIndex = int.Parse((sender as Label).Name);
-			byte[] tempData = lcEntity.GetFrameBytes(sceneIndex);
-			mainForm.SleepBetweenSend("DebugLC" , 1);
+			isDebuging = true;
+			Label sceneLabel = sender as Label;
+			selectedSceneName = sceneLabel.Text;
+			setNotice(StatusLabel.RIGHT, "正在发送【"+ selectedSceneName + "】的《灯控开关》调试数据，请稍候...", false, true);
+			Refresh();			
+			byte[] tempData = lcEntity.GetSceneRelayBytes(int.Parse(sceneLabel.Name));			
 			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
 		}
 
@@ -962,7 +963,8 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				setNotice(StatusLabel.RIGHT, "已成功发送《灯控开关》调试数据。", false, true);
+				isDebuging = false;
+				setNotice(StatusLabel.RIGHT, "已成功发送【" + selectedSceneName + "】的《灯控开关》调试数据。", false, true);
 			});
 		}
 
@@ -974,6 +976,7 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
+				isDebuging = false;
 				setNotice(StatusLabel.RIGHT, "发送《灯控开关》调试数据失败，请重连设备后重试[" + msg + "]", false, true);
 				reconnectDevice();  // LCSendError
 			});

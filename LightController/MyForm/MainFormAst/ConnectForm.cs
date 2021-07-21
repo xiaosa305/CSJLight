@@ -19,10 +19,10 @@ namespace LightController.MyForm.MainFormAst
 	{
 		public static int SEARCH_WAITTIME = 1000; //网络搜索时的通用暂停时间
 		public static int REBOOT_WATITIME = 5000; //设备重启时间
-		public static int SEND_WAITTIME = 500; // 发送指令后等待时间
+		public static int SEND_WAITTIME = 500; // 发送指令后等待时间	
 		private MainFormBase mainForm;
 		private IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)		
-
+		
 		public ConnectForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
@@ -49,8 +49,7 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void ConnectForm_Shown(object sender, EventArgs e)
 		{
-			Console.WriteLine("ConnectForm_Shown ");
-			if (!mainForm.IsConnected)
+			if (!mainForm.IsDeviceConnected)
 			{
 				deviceRefreshButton_Click(null, null);
 			}
@@ -65,7 +64,7 @@ namespace LightController.MyForm.MainFormAst
 		{
 			e.Cancel = true;
 			if (DialogResult.Yes == MessageBox.Show("设备出厂时的默认IP地址为192.168.2.10；如果当前电脑当前不在此网段内(即本机IP非192.168.2.X)，将无法搜到设备。是否要打开《网络连接》设置本地IP?",
-				"设置IP？",
+				"设置本地IP",
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question))
 			{
@@ -92,6 +91,7 @@ namespace LightController.MyForm.MainFormAst
 		private void deviceRefreshButton_Click(object sender, EventArgs e)
 		{
 			setNotice("正在搜索设备，请稍候...", false, true);
+			setBusy(true);
 
 			deviceComboBox.Items.Clear();
 			deviceComboBox.SelectedIndex = -1;
@@ -142,7 +142,10 @@ namespace LightController.MyForm.MainFormAst
 			{
 				setNotice("未找到可用的网络设备，请确认后重试。", false, true);
 			}
+			Application.DoEvents();
 			deviceRefreshButton.Enabled = true;
+
+			setBusy(false);			
 		}
 
 		/// <summary>
@@ -153,9 +156,9 @@ namespace LightController.MyForm.MainFormAst
 		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
-				disconnectDevice();
+				disconnectDevice();  //deviceConnectButton_Click
 			}
 			else
 			{
@@ -165,7 +168,7 @@ namespace LightController.MyForm.MainFormAst
 					deviceComboBox.Enabled = false;
 					deviceRefreshButton.Enabled = false;
 					deviceConnectButton.Text = "断开连接";
-					refreshRestartButton();
+					refreshRestartButton();					
 					setNotice("设备连接成功。", false, true);
 				}
 				else
@@ -175,13 +178,11 @@ namespace LightController.MyForm.MainFormAst
 			}		
 		}
 
-
 		private void refreshRestartButton() {
-			deviceRestartButton.Visible = mainForm.IsConnected;
-			deviceRestartButton.Enabled = mainForm.IsConnected;
-			Size = mainForm.IsConnected ? new Size(372, 173) : new Size(285,173);
+			deviceRestartButton.Visible = mainForm.IsDeviceConnected;
+			deviceRestartButton.Enabled = mainForm.IsDeviceConnected;
+			Size = mainForm.IsDeviceConnected ? new Size(372, 173) : new Size(285,173);
 		}
-
 
 		/// <summary>
 		/// 辅助方法：主动断开连接
@@ -204,18 +205,27 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void restartButton_Click(object sender, EventArgs e)
 		{
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setNotice("正在发送重启命令，请稍候片刻(约耗时5s)；重新搜索并连接设备。", true, true);
 
 				mainForm.MyConnect.ResetDevice(); // 发送命令
-				disconnectDevice();// 断开连接
+				disconnectDevice();// restartButton_Click
 				deviceRefreshButton_Click(null,null); //刷新设备
 			}
 		}
 
 
 		#region 通用方法
+
+		/// <summary>
+		///  辅助方法：是否忙时
+		/// </summary>
+		/// <param name="busy"></param>
+		private void setBusy(bool busy) {			
+			Enabled = !busy;
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+		}
 
 		/// <summary>
 		/// 辅助方法：显示信息
@@ -236,8 +246,6 @@ namespace LightController.MyForm.MainFormAst
 			myStatusLabel.Text = msg;
 			statusStrip1.Refresh();
 		}
-
-
 
 		#endregion
 

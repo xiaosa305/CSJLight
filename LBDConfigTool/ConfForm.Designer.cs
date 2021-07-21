@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfForm));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -716,6 +717,7 @@
 			this.button3.TabIndex = 30;
 			this.button3.Text = "加密设置";
 			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Visible = false;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// panel1
@@ -1327,6 +1329,7 @@
 			this.ClientSize = new System.Drawing.Size(884, 661);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.statusStrip1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(900, 700);
 			this.MinimizeBox = false;

@@ -92,21 +92,22 @@ namespace LightController.Ast
 		/// <summary>
 		/// 辅助方法（静态）：通过传来的组长（或需被深复制的灯具）的数据，以及相关的StepTemplate的数据，来生成LightStepWrapper
 		/// </summary>
-		/// <param name="mainLSWrapper"></param>
+		/// <param name="captainLSWrapper"></param>
 		/// <param name="currentStepTemplate"></param>
 		/// <returns></returns>
-		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper mainLSWrapper, StepWrapper currentStepTemplate , int mode)
+		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper captainLSWrapper, StepWrapper currentStepTemplate , int mode)
 		{
-			if (mainLSWrapper == null || mainLSWrapper.StepWrapperList==null || mainLSWrapper.StepWrapperList.Count==0) {
+			if (captainLSWrapper == null || captainLSWrapper.StepWrapperList==null || captainLSWrapper.StepWrapperList.Count==0) {
 				return null;
 			}
 			LightStepWrapper lsWrapper = new LightStepWrapper();
-			foreach (StepWrapper  mainStepWrapper in mainLSWrapper.StepWrapperList)
+			foreach (StepWrapper  captainStepWrapper in captainLSWrapper.StepWrapperList)
 			{
-				StepWrapper newStep = StepWrapper.GenerateStepWrapper(currentStepTemplate, mainStepWrapper.TongdaoList, mode);
+				StepWrapper newStep = StepWrapper.GenerateStepWrapper(currentStepTemplate, captainStepWrapper.TongdaoList, mode);
 				lsWrapper.AddStep(newStep);
 			}
 			return lsWrapper;
 		}	
+
 	}
 }

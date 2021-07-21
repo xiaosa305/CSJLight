@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -40,26 +41,19 @@ namespace LightEditor
 		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
 		//调试相关变量			
-		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
-		private PlayTools devicePlayer;
-		private OneLightOneStep dmxPlayer; // 调试工具类的实例		
-		private bool isComConnected = false; // 辅助变量：是否连接设备
-				
+		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512						
+						
 		// 原WaySetForm辅助变量
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
 		private int selectedTdIndex = -1 ; 
 
-		public LightEditorForm(MainFormBase mainForm , PlayTools playTools)
+		public LightEditorForm(MainFormBase mainForm)
 		{			
 			InitializeComponent();
 
 			this.mainForm = mainForm;
 						
 			connectLabel.Text = mainForm.ConnectStr;
-			if (mainForm.IsConnected) 
-			{
-				devicePlayer = playTools;
-			}
 
 			softwareName = mainForm.SoftwareName + " LightLib Editor";
 			Text = softwareName ;
@@ -165,12 +159,6 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void NewLightEditorForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (isComConnected)
-			{
-				dmxPlayer.CloseDevice();
-				dmxPlayer = null;
-			}
-
 			Dispose();
 			mainForm.Activate();
 		}
@@ -670,107 +658,7 @@ namespace LightEditor
 			tdFlowLayoutPanel.Refresh();
 		}
 
-		#region DMX512连接相关
-		
-		private int clickTime = 0;
-		/// <summary>
-		/// 事件：双击《连接Label》后，可以切换为dmx512连接方式；
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void connectLabel_DoubleClick(object sender, EventArgs e)
-		{
-			// 当mainForm没有设备连接时，才可以调出DMX512的相应方案
-			if (devicePlayer == null)
-			{
-				if (++clickTime == 3)
-				{
-					connectLabel.Hide();
-					comComboBox.Show();
-					refreshButton.Show();
-					connectButton.Show();
-					refreshComList(); // connectLabel_DoubleClick
-					clickTime = 0;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《刷新串口》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshButton_Click(object sender, EventArgs e)
-		{
-			refreshComList(); // refreshButton_Click
-		} 
-
-		/// <summary>
-		/// 辅助方法：刷新串口列表
-		/// </summary>
-		private void refreshComList()
-		{
-			dmxPlayer = OneLightOneStep.GetInstance();
-			// 填充comComboBox
-			IList<string> comList = dmxPlayer.GetDMX512DeviceList();
-			comComboBox.Items.Clear();
-			comComboBox.Text = "";
-			if (comList.Count > 0)
-			{
-				foreach (string com in comList)
-				{
-					comComboBox.Items.Add(com);
-				}
-				comComboBox.SelectedIndex = 0;
-				comComboBox.Enabled = true;
-				connectButton.Enabled = true;
-			}
-			else
-			{
-				comComboBox.SelectedIndex = -1;
-				comComboBox.Enabled = false;
-				connectButton.Enabled = false;
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《连接设备》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void connectButton_Click(object sender, EventArgs e)
-		{
-			// 如果还没连接，那就连接  -->连接状态下《选择串口》不可用
-			if (!isComConnected)
-			{
-				if (dmxPlayer.ConnectDevice(comComboBox.Text))  //判断是否连接成功
-				{					
-					comComboBox.Enabled = false;
-					refreshButton.Enabled = false;
-					connectButton.Text = LanguageHelper.TranslateSentence("断开连接");
-					isComConnected = true;
-					setNotice(LanguageHelper.TranslateSentence("成功打开串口，并进入调试模式。"), false, true);
-					oneStepPlay();  // connectButton_Click()
-				}
-				else
-				{
-					setNotice("串口连接失败。"  , true,true);
-				}
-			}
-			//否则断开连接: --> 《选择串口》设为可用
-			else
-			{
-				dmxPlayer.CloseDevice();
-				comComboBox.Enabled = true;
-				refreshButton.Enabled = true;				
-				connectButton.Text = "连接设备";
-				isComConnected = false;
-				setNotice("成功断开连接，并退出调试模式。", false, true);
-			}
-		}
-
-		#endregion
-
+	
 		#region 调试相关
 
 		/// <summary>
@@ -876,39 +764,27 @@ namespace LightEditor
 		/// </summary>
 		private void oneStepPlay()
 		{
-			// 若 设备连接为空 且 未打开DMX512串口，则不再往下走
-			if (devicePlayer == null && !isComConnected)
+			if (mainForm.IsEnableOneStepPlay())
 			{
-				return;
-			}
-
-			byte[] stepBytes = new byte[512];
-			if (tongdaoList != null && tongdaoList.Count > 0)
-			{
-				foreach (TongdaoWrapper td in tongdaoList)
+				byte[] stepBytes = new byte[512];
+				if (tongdaoList != null && tongdaoList.Count > 0)
 				{
-					// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
-					// --> tongdaoIndex  = 1 + 1 -2；
-					int tongdaoIndex = firstTDValue + td.Address - 2;
-					stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+					foreach (TongdaoWrapper td in tongdaoList)
+					{
+						// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
+						// --> tongdaoIndex  = 1 + 1 -2；
+						int tongdaoIndex = firstTDValue + td.Address - 2;
+						stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+					}
 				}
-			}
-
-			// 这两个语句顺序有很大关系：先判断的优先级更高：《网络设备连接》>《DMX512连接》
-			if (devicePlayer != null)
-			{
-				devicePlayer.OLOSView(stepBytes);
-			}
-			else if (isComConnected)
-			{
-				dmxPlayer.Preview(stepBytes);
+				mainForm.OneStepPlay(stepBytes,null);
 			}
 		}
 
 		#endregion
 
 		#region 通道值相关
-			   
+
 		/// <summary>
 		/// 事件：鼠标进入《tdLabel》时，把焦点切换到其numericUpDown中
 		/// </summary>

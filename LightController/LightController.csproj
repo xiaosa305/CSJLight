@@ -227,40 +227,34 @@
     <Compile Include="MyForm\MainFormAst\ConnectForm.Designer.cs">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainFormAst\DMX512ConnnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainFormAst\DMX512ConnnectForm.Designer.cs">
+      <DependentUpon>DMX512ConnnectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarksForm.Designer.cs">
       <DependentUpon>LightRemarksForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.cs">
+    <Compile Include="MyForm\MainFormAst\ProjectDownloadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.Designer.cs">
-      <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainFormAst\ProjectDownloadForm.Designer.cs">
+      <DependentUpon>ProjectDownloadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Ast\TongdaoWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Tools\OneLightOneStep.cs" />
-    <Compile Include="MyForm\Multiplex\ActionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\ActionForm.Designer.cs">
-      <DependentUpon>ActionForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\Multiplex\AppendStepsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\Multiplex\AppendStepsForm.Designer.cs">
       <DependentUpon>AppendStepsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\ColorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\ColorForm.Designer.cs">
-      <DependentUpon>ColorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\DeleteStepsForm.cs">
       <SubType>Form</SubType>
@@ -286,12 +280,6 @@
     <Compile Include="MyForm\Multiplex\DetailSingleForm.Designer.cs">
       <DependentUpon>DetailSingleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\Multiplex\GroupForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\GroupForm.Designer.cs">
-      <DependentUpon>GroupForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\Multiplex\MaterialUseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -304,6 +292,12 @@
     <Compile Include="MyForm\Multiplex\MultiplexForm.Designer.cs">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\GroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\GroupForm.Designer.cs">
+      <DependentUpon>GroupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -315,12 +309,6 @@
     </Compile>
     <Compile Include="MyForm\GlobalSet\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\MultiLightForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\Multiplex\MultiLightForm.Designer.cs">
-      <DependentUpon>MultiLightForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\MultiStepForm.cs">
       <SubType>Form</SubType>
@@ -491,8 +479,14 @@
     <EmbeddedResource Include="MyForm\MainFormAst\ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
-      <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainFormAst\DMX512ConnnectForm.resx">
+      <DependentUpon>DMX512ConnnectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainFormAst\ProjectDownloadForm.resx">
+      <DependentUpon>ProjectDownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
+      <DependentUpon>GroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\ProtocolDataForm.resx">
       <DependentUpon>ProtocolDataForm.cs</DependentUpon>
@@ -520,14 +514,8 @@
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\ActionForm.resx">
-      <DependentUpon>ActionForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\AppendStepsForm.resx">
       <DependentUpon>AppendStepsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\ColorForm.resx">
-      <DependentUpon>ColorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
@@ -541,9 +529,6 @@
     <EmbeddedResource Include="MyForm\Multiplex\DetailSingleForm.resx">
       <DependentUpon>DetailSingleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
-      <DependentUpon>GroupForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MaterialUseForm.resx">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -555,9 +540,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\MultiLightForm.resx">
-      <DependentUpon>MultiLightForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MultiStepForm.resx">
       <DependentUpon>MultiStepForm.cs</DependentUpon>

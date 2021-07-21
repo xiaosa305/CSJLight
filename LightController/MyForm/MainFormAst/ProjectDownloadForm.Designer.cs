@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm.MainFormAst
 {
-	partial class ProjectUpdateForm
+	partial class ProjectDownloadForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.dirChooseButton = new System.Windows.Forms.Button();
-			this.updateButton = new System.Windows.Forms.Button();
+			this.downloadButton = new System.Windows.Forms.Button();
 			this.pathLabel = new System.Windows.Forms.Label();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -51,19 +51,19 @@
 			this.dirChooseButton.UseVisualStyleBackColor = true;
 			this.dirChooseButton.Click += new System.EventHandler(this.dirChooseButton_Click);
 			// 
-			// updateButton
+			// downloadButton
 			// 
-			this.updateButton.BackColor = System.Drawing.Color.Chocolate;
-			this.updateButton.Enabled = false;
-			this.updateButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.updateButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-			this.updateButton.Location = new System.Drawing.Point(467, 12);
-			this.updateButton.Name = "updateButton";
-			this.updateButton.Size = new System.Drawing.Size(81, 59);
-			this.updateButton.TabIndex = 17;
-			this.updateButton.Text = "更新工程";
-			this.updateButton.UseVisualStyleBackColor = false;
-			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
+			this.downloadButton.BackColor = System.Drawing.Color.Chocolate;
+			this.downloadButton.Enabled = false;
+			this.downloadButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.downloadButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+			this.downloadButton.Location = new System.Drawing.Point(467, 12);
+			this.downloadButton.Name = "downloadButton";
+			this.downloadButton.Size = new System.Drawing.Size(81, 59);
+			this.downloadButton.TabIndex = 17;
+			this.downloadButton.Text = "下载工程";
+			this.downloadButton.UseVisualStyleBackColor = false;
+			this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
 			// 
 			// pathLabel
 			// 
@@ -91,7 +91,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(334, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(365, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -113,7 +113,7 @@
 			this.exportedCheckBox.Name = "exportedCheckBox";
 			this.exportedCheckBox.Size = new System.Drawing.Size(96, 16);
 			this.exportedCheckBox.TabIndex = 37;
-			this.exportedCheckBox.Text = "更新已有工程";
+			this.exportedCheckBox.Text = "下载已有工程";
 			this.exportedCheckBox.UseVisualStyleBackColor = true;
 			this.exportedCheckBox.CheckedChanged += new System.EventHandler(this.currentCheckBox_CheckedChanged);
 			// 
@@ -129,7 +129,7 @@
 			this.dirPanel.TabIndex = 38;
 			this.dirPanel.Visible = false;
 			// 
-			// ProjectUpdateForm
+			// ProjectDownloadForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -138,14 +138,14 @@
 			this.Controls.Add(this.dirPanel);
 			this.Controls.Add(this.exportedCheckBox);
 			this.Controls.Add(this.statusStrip1);
-			this.Controls.Add(this.updateButton);
+			this.Controls.Add(this.downloadButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(578, 225);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(578, 225);
-			this.Name = "ProjectUpdateForm";
-			this.Text = "工程更新";
+			this.Name = "ProjectDownloadForm";
+			this.Text = "工程下载";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProjectUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewProjectUpdateForm_Load);
 			this.statusStrip1.ResumeLayout(false);
@@ -159,7 +159,7 @@
 		#endregion
 
 		private System.Windows.Forms.Button dirChooseButton;
-		private System.Windows.Forms.Button updateButton;
+		private System.Windows.Forms.Button downloadButton;
 		private System.Windows.Forms.Label pathLabel;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;

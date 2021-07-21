@@ -1,26 +1,10 @@
-﻿using DMX512;
-using ICSharpCode.SharpZipLib.Zip;
-using LightController.Ast;
+﻿using LightController.Ast;
 using LightController.Common;
-using LightController.MyForm.Multiplex;
-using LightController.PeripheralDevice;
-using LightController.Tools;
-using LightController.Tools.CSJ.IMPL;
-using LightController.Utils;
 using LightEditor.Ast;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.MyForm
@@ -256,7 +240,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void NewMainForm_Activated(object sender, EventArgs e)
 		{
-			startPreview();
+			startPreview(); // NewMainForm_Activated
 		}
 
 		/// <summary>
@@ -268,7 +252,6 @@ namespace LightController.MyForm
 		{
 			formClosing(e);
 		}
-
 
 		/// <summary>
 		/// 辅助公用方法：渲染场景选择框
@@ -493,9 +476,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void projectUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+		private void projectDownloadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			projectUpdateClick();
+			projectDownloadClick();
 		}
 
 		#endregion
@@ -629,8 +612,7 @@ namespace LightController.MyForm
 			base.clearAllData();
 
 			lightsListView.Clear();
-			stepPanel.Enabled = false;
-			editLightInfo(null);	
+			stepPanel.Enabled = false;			
 		}
 
 		/// <summary>
@@ -653,15 +635,6 @@ namespace LightController.MyForm
 				);
 			}
 			Refresh();
-		}
-
-		/// <summary>
-		/// 辅助方法：是否显示playPanel
-		/// </summary>
-		/// <param name="enable"></param>
-		protected override void enablePlayPanel(bool enable)
-		{
-			//playPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -694,14 +667,11 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
-		{	
+		{
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsListView.SelectedIndices[0];				
-				if ( generateNow)
-				{
-					generateLightData(); //lightsListView_SelectedIndexChanged
-				}
+				selectedIndex = lightsListView.SelectedIndices[0];
+				generateLightData(); //lightsListView_SelectedIndexChanged				
 			}
 		}	
 
@@ -709,9 +679,9 @@ namespace LightController.MyForm
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
 		/// <param name="la"></param>
-		protected override void editLightInfo(LightAst la)
-		{			
-			if (la == null)
+		protected override void showLightsInfo()
+		{
+			if(checkNoLightSelected())
 			{
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
@@ -721,12 +691,12 @@ namespace LightController.MyForm
 				return;
 			}
 
+			LightAst la = LightAstList[selectedIndex];
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic) : global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
-			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
-			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
-			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
-			myToolTip.SetToolTip(lightRemarkLabel, LanguageHelper.TranslateWord("备注：") +"\n" + la.Remark);		
+			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;			
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + (isMultiMode ? "" : la.Remark);
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + generateAddrStr();
 		}
 
 		/// <summary>
@@ -1035,25 +1005,17 @@ namespace LightController.MyForm
 				tdCmComboBoxes,	
 				tdStNumericUpDowns,	
 				thirdLabel );
-		}		
+		}
 
 		/// <summary>
-		/// 事件：点击切换《多灯模式|单灯模式》
-		/// 	 一.多灯模式：
-		///		0.至少选择两个灯具，才能使用多灯模式
-		///		1.判断所有选中的灯，是否同类型；若选中的不是同类型的灯无法进入此模式(直接return)
-		///		2.若是同类型的，应选择其中之一作为编组的组长（其他灯直接使用此灯的数据 ：先复制组长的数据，然后后台直接粘贴到其余灯具上面）
-		///		3.之后每次编辑灯具，都是编辑组内的所有数据 （包括添加步、删除步，步调节等）
-		///		4.下面的调试按钮中"单灯单步"-》“多灯单步”；
-		///		5.若是选择其他模式或者场景，应自动恢复《单灯调节》模式 
-		/// 二.单灯模式（与单灯刚好是反操作）：	
+		/// 事件：点击《音频链表》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiLightButton_Click(object sender, EventArgs e)
+		private void soundListButton_Click(object sender, EventArgs e)
 		{
-			enterMultiMode(!IsMultiMode , lightsListView);		
-		}	
+			new SKForm(this, CurrentScene, sceneComboBox.Text).ShowDialog();
+		}
 
 		/// <summary>
 		///  事件：点击《上一步》
@@ -1232,42 +1194,10 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  9.16 辅助方法：进入《多灯模式》
+		/// 辅助方法：《进入|退出编组》后的刷新相关控件显示
 		/// </summary>
-		/// <param name="captainIndex"></param>
-		public override void EnterMultiMode(int captainIndex, bool isCopyAll)
+		protected override void refreshMultiModeControls()
 		{
-			// 基类中统一的处理
-			base.EnterMultiMode(captainIndex, isCopyAll);
-
-			// 以下为单独针对本Form的方法：			
-			foreach (ListViewItem item in lightsListView.Items)
-			{
-				item.BackColor = Color.White;
-			}
-			lightsAddrLabel.Text = "灯具地址列表：";
-			foreach (int lightIndex in SelectedIndices)
-			{
-				if (lightIndex == selectedIndex)
-				{
-					lightsAddrLabel.Text += "(" + LightAstList[lightIndex].LightAddr + ") ";
-				}
-				else
-				{
-					lightsAddrLabel.Text += LightAstList[lightIndex].LightAddr + " ";
-				}
-			}
-			RefreshMultiModeButtons(true);
-		}
-
-		/// <summary>
-		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
-		/// </summary>
-		/// <param name="exit"></param>
-		protected override void RefreshMultiModeButtons(bool isMultiMode)
-		{
-			this.IsMultiMode = isMultiMode;		
-
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = !isMultiMode;
 			lightsListView.Enabled = !isMultiMode;
@@ -1275,14 +1205,21 @@ namespace LightController.MyForm
 			modeComboBox.Enabled = !isMultiMode;
 			copyFrameButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
+			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
 
-			multiLightButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
+			//DOTO 0714 refreshMultiModeControls	
+			lightsListView.SelectedIndexChanged -= lightsListView_SelectedIndexChanged;
+			for (int lightIndex = 0; lightIndex < lightsListView.Items.Count; lightIndex++)
+			{
+				lightsListView.Items[lightIndex].Selected = selectedIndexList.Contains(lightIndex);
+			}
+			lightsListView.SelectedIndexChanged += lightsListView_SelectedIndexChanged;
 		}
 
 		/// <summary>
 		/// 辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void EnterSyncMode(bool isSyncMode)
+		protected override void enterSyncMode(bool isSyncMode)
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
@@ -1292,7 +1229,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：显示步数标签，并判断stepPanel按钮组是否可用
 		/// </summary>		
-		protected override void showStepLabel(int currentStep, int totalStep)
+		protected override void showStepLabelMore(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
@@ -1311,16 +1248,15 @@ namespace LightController.MyForm
 
 			//3 设定《复制|粘贴步、保存素材》、《多步复用》等是否可用
 			copyStepButton.Enabled = currentStep > 0;
-			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
-			
+			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;			
 			saveMaterialButton.Enabled = currentStep > 0;
-			multiplexButton.Enabled = currentStep > 0;
 
-			// 4.设定统一调整区是否可用						
-			groupButton.Enabled = LightAstList != null && lightsListView.SelectedIndices.Count > 0; // 只有工程非空（有灯具列表）且选择项不为空才可点击
+			// 4.设定统一调整区是否可用
+			groupButton.Enabled = (LightAstList != null && lightsListView.SelectedIndices.Count > 0) || isMultiMode; // 只有工程非空（有灯具列表）且选择项不为空才可点击
 			groupFlowLayoutPanel.Enabled = LightAstList != null;
 			multiButton.Enabled = totalStep != 0;
 			detailMultiButton.Enabled = totalStep != 0;
+			multiplexButton.Enabled = currentStep > 0;
 			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1;
 
 			// 5.处理选择步数的框及按钮
@@ -1490,7 +1426,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
-			if (IsMultiMode)
+			if (isMultiMode)
 			{
 				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
 			}
@@ -1557,7 +1493,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
-			if (IsMultiMode) {
+			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
 			}
 		}
@@ -1588,7 +1524,7 @@ namespace LightController.MyForm
 		#region unifyPanel（辅助调节面板）
 
 		/// <summary>
-		/// 事件：点击《灯具编组》
+		/// 事件：点击《灯具编组 | 退出编组》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1596,17 +1532,7 @@ namespace LightController.MyForm
 		{
 			groupButtonClick(lightsListView);
 		}		
-
-		/// <summary>
-		/// 事件：点击《音频链表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void soundListButton_Click(object sender, EventArgs e)
-		{
-			new SKForm(this, CurrentScene, sceneComboBox.Text).ShowDialog();
-		}
-		
+				
 		/// <summary>
 		/// 事件：点击《多步调节》
 		/// </summary>
@@ -1631,7 +1557,11 @@ namespace LightController.MyForm
 			}
 		}
 
-		//为方便定位的空方法
+		/// <summary>
+		/// 事件：点击《多步联调》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void detailMultiButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
@@ -1678,7 +1608,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			SaButtonClick(sender);
+			saButtonClick(sender);
 		}
 
 		/// <summary>
@@ -1745,25 +1675,6 @@ namespace LightController.MyForm
 			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
 		}
 
-		/// <summary>
-		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具(在这个过程中，就不再生成相应的灯具描述和子属性按钮组了)
-		/// </summary>
-		protected override void selectLights()
-		{
-			generateNow = false;
-			foreach (ListViewItem item in lightsListView.Items)
-			{
-				item.Selected = false;
-			}
-			for (int i = 0; i < SelectedIndices.Count; i++) {
-				if (i == SelectedIndices.Count - 1) {
-					generateNow = true;
-				}
-				int lightIndex = SelectedIndices[i];
-				lightsListView.Items[lightIndex].Selected = true;
-			}
-		}		
-
 		#endregion
 
 		//MARK：NewMainForm：playPanel相关点击事件及辅助方法
@@ -1787,7 +1698,7 @@ namespace LightController.MyForm
 				keepButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1814,24 +1725,23 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected,bool previewing)
+		protected override void refreshConnectedControls(bool connected,bool previewing)
 		{
-			base.EnableConnectedButtons(connected, previewing);
+			base.refreshConnectedControls(connected, previewing);
 
-			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetToolStripMenuItem.Enabled = connected;
 			toolStripMenuItem.Enabled = connected;
 			seqToolStripMenuItem.Enabled = connected;
-			projectUpdateToolStripMenuItem.Enabled = connected;
+			projectDownloadToolStripMenuItem.Enabled = connected;
 
-			keepButton.Enabled = IsConnected && !IsPreviewing;
+			keepButton.Enabled = IsEnableOneStepPlay();
 			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
-			previewButton.Enabled = IsConnected ;
-			makeSoundButton.Enabled = IsConnected && IsPreviewing;		
+			previewButton.Enabled = IsOneMoreConnected(); 
+			makeSoundButton.Enabled = IsOneMoreConnected() && IsPreviewing ;		
 			
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !IsPreviewing) {
-				RefreshStep();
+			if ( IsEnableOneStepPlay() ) {
+				refreshStep();
 			}						
 		}
 
@@ -1877,15 +1787,22 @@ namespace LightController.MyForm
 		{
 			LanguageHelper.TranslateControl( sender as Button);
 		}
-
+			   
 		/// <summary>
-		/// 辅助方法：点击《设备连接》
+		/// 事件：点击《设备连接》->导航用
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+		private void connectToolStripMenuItem_Click(object sender, EventArgs e)	{	}
+					
+		/// <summary>
+		/// 事件：左右键按《设备连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
 		{
-			connectButtonClick();
+			connectButtonClick(e.Button);
 		}
 
 		/// <summary>
@@ -1906,6 +1823,11 @@ namespace LightController.MyForm
 		private void seqToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			sequencerButtonClick();
+		}
+
+		private void currentLightPictureBox_Click(object sender, EventArgs e)
+		{
+			testButtonClick();
 		}
 	}
 }

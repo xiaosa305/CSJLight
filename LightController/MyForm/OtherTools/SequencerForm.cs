@@ -103,6 +103,9 @@ namespace LightController.MyForm.OtherTools
 					TextAlign = timeNUDDemo.TextAlign,
 					Value = timeNUDDemo.Value
 				};
+				timeNUDs[timeIndex].MouseWheel += someNUD_MouseWheel;
+				timeNUDs[timeIndex].KeyPress += timeNUD_KeyPress;
+				myToolTip.SetToolTip(timeNUDs[timeIndex], "更改时延后，点击a键可统一设置；时延的范围为1-15s。");
 
 				timePanels[timeIndex] = new Panel
 				{
@@ -129,7 +132,7 @@ namespace LightController.MyForm.OtherTools
 		/// 辅助方法：切换为灯控模式
 		/// </summary>
 		private void switchLCMode() {
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				setBusy(true);
 				mainForm.SleepBetweenSend("Order : SwitchLCMode", 1);	
@@ -457,7 +460,7 @@ namespace LightController.MyForm.OtherTools
 			mainForm.DisConnect();
 			isConnLC = false;
 			mainForm.ConnForm.ShowDialog();
-			if (mainForm.IsConnected)
+			if (mainForm.IsDeviceConnected)
 			{
 				switchLCMode();	
 			}
@@ -502,9 +505,72 @@ namespace LightController.MyForm.OtherTools
 			LanguageHelper.TranslateControl(sender as Control);
 		}
 
+		/// <summary>
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = dd;
+				}
+			}
+		}
+
 
 		#endregion
 
-		
+		/// <summary>
+		/// 事件：《时延输入框》的键盘点击事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void timeNUD_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ( e.KeyChar == 'a' || e.KeyChar == 'A' )
+			{
+				decimal unifySt = (sender as NumericUpDown).Value;
+
+				// 设置了提示，且用户点击了取消，则return。否则继续往下走
+				if (mainForm.IsNoticeUnifyTd)
+				{
+					if (DialogResult.Cancel == MessageBox.Show(
+							LanguageHelper.TranslateSentence("确定要将所有时延都设为") + "【" + unifySt + " S】?",
+							LanguageHelper.TranslateSentence("统一时延"),
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question))
+					{
+						return;
+					}
+				}
+
+				for (int timeIndex = 0; timeIndex < timeNUDs.Length; timeIndex++)
+				{
+					timeNUDs[timeIndex].Value = unifySt;
+				}
+			}
+		}
+
 	}
 }

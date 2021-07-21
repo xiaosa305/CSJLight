@@ -14,12 +14,12 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm.MainFormAst
 {
-	public partial class ProjectUpdateForm : Form
+	public partial class ProjectDownloadForm : Form
 	{
 		public MainFormBase MainForm;
 		private string exportProjectPath;
 
-		public ProjectUpdateForm(MainFormBase mainForm)
+		public ProjectDownloadForm(MainFormBase mainForm)
 		{
 			this.MainForm = mainForm;
 
@@ -27,7 +27,7 @@ namespace LightController.MyForm.MainFormAst
 
 			exportedCheckBox.Checked = Properties.Settings.Default.updateExported;
 
-			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。");
+			folderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择已导出的工程目录（即CSJ文件夹），本操作会将该目录下的所有文件传给设备。");
 			// 当注册表内存储的文件夹不存在时，直接设为null并保存起来
 			exportProjectPath = Properties.Settings.Default.exportProjectPath;
 			if (Directory.Exists(exportProjectPath))
@@ -52,7 +52,7 @@ namespace LightController.MyForm.MainFormAst
 			LanguageHelper.TranslateControl(this);
 			
 			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
-			if (!MainForm.IsConnected) Dispose();			
+			if (!MainForm.IsDeviceConnected) Dispose();			
 		}
 
 		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -75,14 +75,14 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 辅助方法：刷新《工程更新》按键是否可用（启动后 及 更改路径Lable后执行）
+		/// 辅助方法：刷新《工程下载》按键是否可用（启动后 及 更改路径Lable后执行）
 		/// </summary>
 		private void refreshButtons()
 		{
 			dirPanel.Visible = exportedCheckBox.Checked;
-			updateButton.Enabled = MainForm.IsConnected && //必要条件
-				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《更新已有工程》
-				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择更新当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
+			downloadButton.Enabled = MainForm.IsDeviceConnected && //必要条件
+				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《下载已有工程》
+				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 事件：选中《更新当前工程》
+		/// 事件：选中《下载当前工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -111,45 +111,45 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 事件：点击《更新工程》
+		/// 事件：点击《下载工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void updateButton_Click(object sender, EventArgs e)
+		private void downloadButton_Click(object sender, EventArgs e)
 		{
 			// 0.最开始的提示
 			DialogResult dr = MessageBox.Show(
-					LanguageHelper.TranslateSentence("更新工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
-					LanguageHelper.TranslateSentence("是否继续更新工程?"),
+					LanguageHelper.TranslateSentence("下载工程会覆盖设备(tf卡)内原有的工程，是否继续？"),
+					LanguageHelper.TranslateSentence("是否继续下载工程?"),
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 			if (dr == DialogResult.Cancel)	return;
 			
-			// 1.决定更新后，先设为忙时
-			SetBusy(true);
+			// 1.决定下载后，先设为忙时
+			setBusy(true);
 			
-			// 1.1更新已有工程
+			// 1.1下载已有工程
 			if (exportedCheckBox.Checked) 
 			{
 				if (string.IsNullOrEmpty(exportProjectPath) || Directory.GetFiles(exportProjectPath).Length == 0)
 				{
-					SetNotice("未选择工程目录或所选目录为空，无法更新工程。请选择正确的已有工程目录，并重新更新。", true, true);
-					SetBusy(false);
+					setNotice("未选择工程目录或所选目录为空，无法下载工程。请选择正确的已有工程目录，并重新下载。", true, true);
+					setBusy(false);
 					return;
 				}
 				FileUtils.CopyFileToDownloadDir(exportProjectPath);
 				DownloadProject();
 			}
-			// 1.2更新当前工程
+			// 1.2下载当前工程
 			else {			
 				if (string.IsNullOrEmpty(MainForm.GlobalIniPath) )
 				{
-					SetNotice("主界面尚未打开工程，无法更新工程。", true, true);
-					SetBusy(false);
+					setNotice("主界面尚未打开工程，无法下载工程。", true, true);
+					setBusy(false);
 					return;
 				}
-				SetNotice("正在实时生成工程数据，请耐心等待...", false, true);
-				DataConvertUtils.SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, new NewGenerateProjectCallBack(this) );
+				setNotice("正在实时生成工程数据，请耐心等待...", false, true);
+				DataConvertUtils.GetInstance().SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
 			}
 		}
 
@@ -163,36 +163,36 @@ namespace LightController.MyForm.MainFormAst
 		}
 
 		/// <summary>
-		/// 辅助回调方法：工程更新成功
+		/// 辅助回调方法：工程下载成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void DownloadCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("工程更新成功。", true, true);
+				setNotice("工程下载成功。", true, true);
 				myProgressBar.Value = 0;
-				SetBusy(false);
+				setBusy(false);
 			});
 		}
 
 		/// <summary>
-		/// 辅助回调方法：工程更新失败
+		/// 辅助回调方法：工程下载失败
 		/// </summary>
 		/// <param name="obj"></param>
 		public void DownloadError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				SetNotice("工程更新失败[" + msg + "]", true, false);
+				setNotice("工程下载失败[" + msg + "]", true, false);
 				myProgressBar.Value = 0;
-				SetBusy(false);
+				setBusy(false);
 				
 				MainForm.DisConnect();
 				MainForm.ConnForm.ShowDialog();
-				if (! MainForm.IsConnected )
+				if (! MainForm.IsDeviceConnected )
 				{
-					MessageBox.Show("请重新连接设备，否则无法更新工程!");
+					MessageBox.Show("请重新连接设备，否则无法下载工程!");
 					Dispose();
 				}
 
@@ -206,7 +206,7 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="progress"></param>
 		public void DrawProgress(string fileName, int progressPercent)
 		{
-			SetNotice(string.IsNullOrEmpty(fileName) ? "" : LanguageHelper.TranslateSentence("正在传输文件：") + fileName, false, false);
+			setNotice(string.IsNullOrEmpty(fileName) ? "" : LanguageHelper.TranslateSentence("正在传输文件：") + fileName, false, false);
 			myProgressBar.Value = progressPercent;
 		}		
 
@@ -217,7 +217,7 @@ namespace LightController.MyForm.MainFormAst
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		public void SetNotice(string msg, bool messageBoxShow, bool isTranslate)
+		private void setNotice(string msg, bool messageBoxShow, bool isTranslate)
 		{
 			if (isTranslate)
 			{
@@ -236,7 +236,7 @@ namespace LightController.MyForm.MainFormAst
 		/// 辅助方法：设定忙时
 		/// </summary>
 		/// <param name="busy"></param>
-		public void SetBusy(bool busy)
+		private void setBusy(bool busy)
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 			Enabled = !busy;
@@ -252,42 +252,54 @@ namespace LightController.MyForm.MainFormAst
 			LanguageHelper.TranslateControl(sender as Button);
 		}
 
-		#endregion		
-	}
+		#endregion
 
-	public class NewGenerateProjectCallBack : ISaveProjectCallBack
-	{
-		private ProjectUpdateForm puForm;		
+		#region 委托回调函数
 
-		public NewGenerateProjectCallBack(ProjectUpdateForm puForm)
+		/// <summary>
+		/// 辅助回调函数：工程导出成功
+		/// </summary>
+		public void ExportProjectCompleted()
 		{
-			this.puForm = puForm;
-		}
-
-		public void Completed()
-		{
-			puForm.SetNotice("数据生成成功，即将传输数据到设备。", false, true);
-			if (FileUtils.CopyProjectFileToDownloadDir())
+			Invoke((EventHandler)delegate
 			{
-				puForm.MainForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
-				puForm.DownloadProject();
-			}
-			else
+				setNotice("工程导出成功，即将拷贝到临时目录...", false, true);
+				if (FileUtils.CopyProjectFileToDownloadDir())
+				{
+					MainForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
+					DownloadProject();
+				}
+				else
+				{
+					setNotice(LanguageHelper.TranslateSentence("拷贝工程文件到临时目录时出错。"),true,true);
+					setBusy(false);
+				}
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调函数：工程导出出错
+		/// </summary>
+		public void ExportProjectError(string msg)
+		{
+			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show(LanguageHelper.TranslateSentence("拷贝工程文件到临时目录时出错。"));
-				puForm.SetBusy(false);
-			}
+				setNotice(LanguageHelper.TranslateSentence("工程导出出错"),true,true);
+				setBusy(false);
+			});
 		}
 
-		public void Error(string msg)
+		/// <summary>
+		/// 辅助回调函数：工程导出进度
+		/// </summary>
+		public void ExportProjectProgress(string name)
 		{
-			MessageBox.Show(LanguageHelper.TranslateSentence("数据生成出错"));
-			puForm.SetBusy(false);
+			Invoke((EventHandler)delegate
+			{
+				setNotice(LanguageHelper.TranslateSentence("正在生成工程文件") + "(" + name + ")", false, false);
+			});			
 		}
 
-		public void UpdateProgress(string name)
-		{
-			puForm.SetNotice(LanguageHelper.TranslateSentence("正在生成工程文件") + "(" + name + ")", false, false);
-		}
+		#endregion
 	}
 }

@@ -7,23 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Threading;
-using DMX512;
 using LightController.Ast;
-using LightController.Tools;
 using LightController.Common;
 using CCWin.SkinControl;
 using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using LightController.Utils;
-using LightController.Tools.CSJ.IMPL;
 using LightEditor.Ast;
-using LightController.PeripheralDevice;
-using LightController.MyForm.Multiplex;
-using Newtonsoft.Json;
-using LightController.MyForm.HardwareSet;
-using LightController.MyForm.MainFormAst;
 
 namespace LightController.MyForm
 {
@@ -229,7 +217,7 @@ namespace LightController.MyForm
 		
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
-			startPreview();
+			startPreview(); //SkinMainForm_Activated
 		}
 
 		/// <summary>
@@ -271,38 +259,32 @@ namespace LightController.MyForm
 		#region 工具按钮组 - 非工程相关
 
 		/// <summary>
-		/// 事件：点击“灯库编辑”
+		///  事件：点击《设备连接》按钮（空方法，导航用） 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void lightLibrarySkinButton_Click(object sender, EventArgs e)
-		{
-			openLightEditor();
-		}
+		private void deviceConnectButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
-		///  事件：点击《硬件设置》按钮
+		/// 事件：鼠标（左|右键）按下《设备连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deviceConnectButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			connectButtonClick(e.Button);
+		}
+				
+		/// <summary>
+		///  事件：点击《网络(硬件)配置》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void hardwareSetSkinButton_Click(object sender, EventArgs e)
 		{
-			//MARK0412  修改《硬件设置》点击事件 ：用NewHardwareSetForm处理
-			//new HardwareSetChooseForm(this).ShowDialog();
-
 			hardwareSetButtonClick();
 		}		
-
-		/// <summary>
-		///  事件：点击《设备连接》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void deviceConnectButton_Click(object sender, EventArgs e)
-		{
-			connectButtonClick();
-		}
-
+			
 		/// <summary>
 		/// 事件：点击《外设配置》按钮
 		/// </summary>
@@ -312,17 +294,27 @@ namespace LightController.MyForm
 		{
 			toolButtonClick();
 		}
-			
+		
 		/// <summary>
-		///  事件：点击《退出程序》
+		/// 事件：点击《时序器配置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void exitSkinButton_Click(object sender, EventArgs e)
+		private void seqSkinButton_Click(object sender, EventArgs e)
 		{
-			exitClick();
+			sequencerButtonClick();
 		}
 
+		/// <summary>
+		/// 事件：点击《灯库编辑》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightLibrarySkinButton_Click(object sender, EventArgs e)
+		{
+			openLightEditor();
+		}
+		
 		/// <summary>
 		/// 事件：点击《使用说明》->导航功能
 		/// </summary>
@@ -361,7 +353,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《全局配置》
+		///  事件：点击《工程全局（配置）》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -371,13 +363,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：《工程更新》按钮
+		/// 事件：《工程下载》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void projectUpdateSkinButton_Click(object sender, EventArgs e)
+		private void projectDownloadSkinButton_Click(object sender, EventArgs e)
 		{
-			projectUpdateClick();
+			projectDownloadClick();
 		}
 
 		#endregion
@@ -512,8 +504,7 @@ namespace LightController.MyForm
 			base.clearAllData();
 
 			lightsSkinListView.Clear();			
-			stepSkinPanel.Enabled = false;
-			editLightInfo(null);			
+			stepSkinPanel.Enabled = false;			
 		}
 
 		/// <summary>
@@ -536,16 +527,6 @@ namespace LightController.MyForm
 				);
 			}
 			Refresh();
-		}
-		
-		/// <summary>
-		///  辅助方法：设定是否显示《 （调试区域的N个按钮）panel》
-		/// </summary>
-		/// <param name="visible"></param>
-		protected override void enablePlayPanel(bool enable)
-		{
-			//MARK 3.0413 设定是否显示《 （调试区域的N个按钮）panel》
-			//playFlowLayoutPanel.Enabled = enable;
 		}
 
 		/// <summary>
@@ -582,20 +563,18 @@ namespace LightController.MyForm
 		{
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsSkinListView.SelectedIndices[0];				
-				if (generateNow)
-				{					
-					generateLightData();    //lightsSkinListView_SelectedIndexChanged
-				}
+				selectedIndex = lightsSkinListView.SelectedIndices[0];											
+				generateLightData(); //lightsSkinListView_SelectedIndexChanged			
 			}
 		}
 		
 		/// <summary>
 		///  辅助方法：通过LightAst，显示选中灯具信息
 		/// </summary>
-		protected override void editLightInfo(LightAst la)
+		protected override void showLightsInfo()
 		{
-			if (la == null) {
+			if(checkNoLightSelected())
+			{
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
@@ -604,13 +583,13 @@ namespace LightController.MyForm
 				return;
 			}
 
+			LightAst la = LightAstList[selectedIndex];
 			currentLightPictureBox.Image = lightImageList.Images.ContainsKey(la.LightPic) ? Image.FromFile(SavePath + @"\LightPic\" + la.LightPic):global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = LanguageHelper.TranslateWord("厂商：") + la.LightName;
 			lightTypeLabel.Text = LanguageHelper.TranslateWord("型号：") + la.LightType;
-			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + la.LightAddr;
-			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：") + la.Remark;
-		
-		}
+			lightRemarkLabel.Text = LanguageHelper.TranslateWord("备注：")  + (isMultiMode ? "" : la.Remark);
+			lightsAddrLabel.Text = LanguageHelper.TranslateWord("地址：") + generateAddrStr();	
+		}	
 
 		/// <summary>
 		/// 辅助方法：
@@ -1133,21 +1112,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击切换《多灯模式|单灯模式》。
-		/// 一.多灯模式：
-		///		0.至少选择两个灯具，才能使用多灯模式
-		///		1.判断所有选中的灯，是否同类型；若选中的不是同类型的灯无法进入此模式(直接return)
-		///		2.若是同类型的，应选择其中之一作为编组的组长（其他灯直接使用此灯的数据 ：先复制组长的数据，然后后台直接粘贴到其余灯具上面）
-		///		3.之后每次编辑灯具，都是编辑组内的所有数据 （包括添加步、删除步，步调节等）
-		///		4.下面的调试按钮中"单灯单步"-》“多灯单步”；
-		///		5.若是选择其他模式或者场景，应自动恢复《单灯调节》模式 
-		/// 二.单灯模式（与单灯刚好是反操作）：	
+		/// 事件：点击《音频链表》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiLightSkinButton_Click(object sender, EventArgs e)
+		private void soundListButton_Click(object sender, EventArgs e)
 		{
-			enterMultiMode(!IsMultiMode , lightsSkinListView );
+			new SKForm(this, CurrentScene, sceneSkinComboBox.Text).ShowDialog();
 		}
 		
 		/// <summary>
@@ -1317,72 +1288,11 @@ namespace LightController.MyForm
 		{
 			syncButtonClick();
 		}
-
-		/// <summary>
-		/// 事件：点击《多步复用》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void multiplexSkinButton_Click(object sender, EventArgs e)
-		{
-			multiplexButtonClick();
-		}
-
-		/// <summary>
-		///  辅助方法：实现《多灯模式》
-		/// </summary>
-		/// <param name="captainIndex"></param>
-		public override void EnterMultiMode(int captainIndex, bool isCopyAll)
-		{
-			// 基类中统一的处理
-			base.EnterMultiMode(captainIndex, isCopyAll);
-
-			// 以下为单独针对本Form的方法：			
-			foreach (ListViewItem item in lightsSkinListView.Items)
-			{
-				item.BackColor = Color.White;
-			}
-
-			lightsAddrLabel.Text = "灯具地址列表：";			
-			foreach (int lightIndex in SelectedIndices)
-			{
-				if (lightIndex == selectedIndex)
-				{
-					lightsAddrLabel.Text += "(" + LightAstList[lightIndex].LightAddr + ") ";
-					lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
-				}
-				else
-				{
-					lightsAddrLabel.Text += LightAstList[lightIndex].LightAddr + " ";
-					lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
-				}
-			}
-			RefreshMultiModeButtons(true);
-		}
-
-		/// <summary>
-		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
-		/// </summary>
-		/// <param name="exit"></param>
-		protected override void RefreshMultiModeButtons(bool isMultiMode)
-		{
-			this.IsMultiMode = isMultiMode;
 		
-			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
-			lightListSkinButton.Enabled = !isMultiMode;
-			lightsSkinListView.Enabled = !isMultiMode;
-			sceneSkinComboBox.Enabled = !isMultiMode;
-			modeSkinComboBox.Enabled = !isMultiMode;
-			copyFrameSkinButton.Enabled = !isMultiMode;
-			groupFlowLayoutPanel.Enabled = LightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
-
-			multiLightSkinButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
-		}
-
 		/// <summary>
 		///辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void EnterSyncMode(bool isSyncMode)
+		protected override void enterSyncMode(bool isSyncMode)
 		{
 			this.isSyncMode = isSyncMode;
 			syncSkinButton.Text = isSyncMode ? "退出同步" : "进入同步";			
@@ -1395,7 +1305,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="currentStep"></param>
 		/// <param name="totalStep"></param>
-		protected override void showStepLabel(int currentStep, int totalStep)
+		protected override void showStepLabelMore(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
 			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
@@ -1415,19 +1325,18 @@ namespace LightController.MyForm
 			//3 设定《复制|粘贴步、保存素材》、《多步复用》等是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
-
 			saveMaterialSkinButton.Enabled = currentStep > 0; // 当前步不为0时才能保存素材；但无论什么情况都能使用素材，故不做判断
-			multiplexSkinButton.Enabled = currentStep > 0;						
 
-			// 4.设定统一调整区是否可用
-			groupButton.Enabled = LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
+			// 4.设定统一调整区是否可用		
+			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; 			
 			multiButton.Enabled = totalStep != 0;
 			detailMultiButton.Enabled = totalStep != 0;
-			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1 ;
+			multiplexButton.Enabled = currentStep > 0;
+			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1;
 
-            // 5. 处理选择步数的框及按钮
-            chooseStepNumericUpDown.Enabled = totalStep != 0;			
+			// 5. 处理选择步数的框及按钮
+			chooseStepNumericUpDown.Enabled = totalStep != 0;			
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
@@ -1594,7 +1503,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
-			if (IsMultiMode) {
+			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
 			}						
 		}
@@ -1660,7 +1569,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
-			if (IsMultiMode) {
+			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
 			}
 		}
@@ -1684,12 +1593,22 @@ namespace LightController.MyForm
 		{
 			unifyTdKeyPress(sender, e);
 		}
-		
+
 		#endregion
 
 		//MARK：SkinMainForm统一调整框各事件处理
 		#region 统一调整框的组件及事件绑定
 
+		/// <summary>
+		/// 事件：点击《多步复用》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiplexSkinButton_Click(object sender, EventArgs e)
+		{
+			multiplexButtonClick();
+		}
+						
 		/// <summary>
 		/// 事件：点击《灯具编组》
 		/// </summary>
@@ -1698,6 +1617,31 @@ namespace LightController.MyForm
 		private void groupSkinButton_Click(object sender, EventArgs e)
 		{
 			groupButtonClick(lightsSkinListView);
+		}
+		
+		/// <summary>
+		/// 辅助方法：《进入|退出编组》后的刷新相关控件显示
+		/// </summary>
+		protected override void refreshMultiModeControls()
+		{		
+			//MARK 只开单场景：15.2 《灯具列表》是否可用，由是否编组决定
+			lightListSkinButton.Enabled = !isMultiMode;
+			lightsSkinListView.Enabled = !isMultiMode;
+			sceneSkinComboBox.Enabled = !isMultiMode;
+			modeSkinComboBox.Enabled = !isMultiMode;
+			copyFrameSkinButton.Enabled = !isMultiMode;						
+			groupButton.Text = !isMultiMode ? "灯具编组" : "退出编组";
+			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
+			
+			//DOTO 0714 refreshMultiModeControls			
+			lightsSkinListView.SelectedIndexChanged -= lightsSkinListView_SelectedIndexChanged;
+			for (int lightIndex = 0; lightIndex < lightsSkinListView.Items.Count; lightIndex++)
+			{
+				lightsSkinListView.Items[lightIndex].Selected = !isMultiMode && selectedIndex == lightIndex; // 满足两个条件，才会选中项（非编组模式 且 灯具为selectedIndex）
+				lightsSkinListView.Items[lightIndex].BackColor = (isMultiMode && selectedIndexList.Contains(lightIndex)) ? (lightIndex == selectedIndex ? Color.DeepSkyBlue : Color.LightSkyBlue) : Color.Transparent;
+			}
+			lightsSkinListView.SelectedIndexChanged += lightsSkinListView_SelectedIndexChanged;			
+			lightsSkinListView.Select(); // 需要在最后激活一下ListView以高亮选中项；
 		}
 
 		/// <summary>
@@ -1733,7 +1677,7 @@ namespace LightController.MyForm
 		private void detailMultiButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
-		/// 事件：左右键点击《多步调节》
+		/// 事件：左右键点击《多步联调》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1748,17 +1692,7 @@ namespace LightController.MyForm
 				DetailMultiButtonClick(true);
 			}
 		}
-		
-		/// <summary>
-		/// 事件：点击《音频链表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void soundListButton_Click(object sender, EventArgs e)
-        {
-           new SKForm(this, CurrentScene, sceneSkinComboBox.Text).ShowDialog();  
-        }
-
+			
         /// <summary>
         /// 事件：点击《groupInButtons(进入编组)》
         /// </summary>
@@ -1786,7 +1720,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			SaButtonClick(sender);
+			saButtonClick(sender);
 		}
 
 		/// <summary>
@@ -1848,33 +1782,12 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Controls.Add(panel);
 			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
 		}
-
-		/// <summary>
-		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具(在这个过程中，就不再生成相应的灯具描述和子属性按钮组了)
-		/// </summary>
-		protected override void selectLights()
-		{
-			generateNow = false;
-			foreach (ListViewItem item in lightsSkinListView.Items)
-			{
-				item.Selected = false;
-			}
-			for (int i = 0; i < SelectedIndices.Count; i++)
-			{
-				if (i == SelectedIndices.Count - 1)
-				{
-					generateNow = true;
-				}
-				int lightIndex = SelectedIndices[i];
-				lightsSkinListView.Items[lightIndex].Selected = true;
-			}
-		}
-			   	
+			   			   	
 		#endregion
 
 		//MARK：SkinMainForm：playPanel相关点击事件及辅助方法	
-		#region 灯控调试按钮组(playPanel)点击事件及辅助方法		
-
+		#region 灯控调试按钮组(playPanel)点击事件及辅助方法
+			
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
 		/// </summary>
@@ -1895,7 +1808,7 @@ namespace LightController.MyForm
 				keepSkinButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
-			RefreshStep();
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1922,26 +1835,24 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected,bool previewing)
+		protected override void refreshConnectedControls(bool connected,bool previewing)
 		{
-			base.EnableConnectedButtons(connected, previewing);
+			base.refreshConnectedControls(connected, previewing);
 
-			// MARK3.0414 EnableConnectedButtons()
 			hardwareSetSkinButton.Enabled = connected;
 			toolsSkinButton.Enabled = connected;
 			seqSkinButton.Enabled = connected; 
-			projectUpdateSkinButton.Enabled = connected;
+			projectDownloadSkinButton.Enabled = connected;
 	
-			keepSkinButton.Enabled = IsConnected && !IsPreviewing;
-			previewSkinButton.Enabled = IsConnected;
-			makeSoundSkinButton.Enabled = IsConnected && IsPreviewing;
-			
+			keepSkinButton.Enabled = IsEnableOneStepPlay();
+			previewSkinButton.Enabled =IsOneMoreConnected();
+			makeSoundSkinButton.Enabled = IsOneMoreConnected() && IsPreviewing;	
 			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !IsPreviewing)
+			if ( IsEnableOneStepPlay() )
 			{
-				RefreshStep();
+				refreshStep();
 			}
 		}
 
@@ -2000,79 +1911,6 @@ namespace LightController.MyForm
 
 		#endregion
 
-		#region bgWorker相关事件
-		/// <summary>
-		/// 事件：bgWorker的后台工作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		public void bgWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			for (int i = 0; i <= 100; i++)
-			{
-				if (bgWorker.CancellationPending)
-				{
-					e.Cancel = true;
-					return;
-				}
-				else
-				{
-					bgWorker.ReportProgress(i, "Working");
-					System.Threading.Thread.Sleep(100);
-				}
-			}
-		}
-
-		public void bgWorker_ProgessChanged(object sender, ProgressChangedEventArgs e)
-		{
-			//string state = (string)e.UserState;//接收ReportProgress方法传递过来的userState
-			//this.progressBar1.Value = e.ProgressPercentage;
-			//this.label1.Text = "处理进度:" + Convert.ToString(e.ProgressPercentage) + "%";
-		}
-
-		public void bgWorker_WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			if (e.Error != null)
-			{
-				Console.WriteLine("Dickov : bgWorker_WorkerCompleted");
-				MessageBox.Show(e.Error.ToString());
-				return;
-			}
-			//if (!e.Cancelled)
-			//	this.label1.Text = "处理完毕!";
-			//else
-			//	this.label1.Text = "处理终止!";
-		}
-
-		#endregion
-
-		#region 测试按钮及废弃方法块
-
-		/// <summary>
-		///  事件：《（曾维佳）测试按钮组》点击事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void newTestButton_Click(object sender, EventArgs e)
-		{
-			int buttonIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-			Console.WriteLine(buttonIndex);
-			//Test test = new Test(GetDBWrapper(true) );
-		}
-
-		/// <summary>
-		/// 事件：点击《自定义测试按钮》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void bigTestButton_Click(object sender, EventArgs e)	{
-
-			LanguageHelper.SetLanguage("en-US");
-
-		}
-
-		#endregion
-
 		/// <summary>
 		/// 部分Control文本更新，需要进行翻译
 		/// </summary>
@@ -2093,9 +1931,14 @@ namespace LightController.MyForm
 			LanguageHelper.TranslateMenuItem( sender as ToolStripMenuItem);
 		}
 
-		private void seqSkinButton_Click(object sender, EventArgs e)
+		/// <summary>
+		/// 事件：点击当前灯具图片（基本作为测试按键）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void currentLightPictureBox_Click(object sender, EventArgs e)
 		{
-			sequencerButtonClick();
+			testButtonClick();
 		}
 		
 	}

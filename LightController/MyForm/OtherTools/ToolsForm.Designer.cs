@@ -54,6 +54,7 @@
 			this.com1Label = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
+			this.debugNoticeLabel = new System.Windows.Forms.Label();
 			this.relayBigFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.relayFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
 			this.relayPanelDemo = new System.Windows.Forms.Panel();
@@ -61,11 +62,6 @@
 			this.sceneLabelDemo = new System.Windows.Forms.Label();
 			this.relayButtonDemo = new CCWin.SkinControl.SkinButton();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
-			this.skinButton1 = new CCWin.SkinControl.SkinButton();
-			this.skinButton2 = new CCWin.SkinControl.SkinButton();
-			this.skinButton3 = new CCWin.SkinControl.SkinButton();
-			this.skinButton4 = new CCWin.SkinControl.SkinButton();
-			this.skinButton5 = new CCWin.SkinControl.SkinButton();
 			this.lcDownloadButton = new System.Windows.Forms.Button();
 			this.lcLoadButton = new System.Windows.Forms.Button();
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
@@ -96,9 +92,6 @@
 			this.kpDownloadButton = new System.Windows.Forms.Button();
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label23 = new System.Windows.Forms.Label();
-			this.sceneComboBox = new System.Windows.Forms.ComboBox();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.keyOpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveDialog = new System.Windows.Forms.SaveFileDialog();
@@ -115,7 +108,6 @@
 			this.deviceTypeLabel = new System.Windows.Forms.Label();
 			this.deviceNameLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.debugNoticeLabel = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
@@ -347,6 +339,16 @@
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
 			// 
+			// debugNoticeLabel
+			// 
+			this.debugNoticeLabel.AutoSize = true;
+			this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
+			this.debugNoticeLabel.Location = new System.Drawing.Point(157, 22);
+			this.debugNoticeLabel.Name = "debugNoticeLabel";
+			this.debugNoticeLabel.Size = new System.Drawing.Size(341, 36);
+			this.debugNoticeLabel.TabIndex = 10;
+			this.debugNoticeLabel.Text = "提示：\r\n1.点击场景名，会向机器发送此场景的《灯控开关》调试数据。\r\n2.如果设备为JKC-910AP版本，则开机场景无效。";
+			// 
 			// relayBigFLP
 			// 
 			this.relayBigFLP.AutoScroll = true;
@@ -363,11 +365,6 @@
 			this.relayFLPDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.relayFLPDemo.Controls.Add(this.relayPanelDemo);
 			this.relayFLPDemo.Controls.Add(this.relayButtonDemo);
-			this.relayFLPDemo.Controls.Add(this.skinButton1);
-			this.relayFLPDemo.Controls.Add(this.skinButton2);
-			this.relayFLPDemo.Controls.Add(this.skinButton3);
-			this.relayFLPDemo.Controls.Add(this.skinButton4);
-			this.relayFLPDemo.Controls.Add(this.skinButton5);
 			this.relayFLPDemo.Location = new System.Drawing.Point(3, 3);
 			this.relayFLPDemo.Name = "relayFLPDemo";
 			this.relayFLPDemo.Size = new System.Drawing.Size(538, 79);
@@ -444,151 +441,6 @@
 			this.lightImageList.Images.SetKeyName(1, "Ok3w.Net图标15.png");
 			this.lightImageList.Images.SetKeyName(2, "墙板按钮.png");
 			// 
-			// skinButton1
-			// 
-			this.skinButton1.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton1.BaseColor = System.Drawing.Color.Transparent;
-			this.skinButton1.BorderColor = System.Drawing.Color.White;
-			this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton1.DownBack = null;
-			this.skinButton1.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.skinButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.skinButton1.ForeColorSuit = true;
-			this.skinButton1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.skinButton1.ImageIndex = 0;
-			this.skinButton1.ImageSize = new System.Drawing.Size(45, 45);
-			this.skinButton1.InheritColor = true;
-			this.skinButton1.IsDrawBorder = false;
-			this.skinButton1.Location = new System.Drawing.Point(193, 2);
-			this.skinButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.skinButton1.MouseBack = null;
-			this.skinButton1.Name = "skinButton1";
-			this.skinButton1.NormlBack = null;
-			this.skinButton1.Size = new System.Drawing.Size(63, 70);
-			this.skinButton1.TabIndex = 14;
-			this.skinButton1.Tag = "9999";
-			this.skinButton1.Text = "开关1";
-			this.skinButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.skinButton1.UseVisualStyleBackColor = true;
-			this.skinButton1.Visible = false;
-			// 
-			// skinButton2
-			// 
-			this.skinButton2.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton2.BaseColor = System.Drawing.Color.Transparent;
-			this.skinButton2.BorderColor = System.Drawing.Color.White;
-			this.skinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton2.DownBack = null;
-			this.skinButton2.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.skinButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.skinButton2.ForeColorSuit = true;
-			this.skinButton2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.skinButton2.ImageIndex = 0;
-			this.skinButton2.ImageSize = new System.Drawing.Size(45, 45);
-			this.skinButton2.InheritColor = true;
-			this.skinButton2.IsDrawBorder = false;
-			this.skinButton2.Location = new System.Drawing.Point(260, 2);
-			this.skinButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.skinButton2.MouseBack = null;
-			this.skinButton2.Name = "skinButton2";
-			this.skinButton2.NormlBack = null;
-			this.skinButton2.Size = new System.Drawing.Size(63, 70);
-			this.skinButton2.TabIndex = 14;
-			this.skinButton2.Tag = "9999";
-			this.skinButton2.Text = "开关1";
-			this.skinButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.skinButton2.UseVisualStyleBackColor = true;
-			this.skinButton2.Visible = false;
-			// 
-			// skinButton3
-			// 
-			this.skinButton3.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton3.BaseColor = System.Drawing.Color.Transparent;
-			this.skinButton3.BorderColor = System.Drawing.Color.White;
-			this.skinButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton3.DownBack = null;
-			this.skinButton3.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.skinButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinButton3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.skinButton3.ForeColorSuit = true;
-			this.skinButton3.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.skinButton3.ImageIndex = 0;
-			this.skinButton3.ImageSize = new System.Drawing.Size(45, 45);
-			this.skinButton3.InheritColor = true;
-			this.skinButton3.IsDrawBorder = false;
-			this.skinButton3.Location = new System.Drawing.Point(327, 2);
-			this.skinButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.skinButton3.MouseBack = null;
-			this.skinButton3.Name = "skinButton3";
-			this.skinButton3.NormlBack = null;
-			this.skinButton3.Size = new System.Drawing.Size(63, 70);
-			this.skinButton3.TabIndex = 14;
-			this.skinButton3.Tag = "9999";
-			this.skinButton3.Text = "开关1";
-			this.skinButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.skinButton3.UseVisualStyleBackColor = true;
-			this.skinButton3.Visible = false;
-			// 
-			// skinButton4
-			// 
-			this.skinButton4.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton4.BaseColor = System.Drawing.Color.Transparent;
-			this.skinButton4.BorderColor = System.Drawing.Color.White;
-			this.skinButton4.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton4.DownBack = null;
-			this.skinButton4.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.skinButton4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinButton4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.skinButton4.ForeColorSuit = true;
-			this.skinButton4.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.skinButton4.ImageIndex = 0;
-			this.skinButton4.ImageSize = new System.Drawing.Size(45, 45);
-			this.skinButton4.InheritColor = true;
-			this.skinButton4.IsDrawBorder = false;
-			this.skinButton4.Location = new System.Drawing.Point(394, 2);
-			this.skinButton4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.skinButton4.MouseBack = null;
-			this.skinButton4.Name = "skinButton4";
-			this.skinButton4.NormlBack = null;
-			this.skinButton4.Size = new System.Drawing.Size(63, 70);
-			this.skinButton4.TabIndex = 14;
-			this.skinButton4.Tag = "9999";
-			this.skinButton4.Text = "开关1";
-			this.skinButton4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.skinButton4.UseVisualStyleBackColor = true;
-			this.skinButton4.Visible = false;
-			// 
-			// skinButton5
-			// 
-			this.skinButton5.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton5.BaseColor = System.Drawing.Color.Transparent;
-			this.skinButton5.BorderColor = System.Drawing.Color.White;
-			this.skinButton5.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton5.DownBack = null;
-			this.skinButton5.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.skinButton5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinButton5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.skinButton5.ForeColorSuit = true;
-			this.skinButton5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.skinButton5.ImageIndex = 0;
-			this.skinButton5.ImageSize = new System.Drawing.Size(45, 45);
-			this.skinButton5.InheritColor = true;
-			this.skinButton5.IsDrawBorder = false;
-			this.skinButton5.Location = new System.Drawing.Point(461, 2);
-			this.skinButton5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 10);
-			this.skinButton5.MouseBack = null;
-			this.skinButton5.Name = "skinButton5";
-			this.skinButton5.NormlBack = null;
-			this.skinButton5.Size = new System.Drawing.Size(63, 70);
-			this.skinButton5.TabIndex = 14;
-			this.skinButton5.Tag = "9999";
-			this.skinButton5.Text = "开关1";
-			this.skinButton5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.skinButton5.UseVisualStyleBackColor = true;
-			this.skinButton5.Visible = false;
-			// 
 			// lcDownloadButton
 			// 
 			this.lcDownloadButton.BackColor = System.Drawing.Color.SandyBrown;
@@ -615,7 +467,7 @@
 			// keepLightOnCheckBox
 			// 
 			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(41, 32);
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(32, 32);
 			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
 			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.keepLightOnCheckBox.TabIndex = 9;
@@ -901,55 +753,6 @@
 			this.kpKey0TextBox.TabIndex = 1;
 			this.kpKey0TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label1.ForeColor = System.Drawing.Color.DimGray;
-			this.label1.Location = new System.Drawing.Point(585, 52);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(287, 12);
-			this.label1.TabIndex = 6;
-			this.label1.Text = "提示：如果设备为JKC-910AP版本，则开机场景无效。";
-			// 
-			// label23
-			// 
-			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(583, 22);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(65, 12);
-			this.label23.TabIndex = 2;
-			this.label23.Text = "选择场景：";
-			// 
-			// sceneComboBox
-			// 
-			this.sceneComboBox.BackColor = System.Drawing.Color.Linen;
-			this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.sceneComboBox.FormattingEnabled = true;
-			this.sceneComboBox.Items.AddRange(new object[] {
-            "开机场景",
-            "场景1",
-            "场景2",
-            "场景3",
-            "场景4",
-            "场景5",
-            "场景6",
-            "场景7",
-            "场景8",
-            "场景9",
-            "场景10",
-            "场景11",
-            "场景12",
-            "场景13",
-            "场景14",
-            "场景15",
-            "场景16"});
-			this.sceneComboBox.Location = new System.Drawing.Point(667, 18);
-			this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.sceneComboBox.Name = "sceneComboBox";
-			this.sceneComboBox.Size = new System.Drawing.Size(143, 20);
-			this.sceneComboBox.TabIndex = 0;
-			// 
 			// myToolTip
 			// 
 			this.myToolTip.AutoPopDelay = 10000;
@@ -1080,16 +883,6 @@
 			this.label6.TabIndex = 25;
 			this.label6.Text = "设备名称：";
 			// 
-			// debugNoticeLabel
-			// 
-			this.debugNoticeLabel.AutoSize = true;
-			this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
-			this.debugNoticeLabel.Location = new System.Drawing.Point(157, 34);
-			this.debugNoticeLabel.Name = "debugNoticeLabel";
-			this.debugNoticeLabel.Size = new System.Drawing.Size(365, 12);
-			this.debugNoticeLabel.TabIndex = 10;
-			this.debugNoticeLabel.Text = "提示：点击场景名，会向机器发送此场景的《灯控开关》调试数据。";
-			// 
 			// ToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1097,11 +890,8 @@
 			this.BackColor = System.Drawing.Color.Silver;
 			this.ClientSize = new System.Drawing.Size(1264, 681);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.myStatusStrip);
-			this.Controls.Add(this.label23);
-			this.Controls.Add(this.sceneComboBox);
 			this.Controls.Add(this.renderMainFormSceneButton);
 			this.Controls.Add(this.protocolSaveButton);
 			this.Controls.Add(this.protocolComboBox);
@@ -1162,8 +952,6 @@
 		private System.Windows.Forms.Button lcLoadButton;
 		private System.Windows.Forms.Button lcSaveButton;
 		private System.Windows.Forms.Button lcReadButton;
-		private System.Windows.Forms.Label label23;
-		private System.Windows.Forms.ComboBox sceneComboBox;
 		private System.Windows.Forms.TabPage keyTabPage;
 		private System.Windows.Forms.Button kpReadButton;
 		private System.Windows.Forms.ListView keypressListView;
@@ -1206,7 +994,6 @@
 		private System.Windows.Forms.Label deviceTypeLabel;
 		private System.Windows.Forms.Label deviceNameLabel;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.FlowLayoutPanel relayBigFLP;
 		private System.Windows.Forms.FlowLayoutPanel relayFLPDemo;
@@ -1215,11 +1002,6 @@
 		private CCWin.SkinControl.SkinButton relayButtonDemo;
 		private System.Windows.Forms.CheckBox sceneCBDemo;
 		private System.Windows.Forms.CheckBox keepLightOnCheckBox;
-		private CCWin.SkinControl.SkinButton skinButton1;
-		private CCWin.SkinControl.SkinButton skinButton2;
-		private CCWin.SkinControl.SkinButton skinButton3;
-		private CCWin.SkinControl.SkinButton skinButton4;
-		private CCWin.SkinControl.SkinButton skinButton5;
 		private System.Windows.Forms.Label debugNoticeLabel;
 	}
 }

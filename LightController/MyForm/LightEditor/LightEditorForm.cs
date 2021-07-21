@@ -1,5 +1,4 @@
-﻿using LighEditor.Tools;
-using LightController.Common;
+﻿using LightController.Common;
 using LightController.MyForm;
 using LightController.Tools;
 using LightEditor.Ast;

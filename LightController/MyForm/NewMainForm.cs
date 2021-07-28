@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.MyForm
@@ -621,7 +622,10 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void reBuildLightListView()
 		{
-			lightsListView.Items.Clear();
+            //DOTO 210727 listView用BeginUpdate和EndUpdate [能有效的节省一些资源，不用每加一个灯具就重绘一次]
+            lightsListView.BeginUpdate();
+
+            lightsListView.Items.Clear();
 			for (int i = 0; i < LightAstList.Count; i++)
 			{
 				// 添加灯具数据到LightsListView中
@@ -631,11 +635,11 @@ namespace LightController.MyForm
 						LightAstList[i].Remark,
 					lightImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
-				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
-				);
-			}
-			Refresh();
-		}
+				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }	 );
+			}           
+
+           lightsListView.EndUpdate();
+        }
 
 		/// <summary>
 		/// 辅助方法：初始化（StepTime）各控件的属性值
@@ -1829,5 +1833,18 @@ namespace LightController.MyForm
 		{
 			testButtonClick();
 		}
-	}
+
+
+		/// <summary>
+		/// 尝试加上双缓冲，看看使用皮肤时会不会闪烁
+		/// </summary>
+  //      protected override CreateParams CreateParams {
+		//	get {
+		//		CreateParams cp = base.CreateParams;
+		//		cp.ExStyle |= 0x02000000;
+		//		return cp;
+		//	}		
+		//}
+
+    }
 }

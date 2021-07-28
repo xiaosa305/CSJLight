@@ -12,6 +12,7 @@ using LightController.Common;
 using CCWin.SkinControl;
 using System.IO;
 using LightEditor.Ast;
+using System.Threading;
 
 namespace LightController.MyForm
 {
@@ -512,7 +513,10 @@ namespace LightController.MyForm
 		///辅助方法：根据现有的lightAstList，重新渲染listView
 		/// </summary>
 		protected override void reBuildLightListView()
-		{			
+		{
+			//DOTO 210727 listView用BeginUpdate和EndUpdate( SkinListView好像不是很适用这两个方法，作用不大)
+			//lightsSkinListView.BeginUpdate();
+
 			lightsSkinListView.Items.Clear();
 			for (int i = 0; i < LightAstList.Count; i++)
 			{
@@ -523,10 +527,12 @@ namespace LightController.MyForm
 						+ LightAstList[i].Remark	,
 					lightImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
-				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
-				);
+				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType } 	);
 			}
-			Refresh();
+			lightsSkinListView.Refresh();
+
+			//lightsSkinListView.EndUpdate();
+
 		}
 
 		/// <summary>

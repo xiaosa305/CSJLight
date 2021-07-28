@@ -44,9 +44,8 @@ namespace LightController.MyForm.OtherTools
 
 		private void ProtocolDataForm_Load(object sender, EventArgs e)
 		{
-			Location = MousePosition;
-			//主动开启解码
-			//ccDecodeButton_Click(null, null);
+			Location = MousePosition;		
+
 		}
 
 		private void ProtocolDataForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -54,7 +53,8 @@ namespace LightController.MyForm.OtherTools
 			// 如果正在解码中，需先关闭解码
 			if (isDecoding)
 			{
-				ccDecodeButton_Click(null, null);
+				MessageBox.Show("请先《关闭红外解码》后，再关闭此窗口。");
+				e.Cancel = true;
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace LightController.MyForm.OtherTools
 
 
 		/// <summary>
-		///事件：点击《修改码值》 
+		///事件：点击《修改此行协议》 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>		
@@ -188,7 +188,8 @@ namespace LightController.MyForm.OtherTools
 		{
 			// 如果正在解码中，需先关闭解码
 			if (isDecoding) {
-				ccDecodeButton_Click(null, null);
+				MessageBox.Show("请先关闭解码后，再点击《修改此行协议》。");
+				return;
 			}
 
 			ccd.Com0Up = com0UpTextBox.Text.Trim();

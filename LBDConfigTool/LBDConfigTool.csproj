@@ -95,11 +95,13 @@
     </Compile>
     <Compile Include="utils\communication\BaseFunctionalModule.cs" />
     <Compile Include="utils\communication\CSJNetCommunitor.cs" />
+    <Compile Include="utils\communication\FunctionModule.cs" />
     <Compile Include="utils\communication\HCXNetCommunitor.cs" />
     <Compile Include="utils\conf\CSJConf.cs" />
     <Compile Include="utils\conf\HCXConf.cs" />
     <Compile Include="utils\conf\IConf.cs" />
     <Compile Include="utils\crc\Crc32SUM.cs" />
+    <Compile Include="utils\cusdelegate\CallbackFunction.cs" />
     <Compile Include="utils\entity\ParamEntity.cs" />
     <Compile Include="utils\record\CaptureTool.cs" />
     <Compile Include="utils\record\DMXManager.cs" />

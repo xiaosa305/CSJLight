@@ -16,6 +16,11 @@ namespace LBDConfigTool.utils.communication
 {
     public abstract class BaseFunctionalModule
     {
+        public bool IsRecMode { get; set; }
+        protected byte[] CurrentPackageData { get; set; }
+        protected int TimeOutCount { get; set; }
+
+
         [DllImport("winmm.dll")] internal static extern uint timeBeginPeriod(uint period);
         [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
         protected const int TIME_OUT_COUNT = 5000;
@@ -49,15 +54,12 @@ namespace LBDConfigTool.utils.communication
                 case Module.IsEncrypt:
                     this.StartTimeOutTask();
                     break;
-                case Module.SearchDevice:
-                case Module.UpdateFPGA256:
-                case Module.UpdataMCU256:
-                case Module.WriteParam:
-                    break;
             }
         }
         protected void Init()
         {
+            this.TimeOutCount = 0;
+            this.IsRecMode = false;
             this.MessageTransaction = new System.Timers.Timer() { AutoReset = false };
             this.MessageTransaction.Elapsed += this.MessageTransactionTask;
             this.MessageQueue = new ConcurrentQueue<List<byte>>();
@@ -85,26 +87,42 @@ namespace LBDConfigTool.utils.communication
         }
         protected void TimeOutTask(object sender, ElapsedEventArgs e)
         {
-            string value = "";
-            switch (this.CurrentModule)
+            if (this.IsRecMode && this.TimeOutCount < 3)
             {
-                case Module.WriteEncrypt:
-                    value = "加密固件";
-                    break;
-                case Module.UpdateFPGA256:
-                    value = "升级FPGA";
-                    break;
-                case Module.UpdataMCU256:
-                    value = "升级MCU";
-                    break;
-                case Module.WriteData:
-                    break;
-                case Module.WriteParam:
-                    value = "下载配置参数";
-                    break;
+                new Thread(new ThreadStart(ReSendTask)) { IsBackground = true}.Start();
             }
-            value += "失败";
-            this.TaskError(value);
+            else
+            {
+                string value = "";
+                switch (this.CurrentModule)
+                {
+                    case Module.WriteEncrypt:
+                        value = "加密固件";
+                        break;
+                    case Module.UpdateFPGA256:
+                        value = "升级FPGA";
+                        break;
+                    case Module.UpdataMCU256:
+                        value = "升级MCU";
+                        break;
+                    case Module.WriteData:
+                        break;
+                    case Module.WriteParam:
+                        value = "下载配置参数";
+                        break;
+                }
+                value += "失败";
+                this.TaskError(value);
+            }
+        }
+        protected void ReSendTask()
+        {
+            Thread.Sleep(200);
+            if (this.CurrentPackageData != null)
+            {
+                this.Send(this.CurrentPackageData);
+            }
+            this.TimeOutCount++;
         }
         protected void TaskCompleted()
         {
@@ -149,7 +167,14 @@ namespace LBDConfigTool.utils.communication
                 if (this.MessageQueue.Count > 0)
                 {
                     this.MessageQueue.TryDequeue(out List<byte> message);
-                    this.ReceiveManage(message);
+                    if (this.IsRecMode)
+                    {
+                        this.ReceiveByRecModeManage(message);
+                    }
+                    else
+                    {
+                        this.ReceiveManage(message);
+                    }
                 }
                 else
                 {
@@ -591,7 +616,7 @@ namespace LBDConfigTool.utils.communication
                     int lastPackageSize = flag ? param.PacketSize : (int)(length % param.PacketSize);
                     int packetCount = (int)(length / param.PacketSize);
                     List<byte> buff = new List<byte>();
-                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0x90 };
+                    byte[] packetHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xE0 };
                     byte[] readBuff = new byte[param.PacketSize];
                     for (int i = 0; i < packetCount; i++)
                     {
@@ -679,6 +704,18 @@ namespace LBDConfigTool.utils.communication
         }
 
 
+        /// <summary>
+        /// 有回应模式
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+
+        public void UpdateFPGA256ByRec(string filePath, ParamEntity param,Progress progress,Completed completed,Error error)
+        {
+
+        }
+
+
         private void WriteData(Completed completed, Error error)
         {
             this.Completed_Event = completed;
@@ -754,6 +791,16 @@ namespace LBDConfigTool.utils.communication
                 Console.WriteLine(ex.StackTrace);
                 this.TaskError();
             }
+        }
+
+
+        /// <summary>
+        /// 有应答模式消息管理
+        /// </summary>
+        /// <param name="recData"></param>
+        protected void ReceiveByRecModeManage(List<byte> recData)
+        {
+
         }
 
 
@@ -910,6 +957,10 @@ namespace LBDConfigTool.utils.communication
 
         protected enum Module
         {
+            UpdateFPGA256ByRec,
+            UpdateMCU256ByRec,
+            DownloadWordBankByRec,
+
             SearchDevice,
             ReadDeviceId,
             WriteEncrypt,

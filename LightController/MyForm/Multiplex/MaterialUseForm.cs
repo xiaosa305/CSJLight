@@ -1297,7 +1297,6 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void someTrackBar_MouseWheel(object sender, MouseEventArgs e)
 		{
-
 			TrackBar tb = sender as TrackBar;
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)

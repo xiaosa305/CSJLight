@@ -472,6 +472,11 @@
             // tgNUDDemo
             // 
             this.tgNUDDemo.Location = new System.Drawing.Point(185, 27);
+            this.tgNUDDemo.Maximum = new decimal(new int[] {
+            18,
+            0,
+            0,
+            0});
             this.tgNUDDemo.Name = "tgNUDDemo";
             this.tgNUDDemo.Size = new System.Drawing.Size(45, 21);
             this.tgNUDDemo.TabIndex = 18;

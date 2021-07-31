@@ -191,24 +191,28 @@ namespace LightController.MyForm.OtherTools
                         TickStyle = tgTrackBarDemo.TickStyle,
 						Name = sceneIndex + "," + tgIndex ,
 					};
-					tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
 
-                    tgNUDs[sceneIndex, tgIndex] = new NumericUpDown
+					tgNUDs[sceneIndex, tgIndex] = new NumericUpDown
                     {
                         Location = tgNUDDemo.Location,
                         Size = tgNUDDemo.Size,
                         TextAlign = tgNUDDemo.TextAlign,
+						Maximum = tgNUDDemo.Maximum,
 						Name = sceneIndex + "," + tgIndex,
-					};
-					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+					};					
 
 					tgPanels[sceneIndex, tgIndex].Controls.Add(tgLabels[sceneIndex, tgIndex]);  
 					tgPanels[sceneIndex, tgIndex].Controls.Add(tgTrackBars[sceneIndex, tgIndex]);
 					tgPanels[sceneIndex, tgIndex].Controls.Add(tgNUDs[sceneIndex, tgIndex]);
 
-					relayFLPs[sceneIndex].Controls.Add(tgPanels[sceneIndex,tgIndex]);					
-				}
+					relayFLPs[sceneIndex].Controls.Add(tgPanels[sceneIndex,tgIndex]);
 
+					//添加监听器
+					tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+					tgTrackBars[sceneIndex, tgIndex].MouseWheel += someTrackBar_MouseWheel;
+					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+					tgNUDs[sceneIndex, tgIndex].MouseWheel += someNUD_MouseWheel;
+				}
 			}
 
 			myToolTip.SetToolTip(renderMainFormSceneButton,
@@ -1554,6 +1558,72 @@ namespace LightController.MyForm.OtherTools
 			LanguageHelper.TranslateControl(sender as Control);
 		}
 
+		/// <summary>
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		///  验证：对某些TrackBar进行鼠标滚轮的验证，避免一次性滚动过多（与OS设置有关）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someTrackBar_MouseWheel(object sender, MouseEventArgs e)
+		{
+			TrackBar tb = sender as TrackBar;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true; //设为true则屏蔽之后系统自行处理的操作（就是原来加3(Win10)之类的操作）
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				int dd = tb.Value + tb.SmallChange;
+				if (dd <= tb.Maximum)
+				{
+					tb.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				int dd = tb.Value - tb.SmallChange;
+				if (dd >= tb.Minimum)
+				{
+					tb.Value = dd;
+				}
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -1563,8 +1633,6 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tgTrackBars_ValueChanged(object sender, EventArgs e)
 		{
-            Console.WriteLine("Dickov : tgTrackBars_ValueChanged");
-
 			TrackBar tgTrackBar = sender as TrackBar;
 			int sceneIndex , tgIndex;
 			getIndex( tgTrackBar.Name, out sceneIndex, out tgIndex); 
@@ -1574,7 +1642,6 @@ namespace LightController.MyForm.OtherTools
 			tgNUDs[sceneIndex,tgIndex].ValueChanged -= tgNUDs_ValueChanged;
 			tgNUDs[sceneIndex,tgIndex].Value = tgValue;
 			tgNUDs[sceneIndex,tgIndex].ValueChanged += tgNUDs_ValueChanged;		
-
 		}
 
 		/// <summary>
@@ -1584,8 +1651,6 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tgNUDs_ValueChanged(object sender, EventArgs e)
 		{
-			Console.WriteLine("Dickov : tgNUDs_ValueChanged");
-
 			NumericUpDown tgNUD = sender as NumericUpDown;
 			int sceneIndex, tgIndex;
 			getIndex( tgNUD.Name, out sceneIndex, out tgIndex);
@@ -1596,7 +1661,6 @@ namespace LightController.MyForm.OtherTools
             tgTrackBars[sceneIndex,tgIndex].Value = tgValue;
             tgTrackBars[sceneIndex,tgIndex].ValueChanged += tgTrackBars_ValueChanged;
         }
-
 
 		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
 

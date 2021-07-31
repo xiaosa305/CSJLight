@@ -430,6 +430,7 @@
     <Compile Include="Tools\CSJ\IMPL\CSJ_Hardware.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_SceneData.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightControlData.cs" />
+    <Compile Include="Tools\CSJ\IMPL\LightControllerDMX.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\SequencerData.cs" />

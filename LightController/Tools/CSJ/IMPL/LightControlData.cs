@@ -33,6 +33,7 @@ namespace LightController.Tools.CSJ.IMPL
 
 
         public SequencerData SequencerData { get; set; }
+        public LightControllerDMX LightControllerDMX { get; set; }
 
         public static LightControlData GetTestData()
         {
@@ -107,6 +108,7 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
             this.SequencerData = SequencerData.Build(data.ToArray());
+            this.LightControllerDMX = LightControllerDMX.Build(data.ToArray());
         }
 
         /// <summary>
@@ -199,6 +201,17 @@ namespace LightController.Tools.CSJ.IMPL
                     data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 80 - data.Count).ToArray());
                     data[60] = this.SequencerData.IsOpenSequencer ? Convert.ToByte(0x01) : Convert.ToByte(0x00);
                     data.AddRange(this.SequencerData.GetData());
+                }
+                if (this.LightControllerDMX != null)
+                {
+                    if (data.Count < 400)
+                    {
+                        data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 399 - data.Count).ToArray());
+                    }
+                    data.AddRange(LightControllerDMX.GetData());
+                }
+                if (this.SequencerData != null && data.Count < 498)
+                {
                     data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 498 - data.Count).ToArray());
                 }
             }

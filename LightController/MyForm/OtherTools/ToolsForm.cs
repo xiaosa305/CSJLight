@@ -56,6 +56,11 @@ namespace LightController.MyForm.OtherTools
 		private Button[,] relayButtons;
 		private bool isDebuging = false; // 是否正在发送调试数据，只有Completed|Error回调后，才会设为false；
 		private string selectedSceneName;
+		private int tgCount = 2; // 调光通道相关
+		private Panel[,] tgPanels;
+		private Label[,] tgLabels;
+		private TrackBar[,] tgTrackBars;
+		private NumericUpDown[,] tgNUDs;
 
 		private KeyEntity kpEntity;  // 墙板封装对象
 		private List<string> kpCodeList;   // 记录搜索到的码值列表（不用Dictionary，因为没有存储功能描述的必要，且Dictionary无序）		
@@ -77,6 +82,11 @@ namespace LightController.MyForm.OtherTools
 			sceneLabels = new Label[sceneCount];
 			sceneCBs = new CheckBox[sceneCount];
 			relayButtons = new SkinButton[sceneCount , relayCount];
+			// 各调光通道
+			tgPanels = new Panel[sceneCount, tgCount];
+			tgLabels = new Label[sceneCount, tgCount];
+			tgTrackBars = new TrackBar[sceneCount, tgCount];
+			tgNUDs = new NumericUpDown[sceneCount, tgCount];
 
 			for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++) {
 
@@ -118,6 +128,7 @@ namespace LightController.MyForm.OtherTools
 				relayPanels[sceneIndex].Controls.Add(sceneCBs[sceneIndex]);
 
 				relayFLPs[sceneIndex].Controls.Add(relayPanels[sceneIndex]);
+
 				for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
 				{
 					relayButtons[sceneIndex,relayIndex] = new SkinButton
@@ -151,6 +162,51 @@ namespace LightController.MyForm.OtherTools
 					};
 					relayButtons[sceneIndex,relayIndex].Click += relayButtons_Click ;
 					relayFLPs[sceneIndex].Controls.Add(relayButtons[sceneIndex, relayIndex]);
+				}
+
+				
+				// 各调光通道
+				for (int tgIndex = 0; tgIndex < 2; tgIndex++) {
+
+                    tgPanels[sceneIndex, tgIndex] = new Panel
+                    {
+                        Location = tgPanelDemo.Location,
+                        Size = tgPanelDemo.Size ,
+						BorderStyle = tgPanelDemo.BorderStyle
+					};
+
+                    tgLabels[sceneIndex, tgIndex] = new Label
+                    {
+                        AutoSize = tgLabelDemo.AutoSize,
+                        Location = tgLabelDemo.Location,
+                        Size = tgLabelDemo.Size,
+                        Text = "调光"+(tgIndex+1)+"："
+                    };
+
+                    tgTrackBars[sceneIndex, tgIndex] = new TrackBar
+                    {
+                        Location = tgTrackBarDemo.Location,
+                        Maximum = tgTrackBarDemo.Maximum,
+                        Size = tgTrackBarDemo.Size,
+                        TickStyle = tgTrackBarDemo.TickStyle,
+						Name = sceneIndex + "," + tgIndex ,
+					};
+					tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+
+                    tgNUDs[sceneIndex, tgIndex] = new NumericUpDown
+                    {
+                        Location = tgNUDDemo.Location,
+                        Size = tgNUDDemo.Size,
+                        TextAlign = tgNUDDemo.TextAlign,
+						Name = sceneIndex + "," + tgIndex,
+					};
+					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+
+					tgPanels[sceneIndex, tgIndex].Controls.Add(tgLabels[sceneIndex, tgIndex]);  
+					tgPanels[sceneIndex, tgIndex].Controls.Add(tgTrackBars[sceneIndex, tgIndex]);
+					tgPanels[sceneIndex, tgIndex].Controls.Add(tgNUDs[sceneIndex, tgIndex]);
+
+					relayFLPs[sceneIndex].Controls.Add(tgPanels[sceneIndex,tgIndex]);					
 				}
 
 			}
@@ -1499,6 +1555,55 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		#endregion
-		
-	}
+
+		/// <summary>
+		///  事件：TrackBar滚轴值改变时的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgTrackBars_ValueChanged(object sender, EventArgs e)
+		{
+            Console.WriteLine("Dickov : tgTrackBars_ValueChanged");
+
+			TrackBar tgTrackBar = sender as TrackBar;
+			int sceneIndex , tgIndex;
+			getIndex( tgTrackBar.Name, out sceneIndex, out tgIndex); 
+
+			int tgValue = tgTrackBar.Value;
+
+			tgNUDs[sceneIndex,tgIndex].ValueChanged -= tgNUDs_ValueChanged;
+			tgNUDs[sceneIndex,tgIndex].Value = tgValue;
+			tgNUDs[sceneIndex,tgIndex].ValueChanged += tgNUDs_ValueChanged;		
+
+		}
+
+		/// <summary>
+		/// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgNUDs_ValueChanged(object sender, EventArgs e)
+		{
+			Console.WriteLine("Dickov : tgNUDs_ValueChanged");
+
+			NumericUpDown tgNUD = sender as NumericUpDown;
+			int sceneIndex, tgIndex;
+			getIndex( tgNUD.Name, out sceneIndex, out tgIndex);
+
+			int tgValue = decimal.ToInt32(tgNUD.Value);
+
+			tgTrackBars[sceneIndex,tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
+            tgTrackBars[sceneIndex,tgIndex].Value = tgValue;
+            tgTrackBars[sceneIndex,tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+        }
+
+
+		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
+
+			sceneIndex = int.Parse(ctrlName.Split(',')[0]);
+			tgIndex = int.Parse(ctrlName.Split(',')[1]);
+
+		}
+
+    }
 }

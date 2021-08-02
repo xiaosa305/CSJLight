@@ -891,12 +891,14 @@ namespace LightController.MyForm.OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				setConnStatus(ConnectStatus.Lc);
-				setNotice(StatusLabel.RIGHT, "已切换成灯控配置(connStatus=lc)", false,true);
-				setBusy(false);
+				setNotice(StatusLabel.RIGHT, "已切换成灯控配置(connStatus=lc)", false,true);		
 
 				// 当还没有任何形式地加载lcEntity时，主动从机器回读
-				if (lcEntity == null) 	lcReadButton_Click(null, null);				
-			});
+				if (lcEntity == null) 				lcReadButton_Click(null, null);
+
+                // 最后再统一设使能，避免界面 反复使能开和关（视觉上效果较差）
+                setBusy(false);
+            });
 		}	
 
 		/// <summary>

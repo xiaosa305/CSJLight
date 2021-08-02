@@ -25,7 +25,11 @@ namespace LightController.MyForm.OtherTools
 		/// </summary>
 		enum ConnectStatus
 		{
-			No,	Normal,Lc,Cc,	Kp
+			No,	
+			Normal, 
+			Lc, 
+			Cc,
+			Kp
 		}
 		/// <summary>
 		/// 状态栏的枚举
@@ -210,8 +214,11 @@ namespace LightController.MyForm.OtherTools
 					//添加监听器
 					tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
 					tgTrackBars[sceneIndex, tgIndex].MouseWheel += someTrackBar_MouseWheel;
+					tgTrackBars[sceneIndex, tgIndex].KeyPress += tgTrackBars_KeyPress;
 					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
 					tgNUDs[sceneIndex, tgIndex].MouseWheel += someNUD_MouseWheel;
+					tgNUDs[sceneIndex, tgIndex].KeyPress += tgNUDs_KeyPress;
+					
 				}
 			}
 
@@ -219,7 +226,7 @@ namespace LightController.MyForm.OtherTools
 				"左键点击此按键，会把当前协议中灯光场景1-16的功能描述渲染到主界面\n" +
 				"的《场景选择框》中，改动只在此次软件运行期间生效；\n" +
 				"右键点击此按键，则会把改动保存到硬盘上，下次打开软件时仍然有效。");
-			myToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
+			myToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后:\n1.点亮或关闭每一个《继电器开关》，所有场景的相应《继电器开关》都会随之变动;\n2.调节《调光值》时，所有场景的《调光值》都会随之变动。");
 			myToolTip.SetToolTip(fillCodeAllButton, "点击此按键会将选中项的键码值填入左侧两个文本框中;\n双击右边列表的键码值也可实现同样效果。");
 
 			// 初始化墙板配置界面的TabControl
@@ -1639,9 +1646,25 @@ namespace LightController.MyForm.OtherTools
 
 			int tgValue = tgTrackBar.Value;
 
-			tgNUDs[sceneIndex,tgIndex].ValueChanged -= tgNUDs_ValueChanged;
-			tgNUDs[sceneIndex,tgIndex].Value = tgValue;
-			tgNUDs[sceneIndex,tgIndex].ValueChanged += tgNUDs_ValueChanged;		
+			if (keepLightOnCheckBox.Checked)
+			{
+				for (int sIndex = 0; sIndex < sceneCount; sIndex++)
+				{
+					tgTrackBars[sIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
+					tgTrackBars[sIndex, tgIndex].Value = tgValue;
+					tgTrackBars[sIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+
+					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
+					tgNUDs[sIndex, tgIndex].Value = tgValue;
+					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+				}
+			}
+			else
+			{
+				tgNUDs[sceneIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
+				tgNUDs[sceneIndex, tgIndex].Value = tgValue;
+				tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+			}		
 		}
 
 		/// <summary>
@@ -1657,9 +1680,25 @@ namespace LightController.MyForm.OtherTools
 
 			int tgValue = decimal.ToInt32(tgNUD.Value);
 
-			tgTrackBars[sceneIndex,tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
-            tgTrackBars[sceneIndex,tgIndex].Value = tgValue;
-            tgTrackBars[sceneIndex,tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+			if (keepLightOnCheckBox.Checked)
+			{
+				for (int sIndex = 0; sIndex < sceneCount; sIndex++)
+				{
+					tgTrackBars[sIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
+					tgTrackBars[sIndex, tgIndex].Value = tgValue;
+					tgTrackBars[sIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+
+					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
+					tgNUDs[sIndex, tgIndex].Value = tgValue;
+					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;					
+				}
+			}
+			else {
+				tgTrackBars[sceneIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
+				tgTrackBars[sceneIndex, tgIndex].Value = tgValue;
+				tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+			}
+
         }
 
 		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
@@ -1669,5 +1708,23 @@ namespace LightController.MyForm.OtherTools
 
 		}
 
+        private void tgTrackBars_KeyPress(object sender, KeyPressEventArgs e) {}
+
+		/// <summary>
+		/// 事件：输入a统一调值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+        private void tgNUDs_KeyPress(object sender, KeyPressEventArgs e)
+        {
+			//if (e.KeyChar == 'a' || e.KeyChar == 'A')
+			//{
+			//	NumericUpDown tgNUD = sender as NumericUpDown;
+			//	int sceneIndex, tgIndex;
+			//	getIndex(tgNUD.Name, out sceneIndex, out tgIndex);
+
+			//	int tgValue = decimal.ToInt32(tgNUD.Value);
+			//}
+		}
     }
 }

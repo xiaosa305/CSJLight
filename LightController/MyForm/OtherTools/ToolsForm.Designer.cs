@@ -481,6 +481,7 @@
             this.tgNUDDemo.Size = new System.Drawing.Size(45, 21);
             this.tgNUDDemo.TabIndex = 18;
             this.tgNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tgNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgNUDs_KeyPress);
             // 
             // tgTrackBarDemo
             // 
@@ -491,6 +492,7 @@
             this.tgTrackBarDemo.TabIndex = 17;
             this.tgTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tgTrackBarDemo.ValueChanged += new System.EventHandler(this.tgTrackBars_ValueChanged);
+            this.tgTrackBarDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgTrackBars_KeyPress);
             // 
             // lcDownloadButton
             // 

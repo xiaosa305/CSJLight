@@ -21,10 +21,10 @@ namespace LightController.Tools.CSJ.IMPL
                 int point = 400;
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
                 {
-                    light.ScrData[sceneIndex,0] = data[point + sceneIndex * 4 + 0];
-                    light.ScrData[sceneIndex,1] = data[point + sceneIndex * 4 + 1];
-                    light.ScrData[sceneIndex,2] = data[point + sceneIndex * 4 + 2];
-                    light.ScrData[sceneIndex,3] = data[point + sceneIndex * 4 + 3];
+                    light.ScrData[sceneIndex,0] = data[point + sceneIndex * 4 + 0] == Convert.ToByte(0xFF) ? data[point + sceneIndex * 4 + 0] : 0;
+                    light.ScrData[sceneIndex,1] = data[point + sceneIndex * 4 + 1] == Convert.ToByte(0xFF) ? data[point + sceneIndex * 4 + 1] : 0;
+                    light.ScrData[sceneIndex,2] = data[point + sceneIndex * 4 + 2] == Convert.ToByte(0xFF) ? data[point + sceneIndex * 4 + 2] : 0;
+                    light.ScrData[sceneIndex,3] = data[point + sceneIndex * 4 + 3] == Convert.ToByte(0xFF) ? data[point + sceneIndex * 4 + 3] : 0;
                 }
                 return light;
             }

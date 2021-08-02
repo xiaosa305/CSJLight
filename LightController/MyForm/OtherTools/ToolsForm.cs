@@ -53,6 +53,7 @@ namespace LightController.MyForm.OtherTools
 		private LightControlData lcEntity; //灯控封装对象	
 		private int sceneCount = 17; // 场景的数量（开机场景 + 16）
 		private int relayCount = 6; // 开关的数量		 		
+		public static int SCR_MAX = 18;
 		private FlowLayoutPanel[] relayFLPs;
 		private Panel[] relayPanels;
 		private Label[] sceneLabels;
@@ -191,7 +192,7 @@ namespace LightController.MyForm.OtherTools
                     tgTrackBars[sceneIndex, tgIndex] = new TrackBar
                     {
                         Location = tgTrackBarDemo.Location,
-                        Maximum = tgTrackBarDemo.Maximum,
+                        Maximum = SCR_MAX,
                         Size = tgTrackBarDemo.Size,
                         TickStyle = tgTrackBarDemo.TickStyle,
 						Name = sceneIndex + "," + tgIndex ,
@@ -202,7 +203,7 @@ namespace LightController.MyForm.OtherTools
                         Location = tgNUDDemo.Location,
                         Size = tgNUDDemo.Size,
                         TextAlign = tgNUDDemo.TextAlign,
-						Maximum = tgNUDDemo.Maximum,
+						Maximum = SCR_MAX,
 						Name = sceneIndex + "," + tgIndex,
 					};					
 
@@ -219,6 +220,7 @@ namespace LightController.MyForm.OtherTools
 					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
 					tgNUDs[sceneIndex, tgIndex].MouseWheel += someNUD_MouseWheel;
 					tgNUDs[sceneIndex, tgIndex].KeyPress += tgNUDs_KeyPress;
+					tgNUDs[sceneIndex, tgIndex].KeyUp += tgNUDs_KeyUp;
 					
 				}
 			}
@@ -1116,6 +1118,8 @@ namespace LightController.MyForm.OtherTools
 				}
 			}
 
+			//DOTO 210802 更改开关时，发送调试数据
+			sceneLabels_Click(sceneLabels[sceneIndex], null);
 		}
 
 		#endregion
@@ -1693,6 +1697,9 @@ namespace LightController.MyForm.OtherTools
 				//DOTO 210802 若非常亮模式，则只更改相应的通道值
 				changeSCRValue(sceneIndex, tgIndex, tgValue);
 			}
+
+			//DOTO 210802 若非常亮模式，则只更改相应的通道值
+			sceneLabels_Click(sceneLabels[sceneIndex], null);
 		}    
 
         /// <summary>
@@ -1733,13 +1740,15 @@ namespace LightController.MyForm.OtherTools
 				changeSCRValue(sceneIndex, tgIndex, tgValue);
 			}
 
-        }
+			//DOTO 210802 更改调光值时，主动发送调试命令
+			sceneLabels_Click( sceneLabels[sceneIndex] , null);
+		}
 
 		private void changeSCRValue(int sceneIndex, int tgIndex, int tgValue)
 		{
 			if (lcEntity.LightControllerSCR != null) {
 				lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex] = tgValue;
-			}
+			}				
 		}
 
 		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
@@ -1767,5 +1776,12 @@ namespace LightController.MyForm.OtherTools
 			//	int tgValue = decimal.ToInt32(tgNUD.Value);
 			//}
 		}
-    }
+
+		private void tgNUDs_KeyUp(object sender, KeyEventArgs e)
+		{
+			NumericUpDown tgNUD = sender as NumericUpDown;
+			tgNUD.Value = tgNUD.Value;
+		}
+
+	}
 }

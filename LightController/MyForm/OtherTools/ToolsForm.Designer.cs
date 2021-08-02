@@ -1,4 +1,7 @@
-﻿namespace LightController.MyForm.OtherTools
+﻿using System;
+using System.Windows.Forms;
+
+namespace LightController.MyForm.OtherTools
 {
 	partial class ToolsForm
 	{
@@ -352,9 +355,10 @@
             this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
             this.debugNoticeLabel.Location = new System.Drawing.Point(157, 22);
             this.debugNoticeLabel.Name = "debugNoticeLabel";
-            this.debugNoticeLabel.Size = new System.Drawing.Size(425, 36);
+            this.debugNoticeLabel.Size = new System.Drawing.Size(497, 48);
             this.debugNoticeLabel.TabIndex = 10;
-            this.debugNoticeLabel.Text = "提示：\r\n1.如果设备为JKC-910AP版本，则开机场景无效；\r\n2.点击场景名，会向机器发送此场景的《继电器开关》及《调光值》调试数据。\r\n";
+            this.debugNoticeLabel.Text = "提示：\r\n1.如果设备为JKC-910AP版本，则开机场景无效；\r\n2.点击场景名 或 修改【继电器开关】或【调光值】时，会向机器发送相应场景的调试数据。\r\n\r\n" +
+    "";
             // 
             // relayBigFLP
             // 
@@ -474,20 +478,22 @@
             // 
             this.tgNUDDemo.Location = new System.Drawing.Point(185, 27);
             this.tgNUDDemo.Maximum = new decimal(new int[] {
-            18,
+            16,
             0,
             0,
             0});
             this.tgNUDDemo.Name = "tgNUDDemo";
             this.tgNUDDemo.Size = new System.Drawing.Size(45, 21);
-            this.tgNUDDemo.TabIndex = 18;
+            this.tgNUDDemo.TabIndex = 16;
             this.tgNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tgNUDDemo.ValueChanged += new System.EventHandler(this.tgNUDs_ValueChanged);
             this.tgNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgNUDs_KeyPress);
+            this.tgNUDDemo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tgNUDs_KeyUp);
             // 
             // tgTrackBarDemo
             // 
             this.tgTrackBarDemo.Location = new System.Drawing.Point(71, 15);
-            this.tgTrackBarDemo.Maximum = 18;
+            this.tgTrackBarDemo.Maximum = 16;
             this.tgTrackBarDemo.Name = "tgTrackBarDemo";
             this.tgTrackBarDemo.Size = new System.Drawing.Size(112, 45);
             this.tgTrackBarDemo.TabIndex = 17;
@@ -982,8 +988,10 @@
 
 		}
 
-		#endregion
-		private System.Windows.Forms.ComboBox protocolComboBox;
+       
+
+        #endregion
+        private System.Windows.Forms.ComboBox protocolComboBox;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage centerTabPage;

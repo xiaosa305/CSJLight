@@ -340,17 +340,17 @@ namespace LightController.MyForm.OtherTools
 				case ConnectStatus.Kp: setNotice(StatusLabel.LEFT, "当前状态为：墙板配置", false, true); break;
 				default: setNotice(StatusLabel.LEFT, "", false, false); setNotice(StatusLabel.RIGHT, "", false, false); break;
 			}
-			refreshButtons();
+			refreshStatusButtons(); //setConnStatus
 		}
 
 		/// <summary>
 		/// 刷新所有被connStatus影响的按键
 		/// </summary>
-		private void refreshButtons()
+		private void refreshStatusButtons()
 		{
 			// 协议相关另存或渲染相关
-			protocolSaveButton.Enabled = ccEntity != null;
-			renderMainFormSceneButton.Enabled = ccEntity != null;
+			protocolSaveButton.Enabled = ccEntity != null ;
+			renderMainFormSceneButton.Enabled = ccEntity != null ;
 
 			// 灯控相关按键
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
@@ -555,7 +555,7 @@ namespace LightController.MyForm.OtherTools
 					}
 				}
 			}
-			refreshButtons();
+			refreshStatusButtons();
 		}
 
 		/// <summary>
@@ -797,7 +797,7 @@ namespace LightController.MyForm.OtherTools
 			if (lcEntity == null)
 			{
 				relayBigFLP.Enabled = false;
-				refreshButtons();
+				refreshStatusButtons();
 				setNotice(0, "lcEntity==null。", true, false);
 				return;
 			}
@@ -815,8 +815,16 @@ namespace LightController.MyForm.OtherTools
 							relayButtons[sceneIndex,relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex];
 						}
 					}
+
+					//if (lcEntity.LightControllerDMX) { 
+						
+
+
+						
+					//}
+
 				}
-				refreshButtons();
+				refreshStatusButtons();
 			}
 			catch (Exception ex)
 			{
@@ -1215,7 +1223,7 @@ namespace LightController.MyForm.OtherTools
 				kpEntity = obj as KeyEntity;
 				reloadKeypressListView();
 				setNotice(StatusLabel.RIGHT, "读取墙板码值成功。", true, true);
-				refreshButtons();
+				refreshStatusButtons();
 				this.Enabled = true;
 				this.Cursor = Cursors.Default;
 			});
@@ -1377,7 +1385,7 @@ namespace LightController.MyForm.OtherTools
 				kpEntity.CRC = paramList[48] + paramList[49];
 
 				reloadKeypressListView();
-				refreshButtons();
+				refreshStatusButtons();
 
 				setNotice(StatusLabel.RIGHT,
 					LanguageHelper.TranslateSentence("已加载本地墙板配置文件：") + keyPath,

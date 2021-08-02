@@ -352,9 +352,9 @@
             this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
             this.debugNoticeLabel.Location = new System.Drawing.Point(157, 22);
             this.debugNoticeLabel.Name = "debugNoticeLabel";
-            this.debugNoticeLabel.Size = new System.Drawing.Size(341, 36);
+            this.debugNoticeLabel.Size = new System.Drawing.Size(425, 36);
             this.debugNoticeLabel.TabIndex = 10;
-            this.debugNoticeLabel.Text = "提示：\r\n1.点击场景名，会向机器发送此场景的《灯控开关》调试数据。\r\n2.如果设备为JKC-910AP版本，则开机场景无效。";
+            this.debugNoticeLabel.Text = "提示：\r\n1.如果设备为JKC-910AP版本，则开机场景无效；\r\n2.点击场景名，会向机器发送此场景的《继电器开关》及《调光值》调试数据。\r\n";
             // 
             // relayBigFLP
             // 

@@ -5,10 +5,10 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    public class LightControllerDMX
+    public class LightControllerSCR
     {
-        public int[][] DmxData { get; set; }
-        public static LightControllerDMX Build(byte[] data)
+        public int[,] ScrData { get; set; }
+        public static LightControllerSCR Build(byte[] data)
         {
             try
             {
@@ -16,15 +16,15 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     return null;
                 }
-                LightControllerDMX light = new LightControllerDMX();
-                light.DmxData = new int[17][];
+                LightControllerSCR light = new LightControllerSCR();
+                light.ScrData = new int[17,4];
                 int point = 400;
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
                 {
-                    light.DmxData[sceneIndex][0] = data[point + sceneIndex * 4 + 0];
-                    light.DmxData[sceneIndex][1] = data[point + sceneIndex * 4 + 1];
-                    light.DmxData[sceneIndex][2] = data[point + sceneIndex * 4 + 2];
-                    light.DmxData[sceneIndex][3] = data[point + sceneIndex * 4 + 3];
+                    light.ScrData[sceneIndex,0] = data[point + sceneIndex * 4 + 0];
+                    light.ScrData[sceneIndex,1] = data[point + sceneIndex * 4 + 1];
+                    light.ScrData[sceneIndex,2] = data[point + sceneIndex * 4 + 2];
+                    light.ScrData[sceneIndex,3] = data[point + sceneIndex * 4 + 3];
                 }
                 return light;
             }
@@ -38,17 +38,17 @@ namespace LightController.Tools.CSJ.IMPL
         {
             try
             {
-                if (DmxData == null )
+                if (ScrData == null )
                 {
                     return null;
                 }
                 List<byte> data = new List<byte>();
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
                 {
-                    data.Add(Convert.ToByte(DmxData[sceneIndex][0]));
-                    data.Add(Convert.ToByte(DmxData[sceneIndex][1]));
-                    data.Add(Convert.ToByte(DmxData[sceneIndex][2]));
-                    data.Add(Convert.ToByte(DmxData[sceneIndex][3]));
+                    data.Add(Convert.ToByte(ScrData[sceneIndex,0]));
+                    data.Add(Convert.ToByte(ScrData[sceneIndex,1]));
+                    data.Add(Convert.ToByte(ScrData[sceneIndex,2]));
+                    data.Add(Convert.ToByte(ScrData[sceneIndex,3]));
                 }
                 return data.ToArray();
             }

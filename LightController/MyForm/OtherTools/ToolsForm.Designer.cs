@@ -459,6 +459,7 @@
             this.tgPanelDemo.Name = "tgPanelDemo";
             this.tgPanelDemo.Size = new System.Drawing.Size(246, 72);
             this.tgPanelDemo.TabIndex = 1;
+            this.tgPanelDemo.Visible = false;
             // 
             // tgLabelDemo
             // 

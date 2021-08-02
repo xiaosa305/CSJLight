@@ -172,11 +172,12 @@ namespace LightController.MyForm.OtherTools
 				// 各调光通道
 				for (int tgIndex = 0; tgIndex < 2; tgIndex++) {
 
-                    tgPanels[sceneIndex, tgIndex] = new Panel
-                    {
-                        Location = tgPanelDemo.Location,
-                        Size = tgPanelDemo.Size ,
-						BorderStyle = tgPanelDemo.BorderStyle
+					tgPanels[sceneIndex, tgIndex] = new Panel
+					{
+						Location = tgPanelDemo.Location,
+						Size = tgPanelDemo.Size,
+						BorderStyle = tgPanelDemo.BorderStyle,
+						Visible = tgPanelDemo.Visible
 					};
 
                     tgLabels[sceneIndex, tgIndex] = new Label
@@ -816,14 +817,25 @@ namespace LightController.MyForm.OtherTools
 						}
 					}
 
-					//if (lcEntity.LightControllerDMX) { 
-						
+					//DOTO 210802 渲染可控硅调光值
+					for (int tgIndex = 0; tgIndex < 2; tgIndex ++) {
+						if (lcEntity.LightControllerSCR != null)
+						{
+							tgPanels[sceneIndex, tgIndex].Visible = true;
 
+							tgTrackBars[sceneIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
+							tgTrackBars[sceneIndex, tgIndex].Value = lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex];
+							tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
 
-						
-					//}
-
-				}
+							tgNUDs[sceneIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
+							tgNUDs[sceneIndex, tgIndex].Value = lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex];
+							tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+						}
+						else {
+							tgPanels[sceneIndex, tgIndex].Visible = false;
+						}
+					}
+                }
 				refreshStatusButtons();
 			}
 			catch (Exception ex)
@@ -953,7 +965,6 @@ namespace LightController.MyForm.OtherTools
 			Invoke((EventHandler)delegate {
 				setNotice(StatusLabel.RIGHT, LanguageHelper.TranslateSentence("回读灯控配置失败:") + msg, true, false);
 				setBusy(false);
-
 				reconnectDevice(); //LCReadError
 			});
 		}
@@ -1027,8 +1038,9 @@ namespace LightController.MyForm.OtherTools
 			Label sceneLabel = sender as Label;
 			selectedSceneName = sceneLabel.Text;
 			setNotice(StatusLabel.RIGHT, "正在发送【"+ selectedSceneName + "】的《灯控开关》调试数据，请稍候...", false, true);
-			Refresh();			
-			byte[] tempData = lcEntity.GetSceneRelayBytes(int.Parse(sceneLabel.Name));			
+			Refresh();
+			
+			byte[] tempData = lcEntity.GetSceneDebugBytes(int.Parse(sceneLabel.Name) );			
 			mainForm.MyConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
 		}
 
@@ -1667,6 +1679,9 @@ namespace LightController.MyForm.OtherTools
 					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
 					tgNUDs[sIndex, tgIndex].Value = tgValue;
 					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+
+					//DOTO 210802 如果常亮模式，则更改所有场景此调光通道值
+					changeSCRValue(sIndex, tgIndex, tgValue);
 				}
 			}
 			else
@@ -1674,15 +1689,18 @@ namespace LightController.MyForm.OtherTools
 				tgNUDs[sceneIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
 				tgNUDs[sceneIndex, tgIndex].Value = tgValue;
 				tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
-			}		
-		}
 
-		/// <summary>
-		/// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tgNUDs_ValueChanged(object sender, EventArgs e)
+				//DOTO 210802 若非常亮模式，则只更改相应的通道值
+				changeSCRValue(sceneIndex, tgIndex, tgValue);
+			}
+		}    
+
+        /// <summary>
+        /// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tgNUDs_ValueChanged(object sender, EventArgs e)
 		{
 			NumericUpDown tgNUD = sender as NumericUpDown;
 			int sceneIndex, tgIndex;
@@ -1700,16 +1718,29 @@ namespace LightController.MyForm.OtherTools
 
 					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
 					tgNUDs[sIndex, tgIndex].Value = tgValue;
-					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;					
+					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+
+					//DOTO 210802 如果常亮模式，则更改所有场景此调光通道值
+					changeSCRValue(sIndex, tgIndex, tgValue);
 				}
 			}
 			else {
 				tgTrackBars[sceneIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
 				tgTrackBars[sceneIndex, tgIndex].Value = tgValue;
 				tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+
+				//DOTO 210802 若非常亮模式，则只更改相应的通道值
+				changeSCRValue(sceneIndex, tgIndex, tgValue);
 			}
 
         }
+
+		private void changeSCRValue(int sceneIndex, int tgIndex, int tgValue)
+		{
+			if (lcEntity.LightControllerSCR != null) {
+				lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex] = tgValue;
+			}
+		}
 
 		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
 

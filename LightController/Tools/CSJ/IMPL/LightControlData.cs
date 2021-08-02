@@ -33,7 +33,7 @@ namespace LightController.Tools.CSJ.IMPL
 
 
         public SequencerData SequencerData { get; set; }
-        public LightControllerDMX LightControllerDMX { get; set; }
+        public LightControllerSCR LightControllerSCR { get; set; }
 
         public static LightControlData GetTestData()
         {
@@ -108,7 +108,7 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
             this.SequencerData = SequencerData.Build(data.ToArray());
-            this.LightControllerDMX = LightControllerDMX.Build(data.ToArray());
+            this.LightControllerSCR = LightControllerSCR.Build(data.ToArray());
         }
 
         /// <summary>
@@ -202,13 +202,13 @@ namespace LightController.Tools.CSJ.IMPL
                     data[60] = this.SequencerData.IsOpenSequencer ? Convert.ToByte(0x01) : Convert.ToByte(0x00);
                     data.AddRange(this.SequencerData.GetData());
                 }
-                if (this.LightControllerDMX != null)
+                if (this.LightControllerSCR != null)
                 {
                     if (data.Count < 400)
                     {
                         data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 399 - data.Count).ToArray());
                     }
-                    data.AddRange(LightControllerDMX.GetData());
+                    data.AddRange(LightControllerSCR.GetData());
                 }
                 if (this.SequencerData != null && data.Count < 498)
                 {
@@ -243,7 +243,7 @@ namespace LightController.Tools.CSJ.IMPL
 		/// </summary>
 		/// <param name="sceneIndex"></param>
 		/// <returns></returns>
-		public byte[] GetSceneRelayBytes(int sceneIndex,int[] dmxData)
+		public byte[] GetSceneDebugBytes(int sceneIndex)
 		{
 			byte[] data = new byte[RelayDataSize];
 
@@ -277,15 +277,19 @@ namespace LightController.Tools.CSJ.IMPL
 				string str3 = StringHelper.ReverseString(tempStr.Substring(16, 8));
 				data[2] = Convert.ToByte(str3, 2);
 			}
+
             List<byte> buff = new List<byte>();
             buff.AddRange(data);
-            if (dmxData != null && dmxData.Length > 0)
+
+            //Dickov 直接从当前对象读取调光数据即可
+            if ( LightControllerSCR != null )
             {
-                for (int index = 0; index < dmxData.Length; index++)
+                for (int tgIndex = 0; tgIndex < 2; tgIndex++)
                 {
-                    buff.Add(Convert.ToByte(dmxData[index]));
+                    buff.Add(Convert.ToByte(LightControllerSCR.ScrData[sceneIndex,tgIndex]));
                 }
             }
+
 			return buff.ToArray();
 		}
 	}

@@ -94,6 +94,7 @@
       <DependentUpon>SpecialForm.cs</DependentUpon>
     </Compile>
     <Compile Include="utils\communication\BaseFunctionalModule.cs" />
+    <Compile Include="utils\communication\Communitor.cs" />
     <Compile Include="utils\communication\CSJNetCommunitor.cs" />
     <Compile Include="utils\communication\FunctionModule.cs" />
     <Compile Include="utils\communication\HCXNetCommunitor.cs" />

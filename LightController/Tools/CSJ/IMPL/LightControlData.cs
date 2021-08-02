@@ -243,7 +243,7 @@ namespace LightController.Tools.CSJ.IMPL
 		/// </summary>
 		/// <param name="sceneIndex"></param>
 		/// <returns></returns>
-		public byte[] GetSceneRelayBytes(int sceneIndex)
+		public byte[] GetSceneRelayBytes(int sceneIndex,int[] dmxData)
 		{
 			byte[] data = new byte[RelayDataSize];
 
@@ -277,8 +277,16 @@ namespace LightController.Tools.CSJ.IMPL
 				string str3 = StringHelper.ReverseString(tempStr.Substring(16, 8));
 				data[2] = Convert.ToByte(str3, 2);
 			}
-
-			return data;
+            List<byte> buff = new List<byte>();
+            buff.AddRange(data);
+            if (dmxData != null && dmxData.Length > 0)
+            {
+                for (int index = 0; index < dmxData.Length; index++)
+                {
+                    buff.Add(Convert.ToByte(dmxData[index]));
+                }
+            }
+			return buff.ToArray();
 		}
 	}
 }

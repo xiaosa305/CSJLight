@@ -89,63 +89,66 @@ namespace LBDConfigTool.utils.communication
         }
         protected void TaskCompleted(Object obj, string msg)
         {
-            this.IsWorking = false;
-            this.CurrentModuleType = FunctionModuleType.Null;
-            this.Completed(obj, msg);
+            IsWorking = false;
+            CurrentModuleType = FunctionModuleType.Null;
+            Completed(obj, msg);
         }
         protected void TaskError(string errorMsg)
         {
-            this.IsWorking = false;
-            this.CurrentModuleType = FunctionModuleType.Null;
-            this.Error(errorMsg);
+            IsWorking = false;
+            CurrentModuleType = FunctionModuleType.Null;
+            Error(errorMsg);
         }
         //超时执行器
         protected void TimeOutTimerTask(Object senderr, ElapsedEventArgs e)
         {
-            if (this.IsAnswerMode && this.ResendCount < 3)
+            if (IsAnswerMode && this.ResendCount < 3)
             {
                 new Thread(new ThreadStart(Resend)) { IsBackground = true }.Start();
             }
             else
             {
                 string value = "";
-                switch (this.CurrentModuleType)
+                switch (CurrentModuleType)
                 {
                     case FunctionModuleType.WriteEncrypt:
                         value = "加密固件";
                         break;
-                    case FunctionModuleType.UpdateFPGA256:
+                    case FunctionModuleType.UpdateFPGA256ByAnswer:
                         value = "升级FPGA";
                         break;
-                    case FunctionModuleType.UpdataMCU256:
+                    case FunctionModuleType.UpdateMCU256ByAnswer:
                         value = "升级MCU";
+                        break;
+                    case FunctionModuleType.DownloadFontByAnswer:
+                        value = "下载字库";
                         break;
                     case FunctionModuleType.WriteParam:
                         value = "下载配置参数";
                         break;
                 }
                 value += "失败";
-                this.TaskError(value);
+                TaskError(value);
             }
         }
         //启动超时计时器
         protected void StartTimout()
         {
-            this.Timeout_Timer.Start();
+            Timeout_Timer.Start();
         }
         //关闭超时计时器
         protected void StopTimeout()
         {
-            this.Timeout_Timer.Stop();
+            Timeout_Timer.Stop();
         }
         //超时重发执行器
         protected void Resend()
         {
-            if (this.LastPackageData != null)
+            if (LastPackageData != null)
             {
-                this.Send(this.LastPackageData);
+                Send(LastPackageData);
             }
-            this.ResendCount++;
+            ResendCount++;
         }
         //消息回复管理器
         protected void RecMessageTranscation()
@@ -158,16 +161,13 @@ namespace LBDConfigTool.utils.communication
                     switch (CurrentModuleType)
                     {
                         case FunctionModuleType.UpdateFPGA256ByAnswer:
+                            UpdateFPGA256AnswerManage(data);
                             break;
                         case FunctionModuleType.UpdateMCU256ByAnswer:
+                            UpdateMCU256AnswerManage(data);
                             break;
                         case FunctionModuleType.DownloadFontByAnswer:
-                            break;
-                        case FunctionModuleType.UpdateFPGA256:
-                            break;
-                        case FunctionModuleType.UpdataMCU256:
-                            break;
-                        case FunctionModuleType.DownloadFont:
+                            DownloadFontLibraryAnswerManage(data);
                             break;
                         case FunctionModuleType.SearchDevice:
                             SearchDeviceAnswerManager(data);
@@ -190,7 +190,7 @@ namespace LBDConfigTool.utils.communication
         //搜索设备模块
         protected bool SearchDevice(CompletedByObjAndMsg completed,ErrorByMsg error)
         {
-            if (!this.IsWorking)
+            if (!IsWorking)
             {
                 Completed = completed;
                 Error = error;
@@ -213,7 +213,7 @@ namespace LBDConfigTool.utils.communication
             catch (Exception ex)
             {
                 Console.WriteLine("搜索设备失败\r\n" + ex.StackTrace + "\r\n" + ex.Message);
-                this.TaskError("搜索设备失败");
+                TaskError("搜索设备失败");
             }
         }
         protected void SearchDeviceAnswerManager(List<byte> data)
@@ -223,7 +223,7 @@ namespace LBDConfigTool.utils.communication
                 CSJConf conf = CSJConf.BuildParamEmtity(data.ToArray());
                 if (conf != null)
                 {
-                    this.TaskCompleted(conf, "搜索设备成功");
+                    TaskCompleted(conf, "搜索设备成功");
                 }
                 return;
             }
@@ -231,12 +231,45 @@ namespace LBDConfigTool.utils.communication
             {
                 Console.WriteLine("搜索设备失败\r\n" + ex.StackTrace + "\r\n" + ex.Message);
             }
-            this.TaskError("搜索设备失败");
+            TaskError("搜索设备失败");
+        }
+        //写入配置参数
+        protected bool WriteParam(CSJConf conf, CompletedByObjAndMsg completed, ErrorByMsg error)
+        {
+            if (!IsWorking)
+            {
+                Completed = completed;
+                Error = error;
+                new Thread(new ParameterizedThreadStart(WriteParamTask)) { IsBackground = true }.Start(conf);
+                return true;
+            }
+            return false;
+        }
+        protected void WriteParamTask(Object obj)
+        {
+            try
+            {
+                IsWorking = true;
+                CurrentModuleType = FunctionModuleType.WriteParam;
+                CSJConf conf = obj as CSJConf;
+                byte[] sourceData = conf.GetData();
+                byte[] data = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA0, Convert.ToByte((sourceData.Length) & 0xFF), Convert.ToByte(((sourceData.Length) >> 8) & 0xFF), 0x00, 0x00, 0x00, 0x00 };
+                List<byte> buff = new List<byte>();
+                buff.AddRange(data);
+                buff.AddRange(sourceData);
+                this.Send(buff.ToArray());
+                this.TaskCompleted(null,"下载配置参数成功");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("下载配置参数失败\r\n" + ex.StackTrace + "\r\n" + ex.Message);
+                this.TaskError("下载配置参数失败");
+            }
         }
         //加密模块
         protected bool WriteEncrypt(string pwd, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
-            if (!this.IsWorking)
+            if (!IsWorking)
             {
                 Completed = completed;
                 Error = error;
@@ -250,8 +283,8 @@ namespace LBDConfigTool.utils.communication
             try
             {
                 string pwd = obj as string;
-                this.IsWorking = true;
-                this.CurrentModuleType = FunctionModuleType.WriteEncrypt;
+                IsWorking = true;
+                CurrentModuleType = FunctionModuleType.WriteEncrypt;
                 byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xD0 };
                 List<byte> buff = new List<byte>();
                 buff.AddRange(order);
@@ -276,10 +309,11 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //升级FPGA模块
-        protected bool UpdateFPGA256(string filePath,ParamEntity param,TaskProgress progress,CompletedByObjAndMsg completed,ErrorByMsg error)
+        protected bool UpdateFPGA256(string filePath,bool isAnswerMode, ParamEntity param,TaskProgress progress,CompletedByObjAndMsg completed,ErrorByMsg error)
         {
-            if (!this.IsWorking)
+            if (!IsWorking)
             {
+                IsAnswerMode = isAnswerMode;
                 Completed = completed;
                 Error = error;
                 Progress = progress;
@@ -298,9 +332,10 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
-                if (this.IsAnswerMode)
+                IsWorking = true;
+                CurrentModuleType = IsAnswerMode ? FunctionModuleType.UpdateFPGA256ByAnswer : FunctionModuleType.UpdateFPGA256;
+                if (IsAnswerMode)
                 {
-                   
                     using (FileStream stream = new FileStream(DownloadFilePath,FileMode.Open))
                     {
                         if (FirmwarePackageIndex == FirmwarePackageCount)
@@ -429,25 +464,25 @@ namespace LBDConfigTool.utils.communication
                     Progress(100);
                     FirmwarePackageIndex = 0;
                     FirmwarePackageCount = 0;
-                    this.TaskCompleted(null, "升级FPGA成功");
+                    TaskCompleted(null, "升级FPGA成功");
                 }
                 else
                 {
                     UpdatreFPGA256Task();
                 }
-                return;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("升级FPGA失败\r\n" + ex.StackTrace + "\r\n" + ex.Message);
+                TaskError("升级FPGA失败");
             }
-            this.TaskError("升级FPGA失败");
         }
         //升级MCU模块
-        protected bool UpdateMCU256(string filePath, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
+        protected bool UpdateMCU256(string filePath, bool isAnswerMode, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
-            if (!this.IsWorking)
+            if (!IsWorking)
             {
+                IsAnswerMode = isAnswerMode;
                 Completed = completed;
                 Error = error;
                 Progress = progress;
@@ -457,7 +492,7 @@ namespace LBDConfigTool.utils.communication
                 {
                     FirmwarePackageCount = (int)((stream.Length / Param.PacketSize) + (stream.Length % Param.PacketSize == 0 ? 0 : 1));
                 }
-                new Thread(new ThreadStart(UpdatreFPGA256Task)) { IsBackground = true }.Start();
+                new Thread(new ThreadStart(UpdateMCU256Task)) { IsBackground = true }.Start();
                 return true;
             }
             return false;
@@ -466,7 +501,9 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
-                if (this.IsAnswerMode)
+                IsWorking = true;
+                CurrentModuleType = IsAnswerMode ? FunctionModuleType.UpdateMCU256ByAnswer : FunctionModuleType.UpdataMCU256;
+                if (IsAnswerMode)
                 {
 
                     using (FileStream stream = new FileStream(DownloadFilePath, FileMode.Open))
@@ -597,25 +634,25 @@ namespace LBDConfigTool.utils.communication
                     Progress(100);
                     FirmwarePackageIndex = 0;
                     FirmwarePackageCount = 0;
-                    this.TaskCompleted(null, "升级MCU成功");
+                    TaskCompleted(null, "升级MCU成功");
                 }
                 else
                 {
                     UpdateMCU256Task();
                 }
-                return;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("升级MCU失败\r\n" + ex.StackTrace + "\r\n" + ex.Message);
+                this.TaskError("升级MCU失败");
             }
-            this.TaskError("升级MCU失败");
         }
         //下载字库
-        protected bool DownloadFontLibrary(string filePath, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
+        protected bool DownloadFontLibrary(string filePath, bool isAnswerMode, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
-            if (!this.IsWorking)
+            if (!IsWorking)
             {
+                IsAnswerMode = isAnswerMode;
                 Completed = completed;
                 Error = error;
                 Progress = progress;
@@ -634,9 +671,10 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
-                if (this.IsAnswerMode)
+                IsWorking = true;
+                CurrentModuleType = IsAnswerMode ? FunctionModuleType.DownloadFontByAnswer : FunctionModuleType.DownloadFont;
+                if (IsAnswerMode)
                 {
-
                     using (FileStream stream = new FileStream(DownloadFilePath, FileMode.Open))
                     {
                         if (FirmwarePackageIndex == FirmwarePackageCount)
@@ -765,19 +803,18 @@ namespace LBDConfigTool.utils.communication
                     Progress(100);
                     FirmwarePackageIndex = 0;
                     FirmwarePackageCount = 0;
-                    this.TaskCompleted(null, "下载字库成功");
+                    TaskCompleted(null, "下载字库成功");
                 }
                 else
                 {
                     DownloadFontLibraryTask();
                 }
-                return;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("下载字库失败\r\n" + ex.StackTrace + "\r\n" + ex.Message);
+                TaskError("下载字库失败");
             }
-            this.TaskError("下载字库失败");
         }
     }
 

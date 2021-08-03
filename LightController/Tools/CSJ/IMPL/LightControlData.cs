@@ -286,10 +286,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 for (int tgIndex = 0; tgIndex < 2; tgIndex++)
                 {
-                    buff.Add(Convert.ToByte(LightControllerSCR.ScrData[sceneIndex,tgIndex]));
-
-                    //TODEL
-                    Console.WriteLine( LightControllerSCR.ScrData[sceneIndex,tgIndex] );
+                    buff.Add(Convert.ToByte(LightControllerSCR.ScrData[sceneIndex,tgIndex]));                                 
 
                 }
                 for (int tgIndex = 2; tgIndex < 4; tgIndex++) {
@@ -297,7 +294,10 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
 
-			return buff.ToArray();
+            //TODEL
+            //Console.WriteLine( buff );
+
+            return buff.ToArray();
 		}
 	}
 }

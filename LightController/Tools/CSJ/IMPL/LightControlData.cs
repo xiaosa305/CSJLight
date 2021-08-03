@@ -286,8 +286,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 for (int tgIndex = 0; tgIndex < 2; tgIndex++)
                 {
-                    buff.Add(Convert.ToByte(LightControllerSCR.ScrData[sceneIndex,tgIndex]));                                 
-
+                    buff.Add(Convert.ToByte(LightControllerSCR.ScrData[sceneIndex,tgIndex]));    
                 }
                 for (int tgIndex = 2; tgIndex < 4; tgIndex++) {
                     buff.Add(Convert.ToByte(0));

@@ -206,7 +206,7 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     if (data.Count < 400)
                     {
-                        data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 399 - data.Count).ToArray());
+                        data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 400 - data.Count).ToArray());
                     }
                     data.AddRange(LightControllerSCR.GetData());
                 }

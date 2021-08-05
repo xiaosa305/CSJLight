@@ -390,9 +390,10 @@ namespace LBDConfigTool.utils.communication
                     {
                         int seek = 0;
                         int readLength = 0;
+                        int fileSize = (int)stream.Length;
                         List<byte> buff = new List<byte>();
                         byte[] packageHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xC0 };
-                        byte[] data = new byte[stream.Length];
+                        byte[] data = new byte[fileSize];
                         stream.Read(data, 0, data.Length);
                         uint crc = Crc32SUM.GetSumCRC(data);
                         data = new byte[Param.PacketSize];
@@ -404,10 +405,10 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
-                        buff.Add(Convert.ToByte(stream.Length & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 8) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 16) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 24) & 0xFF));
+                        buff.Add(Convert.ToByte(fileSize & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 24) & 0xFF));
                         buff.Add(Convert.ToByte(crc & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
@@ -560,12 +561,14 @@ namespace LBDConfigTool.utils.communication
                     {
                         int seek = 0;
                         int readLength = 0;
+                        int fileSize = (int)stream.Length;
                         List<byte> buff = new List<byte>();
                         byte[] packageHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
-                        byte[] data = new byte[stream.Length];
+                        byte[] data = new byte[fileSize];
                         stream.Read(data, 0, data.Length);
                         uint crc = Crc32SUM.GetSumCRC(data);
                         data = new byte[Param.PacketSize];
+                        stream.Seek(0, SeekOrigin.Begin);
                         readLength = stream.Read(data, 0, Param.PacketSize);
                         buff.AddRange(packageHead);
                         buff.Add(Convert.ToByte(readLength & 0xFF));
@@ -574,10 +577,10 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
-                        buff.Add(Convert.ToByte(stream.Length & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 8) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 16) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 24) & 0xFF));
+                        buff.Add(Convert.ToByte(fileSize & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 24) & 0xFF));
                         buff.Add(Convert.ToByte(crc & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 16) & 0xFF));

@@ -20,7 +20,7 @@ namespace LBDConfigTool
 {
 	public partial class ConfForm : Form
 	{
-		private CSJNetCommunitor cnc;
+		private Communitor cnc;
 		private bool isSuccessShow = true;
 		private CSJConf specialCC;  // 辅助的cc，在程序初始化后应该设为一个默认值，除非用户进行修改		
 		private CSJConf hideCC; // 辅助的cc，在初始化后应设为默认值；在回读时可能进行更改
@@ -144,7 +144,7 @@ namespace LBDConfigTool
 			fpgaWaitTimeNUD.ValueChanged += saveNUD_ValueChanged;
 
 			// 软件Load时，搜索一次设备（在加载默认配置之后了）
-			cnc = CSJNetCommunitor.GetInstance();
+			cnc =Communitor.GetInstance();
 			cnc.Start(); //启动服务
 			cnc.SearchDevice(readCompleted, readError);// 搜设备
 
@@ -472,7 +472,7 @@ namespace LBDConfigTool
 			if (!string.IsNullOrEmpty(ebinPathLabel.Text))
 			{
 				Enabled = false;
-				cnc.UpdataMCU256(ebinPathLabel.Text, makePE(), DrawProgress,UpdateCompleted, UpdateError);				
+				cnc.UpdataMCU256(ebinPathLabel.Text, false ,makePE(), DrawProgress,UpdateCompleted, UpdateError);				
 			}
 		}
 
@@ -512,7 +512,7 @@ namespace LBDConfigTool
 			if (!string.IsNullOrEmpty(fbinPathLabel.Text))
 			{
 				Enabled = false;
-				cnc.UpdateFPGA256(fbinPathLabel.Text, makePE(), fpgaDrawProgress, UpdateCompleted, UpdateError);				
+				cnc.UpdataFPGA256(fbinPathLabel.Text, false,makePE(), fpgaDrawProgress, UpdateCompleted, UpdateError);				
 			}
 		}
 
@@ -553,7 +553,7 @@ namespace LBDConfigTool
 			if (!string.IsNullOrEmpty(zbinPathLabel.Text))
 			{				
 				Enabled = false;
-				cnc.DownloadFontLibrary(zbinPathLabel.Text, makePE(), zbinDrawProgress,UpdateCompleted,UpdateError);
+				cnc.DownloadFontLibrary(zbinPathLabel.Text, false,makePE(), zbinDrawProgress,UpdateCompleted,UpdateError);
 			}
 		}
 

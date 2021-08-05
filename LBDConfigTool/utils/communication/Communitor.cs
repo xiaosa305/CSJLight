@@ -13,10 +13,12 @@ namespace LBDConfigTool.utils.communication
         private static Communitor Instance;
         private Socket Server;
         private byte[] ServerRecBuff;
+        private bool IsStart;
 
         private Communitor()
         {
             ServerRecBuff = new byte[1024 * 2];
+            IsStart = false;
         }
         public static Communitor GetInstance()
         {
@@ -31,8 +33,11 @@ namespace LBDConfigTool.utils.communication
         {
             try
             {
-                InitParam();
-                Init();
+                if (!IsStart)
+                {
+                    InitParam();
+                    Init();
+                }
                 return true;
             }
             catch (Exception ex)
@@ -65,7 +70,6 @@ namespace LBDConfigTool.utils.communication
         private void ReceiveCallback(IAsyncResult result)
         {
             EndPoint iPEnd = new IPEndPoint(IPAddress.Any, 6264);
-            IPEndPoint aa = ((IPEndPoint)iPEnd);
             Socket socket = (Socket)result.AsyncState;
             int count = socket.EndReceiveFrom(result, ref iPEnd);
             result.AsyncWaitHandle.Close();

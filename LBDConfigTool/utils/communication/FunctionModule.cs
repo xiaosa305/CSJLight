@@ -397,6 +397,7 @@ namespace LBDConfigTool.utils.communication
                         stream.Read(data, 0, data.Length);
                         uint crc = Crc32SUM.GetSumCRC(data);
                         data = new byte[Param.PacketSize];
+                        stream.Seek(0, SeekOrigin.Begin);
                         readLength = stream.Read(data, 0, Param.PacketSize);
                         buff.AddRange(packageHead);
                         buff.Add(Convert.ToByte(readLength & 0xFF));

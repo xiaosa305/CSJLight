@@ -34,6 +34,7 @@ namespace LightController.MyForm.OtherTools
 		/// <summary>
 		/// 状态栏的枚举
 		/// </summary>
+		/// Root
 		enum StatusLabel
 		{
 			LEFT, RIGHT
@@ -99,7 +100,8 @@ namespace LightController.MyForm.OtherTools
 				{
 					BorderStyle = relayFLPDemo.BorderStyle,
 					Location = relayFLPDemo.Location,
-					Size = relayFLPDemo.Size
+					Size = relayFLPDemo.Size,
+					AutoSize = relayFLPDemo.AutoSize,
 				};
 				relayBigFLP.Controls.Add(relayFLPs[sceneIndex]);
 

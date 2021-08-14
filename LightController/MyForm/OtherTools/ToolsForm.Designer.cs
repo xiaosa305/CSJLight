@@ -373,13 +373,14 @@ namespace LightController.MyForm.OtherTools
             // 
             // relayFLPDemo
             // 
+            this.relayFLPDemo.AutoSize = true;
             this.relayFLPDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.relayFLPDemo.Controls.Add(this.relayPanelDemo);
             this.relayFLPDemo.Controls.Add(this.relayButtonDemo);
             this.relayFLPDemo.Controls.Add(this.tgPanelDemo);
             this.relayFLPDemo.Location = new System.Drawing.Point(3, 3);
             this.relayFLPDemo.Name = "relayFLPDemo";
-            this.relayFLPDemo.Size = new System.Drawing.Size(1123, 79);
+            this.relayFLPDemo.Size = new System.Drawing.Size(445, 84);
             this.relayFLPDemo.TabIndex = 0;
             this.relayFLPDemo.Visible = false;
             // 
@@ -970,6 +971,7 @@ namespace LightController.MyForm.OtherTools
             this.lightTabPage.ResumeLayout(false);
             this.lightTabPage.PerformLayout();
             this.relayBigFLP.ResumeLayout(false);
+            this.relayBigFLP.PerformLayout();
             this.relayFLPDemo.ResumeLayout(false);
             this.relayPanelDemo.ResumeLayout(false);
             this.relayPanelDemo.PerformLayout();

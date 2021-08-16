@@ -115,6 +115,7 @@ namespace LightController.MyForm.OtherTools
             this.deviceTypeLabel = new System.Windows.Forms.Label();
             this.deviceNameLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.tgCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.centerTabPage.SuspendLayout();
             this.lightTabPage.SuspendLayout();
@@ -335,6 +336,7 @@ namespace LightController.MyForm.OtherTools
             // lightTabPage
             // 
             this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
+            this.lightTabPage.Controls.Add(this.tgCheckBox);
             this.lightTabPage.Controls.Add(this.debugNoticeLabel);
             this.lightTabPage.Controls.Add(this.relayBigFLP);
             this.lightTabPage.Controls.Add(this.lcDownloadButton);
@@ -353,7 +355,7 @@ namespace LightController.MyForm.OtherTools
             // 
             this.debugNoticeLabel.AutoSize = true;
             this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.debugNoticeLabel.Location = new System.Drawing.Point(157, 22);
+            this.debugNoticeLabel.Location = new System.Drawing.Point(155, 33);
             this.debugNoticeLabel.Name = "debugNoticeLabel";
             this.debugNoticeLabel.Size = new System.Drawing.Size(497, 48);
             this.debugNoticeLabel.TabIndex = 10;
@@ -528,7 +530,7 @@ namespace LightController.MyForm.OtherTools
             // keepLightOnCheckBox
             // 
             this.keepLightOnCheckBox.AutoSize = true;
-            this.keepLightOnCheckBox.Location = new System.Drawing.Point(32, 32);
+            this.keepLightOnCheckBox.Location = new System.Drawing.Point(18, 22);
             this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
             this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
             this.keepLightOnCheckBox.TabIndex = 9;
@@ -944,6 +946,17 @@ namespace LightController.MyForm.OtherTools
             this.label6.TabIndex = 25;
             this.label6.Text = "设备名称：";
             // 
+            // tgCheckBox
+            // 
+            this.tgCheckBox.AutoSize = true;
+            this.tgCheckBox.Location = new System.Drawing.Point(18, 48);
+            this.tgCheckBox.Name = "tgCheckBox";
+            this.tgCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.tgCheckBox.TabIndex = 11;
+            this.tgCheckBox.Text = "启用调光";
+            this.tgCheckBox.UseVisualStyleBackColor = true;
+            this.tgCheckBox.Visible = false;
+            // 
             // ToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1075,5 +1088,6 @@ namespace LightController.MyForm.OtherTools
         private System.Windows.Forms.Label tgLabelDemo;
         private System.Windows.Forms.NumericUpDown tgNUDDemo;
         private System.Windows.Forms.TrackBar tgTrackBarDemo;
+        private CheckBox tgCheckBox;
     }
 }

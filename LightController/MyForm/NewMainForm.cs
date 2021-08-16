@@ -622,7 +622,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void reBuildLightListView()
 		{
-            //DOTO 210727 listView用BeginUpdate和EndUpdate [能有效的节省一些资源，不用每加一个灯具就重绘一次]
+            //listView用BeginUpdate和EndUpdate [能有效的节省一些资源，不用每加一个灯具就重绘一次;另外SkinListView不适合这种优化方法]
             lightsListView.BeginUpdate();
 
             lightsListView.Items.Clear();
@@ -1211,7 +1211,6 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
 
-			//DOTO 0714 refreshMultiModeControls	
 			lightsListView.SelectedIndexChanged -= lightsListView_SelectedIndexChanged;
 			for (int lightIndex = 0; lightIndex < lightsListView.Items.Count; lightIndex++)
 			{

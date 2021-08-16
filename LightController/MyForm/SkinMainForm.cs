@@ -513,10 +513,7 @@ namespace LightController.MyForm
 		///辅助方法：根据现有的lightAstList，重新渲染listView
 		/// </summary>
 		protected override void reBuildLightListView()
-		{
-			//DOTO 210727 listView用BeginUpdate和EndUpdate( SkinListView好像不是很适用这两个方法，作用不大)
-			//lightsSkinListView.BeginUpdate();
-
+		{		
 			lightsSkinListView.Items.Clear();
 			for (int i = 0; i < LightAstList.Count; i++)
 			{
@@ -530,9 +527,6 @@ namespace LightController.MyForm
 				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType } 	);
 			}
 			lightsSkinListView.Refresh();
-
-			//lightsSkinListView.EndUpdate();
-
 		}
 
 		/// <summary>
@@ -1639,7 +1633,6 @@ namespace LightController.MyForm
 			groupButton.Text = !isMultiMode ? "灯具编组" : "退出编组";
 			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
 			
-			//DOTO 0714 refreshMultiModeControls			
 			lightsSkinListView.SelectedIndexChanged -= lightsSkinListView_SelectedIndexChanged;
 			for (int lightIndex = 0; lightIndex < lightsSkinListView.Items.Count; lightIndex++)
 			{

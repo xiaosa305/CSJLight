@@ -822,6 +822,8 @@ namespace LightController.MyForm.OtherTools
 					}
 
 					//DOTO 210802 渲染可控硅调光值
+					tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
+					//tgCheckBox.Checked = ...
 					for (int tgIndex = 0; tgIndex < 2; tgIndex ++) {
 						if (lcEntity.LightControllerSCR != null)
 						{

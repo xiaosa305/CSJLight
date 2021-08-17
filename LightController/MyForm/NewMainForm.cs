@@ -1832,18 +1832,6 @@ namespace LightController.MyForm
 		{
 			testButtonClick();
 		}
-
-		//TODEL  尝试加上双缓冲，看看使用皮肤时会不会闪烁
-		/// <summary>
-		/// 尝试加上双缓冲，看看使用皮肤时会不会闪烁
-		/// </summary>
-		//      protected override CreateParams CreateParams {
-		//	get {
-		//		CreateParams cp = base.CreateParams;
-		//		cp.ExStyle |= 0x02000000;
-		//		return cp;
-		//	}		
-		//}
-
+			
 	}
 }

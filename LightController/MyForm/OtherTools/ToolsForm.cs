@@ -48,7 +48,6 @@ namespace LightController.MyForm.OtherTools
 		private IList<string> sceneCodeList; // 存放读取的《Protocol\SceneCode》文件内生成的1-16场景相应的码值，有多处会用到此List; 
 
 		private CCEntity ccEntity; // 中控封装对象
-		private const int END_DECODING_TIME = 200; // 关闭中控解码需要一定的时间，才能往下操作；正常情况下200毫秒应该足够，但应设为可调节的		
 		private bool isDecoding = false; //中控是否开启解码
 
 		private LightControlData lcEntity; //灯控封装对象	
@@ -173,7 +172,7 @@ namespace LightController.MyForm.OtherTools
 
 				
 				// 各调光通道
-				for (int tgIndex = 0; tgIndex < 2; tgIndex++) {
+				for (int tgIndex = 0; tgIndex < tgCount; tgIndex++) {
 
 					tgPanels[sceneIndex, tgIndex] = new Panel
 					{
@@ -819,11 +818,12 @@ namespace LightController.MyForm.OtherTools
 						}
 					}
 
-					//DOTO 210802 渲染可控硅调光值
 					//DOTO 210816 渲染可控硅和空调二选一的Checkbox
-					tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
+					//tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
 					//tgCheckBox.Checked = ...
-					for (int tgIndex = 0; tgIndex < 2; tgIndex ++) {
+
+					//渲染可控硅调光值
+					for (int tgIndex = 0; tgIndex < tgCount; tgIndex ++) {
 						if (lcEntity.LightControllerSCR != null)
 						{
 							tgPanels[sceneIndex, tgIndex].Visible = true;
@@ -1035,13 +1035,14 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void sceneLabels_Click(object sender, EventArgs e)
 		{
+			Label sceneLabel = sender as Label;
+			selectedSceneName = sceneLabel.Text;
+
 			if (connStatus != ConnectStatus.Lc && !isDebuging)
 			{
 				return;
 			}
 			isDebuging = true;
-			Label sceneLabel = sender as Label;
-			selectedSceneName = sceneLabel.Text;
 			setNotice(StatusLabel.RIGHT, "正在发送【"+ selectedSceneName + "】的《灯控开关》调试数据，请稍候...", false, true);
 			Refresh();
 			
@@ -1121,7 +1122,6 @@ namespace LightController.MyForm.OtherTools
 				}
 			}
 
-			//DOTO 210802 更改开关时，发送调试数据
 			sceneLabels_Click(sceneLabels[sceneIndex], null);
 		}
 

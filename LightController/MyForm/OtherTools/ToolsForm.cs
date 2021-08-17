@@ -217,11 +217,9 @@ namespace LightController.MyForm.OtherTools
 
 					//添加监听器
 					tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
-					tgTrackBars[sceneIndex, tgIndex].MouseWheel += someTrackBar_MouseWheel;
-					tgTrackBars[sceneIndex, tgIndex].KeyPress += tgTrackBars_KeyPress;
+					tgTrackBars[sceneIndex, tgIndex].MouseWheel += someTrackBar_MouseWheel;					
 					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
-					tgNUDs[sceneIndex, tgIndex].MouseWheel += someNUD_MouseWheel;
-					tgNUDs[sceneIndex, tgIndex].KeyPress += tgNUDs_KeyPress;
+					tgNUDs[sceneIndex, tgIndex].MouseWheel += someNUD_MouseWheel;					
 					tgNUDs[sceneIndex, tgIndex].KeyUp += tgNUDs_KeyUp;
 					
 				}
@@ -822,6 +820,7 @@ namespace LightController.MyForm.OtherTools
 					}
 
 					//DOTO 210802 渲染可控硅调光值
+					//DOTO 210816 渲染可控硅和空调二选一的Checkbox
 					tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
 					//tgCheckBox.Checked = ...
 					for (int tgIndex = 0; tgIndex < 2; tgIndex ++) {
@@ -1670,41 +1669,11 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tgTrackBars_ValueChanged(object sender, EventArgs e)
 		{
-			TrackBar tgTrackBar = sender as TrackBar;
-			int sceneIndex , tgIndex;
-			getIndex( tgTrackBar.Name, out sceneIndex, out tgIndex); 
-
+			TrackBar tgTrackBar = sender as TrackBar;			
 			int tgValue = tgTrackBar.Value;
 
-			if (keepLightOnCheckBox.Checked)
-			{
-				for (int sIndex = 0; sIndex < sceneCount; sIndex++)
-				{
-					tgTrackBars[sIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
-					tgTrackBars[sIndex, tgIndex].Value = tgValue;
-					tgTrackBars[sIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
-
-					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
-					tgNUDs[sIndex, tgIndex].Value = tgValue;
-					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
-
-					//DOTO 210802 如果常亮模式，则更改所有场景此调光通道值
-					changeSCRValue(sIndex, tgIndex, tgValue);
-				}
-			}
-			else
-			{
-				tgNUDs[sceneIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
-				tgNUDs[sceneIndex, tgIndex].Value = tgValue;
-				tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
-
-				//DOTO 210802 若非常亮模式，则只更改相应的通道值
-				changeSCRValue(sceneIndex, tgIndex, tgValue);
-			}
-
-			//DOTO 210802 若非常亮模式，则只更改相应的通道值
-			sceneLabels_Click(sceneLabels[sceneIndex], null);
-		}    
+			changeAllSCRValue(tgTrackBar, tgValue);
+		}     
 
         /// <summary>
         /// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
@@ -1713,15 +1682,26 @@ namespace LightController.MyForm.OtherTools
         /// <param name="e"></param>
         private void tgNUDs_ValueChanged(object sender, EventArgs e)
 		{
-			NumericUpDown tgNUD = sender as NumericUpDown;
-			int sceneIndex, tgIndex;
-			getIndex( tgNUD.Name, out sceneIndex, out tgIndex);
-
+			NumericUpDown tgNUD = sender as NumericUpDown;		
 			int tgValue = decimal.ToInt32(tgNUD.Value);
 
-			if (keepLightOnCheckBox.Checked)
-			{
-				for (int sIndex = 0; sIndex < sceneCount; sIndex++)
+			changeAllSCRValue( tgNUD , tgValue);
+		}
+
+		/// <summary>
+		/// DOTO 把更改SCR值的操作，抽象到一起，避免重复代码
+		/// </summary>
+		/// <param name="sceneIndex"></param>
+		/// <param name="tgIndex"></param>
+		/// <param name="tgValue"></param>
+		private void changeAllSCRValue( Control control , int tgValue ) {
+
+			int sceneIndex, tgIndex;
+			getIndex(control.Name, out sceneIndex, out tgIndex);
+
+			for (int sIndex = 0; sIndex < sceneCount; sIndex++)
+			{               
+				if (keepLightOnCheckBox.Checked || sIndex == sceneIndex)
 				{
 					tgTrackBars[sIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
 					tgTrackBars[sIndex, tgIndex].Value = tgValue;
@@ -1731,55 +1711,24 @@ namespace LightController.MyForm.OtherTools
 					tgNUDs[sIndex, tgIndex].Value = tgValue;
 					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
 
-					//DOTO 210802 如果常亮模式，则更改所有场景此调光通道值
-					changeSCRValue(sIndex, tgIndex, tgValue);
+					lcEntity.LightControllerSCR.ScrData[sIndex, tgIndex] = tgValue;
 				}
-			}
-			else {
-				tgTrackBars[sceneIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
-				tgTrackBars[sceneIndex, tgIndex].Value = tgValue;
-				tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
-
-				//DOTO 210802 若非常亮模式，则只更改相应的通道值
-				changeSCRValue(sceneIndex, tgIndex, tgValue);
-			}
-
-			//DOTO 210802 更改调光值时，主动发送调试命令
-			sceneLabels_Click( sceneLabels[sceneIndex] , null);
-		}
-
-		private void changeSCRValue(int sceneIndex, int tgIndex, int tgValue)
-		{
-			if (lcEntity.LightControllerSCR != null) {
-				lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex] = tgValue;
 			}				
+				
+			sceneLabels_Click(sceneLabels[sceneIndex], null);
 		}
 
+					
+		/// <summary>
+		/// 辅助方法：通过控件名，读取出相应的场景和通道的索引值，并使用out来传给入参；
+		/// </summary>
+		/// <param name="ctrlName"></param>
+		/// <param name="sceneIndex"></param>
+		/// <param name="tgIndex"></param>
 		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
-
 			sceneIndex = int.Parse(ctrlName.Split(',')[0]);
 			tgIndex = int.Parse(ctrlName.Split(',')[1]);
-
-		}
-
-        private void tgTrackBars_KeyPress(object sender, KeyPressEventArgs e) {}
-
-		/// <summary>
-		/// 事件：输入a统一调值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-        private void tgNUDs_KeyPress(object sender, KeyPressEventArgs e)
-        {
-			//if (e.KeyChar == 'a' || e.KeyChar == 'A')
-			//{
-			//	NumericUpDown tgNUD = sender as NumericUpDown;
-			//	int sceneIndex, tgIndex;
-			//	getIndex(tgNUD.Name, out sceneIndex, out tgIndex);
-
-			//	int tgValue = decimal.ToInt32(tgNUD.Value);
-			//}
-		}
+		}      
 
 		private void tgNUDs_KeyUp(object sender, KeyEventArgs e)
 		{

@@ -490,7 +490,6 @@ namespace LightController.MyForm.OtherTools
             this.tgNUDDemo.TabIndex = 16;
             this.tgNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tgNUDDemo.ValueChanged += new System.EventHandler(this.tgNUDs_ValueChanged);
-            this.tgNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgNUDs_KeyPress);
             this.tgNUDDemo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tgNUDs_KeyUp);
             // 
             // tgTrackBarDemo
@@ -502,7 +501,6 @@ namespace LightController.MyForm.OtherTools
             this.tgTrackBarDemo.TabIndex = 17;
             this.tgTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tgTrackBarDemo.ValueChanged += new System.EventHandler(this.tgTrackBars_ValueChanged);
-            this.tgTrackBarDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgTrackBars_KeyPress);
             // 
             // lcDownloadButton
             // 

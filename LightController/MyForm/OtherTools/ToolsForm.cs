@@ -1125,6 +1125,86 @@ namespace LightController.MyForm.OtherTools
 			sceneLabels_Click(sceneLabels[sceneIndex], null);
 		}
 
+		/// <summary>
+		///  事件：tgTrackBar滚轴值改变事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgTrackBars_ValueChanged(object sender, EventArgs e)
+		{
+			TrackBar tgTrackBar = sender as TrackBar;
+			int tgValue = tgTrackBar.Value;
+
+			changeSCRValue(tgTrackBar.Name, tgValue);
+		}
+
+		/// <summary>
+		/// 事件：tgNUDs值改动事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgNUDs_ValueChanged(object sender, EventArgs e)
+		{
+			NumericUpDown tgNUD = sender as NumericUpDown;
+			int tgValue = decimal.ToInt32(tgNUD.Value);
+
+			changeSCRValue(tgNUD.Name, tgValue);
+		}
+
+		/// <summary>
+		/// DOTO 210816 把更改SCR值的操作，抽象到一起，避免重复代码
+		/// </summary>
+		/// <param name="sceneIndex"></param>
+		/// <param name="tgIndex"></param>
+		/// <param name="tgValue"></param>
+		private void changeSCRValue(string controlName, int tgValue)
+		{
+
+			int sceneIndex, tgIndex;
+			getIndex(controlName, out sceneIndex, out tgIndex);
+
+			for (int sIndex = 0; sIndex < sceneCount; sIndex++)
+			{
+				if (keepLightOnCheckBox.Checked || sIndex == sceneIndex)
+				{
+					tgTrackBars[sIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
+					tgTrackBars[sIndex, tgIndex].Value = tgValue;
+					tgTrackBars[sIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
+
+					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
+					tgNUDs[sIndex, tgIndex].Value = tgValue;
+					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
+
+					lcEntity.LightControllerSCR.ScrData[sIndex, tgIndex] = tgValue;
+				}
+			}
+
+			sceneLabels_Click(sceneLabels[sceneIndex], null);
+		}
+
+		/// <summary>
+		/// 辅助方法：通过控件名，读取出相应的场景和通道的索引值，并使用【out关键字】来改变入参值；
+		/// </summary>
+		/// <param name="ctrlName"></param>
+		/// <param name="sceneIndex"></param>
+		/// <param name="tgIndex"></param>
+		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex)
+		{
+			sceneIndex = int.Parse(ctrlName.Split(',')[0]);
+			tgIndex = int.Parse(ctrlName.Split(',')[1]);
+		}
+
+		/// <summary>
+		/// 事件：键盘按键Up事件（避免用户在更改数据后没有失去焦点或者按回车，此时实际的调光值 != 所见值）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgNUDs_KeyUp(object sender, KeyEventArgs e)
+		{
+			NumericUpDown tgNUD = sender as NumericUpDown;
+			tgNUD.Value = tgNUD.Value;  // 会触发tgNUDs_ValueChanged
+		}
+
 		#endregion
 
 		#region 墙板相关
@@ -1660,81 +1740,9 @@ namespace LightController.MyForm.OtherTools
 			}
 		}
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		///  事件：TrackBar滚轴值改变时的操作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tgTrackBars_ValueChanged(object sender, EventArgs e)
-		{
-			TrackBar tgTrackBar = sender as TrackBar;			
-			int tgValue = tgTrackBar.Value;
-
-			changeAllSCRValue(tgTrackBar, tgValue);
-		}     
-
-        /// <summary>
-        /// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void tgNUDs_ValueChanged(object sender, EventArgs e)
-		{
-			NumericUpDown tgNUD = sender as NumericUpDown;		
-			int tgValue = decimal.ToInt32(tgNUD.Value);
-
-			changeAllSCRValue( tgNUD , tgValue);
-		}
-
-		/// <summary>
-		/// DOTO 把更改SCR值的操作，抽象到一起，避免重复代码
-		/// </summary>
-		/// <param name="sceneIndex"></param>
-		/// <param name="tgIndex"></param>
-		/// <param name="tgValue"></param>
-		private void changeAllSCRValue( Control control , int tgValue ) {
-
-			int sceneIndex, tgIndex;
-			getIndex(control.Name, out sceneIndex, out tgIndex);
-
-			for (int sIndex = 0; sIndex < sceneCount; sIndex++)
-			{               
-				if (keepLightOnCheckBox.Checked || sIndex == sceneIndex)
-				{
-					tgTrackBars[sIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
-					tgTrackBars[sIndex, tgIndex].Value = tgValue;
-					tgTrackBars[sIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
-
-					tgNUDs[sIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
-					tgNUDs[sIndex, tgIndex].Value = tgValue;
-					tgNUDs[sIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
-
-					lcEntity.LightControllerSCR.ScrData[sIndex, tgIndex] = tgValue;
-				}
-			}				
-				
-			sceneLabels_Click(sceneLabels[sceneIndex], null);
-		}
-
-					
-		/// <summary>
-		/// 辅助方法：通过控件名，读取出相应的场景和通道的索引值，并使用out来传给入参；
-		/// </summary>
-		/// <param name="ctrlName"></param>
-		/// <param name="sceneIndex"></param>
-		/// <param name="tgIndex"></param>
-		private void getIndex(string ctrlName, out int sceneIndex, out int tgIndex) {
-			sceneIndex = int.Parse(ctrlName.Split(',')[0]);
-			tgIndex = int.Parse(ctrlName.Split(',')[1]);
-		}      
-
-		private void tgNUDs_KeyUp(object sender, KeyEventArgs e)
-		{
-			NumericUpDown tgNUD = sender as NumericUpDown;
-			tgNUD.Value = tgNUD.Value;
-		}
+       
 
 	}
 }

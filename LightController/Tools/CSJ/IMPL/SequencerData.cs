@@ -77,7 +77,7 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     int value = Convert.ToInt32(data[point + 7 * 32 + relayDelayTimeIndex]);
                     if (value <= 15 && value > 0) sequencer.RelaySwitchDelayTimes[relayDelayTimeIndex] = value;
-                    else value = 1;
+                    else sequencer.RelaySwitchDelayTimes[relayDelayTimeIndex] = 1;
                 }
                 return sequencer;
             }

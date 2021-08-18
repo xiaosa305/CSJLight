@@ -204,6 +204,7 @@ namespace LightController.Tools.CSJ.IMPL
                 }
                 if (this.LightControllerSCR != null)
                 {
+                    data[61] = LightControllerSCR.IsStartSCR ? Convert.ToByte(0x01) : Convert.ToByte(0x00);
                     if (data.Count < 400)
                     {
                         data.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 400 - data.Count).ToArray());

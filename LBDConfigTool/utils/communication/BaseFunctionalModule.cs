@@ -187,6 +187,9 @@ namespace LBDConfigTool.utils.communication
         {
             this.Completed_Event = completed;
             this.Error_Event = error;
+            Communitor.GetInstance().Start();
+            Communitor.GetInstance().SearchDevice(TestCompleted, TestError);
+            return;
             try
             {
                 if (!this.IsSending)
@@ -205,6 +208,18 @@ namespace LBDConfigTool.utils.communication
                 this.TaskError();
             }
         }
+
+        public void TestCompleted(Object obj,string msg)
+        {
+            this.Completed_Event(obj,msg);
+        }
+
+        public void TestError(string msg)
+        {
+            Error_Event(msg);
+        }
+
+
         private void SearchDeviceTask(Object obj, ElapsedEventArgs e)
         {
             try

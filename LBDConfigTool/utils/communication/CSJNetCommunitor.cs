@@ -77,7 +77,6 @@ namespace LBDConfigTool.utils.communication
         private void ReceiveCallback(IAsyncResult result) 
         {
             EndPoint iPEnd = new IPEndPoint(IPAddress.Any, PORT);
-            IPEndPoint aa = ((IPEndPoint)iPEnd);
             Socket socket = (Socket)result.AsyncState;
             int count = socket.EndReceiveFrom(result, ref iPEnd);
             result.AsyncWaitHandle.Close();

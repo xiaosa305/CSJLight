@@ -18,7 +18,7 @@ namespace LBDConfigTool.utils.communication
     public abstract class FunctionModule
     {
         //功能类别枚举
-        protected enum FunctionModuleType
+        public enum FunctionModuleType
         {
             UpdateFPGA256ByAnswer,
             UpdateMCU256ByAnswer,
@@ -161,10 +161,10 @@ namespace LBDConfigTool.utils.communication
                     switch (CurrentModuleType)
                     {
                         case FunctionModuleType.UpdateFPGA256ByAnswer:
-                            UpdateFPGA256AnswerManage(data);
+                            UpdataFPGA256AnswerManage(data);
                             break;
                         case FunctionModuleType.UpdateMCU256ByAnswer:
-                            UpdateMCU256AnswerManage(data);
+                            UpdataMCU256AnswerManage(data);
                             break;
                         case FunctionModuleType.DownloadFontByAnswer:
                             DownloadFontLibraryAnswerManage(data);
@@ -188,7 +188,7 @@ namespace LBDConfigTool.utils.communication
         }
 
         //搜索设备模块
-        protected bool SearchDevice(CompletedByObjAndMsg completed,ErrorByMsg error)
+        public bool SearchDevice(CompletedByObjAndMsg completed,ErrorByMsg error)
         {
             if (!IsWorking)
             {
@@ -234,7 +234,7 @@ namespace LBDConfigTool.utils.communication
             TaskError("搜索设备失败");
         }
         //写入配置参数
-        protected bool WriteParam(CSJConf conf, CompletedByObjAndMsg completed, ErrorByMsg error)
+        public bool WriteParam(CSJConf conf, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
             if (!IsWorking)
             {
@@ -267,7 +267,7 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //加密模块
-        protected bool WriteEncrypt(string pwd, CompletedByObjAndMsg completed, ErrorByMsg error)
+        public bool WriteEncrypt(string pwd, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
             if (!IsWorking)
             {
@@ -309,7 +309,7 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //升级FPGA模块
-        protected bool UpdateFPGA256(string filePath,bool isAnswerMode, ParamEntity param,TaskProgress progress,CompletedByObjAndMsg completed,ErrorByMsg error)
+        public bool UpdataFPGA256(string filePath,bool isAnswerMode, ParamEntity param,TaskProgress progress,CompletedByObjAndMsg completed,ErrorByMsg error)
         {
             if (!IsWorking)
             {
@@ -323,12 +323,12 @@ namespace LBDConfigTool.utils.communication
                 {
                     FirmwarePackageCount = (int)((stream.Length / Param.PacketSize) + (stream.Length % Param.PacketSize == 0 ? 0 : 1));
                 }
-                new Thread(new ThreadStart(UpdatreFPGA256Task)) { IsBackground = true }.Start();
+                new Thread(new ThreadStart(UpdataFPGA256Task)) { IsBackground = true }.Start();
                 return true;
             }
             return false;
         }
-        protected void UpdatreFPGA256Task()
+        protected void UpdataFPGA256Task()
         {
             try
             {
@@ -386,16 +386,18 @@ namespace LBDConfigTool.utils.communication
                 }
                 else
                 {
-                    using (FileStream stream = new FileStream(DownloadFilePath,FileMode.Open))
+                    using (FileStream stream = new FileStream(DownloadFilePath, FileMode.Open))
                     {
                         int seek = 0;
                         int readLength = 0;
+                        int fileSize = (int)stream.Length;
                         List<byte> buff = new List<byte>();
                         byte[] packageHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xC0 };
-                        byte[] data = new byte[stream.Length];
+                        byte[] data = new byte[fileSize];
                         stream.Read(data, 0, data.Length);
                         uint crc = Crc32SUM.GetSumCRC(data);
                         data = new byte[Param.PacketSize];
+                        stream.Seek(0, SeekOrigin.Begin);
                         readLength = stream.Read(data, 0, Param.PacketSize);
                         buff.AddRange(packageHead);
                         buff.Add(Convert.ToByte(readLength & 0xFF));
@@ -404,10 +406,10 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
-                        buff.Add(Convert.ToByte(stream.Length & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 8) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 16) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 24) & 0xFF));
+                        buff.Add(Convert.ToByte(fileSize & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 24) & 0xFF));
                         buff.Add(Convert.ToByte(crc & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
@@ -435,7 +437,7 @@ namespace LBDConfigTool.utils.communication
                             if (seek % Param.PartitionIndex == 0) ThreadSleep(Param.PacketIntervalTimeByPartitionIndex);
                             else Thread.Sleep(Param.PacketIntervalTime);
                             buff.Clear();
-                            Progress((int)Math.Floor( (FirmwarePackageIndex + 1) * Param.PacketSize * 100 / (1.0 * stream.Length)));
+                            Progress((int)Math.Floor((FirmwarePackageIndex + 1) * Param.PacketSize * 100 / (1.0 * stream.Length)));
                         }
                         byte[] packageEnd = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xFF };
                         Send(packageEnd);
@@ -453,7 +455,7 @@ namespace LBDConfigTool.utils.communication
                 TaskError("升级FPGA失败");
             }
         }
-        protected void UpdateFPGA256AnswerManage(List<byte> data)
+        protected void UpdataFPGA256AnswerManage(List<byte> data)
         {
             try
             {
@@ -468,7 +470,7 @@ namespace LBDConfigTool.utils.communication
                 }
                 else
                 {
-                    UpdatreFPGA256Task();
+                    UpdataFPGA256Task();
                 }
             }
             catch (Exception ex)
@@ -478,7 +480,7 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //升级MCU模块
-        protected bool UpdateMCU256(string filePath, bool isAnswerMode, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
+        public bool UpdataMCU256(string filePath, bool isAnswerMode, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
             if (!IsWorking)
             {
@@ -492,12 +494,12 @@ namespace LBDConfigTool.utils.communication
                 {
                     FirmwarePackageCount = (int)((stream.Length / Param.PacketSize) + (stream.Length % Param.PacketSize == 0 ? 0 : 1));
                 }
-                new Thread(new ThreadStart(UpdateMCU256Task)) { IsBackground = true }.Start();
+                new Thread(new ThreadStart(UpdataMCU256Task)) { IsBackground = true }.Start();
                 return true;
             }
             return false;
         }
-        protected void UpdateMCU256Task()
+        protected void UpdataMCU256Task()
         {
             try
             {
@@ -520,6 +522,7 @@ namespace LBDConfigTool.utils.communication
                             int readLength = 0;
                             List<byte> buff = new List<byte>();
                             byte[] packageHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
+
                             byte[] data = new byte[Param.PacketSize];
                             readLength = stream.Read(data, 0, Param.PacketSize);
                             buff.AddRange(packageHead);
@@ -560,12 +563,14 @@ namespace LBDConfigTool.utils.communication
                     {
                         int seek = 0;
                         int readLength = 0;
+                        int fileSize = (int)stream.Length;
                         List<byte> buff = new List<byte>();
                         byte[] packageHead = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xB0 };
-                        byte[] data = new byte[stream.Length];
+                        byte[] data = new byte[fileSize];
                         stream.Read(data, 0, data.Length);
                         uint crc = Crc32SUM.GetSumCRC(data);
                         data = new byte[Param.PacketSize];
+                        stream.Seek(0, SeekOrigin.Begin);
                         readLength = stream.Read(data, 0, Param.PacketSize);
                         buff.AddRange(packageHead);
                         buff.Add(Convert.ToByte(readLength & 0xFF));
@@ -574,10 +579,10 @@ namespace LBDConfigTool.utils.communication
                         buff.Add(Convert.ToByte((seek >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 16) & 0xFF));
                         buff.Add(Convert.ToByte((seek >> 24) & 0xFF));
-                        buff.Add(Convert.ToByte(stream.Length & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 8) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 16) & 0xFF));
-                        buff.Add(Convert.ToByte((stream.Length >> 24) & 0xFF));
+                        buff.Add(Convert.ToByte(fileSize & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 8) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 16) & 0xFF));
+                        buff.Add(Convert.ToByte((fileSize >> 24) & 0xFF));
                         buff.Add(Convert.ToByte(crc & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 8) & 0xFF));
                         buff.Add(Convert.ToByte((crc >> 16) & 0xFF));
@@ -623,7 +628,7 @@ namespace LBDConfigTool.utils.communication
                 TaskError("升级MCU失败");
             }
         }
-        protected void UpdateMCU256AnswerManage(List<byte> data)
+        protected void UpdataMCU256AnswerManage(List<byte> data)
         {
             try
             {
@@ -638,7 +643,7 @@ namespace LBDConfigTool.utils.communication
                 }
                 else
                 {
-                    UpdateMCU256Task();
+                    UpdataMCU256Task();
                 }
             }
             catch (Exception ex)
@@ -648,7 +653,7 @@ namespace LBDConfigTool.utils.communication
             }
         }
         //下载字库
-        protected bool DownloadFontLibrary(string filePath, bool isAnswerMode, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
+        public bool DownloadFontLibrary(string filePath, bool isAnswerMode, ParamEntity param, TaskProgress progress, CompletedByObjAndMsg completed, ErrorByMsg error)
         {
             if (!IsWorking)
             {

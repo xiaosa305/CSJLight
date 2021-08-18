@@ -8,6 +8,7 @@ namespace LightController.Tools.CSJ.IMPL
     public class LightControllerSCR
     {
         public int[,] ScrData { get; set; }
+        public bool IsStartSCR { get; set; }
         public static LightControllerSCR Build(byte[] data)
         {
             try
@@ -17,6 +18,7 @@ namespace LightController.Tools.CSJ.IMPL
                     return null;
                 }
                 LightControllerSCR light = new LightControllerSCR();
+                light.IsStartSCR = data[61] != 0;
                 light.ScrData = new int[17,4];
                 int point = 400;
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)

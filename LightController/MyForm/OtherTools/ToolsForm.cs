@@ -727,7 +727,7 @@ namespace LightController.MyForm.OtherTools
 		}
 		
 		/// <summary>
-		/// 事件：点击《下载协议》
+		/// 事件：点击《写入设备(下载协议)》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -807,27 +807,27 @@ namespace LightController.MyForm.OtherTools
 			try
 			{
 				relayBigFLP.Enabled = lcEntity.RelayCount != 0;
+
+				//DOTO 210816 渲染可控硅和空调二选一的Checkbox
+				tgCheckBox.Visible = lcEntity.LightControllerSCR != null;				
+				tgCheckBox.Checked = lcEntity.LightControllerSCR != null && lcEntity.LightControllerSCR.IsStartSCR;			
+
 				for (int sceneIndex = 0; sceneIndex < sceneCount; sceneIndex++)
 				{
 					for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
 					{
-						relayButtons[sceneIndex,relayIndex].ImageIndex = lcEntity.SceneData[sceneIndex, relayIndex] ? 1 : 0;
+						relayButtons[sceneIndex, relayIndex].ImageIndex = lcEntity.SceneData[sceneIndex, relayIndex] ? 1 : 0;
 						if (lcEntity.SequencerData != null)
 						{
-							relayButtons[sceneIndex,relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex];
+							relayButtons[sceneIndex, relayIndex].Text = lcEntity.SequencerData.RelaySwitchNames[relayIndex];
 						}
 					}
 
-					//DOTO 210816 渲染可控硅和空调二选一的Checkbox
-					tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
-					//tgCheckBox.Checked = ...
-
-					//渲染可控硅调光值
-					for (int tgIndex = 0; tgIndex < tgCount; tgIndex ++) {
-						if (lcEntity.LightControllerSCR != null)
+					//DOTO 210818 渲染可控硅调光值：只要LightControllerSCR不为空，就直接渲染相关控件的值，因为是否显示只需一次勾选；
+					if (lcEntity.LightControllerSCR != null)
+					{
+						for (int tgIndex = 0; tgIndex < tgCount; tgIndex++)
 						{
-							tgPanels[sceneIndex, tgIndex].Visible = true;
-
 							tgTrackBars[sceneIndex, tgIndex].ValueChanged -= tgTrackBars_ValueChanged;
 							tgTrackBars[sceneIndex, tgIndex].Value = lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex];
 							tgTrackBars[sceneIndex, tgIndex].ValueChanged += tgTrackBars_ValueChanged;
@@ -835,12 +835,11 @@ namespace LightController.MyForm.OtherTools
 							tgNUDs[sceneIndex, tgIndex].ValueChanged -= tgNUDs_ValueChanged;
 							tgNUDs[sceneIndex, tgIndex].Value = lcEntity.LightControllerSCR.ScrData[sceneIndex, tgIndex];
 							tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
-						}
-						else {
-							tgPanels[sceneIndex, tgIndex].Visible = false;
+
+							tgPanels[sceneIndex, tgIndex].Visible = lcEntity.LightControllerSCR.IsStartSCR;
 						}
 					}
-                }
+				}				
 				refreshStatusButtons();
 			}
 			catch (Exception ex)
@@ -975,7 +974,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 事件：点击《(灯控)下载配置》
+		/// 事件：点击《写入设备(灯控下载配置)》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1159,7 +1158,6 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="tgValue"></param>
 		private void changeSCRValue(string controlName, int tgValue)
 		{
-
 			int sceneIndex, tgIndex;
 			getIndex(controlName, out sceneIndex, out tgIndex);
 
@@ -1219,11 +1217,12 @@ namespace LightController.MyForm.OtherTools
 			}
 
 			// 确保存在SCR数据的情况下，才进行相应的显示；
+			lcEntity.LightControllerSCR.IsStartSCR = tgCheckBox.Checked;
 			for (int sIndex = 0; sIndex < sceneCount; sIndex++) {
 				for (int tgIndex = 0; tgIndex < tgCount; tgIndex++) {
 					tgPanels[sIndex, tgIndex].Visible = tgCheckBox.Checked;
 				}				
-			}
+			}			
 		}
 
 		#endregion

@@ -819,7 +819,7 @@ namespace LightController.MyForm.OtherTools
 					}
 
 					//DOTO 210816 渲染可控硅和空调二选一的Checkbox
-					//tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
+					tgCheckBox.Visible = lcEntity.LightControllerSCR != null;
 					//tgCheckBox.Checked = ...
 
 					//渲染可控硅调光值
@@ -1203,6 +1203,27 @@ namespace LightController.MyForm.OtherTools
 		{
 			NumericUpDown tgNUD = sender as NumericUpDown;
 			tgNUD.Value = tgNUD.Value;  // 会触发tgNUDs_ValueChanged
+		}
+
+		/// <summary>
+		/// 事件：勾选|取消勾选《启用调光》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			//DOTO 210818 勾选《启用调光》
+			if (lcEntity == null || lcEntity.LightControllerSCR == null) {
+				setNotice(StatusLabel.RIGHT, "启用调光出错，请确认当前固件是否支持调光通道。", true, true);
+				return;				
+			}
+
+			// 确保存在SCR数据的情况下，才进行相应的显示；
+			for (int sIndex = 0; sIndex < sceneCount; sIndex++) {
+				for (int tgIndex = 0; tgIndex < tgCount; tgIndex++) {
+					tgPanels[sIndex, tgIndex].Visible = tgCheckBox.Checked;
+				}				
+			}
 		}
 
 		#endregion
@@ -1740,9 +1761,10 @@ namespace LightController.MyForm.OtherTools
 			}
 		}
 
+
+
         #endregion
 
-       
-
-	}
+      
+    }
 }

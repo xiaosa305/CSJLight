@@ -57,6 +57,7 @@ namespace LightController.MyForm.OtherTools
             this.com1Label = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lightTabPage = new System.Windows.Forms.TabPage();
+            this.tgCheckBox = new System.Windows.Forms.CheckBox();
             this.debugNoticeLabel = new System.Windows.Forms.Label();
             this.relayBigFLP = new System.Windows.Forms.FlowLayoutPanel();
             this.relayFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
@@ -115,7 +116,6 @@ namespace LightController.MyForm.OtherTools
             this.deviceTypeLabel = new System.Windows.Forms.Label();
             this.deviceNameLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.tgCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.centerTabPage.SuspendLayout();
             this.lightTabPage.SuspendLayout();
@@ -350,6 +350,18 @@ namespace LightController.MyForm.OtherTools
             this.lightTabPage.Size = new System.Drawing.Size(1196, 567);
             this.lightTabPage.TabIndex = 1;
             this.lightTabPage.Text = "灯控配置";
+            // 
+            // tgCheckBox
+            // 
+            this.tgCheckBox.AutoSize = true;
+            this.tgCheckBox.Location = new System.Drawing.Point(18, 48);
+            this.tgCheckBox.Name = "tgCheckBox";
+            this.tgCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.tgCheckBox.TabIndex = 11;
+            this.tgCheckBox.Text = "启用调光";
+            this.tgCheckBox.UseVisualStyleBackColor = true;
+            this.tgCheckBox.Visible = false;
+            this.tgCheckBox.CheckedChanged += new System.EventHandler(this.tgCheckBox_CheckedChanged);
             // 
             // debugNoticeLabel
             // 
@@ -943,17 +955,6 @@ namespace LightController.MyForm.OtherTools
             this.label6.Size = new System.Drawing.Size(65, 12);
             this.label6.TabIndex = 25;
             this.label6.Text = "设备名称：";
-            // 
-            // tgCheckBox
-            // 
-            this.tgCheckBox.AutoSize = true;
-            this.tgCheckBox.Location = new System.Drawing.Point(18, 48);
-            this.tgCheckBox.Name = "tgCheckBox";
-            this.tgCheckBox.Size = new System.Drawing.Size(72, 16);
-            this.tgCheckBox.TabIndex = 11;
-            this.tgCheckBox.Text = "启用调光";
-            this.tgCheckBox.UseVisualStyleBackColor = true;
-            this.tgCheckBox.Visible = false;
             // 
             // ToolsForm
             // 

@@ -101,8 +101,8 @@ namespace LightController.Tools
 
         public void StopPreview()
         {
-            this.Communication.StopIntentPreview(Compelted, Error);
             this.DebugStatus = false;
+            this.Communication.StopIntentPreview(Compelted, Error);
         }
         public void StopPreview(Completed_TakeMsgAndObj completed,Error error)
         {

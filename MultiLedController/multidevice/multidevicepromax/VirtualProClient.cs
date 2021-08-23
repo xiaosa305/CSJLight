@@ -148,6 +148,22 @@ namespace MultiLedController.multidevice.multidevicepromax
                         this.DMXSync();
                     }
                     else if (receiveBuff.Length == 13 &&
+                             receiveBuff[0] == 0x4D &&
+                             receiveBuff[1] == 0x61 &&
+                             receiveBuff[2] == 0x64 &&
+                             receiveBuff[3] == 0x72 &&
+                             receiveBuff[4] == 0x69 &&
+                             receiveBuff[5] == 0x78 &&
+                             receiveBuff[6] == 0x4E &&
+                             receiveBuff[7] == 0x00 &&
+                             receiveBuff[8] == 0x01 &&
+                             receiveBuff[9] == 0x51 &&
+                             receiveBuff[10] == 0x00 &&
+                             receiveBuff[11] == 0x0E)
+                    {
+                        this.DMXSync();
+                    }
+                    else if (receiveBuff.Length == 13 &&
                              receiveBuff[0] == 0x41 &&
                              receiveBuff[1] == 0x72 &&
                              receiveBuff[2] == 0x74 &&

@@ -897,7 +897,7 @@ namespace LightController.MyForm.OtherTools
 					string lbinPath = lbinSaveDialog.FileName;
 					SerializeUtils.SerializeObject(lbinPath, lcEntity);
 					setNotice(StatusLabel.RIGHT,
-					LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + lbinSaveDialog.FileName,
+						LanguageHelper.TranslateSentence("成功保存灯控配置文件为：") + lbinSaveDialog.FileName,
 						true, false);
 				}
 				catch (Exception ex)

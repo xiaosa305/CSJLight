@@ -1413,8 +1413,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="captainIndex"></param>
 		public void EnterMultiMode(GroupAst group, bool isCopyAll)
-		{
-			//DOTO 0715 重写EnterMultiMode
+		{			
 			if (group == null)
 			{
 				selectedIndex = -1;
@@ -2691,7 +2690,7 @@ namespace LightController.MyForm
 		#endregion
 
 		#region stepPanel相关
-			
+					
 		/// <summary>
 		/// 辅助方法：点击《上一步》
 		/// </summary>

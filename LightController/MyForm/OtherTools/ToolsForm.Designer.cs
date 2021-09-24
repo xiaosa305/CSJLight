@@ -1,4 +1,7 @@
-﻿namespace LightController.MyForm.OtherTools
+﻿using System;
+using System.Windows.Forms;
+
+namespace LightController.MyForm.OtherTools
 {
 	partial class ToolsForm
 	{
@@ -54,6 +57,7 @@
             this.com1Label = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lightTabPage = new System.Windows.Forms.TabPage();
+            this.tgCheckBox = new System.Windows.Forms.CheckBox();
             this.debugNoticeLabel = new System.Windows.Forms.Label();
             this.relayBigFLP = new System.Windows.Forms.FlowLayoutPanel();
             this.relayFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
@@ -332,6 +336,7 @@
             // lightTabPage
             // 
             this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
+            this.lightTabPage.Controls.Add(this.tgCheckBox);
             this.lightTabPage.Controls.Add(this.debugNoticeLabel);
             this.lightTabPage.Controls.Add(this.relayBigFLP);
             this.lightTabPage.Controls.Add(this.lcDownloadButton);
@@ -346,15 +351,28 @@
             this.lightTabPage.TabIndex = 1;
             this.lightTabPage.Text = "灯控配置";
             // 
+            // tgCheckBox
+            // 
+            this.tgCheckBox.AutoSize = true;
+            this.tgCheckBox.Location = new System.Drawing.Point(18, 48);
+            this.tgCheckBox.Name = "tgCheckBox";
+            this.tgCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.tgCheckBox.TabIndex = 11;
+            this.tgCheckBox.Text = "启用调光";
+            this.tgCheckBox.UseVisualStyleBackColor = true;
+            this.tgCheckBox.Visible = false;
+            this.tgCheckBox.CheckedChanged += new System.EventHandler(this.tgCheckBox_CheckedChanged);
+            // 
             // debugNoticeLabel
             // 
             this.debugNoticeLabel.AutoSize = true;
             this.debugNoticeLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.debugNoticeLabel.Location = new System.Drawing.Point(157, 22);
+            this.debugNoticeLabel.Location = new System.Drawing.Point(155, 33);
             this.debugNoticeLabel.Name = "debugNoticeLabel";
-            this.debugNoticeLabel.Size = new System.Drawing.Size(425, 36);
+            this.debugNoticeLabel.Size = new System.Drawing.Size(497, 48);
             this.debugNoticeLabel.TabIndex = 10;
-            this.debugNoticeLabel.Text = "提示：\r\n1.如果设备为JKC-910AP版本，则开机场景无效；\r\n2.点击场景名，会向机器发送此场景的《继电器开关》及《调光值》调试数据。\r\n";
+            this.debugNoticeLabel.Text = "提示：\r\n1.如果设备为JKC-910AP版本，则开机场景无效；\r\n2.点击场景名 或 修改【继电器开关】或【调光值】时，会向机器发送相应场景的调试数据。\r\n\r\n" +
+    "";
             // 
             // relayBigFLP
             // 
@@ -369,13 +387,14 @@
             // 
             // relayFLPDemo
             // 
+            this.relayFLPDemo.AutoSize = true;
             this.relayFLPDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.relayFLPDemo.Controls.Add(this.relayPanelDemo);
             this.relayFLPDemo.Controls.Add(this.relayButtonDemo);
             this.relayFLPDemo.Controls.Add(this.tgPanelDemo);
             this.relayFLPDemo.Location = new System.Drawing.Point(3, 3);
             this.relayFLPDemo.Name = "relayFLPDemo";
-            this.relayFLPDemo.Size = new System.Drawing.Size(1123, 79);
+            this.relayFLPDemo.Size = new System.Drawing.Size(445, 84);
             this.relayFLPDemo.TabIndex = 0;
             this.relayFLPDemo.Visible = false;
             // 
@@ -474,26 +493,26 @@
             // 
             this.tgNUDDemo.Location = new System.Drawing.Point(185, 27);
             this.tgNUDDemo.Maximum = new decimal(new int[] {
-            18,
+            16,
             0,
             0,
             0});
             this.tgNUDDemo.Name = "tgNUDDemo";
             this.tgNUDDemo.Size = new System.Drawing.Size(45, 21);
-            this.tgNUDDemo.TabIndex = 18;
+            this.tgNUDDemo.TabIndex = 16;
             this.tgNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tgNUDDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgNUDs_KeyPress);
+            this.tgNUDDemo.ValueChanged += new System.EventHandler(this.tgNUDs_ValueChanged);
+            this.tgNUDDemo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tgNUDs_KeyUp);
             // 
             // tgTrackBarDemo
             // 
             this.tgTrackBarDemo.Location = new System.Drawing.Point(71, 15);
-            this.tgTrackBarDemo.Maximum = 18;
+            this.tgTrackBarDemo.Maximum = 16;
             this.tgTrackBarDemo.Name = "tgTrackBarDemo";
             this.tgTrackBarDemo.Size = new System.Drawing.Size(112, 45);
             this.tgTrackBarDemo.TabIndex = 17;
             this.tgTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tgTrackBarDemo.ValueChanged += new System.EventHandler(this.tgTrackBars_ValueChanged);
-            this.tgTrackBarDemo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tgTrackBars_KeyPress);
             // 
             // lcDownloadButton
             // 
@@ -521,7 +540,7 @@
             // keepLightOnCheckBox
             // 
             this.keepLightOnCheckBox.AutoSize = true;
-            this.keepLightOnCheckBox.Location = new System.Drawing.Point(32, 32);
+            this.keepLightOnCheckBox.Location = new System.Drawing.Point(18, 22);
             this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
             this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
             this.keepLightOnCheckBox.TabIndex = 9;
@@ -964,6 +983,7 @@
             this.lightTabPage.ResumeLayout(false);
             this.lightTabPage.PerformLayout();
             this.relayBigFLP.ResumeLayout(false);
+            this.relayBigFLP.PerformLayout();
             this.relayFLPDemo.ResumeLayout(false);
             this.relayPanelDemo.ResumeLayout(false);
             this.relayPanelDemo.PerformLayout();
@@ -982,8 +1002,10 @@
 
 		}
 
-		#endregion
-		private System.Windows.Forms.ComboBox protocolComboBox;
+       
+
+        #endregion
+        private System.Windows.Forms.ComboBox protocolComboBox;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage centerTabPage;
@@ -1065,5 +1087,6 @@
         private System.Windows.Forms.Label tgLabelDemo;
         private System.Windows.Forms.NumericUpDown tgNUDDemo;
         private System.Windows.Forms.TrackBar tgTrackBarDemo;
+        private CheckBox tgCheckBox;
     }
 }

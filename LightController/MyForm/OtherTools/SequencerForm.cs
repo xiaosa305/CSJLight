@@ -175,11 +175,11 @@ namespace LightController.MyForm.OtherTools
 				Dispose();
 			});
 		}
-		
+
 		#region  开台|关台相关
 
 		/// <summary>
-		/// 事件：点击《开台》
+		/// 事件：点击《开台模拟》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -190,7 +190,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 辅助回调方法：灯控数据回读成功
+		/// 辅助回调方法：发送开台命令成功
 		/// </summary>
 		/// <param name="lcDataTemp"></param>
 		public void OpenSceneCompleted(Object lcDataTemp, string msg)
@@ -213,7 +213,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 辅助回调方法：灯控配置回读失败
+		/// 辅助回调方法：发送开台命令失败
 		/// </summary>
 		public void OpenSceneError(string msg)
 		{
@@ -223,7 +223,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 事件：点击《关台》
+		/// 事件：点击《关台模拟》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -234,7 +234,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 辅助回调方法：灯控数据回读成功
+		/// 辅助回调方法：发送关台命令失败
 		/// </summary>
 		/// <param name="lcDataTemp"></param>
 		public void CloseSceneCompleted(Object lcDataTemp, string msg)
@@ -258,7 +258,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 辅助回调方法：灯控配置回读失败
+		/// 辅助回调方法：发送关台命令失败
 		/// </summary>
 		public void CloseSceneError(string msg)
 		{
@@ -303,7 +303,7 @@ namespace LightController.MyForm.OtherTools
 				}
 				lcEntity = lcDataTemp as LightControlData ;
 				if (lcEntity.SequencerData == null) {
-					setNotice("继电器配置回读失败：请确认该设备的固件版本为最新。", true, true);
+					setNotice("继电器配置回读失败：请确认此设备版本支持时序器功能。", true, true);
 					setBusy(false);
 					Dispose();
 					return;

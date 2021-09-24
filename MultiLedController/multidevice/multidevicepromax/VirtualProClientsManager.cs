@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiLedController.xiaosa.madirx;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -97,6 +98,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.LedControlNumber = ledControlNumber;
             this.Init();
             this.InitLedServer();
+            //ArtNetClient.Build(virtualIP, ledSpaceNumber * ledInterfaceNumber * ledControlNumber, localIP, this.Manager, this.SyncDMXDataCache);
             int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
             for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
             {
@@ -109,7 +111,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                 {
                     portCount = 256;
                 }
-                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager,this.SyncDMXDataCache));
+                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager, this.SyncDMXDataCache));
             }
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
@@ -304,6 +306,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                                 }
                             }
                         }
+                        //TODO 添加最大包数验证
                         List<int> keys = this.SpaceDmxData.Keys.ToList();
                         this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
                         this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();

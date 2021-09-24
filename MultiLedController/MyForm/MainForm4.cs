@@ -53,6 +53,8 @@ namespace MultiLedController.MyForm
 			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "spaceCount", 0);
 			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet4", "controllerCount", 1);
 			typeComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4", "lightType", 0);
+			suffixComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet4","suffixType",0);
+
 			autosetControllerCountNUDMaxinum();
 		}
 
@@ -63,7 +65,7 @@ namespace MultiLedController.MyForm
 
 			//为recordTextBox添加失去焦点的监听事件（没有在VS中）
 			recordTextBox.LostFocus += new EventHandler(recordTextBox_LostFocus);
-			controllerCountNUD.MouseWheel += someNUD_MouseWheel;
+			controllerCountNUD.MouseWheel += someNUD_MouseWheel;			
 		}
 		
 		/// <summary>
@@ -491,10 +493,11 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		private void saveLastSet()
 		{
-			iniHelper.WriteInt("CommonSet", "interfaceCount", interfaceCountComboBox.SelectedIndex);
-			iniHelper.WriteInt("CommonSet", "spaceCount", spaceCountComboBox.SelectedIndex);
-			iniHelper.WriteInt("CommonSet", "controllerCount", controllerCountNUD.Value);
-			iniHelper.WriteInt("CommonSet", "lightType", typeComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet4", "interfaceCount", interfaceCountComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet4", "spaceCount", spaceCountComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet4", "controllerCount", controllerCountNUD.Value);
+			iniHelper.WriteInt("CommonSet4", "lightType", typeComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet4", "suffixType", typeComboBox.SelectedIndex);
 			setNotice(2, "成功保存当前配置(CommonSet.ini)", false);
 		}
 
@@ -754,8 +757,8 @@ namespace MultiLedController.MyForm
 			else
 			{
 				setNotice(2, "正在录制文件...", false);
-
-				string binPath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
+				saveLastSet();
+				string binPath = recordPath + @"\SC" + recordTextBox.Text + "."+suffixComboBox.Text;				
 				string configPath = recordPath + @"\csj.scu";
 
 				try

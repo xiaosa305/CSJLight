@@ -168,7 +168,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\Entity\ReturnDTO.cs" />
+    <Compile Include="Ast\Entity\NewDB\DB_ChannelPK.cs" />
+    <Compile Include="Ast\Entity\NewDB\DB_NewFineTune.cs" />
+    <Compile Include="Ast\Entity\NewDB\DB_NewLight.cs" />
+    <Compile Include="Ast\Entity\NewDB\DB_Channel.cs" />
     <Compile Include="Ast\Entity\TranslateResult.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\GroupAst.cs" />
@@ -459,6 +462,15 @@
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
+    <EmbeddedResource Include="Mapping\DB_NewLight.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mapping\DB_Chanel.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mapping\DB_NewFineTune.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Protocol\SceneList_BAK.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

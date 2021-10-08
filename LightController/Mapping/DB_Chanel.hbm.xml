@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+      assembly="LightController" namespace="LightController.Ast.Entity">
+  <class name="DB_Channel" table="Channel">
+    nishb89isni
+    <!-- 设置联合主键，name为类中的主键名 -->
+    <composite-id name="PK" class="DB_ChannelPK">
+        <key-property name="LightAddr" column="LightAddr" />
+        <key-property name="ChannelID" column="ChannelID" />      
+        <key-property name="Scene" column="Scene" />
+        <key-property name="Mode" column="Mode"  />
+    </composite-id>
+
+    <property name="Value" column="Value" type="StringClob" length="10000"/>
+  </class>
+</hibernate-mapping>
+

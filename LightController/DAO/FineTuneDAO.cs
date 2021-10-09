@@ -11,10 +11,7 @@ namespace LightController.Ast
 {
 	public class FineTuneDAO: BaseDAO<DB_FineTune>
 	{
-		public FineTuneDAO(String dbFile, bool isEncrypt) : base(dbFile, isEncrypt)
-		{
-			
-		}
+		public FineTuneDAO(string dbFile, bool isEncrypt) : base(dbFile, isEncrypt){ }
 
 	}
 }

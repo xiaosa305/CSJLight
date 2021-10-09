@@ -1,11 +1,11 @@
-﻿namespace LightController.Ast.Entity
+﻿namespace LightController.EntityNew
 {
     public class DB_ChannelPK
     {
-        public virtual int LightAddr { get; set; }
-        public virtual string ChannelID { get; set; }
-        public virtual string Scene { get; set; }
-        public virtual string Mode { get; set; }
+        public virtual int LightID { get; set; }
+        public virtual int ChannelID { get; set; }
+        public virtual int Scene { get; set; }
+        public virtual int Mode { get; set; }
 
 		/// <summary>
 		/// 判断两个对象是否相同，这个方法需要重写
@@ -17,7 +17,7 @@
 			if (obj is DB_ChannelPK)
 			{
 				DB_ChannelPK pk = obj as DB_ChannelPK;
-				if (LightAddr == pk.LightAddr
+				if (LightID == pk.LightID
 					&& ChannelID == pk.ChannelID
 					&& Scene == pk.Scene 
 					&& Mode == pk.Mode)
@@ -34,8 +34,12 @@
 		/// <returns>基类的GetHashCode()值</returns>
 		public override int GetHashCode()
 		{
-			return base.GetHashCode();
+			return ToString().GetHashCode();
 		}
 
-	}
+        public override string ToString()
+        {
+			return LightID + " - " + ChannelID + " - " + Scene + " - " + Mode;
+		}
+    }
 }

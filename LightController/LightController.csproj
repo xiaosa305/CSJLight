@@ -168,10 +168,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\Entity\NewDB\DB_ChannelPK.cs" />
-    <Compile Include="Ast\Entity\NewDB\DB_NewFineTune.cs" />
-    <Compile Include="Ast\Entity\NewDB\DB_NewLight.cs" />
-    <Compile Include="Ast\Entity\NewDB\DB_Channel.cs" />
+    <Compile Include="EntityNew\DB_ChannelPK.cs" />
+    <Compile Include="EntityNew\DB_NewFineTune.cs" />
+    <Compile Include="EntityNew\DB_NewLight.cs" />
+    <Compile Include="EntityNew\DB_Channel.cs" />
     <Compile Include="Ast\Entity\TranslateResult.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\GroupAst.cs" />
@@ -195,7 +195,10 @@
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\TextHelper.cs" />
     <Compile Include="Common\ZipHelper.cs" />
+    <Compile Include="DAO\NewFineTuneDAO.cs" />
     <Compile Include="DAO\FineTuneDAO.cs" />
+    <Compile Include="DAO\NewLightDAO.cs" />
+    <Compile Include="DAO\ChannelDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
@@ -462,13 +465,16 @@
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
-    <EmbeddedResource Include="Mapping\DB_NewLight.hbm.xml">
+    <EmbeddedResource Include="EntityNew\DB_NewLight.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mapping\DB_Chanel.hbm.xml">
+    <EmbeddedResource Include="EntityNew\DB_Channel.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mapping\DB_NewFineTune.hbm.xml">
+    <EmbeddedResource Include="EntityNew\DB_NewFineTune.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MappingOld\DB_StepCount.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Protocol\SceneList_BAK.txt">
@@ -596,7 +602,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
-    <EmbeddedResource Include="Mapping\DB_FineTune.hbm.xml">
+    <EmbeddedResource Include="MappingOld\DB_FineTune.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="f3.ico" />
@@ -949,19 +955,17 @@
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Mapping\DB_Light.hbm.xml">
+    <EmbeddedResource Include="MappingOld\DB_Light.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mapping\DB_StepCount.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mapping\DB_Value.hbm.xml">
+    <EmbeddedResource Include="MappingOld\DB_Value.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="FTD2XX_NET.XML" />
     <Content Include="更新日志\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Mapping\" />
     <Folder Include="MyForm\Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

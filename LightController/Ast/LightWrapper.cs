@@ -32,21 +32,21 @@ namespace LightController.Ast
 		{
 			LightWrapper newLight = new LightWrapper();
 			newLight.StepTemplate = selectedLight.StepTemplate;
-			for (int frame = 0; frame < MainFormBase.SceneCount; frame++) {
+			for (int scene = 0; scene < MainFormBase.SceneCount; scene++) {
 				for (int mode = 0; mode < 2; mode++)
 				{
-					if (tempLight.LightStepWrapperList[frame, mode] != null) {
-						newLight.LightStepWrapperList[frame, mode] = new LightStepWrapper() {
+					if (tempLight.LightStepWrapperList[scene, mode] != null) {
+						newLight.LightStepWrapperList[scene, mode] = new LightStepWrapper() {
 							CurrentStep = 0,
 							TotalStep = 0,
 							StepWrapperList = new List<StepWrapper>()
 						};
 											
-						for (int currentStep = 0; currentStep < tempLight.LightStepWrapperList[frame, mode].TotalStep; currentStep++)
+						for (int currentStep = 0; currentStep < tempLight.LightStepWrapperList[scene, mode].TotalStep; currentStep++)
 						{
-							IList<TongdaoWrapper> tempTongdaoList = tempLight.LightStepWrapperList[frame, mode].StepWrapperList[currentStep].TongdaoList;
+							IList<TongdaoWrapper> tempTongdaoList = tempLight.LightStepWrapperList[scene, mode].StepWrapperList[currentStep].TongdaoList;
 							StepWrapper newStep = StepWrapper.GenerateStepWrapper(newLight.StepTemplate,tempTongdaoList , mode);
-							newLight.LightStepWrapperList[frame, mode].AddStep(newStep);
+							newLight.LightStepWrapperList[scene, mode].AddStep(newStep);
 						}
 					}
 				}

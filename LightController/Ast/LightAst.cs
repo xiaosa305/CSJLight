@@ -1,5 +1,6 @@
 ﻿using DMX512;
 using LightController.Common;
+using LightController.EntityNew;
 using LightEditor.Ast;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,26 @@ namespace LightController.Ast
 				Remark = light.Remark				
 			};
 		}
-		
+		public static LightAst GenerateLightAst(DB_NewLight newLight, string savePath)
+		{
+			int endNum = newLight.LightID + newLight.Count - 1;
+			string lightAddr = newLight.LightID + "-" + endNum;
+			string iniPath = savePath + @"\LightLibrary\" + newLight.Name + @"\" + newLight.Type + ".ini";
+
+			return new LightAst()
+			{
+				StartNum = newLight.LightID,
+				EndNum = endNum,
+				LightName = newLight.Name,
+				LightType = newLight.Type,
+				LightPic = newLight.Pic,
+				Count = newLight.Count,
+				LightAddr = lightAddr,
+				LightPath = iniPath,
+				Remark = newLight.Remark
+			};
+		}
+
 		/// <summary>
 		///  辅助方法：重写（实际上并不算，因为形参不同）Equals语句，当地址和灯的全名一致时，基本可认为是同一个灯
 		/// </summary>
@@ -105,5 +125,6 @@ namespace LightController.Ast
 			return LightName + ":" + LightType + ":" + LightAddr + ":" + LightPic + ":" + Count;
 		}
 
-	}
+       
+    }
 }

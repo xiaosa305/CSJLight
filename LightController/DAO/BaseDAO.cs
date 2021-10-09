@@ -1,43 +1,40 @@
 ﻿using NHibernate;
 using NHibernate.Cfg;
-using NHibernate.Criterion;
 using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using LightController.Common;
+using LightController.EntityNew;
 
 namespace LightController.Ast
 {
 	public class BaseDAO<T>
 	{
-		protected Configuration config;
-		protected ISessionFactory sessionFactory;
-
-		public BaseDAO(string dbFile, bool isEncrypt)
-		{
-			config = new Configuration().Configure();
-
-			if (isEncrypt)
-			{
-				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5_UTF8("Dickov" + dbFile));
-			}
-			else
-			{
-				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile);
-			}
-			sessionFactory = config.BuildSessionFactory();
-		}
+		public Configuration config;
+		public ISessionFactory sessionFactory;
 
 		/// <summary>
-		///  慎用此功能：根据现有的映射文件，重建数据库表
+		/// 静态方法：根据现有的映射文件（新），重建数据库表
 		/// </summary>
-		public void CreateSchema(bool ifPrint, bool ifDeleteOld)
+		public static void CreateSchema( string dbFile, bool isEncrypt )
 		{
-			new SchemaExport(config).Create(ifPrint, ifDeleteOld);
+			Configuration tempConfig = new Configuration().Configure();
+			tempConfig.SetProperty("connection.connection_string", @"Data Source=" + dbFile + (isEncrypt ? ";password=" + MD5Helper.MD5_UTF8("Dickov" + dbFile) : ""));
+			tempConfig.AddClass(typeof(DB_Channel));
+			tempConfig.AddClass(typeof(DB_NewLight));
+			tempConfig.AddClass(typeof(DB_NewFineTune));
+			new SchemaExport(tempConfig).Create( true , true);
 		}
+
+		
+
+		public BaseDAO(string dbFile, bool isEncrypt)
+		{		
+			config = new Configuration().Configure();
+			config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + (isEncrypt ? ";password=" + MD5Helper.MD5_UTF8("Dickov" + dbFile) : ""));
+			config.AddClass(typeof(T));
+			sessionFactory = config.BuildSessionFactory();
+		}		
 
 		/// <summary>
 		/// 获取当前session
@@ -79,9 +76,7 @@ namespace LightController.Ast
 							case "SaveOrUpdate": session.SaveOrUpdate(obj); break;
 							default: Console.WriteLine("方法名出错"); break;
 						}
-
 						tx.Commit();
-
 					}
 					catch (Exception ex)
 					{
@@ -241,5 +236,7 @@ namespace LightController.Ast
 					.ExecuteUpdate();				
 			}
 		}
+		
+
 	}
 }

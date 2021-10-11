@@ -25,8 +25,7 @@ namespace LightController.Ast
 			tempConfig.AddClass(typeof(DB_NewFineTune));
 			new SchemaExport(tempConfig).Create( true , true);
 		}
-
-		
+				
 
 		public BaseDAO(string dbFile, bool isEncrypt)
 		{		

@@ -8,7 +8,7 @@ namespace LightController.Ast
     {
         public ChannelDAO(string dbFile, bool isEncrypt) : base(dbFile, isEncrypt) { }
 
-        internal void SaveSceneChannels(int scene, Dictionary<DB_ChannelPK, string> channelDict)
+		public void SaveSceneChannels(int scene, Dictionary<DB_ChannelPK, string> channelDict)
         {
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -37,5 +37,36 @@ namespace LightController.Ast
 				}
 			}
 		}
-    }
+
+        public IList<DB_Channel> GetList(int lightID, int scene, int mode)
+        {
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_Channel> channelList = session
+                    .CreateQuery("FROM DB_Channel c WHERE " +
+                        "c.PK.LightID = :lightID " +
+                        "AND c.PK.Scene = :scene " +
+                        "AND c.PK.Mode = :mode " +
+                        "ORDER BY c.PK.ChannelID")
+                    .SetInt32("lightID", lightID)
+                    .SetInt32("scene", scene)
+                    .SetInt32("mode", mode)
+                    .List<DB_Channel>();
+				return channelList;
+			}
+		}
+		
+		public DB_Channel GetByPK( DB_ChannelPK pk)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				DB_Channel channel = (DB_Channel)session
+					.CreateQuery("FROM DB_Channel c WHERE c.PK = :pk")
+					.SetEntity("pk",pk)				
+					.UniqueResult();
+				return channel;
+			}
+		}
+
+	}
 }

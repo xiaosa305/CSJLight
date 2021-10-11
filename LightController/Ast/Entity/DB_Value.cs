@@ -8,7 +8,6 @@ namespace DMX512
     public class DB_Value
     {
 		public virtual DB_ValuePK PK { get; set; }
-
 		public virtual int ScrollValue { get; set; }
         public virtual int StepTime { get; set; }
         public virtual int ChangeMode { get; set; }

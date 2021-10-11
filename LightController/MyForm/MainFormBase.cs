@@ -122,7 +122,7 @@ namespace LightController.MyForm
 
         // 这几个IList ，存放着所有数据库数据		
         protected DBWrapper dbWrapperTemp;
-        protected IList<DB_Light> dbLightList;        
+        protected IList<DB_Light> dbLightList;
         protected IList<DB_FineTune> dbFineTuneList;
         protected IList<DB_StepCount> dbStepCountList;
 
@@ -575,8 +575,9 @@ namespace LightController.MyForm
 
         protected void getNewLightList()
         {
-            if (newLightDAO == null) {
-                newLightDAO = new NewLightDAO(newDbFilePath,isEncrypt );                
+            if (newLightDAO == null)
+            {
+                newLightDAO = new NewLightDAO(newDbFilePath, isEncrypt);
             }
             dbNewLightList = newLightDAO.GetAll();
         }
@@ -674,7 +675,7 @@ namespace LightController.MyForm
             }
         }
 
-       
+
         /// <summary>
         /// 辅助方法：由lightWrapperList生成最新的dbFineTuneList;
         /// </summary>
@@ -1921,7 +1922,8 @@ namespace LightController.MyForm
             setBusy(true);
 
             //DOTO 211009 打开工程
-            
+            DateTime beforeDT = System.DateTime.Now;
+
             //MARK1124：OpenProject内当工作
             if (savePath != SavePath)
             {
@@ -1990,12 +1992,16 @@ namespace LightController.MyForm
                 reBuildLightListView();
 
                 //MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
-                generateSceneData(CurrentScene);
+                //generateSceneData(CurrentScene);
+                newGenerateSceneData(CurrentScene);
+
+                DateTime afterDT = System.DateTime.Now;
+                TimeSpan ts = afterDT.Subtract(beforeDT);
 
                 SetNotice(LanguageHelper.TranslateSentence("成功打开工程：")
                     + "【"
                     + projectName + "】"
-                     //+	"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" + "。"
+                    +	"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" + "。"
                      , true, false);
             }
             setBusy(false);
@@ -2008,12 +2014,73 @@ namespace LightController.MyForm
             generateLightData(); //OpenProject
         }
 
+        private void newGenerateSceneData(int scene)
+        {
+            //MARK 重构BuildLightList：generateFrameData()内加dbLightList空值验证
+            if (dbNewLightList == null || dbNewLightList.Count == 0)
+            {
+                return;
+            }
+
+            if (channelDAO == null)
+            {
+                channelDAO = new ChannelDAO(newDbFilePath, false);
+            }
+
+            // 采用多线程方法优化(每个灯开启一个线程)
+            Thread[] threadArray = new Thread[dbNewLightList.Count];
+            for (int lightListIndex = 0; lightListIndex < dbNewLightList.Count; lightListIndex++)
+            {
+                int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
+                int tempLightNo = dbNewLightList[tempLightIndex].LightID;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
+
+                threadArray[tempLightIndex] = new Thread(delegate ()
+                {
+                    for (int mode = 0; mode < 2; mode++)
+                    {
+                        LightWrapperList[tempLightIndex].LightStepWrapperList[scene, mode] = new LightStepWrapper();
+
+                        IList<DB_Channel> channelList = channelDAO.GetList(tempLightNo, scene, mode);
+
+                        //当找到的stepValueListTemp ①不为空；②通道数量与模板相同 时，才继续往下走，否则不继续运行
+                        if (channelList != null && channelList.Count == LightWrapperList[tempLightIndex].StepTemplate.TongdaoList.Count)
+                        {
+                            LightWrapperList[tempLightIndex].LightStepWrapperList[ scene, mode].StepWrapperList
+                                 = StepWrapper.GenerateStepWrapperList(LightWrapperList[tempLightIndex].StepTemplate, channelList, mode);                            
+                        }
+                    }
+                });
+                threadArray[tempLightIndex].Start();
+            }
+
+            // 下列代码，用以监视所有线程是否已经结束运行。每隔0.1s，去计算尚存活的线程数量，若数量为0，则说明所有线程已经结束了。
+            while (true)
+            {
+                int unFinishedCount = 0;
+                foreach (var thread in threadArray)
+                {
+                    unFinishedCount += thread.IsAlive ? 1 : 0;
+                }
+
+                if (unFinishedCount == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(100);
+                }
+            }
+            //MARK 只开单场景：07.4 generateFrameData(int)内:从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true
+            sceneLoadArray[scene] = true;
+        }
+
         /// <summary>
         /// MARK 只开单场景：07.1 generateFrameData(int):从DB读Frame数据的代码（多线程）
         /// 辅助方法：通过传入frame的值，来读取相关的Frame场景数据（两种mode）
         /// </summary>
         /// <param name="frameIndex"></param>
-        protected void generateSceneData(int selectedSceneIndex)
+        protected void generateSceneData(int sceneIndex)
         {
             //MARK 重构BuildLightList：generateFrameData()内加dbLightList空值验证
             if (dbLightList == null || dbLightList.Count == 0)
@@ -2029,10 +2096,10 @@ namespace LightController.MyForm
                 int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
 
                 //MARK 只开单场景：07.2 generateFrameData(int)内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。				
-                IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, selectedSceneIndex);
+                IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, sceneIndex);
 
                 //MARK 只开单场景：07.3 generateFrameData(int)内:取出相应的灯具该场景的所有dbValue数据，			
-                IList<DB_Value> tempDbValueList = valueDAO.GetByLightIndexAndFrame(tempLightNo, selectedSceneIndex);
+                IList<DB_Value> tempDbValueList = valueDAO.GetByLightIndexAndFrame(tempLightNo, sceneIndex);
 
                 threadArray[tempLightIndex] = new Thread(delegate ()
                 {
@@ -2086,7 +2153,7 @@ namespace LightController.MyForm
                 }
             }
             //MARK 只开单场景：07.4 generateFrameData(int)内:从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true
-            sceneLoadArray[selectedSceneIndex] = true;
+            sceneLoadArray[sceneIndex] = true;
         }
 
         /// <summary>
@@ -2204,7 +2271,7 @@ namespace LightController.MyForm
             newFineTuneDAO.SaveAll("FineTune", dbNewFineTuneList);
         }
 
-        
+
         private void newSaveAllLights()
         {
             if (newLightDAO == null)

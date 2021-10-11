@@ -1,5 +1,6 @@
 ﻿using DMX512;
 using LightController.Common;
+using LightController.EntityNew;
 using LightController.MyForm;
 using System;
 using System.Collections.Generic;
@@ -94,7 +95,38 @@ namespace LightController.Ast
 				StartNum = stepTemplate.StartNum
 			};
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：由 步数模板 和 channelList，来生成StepWrapper集合
+		/// </summary>
+		/// <param name="stepTemplate"></param>
+		/// <param name="channelList"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		public static IList<StepWrapper> GenerateStepWrapperList(StepWrapper stepTemplate, IList<DB_Channel> channelList, int mode)
+		{
+			IList<StepWrapper> swList = new List<StepWrapper>();
+			List<string[]> strArrayList = new List<string[]>();
+			for (int chanIndex = 0; chanIndex < channelList.Count; chanIndex++)
+			{
+				strArrayList.Add(channelList[chanIndex].Value.Split(',') );
+			}
+
+			for ( int step = 0; step < channelList[0].Value.Split(',').Length - 1; step ++ )
+            {
+				StepWrapper newStep = GenerateNewStep(stepTemplate, mode);			
+				for (int chanIndex = 0; chanIndex < channelList.Count; chanIndex++){
+					string[] valueArray = strArrayList[chanIndex][step].Split('-');
+					newStep.TongdaoList[chanIndex].ChangeMode = int.Parse( valueArray[0] );
+					newStep.TongdaoList[chanIndex].ScrollValue = int.Parse(valueArray[1] );
+					newStep.TongdaoList[chanIndex].StepTime = int.Parse( valueArray[2] );
+				}
+
+				swList.Add(newStep);
+			}
+			return swList;
+		}
+
 		/// <summary>
 		///  辅助方法	:通过stepTemplate和mode，来生成新的stepWrapper
 		///  （包括mode,lightName,startNum,tongdaoList等属性）;
@@ -180,5 +212,6 @@ namespace LightController.Ast
 			return existSet.Count == 4;						
 		}
 
-	}
+      
+    }
 }

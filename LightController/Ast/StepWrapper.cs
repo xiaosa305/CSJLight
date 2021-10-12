@@ -1,5 +1,4 @@
-﻿using DMX512;
-using LightController.Common;
+﻿using LightController.Common;
 using LightController.EntityNew;
 using LightController.MyForm;
 using System;
@@ -23,46 +22,7 @@ namespace LightController.Ast
 		public int StartNum { get; set; }
 		// 这个列表记录通道数据
 		public IList<TongdaoWrapper> TongdaoList { get; set; }
-
-		/// <summary>
-		///  辅助方法： 由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper;
-		///  主要供从数据库里读取数据填入内存时使用
-		///  复制灯时也有可能用到这个方法
-		/// </summary>
-		/// <param name="stepTemplate">模板Step</param>
-		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
-		/// <returns></returns>
-		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<DB_Value> stepValueList, int mode)
-		{
-			// 此处需要多一重验证， 若传进来的valueList的数量与stepTemplate的tongdaoList数量不合，则直接返回null，不再往下走
-			if (stepTemplate.TongdaoList.Count != stepValueList.Count) {
-				return null;
-			}
-
-			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
-			for (int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
-			{
-				DB_Value value = stepValueList[tdIndex];
-				TongdaoWrapper td = new TongdaoWrapper()
-				{
-					TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
-					Address = stepTemplate.TongdaoList[tdIndex].Address,					
-					// 添加处理，若是数据库内步时间大于上限，则设为上限值
-					StepTime = value.StepTime>MAX_StTimes ? MAX_StTimes : value.StepTime,
-					ChangeMode = value.ChangeMode,
-					ScrollValue = value.ScrollValue,
-					Remark = stepTemplate.TongdaoList[tdIndex].Remark
-				};
-				tongdaoList.Add(td);
-			}
-			return new StepWrapper()
-			{
-				TongdaoList = tongdaoList,
-				LightMode = mode,
-				LightFullName = stepTemplate.LightFullName,
-				StartNum = stepTemplate.StartNum
-			};
-		}
+		
 
 		/// <summary>
 		///  辅助方法： 由 步数模板 和 TongdaoList集合 , 来生成某一步的StepWrapper;

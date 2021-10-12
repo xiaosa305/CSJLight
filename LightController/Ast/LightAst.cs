@@ -1,5 +1,4 @@
-﻿using DMX512;
-using LightController.Common;
+﻿using LightController.Common;
 using LightController.EntityNew;
 using LightEditor.Ast;
 using System;
@@ -53,31 +52,7 @@ namespace LightController.Ast
 			saPanelDict = laOld.saPanelDict;
 		}
 
-		/// <summary>
-		///  通过DB_Light来生成对应的LightAst
-		/// </summary>
-		/// <param name="light"></param>
-		/// <returns></returns>
-		public static LightAst GenerateLightAst(DB_Light light , string savePath)
-		{
-			int endNum = light.StartID + light.Count - 1;
-			string lightAddr = light.StartID + "-" + endNum;
-			
-			string path =  savePath+ @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
-
-			return new LightAst()
-			{
-				StartNum = light.StartID,
-				EndNum = endNum,
-				LightName = light.Name,
-				LightType = light.Type,
-				LightPic = light.Pic,
-				Count = light.Count,
-				LightAddr = lightAddr,
-				LightPath = path,
-				Remark = light.Remark				
-			};
-		}
+	
 		public static LightAst GenerateLightAst(DB_NewLight newLight, string savePath)
 		{
 			int endNum = newLight.LightID + newLight.Count - 1;

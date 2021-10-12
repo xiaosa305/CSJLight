@@ -179,7 +179,6 @@
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Ast\MaterialIndexAst.cs" />
-    <Compile Include="Common\DBGetter.cs" />
     <Compile Include="Common\DirectoryHelper.cs" />
     <Compile Include="Common\HttpHelper.cs" />
     <Compile Include="Common\IniHelper.cs" />
@@ -197,17 +196,12 @@
     <Compile Include="Common\TextHelper.cs" />
     <Compile Include="Common\ZipHelper.cs" />
     <Compile Include="DAO\NewFineTuneDAO.cs" />
-    <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\NewLightDAO.cs" />
     <Compile Include="DAO\ChannelDAO.cs" />
-    <Compile Include="DAO\ValueDAO.cs" />
-    <Compile Include="DAO\StepCountDAO.cs" />
-    <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
     <Compile Include="Ast\Entity\CCData.cs" />
-    <Compile Include="Ast\Entity\DB_FineTune.cs" />
     <Compile Include="Ast\Entity\CCEntity.cs" />
     <Compile Include="Ast\Entity\KeyEntity.cs" />
     <Compile Include="MyForm\HardwareSet\HardwareSetForm.cs">
@@ -367,11 +361,6 @@
     <Compile Include="MyForm\MainFormAst\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ast\Entity\DB_Light.cs" />
-    <Compile Include="Ast\Entity\DB_StepCountPK.cs" />
-    <Compile Include="Ast\Entity\DB_StepCount.cs" />
-    <Compile Include="Ast\Entity\DB_ValuePK.cs" />
-    <Compile Include="Ast\Entity\DB_Value.cs" />
     <Compile Include="MyForm\OtherTools\ProtocolDataForm.cs">
       <SubType>Form</SubType>
     </Compile>

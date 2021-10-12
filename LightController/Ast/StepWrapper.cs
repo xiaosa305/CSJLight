@@ -1,10 +1,7 @@
 ﻿using LightController.Common;
-using LightController.EntityNew;
-using LightController.MyForm;
-using System;
+using LightController.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using static LightController.MyForm.MainFormBase;
 
 namespace LightController.Ast

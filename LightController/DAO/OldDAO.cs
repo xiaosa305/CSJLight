@@ -4,7 +4,6 @@ using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
 using LightController.Common;
-using LightController.EntityNew;
 using System.Collections;
 
 namespace LightController.Ast

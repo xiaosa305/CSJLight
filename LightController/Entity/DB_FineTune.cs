@@ -1,6 +1,6 @@
-﻿namespace LightController.EntityNew
+﻿namespace LightController.Entity
 {
-    public class DB_NewFineTune
+    public class DB_FineTune
     {
         public virtual int MainIndex { get; set; }
         public virtual int FineTuneIndex{ get; set; }

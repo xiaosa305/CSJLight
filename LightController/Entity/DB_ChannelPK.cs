@@ -1,4 +1,4 @@
-﻿namespace LightController.EntityNew
+﻿namespace LightController.Entity
 {
     public class DB_ChannelPK
     {

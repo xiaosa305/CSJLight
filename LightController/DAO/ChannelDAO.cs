@@ -1,4 +1,4 @@
-﻿using LightController.EntityNew;
+﻿using LightController.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;

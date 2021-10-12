@@ -4,7 +4,7 @@ using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
 using LightController.Common;
-using LightController.EntityNew;
+using LightController.Entity;
 
 namespace LightController.Ast
 {
@@ -21,8 +21,8 @@ namespace LightController.Ast
 			Configuration tempConfig = new Configuration().Configure();
 			tempConfig.SetProperty("connection.connection_string", @"Data Source=" + dbFile + (isEncrypt ? ";password=" + MD5Helper.MD5_UTF8("Dickov" + dbFile) : ""));
 			tempConfig.AddClass(typeof(DB_Channel));
-			tempConfig.AddClass(typeof(DB_NewLight));
-			tempConfig.AddClass(typeof(DB_NewFineTune));
+			tempConfig.AddClass(typeof(DB_Light));
+			tempConfig.AddClass(typeof(DB_FineTune));
 			new SchemaExport(tempConfig).Create( true , true);
 		}				
 

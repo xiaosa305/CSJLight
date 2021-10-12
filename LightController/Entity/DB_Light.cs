@@ -1,8 +1,8 @@
 ﻿using LightController.Ast;
 
-namespace LightController.EntityNew
+namespace LightController.Entity
 {
-    public class DB_NewLight
+    public class DB_Light
     {
 		public virtual int LightID { get; set; }
         public virtual string Name { get; set; }
@@ -16,9 +16,9 @@ namespace LightController.EntityNew
 		/// </summary>
 		/// <param name="la"></param>
 		/// <returns></returns>
-		public static DB_NewLight GenerateLight(LightAst la)
+		public static DB_Light GenerateLight(LightAst la)
 		{
-			return new DB_NewLight()
+			return new DB_Light()
 			{
 				LightID = la.StartNum,	
 				Name = la.LightName,

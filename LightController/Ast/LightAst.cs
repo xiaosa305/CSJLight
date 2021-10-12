@@ -1,5 +1,5 @@
 ﻿using LightController.Common;
-using LightController.EntityNew;
+using LightController.Entity;
 using LightEditor.Ast;
 using System;
 using System.Collections.Generic;
@@ -53,7 +53,7 @@ namespace LightController.Ast
 		}
 
 	
-		public static LightAst GenerateLightAst(DB_NewLight newLight, string savePath)
+		public static LightAst GenerateLightAst(DB_Light newLight, string savePath)
 		{
 			int endNum = newLight.LightID + newLight.Count - 1;
 			string lightAddr = newLight.LightID + "-" + endNum;

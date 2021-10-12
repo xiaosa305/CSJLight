@@ -22,7 +22,7 @@ using LightController.MyForm.MainFormAst;
 using LightController.MyForm.HardwareSet;
 using LightController.MyForm.OtherTools;
 using LightController.Xiaosa.Tools;
-using LightController.EntityNew;
+using LightController.Entity;
 
 namespace LightController.MyForm
 {
@@ -111,13 +111,15 @@ namespace LightController.MyForm
         protected IList<int> retainLightIndices;
 
         //DOTO 211009 新增几个DAO和List（存放db对应的实体对象）
+
         // 数据库DAO(data access object：数据访问对象）
-        protected NewLightDAO newLightDAO;
-        protected NewFineTuneDAO newFineTuneDAO;
+        protected LightDAO lightDAO;
+        protected FineTuneDAO fineTuneDAO;
         protected ChannelDAO channelDAO;
+        
         // 这几个IList ，存放着所有数据库数据		
-        protected IList<DB_NewLight> dbNewLightList;
-        protected IList<DB_NewFineTune> dbNewFineTuneList;
+        protected IList<DB_Light> dbLightList;
+        protected IList<DB_FineTune> dbFineTuneList;
         protected IList<DB_Channel> dbChannelList;
 
         public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
@@ -550,11 +552,11 @@ namespace LightController.MyForm
             
         protected void generateDBLightList()
         {
-            if (newLightDAO == null)
+            if (lightDAO == null)
             {
-                newLightDAO = new NewLightDAO(newDbFilePath, isEncrypt);
+                lightDAO = new LightDAO(newDbFilePath, isEncrypt);
             }
-            dbNewLightList = newLightDAO.GetAll();
+            dbLightList = lightDAO.GetAll();
         }
 
         //DOTO 211012 要重写GetDBWrapper()! 
@@ -604,7 +606,7 @@ namespace LightController.MyForm
         /// </summary>
         private void generateDBFineTuneList()
         {
-            dbNewFineTuneList = new List<DB_NewFineTune>();
+            dbFineTuneList = new List<DB_FineTune>();
             if (LightAstList == null || LightAstList.Count == 0)
             {
                 return;
@@ -629,11 +631,11 @@ namespace LightController.MyForm
                     }
                     if (xz != 0 && xzwt != 0)
                     {                        
-                        dbNewFineTuneList.Add(new DB_NewFineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
+                        dbFineTuneList.Add(new DB_FineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
                     }
                     if (yz != 0 && yzwt != 0)
                     {
-                        dbNewFineTuneList.Add(new DB_NewFineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
+                        dbFineTuneList.Add(new DB_FineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
                     }
                 }
             }
@@ -1636,8 +1638,8 @@ namespace LightController.MyForm
             // 2.创建数据库:初始化，让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
             //DOTO 211008 newDbFilePath的初始化
             newDbFilePath = currentProjectPath + @"\newData.db3";
-            newLightDAO = new NewLightDAO(newDbFilePath, isEncrypt);
-            newFineTuneDAO = new NewFineTuneDAO(newDbFilePath, isEncrypt);
+            lightDAO = new LightDAO(newDbFilePath, isEncrypt);
+            fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
             channelDAO = new ChannelDAO(newDbFilePath, isEncrypt);
 
             // 若为新建，则初始化db的table(随机使用一个DAO即可初始化）
@@ -1672,8 +1674,8 @@ namespace LightController.MyForm
             currentProjectPath = null;
             GlobalIniPath = null;
 
-            dbNewLightList = null;
-            dbNewFineTuneList = null;
+            dbLightList = null;
+            dbFineTuneList = null;
             dbChannelList = null;
             GroupList = null;
 
@@ -1711,13 +1713,14 @@ namespace LightController.MyForm
             showLightsInfo(); //clearAllData
         }
 
+
+        //DOTO 211012 要重写 deleteRedundantData
         /// <summary>
         /// MARK 只开单场景：14.3 clearRedundantData()方法体：清空不在retainLightIndices内的DB数据，包括StepCount表及Value表
         /// 辅助方法：清空不在retainLightIndices内的DB数据，包括StepCount表及Value表
         /// </summary>
         protected virtual void deleteRedundantData()
         {
-            //DOTO deleteRedundantData
             //Console.WriteLine(retainLightIndices);
             // MARK 只开单场景：14.4 若retainLightIndices为空，说明所有数据皆可删除，因为没有旧灯具
             // （全部是新加的灯具，点《确定》后删掉也无所谓了 - 若新加灯具也是空，则本来无一物何处惹尘埃）
@@ -1797,7 +1800,7 @@ namespace LightController.MyForm
             generateDBLightList();
 
             //10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
-            if (dbNewLightList == null || dbNewLightList.Count == 0)
+            if (dbLightList == null || dbLightList.Count == 0)
             {
                 SetNotice(LanguageHelper.TranslateSentence("成功打开空工程：") + projectName, false, false);
                 if (DialogResult.OK == MessageBox.Show(
@@ -1822,9 +1825,9 @@ namespace LightController.MyForm
 
                 try
                 {
-                    for (int lightIndex = 0; lightIndex < dbNewLightList.Count; lightIndex++)
+                    for (int lightIndex = 0; lightIndex < dbLightList.Count; lightIndex++)
                     {
-                        LightAst la = LightAst.GenerateLightAst(dbNewLightList[lightIndex], SavePath);
+                        LightAst la = LightAst.GenerateLightAst(dbLightList[lightIndex], SavePath);
                         LightAstList.Add(la);
                         LightWrapperList.Add(new LightWrapper()
                         {
@@ -1879,28 +1882,28 @@ namespace LightController.MyForm
 
             OldDAO oldDAO = new OldDAO(projDir + "data.db3", false);
             newDbFilePath = projDir + @"\newData.db3";
-            newLightDAO = new NewLightDAO(newDbFilePath, isEncrypt);
-            newFineTuneDAO = new NewFineTuneDAO(newDbFilePath, isEncrypt);
+            lightDAO = new LightDAO(newDbFilePath, isEncrypt);
+            fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
             channelDAO = new ChannelDAO(newDbFilePath, isEncrypt);
 
             IList<object[]> oldFineTuneList = oldDAO.GetListBySQL("select * from FineTune");
-            List<DB_NewFineTune> fineTuneList = new List<DB_NewFineTune>();
+            List<DB_FineTune> fineTuneList = new List<DB_FineTune>();
             foreach (object[] oldFT in oldFineTuneList)
             {
-                fineTuneList.Add(new DB_NewFineTune()
+                fineTuneList.Add(new DB_FineTune()
                 {
                     MainIndex = (int)oldFT[0],
                     FineTuneIndex = (int)oldFT[1],
                     MaxValue = (int)oldFT[2]
                 });
             }
-            newFineTuneDAO.SaveAll("FineTune", fineTuneList);
+            fineTuneDAO.SaveAll("FineTune", fineTuneList);
 
             IList<object[]> oldLightList = oldDAO.GetListBySQL("select LightNo,name,type,pic,count,remark from Light");
-            List<DB_NewLight> lightList = new List<DB_NewLight>();
+            List<DB_Light> lightList = new List<DB_Light>();
             foreach (object[] oldLight in oldLightList)
             {
-                lightList.Add(new DB_NewLight()
+                lightList.Add(new DB_Light()
                 {
                     LightID = (int)oldLight[0],
                     Name = (string)oldLight[1],
@@ -1910,7 +1913,7 @@ namespace LightController.MyForm
                     Remark = (string)oldLight[5]
                 });
             }
-            newLightDAO.SaveAll("Light", lightList);
+            lightDAO.SaveAll("Light", lightList);
 
             IList<object[]> valueList = oldDAO.GetListBySQL("SELECT  " +
                 "lightIndex, lightId, frame, mode,GROUP_CONCAT(changeMode || '-' || scrollValue || '-' || stepTime) as newValue " +
@@ -1947,7 +1950,7 @@ namespace LightController.MyForm
         private void newGenerateSceneData(int scene)
         {
             //MARK 重构BuildLightList：generateFrameData()内加dbLightList空值验证
-            if (dbNewLightList == null || dbNewLightList.Count == 0)
+            if (dbLightList == null || dbLightList.Count == 0)
             {
                 return;
             }
@@ -1958,11 +1961,11 @@ namespace LightController.MyForm
             }
 
             // 采用多线程方法优化(每个灯开启一个线程)
-            Thread[] threadArray = new Thread[dbNewLightList.Count];
-            for (int lightListIndex = 0; lightListIndex < dbNewLightList.Count; lightListIndex++)
+            Thread[] threadArray = new Thread[dbLightList.Count];
+            for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
             {
                 int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
-                int tempLightNo = dbNewLightList[tempLightIndex].LightID;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
+                int tempLightNo = dbLightList[tempLightIndex].LightID;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
 
                 threadArray[tempLightIndex] = new Thread(delegate ()
                 {
@@ -2111,25 +2114,25 @@ namespace LightController.MyForm
 
         private void newSaveAllFineTunes()
         {
-            if (newFineTuneDAO == null)
+            if (fineTuneDAO == null)
             {
-                newFineTuneDAO = new NewFineTuneDAO(newDbFilePath, isEncrypt);
+                fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
             }
             generateDBFineTuneList();
 
             // 保存数据
-            newFineTuneDAO.SaveAll("FineTune", dbNewFineTuneList);
+            fineTuneDAO.SaveAll("FineTune", dbFineTuneList);
         }
 
         private void newSaveAllLights()
         {
-            if (newLightDAO == null)
+            if (lightDAO == null)
             {
-                newLightDAO = new NewLightDAO(newDbFilePath, isEncrypt);
+                lightDAO = new LightDAO(newDbFilePath, isEncrypt);
             }
 
             // 由lightAstList生成最新的dbLightList
-            dbNewLightList = new List<DB_NewLight>();
+            dbLightList = new List<DB_Light>();
             if (LightAstList == null || LightAstList.Count == 0)
             {
                 return;
@@ -2137,12 +2140,12 @@ namespace LightController.MyForm
 
             foreach (LightAst la in LightAstList)
             {
-                DB_NewLight light = DB_NewLight.GenerateLight(la);
-                dbNewLightList.Add(light);
+                DB_Light light = DB_Light.GenerateLight(la);
+                dbLightList.Add(light);
             }
 
             // 将传送所有的DB_Light给DAO,让它进行数据的保存
-            newLightDAO.SaveAll("Light", dbNewLightList);
+            lightDAO.SaveAll("Light", dbLightList);
         }
 
         private void newSaveAllChannels()
@@ -2173,7 +2176,7 @@ namespace LightController.MyForm
             Dictionary<DB_ChannelPK, StringBuilder> channelDict = new Dictionary<DB_ChannelPK, StringBuilder>();
             foreach (LightWrapper lightTemp in LightWrapperList)
             {
-                DB_NewLight light = dbNewLightList[LightWrapperList.IndexOf(lightTemp)];
+                DB_Light light = dbLightList[LightWrapperList.IndexOf(lightTemp)];
                 LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
 
                 //10.17 取出灯具的当前场景（两种模式都要），并将它们保存起来（但若为空，则不保存）
@@ -2478,8 +2481,8 @@ namespace LightController.MyForm
         /// </summary>
         private void ClearAllDB()
         {
-            newLightDAO.Clear();
-            newFineTuneDAO.Clear();
+            lightDAO.Clear();
+            fineTuneDAO.Clear();
             channelDAO.Clear();            
         }
          

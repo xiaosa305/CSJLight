@@ -169,10 +169,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\OldDAO.cs" />
-    <Compile Include="EntityNew\DB_ChannelPK.cs" />
-    <Compile Include="EntityNew\DB_NewFineTune.cs" />
-    <Compile Include="EntityNew\DB_NewLight.cs" />
-    <Compile Include="EntityNew\DB_Channel.cs" />
+    <Compile Include="Entity\DB_ChannelPK.cs" />
+    <Compile Include="Entity\DB_FineTune.cs" />
+    <Compile Include="Entity\DB_Light.cs" />
+    <Compile Include="Entity\DB_Channel.cs" />
     <Compile Include="Ast\Entity\TranslateResult.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\GroupAst.cs" />
@@ -195,8 +195,8 @@
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\TextHelper.cs" />
     <Compile Include="Common\ZipHelper.cs" />
-    <Compile Include="DAO\NewFineTuneDAO.cs" />
-    <Compile Include="DAO\NewLightDAO.cs" />
+    <Compile Include="DAO\FineTuneDAO.cs" />
+    <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\ChannelDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
@@ -455,13 +455,13 @@
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
-    <EmbeddedResource Include="EntityNew\DB_NewLight.hbm.xml">
+    <EmbeddedResource Include="Entity\DB_Light.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityNew\DB_Channel.hbm.xml">
+    <EmbeddedResource Include="Entity\DB_Channel.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityNew\DB_NewFineTune.hbm.xml">
+    <EmbeddedResource Include="Entity\DB_FineTune.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MappingOld\DB_StepCount.hbm.xml">

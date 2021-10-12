@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
-      assembly="LightController" namespace="LightController.EntityNew">
+      assembly="LightController" namespace="LightController.Entity">
   <class name="DB_Channel" table="Channel">
    
     <!-- 设置联合主键，name为类中的主键名 -->

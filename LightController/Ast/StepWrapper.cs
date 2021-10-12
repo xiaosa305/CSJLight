@@ -21,7 +21,6 @@ namespace LightController.Ast
 		public int LightMode { get; set; }
 		public string LightFullName { get; set; }
 		public int StartNum { get; set; }
-
 		// 这个列表记录通道数据
 		public IList<TongdaoWrapper> TongdaoList { get; set; }
 
@@ -97,34 +96,37 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 辅助方法：由 步数模板 和 channelList，来生成StepWrapper集合
+		/// 辅助方法：(读取) 由 步数模板 和 channelList，为指定SMlightStepWrapper
 		/// </summary>
+		/// <param name=lsWrapper" 指定S/M的lightStepWrapper对象，要调用其自带的AddStep来添加步
 		/// <param name="stepTemplate"></param>
 		/// <param name="channelList"></param>
 		/// <param name="mode"></param>
 		/// <returns></returns>
-		public static IList<StepWrapper> GenerateStepWrapperList(StepWrapper stepTemplate, IList<DB_Channel> channelList, int mode)
+		public static void GenerateStepWrapperList(  
+			LightStepWrapper lsWrapper,
+			StepWrapper stepTemplate, 
+			IList<DB_Channel> channelList, 
+			int mode)
 		{
-			IList<StepWrapper> swList = new List<StepWrapper>();
 			List<string[]> strArrayList = new List<string[]>();
 			for (int chanIndex = 0; chanIndex < channelList.Count; chanIndex++)
 			{
 				strArrayList.Add(channelList[chanIndex].Value.Split(',') );
 			}
-
-			for ( int step = 0; step < channelList[0].Value.Split(',').Length - 1; step ++ )
+			
+			for ( int step = 0; step < channelList[0].Value.Split(',').Length; step ++ )
             {
-				StepWrapper newStep = GenerateNewStep(stepTemplate, mode);			
-				for (int chanIndex = 0; chanIndex < channelList.Count; chanIndex++){
+				StepWrapper newStep = GenerateNewStep(stepTemplate , mode);			
+				for (int chanIndex = 0; chanIndex < channelList.Count; chanIndex++)
+				{
 					string[] valueArray = strArrayList[chanIndex][step].Split('-');
 					newStep.TongdaoList[chanIndex].ChangeMode = int.Parse( valueArray[0] );
 					newStep.TongdaoList[chanIndex].ScrollValue = int.Parse(valueArray[1] );
 					newStep.TongdaoList[chanIndex].StepTime = int.Parse( valueArray[2] );
 				}
-
-				swList.Add(newStep);
-			}
-			return swList;
+				lsWrapper.AddStep(newStep);
+			}			
 		}
 
 		/// <summary>

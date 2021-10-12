@@ -168,6 +168,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="EntityNew\DB_ChannelPK.cs" />
     <Compile Include="EntityNew\DB_NewFineTune.cs" />
     <Compile Include="EntityNew\DB_NewLight.cs" />

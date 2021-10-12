@@ -24,8 +24,7 @@ namespace LightController.Ast
 			tempConfig.AddClass(typeof(DB_NewLight));
 			tempConfig.AddClass(typeof(DB_NewFineTune));
 			new SchemaExport(tempConfig).Create( true , true);
-		}
-				
+		}				
 
 		public BaseDAO(string dbFile, bool isEncrypt)
 		{		
@@ -227,15 +226,13 @@ namespace LightController.Ast
 					Clear();
 					return;
 				}
-				
-				Type t = typeof(T);								
+										
 				session
-					.CreateQuery("DELETE FROM " + t.Name + " t WHERE t.PK.LightIndex NOT IN (:lightIndices)")
+					.CreateQuery("DELETE FROM " + typeof(T).Name + " t WHERE t.PK.LightIndex NOT IN (:lightIndices)")
 					.SetParameterList("lightIndices",retainLightIndices)
 					.ExecuteUpdate();				
 			}
 		}
-		
 
-	}
+    }
 }

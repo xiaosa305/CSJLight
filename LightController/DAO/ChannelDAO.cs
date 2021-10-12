@@ -1,6 +1,7 @@
 ﻿using LightController.EntityNew;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace LightController.Ast
 {
@@ -8,7 +9,12 @@ namespace LightController.Ast
     {
         public ChannelDAO(string dbFile, bool isEncrypt) : base(dbFile, isEncrypt) { }
 
-		public void SaveSceneChannels(int scene, Dictionary<DB_ChannelPK, string> channelDict)
+		/// <summary>
+		/// 保存指定场景的所有通道值，保存前先把旧的数据都清空
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <param name="channelDict"></param>
+		public void SaveSceneChannels(int scene, Dictionary<DB_ChannelPK, StringBuilder> channelDict)
         {
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -24,8 +30,8 @@ namespace LightController.Ast
 						{
 							session.Save(new DB_Channel() { 
 								PK = pk,
-								Value = channelDict[pk]
-							});;
+								Value = channelDict[pk].Remove( channelDict[pk].Length -1,1) .ToString ()
+							});
 						}
 						tx.Commit();
 					}
@@ -38,6 +44,13 @@ namespace LightController.Ast
 			}
 		}
 
+		/// <summary>
+		/// 获取指定Scene、Mode、灯具ID的通道值列表,以ChannelID升序排序
+		/// </summary>
+		/// <param name="lightID"></param>
+		/// <param name="scene"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
         public IList<DB_Channel> GetList(int lightID, int scene, int mode)
         {
 			using (var session = sessionFactory.OpenSession())
@@ -55,18 +68,6 @@ namespace LightController.Ast
 				return channelList;
 			}
 		}
-		
-		public DB_Channel GetByPK( DB_ChannelPK pk)
-		{
-			using (var session = sessionFactory.OpenSession())
-			{
-				DB_Channel channel = (DB_Channel)session
-					.CreateQuery("FROM DB_Channel c WHERE c.PK = :pk")
-					.SetEntity("pk",pk)				
-					.UniqueResult();
-				return channel;
-			}
-		}
-
+			
 	}
 }

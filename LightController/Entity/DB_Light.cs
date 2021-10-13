@@ -12,21 +12,21 @@ namespace LightController.Entity
 		public virtual string Remark { get; set; }
 
 		/// <summary>
-		///  内置静态辅助方法 : 使用LightAst生成DB_Light
+		/// 因为存在有入参的构造器，必须显式声明一个空构造器
+		/// </summary>
+		public DB_Light() { }
+		
+		/// <summary>
+		/// 使用LightAst作为入参的构造器
 		/// </summary>
 		/// <param name="la"></param>
-		/// <returns></returns>
-		public static DB_Light GenerateLight(LightAst la)
-		{
-			return new DB_Light()
-			{
-				LightID = la.StartNum,	
-				Name = la.LightName,
-				Type = la.LightType,
-				Pic = la.LightPic,
-				Count = la.Count,
-				Remark = la.Remark
-			};
+		public DB_Light(LightAst la) {
+				LightID = la.StartNum;	
+				Name = la.LightName;
+				Type = la.LightType;
+				Pic = la.LightPic;
+				Count = la.Count;
+				Remark = la.Remark;
 		}
 
 	}

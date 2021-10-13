@@ -68,6 +68,17 @@ namespace LightController.Ast
 				return channelList;
 			}
 		}
-			
-	}
+
+        public DB_Channel GetByPK(DB_ChannelPK pk)
+        {
+			using (var session = sessionFactory.OpenSession())
+			{
+				DB_Channel channel = session
+					.CreateQuery("FROM DB_Channel WHERE c.PK= :pk")					
+					.SetParameter("pk",pk)
+					.UniqueResult<DB_Channel>();
+				return channel;
+			}
+		}
+    }
 }

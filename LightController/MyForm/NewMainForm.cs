@@ -165,7 +165,7 @@ namespace LightController.MyForm
 			modeComboBox.SelectedIndex = 0;
 			
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(copyFrameButton, copyFrameNotice);			
+			myToolTip.SetToolTip(copySceneButton, copyFrameNotice);			
 			myToolTip.SetToolTip(keepButton,keepNotice);
 			myToolTip.SetToolTip(insertButton, insertNotice);
 			myToolTip.SetToolTip(appendButton, appendNotice);
@@ -511,9 +511,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void useFrameButton_Click(object sender, EventArgs e)
+		private void copySceneButton_Click(object sender, EventArgs e)
 		{
-			useFrameClick();
+			copySceneClick();
 		}
 
 		/// <summary>
@@ -521,7 +521,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saveFrameButton_Click(object sender, EventArgs e)
+		private void saveSceneButton_Click(object sender, EventArgs e)
 		{
 			saveSceneClick();
 		}
@@ -531,14 +531,14 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saveProjectButton_Click(object sender, EventArgs e) { }
+		private void saveButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
 		/// 事件：点击《保存工程》；根据点击按键的不同，采用不同的处理方法
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saveProjectButton_MouseDown(object sender, MouseEventArgs e)
+		private void saveButton_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -570,7 +570,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				exportFrameClick();
+				exportSceneClick();
 			}
 		}
 
@@ -579,7 +579,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void closeProjectButton_Click(object sender, EventArgs e)
+		private void closeButton_Click(object sender, EventArgs e)
 		{
 			closeProjectClick();
 		}
@@ -591,13 +591,13 @@ namespace LightController.MyForm
 		protected override void enableProjectRelative(bool enable)
 		{
 			//常规的四个按钮
-			saveProjectButton.Enabled = enable;
+			saveButton.Enabled = enable;
 			exportButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
-			saveFrameButton.Enabled = enable;
-			closeProjectButton.Enabled = enable;
+			saveSceneButton.Enabled = enable;
+			closeButton.Enabled = enable;
 
 			// 不同MainForm在不同位置的按钮
-			copyFrameButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
+			copySceneButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 
 			// 菜单栏相关按钮组			
 			lightListToolStripMenuItem.Enabled = enable;
@@ -1207,7 +1207,7 @@ namespace LightController.MyForm
 			lightsListView.Enabled = !isMultiMode;
 			sceneComboBox.Enabled = !isMultiMode;
 			modeComboBox.Enabled = !isMultiMode;
-			copyFrameButton.Enabled = !isMultiMode;
+			copySceneButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
 

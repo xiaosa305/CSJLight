@@ -110,18 +110,12 @@ namespace LightController.MyForm
         //MARK 只开单场景：14.0 为处理灯具列表变动，必须有一个存储[保留的旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
         protected IList<int> retainLightIndices;
 
-        //DOTO 211009 新增几个DAO和List（存放db对应的实体对象）
-
         // 数据库DAO(data access object：数据访问对象）
         protected LightDAO lightDAO;
         protected FineTuneDAO fineTuneDAO;
         protected ChannelDAO channelDAO;
-        
-        // 这几个IList ，存放着所有数据库数据		
-        protected IList<DB_Light> dbLightList;
-        protected IList<DB_FineTune> dbFineTuneList;
-        protected IList<DB_Channel> dbChannelList;
 
+        // 这几个IList ，存放着界面中相关的灯具数据（包括通道数据之类等）
         public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
         public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
         protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
@@ -548,70 +542,77 @@ namespace LightController.MyForm
             }
         }
 
-        #region 由数据库取数据的几个方法
-            
-        protected void generateDBLightList()
+        #region 由数据库取(get)数据生成dbXXList的几个方法
+
+        protected IList<DB_Light> getDBLightList()
         {
             if (lightDAO == null)
             {
                 lightDAO = new LightDAO(newDbFilePath, isEncrypt);
             }
-            dbLightList = lightDAO.GetAll();
+            return lightDAO.GetAll();
         }
 
-        //DOTO 211012 要重写GetDBWrapper()! 
+        protected IList<DB_FineTune> getDBFineTuneList()
+        {
+
+            if (fineTuneDAO == null)
+            {
+                fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
+            }
+            return fineTuneDAO.GetAll();
+        }
+
+        //DOTO 211012 要重写 GetDBWrapper()
         /// <summary>
         ///  辅助方法：通过isFromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
         /// </summary>
         /// <returns></returns>
-        public DBWrapper GetDBWrapper(bool isFromDB)
+        public DBWrapper GetDBWrapper()
         {
-            //// 从数据库直接读取的情况
-            //if (isFromDB)
-            //{
-            //    DBGetter dbGetter = new DBGetter(dbFilePath, isEncrypt);
-            //    DBWrapper allData = dbGetter.getAll();
-            //    return allData;
-            //}
-            //// 由内存几个List实时生成
-            //else
-            //{
-            //    //long time = DateTime.Now.Ticks;
+            //// MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList(); 【重新生成内存中的dbStepCountList】
+            //IList<DB_Channel> dbChannelList = generateChannelList(CurrentScene);
 
-            //    // 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
-            //    generateDBLightList();
-            //    generateDBFineTuneList();
-            //    //MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList(); 【重新生成内存中的dbStepCountList】
-            //    generateDBStepCountList();
-            //    IList<DB_Value> dbValueListTemp = generateDBValueList(CurrentScene);
+            DBWrapper allData = new DBWrapper() {
+                 lightList = generateDBLightList(),
+                 fineTuneList = generateDBFineTuneList(),            
+            };
 
+            return allData;
 
-            //    // DOTO 211012 DBWrapper allData  = GetDBWrapper
-            //    //DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
-
-            //    //long useTime = (DateTime.Now.Ticks - time) / 10000 ;
-            //    //Console.WriteLine("GetDBWrapper(false) useTime : " + useTime );
-
-            //    return allData;
-            //}
-            return null;
         }
 
         #endregion
 
-        #region 由界面数据生成db数据的方法（但这些db数据也还放在内存中，需要各个save方法才能）
+        #region 由界面数据生成dbXXList数据的方法（这些数据可能只在内存中，和数据库中的数据可能不同，除非保存过）
 
-         /// <summary>
-        /// 辅助方法：由lightWrapperList生成最新的dbFineTuneList;
+        /// <summary>
+        /// 辅助方法：由lightAstList生成dbLightList（新）;
         /// </summary>
-        private void generateDBFineTuneList()
+        private IList<DB_Light> generateDBLightList()
         {
-            dbFineTuneList = new List<DB_FineTune>();
             if (LightAstList == null || LightAstList.Count == 0)
             {
-                return;
+                return null;
             }
+            IList<DB_Light> dbLightList = new List<DB_Light>();
+            foreach (LightAst la in LightAstList)
+            {
+                dbLightList.Add(new DB_Light(la));
+            }
+            return dbLightList;
+        }
 
+        /// <summary>
+        /// 辅助方法：由lightWrapperList生成dbFineTuneList（新）;
+        /// </summary>
+        private IList<DB_FineTune> generateDBFineTuneList()
+        {
+            if (LightAstList == null || LightAstList.Count == 0)
+            {
+                return null;
+            }
+            IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
             // 遍历lightWrapperList的模板数据，用以读取相关的通道名称，才能加以处理			
             foreach (LightWrapper lightWrapper in LightWrapperList)
             {
@@ -630,7 +631,7 @@ namespace LightController.MyForm
                         }
                     }
                     if (xz != 0 && xzwt != 0)
-                    {                        
+                    {
                         dbFineTuneList.Add(new DB_FineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
                     }
                     if (yz != 0 && yzwt != 0)
@@ -639,8 +640,9 @@ namespace LightController.MyForm
                     }
                 }
             }
+
+            return dbFineTuneList;
         }
-              
 
         /// <summary>
         /// 辅助方法：此处的数据只供预览使用， 因为预览只针对单个场景，没有必要传递所有的value数据。
@@ -1514,50 +1516,54 @@ namespace LightController.MyForm
             UseMaterial(TempMaterialAst, insMethod, false);
         }
 
-        // DOTO 211012 要重写！GetFMTDLIst 由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
+        // DOTO 211012 要重写 GetSMTDLIst √ 由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
         /// <summary>
         /// 辅助方法：由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
         /// </summary>
-        public IList<TongdaoWrapper> GetFMTDList(/*DB_ValuePK pk*/)
+        public IList<TongdaoWrapper> GetSMTDList(DB_ChannelPK pk)
         {
-            return null;
-            //int selectedLightIndex = lightDictionary[pk.LightIndex];
-            //int tdIndex = pk.LightID - pk.LightIndex;
-            //IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
+            int selectedLightIndex = lightDictionary[pk.LightID];
+            int tdIndex = pk.ChannelID;
+            IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
 
-            ////MARK 只开单场景：10.1 GetFMTDList() 的实现改动，添加判断是否已加载的场景，若是则从内存读数据
-            //if (sceneLoadArray[pk.Frame])
-            //{
-            //    if (LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode] != null
-            //            && LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList != null)
-            //    {
-            //        IList<StepWrapper> stepWrapperList = LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList;
-            //        for (int step = 0; step < stepWrapperList.Count; step++)
-            //        {
-            //            if (stepWrapperList[step].TongdaoList != null && stepWrapperList[step].TongdaoList.Count > 0)
-            //            {
-            //                TongdaoWrapper tw = stepWrapperList[step].TongdaoList[tdIndex];
-            //                tdList.Add(tw);
-            //            }
-            //        }
-            //    }
-            //}
-            ////MARK 只开单场景：10.2 GetFMTDList() 的实现改动：添加判断是否已加载的场景，若否则从DB读数据
-            //else
-            //{
-            //    IList<DB_Value> valueList = valueDAO.GetTDValueListOrderByStep(pk);
-            //    foreach (DB_Value value in valueList)
-            //    {
-            //        tdList.Add(new TongdaoWrapper()
-            //        {
-            //            Address = pk.LightID,
-            //            ScrollValue = value.ScrollValue,
-            //            StepTime = value.StepTime,
-            //            ChangeMode = value.ChangeMode
-            //        });
-            //    }
-            //}
-            //return tdList;
+            //MARK 只开单场景：10.1 GetSMTDList() 的实现改动，若是已加载的场景则从内存读数据
+            if (sceneLoadArray[pk.Scene])
+            {
+                if (LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Scene, pk.Mode] != null
+                        && LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Scene, pk.Mode].StepWrapperList != null)
+                {
+                    IList<StepWrapper> stepWrapperList = LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Scene, pk.Mode].StepWrapperList;
+                    for (int step = 0; step < stepWrapperList.Count; step++)
+                    {
+                        if (stepWrapperList[step].TongdaoList != null && stepWrapperList[step].TongdaoList.Count > 0)
+                        {
+                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[tdIndex];
+                            tdList.Add(tw);
+                        }
+                    }
+                }
+            }
+            //MARK 只开单场景：10.2 GetSMTDList() 的实现改动：若非已加载的场景则从DB读数据
+            else
+            {
+                DB_Channel channel = channelDAO.GetByPK(pk);
+                if (channel != null)
+                {
+                    string[] stepArray = channel.Value.Split(',');
+                    for (int step = 0; step < stepArray.Length; step++)
+                    {
+                        string[] valueArray = stepArray[step].Split('-');
+                        tdList.Add(new TongdaoWrapper()
+                        {
+                            Address = pk.LightID,
+                            ScrollValue = int.Parse(valueArray[0]),
+                            StepTime = int.Parse(valueArray[1]),
+                            ChangeMode = int.Parse(valueArray[2])
+                        });
+                    }
+                }
+            }
+            return tdList;
         }
 
         #region projectPanel相关
@@ -1636,7 +1642,7 @@ namespace LightController.MyForm
             refreshGroupPanels(); //InitProject()
 
             // 2.创建数据库:初始化，让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
-            //DOTO 211008 newDbFilePath的初始化
+            //DOTO 211008 newDbFilePath的初始化 √
             newDbFilePath = currentProjectPath + @"\newData.db3";
             lightDAO = new LightDAO(newDbFilePath, isEncrypt);
             fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
@@ -1673,10 +1679,6 @@ namespace LightController.MyForm
             currentProjectName = null;
             currentProjectPath = null;
             GlobalIniPath = null;
-
-            dbLightList = null;
-            dbFineTuneList = null;
-            dbChannelList = null;
             GroupList = null;
 
             LightAstList = null;
@@ -1763,10 +1765,10 @@ namespace LightController.MyForm
         public void OpenProject(string savePath, string projectName, int sceneIndex)
         {
             string projDir = savePath + @"\LightProject\" + projectName + @"\";
-            if ( ! File.Exists(projDir + "newData.db3") && File.Exists(projDir + "data.db3" ))
+            if (!File.Exists(projDir + "newData.db3") && File.Exists(projDir + "data.db3"))
             {
                 if (DialogResult.No == MessageBox.Show(
-                    "您选中的是旧版工程，需进行转化后才可打开。\n是否立刻进行转化（新工程格式将显著提高读写效率）?",
+                    "您选中的是旧版工程，需进行转化后才可打开。\n是否立刻进行转化（新工程格式将显著提高存取效率）?",
                     "转化为新版工程？",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning))
@@ -1779,7 +1781,7 @@ namespace LightController.MyForm
             SetNotice("正在打开工程，请稍候...", false, true);
             setBusy(true);
 
-            //DOTO 211009 打开工程
+            //DOTO 211009 打开工程 √
             DateTime beforeDT = System.DateTime.Now;
 
             //MARK1124：OpenProject 内当更改过工作目录后，需要刷新软件内置的灯具图片列表；
@@ -1796,8 +1798,7 @@ namespace LightController.MyForm
             autoEnableSLArrange(); //OpenProject
 
             // 把各数据库表的内容填充进来。
-            // dbLightList = getLightList();           
-            generateDBLightList();
+            IList<DB_Light> dbLightList = getDBLightList();
 
             //10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
             if (dbLightList == null || dbLightList.Count == 0)
@@ -1815,9 +1816,6 @@ namespace LightController.MyForm
             //10.17 若非空工程，则继续执行以下代码。
             else
             {
-                //dbStepCountList = getStepCountList();
-                //dbFineTuneList = getFineTuneList();              
-
                 LightAstList = new List<LightAst>();
                 //MARK 重构BuildLightList：原来OpenProject内用BuildLightList() --> 现把相关代码都放在方法块内
                 LightWrapperList = new List<LightWrapper>();
@@ -1849,9 +1847,8 @@ namespace LightController.MyForm
                 autosetEnabledPlayAndRefreshPic();  //OpenProject
                 reBuildLightListView();
 
-                //MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
-                //generateSceneData(CurrentScene);
-                newGenerateSceneData(CurrentScene);
+                //MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用                
+                generateSceneData(CurrentScene);
 
                 DateTime afterDT = System.DateTime.Now;
                 TimeSpan ts = afterDT.Subtract(beforeDT);
@@ -1873,11 +1870,12 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        ///  DOTO 211012 辅助方法：旧版数据库转为新版格式
+        ///  DOTO 211012 辅助方法：旧版数据库转为新版格式 √
         /// </summary>
         /// <param name="projDir">工程目录</param>
-        private void changeToNewDB(string projDir) {
-            
+        private void changeToNewDB(string projDir)
+        {
+
             DateTime beforeDT1 = System.DateTime.Now;
 
             OldDAO oldDAO = new OldDAO(projDir + "data.db3", false);
@@ -1944,12 +1942,13 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        /// DOTO 211012 辅助方法：（新版）打开工程单场景(两个模式)数据
+        /// DOTO 211012 辅助方法：打开工程单场景(两个模式)数据（新版） √
         /// </summary>
         /// <param name="scene"></param>
-        private void newGenerateSceneData(int scene)
+        private void generateSceneData(int scene)
         {
             //MARK 重构BuildLightList：generateFrameData()内加dbLightList空值验证
+            IList<DB_Light> dbLightList = getDBLightList();
             if (dbLightList == null || dbLightList.Count == 0)
             {
                 return;
@@ -2010,11 +2009,11 @@ namespace LightController.MyForm
             //MARK 只开单场景：07.4 generateFrameData(int)内:从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true
             sceneLoadArray[scene] = true;
         }
-        
+
         /// <summary>
         /// 辅助方法：点击《调用场景》
         /// </summary>
-        protected void useFrameClick()
+        protected void copySceneClick()
         {
             //MARK 只开单场景：09.0 调用场景前，增加场景数量不够时情况的判断（==1）（0场景的情况软件不会打开，无需考虑）--》不进入useFrameForm；
             if (SceneCount == 1)
@@ -2048,8 +2047,8 @@ namespace LightController.MyForm
             // 2.保存各项数据，其中保存 灯具、FineTune 是通用的；StepCounts和Values直接用saveOrUpdate方式即可。
             else
             {
-                newSaveAllLights();
-                newSaveAllFineTunes();                
+                saveAllLights();
+                saveAllFineTunes();
                 saveSceneChannels(CurrentScene);
 
                 try
@@ -2083,14 +2082,10 @@ namespace LightController.MyForm
             // 2.保存各项数据			
             else
             {
-                //saveAllLights();
-                //saveAllFineTunes();
-                //saveAllSCAndValues();
-
-                //DOTO 211009 保存到新数据库的方法				
-                newSaveAllLights();
-                newSaveAllFineTunes();
-                newSaveAllChannels();
+                //DOTO 211009 保存到新数据库的方法 √
+                saveAllLights();
+                saveAllFineTunes();
+                saveAllChannels();
 
                 try
                 {
@@ -2112,43 +2107,36 @@ namespace LightController.MyForm
                 , true, false);
         }
 
-        private void newSaveAllFineTunes()
+        /// <summary>
+        /// 辅助方法：从界面数据实时生成dbFineTuneList，保存到db中
+        /// </summary>
+        private void saveAllFineTunes()
         {
             if (fineTuneDAO == null)
             {
                 fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
             }
-            generateDBFineTuneList();
-
             // 保存数据
-            fineTuneDAO.SaveAll("FineTune", dbFineTuneList);
+            fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
         }
 
-        private void newSaveAllLights()
+        /// <summary>
+        /// 辅助方法：从界面数据实时生成dbLightList，保存到db中
+        /// </summary>
+        private void saveAllLights()
         {
             if (lightDAO == null)
             {
                 lightDAO = new LightDAO(newDbFilePath, isEncrypt);
             }
-
-            // 由lightAstList生成最新的dbLightList
-            dbLightList = new List<DB_Light>();
-            if (LightAstList == null || LightAstList.Count == 0)
-            {
-                return;
-            }
-
-            foreach (LightAst la in LightAstList)
-            {
-                DB_Light light = DB_Light.GenerateLight(la);
-                dbLightList.Add(light);
-            }
-
             // 将传送所有的DB_Light给DAO,让它进行数据的保存
-            lightDAO.SaveAll("Light", dbLightList);
+            lightDAO.SaveAll("Light", generateDBLightList());
         }
-
-        private void newSaveAllChannels()
+               
+        /// <summary>
+        /// 辅助方法：保存所有场景的channelList
+        /// </summary>
+        private void saveAllChannels()
         {
             for (int sceneIndex = 0; sceneIndex < SceneCount; sceneIndex++)
             {
@@ -2162,22 +2150,24 @@ namespace LightController.MyForm
                 }
             }
         }
-
         /// <summary>
-        /// DOTO 211009 saveSceneChannels
+        /// DOTO 211009 saveSceneChannels 
+        /// 辅助方法：保存指定场景的channelList
         /// </summary>
         /// <param name="scene">要保存的场景编号</param>
         private void saveSceneChannels(int scene)
-        {            
+        {
             if (channelDAO == null)
             {
                 channelDAO = new ChannelDAO(newDbFilePath, isEncrypt);
             }
+
             Dictionary<DB_ChannelPK, StringBuilder> channelDict = new Dictionary<DB_ChannelPK, StringBuilder>();
-            foreach (LightWrapper lightTemp in LightWrapperList)
+
+            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
             {
-                DB_Light light = dbLightList[LightWrapperList.IndexOf(lightTemp)];
-                LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
+                LightAst la = LightAstList[lightIndex];
+                LightStepWrapper[,] allLightStepWrappers = LightWrapperList[ lightIndex ].LightStepWrapperList;                
 
                 //10.17 取出灯具的当前场景（两种模式都要），并将它们保存起来（但若为空，则不保存）
                 for (int mode = 0; mode < 2; mode++)
@@ -2201,8 +2191,8 @@ namespace LightController.MyForm
                                 {
                                     Scene = scene,
                                     Mode = mode,
-                                    LightID = light.LightID,
-                                    ChannelID = light.LightID + tongdaoIndex
+                                    LightID = la.StartNum,
+                                    ChannelID = la.StartNum + tongdaoIndex
                                 };
 
                                 string addStr = tongdao.ChangeMode + "-" + tongdao.ScrollValue + "-" + tongdao.StepTime + ",";
@@ -2212,7 +2202,7 @@ namespace LightController.MyForm
                                 }
                                 else
                                 {
-                                    channelDict.Add(pk, new StringBuilder(addStr) );
+                                    channelDict.Add(pk, new StringBuilder(addStr));
                                 }
                             }
                         }
@@ -2315,14 +2305,15 @@ namespace LightController.MyForm
 
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
-            DataConvertUtils.GetInstance().SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+            DataConvertUtils.GetInstance().SaveProjectFile(
+                GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
         /// <summary>
         /// MARK 导出单场景具体实现 0.exportFrameClick()方法体
         /// 辅助方法：右键点击《导出工程》->即导出当前场景
         /// </summary>
-        protected void exportFrameClick()
+        protected void exportSceneClick()
         {
             if (LightAstList == null || LightAstList.Count == 0)
             {
@@ -2403,7 +2394,8 @@ namespace LightController.MyForm
             }
 
             //MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）			
-            DataConvertUtils.GetInstance().SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+            DataConvertUtils.GetInstance().SaveSingleFrameFile(
+                GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
         /// <summary>
@@ -2483,9 +2475,9 @@ namespace LightController.MyForm
         {
             lightDAO.Clear();
             fineTuneDAO.Clear();
-            channelDAO.Clear();            
+            channelDAO.Clear();
         }
-         
+
         /// <summary>
         ///  辅助方法：调用其他场景
         /// </summary>
@@ -2495,7 +2487,7 @@ namespace LightController.MyForm
             //MARK 只开单场景：09.2 调用场景时，若调用的是未打开的场景，则需先打开（载入到内存中）
             if (!sceneLoadArray[scene])
             {
-                newGenerateSceneData(scene);
+                generateSceneData(scene);
             }
 
             //MARK 只开单场景：09.3 调用场景时，把被调用场景的灯具数据，深复制到当前场景中来（只复制当前模式）
@@ -3192,7 +3184,7 @@ namespace LightController.MyForm
             //MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
             if (!sceneLoadArray[CurrentScene])
             {
-                newGenerateSceneData(CurrentScene);
+                generateSceneData(CurrentScene);
             }
             //MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
             sceneSaveArray[CurrentScene] = true;
@@ -3919,7 +3911,7 @@ namespace LightController.MyForm
                     //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
                     if (material != null)
                     {
-                        generateDBLightList();
+                        getDBLightList();
                         generateDBFineTuneList();
 
                         //IList<DB_Value> valueList = new List<DB_Value>();

@@ -575,11 +575,10 @@ namespace LightController.MyForm
 
             DBWrapper allData = new DBWrapper() {
                  lightList = generateDBLightList(),
-                 fineTuneList = generateDBFineTuneList(),            
+                 fineTuneList = generateDBFineTuneList(), 
             };
 
             return allData;
-
         }
 
         #endregion
@@ -2151,7 +2150,7 @@ namespace LightController.MyForm
             }
         }
         /// <summary>
-        /// DOTO 211009 saveSceneChannels 
+        /// DOTO 211009 saveSceneChannels √
         /// 辅助方法：保存指定场景的channelList
         /// </summary>
         /// <param name="scene">要保存的场景编号</param>
@@ -3913,43 +3912,44 @@ namespace LightController.MyForm
                     {
                         getDBLightList();
                         generateDBFineTuneList();
+                        IList<DB_Value> valueList = new List<DB_Value>();
 
-                        //IList<DB_Value> valueList = new List<DB_Value>();
-                        //for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-                        //{
-                        //    if (lightIndex == selectedIndex || isMultiMode && selectedIndexList.Contains(lightIndex))
-                        //    {
-                        //        IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
-                        //        for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++)
-                        //        {
-                        //            foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
-                        //            {
-                        //                DB_Value value = new DB_Value()
-                        //                {
-                        //                    PK = new DB_ValuePK()
-                        //                    {
-                        //                        Frame = CurrentScene,
-                        //                        Mode = CurrentMode, // 注意，如果要让音频素材也生效，则此处得设为1，而下面的ChangeMode也得发生变化(但目前屏蔽了音频素材的预览)
-                        //                        Step = stepIndex + 1,
-                        //                        LightIndex = dbNewLightList[lightIndex].LightID,
-                        //                        LightID = tdList[mi.CurrentTDIndex].Address,
-                        //                    },
-                        //                    ScrollValue = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ScrollValue,
-                        //                    StepTime = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].StepTime,
-                        //                    ChangeMode = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ChangeMode,
-                        //                };
-                        //                valueList.Add(value);
-                        //            }
-                        //        }
-                        //    }
-                        //}
-                        //dbWrapperTemp = new DBWrapper(dbLightList, null, valueList, dbFineTuneList);
+                        for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+                        {
+                            if (lightIndex == selectedIndex || isMultiMode && selectedIndexList.Contains(lightIndex))
+                            {
+                                IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+                                for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++)
+                                {
+                                    foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+                                    {
+                                        DB_Value value = new DB_Value()
+                                        {
+                                            PK = new DB_ValuePK()
+                                            {
+                                                Frame = CurrentScene,
+                                                Mode = CurrentMode, // 注意，如果要让音频素材也生效，则此处得设为1，而下面的ChangeMode也得发生变化(但目前屏蔽了音频素材的预览)
+                                                Step = stepIndex + 1,
+                                                LightIndex = dbNewLightList[lightIndex].LightID,
+                                                LightID = tdList[mi.CurrentTDIndex].Address,
+                                            },
+                                            ScrollValue = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ScrollValue,
+                                            StepTime = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].StepTime,
+                                            ChangeMode = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ChangeMode,
+                                        };
+                                        valueList.Add(value);
+                                    }
+                                }
+                            }
+                        }
+                        dbWrapperTemp = new DBWrapper(dbLightList, null, valueList, dbFineTuneList);
                     }
                     else
                     {
-                        //dbWrapperTemp = GetDBWrapper(false);
+                        dbWrapperTemp = GetDBWrapper(false);
                     }
-                    //DataConvertUtils.GetInstance().SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
+                    DataConvertUtils.GetInstance().
+                        SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
                 }
                 catch (Exception ex)
                 {

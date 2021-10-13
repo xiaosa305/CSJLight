@@ -725,10 +725,14 @@ namespace LBDConfigTool.utils.communication
         /// <param name="completed"></param>
         /// <param name="error"></param>
 
+        //升级FPGA应答模式
         public void UpdateFPGA256ByRec(string filePath, ParamEntity param,Progress progress,Completed completed,Error error)
         {
 
         }
+        //升级MCU应答模式
+        //下载字库应答模式
+        //写入参数应答模式
 
 
         private void WriteData(Completed completed, Error error)

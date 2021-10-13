@@ -182,7 +182,7 @@ namespace LightController.MyForm
 			#endregion
 
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(copyFrameSkinButton, copyFrameNotice);			
+			myToolTip.SetToolTip(copySceneSkinButton, copyFrameNotice);			
 			myToolTip.SetToolTip(keepSkinButton, keepNotice);
 			myToolTip.SetToolTip(insertSkinButton, insertNotice);
 			myToolTip.SetToolTip(appendSkinButton, appendNotice);
@@ -404,9 +404,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void useFrameSkinButton_Click(object sender, EventArgs e)
+		private void copySceneSkinButton_Click(object sender, EventArgs e)
 		{
-			useFrameClick();
+			copySceneClick();
 		}
 
 		/// <summary>
@@ -463,7 +463,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				exportFrameClick();
+				exportSceneClick();
 			}			
 		}
 		
@@ -485,11 +485,11 @@ namespace LightController.MyForm
 			//常规的四个按钮
 			saveSkinButton.Enabled = enable;
 			exportSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
-			frameSaveSkinButton.Enabled = enable;
+			saveSceneSkinButton.Enabled = enable;
 			closeSkinButton.Enabled = enable;
 
 			// 不同MainForm在不同位置的按钮
-			copyFrameSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
+			copySceneSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 
 			// 菜单栏相关按钮
 			lightListSkinButton.Enabled = enable;
@@ -1629,7 +1629,7 @@ namespace LightController.MyForm
 			lightsSkinListView.Enabled = !isMultiMode;
 			sceneSkinComboBox.Enabled = !isMultiMode;
 			modeSkinComboBox.Enabled = !isMultiMode;
-			copyFrameSkinButton.Enabled = !isMultiMode;						
+			copySceneSkinButton.Enabled = !isMultiMode;						
 			groupButton.Text = !isMultiMode ? "灯具编组" : "退出编组";
 			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
 			

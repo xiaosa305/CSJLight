@@ -85,7 +85,7 @@ namespace LightController
 			{
 				// 1.由新建时取的工程名，来新建相关文件夹
 				di.Create();
-				// 2.将相关global.ini和data.db3拷贝到文件夹内
+				// 2.将相关global.ini拷贝到存储目录中
 				string sourcePath = Application.StartupPath;
 				string globalIniFilePath = directoryPath + @"\global.ini";					
 				File.Copy( sourcePath+@"\global.ini",  globalIniFilePath);

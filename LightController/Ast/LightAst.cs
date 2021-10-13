@@ -1,5 +1,5 @@
-﻿using DMX512;
-using LightController.Common;
+﻿using LightController.Common;
+using LightController.Entity;
 using LightEditor.Ast;
 using System;
 using System.Collections.Generic;
@@ -52,32 +52,27 @@ namespace LightController.Ast
 			saPanelDict = laOld.saPanelDict;
 		}
 
-		/// <summary>
-		///  通过DB_Light来生成对应的LightAst
-		/// </summary>
-		/// <param name="light"></param>
-		/// <returns></returns>
-		public static LightAst GenerateLightAst(DB_Light light , string savePath)
+	
+		public static LightAst GenerateLightAst(DB_Light newLight, string savePath)
 		{
-			int endNum = light.StartID + light.Count - 1;
-			string lightAddr = light.StartID + "-" + endNum;
-			
-			string path =  savePath+ @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
+			int endNum = newLight.LightID + newLight.Count - 1;
+			string lightAddr = newLight.LightID + "-" + endNum;
+			string iniPath = savePath + @"\LightLibrary\" + newLight.Name + @"\" + newLight.Type + ".ini";
 
 			return new LightAst()
 			{
-				StartNum = light.StartID,
+				StartNum = newLight.LightID,
 				EndNum = endNum,
-				LightName = light.Name,
-				LightType = light.Type,
-				LightPic = light.Pic,
-				Count = light.Count,
+				LightName = newLight.Name,
+				LightType = newLight.Type,
+				LightPic = newLight.Pic,
+				Count = newLight.Count,
 				LightAddr = lightAddr,
-				LightPath = path,
-				Remark = light.Remark				
+				LightPath = iniPath,
+				Remark = newLight.Remark
 			};
 		}
-		
+
 		/// <summary>
 		///  辅助方法：重写（实际上并不算，因为形参不同）Equals语句，当地址和灯的全名一致时，基本可认为是同一个灯
 		/// </summary>
@@ -105,5 +100,6 @@ namespace LightController.Ast
 			return LightName + ":" + LightType + ":" + LightAddr + ":" + LightPic + ":" + Count;
 		}
 
-	}
+       
+    }
 }

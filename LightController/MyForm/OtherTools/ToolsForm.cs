@@ -808,7 +808,7 @@ namespace LightController.MyForm.OtherTools
 			{
 				relayBigFLP.Enabled = lcEntity.RelayCount != 0;
 
-				//DOTO 210816 渲染可控硅和空调二选一的Checkbox
+				//渲染可控硅和空调二选一的Checkbox
 				tgCheckBox.Visible = lcEntity.LightControllerSCR != null;				
 				tgCheckBox.Checked = lcEntity.LightControllerSCR != null && lcEntity.LightControllerSCR.IsStartSCR;			
 
@@ -823,7 +823,7 @@ namespace LightController.MyForm.OtherTools
 						}
 					}
 
-					//DOTO 210818 渲染可控硅调光值：只要LightControllerSCR不为空，就直接渲染相关控件的值，因为是否显示只需一次勾选；
+					//只要LightControllerSCR不为空，就直接渲染相关控件的值，因为是否显示只需一次勾选；
 					if (lcEntity.LightControllerSCR != null)
 					{
 						for (int tgIndex = 0; tgIndex < tgCount; tgIndex++)
@@ -1151,7 +1151,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// DOTO 210816 把更改SCR值的操作，抽象到一起，避免重复代码
+		/// 把更改SCR值的操作，抽象到一起，避免重复代码
 		/// </summary>
 		/// <param name="sceneIndex"></param>
 		/// <param name="tgIndex"></param>
@@ -1210,7 +1210,6 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="e"></param>
 		private void tgCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			//DOTO 210818 勾选《启用调光》
 			if (lcEntity == null || lcEntity.LightControllerSCR == null) {
 				setNotice(StatusLabel.RIGHT, "启用调光出错，请确认当前固件是否支持调光通道。", true, true);
 				return;				

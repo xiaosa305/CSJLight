@@ -107,7 +107,7 @@ namespace LightController.Ast
 				lsWrapper.AddStep(newStep);
 			}
 			return lsWrapper;
-		}	
+		}
 
-	}
+    }
 }

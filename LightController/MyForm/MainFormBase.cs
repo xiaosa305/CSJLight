@@ -91,7 +91,7 @@ namespace LightController.MyForm
         protected string currentProjectPath; //存放当前工程所在目录
         public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
         protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		                
-        //DOTO 211008 新的db存储路径（为兼容旧db）
+        //DOTO 211008 新的db存储路径（为兼容旧db）√
         protected string newDbFilePath;  // newData.db3
         private string exportPath; // 导出工程的目录（每次都可能会发生变动）
         protected bool isEncrypt = false; //是否加密				

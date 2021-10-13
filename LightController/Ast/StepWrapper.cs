@@ -1,4 +1,5 @@
-﻿using LightController.Common;
+﻿using LightController.Ast.Enum;
+using LightController.Common;
 using LightController.Entity;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace LightController.Ast
 					newStep.TongdaoList[chanIndex].StepTime = int.Parse( valueArray[2] );
 				}
 				lsWrapper.AddStep(newStep);
-			}			
+			}
 		}
 
 		/// <summary>
@@ -170,7 +171,6 @@ namespace LightController.Ast
 			}
 			return existSet.Count == 4;						
 		}
-
-      
+		      
     }
 }

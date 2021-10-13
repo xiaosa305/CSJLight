@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Ast.Enum;
 using LightController.Common;
 using LightEditor.Ast;
 using System;

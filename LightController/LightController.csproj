@@ -168,6 +168,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Enum\Where.cs" />
     <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
@@ -464,9 +465,6 @@
     <EmbeddedResource Include="Entity\DB_FineTune.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MappingOld\DB_StepCount.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Content Include="Protocol\SceneList_BAK.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -592,9 +590,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
-    <EmbeddedResource Include="MappingOld\DB_FineTune.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Content Include="f3.ico" />
     <Content Include="MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -945,17 +940,10 @@
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="MappingOld\DB_Light.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MappingOld\DB_Value.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Content Include="FTD2XX_NET.XML" />
     <Content Include="更新日志\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mapping\" />
     <Folder Include="MyForm\Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

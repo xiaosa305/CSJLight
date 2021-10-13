@@ -23,21 +23,13 @@ using LightController.MyForm.HardwareSet;
 using LightController.MyForm.OtherTools;
 using LightController.Xiaosa.Tools;
 using LightController.Entity;
+using LightController.Ast.Enum;
 
 namespace LightController.MyForm
 {
     public class MainFormBase : Form, MainFormInterface
     {
-        /// <summary>
-        /// 枚举类型：《多步(多通道)调节》参数的一种
-        /// </summary>
-        public enum WHERE
-        {
-            SCROLL_VALUE,
-            CHANGE_MODE,
-            STEP_TIME,
-            ALL
-        }
+
 
         // 几个全局的辅助控件（导出文件、toolTip提示等）
         protected FolderBrowserDialog exportFolderBrowserDialog;

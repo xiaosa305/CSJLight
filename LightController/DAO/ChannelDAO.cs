@@ -69,13 +69,23 @@ namespace LightController.Ast
 			}
 		}
 
+		/// <summary>
+		/// 通过DB_ChannelPK对象，获取唯一的channel值（PK内LightID不能用于查询语句）
+		/// </summary>
+		/// <param name="pk"></param>
+		/// <returns></returns>
         public DB_Channel GetByPK(DB_ChannelPK pk)
         {
 			using (var session = sessionFactory.OpenSession())
 			{
 				DB_Channel channel = session
-					.CreateQuery("FROM DB_Channel WHERE c.PK= :pk")					
-					.SetParameter("pk",pk)
+					.CreateQuery("FROM DB_Channel c " +
+						"WHERE c.ChannelID = :channelID " +
+						"AND c.Scene = :Scene " +
+						"AND c.Mode = :Mode"	)		
+					.SetInt32("ChannelID",pk.ChannelID)
+					.SetInt32("Scene",pk.Scene)
+					.SetInt32("Mode",pk.Mode)
 					.UniqueResult<DB_Channel>();
 				return channel;
 			}

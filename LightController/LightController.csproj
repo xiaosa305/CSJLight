@@ -188,7 +188,6 @@
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\SerializeUtils.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
-    <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />

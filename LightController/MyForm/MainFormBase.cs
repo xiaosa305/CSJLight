@@ -4467,6 +4467,25 @@ namespace LightController.MyForm
 
         }
 
+        public IList<DB_FineTune> GetFineTunes()
+        {
+            return generateDBFineTuneList();
+        }
+
+        public int GetSceneCount()
+        {
+            return SceneCount;
+        }
+
+        public IList<DB_Light> GetLights()
+        {
+            return generateDBLightList();
+        }
+
+        public string GetConfigPath()
+        {
+            return GlobalIniPath;
+        }
     }
 
 

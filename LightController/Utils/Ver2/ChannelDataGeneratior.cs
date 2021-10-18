@@ -1,5 +1,4 @@
-﻿using DMX512;
-using LightController.Ast;
+﻿using LightController.Ast;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

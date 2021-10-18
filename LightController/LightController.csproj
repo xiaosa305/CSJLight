@@ -432,14 +432,6 @@
     <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\SequencerData.cs" />
     <Compile Include="Tools\PlayTools.cs" />
-    <Compile Include="Tools\Test\DmxRecordTest.cs" />
-    <Compile Include="Tools\Test\XiaosaTestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Test\XiaosaTestForm.Designer.cs">
-      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\XiaosaTest.cs" />
     <Compile Include="Utils\CommandLogUtils.cs" />
     <Compile Include="Utils\LightConfig\LightConfigBean.cs" />
     <Compile Include="Utils\OldFileToNewFileUtils.cs" />
@@ -455,6 +447,9 @@
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
+    <Compile Include="Xiaosa\Entity\RecordBasicFile.cs" />
+    <Compile Include="Xiaosa\Entity\RecordMusicFile.cs" />
+    <Compile Include="Xiaosa\Tools\CSJProjectBuilder.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
     <EmbeddedResource Include="Entity\DB_Light.hbm.xml">
       <SubType>Designer</SubType>
@@ -502,9 +497,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Test\XiaosaTestForm.resx">
-      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\灯光图.png" />
     <Content Include="安装说明.txt" />

@@ -1,5 +1,5 @@
-﻿using DMX512;
-using LightController.Ast;
+﻿using LightController.Ast;
+using LightController.Entity;
 using LightController.MyForm;
 using System;
 using System.Collections.Generic;
@@ -314,8 +314,8 @@ namespace LightController.Tools.CSJ.IMPL
                         {
                             LightInfo config_Light = new LightInfo
                             {
-                                Light_Number = value.LightNo,
-                                Start_Address = value.StartID,
+                                Light_Number = value.LightID,
+                                Start_Address = value.LightID,
                                 Chanel_Count = value.Count
                             };
                             LightInfos.Add(config_Light);

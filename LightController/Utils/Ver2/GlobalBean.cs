@@ -1,4 +1,4 @@
-﻿using DMX512;
+﻿using LightController.Entity;
 using NHibernate.Mapping;
 using System;
 using System.Collections.Generic;
@@ -189,8 +189,8 @@ namespace LightController.Utils.Ver2
             {
                 LightInfo light = new LightInfo()
                 {
-                    LightNumber = item.LightNo,
-                    StartAddress = item.StartID,
+                    LightNumber = item.LightID,
+                    StartAddress = item.LightID,
                     ChannelCount = item.Count
                 };
                 this.LightInfos.Add(light);

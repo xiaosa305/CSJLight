@@ -194,6 +194,8 @@
     <Compile Include="utils\lbdconfigtor\NetCommunitor.cs" />
     <Compile Include="utils\StringHelper.cs" />
     <Compile Include="utils\XiaosaTest.cs" />
+    <Compile Include="xiaosa\entity\Packet.cs" />
+    <Compile Include="xiaosa\madirx\ArtNetClient.cs" />
     <EmbeddedResource Include="MyForm\MainForm2.resx">
       <DependentUpon>MainForm2.cs</DependentUpon>
     </EmbeddedResource>

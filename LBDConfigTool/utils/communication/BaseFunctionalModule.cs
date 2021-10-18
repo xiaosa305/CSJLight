@@ -190,23 +190,23 @@ namespace LBDConfigTool.utils.communication
             Communitor.GetInstance().Start();
             Communitor.GetInstance().SearchDevice(TestCompleted, TestError);
             return;
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CurrentModule = Module.SearchDevice;
-                    byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA1 };
-                    this.Send(order);
-                    this.IsSending = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                this.TaskError();
-            }
+            //try
+            //{
+            //    if (!this.IsSending)
+            //    {
+            //        this.IsSending = true;
+            //        this.CurrentModule = Module.SearchDevice;
+            //        byte[] order = new byte[] { 0xAA, 0xBB, 0x00, 0x00, 0xA1 };
+            //        this.Send(order);
+            //        this.IsSending = false;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine(ex.StackTrace);
+            //    this.TaskError();
+            //}
         }
 
         public void TestCompleted(Object obj,string msg)
@@ -725,10 +725,14 @@ namespace LBDConfigTool.utils.communication
         /// <param name="completed"></param>
         /// <param name="error"></param>
 
+        //升级FPGA应答模式
         public void UpdateFPGA256ByRec(string filePath, ParamEntity param,Progress progress,Completed completed,Error error)
         {
 
         }
+        //升级MCU应答模式
+        //下载字库应答模式
+        //写入参数应答模式
 
 
         private void WriteData(Completed completed, Error error)

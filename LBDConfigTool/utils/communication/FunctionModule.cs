@@ -15,6 +15,8 @@ using static LBDConfigTool.utils.cusdelegate.CallbackFunction;
 
 namespace LBDConfigTool.utils.communication
 {
+
+    //新版网络功能通信模块
     public abstract class FunctionModule
     {
         //功能类别枚举

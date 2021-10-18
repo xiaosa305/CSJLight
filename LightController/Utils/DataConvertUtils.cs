@@ -1,4 +1,4 @@
-﻿using DMX512;
+﻿
 using LightController.Ast;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;

@@ -1,5 +1,4 @@
 ﻿using CCWin.Win32.Const;
-using DMX512;
 using LightController.Ast;
 using LightController.Tools;
 using NPOI.SS.Formula.Functions;

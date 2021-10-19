@@ -110,7 +110,7 @@ namespace LightController.MyForm
         // 这几个IList ，存放着界面中相关的灯具数据（包括通道数据之类等）
         public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
         public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
-        protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
+       
 
         // 通道数据操作时的变量		
         protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
@@ -356,13 +356,10 @@ namespace LightController.MyForm
 
             LightAstList = new List<LightAst>(lightAstList2);
             LightWrapperList = new List<LightWrapper>(lightWrapperList2);
-            lightDictionary = new Dictionary<int, int>();
+            
             disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化
 
-            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
-            {
-                lightDictionary.Add(LightAstList[lightIndex].StartNum, lightIndex);
-            }
+          
 
             selectedIndex = -1;
             selectedIndexList = new List<int>();
@@ -555,24 +552,7 @@ namespace LightController.MyForm
             return fineTuneDAO.GetAll();
         }
 
-        //DOTO 211012 要重写 GetDBWrapper()
-        /// <summary>
-        ///  辅助方法：通过isFromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
-        /// </summary>
-        /// <returns></returns>
-        public DBWrapper GetDBWrapper()
-        {
-            //// MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList(); 【重新生成内存中的dbStepCountList】
-            //IList<DB_Channel> dbChannelList = generateChannelList(CurrentScene);
 
-            DBWrapper allData = new DBWrapper() {
-                 lightList = generateDBLightList(),
-                 fineTuneList = generateDBFineTuneList(), 
-                 // ... 传入所有的内容吗？ 
-            };
-
-            return allData;
-        }
 
         #endregion
 
@@ -1514,15 +1494,17 @@ namespace LightController.MyForm
         /// </summary>
         public IList<TongdaoWrapper> GetSMTDList(DB_ChannelPK pk)
         {
-            int selectedLightIndex = lightDictionary[pk.LightID];
-
-            int tdIndex = pk.ChannelID;
-
             IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
 
             //MARK 只开单场景：10.1 GetSMTDList() 的实现改动，若是已加载的场景则从内存读数据
             if (sceneLoadArray[pk.Scene])
             {
+                int tdIndex = pk.ChannelID;
+                int selectedLightIndex = getLightIndex(pk.ChannelID);
+                if (selectedLightIndex == -1) {
+                    return tdList;
+                }
+
                 if (LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Scene, pk.Mode] != null
                         && LightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Scene, pk.Mode].StepWrapperList != null)
                 {
@@ -1559,6 +1541,23 @@ namespace LightController.MyForm
                 }
             }
             return tdList;
+        }
+
+        /// <summary>
+        /// 遍历LightAstList,找到相关的灯具所在的位置
+        /// </summary>
+        /// <param name="channelID"></param>
+        /// <returns></returns>
+        private int getLightIndex(int channelID)
+        {
+            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
+            {
+                LightAst la = LightAstList[lightIndex];
+                if (la.StartNum <= channelID && la.EndNum >= channelID) {
+                    return lightIndex;
+                }
+            }
+            return -1;
         }
 
         #region projectPanel相关
@@ -1677,8 +1676,7 @@ namespace LightController.MyForm
             GroupList = null;
 
             LightAstList = null;
-            LightWrapperList = null;
-            lightDictionary = null;
+            LightWrapperList = null;            
 
             selectedIndex = -1;
             selectedIndexList = new List<int>();
@@ -1814,8 +1812,7 @@ namespace LightController.MyForm
                 LightAstList = new List<LightAst>();
                 //MARK 重构BuildLightList：原来OpenProject内用BuildLightList() --> 现把相关代码都放在方法块内
                 LightWrapperList = new List<LightWrapper>();
-                lightDictionary = new Dictionary<int, int>();
-
+               
                 try
                 {
                     for (int lightIndex = 0; lightIndex < dbLightList.Count; lightIndex++)
@@ -1826,7 +1823,6 @@ namespace LightController.MyForm
                         {
                             StepTemplate = generateStepTemplate(la)
                         });
-                        lightDictionary.Add(la.StartNum, lightIndex);
                     }
                 }
                 catch (Exception ex)
@@ -2300,8 +2296,11 @@ namespace LightController.MyForm
 
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
-            DataConvertUtils.GetInstance().SaveProjectFile(
-                GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+
+            //DOTO 211019 导出工程
+            //DataConvertUtils.GetInstance().SaveProjectFile(
+            //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+            CSJProjectBuilder.GetInstance().BuildProjects(this);
         }
 
         /// <summary>
@@ -2389,8 +2388,9 @@ namespace LightController.MyForm
             }
 
             //MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）			
-            DataConvertUtils.GetInstance().SaveSingleFrameFile(
-                GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+           //DOTO 211019 导出场景
+            //DataConvertUtils.GetInstance().SaveSingleFrameFile(
+            //    GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using LightController.MyForm;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace LightController.Xiaosa.Tools
     public class CSJProjectBuilder
     {
         private static Object SingleKey = new object();
+        private static Object BasicTaskKey = new object();
+        private static Object MusicTaskKey = new object();
         private const int STEPLISTSIZE = 20;
         private const int BASIC_MODE = 0;
         private const int MUSIC_MODE = 1;
@@ -51,17 +54,20 @@ namespace LightController.Xiaosa.Tools
             SceneMusicTaskState = false;
             CurrentSceneNo = 0;
         }
-        private void InitProjectCache()
+        private void InitProjectCacheDir()
         {
-            if (Directory.Exists(ProjectFileDir))
-            {
-                Directory.Delete(ProjectFileDir, true);
-            }
             if (Directory.Exists(ProjectCacheDir))
             {
                 Directory.Delete(ProjectCacheDir, true);
             }
             Directory.CreateDirectory(ProjectCacheDir);
+        }
+        private void InitProjectFileDir()
+        {
+            if (Directory.Exists(ProjectFileDir))
+            {
+                Directory.Delete(ProjectFileDir, true);
+            }
             Directory.CreateDirectory(ProjectFileDir);
         }
         public static CSJProjectBuilder GetInstance()
@@ -83,10 +89,18 @@ namespace LightController.Xiaosa.Tools
         {
             try
             {
-                InitProjectCache();
+                Stopwatch stopwatch = new Stopwatch();
+                InitProjectFileDir();
+                InitProjectCacheDir();
                 MainFormInterface = mainFormInterface;
+                stopwatch.Start();
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
+                    if (sceneNo == 10)
+                    {
+                        stopwatch.Stop();
+                        Console.WriteLine("----------------------------------------------------------- 耗时：" + stopwatch.ElapsedMilliseconds.ToString());
+                    }
                     bool result = BuildProject(sceneNo, mainFormInterface);
                     if (!result)
                     {
@@ -107,6 +121,7 @@ namespace LightController.Xiaosa.Tools
         {
             try
             {
+                InitChannelTaskState();
                 CurrentSceneNo = sceneNo;
                 MainFormInterface = mainFormInterface;
                 for (int i = 0; i < 512; i++)
@@ -147,7 +162,7 @@ namespace LightController.Xiaosa.Tools
                 var channelNo = startChannelNo + i;
                 ChannelBasicTask(channelNo);
             }
-            lock (MultipartChannelBasicTaskState)
+            lock (BasicTaskKey)
             {
                 if (!MultipartChannelBasicTaskState.Values.Contains(false))
                 {
@@ -160,7 +175,7 @@ namespace LightController.Xiaosa.Tools
                 var channelNo = startChannelNo + i;
                 ChannelMusicTask(channelNo);
             }
-            lock (MultipartChannelMusicTaskState)
+            lock (MusicTaskKey)
             {
                 if (!MultipartChannelMusicTaskState.Values.Contains(false))
                 {
@@ -192,67 +207,70 @@ namespace LightController.Xiaosa.Tools
             var channelValues = MainFormInterface.GetSMTDList(pk);
             TongdaoWrapper firstStepInfo = null;
             int startValue = 0;
-            float inc = 0;
-            foreach (var item in channelValues)
+            float inc;
+            if (channelValues.Count > 0)
             {
-                if (item.ChangeMode != 0 && item.ChangeMode != 1)//0-跳变，1-渐变，2-屏蔽
+                foreach (var item in channelValues)
                 {
-                    continue;
-                }
-                if (firstStepInfo == null)
-                {
-                    firstStepInfo = item;
-                    startValue = item.ScrollValue;
-                    writeBuff.Add(Convert.ToByte(startValue));
-                }
-                else
-                {
-                    if (item.ChangeMode == 1)//渐变
+                    if (item.ChangeMode != 0 && item.ChangeMode != 1)//0-跳变，1-渐变，2-屏蔽
                     {
-                        inc = (item.ScrollValue - startValue) / item.StepTime;
-                        for (int i = 0; i < item.StepTime; i++)
+                        continue;
+                    }
+                    if (firstStepInfo == null)
+                    {
+                        firstStepInfo = item;
+                        startValue = item.ScrollValue;
+                        writeBuff.Add(Convert.ToByte(startValue));
+                    }
+                    else
+                    {
+                        if (item.ChangeMode == 1)//渐变
                         {
-                            var value = startValue + (i + 1) * inc;
-                            value = value < 0 ? 0 : value;
-                            value = value > 255 ? 255 : value;
-                            int intValue = (int)Math.Floor(value * 256);
-                            writeBuff.Add(Convert.ToByte(fineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / fineTune.MaxValue)));
+                            inc = (item.ScrollValue - startValue) / item.StepTime;
+                            for (int i = 0; i < item.StepTime; i++)
+                            {
+                                var value = startValue + (i + 1) * inc;
+                                value = value < 0 ? 0 : value;
+                                value = value > 255 ? 255 : value;
+                                int intValue = (int)Math.Floor(value * 256);
+                                writeBuff.Add(Convert.ToByte(fineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / fineTune.MaxValue)));
+                            }
                         }
+                        else if (item.ChangeMode == 0)//跳变
+                        {
+                            writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(item.ScrollValue) : Convert.ToByte(0x00), item.StepTime));
+                        }
+                        startValue = item.ScrollValue;
                     }
-                    else if (item.ChangeMode == 0)//跳变
+                }
+                if (firstStepInfo.ChangeMode == 1)//渐变
+                {
+                    inc = (firstStepInfo.ScrollValue - startValue) / firstStepInfo.StepTime;
+                    for (int i = 0; i < firstStepInfo.StepTime - 1; i++)
                     {
-                        writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(item.ScrollValue) : Convert.ToByte(0x00), item.StepTime));
+                        var value = startValue + (i + 1) * inc;
+                        value = value < 0 ? 0 : value;
+                        value = value > 255 ? 255 : value;
+                        int intValue = (int)Math.Floor(value * 256);
+                        writeBuff.Add(Convert.ToByte(fineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / fineTune.MaxValue)));
                     }
-                    startValue = item.ScrollValue;
                 }
-            }
-            if (firstStepInfo.ChangeMode == 1)//渐变
-            {
-                inc = (firstStepInfo.ScrollValue - startValue) / firstStepInfo.StepTime;
-                for (int i = 0; i < firstStepInfo.StepTime - 1; i++)
+                else//跳变
                 {
-                    var value = startValue + (i + 1) * inc;
-                    value = value < 0 ? 0 : value;
-                    value = value > 255 ? 255 : value;
-                    int intValue = (int)Math.Floor(value * 256);
-                    writeBuff.Add(Convert.ToByte(fineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / fineTune.MaxValue)));
+                    writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(firstStepInfo.ScrollValue) : Convert.ToByte(0x00), firstStepInfo.StepTime - 1));
                 }
-            }
-            else//跳变
-            {
-                writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(firstStepInfo.ScrollValue) : Convert.ToByte(0x00), firstStepInfo.StepTime - 1));
-            }
-            //写入缓存文件
-            if (writeBuff.Count > 0)
-            {
-                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
-                using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
+                //写入缓存文件
+                if (writeBuff.Count > 0)
                 {
-                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                    using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
+                    {
+                        writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                    }
+                    writeBuff.Clear();
                 }
-                writeBuff.Clear();
             }
-            lock (MultipartChannelBasicTaskState)
+            lock (BasicTaskKey)
             {
                 MultipartChannelBasicTaskState[channelNo] = true;
             }
@@ -270,31 +288,34 @@ namespace LightController.Xiaosa.Tools
             List<byte> writeBuff = new List<byte>();
             var channelValues = MainFormInterface.GetSMTDList(pk);
             TongdaoWrapper firstStep = null;
-            foreach (var item in channelValues)
+            if (channelValues.Count > 0)
             {
-                if (item.ChangeMode != 1)//0-屏蔽，1-跳变，2-渐变
+                foreach (var item in channelValues)
                 {
-                    continue;
+                    if (item.ChangeMode != 1)//0-屏蔽，1-跳变，2-渐变
+                    {
+                        continue;
+                    }
+                    if (firstStep == null)
+                    {
+                        firstStep = item;
+                        writeBuff.Add(Convert.ToByte(item.ScrollValue));
+                    }
+                    writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(item.ScrollValue), item.StepTime));
                 }
-                if (firstStep == null)
+                writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(firstStep.ScrollValue), firstStep.StepTime));
+                //写入缓存文件
+                if (writeBuff.Count > 0)
                 {
-                    firstStep = item;
-                    writeBuff.Add(Convert.ToByte(item.ScrollValue));
+                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                    using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
+                    {
+                        writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                    }
+                    writeBuff.Clear();
                 }
-                writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(item.ScrollValue), item.StepTime));
             }
-            writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(firstStep.ScrollValue), firstStep.StepTime));
-            //写入缓存文件
-            if (writeBuff.Count > 0)
-            {
-                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
-                using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
-                {
-                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
-                }
-                writeBuff.Clear();
-            }
-            lock (MultipartChannelMusicTaskState)
+            lock (MusicTaskKey)
             {
                 MultipartChannelMusicTaskState[channelNo] = true;
             }
@@ -395,6 +416,7 @@ namespace LightController.Xiaosa.Tools
                     writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
                 }
             }
+            Console.WriteLine("##########################   场景" + CurrentSceneNo + "工程生成完成,当前线程ID ：" + Thread.CurrentThread.ManagedThreadId);
             SceneBasicTaskState = true;
         }
 

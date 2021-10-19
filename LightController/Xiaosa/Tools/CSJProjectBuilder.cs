@@ -4,9 +4,11 @@ using LightController.MyForm;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace LightController.Xiaosa.Tools
 {
@@ -19,8 +21,11 @@ namespace LightController.Xiaosa.Tools
      * */
     public class CSJProjectBuilder
     {
-        private static int BASIC_MODE = 0;
-        private static int MUSIC_MODE = 1;
+        private const int STEPLISTSIZE = 20;
+        private const int BASIC_MODE = 0;
+        private const int MUSIC_MODE = 1;
+        private static string ProjectCacheDir = Application.StartupPath + @"\DataCache\Project\Cache";
+        private static string ProjectFileDir = Application.StartupPath + @"\DataCache\Project\CSJ";
         private static CSJProjectBuilder Instance;
         private ConcurrentDictionary<int, bool> MultipartChannelBasicTaskState;
         private ConcurrentDictionary<int, bool> MultipartChannelMusicTaskState;
@@ -28,6 +33,7 @@ namespace LightController.Xiaosa.Tools
         private bool SceneMusicTaskState;
         private int CurrentSceneNo;//从0开始
         private MainFormInterface MainFormInterface;
+
         private CSJProjectBuilder()
         {
             Init();
@@ -43,6 +49,19 @@ namespace LightController.Xiaosa.Tools
             SceneBasicTaskState = false;
             SceneMusicTaskState = false;
             CurrentSceneNo = 0;
+        }
+        private void InitProjectCache()
+        {
+            if (Directory.Exists(ProjectFileDir))
+            {
+                Directory.Delete(ProjectFileDir, true);
+            }
+            if (Directory.Exists(ProjectCacheDir))
+            {
+                Directory.Delete(ProjectCacheDir, true);
+            }
+            Directory.CreateDirectory(ProjectCacheDir);
+            Directory.CreateDirectory(ProjectFileDir);
         }
         public static CSJProjectBuilder GetInstance()
         {
@@ -63,6 +82,7 @@ namespace LightController.Xiaosa.Tools
         {
             try
             {
+                InitProjectCache();
                 MainFormInterface = mainFormInterface;
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
@@ -82,7 +102,7 @@ namespace LightController.Xiaosa.Tools
             return false;
         }
 
-        public bool BuildProject(int sceneNo,MainFormInterface mainFormInterface)
+        private bool BuildProject(int sceneNo,MainFormInterface mainFormInterface)
         {
             try
             {
@@ -99,8 +119,8 @@ namespace LightController.Xiaosa.Tools
                 }
                 for (int i = 0; i < 512; i += 16)
                 {
-                    var channelNo = i + 1;
-                    Thread thread = new Thread(() => MultipartChannelTask(channelNo, sceneNo));
+                    var startChannelNo = i + 1;
+                    Thread thread = new Thread(() => MultipartChannelTask(startChannelNo, sceneNo));
                     thread.Start();
                 }
                 while (!SceneBasicTaskState | !SceneMusicTaskState)
@@ -117,6 +137,7 @@ namespace LightController.Xiaosa.Tools
             return false;
         }
 
+        //TODO 有待测试多线程下情况
         private void MultipartChannelTask(int startChannelNo,int currentSceneNo)
         {
             //常规场景数据处理
@@ -129,7 +150,7 @@ namespace LightController.Xiaosa.Tools
             {
                 if (!MultipartChannelBasicTaskState.Values.Contains(false))
                 {
-                    SceneBasicTaskCompleted(currentSceneNo);
+                    SceneBasicTaskCompleted();
                 }
             }
             //音频场景数据处理
@@ -142,7 +163,7 @@ namespace LightController.Xiaosa.Tools
             {
                 if (!MultipartChannelMusicTaskState.Values.Contains(false))
                 {
-                    SceneMusicTaskCompleted(currentSceneNo);
+                    SceneMusicTaskCompleted();
                 }
             }
         }
@@ -173,7 +194,7 @@ namespace LightController.Xiaosa.Tools
             float inc = 0;
             foreach (var item in channelValues)
             {
-                if (item.ChangeMode != 0 && item.ChangeMode != 1)
+                if (item.ChangeMode != 0 && item.ChangeMode != 1)//0-跳变，1-渐变，2-屏蔽
                 {
                     continue;
                 }
@@ -220,7 +241,16 @@ namespace LightController.Xiaosa.Tools
             {
                 writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(firstStepInfo.ScrollValue) : Convert.ToByte(0x00), firstStepInfo.StepTime - 1));
             }
-
+            //写入缓存文件
+            if (writeBuff.Count > 0)
+            {
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
+                {
+                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                }
+                writeBuff.Clear();
+            }
             lock (MultipartChannelBasicTaskState)
             {
                 MultipartChannelBasicTaskState[channelNo] = true;
@@ -229,23 +259,259 @@ namespace LightController.Xiaosa.Tools
 
         private void ChannelMusicTask(int channelNo)
         {
-
-
+            DB_ChannelPK pk = new DB_ChannelPK()
+            {
+                LightID = 0,
+                ChannelID = channelNo,
+                Scene = CurrentSceneNo,
+                Mode = MUSIC_MODE
+            };
+            List<byte> writeBuff = new List<byte>();
+            var channelValues = MainFormInterface.GetSMTDList(pk);
+            TongdaoWrapper firstStep = null;
+            foreach (var item in channelValues)
+            {
+                if (item.ChangeMode != 1)//0-屏蔽，1-跳变，2-渐变
+                {
+                    continue;
+                }
+                if (firstStep == null)
+                {
+                    firstStep = item;
+                    writeBuff.Add(Convert.ToByte(item.ScrollValue));
+                }
+                writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(item.ScrollValue), item.StepTime));
+            }
+            writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(firstStep.ScrollValue), firstStep.StepTime));
+            //写入缓存文件
+            if (writeBuff.Count > 0)
+            {
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
+                {
+                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                }
+                writeBuff.Clear();
+            }
             lock (MultipartChannelMusicTaskState)
             {
                 MultipartChannelMusicTaskState[channelNo] = true;
             }
         }
 
-        private void SceneBasicTaskCompleted(int currentSceneNo)
+        private void SceneBasicTaskCompleted()
         {
-
+            Dictionary<int, string> cachePaths = new Dictionary<int, string>();
+            List<byte> writeBuff = new List<byte>();
+            string projectFilePath = ProjectFileDir + @"\C" + CurrentSceneNo + @".bin";
+            long seek = 0;
+            for (int i = 0; i < 512; i++)
+            {
+                int channelNo = i + 1;
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                if (File.Exists(cachePath))
+                {
+                    cachePaths.Add(channelNo,cachePath);
+                }
+            }
+            if (cachePaths.Count > 0)
+            {
+                //TODO 后续要把全局配置信息解析封装成实体，便于后续读取
+                using (var reader = new StreamReader(MainFormInterface.GetConfigPath()))
+                {
+                    string lineStr = "";
+                    string strValue = "";
+                    int micSensor = 0;
+                    int senseFreq = 0;
+                    int intValue = 0;
+                    int runTime = 0;
+                    while ((lineStr = reader.ReadLine()) != null)
+                    {
+                        if (lineStr.Equals("[YM]"))
+                        {
+                            for (int i = 0; i < MainFormInterface.GetSceneCount(); i++)
+                            {
+                                lineStr = reader.ReadLine();
+                                if (lineStr.StartsWith(CurrentSceneNo + "CK"))
+                                {
+                                    strValue = lineStr.Split('=')[1];
+                                    int.TryParse(strValue, out intValue);
+                                    micSensor = intValue;
+                                }
+                                lineStr = reader.ReadLine();
+                                if (lineStr.StartsWith(CurrentSceneNo + "JG"))
+                                {
+                                    strValue = lineStr.Split('=')[1];
+                                    int.TryParse(strValue, out intValue);
+                                    senseFreq = intValue;
+                                }
+                                lineStr = reader.ReadLine();
+                                if (lineStr.StartsWith(CurrentSceneNo + "ZX"))
+                                {
+                                    strValue = lineStr.Split('=')[1];
+                                    int.TryParse(strValue, out intValue);
+                                    runTime = intValue;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(0x00),4));
+                    writeBuff.Add(Convert.ToByte(micSensor));
+                    writeBuff.Add(Convert.ToByte(((senseFreq) * 60) & 0xFF));
+                    writeBuff.Add(Convert.ToByte((((senseFreq) * 60) >> 8) & 0xFF));
+                    writeBuff.Add(Convert.ToByte((runTime) & 0xFF));
+                    writeBuff.Add(Convert.ToByte(((runTime) >> 8) & 0xFF));
+                    writeBuff.Add(Convert.ToByte((cachePaths.Count) & 0xFF));
+                    writeBuff.Add(Convert.ToByte(((cachePaths.Count) >> 8) & 0xFF));
+                }
+                seek = writeBuff.Count;
+                foreach (var item in cachePaths.Keys)
+                {
+                    using (FileStream readStream = new FileStream(cachePaths[item],FileMode.Open))
+                    {
+                        seek += 8;
+                        writeBuff.Add(Convert.ToByte(item & 0xFF));
+                        writeBuff.Add(Convert.ToByte((item >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(readStream.Length & 0xFF));
+                        writeBuff.Add(Convert.ToByte((readStream.Length >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(seek & 0xFF));
+                        writeBuff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        writeBuff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        seek += readStream.Length;
+                        byte[] readBuff = new byte[readStream.Length];
+                        readStream.Read(readBuff, 0, readBuff.Length);
+                        writeBuff.AddRange(readBuff);
+                    }
+                }
+                writeBuff[0] = Convert.ToByte(writeBuff.Count & 0xFF);
+                writeBuff[1] = Convert.ToByte((writeBuff.Count >> 8) & 0xFF);
+                writeBuff[2] = Convert.ToByte((writeBuff.Count >> 16) & 0xFF);
+                writeBuff[3] = Convert.ToByte((writeBuff.Count >> 24) & 0xFF);
+                using (FileStream writeStream = new FileStream(projectFilePath,FileMode.Create))
+                {
+                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                }
+            }
+            SceneBasicTaskState = true;
         }
 
-        private void SceneMusicTaskCompleted(int currentSceneNo)
+        private void SceneMusicTaskCompleted()
         {
-
+            Dictionary<int, string> cachePaths = new Dictionary<int, string>();
+            List<byte> writeBuff = new List<byte>();
+            string projectFilePath = ProjectFileDir + @"\M" + CurrentSceneNo + @".bin";
+            long seek = 0;
+            for (int i = 0; i < 512; i++)
+            {
+                int channelNo = i + 1;
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                if (File.Exists(cachePath))
+                {
+                    cachePaths.Add(channelNo, cachePath);
+                }
+            }
+            if (cachePaths.Count > 0)
+            {
+                //TODO 后续要把全局配置信息解析封装成实体，便于后续读取
+                using (StreamReader reader = new StreamReader(MainFormInterface.GetConfigPath()))
+                {
+                    List<int> stepList = new List<int>();
+                    int frameTime = 0;
+                    int musicIntervalTime = 0;
+                    string lineStr;
+                    string strValue = string.Empty;
+                    int intValue;
+                    while (true)
+                    {
+                        lineStr = reader.ReadLine();
+                        if (lineStr.Equals("[SK]"))
+                        {
+                            for (int i = 0; i < MainFormInterface.GetSceneCount(); i++)
+                            {
+                                lineStr = reader.ReadLine();
+                                string sceneNumber = "";
+                                if (lineStr.Split('=')[0].Length > 3)
+                                {
+                                    sceneNumber = lineStr[0].ToString() + lineStr[1].ToString();
+                                }
+                                else
+                                {
+                                    sceneNumber = lineStr[0].ToString();
+                                }
+                                if (sceneNumber.Equals(CurrentSceneNo.ToString()))
+                                {
+                                    strValue = lineStr.Split('=')[1];
+                                    for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
+                                    {
+                                        intValue = int.Parse(strValue[strIndex].ToString());
+                                        if (intValue != 0)
+                                        {
+                                            stepList.Add(intValue);
+                                        }
+                                    }
+                                    lineStr = reader.ReadLine();
+                                    strValue = lineStr.Split('=')[1];
+                                    intValue = int.Parse(strValue.ToString());
+                                    frameTime = intValue;
+                                    lineStr = reader.ReadLine();
+                                    strValue = lineStr.Split('=')[1];
+                                    intValue = int.Parse(strValue.ToString());
+                                    musicIntervalTime = intValue;
+                                }
+                                else
+                                {
+                                    lineStr = reader.ReadLine();
+                                    lineStr = reader.ReadLine();
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(0x00), 4));
+                    writeBuff.Add(Convert.ToByte(frameTime));
+                    writeBuff.Add(Convert.ToByte(musicIntervalTime & 0xFF));
+                    writeBuff.Add(Convert.ToByte((musicIntervalTime >> 8) & 0xFF));
+                    writeBuff.Add(Convert.ToByte(stepList.Count));
+                    for (int i = 0; i < stepList.Count; i++)
+                    {
+                        writeBuff.Add(Convert.ToByte(stepList[i]));
+                    }
+                    writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(0x00), STEPLISTSIZE - stepList.Count));
+                    writeBuff.Add(Convert.ToByte(cachePaths.Count & 0xFF));
+                    writeBuff.Add(Convert.ToByte((cachePaths.Count >> 8) & 0xFF));
+                }
+                seek = writeBuff.Count;
+                foreach (var item in cachePaths.Keys)
+                {
+                    using (FileStream readStream = new FileStream(cachePaths[item], FileMode.Open))
+                    {
+                        seek += 8;
+                        writeBuff.Add(Convert.ToByte(item & 0xFF));
+                        writeBuff.Add(Convert.ToByte((item >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(readStream.Length & 0xFF));
+                        writeBuff.Add(Convert.ToByte((readStream.Length >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(seek & 0xFF));
+                        writeBuff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                        writeBuff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                        seek += readStream.Length;
+                        byte[] readBuff = new byte[readStream.Length];
+                        readStream.Read(readBuff, 0, readBuff.Length);
+                        writeBuff.AddRange(readBuff);
+                    }
+                }
+                writeBuff[0] = Convert.ToByte(writeBuff.Count & 0xFF);
+                writeBuff[1] = Convert.ToByte((writeBuff.Count >> 8) & 0xFF);
+                writeBuff[2] = Convert.ToByte((writeBuff.Count >> 16) & 0xFF);
+                writeBuff[3] = Convert.ToByte((writeBuff.Count >> 24) & 0xFF);
+                using (FileStream writeStream = new FileStream(projectFilePath, FileMode.Create))
+                {
+                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                }
+            }
+            SceneMusicTaskState = true;
         }
-
     }
 }

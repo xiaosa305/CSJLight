@@ -4,6 +4,7 @@ using LightController.MyForm;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace LightController.Xiaosa.Tools
     public class CSJProjectBuilder
     {
         private static Object SingleKey = new object();
+        private static Object BasicTaskKey = new object();
+        private static Object MusicTaskKey = new object();
         private const int STEPLISTSIZE = 20;
         private const int BASIC_MODE = 0;
         private const int MUSIC_MODE = 1;
@@ -86,11 +89,18 @@ namespace LightController.Xiaosa.Tools
         {
             try
             {
+                Stopwatch stopwatch = new Stopwatch();
                 InitProjectFileDir();
                 InitProjectCacheDir();
                 MainFormInterface = mainFormInterface;
+                stopwatch.Start();
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
+                    if (sceneNo == 10)
+                    {
+                        stopwatch.Stop();
+                        Console.WriteLine("----------------------------------------------------------- 耗时：" + stopwatch.ElapsedMilliseconds.ToString());
+                    }
                     bool result = BuildProject(sceneNo, mainFormInterface);
                     if (!result)
                     {
@@ -111,6 +121,7 @@ namespace LightController.Xiaosa.Tools
         {
             try
             {
+                InitChannelTaskState();
                 CurrentSceneNo = sceneNo;
                 MainFormInterface = mainFormInterface;
                 for (int i = 0; i < 512; i++)
@@ -151,7 +162,7 @@ namespace LightController.Xiaosa.Tools
                 var channelNo = startChannelNo + i;
                 ChannelBasicTask(channelNo);
             }
-            lock (MultipartChannelBasicTaskState)
+            lock (BasicTaskKey)
             {
                 if (!MultipartChannelBasicTaskState.Values.Contains(false))
                 {
@@ -164,7 +175,7 @@ namespace LightController.Xiaosa.Tools
                 var channelNo = startChannelNo + i;
                 ChannelMusicTask(channelNo);
             }
-            lock (MultipartChannelMusicTaskState)
+            lock (MusicTaskKey)
             {
                 if (!MultipartChannelMusicTaskState.Values.Contains(false))
                 {
@@ -259,7 +270,7 @@ namespace LightController.Xiaosa.Tools
                     writeBuff.Clear();
                 }
             }
-            lock (MultipartChannelBasicTaskState)
+            lock (BasicTaskKey)
             {
                 MultipartChannelBasicTaskState[channelNo] = true;
             }
@@ -304,7 +315,7 @@ namespace LightController.Xiaosa.Tools
                     writeBuff.Clear();
                 }
             }
-            lock (MultipartChannelMusicTaskState)
+            lock (MusicTaskKey)
             {
                 MultipartChannelMusicTaskState[channelNo] = true;
             }
@@ -405,6 +416,7 @@ namespace LightController.Xiaosa.Tools
                     writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
                 }
             }
+            Console.WriteLine("##########################   场景" + CurrentSceneNo + "工程生成完成,当前线程ID ：" + Thread.CurrentThread.ManagedThreadId);
             SceneBasicTaskState = true;
         }
 

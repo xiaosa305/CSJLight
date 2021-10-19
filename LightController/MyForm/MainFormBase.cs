@@ -555,24 +555,7 @@ namespace LightController.MyForm
             return fineTuneDAO.GetAll();
         }
 
-        //DOTO 211012 要重写 GetDBWrapper()
-        /// <summary>
-        ///  辅助方法：通过isFromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
-        /// </summary>
-        /// <returns></returns>
-        public DBWrapper GetDBWrapper()
-        {
-            //// MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList(); 【重新生成内存中的dbStepCountList】
-            //IList<DB_Channel> dbChannelList = generateChannelList(CurrentScene);
 
-            DBWrapper allData = new DBWrapper() {
-                 lightList = generateDBLightList(),
-                 fineTuneList = generateDBFineTuneList(), 
-                 // ... 传入所有的内容吗？ 
-            };
-
-            return allData;
-        }
 
         #endregion
 
@@ -2300,8 +2283,10 @@ namespace LightController.MyForm
 
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
-            DataConvertUtils.GetInstance().SaveProjectFile(
-                GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+
+            //DOTO 211019 导出工程
+            //DataConvertUtils.GetInstance().SaveProjectFile(
+            //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
         /// <summary>
@@ -2389,8 +2374,9 @@ namespace LightController.MyForm
             }
 
             //MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）			
-            DataConvertUtils.GetInstance().SaveSingleFrameFile(
-                GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+           //DOTO 211019 导出场景
+            //DataConvertUtils.GetInstance().SaveSingleFrameFile(
+            //    GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
         /// <summary>

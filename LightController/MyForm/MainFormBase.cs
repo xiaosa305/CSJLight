@@ -2016,7 +2016,7 @@ namespace LightController.MyForm
                 SetNotice("当前工程没有灯具，无法使用调用场景功能。", true, true);
                 return;
             }
-            new CallSceneForm(this, CurrentScene).ShowDialog();
+            new CopySceneForm(this, CurrentScene).ShowDialog();
         }
 
         /// <summary>
@@ -2474,7 +2474,7 @@ namespace LightController.MyForm
         ///  辅助方法：调用其他场景
         /// </summary>
         /// <param name="text"></param>
-        public void CallOtherScene(int scene)
+        public void CopyOtherScene(int scene)
         {
             //MARK 只开单场景：09.2 调用场景时，若调用的是未打开的场景，则需先打开（载入到内存中）
             if (!sceneLoadArray[scene])

@@ -21,6 +21,7 @@ namespace LightController.Xiaosa.Tools
      * */
     public class CSJProjectBuilder
     {
+        private static Object SingleKey = new object();
         private const int STEPLISTSIZE = 20;
         private const int BASIC_MODE = 0;
         private const int MUSIC_MODE = 1;
@@ -67,7 +68,7 @@ namespace LightController.Xiaosa.Tools
         {
             if (Instance == null)
             {
-                lock (Instance)
+                lock (SingleKey)
                 {
                     if (Instance == null)
                     {

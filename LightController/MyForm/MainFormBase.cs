@@ -1513,7 +1513,7 @@ namespace LightController.MyForm
                     {
                         if (stepWrapperList[step].TongdaoList != null && stepWrapperList[step].TongdaoList.Count > 0)
                         {
-                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[pk.ChannelID - pk.LightID];
+                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[pk.ChannelID - LightAstList[selectedLightIndex].StartNum ];
                             tdList.Add(tw);
                         }
                     }

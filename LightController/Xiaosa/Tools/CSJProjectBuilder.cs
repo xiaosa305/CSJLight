@@ -87,10 +87,10 @@ namespace LightController.Xiaosa.Tools
             try
             {
                 InitProjectFileDir();
+                InitProjectCacheDir();
                 MainFormInterface = mainFormInterface;
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
-                    InitProjectCacheDir();
                     bool result = BuildProject(sceneNo, mainFormInterface);
                     if (!result)
                     {

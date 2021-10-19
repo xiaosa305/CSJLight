@@ -51,17 +51,20 @@ namespace LightController.Xiaosa.Tools
             SceneMusicTaskState = false;
             CurrentSceneNo = 0;
         }
-        private void InitProjectCache()
+        private void InitProjectCacheDir()
         {
-            if (Directory.Exists(ProjectFileDir))
-            {
-                Directory.Delete(ProjectFileDir, true);
-            }
             if (Directory.Exists(ProjectCacheDir))
             {
                 Directory.Delete(ProjectCacheDir, true);
             }
             Directory.CreateDirectory(ProjectCacheDir);
+        }
+        private void InitProjectFileDir()
+        {
+            if (Directory.Exists(ProjectFileDir))
+            {
+                Directory.Delete(ProjectFileDir, true);
+            }
             Directory.CreateDirectory(ProjectFileDir);
         }
         public static CSJProjectBuilder GetInstance()
@@ -83,10 +86,11 @@ namespace LightController.Xiaosa.Tools
         {
             try
             {
-                InitProjectCache();
+                InitProjectFileDir();
                 MainFormInterface = mainFormInterface;
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
+                    InitProjectCacheDir();
                     bool result = BuildProject(sceneNo, mainFormInterface);
                     if (!result)
                     {

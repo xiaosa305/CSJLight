@@ -3105,16 +3105,16 @@ namespace LightController.PeripheralDevice
     /// <summary>
     /// 灯光工程下载事件执行传递数据结构
     /// </summary>
-    public class DownloadProjectData
-    {
-        public DBWrapper Wrapper { get; set; }
-        public string ConfigPath { get; set; }
-        public DownloadProjectData(DBWrapper wrapper,string configPath)
-        {
-            this.Wrapper = wrapper;
-            this.ConfigPath = configPath;
-        }
-    }
+    //public class DownloadProjectData
+    //{
+    //    public DBWrapper Wrapper { get; set; }
+    //    public string ConfigPath { get; set; }
+    //    public DownloadProjectData(DBWrapper wrapper,string configPath)
+    //    {
+    //        this.Wrapper = wrapper;
+    //        this.ConfigPath = configPath;
+    //    }
+    //}
     public class PutParamData
     {
         public string FilePath { get; set; } 

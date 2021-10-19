@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.MyForm;
 using LightController.PeripheralDevice;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
@@ -41,6 +42,7 @@ namespace LightController.Xiaosa.Tools
         private List<PlayPoint> M_PlayPoints { get; set; }
         private List<PlayPoint> C_PlayPoints { get; set; }
         private SerialPort COM { get; set; }
+        private MainFormInterface MainFormInterface;
         private SerialPortDMXPlay()
         {
             try
@@ -119,7 +121,7 @@ namespace LightController.Xiaosa.Tools
                 this.SendTimer.Start();
             }
         }
-        public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
+        public void PreView(MainFormInterface mainFormInterface, string configPath, int sceneNo)
         {
             try
             {
@@ -129,7 +131,8 @@ namespace LightController.Xiaosa.Tools
                 }
                 this.MusicData = false;
                 this.SceneNo = sceneNo;
-                this.Config = new CSJ_Config(wrapper, configPath);
+                MainFormInterface = mainFormInterface;
+                this.Config = new CSJ_Config(mainFormInterface.GetLights(), configPath);
                 this.C_PlayPoints = FileUtils.GetCPlayPoints();
                 this.TimeFactory = Config.TimeFactory;
                 if (FileUtils.IsMusicFile())

@@ -1499,7 +1499,6 @@ namespace LightController.MyForm
             //MARK 只开单场景：10.1 GetSMTDList() 的实现改动，若是已加载的场景则从内存读数据
             if (sceneLoadArray[pk.Scene])
             {
-                int tdIndex = pk.ChannelID;
                 int selectedLightIndex = getLightIndex(pk.ChannelID);
                 if (selectedLightIndex == -1) {
                     return tdList;
@@ -1514,7 +1513,7 @@ namespace LightController.MyForm
                     {
                         if (stepWrapperList[step].TongdaoList != null && stepWrapperList[step].TongdaoList.Count > 0)
                         {
-                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[tdIndex];
+                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[pk.ChannelID];
                             tdList.Add(tw);
                         }
                     }

@@ -8,7 +8,6 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using static LightController.Utils.DataGenerationProgram;
 using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Utils
@@ -322,7 +321,6 @@ namespace LightController.Utils
                     }
                     complet_Event();
                 }
-                DataConvertUtils.Flag = true;
             }
         }
 
@@ -431,7 +429,6 @@ namespace LightController.Utils
                     }
                     complet_Event();
                 }
-                DataConvertUtils.Flag = true;
             }
         }
 

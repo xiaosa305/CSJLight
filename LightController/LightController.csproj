@@ -432,13 +432,11 @@
     <Compile Include="Tools\CSJ\IMPL\SequencerData.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Utils\CommandLogUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\LightConfig\LightConfigBean.cs" />
     <Compile Include="Utils\OldFileToNewFileUtils.cs" />
     <Compile Include="Utils\Ver2\ChannelDataBean.cs" />
     <Compile Include="Utils\Ver2\ChannelDataGeneratior.cs" />
-    <Compile Include="Utils\DataConvertUtils.cs" />
-    <Compile Include="Utils\DataGenerationProgram.cs" />
-    <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\LogTools.cs" />
     <Compile Include="Utils\PlayPoint.cs" />
     <Compile Include="Utils\ICommunicatorCallBack.cs" />

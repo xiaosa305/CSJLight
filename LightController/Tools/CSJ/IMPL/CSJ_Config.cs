@@ -25,13 +25,13 @@ namespace LightController.Tools.CSJ.IMPL
         private IList<DB_Light> DB_Lights { get; set; }//数据库灯具信息
         
 
-        public CSJ_Config(DBWrapper dBWrapper, string filePath)
+        public CSJ_Config(IList<DB_Light> lights, string filePath)
         {
             FilePath = filePath;
             Music_Control_Enable = new List<int>();
             CombineScenes = new List<CombineScene>();
             LightInfos = new List<LightInfo>();
-            DB_Lights = dBWrapper.lightList;
+            DB_Lights = lights;
             ReadData();
         }
 

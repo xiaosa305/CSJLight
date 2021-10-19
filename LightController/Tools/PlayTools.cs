@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Entity;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
@@ -163,7 +164,7 @@ namespace LightController.Tools
             this.DebugStatus = false;
             this.Communication = null;
         }
-        public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
+        public void PreView(IList<DB_Light> lights, string configPath, int sceneNo)
         {
             try
             {
@@ -173,7 +174,7 @@ namespace LightController.Tools
                 }
                 this.MusicData = false;
                 this.SceneNo = sceneNo;
-                this.Config = new CSJ_Config(wrapper, configPath);
+                this.Config = new CSJ_Config(lights, configPath);
                 this.C_PlayPoints = FileUtils.GetCPlayPoints();
                 this.TimeFactory = Config.TimeFactory;
                 if (FileUtils.IsMusicFile())

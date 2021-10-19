@@ -168,7 +168,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\Enum\Where.cs" />
+    <Compile Include="Ast\Enum\WHERE.cs" />
     <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />

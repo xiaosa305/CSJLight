@@ -149,7 +149,8 @@ namespace LightController.MyForm.MainFormAst
 					return;
 				}
 				setNotice("正在实时生成工程数据，请耐心等待...", false, true);
-				DataConvertUtils.GetInstance().SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+				//DOTO 211019 实时生成工程数据
+				//DataConvertUtils.GetInstance().SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
 			}
 		}
 

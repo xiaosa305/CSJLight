@@ -13,6 +13,7 @@ using CCWin.SkinControl;
 using System.IO;
 using LightEditor.Ast;
 using System.Threading;
+using LightController.Ast.Enum;
 
 namespace LightController.MyForm
 {

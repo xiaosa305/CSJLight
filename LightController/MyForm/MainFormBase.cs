@@ -2287,6 +2287,7 @@ namespace LightController.MyForm
             //DOTO 211019 导出工程
             //DataConvertUtils.GetInstance().SaveProjectFile(
             //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+            CSJProjectBuilder.GetInstance().BuildProjects(this);
         }
 
         /// <summary>

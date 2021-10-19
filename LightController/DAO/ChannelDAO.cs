@@ -80,9 +80,9 @@ namespace LightController.Ast
 			{
 				DB_Channel channel = session
 					.CreateQuery("FROM DB_Channel c " +
-						"WHERE c.ChannelID = :channelID " +
-						"AND c.Scene = :Scene " +
-						"AND c.Mode = :Mode"	)		
+						"WHERE c.PK.ChannelID = :channelID " +
+						"AND c.PK.Scene = :Scene " +
+						"AND c.PK.Mode = :Mode")		
 					.SetInt32("ChannelID",pk.ChannelID)
 					.SetInt32("Scene",pk.Scene)
 					.SetInt32("Mode",pk.Mode)

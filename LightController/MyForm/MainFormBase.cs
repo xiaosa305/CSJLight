@@ -29,8 +29,6 @@ namespace LightController.MyForm
 {
     public class MainFormBase : Form, MainFormInterface
     {
-
-
         // 几个全局的辅助控件（导出文件、toolTip提示等）
         protected FolderBrowserDialog exportFolderBrowserDialog;
         private System.ComponentModel.IContainer components;
@@ -4484,6 +4482,19 @@ namespace LightController.MyForm
         public string GetConfigPath()
         {
             return GlobalIniPath;
+        }
+
+        public IList<int> GetChannelIDList()
+        {
+            IList<int> channelIDList = new List<int>();
+            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++) {
+                LightAst la = LightAstList[lightIndex];
+                for (int channelID = la.StartNum; channelID <= la.EndNum ; channelID++)
+                {
+                    channelIDList.Add(channelID);
+                }               
+            }
+            return channelIDList;
         }
     }
 

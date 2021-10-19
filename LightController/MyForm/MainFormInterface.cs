@@ -13,5 +13,6 @@ namespace LightController.MyForm
 		int GetSceneCount();
 		IList<DB_Light> GetLights();
 		string GetConfigPath();
+		IList<int> GetChannelIDList();
 	}
 }

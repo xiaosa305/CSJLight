@@ -1530,9 +1530,9 @@ namespace LightController.MyForm
                         tdList.Add(new TongdaoWrapper()
                         {
                             Address = pk.LightID,
-                            ScrollValue = int.Parse(valueArray[0]),
-                            StepTime = int.Parse(valueArray[1]),
-                            ChangeMode = int.Parse(valueArray[2])
+                            ChangeMode = int.Parse(valueArray[0]),
+                            ScrollValue = int.Parse(valueArray[1]),
+                            StepTime = int.Parse(valueArray[2])
                         });
                     }
                 }

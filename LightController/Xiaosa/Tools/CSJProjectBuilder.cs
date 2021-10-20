@@ -41,6 +41,8 @@ namespace LightController.Xiaosa.Tools
         private Completed Completed;
         private Error Error;
         private ProjectBuildProgress Progress;
+        private bool IsEmptyBasicScene;
+        private bool IsEmptyMusicScene;
 
         private CSJProjectBuilder()
         {
@@ -57,6 +59,8 @@ namespace LightController.Xiaosa.Tools
             SceneBasicTaskState = false;
             SceneMusicTaskState = false;
             CurrentSceneNo = 0;
+            IsEmptyBasicScene = true;
+            IsEmptyMusicScene = true;
         }
         private void InitProjectCacheDir()
         {
@@ -116,7 +120,7 @@ namespace LightController.Xiaosa.Tools
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 int sceneNo = CurrentSceneNo + 1;
-                Error(sceneNo + "场景工程文件生成失败");
+                Error(sceneNo + "场景编译失败");
             }
         }
 
@@ -124,11 +128,13 @@ namespace LightController.Xiaosa.Tools
         {
             CurrentSceneNo = sceneNo;
             MainFormInterface = mainFormInterface;
+            IsEmptyBasicScene = true;
+            IsEmptyMusicScene = true;
             try
             {
                 InitChannelTaskState();
                 int scene = sceneNo + 1;
-                Progress(scene + "场景工程文件开始制作");
+                Progress(scene + "场景开始编译");
                 for (int i = 0; i < 512; i++)
                 {
                     var channelNo = i + 1;
@@ -148,14 +154,21 @@ namespace LightController.Xiaosa.Tools
                 {
                     Thread.Sleep(100);
                 }
-                Progress(scene + "场景工程文件制作完成");
+                if (!IsEmptyBasicScene)
+                {
+                    Progress(scene + "场景编译结束，生成工程C" + scene + ".bin文件");
+                }
+                else
+                {
+                    Progress(scene + "场景编译结束，该场景没有数据，未能生成工程文件");
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                int scene = CurrentSceneNo + 1;
-                Error(sceneNo + "场景工程文件生成失败");
+                int scene = CurrentSceneNo + 1; 
+                Error(sceneNo + "场景编译失败");
             }
         }
 
@@ -331,7 +344,7 @@ namespace LightController.Xiaosa.Tools
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
             List<byte> writeBuff = new List<byte>();
-            string projectFilePath = ProjectFileDir + @"\C" + CurrentSceneNo + @".bin";
+            string projectFilePath = ProjectFileDir + @"\C" + (CurrentSceneNo + 1) + @".bin";
             long seek = 0;
             for (int i = 0; i < 512; i++)
             {
@@ -421,8 +434,8 @@ namespace LightController.Xiaosa.Tools
                 {
                     writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
                 }
+                IsEmptyBasicScene = false;
             }
-            Console.WriteLine("##########################   场景" + CurrentSceneNo + "工程生成完成,当前线程ID ：" + Thread.CurrentThread.ManagedThreadId);
             SceneBasicTaskState = true;
         }
 
@@ -430,7 +443,7 @@ namespace LightController.Xiaosa.Tools
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
             List<byte> writeBuff = new List<byte>();
-            string projectFilePath = ProjectFileDir + @"\M" + CurrentSceneNo + @".bin";
+            string projectFilePath = ProjectFileDir + @"\M" + (CurrentSceneNo + 1) + @".bin";
             long seek = 0;
             for (int i = 0; i < 512; i++)
             {
@@ -539,6 +552,7 @@ namespace LightController.Xiaosa.Tools
                 {
                     writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
                 }
+                IsEmptyMusicScene = false;
             }
             SceneMusicTaskState = true;
         }

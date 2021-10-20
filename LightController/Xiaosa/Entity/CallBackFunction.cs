@@ -14,5 +14,6 @@ namespace LightController.Xiaosa.Entity
         public delegate void UpdateProgress(string name);
         public delegate void KeyPressClick(Object obj);
         public delegate void CopyListener(Object obj);
+        public delegate void ProjectBuildProgress(string sceneName);
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using static LightController.Xiaosa.Entity.CallBackFunction;
 
 namespace LightController.Xiaosa.Tools
 {
@@ -37,6 +38,9 @@ namespace LightController.Xiaosa.Tools
         private bool SceneMusicTaskState;
         private int CurrentSceneNo;//从0开始
         private MainFormInterface MainFormInterface;
+        private Completed Completed;
+        private Error Error;
+        private ProjectBuildProgress Progress;
 
         private CSJProjectBuilder()
         {
@@ -85,45 +89,46 @@ namespace LightController.Xiaosa.Tools
             return Instance;
         }
 
-        public bool BuildProjects(MainFormInterface mainFormInterface)
+        public void BuildProjects(MainFormInterface mainFormInterface,Completed completed,Error error, ProjectBuildProgress progress)
+        {
+            InitProjectFileDir();
+            InitProjectCacheDir();
+            MainFormInterface = mainFormInterface;
+            Completed = completed;
+            Error = error;
+            Progress = progress;
+            Thread thread = new Thread(() => BuildProjectsTask());
+            thread.Start();
+        }
+        private void BuildProjectsTask()
         {
             try
             {
-                Stopwatch stopwatch = new Stopwatch();
-                InitProjectFileDir();
-                InitProjectCacheDir();
-                MainFormInterface = mainFormInterface;
-                stopwatch.Start();
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
-                    if (sceneNo == 10)
-                    {
-                        stopwatch.Stop();
-                        Console.WriteLine("----------------------------------------------------------- 耗时：" + stopwatch.ElapsedMilliseconds.ToString());
-                    }
-                    bool result = BuildProject(sceneNo, mainFormInterface);
-                    if (!result)
-                    {
-                        return false;
-                    }
+                    BuildProject(sceneNo, MainFormInterface);
+                    InitProjectCacheDir();
                 }
-                return true;
+                Completed();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
+                int sceneNo = CurrentSceneNo + 1;
+                Error(sceneNo + "场景工程文件生成失败");
             }
-            return false;
         }
 
-        private bool BuildProject(int sceneNo,MainFormInterface mainFormInterface)
+        private void BuildProject(int sceneNo,MainFormInterface mainFormInterface)
         {
+            CurrentSceneNo = sceneNo;
+            MainFormInterface = mainFormInterface;
             try
             {
                 InitChannelTaskState();
-                CurrentSceneNo = sceneNo;
-                MainFormInterface = mainFormInterface;
+                int scene = sceneNo + 1;
+                Progress(scene + "场景工程文件开始制作");
                 for (int i = 0; i < 512; i++)
                 {
                     var channelNo = i + 1;
@@ -143,14 +148,15 @@ namespace LightController.Xiaosa.Tools
                 {
                     Thread.Sleep(100);
                 }
-                return true;
+                Progress(scene + "场景工程文件制作完成");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
+                int scene = CurrentSceneNo + 1;
+                Error(sceneNo + "场景工程文件生成失败");
             }
-            return false;
         }
 
         //TODO 有待测试多线程下情况

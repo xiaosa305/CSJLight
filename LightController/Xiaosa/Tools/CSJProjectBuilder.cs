@@ -313,8 +313,13 @@ namespace LightController.Xiaosa.Tools
         private void ChannelBasicTask(int channelNo)
         {
             DB_FineTune fineTune = null;
+            var list = MainFormInterface.GetFineTunes();
             foreach (var item in MainFormInterface.GetFineTunes())
             {
+                if (channelNo == 4)
+                {
+                    Console.WriteLine(channelNo);
+                }
                 if (item.FineTuneIndex == channelNo)
                 {
                     item.MaxValue = item.MaxValue == 0 ? 255 : item.MaxValue;

@@ -606,7 +606,7 @@ namespace LightController.MyForm
                     }
                     if (yz != 0 && yzwt != 0)
                     {
-                        dbFineTuneList.Add(new DB_FineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
+                        dbFineTuneList.Add(new DB_FineTune() { MainIndex = yz, FineTuneIndex = yzwt, MaxValue = yzValue });
                     }
                 }
             }

@@ -10,27 +10,27 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	public partial class CallSceneForm : Form
+	public partial class CopySceneForm : Form
 	{
 		private MainFormBase mainForm;	
-		private IList<int> frameIndexList  = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
+		private IList<int> sceneIndexList  = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
 
-		public CallSceneForm(MainFormBase mainForm, int currentFrameIndex)
+		public CopySceneForm(MainFormBase mainForm, int currentFrameIndex)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			for (int frameIndex = 0; frameIndex < MainFormBase.AllSceneList.Count; frameIndex++)
+			for (int sceneIndex = 0; sceneIndex < MainFormBase.AllSceneList.Count; sceneIndex++)
 			{
-				if (frameIndex != currentFrameIndex)
+				if (sceneIndex != currentFrameIndex)
 				{
-					frameComboBox.Items.Add(MainFormBase.AllSceneList[frameIndex]);
-					frameIndexList.Add(frameIndex); 
+					sceneComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
+					sceneIndexList.Add(sceneIndex); 
 				}
 			}
-			frameComboBox.SelectedIndex = 0;
+			sceneComboBox.SelectedIndex = 0;
 		}
 
-		private void UseFrameForm_Load(object sender, EventArgs e)
+		private void CopySceneForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);
 			LanguageHelper.InitForm(this);
@@ -54,7 +54,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{			
-			mainForm.CallOtherScene(getFrameIndex()); 
+			mainForm.CopyOtherScene(getFrameIndex()); 
 			Dispose();
 			mainForm.Activate();
 		}
@@ -67,7 +67,7 @@ namespace LightController.MyForm
 		private int getFrameIndex()
 		{
 			// 获取当前选中项，然后取出其在frameIndexList中的位置
-			int selectedFrameIndex = frameIndexList[frameComboBox.SelectedIndex];
+			int selectedFrameIndex = sceneIndexList[sceneComboBox.SelectedIndex];
 			return selectedFrameIndex ;
 		}		
 	}

@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class CallSceneForm
+	partial class CopySceneForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
-			this.frameComboBox = new System.Windows.Forms.ComboBox();
+			this.sceneComboBox = new System.Windows.Forms.ComboBox();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
@@ -45,11 +45,11 @@
 			// 
 			// frameComboBox
 			// 
-			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(104, 34);
-			this.frameComboBox.Name = "frameComboBox";
-			this.frameComboBox.Size = new System.Drawing.Size(103, 20);
-			this.frameComboBox.TabIndex = 10;
+			this.sceneComboBox.FormattingEnabled = true;
+			this.sceneComboBox.Location = new System.Drawing.Point(104, 34);
+			this.sceneComboBox.Name = "frameComboBox";
+			this.sceneComboBox.Size = new System.Drawing.Size(103, 20);
+			this.sceneComboBox.TabIndex = 10;
 			// 
 			// enterButton
 			// 
@@ -81,12 +81,12 @@
 			this.ClientSize = new System.Drawing.Size(230, 134);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
-			this.Controls.Add(this.frameComboBox);
+			this.Controls.Add(this.sceneComboBox);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "UseFrameForm";
 			this.Text = "调用其它场景";
-			this.Load += new System.EventHandler(this.UseFrameForm_Load);
+			this.Load += new System.EventHandler(this.CopySceneForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -94,7 +94,7 @@
 
 		#endregion
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox frameComboBox;
+		private System.Windows.Forms.ComboBox sceneComboBox;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton;
 	}

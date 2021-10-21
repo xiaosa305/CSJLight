@@ -1354,22 +1354,34 @@ namespace LightController.MyForm.OtherTools
 		{
 			keypressListView.Items.Clear();
 			keypressListView.Enabled = true;
+			string noKeyCode = "未设置键码值";
 			for (int keyIndex = 0; keyIndex < 24; keyIndex++)
 			{
-				if (kpEntity.Key0Array[keyIndex].Equals("00") && kpEntity.Key1Array[keyIndex].Equals("00")) 
-				{
-					continue;
-				}
-				ListViewItem item = new ListViewItem("键序" + (keyIndex + 1).ToString() + "\n" + kpEntity.Key0Array[keyIndex] + ":" + kpEntity.Key1Array[keyIndex]);	
+				ListViewItem item = new ListViewItem("键序" + (keyIndex + 1).ToString() + "\n" + kpEntity.Key0Array[keyIndex] + ":" + kpEntity.Key1Array[keyIndex]);
 				//item.ImageIndex = 2;
 
 				item.SubItems.Add((keyIndex + 1).ToString());
-				string key0 = kpEntity.Key0Array[keyIndex] ;
+				string key0 = kpEntity.Key0Array[keyIndex];
 				item.SubItems.Add(key0);
-				item.SubItems.Add(  ccEntity==null? "" :  ccEntity.CCDataList[Convert.ToInt32( key0, 16) - 1 ] .Function );
+				if (key0.Equals("00"))
+				{
+					item.SubItems.Add(noKeyCode);
+				}
+				else
+				{
+					item.SubItems.Add(ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key0, 16) - 1].Function);
+				}
+				//item.SubItems.Add(  ccEntity==null? "" :  ccEntity.CCDataList[Convert.ToInt32( key0, 16) - 1 ] .Function );
 				string key1 = kpEntity.Key1Array[keyIndex];
 				item.SubItems.Add(key1);
-				item.SubItems.Add(ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key1, 16) - 1].Function);
+				if (key1.Equals("00"))
+				{
+					item.SubItems.Add(noKeyCode);
+				}
+				else
+				{
+					item.SubItems.Add(ccEntity == null ? "" : ccEntity.CCDataList[Convert.ToInt32(key1, 16) - 1].Function);
+				}
 				keypressListView.Items.Add(item);
 			}
 		}

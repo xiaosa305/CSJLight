@@ -610,7 +610,7 @@ namespace LightController.MyForm.OtherTools
             // 
             // kpSearchTextBox
             // 
-            this.kpSearchTextBox.Location = new System.Drawing.Point(817, 425);
+            this.kpSearchTextBox.Location = new System.Drawing.Point(817, 436);
             this.kpSearchTextBox.Name = "kpSearchTextBox";
             this.kpSearchTextBox.Size = new System.Drawing.Size(106, 21);
             this.kpSearchTextBox.TabIndex = 10;
@@ -623,10 +623,10 @@ namespace LightController.MyForm.OtherTools
             this.kpCodeListBox.ForeColor = System.Drawing.Color.Black;
             this.kpCodeListBox.FormattingEnabled = true;
             this.kpCodeListBox.ItemHeight = 14;
-            this.kpCodeListBox.Location = new System.Drawing.Point(600, 425);
+            this.kpCodeListBox.Location = new System.Drawing.Point(600, 436);
             this.kpCodeListBox.Margin = new System.Windows.Forms.Padding(2);
             this.kpCodeListBox.Name = "kpCodeListBox";
-            this.kpCodeListBox.Size = new System.Drawing.Size(201, 130);
+            this.kpCodeListBox.Size = new System.Drawing.Size(201, 116);
             this.kpCodeListBox.TabIndex = 9;
             this.kpCodeListBox.DoubleClick += new System.EventHandler(this.kpCodeListBox_DoubleClick);
             // 
@@ -641,7 +641,7 @@ namespace LightController.MyForm.OtherTools
             // 
             // kpSearchButton
             // 
-            this.kpSearchButton.Location = new System.Drawing.Point(817, 452);
+            this.kpSearchButton.Location = new System.Drawing.Point(817, 479);
             this.kpSearchButton.Name = "kpSearchButton";
             this.kpSearchButton.Size = new System.Drawing.Size(105, 24);
             this.kpSearchButton.TabIndex = 7;
@@ -698,7 +698,7 @@ namespace LightController.MyForm.OtherTools
             this.keypressListView.HideSelection = false;
             this.keypressListView.Location = new System.Drawing.Point(3, 3);
             this.keypressListView.Name = "keypressListView";
-            this.keypressListView.Size = new System.Drawing.Size(1190, 402);
+            this.keypressListView.Size = new System.Drawing.Size(1190, 415);
             this.keypressListView.TabIndex = 1;
             this.keypressListView.UseCompatibleStateImageBehavior = false;
             this.keypressListView.View = System.Windows.Forms.View.Details;

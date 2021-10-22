@@ -90,5 +90,25 @@ namespace LightController.Ast
 				return channel;
 			}
 		}
-    }
+
+		/// <summary>
+		///删除表内非需保留的灯具的所有数据
+		/// </summary>
+		public void DeleteRedundantData(IList<int> retainLightIndices)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				if (retainLightIndices == null || retainLightIndices.Count == 0)
+				{
+					Clear();
+					return;
+				}
+
+				session
+					.CreateQuery("DELETE FROM DB_Channel c WHERE c.PK.LightID NOT IN (:lightIndices)")
+					.SetParameterList("lightIndices", retainLightIndices)
+					.ExecuteUpdate();
+			}
+		}
+	}
 }

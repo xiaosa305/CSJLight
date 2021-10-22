@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightController.Ast
 {
-    public class LightListOperator
+    public class LightsChange
     {
         public EnumOperator Operator{ get; set;}
         public int OldAddr { get; set; }

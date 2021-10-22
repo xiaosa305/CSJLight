@@ -170,7 +170,7 @@
   <ItemGroup>
     <Compile Include="Ast\Enum\EnumOperator.cs" />
     <Compile Include="Ast\Enum\EnumUnifyWhere.cs" />
-    <Compile Include="Ast\LightListOperator.cs" />
+    <Compile Include="Ast\LightsChange.cs" />
     <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />

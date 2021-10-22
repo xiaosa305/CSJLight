@@ -319,7 +319,7 @@ namespace LightController.MyForm
         {
             List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
 
-            // 0907 保留下来的灯具的旧索引（左Key）及新索引（右Value）；
+            // 0907 保留下来的灯具的旧索引（左Key）及新索引（右Value）；此变量作用为修改编组相关信息
             Dictionary<int, int> retainDict = new Dictionary<int, int>();
 
             //MARK 只开单场景：14.1 ReBuildLightList()方法体内，对retainLightIndices进行初始化
@@ -355,9 +355,7 @@ namespace LightController.MyForm
             LightAstList = new List<LightAst>(lightAstList2);
             LightWrapperList = new List<LightWrapper>(lightWrapperList2);
             
-            disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化
-
-          
+            disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化                
 
             selectedIndex = -1;
             selectedIndexList = new List<int>();
@@ -1706,30 +1704,6 @@ namespace LightController.MyForm
         }
 
 
-        //DOTO 211012 要重写 deleteRedundantData
-        /// <summary>
-        /// MARK 只开单场景：14.3 clearRedundantData()方法体：清空不在retainLightIndices内的DB数据，包括StepCount表及Value表
-        /// 辅助方法：清空不在retainLightIndices内的DB数据，包括StepCount表及Value表
-        /// </summary>
-        protected virtual void deleteRedundantData()
-        {
-            //Console.WriteLine(retainLightIndices);
-            // MARK 只开单场景：14.4 若retainLightIndices为空，说明所有数据皆可删除，因为没有旧灯具
-            // （全部是新加的灯具，点《确定》后删掉也无所谓了 - 若新加灯具也是空，则本来无一物何处惹尘埃）
-            if (retainLightIndices == null || retainLightIndices.Count == 0)
-            {
-                //stepCountDAO.Clear();
-                //valueDAO.Clear();
-                channelDAO.Clear();
-            }
-            else
-            {
-                //stepCountDAO.DeleteRedundantData(retainLightIndices);
-                //valueDAO.DeleteRedundantData(retainLightIndices);
-                
-            }
-        }
-
         /// <summary>
         /// 辅助方法：点击《打开工程》
         /// </summary>
@@ -2261,7 +2235,6 @@ namespace LightController.MyForm
                 MessageBox.Show(LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。"));
                 return;
             }
-
             DialogResult dr = MessageBox.Show(
                 LanguageHelper.TranslateSentence("请确保工程已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？"),
                 LanguageHelper.TranslateSentence("导出工程？"),
@@ -2296,7 +2269,7 @@ namespace LightController.MyForm
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
 
-            //DOTO 211019 导出工程
+            //DOTO 211019 导出工程 √
             //DataConvertUtils.GetInstance().SaveProjectFile(
             //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
             CSJProjectBuilder.GetInstance().BuildProjects(this,ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
@@ -2310,10 +2283,9 @@ namespace LightController.MyForm
         {
             if (LightAstList == null || LightAstList.Count == 0)
             {
-                MessageBox.Show("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。");
+                MessageBox.Show(LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出场景。请添加灯具后再使用本功能。"));
                 return;
             }
-
             //MARK 导出单场景具体实现 1. 修改弹窗的提示
             DialogResult dr = MessageBox.Show(
                     LanguageHelper.TranslateSentence("请确保灯具列表未发生变化，并且与选择的已导出工程相比，只改动了当前场景的数据，否则可能产生错误的效果!\n确定现在导出工程（只修改当前场景数据）吗？"),
@@ -2347,15 +2319,14 @@ namespace LightController.MyForm
             SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...", false, true);
             setBusy(true);
 
-            exportFrame();
+            exportScene();
         }
 
         //MARK 导出单场景具体实现 4. 把选中文件夹内的所有数据拷到临时文件夹中（DataCache\Project\CSJ），拷贝前需要先清空目标文件夹；并逐一把所有CX.bin、MX.bin文件都拷贝过去		
         /// <summary>
         /// 辅助方法：当拷贝文件发生错误时，用递归的方法重新操作
-        /// </summary>
-        /// <param name="exportPath"></param>
-        private void exportFrame()
+        /// </summary>        
+        private void exportScene()
         {
             try
             {
@@ -2375,7 +2346,7 @@ namespace LightController.MyForm
                         MessageBoxIcon.Error);
                 if (dialogResult == DialogResult.Retry)
                 {
-                    exportFrame();
+                    exportScene();
                 }
                 else
                 {
@@ -2525,7 +2496,7 @@ namespace LightController.MyForm
             {
                 if (isAfterUpdateLightList)
                 {
-                    deleteRedundantData();
+                    channelDAO.DeleteRedundantData(retainLightIndices);
                 }
                 saveProjectClick();
                 return true;

@@ -11,6 +11,7 @@ using System.IO;
 using LightController.Ast;
 using LightController.MyForm;
 using LightController.Common;
+using LightController.Ast.Enum;
 
 namespace LightController
 {
@@ -20,7 +21,7 @@ namespace LightController
 		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private IList<LightAst> lightAstList = new List<LightAst>();		
 		private MainFormBase mainForm;
-
+		
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
@@ -66,6 +67,7 @@ namespace LightController
 					minNum = la.EndNum + 1;
 				}				
 			}
+
 		}
 			
 		/// <summary>
@@ -152,12 +154,13 @@ namespace LightController
 			{
 				// 选择多个灯具情况下的删除方法：通过item来删除数据
 				foreach (ListViewItem item in lightsListView.SelectedItems)
-				{
-					lightAstList.RemoveAt(item.Index);
+				{					
+					lightAstList.RemoveAt(item.Index);	
 					item.Remove();
 				}
 				lightsListView.Refresh();
-			}
+			}					
+
 		}
 
 		/// <summary>
@@ -172,7 +175,7 @@ namespace LightController
 			mainForm.ReBuildLightList(lightAstList);
 
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 
 			//3.修改灯具列表后，提示保存工程
@@ -215,7 +218,7 @@ namespace LightController
 			if( minNum>512 ) {
 				MessageBox.Show(LanguageHelper.TranslateSentence("当前工程已经到达DMX512地址上限，请谨慎设置！"));
 				minNum = 512;
-			}
+			}		
 		}
 			   		
 		/// <summary>
@@ -258,8 +261,7 @@ namespace LightController
 			item.ImageKey = lightPic;
 			lightsListView.Items.Add(item);
 		}
-
-               
+		               
         /// <summary>
         /// 辅助方法：检测传进来的起始地址和截止地址（同时添加多个灯具时，也会有这两个地址【第一个灯的起始地址和最后一个灯的截止地址】）
         /// ，是否已被当前灯具所占用；
@@ -291,7 +293,7 @@ namespace LightController
             }
 
             return result;
-        }     
-
-	}
+        }
+		       
+    }
 }

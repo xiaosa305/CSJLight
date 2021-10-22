@@ -1505,7 +1505,7 @@ namespace LightController.MyForm
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
 			if (isMultiMode) {
-				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
+				copyValueToAll(tdIndex, EnumUnifyWhere.CHANGE_MODE, changeMode);
 			}						
 		}
 		
@@ -1571,7 +1571,7 @@ namespace LightController.MyForm
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (isMultiMode) {
-				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
+				copyValueToAll(tdIndex, EnumUnifyWhere.STEP_TIME, stepTime);
 			}
 		}
 

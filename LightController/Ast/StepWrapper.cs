@@ -114,13 +114,13 @@ namespace LightController.Ast
 		/// <param name="where"></param>
 		/// <param name="tdIndexList"></param>
 		/// <param name="commonValue"></param>
-		public void MultiChangeValue(WHERE where, IList<int> tdIndexList, int commonValue) {
+		public void MultiChangeValue(EnumUnifyWhere where, IList<int> tdIndexList, int commonValue) {
 			foreach (int tdIndex in tdIndexList)
 			{
 				switch (where) {
-					case WHERE.SCROLL_VALUE:   TongdaoList[tdIndex].ScrollValue = commonValue;  break;
-					case WHERE.CHANGE_MODE:  TongdaoList[tdIndex].ChangeMode = commonValue; break;
-					case WHERE.STEP_TIME:			TongdaoList[tdIndex].StepTime = commonValue ;	break;
+					case EnumUnifyWhere.SCROLL_VALUE:   TongdaoList[tdIndex].ScrollValue = commonValue;  break;
+					case EnumUnifyWhere.CHANGE_MODE:  TongdaoList[tdIndex].ChangeMode = commonValue; break;
+					case EnumUnifyWhere.STEP_TIME:			TongdaoList[tdIndex].StepTime = commonValue ;	break;
 				}
 			}
 		}

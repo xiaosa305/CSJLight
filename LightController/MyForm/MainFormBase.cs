@@ -1175,7 +1175,7 @@ namespace LightController.MyForm
         /// <param name="where">统一设置的属性</param>
         /// <param name="stepPos">全部步0 ;单数步1、双数步2</param>
         /// <param name="unifyValue">统一要设的值，如果是跳渐变则为其索引</param>
-        public void SetMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int stepPos, int unifyValue)
+        public void SetMultiStepValues(EnumUnifyWhere where, IList<int> tdIndexList, int startStep, int endStep, int stepPos, int unifyValue)
         {
 
             // 编组模式，将值赋给每个编组的灯具中
@@ -1323,7 +1323,7 @@ namespace LightController.MyForm
         /// 辅助方法：编组模式中，利用此方法，将修改不多的组长数据（如部分通道值、渐变方式、步时间等），用此改动较少的方法，赋给所有的组员
         /// </summary>
         /// <param name="groupSelectedIndex"></param>
-        protected void copyValueToAll(int tdIndex, WHERE where, int value)
+        protected void copyValueToAll(int tdIndex, EnumUnifyWhere where, int value)
         {
             LightStepWrapper mainLSWrapper = getCurrentLightStepWrapper(); //取出组长
             int currentStep = getCurrentStep();     // 取出组长的当前步
@@ -1333,11 +1333,11 @@ namespace LightController.MyForm
                 {
                     switch (where)
                     {
-                        case WHERE.SCROLL_VALUE:
+                        case EnumUnifyWhere.SCROLL_VALUE:
                             getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ScrollValue = value; break;
-                        case WHERE.CHANGE_MODE:
+                        case EnumUnifyWhere.CHANGE_MODE:
                             getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ChangeMode = value; break;
-                        case WHERE.STEP_TIME:
+                        case EnumUnifyWhere.STEP_TIME:
                             getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].StepTime = value; break;
                     }
                 }
@@ -1349,7 +1349,7 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="where"></param>
         /// <param name="value"></param>
-        protected void copyUnifyValueToAll(int stepNum, WHERE where, int value)
+        protected void copyUnifyValueToAll(int stepNum, EnumUnifyWhere where, int value)
         {
 
             LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长			
@@ -1363,11 +1363,11 @@ namespace LightController.MyForm
                     {
                         switch (where)
                         {
-                            case WHERE.SCROLL_VALUE:
+                            case EnumUnifyWhere.SCROLL_VALUE:
                                 getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = value; break;
-                            case WHERE.CHANGE_MODE:
+                            case EnumUnifyWhere.CHANGE_MODE:
                                 getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = value; break;
-                            case WHERE.STEP_TIME:
+                            case EnumUnifyWhere.STEP_TIME:
                                 getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = value; break;
                         }
                     }
@@ -1378,7 +1378,7 @@ namespace LightController.MyForm
         /// <summary>
         /// 辅助方法：编组模式中，利用此方法，将当前步的一些《统一设置》的scrollValue值，设为编组的相关步的值。
         /// </summary>
-        protected void copyStepToAll(int stepNum, WHERE where)
+        protected void copyStepToAll(int stepNum, EnumUnifyWhere where)
         {
 
             LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
@@ -1392,13 +1392,13 @@ namespace LightController.MyForm
                     {
                         switch (where)
                         {
-                            case WHERE.SCROLL_VALUE:
+                            case EnumUnifyWhere.SCROLL_VALUE:
                                 getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue; break;
-                            case WHERE.CHANGE_MODE:
+                            case EnumUnifyWhere.CHANGE_MODE:
                                 getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode; break;
-                            case WHERE.STEP_TIME:
+                            case EnumUnifyWhere.STEP_TIME:
                                 getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime; break;
-                            case WHERE.ALL:
+                            case EnumUnifyWhere.ALL:
                                 getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;
                                 getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode;
                                 getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime;
@@ -1720,11 +1720,13 @@ namespace LightController.MyForm
             {
                 //stepCountDAO.Clear();
                 //valueDAO.Clear();
+                channelDAO.Clear();
             }
             else
             {
                 //stepCountDAO.DeleteRedundantData(retainLightIndices);
                 //valueDAO.DeleteRedundantData(retainLightIndices);
+                
             }
         }
 
@@ -3018,7 +3020,7 @@ namespace LightController.MyForm
             //3.如果是编组模式，则需要在复制步之后处理下每个灯具的信息
             if (isMultiMode)
             {
-                copyStepToAll(getCurrentStep(), WHERE.ALL);
+                copyStepToAll(getCurrentStep(), EnumUnifyWhere.ALL);
             }
 
             //4.刷新当前步
@@ -3654,7 +3656,7 @@ namespace LightController.MyForm
             getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
             if (isMultiMode)
             {
-                copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
+                copyValueToAll(tdIndex, EnumUnifyWhere.SCROLL_VALUE, tdValue);
             }
             refreshStep();
         }
@@ -4241,7 +4243,7 @@ namespace LightController.MyForm
 
             if (isMultiMode)
             {
-                copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
+                copyValueToAll(tdIndex, EnumUnifyWhere.SCROLL_VALUE, tdValue);
             }
 
             OneStepPlay(null, null); // changeScrollValue()			
@@ -4299,20 +4301,20 @@ namespace LightController.MyForm
             }
 
             // 定义where，因为下面会多次使用；
-            WHERE where = (WHERE)int.Parse(control.Tag.ToString());
-            if (where == WHERE.SCROLL_VALUE)
+            EnumUnifyWhere where = (EnumUnifyWhere)int.Parse(control.Tag.ToString());
+            if (where == EnumUnifyWhere.SCROLL_VALUE)
             {
                 NumericUpDown valueNUD = control as NumericUpDown;
                 unifyValue = decimal.ToInt32(valueNUD.Value);
                 msg += LanguageHelper.TranslateSentence("的通道值都设为： ") + unifyValue + " ？";
             }
-            else if (where == WHERE.CHANGE_MODE)
+            else if (where == EnumUnifyWhere.CHANGE_MODE)
             {
                 ComboBox cb = control as ComboBox;
                 unifyValue = cb.SelectedIndex;
                 msg += LanguageHelper.TranslateSentence("的跳渐变都设为：") + cb.Text + " ？";
             }
-            else if (where == WHERE.STEP_TIME)
+            else if (where == EnumUnifyWhere.STEP_TIME)
             {
                 NumericUpDown stNUD = control as NumericUpDown;
                 decimal stepTime = stNUD.Value;

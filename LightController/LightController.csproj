@@ -168,14 +168,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\Enum\WHERE.cs" />
+    <Compile Include="Ast\Enum\EnumOperator.cs" />
+    <Compile Include="Ast\Enum\EnumUnifyWhere.cs" />
+    <Compile Include="Ast\LightListOperator.cs" />
     <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
     <Compile Include="Entity\DB_Light.cs" />
     <Compile Include="Entity\DB_Channel.cs" />
     <Compile Include="Ast\Entity\TranslateResult.cs" />
-    <Compile Include="Ast\Enum\InsertMethod.cs" />
+    <Compile Include="Ast\Enum\EnumInsertMethod.cs" />
     <Compile Include="Ast\GroupAst.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />

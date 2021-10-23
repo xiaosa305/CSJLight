@@ -4437,6 +4437,8 @@ namespace LightController.MyForm
 
         }
 
+        #region 实现MainFormInterface内定义的一些方法，供维佳调用
+
         public IList<DB_FineTune> GetFineTunes()
         {
             return generateDBFineTuneList();
@@ -4486,6 +4488,8 @@ namespace LightController.MyForm
             }
             return result;
         }
+
+        #endregion
     }
 
 

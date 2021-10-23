@@ -111,9 +111,15 @@ namespace LightController.Ast
 			}
 		}
 
-        public HashSet<int> GetExistScene()
+        public IList<int> GetExistSceneList()
         {
-			
-        }
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<int> sceneList = session
+					.CreateSQLQuery("select distinct(scene) from channel where mode = 0")
+					.List<int>();
+				return sceneList;
+			}
+		}
     }
 }

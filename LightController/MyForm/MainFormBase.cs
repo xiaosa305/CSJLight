@@ -2230,9 +2230,6 @@ namespace LightController.MyForm
         /// </summary>
         protected void exportProjectClick()
         {
-            HashSet<int> result = GetExportSceneSet();
-            Console.WriteLine(result);
-
             if (LightAstList == null || LightAstList.Count == 0)
             {
                 MessageBox.Show(LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。"));
@@ -4479,18 +4476,14 @@ namespace LightController.MyForm
         /// <returns></returns>
         public HashSet<int> GetExportSceneSet()
         {
-            HashSet<int> result = channelDAO.GetExistScene( );
-
-
-
-            
+            HashSet<int> result = new HashSet<int>();
+            IList<int> dbSceneList = channelDAO.GetExistSceneList();                                     
             for(int sceneIndex = 0;sceneIndex<sceneLoadArray.Length; sceneIndex++ )
             {
-                if (sceneLoadArray[sceneIndex]) {
+                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex) ) {
                     result.Add(sceneIndex); 
                 }
             }
-
             return result;
         }
     }

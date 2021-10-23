@@ -110,5 +110,10 @@ namespace LightController.Ast
 					.ExecuteUpdate();
 			}
 		}
-	}
+
+        public HashSet<int> GetExistScene()
+        {
+			
+        }
+    }
 }

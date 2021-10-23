@@ -2230,6 +2230,9 @@ namespace LightController.MyForm
         /// </summary>
         protected void exportProjectClick()
         {
+            HashSet<int> result = GetExportSceneSet();
+            Console.WriteLine(result);
+
             if (LightAstList == null || LightAstList.Count == 0)
             {
                 MessageBox.Show(LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。"));
@@ -4468,6 +4471,27 @@ namespace LightController.MyForm
                 }               
             }
             return channelIDList;
+        }
+
+        /// <summary>
+        /// DOTO 挑出需要导出的场景编号，避免浪费太多时间在导出无步数的场景上；
+        /// </summary>
+        /// <returns></returns>
+        public HashSet<int> GetExportSceneSet()
+        {
+            HashSet<int> result = channelDAO.GetExistScene( );
+
+
+
+            
+            for(int sceneIndex = 0;sceneIndex<sceneLoadArray.Length; sceneIndex++ )
+            {
+                if (sceneLoadArray[sceneIndex]) {
+                    result.Add(sceneIndex); 
+                }
+            }
+
+            return result;
         }
     }
 

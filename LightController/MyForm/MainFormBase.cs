@@ -4479,7 +4479,7 @@ namespace LightController.MyForm
         public HashSet<int> GetExportSceneSet()
         {
             HashSet<int> result = new HashSet<int>();
-            IList<int> dbSceneList = channelDAO.GetExistSceneList();                                     
+            IList<int> dbSceneList = channelDAO.GetExistSceneList();                        
             for(int sceneIndex = 0;sceneIndex<sceneLoadArray.Length; sceneIndex++ )
             {
                 if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex) ) {

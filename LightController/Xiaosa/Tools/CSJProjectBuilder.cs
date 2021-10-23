@@ -1,6 +1,7 @@
 ﻿using LightController.Ast;
 using LightController.Entity;
 using LightController.MyForm;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -41,6 +42,8 @@ namespace LightController.Xiaosa.Tools
         private Completed Completed;
         private Error Error;
         private ProjectBuildProgress Progress;
+        private bool IsEmptyBasicScene;
+        private bool IsEmptyMusicScene;
 
         private CSJProjectBuilder()
         {
@@ -48,6 +51,7 @@ namespace LightController.Xiaosa.Tools
         }
         private void Init()
         {
+            CurrentSceneNo = 0;
             InitChannelTaskState();
         }
         private void InitChannelTaskState()
@@ -56,7 +60,8 @@ namespace LightController.Xiaosa.Tools
             MultipartChannelMusicTaskState = new ConcurrentDictionary<int, bool>();
             SceneBasicTaskState = false;
             SceneMusicTaskState = false;
-            CurrentSceneNo = 0;
+            IsEmptyBasicScene = true;
+            IsEmptyMusicScene = true;
         }
         private void InitProjectCacheDir()
         {
@@ -106,9 +111,14 @@ namespace LightController.Xiaosa.Tools
             {
                 for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
                 {
-                    BuildProject(sceneNo, MainFormInterface);
+                    int scene = sceneNo;
+                    BuildProject(scene, MainFormInterface);
                     InitProjectCacheDir();
                 }
+                BuildConfig();
+                Progress("全局配置文件编译成功");
+                BuildGradient();
+                Progress("场景渐变配置文件编译成功");
                 Completed();
             }
             catch (Exception ex)
@@ -116,7 +126,100 @@ namespace LightController.Xiaosa.Tools
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 int sceneNo = CurrentSceneNo + 1;
-                Error(sceneNo + "场景工程文件生成失败");
+                Error(sceneNo + "场景编译失败");
+            }
+        }
+        private void BuildConfig()
+        {
+            CSJ_Config config = new CSJ_Config(MainFormInterface.GetLights(), MainFormInterface.GetConfigPath());
+            config.WriteToFile(ProjectFileDir);
+        }
+
+        private void BuildGradient()
+        {
+            byte[][] gradientData = new byte[32][];
+            int fileSize = 4;
+            long seek = 9;
+            try
+            {
+                for (int i = 0; i < 32; i++)
+                {
+                    gradientData[i] = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                }
+                if (Directory.Exists(ProjectFileDir))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(ProjectFileDir))
+                    {
+                        string projectFileNPath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+                        if (projectFileNPath.Equals("Config.bin"))
+                        {
+                            continue;
+                        }
+                        seek = 9;
+                        if (!projectFileNPath[0].Equals('C'))
+                        {
+                            continue;
+                        }
+                        string[] strArray = projectFileNPath.Split('.');
+                        string name = strArray[0];
+                        string strScene = name.Length > 2 ? (name[1].ToString() + name[2].ToString()) : name[1].ToString();
+                        int.TryParse(strScene, out int intScneNo);
+                        using (FileStream readStream = new FileStream(filePath, FileMode.Open))
+                        {
+                            byte[] channelNumberBuff = new byte[2];
+                            int channelCount = 0;
+                            readStream.Seek(seek, SeekOrigin.Begin);
+                            readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
+                            channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
+                            seek = seek + 2;
+                            for (int i = 0; i < channelCount; i++)
+                            {
+                                int channelNo = 0;
+                                int length = 0;
+                                byte[] channelNoBuff = new byte[2];
+                                byte[] seekBuff = new byte[4];
+                                byte[] lengthBuff = new byte[2];
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
+                                channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                                seek = seek + 2;
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(lengthBuff, 0, lengthBuff.Length);
+                                length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                                //版本2.0
+                                //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
+                                seek = seek + 2;
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(seekBuff, 0, seekBuff.Length);
+                                seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                int value = readStream.ReadByte();
+                                gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
+                                seek = seek + length;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < 32; i++)
+                {
+                    fileSize = fileSize + gradientData[i].Count();
+                }
+                byte[] fileSizeBuff = new byte[] { Convert.ToByte(fileSize & 0xFF), Convert.ToByte((fileSize >> 8) & 0xFF), Convert.ToByte((fileSize >> 16) & 0xFF), Convert.ToByte((fileSize >> 24) & 0xFF) };
+                List<byte> writeBuff = new List<byte>();
+                writeBuff.AddRange(fileSizeBuff);
+                for (int i = 0; i < 32; i++)
+                {
+                    writeBuff.AddRange(gradientData[i]);
+                }
+                using (FileStream writeStream = new FileStream(ProjectFileDir + @"\GradientData.bin",FileMode.Create))
+                {
+                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
         }
 
@@ -124,11 +227,11 @@ namespace LightController.Xiaosa.Tools
         {
             CurrentSceneNo = sceneNo;
             MainFormInterface = mainFormInterface;
+            InitChannelTaskState();
             try
             {
-                InitChannelTaskState();
                 int scene = sceneNo + 1;
-                Progress(scene + "场景工程文件开始制作");
+                Progress(scene + "场景开始编译");
                 for (int i = 0; i < 512; i++)
                 {
                     var channelNo = i + 1;
@@ -148,14 +251,31 @@ namespace LightController.Xiaosa.Tools
                 {
                     Thread.Sleep(100);
                 }
-                Progress(scene + "场景工程文件制作完成");
+                string msg = "场景编译结束，";
+                if (IsEmptyBasicScene)
+                {
+                    msg = msg + "没有C" + scene + ".bin数据,";
+                }
+                else
+                {
+                    msg = msg + "C" + scene + ".bin编译成功,";
+                }
+                if (IsEmptyMusicScene)
+                {
+                    msg = msg + "没有M" + scene + ".bin数据,";
+                }
+                else
+                {
+                    msg = msg + "M" + scene + ".bin编译成功,";
+                }
+                Progress(msg);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
-                int scene = CurrentSceneNo + 1;
-                Error(sceneNo + "场景工程文件生成失败");
+                int scene = CurrentSceneNo + 1; 
+                Error(sceneNo + "场景编译失败");
             }
         }
 
@@ -193,8 +313,13 @@ namespace LightController.Xiaosa.Tools
         private void ChannelBasicTask(int channelNo)
         {
             DB_FineTune fineTune = null;
+            var list = MainFormInterface.GetFineTunes();
             foreach (var item in MainFormInterface.GetFineTunes())
             {
+                if (channelNo == 4)
+                {
+                    Console.WriteLine(channelNo);
+                }
                 if (item.FineTuneIndex == channelNo)
                 {
                     item.MaxValue = item.MaxValue == 0 ? 255 : item.MaxValue;
@@ -331,7 +456,7 @@ namespace LightController.Xiaosa.Tools
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
             List<byte> writeBuff = new List<byte>();
-            string projectFilePath = ProjectFileDir + @"\C" + CurrentSceneNo + @".bin";
+            string projectFilePath = ProjectFileDir + @"\C" + (CurrentSceneNo + 1) + @".bin";
             long seek = 0;
             for (int i = 0; i < 512; i++)
             {
@@ -421,8 +546,8 @@ namespace LightController.Xiaosa.Tools
                 {
                     writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
                 }
+                IsEmptyBasicScene = false;
             }
-            Console.WriteLine("##########################   场景" + CurrentSceneNo + "工程生成完成,当前线程ID ：" + Thread.CurrentThread.ManagedThreadId);
             SceneBasicTaskState = true;
         }
 
@@ -430,7 +555,7 @@ namespace LightController.Xiaosa.Tools
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
             List<byte> writeBuff = new List<byte>();
-            string projectFilePath = ProjectFileDir + @"\M" + CurrentSceneNo + @".bin";
+            string projectFilePath = ProjectFileDir + @"\M" + (CurrentSceneNo + 1) + @".bin";
             long seek = 0;
             for (int i = 0; i < 512; i++)
             {
@@ -539,6 +664,7 @@ namespace LightController.Xiaosa.Tools
                 {
                     writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
                 }
+                IsEmptyMusicScene = false;
             }
             SceneMusicTaskState = true;
         }

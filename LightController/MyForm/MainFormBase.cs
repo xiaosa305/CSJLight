@@ -108,7 +108,7 @@ namespace LightController.MyForm
         // 这几个IList ，存放着界面中相关的灯具数据（包括通道数据之类等）
         public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
         public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
-       
+
 
         // 通道数据操作时的变量		
         protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
@@ -120,7 +120,8 @@ namespace LightController.MyForm
         public int CurrentScene = 0; // 表示场景编号(selectedIndex)
         public int CurrentMode = 0;  // 表示模式编号(selectedIndex)；0.常规模式； 1.音频模式
 
-        protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
+        protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
+        protected int tempStepMode;  // 辅助变量，存储点击《复制步》时的模式
         protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
         // 调试变量
@@ -167,7 +168,7 @@ namespace LightController.MyForm
         protected virtual void refreshMultiModeControls() { }  //进入退出编组模式后的相关操作（让子Form自行控制各个控件的显示等）
 
         // 通道面板		
-        protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据		
+        protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList) { } //通过传来的数值，生成通道列表的数据		
         protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
 
         // 调试面板
@@ -354,9 +355,8 @@ namespace LightController.MyForm
 
             LightAstList = new List<LightAst>(lightAstList2);
             LightWrapperList = new List<LightWrapper>(lightWrapperList2);
-            
-            disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化                
 
+            disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化
             selectedIndex = -1;
             selectedIndexList = new List<int>();
 
@@ -411,17 +411,24 @@ namespace LightController.MyForm
         /// MARK 重构BuildLightList：BuildLightList改名为ReBuildLightList()，并且是完整的方法，不再需要子类完成剩余部分；只是会调用子类的reBuildLightListView()
         /// 辅助方法：添加新的lightAst列表到主界面内存中,只供 LightsForm调用）
         /// </summary>
-        public void ReBuildLightList2( List<LightsChange> changeList )
+        public void ReBuildLightList2(List<LightsChange> changeList)
         {
             //DOTO 211026 ReBuildLightList2的具体实现
-            if (changeList == null || changeList.Count == 0) {
+            if (changeList == null || changeList.Count == 0)
+            {
                 return;
-            }              
+            }
 
             // 只要灯具列表发生变化，很多相关的数据都可能发生变化，故直接重置这些可能发生变化的数据
             disposeDmaForm();  // DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
-            selectedIndex = -1;  
+            selectedIndex = -1;
             selectedIndexList = new List<int>();
+            // 新建时，需要初始化这两个List
+            if (LightAstList == null)
+            {
+                LightAstList = new List<LightAst>();
+                LightWrapperList = new List<LightWrapper>();
+            }
 
             // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）
             Dictionary<int, int> retainDict = new Dictionary<int, int>(); // 辅助变量，供修改编组信息使用
@@ -443,17 +450,16 @@ namespace LightController.MyForm
                 else if (change.Operation == EnumOperation.DELETE)
                 {
                     int delIndex = change.LightIndex;
-                    LightAstList.RemoveAt( delIndex );
-                    LightWrapperList.RemoveAt( delIndex );
+                    LightAstList.RemoveAt(delIndex);
+                    LightWrapperList.RemoveAt(delIndex);
                 }
                 // 修改：相关项内的数据进行变动
-                else if (change.Operation == EnumOperation.UPDATE) {
+                else if (change.Operation == EnumOperation.UPDATE)
+                {
                     int editIndex = change.LightIndex;
-                    LightAst editLa = change.NewLightAst;                  
-
-                    LightAstList[ editIndex ] = editLa;
-                    LightWrapperList[ editIndex ].StepTemplate = generateStepTemplate( editLa ) ;     
-                    
+                    LightAst editLa = change.NewLightAst;
+                    LightAstList[editIndex] = editLa;
+                    LightWrapperList[editIndex].StepTemplate = generateStepTemplate(editLa);
                 }
             }
 
@@ -461,7 +467,7 @@ namespace LightController.MyForm
             enterSyncMode(false); // 修改了灯具后，一定要退出同步模式
             enableProjectRelative(true);    //ReBuildLightAst内设置
             autosetEnabledPlayAndRefreshPic(); //ReBuildLightList
-            reBuildLightListView(); 
+            reBuildLightListView();
 
             //出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
             if (LightAstList != null && LightAstList.Count > 0)
@@ -479,7 +485,7 @@ namespace LightController.MyForm
                 IList<int> newIndexList = new List<int>();
                 foreach (int oldIndex in group.LightIndexList)
                 {
-                    if ( retainDict.ContainsKey(oldIndex))
+                    if (retainDict.ContainsKey(oldIndex))
                     {
                         newIndexList.Add(retainDict[oldIndex]);
                     }
@@ -601,7 +607,7 @@ namespace LightController.MyForm
 
                             //DOTO 2110262 修改generateStepTemplate，改为TongdaoCommon
                             tongdaoList.Add(new TongdaoWrapper()
-                            {                                
+                            {
                                 ScrollValue = initNum,
                                 StepTime = 50,
                                 ChangeMode = -1,
@@ -616,8 +622,11 @@ namespace LightController.MyForm
                         return new StepWrapper()
                         {
                             TongdaoList = tongdaoList,
-                            LightFullName = lightAst.LightName + "*" + lightAst.LightType, // 使用“*”作为分隔符，这样的字符无法在系统生成文件夹，可有效防止有些灯刚好Name+Type的组合相同
-                            StartNum = lightAst.StartNum
+                            StepCommon = new StepWrapperCommon()
+                            {
+                                LightFullName = lightAst.LightName + "*" + lightAst.LightType, // 使用“*”作为分隔符，这样的字符无法在系统生成文件夹，可有效防止有些灯刚好Name+Type的组合相同
+                                StartNum = lightAst.StartNum
+                            }
                         };
                     }
                 }
@@ -955,8 +964,8 @@ namespace LightController.MyForm
             {
                 for (int currentTDIndex = 0; currentTDIndex < tongdaoList.Count; currentTDIndex++)
                 {
-                    if (materialTDNameList[materialTDIndex].Equals(tongdaoList[currentTDIndex] .TongdaoCommon.TongdaoName ) )
-                    { 
+                    if (materialTDNameList[materialTDIndex].Equals(tongdaoList[currentTDIndex].TongdaoCommon.TongdaoName))
+                    {
                         sameTDIndexList.Add(new MaterialIndexAst()
                         {
                             MaterialTDIndex = materialTDIndex,
@@ -1408,7 +1417,7 @@ namespace LightController.MyForm
                     {
                         //通过组长生成相关的数据,组长自身无需复制(210715优化)；
                         StepWrapper currentStepTemplate = LightWrapperList[listIndex].StepTemplate;
-                        LightWrapperList[listIndex].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(captainLSWrapper, currentStepTemplate, CurrentMode);
+                        LightWrapperList[listIndex].LightStepWrapperList[CurrentScene, CurrentMode] = LightStepWrapper.GenerateLightStepWrapper(captainLSWrapper, currentStepTemplate);
                     }
                 }
             }
@@ -1597,7 +1606,8 @@ namespace LightController.MyForm
             if (sceneLoadArray[pk.Scene])
             {
                 int selectedLightIndex = getLightIndex(pk.ChannelID);
-                if (selectedLightIndex == -1) {
+                if (selectedLightIndex == -1)
+                {
                     return tdList;
                 }
 
@@ -1610,7 +1620,7 @@ namespace LightController.MyForm
                     {
                         if (stepWrapperList[step].TongdaoList != null && stepWrapperList[step].TongdaoList.Count > 0)
                         {
-                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[pk.ChannelID - LightAstList[selectedLightIndex].StartNum ];
+                            TongdaoWrapper tw = stepWrapperList[step].TongdaoList[pk.ChannelID - LightAstList[selectedLightIndex].StartNum];
                             tdList.Add(tw);
                         }
                     }
@@ -1650,7 +1660,8 @@ namespace LightController.MyForm
             for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
             {
                 LightAst la = LightAstList[lightIndex];
-                if (la.StartNum <= channelID && la.EndNum >= channelID) {
+                if (la.StartNum <= channelID && la.EndNum >= channelID)
+                {
                     return lightIndex;
                 }
             }
@@ -1773,7 +1784,7 @@ namespace LightController.MyForm
             GroupList = null;
 
             LightAstList = null;
-            LightWrapperList = null;            
+            LightWrapperList = null;
 
             selectedIndex = -1;
             selectedIndexList = new List<int>();
@@ -1801,7 +1812,7 @@ namespace LightController.MyForm
             refreshGroupPanels(); //clearAllData()
 
             showStepLabelMore(0, 0); //clearAllData
-            showTDPanels(null, 0); // clearAllData
+            showTDPanels(null); // clearAllData
             showLightsInfo(); //clearAllData
         }
 
@@ -1887,7 +1898,7 @@ namespace LightController.MyForm
                 LightAstList = new List<LightAst>();
                 //MARK 重构BuildLightList：原来OpenProject内用BuildLightList() --> 现把相关代码都放在方法块内
                 LightWrapperList = new List<LightWrapper>();
-               
+
                 try
                 {
                     for (int lightIndex = 0; lightIndex < dbLightList.Count; lightIndex++)
@@ -2198,7 +2209,7 @@ namespace LightController.MyForm
             // 将传送所有的DB_Light给DAO,让它进行数据的保存
             lightDAO.SaveAll("Light", generateDBLightList());
         }
-               
+
         /// <summary>
         /// 辅助方法：保存所有场景的channelList
         /// </summary>
@@ -2233,7 +2244,7 @@ namespace LightController.MyForm
             for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
             {
                 LightAst la = LightAstList[lightIndex];
-                LightStepWrapper[,] allLightStepWrappers = LightWrapperList[ lightIndex ].LightStepWrapperList;                
+                LightStepWrapper[,] allLightStepWrappers = LightWrapperList[lightIndex].LightStepWrapperList;
 
                 //10.17 取出灯具的当前场景（两种模式都要），并将它们保存起来（但若为空，则不保存）
                 for (int mode = 0; mode < 2; mode++)
@@ -2374,7 +2385,7 @@ namespace LightController.MyForm
             //DOTO 211019 导出工程 √
             //DataConvertUtils.GetInstance().SaveProjectFile(
             //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
-            CSJProjectBuilder.GetInstance().BuildProjects(this,ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+            CSJProjectBuilder.GetInstance().BuildProjects(this, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
         /// <summary>
@@ -2460,7 +2471,7 @@ namespace LightController.MyForm
             }
 
             //MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）			
-           //DOTO 211019 导出场景
+            //DOTO 211019 导出场景
             //DataConvertUtils.GetInstance().SaveSingleFrameFile(
             //    GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
@@ -2563,7 +2574,7 @@ namespace LightController.MyForm
                 foreach (LightWrapper lightWrapper in LightWrapperList)
                 {
                     lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode]
-                        = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[scene, CurrentMode], lightWrapper.StepTemplate, CurrentMode);
+                        = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[scene, CurrentMode], lightWrapper.StepTemplate);
                 }
             }
 
@@ -3070,12 +3081,12 @@ namespace LightController.MyForm
                 SetNotice("当前步数据为空，无法粘贴步。", true, true);
                 return;
             }
-            if (currentStep.LightMode != tempStep.LightMode)
+            if (CurrentMode != tempStepMode)
             {
                 SetNotice("不同模式下无法复制步。", true, true);
                 return;
             }
-            if (currentStep.LightFullName != tempStep.LightFullName)
+            if (currentStep.StepCommon.LightFullName != tempStep.StepCommon.LightFullName)
             {
                 SetNotice("不同类型灯具无法复制步。", true, true);
                 return;
@@ -3337,7 +3348,7 @@ namespace LightController.MyForm
         {
             if (stepNum == 0)
             {
-                showTDPanels(null, 0);
+                showTDPanels(null);
                 showStepLabelMore(0, 0); // chooseStep(0)
                 from0on = true;
             }
@@ -3369,7 +3380,7 @@ namespace LightController.MyForm
                     }
                 }
 
-                showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
+                showTDPanels(stepWrapper.TongdaoList);
                 showStepLabelMore(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep); //chooseStep
                 from0on = false;
             }
@@ -3408,7 +3419,7 @@ namespace LightController.MyForm
             string lightName = la.LightName;
             string lightType = la.LightType;
             string lightAddr = la.LightAddr;
-            string tdName = lw.StepTemplate.TongdaoList[selectedTdIndex].TongdaoCommon.TongdaoName ;
+            string tdName = lw.StepTemplate.TongdaoList[selectedTdIndex].TongdaoCommon.TongdaoName;
 
             SetNotice("打开【" + lightType + "(" + selectedIndex + ")" + "(" + selectedTdIndex + ":" + tdName + ")】的单通道多步联调窗口。", false, false);
 
@@ -4564,12 +4575,13 @@ namespace LightController.MyForm
         public IList<int> GetChannelIDList()
         {
             IList<int> channelIDList = new List<int>();
-            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++) {
+            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
+            {
                 LightAst la = LightAstList[lightIndex];
-                for (int channelID = la.StartNum; channelID <= la.EndNum ; channelID++)
+                for (int channelID = la.StartNum; channelID <= la.EndNum; channelID++)
                 {
                     channelIDList.Add(channelID);
-                }               
+                }
             }
             return channelIDList;
         }
@@ -4581,11 +4593,12 @@ namespace LightController.MyForm
         public HashSet<int> GetExportSceneSet()
         {
             HashSet<int> result = new HashSet<int>();
-            IList<int> dbSceneList = channelDAO.GetExistSceneList();                        
-            for(int sceneIndex = 0;sceneIndex<sceneLoadArray.Length; sceneIndex++ )
+            IList<int> dbSceneList = channelDAO.GetExistSceneList();
+            for (int sceneIndex = 0; sceneIndex < sceneLoadArray.Length; sceneIndex++)
             {
-                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex) ) {
-                    result.Add(sceneIndex); 
+                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex))
+                {
+                    result.Add(sceneIndex);
                 }
             }
             return result;

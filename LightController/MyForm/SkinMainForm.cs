@@ -702,7 +702,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
+		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList)
 		{
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
@@ -718,28 +718,28 @@ namespace LightController.MyForm
 			else
 			{				
 				labelPanel.Show();
-				for (int i = 0; i < tongdaoList.Count; i++)
+				for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
 				{
-					tdTrackBars[i].ValueChanged -= tdSkinTrackBars_ValueChanged;
-					tdValueNumericUpDowns[i].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
-					tdCmComboBoxes[i].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
-					tdStNumericUpDowns[i].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
+					tdTrackBars[tdIndex].ValueChanged -= tdSkinTrackBars_ValueChanged;
+					tdValueNumericUpDowns[tdIndex].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
+					tdCmComboBoxes[tdIndex].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+					tdStNumericUpDowns[tdIndex].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
 
-					tdNoLabels[i].Text = LanguageHelper.TranslateWord("通道") + (startNum + i);
-					tdNameLabels[i].Text = tongdaoList[i].TongdaoCommon.TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoCommon.Remark);
-					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
-					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
-					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
+					tdNoLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (tongdaoList[tdIndex].TongdaoCommon.Address);
+					tdNameLabels[tdIndex].Text = tongdaoList[tdIndex].TongdaoCommon.TongdaoName;
+					myToolTip.SetToolTip(tdNameLabels[tdIndex], tongdaoList[tdIndex].TongdaoCommon.Remark);
+					tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].ScrollValue;
+					tdValueNumericUpDowns[tdIndex].Text = tongdaoList[tdIndex].ScrollValue.ToString();
+					tdCmComboBoxes[tdIndex].SelectedIndex = tongdaoList[tdIndex].ChangeMode;
 					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
-					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
+					tdStNumericUpDowns[tdIndex].Text = (tongdaoList[tdIndex].StepTime * EachStepTime2).ToString();
 
-					tdTrackBars[i].ValueChanged += tdSkinTrackBars_ValueChanged;
-					tdValueNumericUpDowns[i].ValueChanged += tdValueNumericUpDowns_ValueChanged;
-					tdCmComboBoxes[i].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
-					tdStNumericUpDowns[i].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;
+					tdTrackBars[tdIndex].ValueChanged += tdSkinTrackBars_ValueChanged;
+					tdValueNumericUpDowns[tdIndex].ValueChanged += tdValueNumericUpDowns_ValueChanged;
+					tdCmComboBoxes[tdIndex].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
+					tdStNumericUpDowns[tdIndex].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;
 
-					tdPanels[i].Show();
+					tdPanels[tdIndex].Show();
 				}
 				for (int i = tongdaoList.Count; i < 32; i++)
 				{

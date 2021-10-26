@@ -183,17 +183,25 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-			mainForm.ReBuildLightList(lightAstList);
+			//mainForm.ReBuildLightList(lightAstList);
 
-			//DOTO 211026 调用ReBuildLightList2，传入changeList
-			mainForm.ReBuildLightList2( changeList );
-
-			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
+			//DOTO 211026
+			//当修改了灯具列表后，必须保存工程：
+			//1. 若点了取消，则还保持在当前界面return；
+			//2.点了是，则执行操作；
+			//3.未修改和点了是(2)之后，统一都要激活mainForm
+			if (changeList != null && changeList.Count > 0) {
+				if (DialogResult.Cancel == MessageBox.Show(
+						LanguageHelper.TranslateSentence("修改灯具列表后，需保存工程变化才能生效，是否立刻保存？"),
+						"保存工程？",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question)) {
+					return;
+				}
+				mainForm.ReBuildLightList2(changeList);
+			}
 			Dispose();
-			mainForm.Activate();
-
-			//3.修改灯具列表后，提示保存工程
-			mainForm.RequestSaveProject(LanguageHelper.TranslateSentence("修改灯具列表后，是否保存工程（建议保存，否则可能会出现数据错误）？"),true);
+			mainForm.Activate();			
 		}	
 
 		/// <summary>

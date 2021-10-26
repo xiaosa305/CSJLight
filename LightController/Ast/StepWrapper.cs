@@ -12,12 +12,7 @@ namespace LightController.Ast
 	/// </summary>
 	public class StepWrapper
 	{
-		// 这两项项为复制灯数据时使用：
-		// 不同的灯具全名必然不同(厂商名+型号）；
-		// lightMode则用以区分常规场景和声控场景-->常规场景无法复制到声控场景中，反之亦然
-		public int LightMode { get; set; }
-		public string LightFullName { get; set; }
-		public int StartNum { get; set; }
+		public StepWrapperCommon StepCommon { get; set; }
 		// 这个列表记录通道数据
 		public IList<TongdaoWrapper> TongdaoList { get; set; }		
 
@@ -28,30 +23,25 @@ namespace LightController.Ast
 		/// <param name="stepTemplate">模板Step</param>
 		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
 		/// <returns></returns>
-		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<TongdaoWrapper> tempTongdaoList, int mode)
+		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<TongdaoWrapper> tempTongdaoList)
 		{
 			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 			for (int tdIndex = 0; tdIndex < tempTongdaoList.Count; tdIndex++)
 			{
-				TongdaoWrapper td = new TongdaoWrapper()
+				tongdaoList.Add(new TongdaoWrapper()
 				{
-					//TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
-					//Address = stepTemplate.TongdaoList[tdIndex].Address,
-
 					//DOTO 2110262 修改GenerateStepWrapper,把tdName,Address等，统一改为使用引用变量
 					TongdaoCommon = stepTemplate.TongdaoList[tdIndex].TongdaoCommon,
 					StepTime = tempTongdaoList[tdIndex].StepTime,
 					ChangeMode = tempTongdaoList[tdIndex].ChangeMode,
 					ScrollValue = tempTongdaoList[tdIndex].ScrollValue
-				};
-				tongdaoList.Add(td);
+				});
 			}
 			return new StepWrapper()
 			{
 				TongdaoList = tongdaoList,
-				LightMode = mode,
-				LightFullName = stepTemplate.LightFullName,
-				StartNum = stepTemplate.StartNum
+				// DOTO 2110263 StepWrapper.GenerateStepWrapper()
+				StepCommon = stepTemplate.StepCommon				
 			};
 		}
 
@@ -104,9 +94,8 @@ namespace LightController.Ast
 			return new StepWrapper()
 			{
 				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),
-				LightMode = mode,
-				LightFullName = stepTemplate.LightFullName,
-				StartNum = stepTemplate.StartNum
+				// DOTO 2110263 StepWrapper.GenerateNewStep()
+				StepCommon = stepTemplate.StepCommon
 			};
 		}	
 

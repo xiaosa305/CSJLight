@@ -814,7 +814,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
+		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList)
 		{
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
@@ -835,7 +835,7 @@ namespace LightController.MyForm
 					tdCmComboBoxes[tdIndex].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
 					tdStNumericUpDowns[tdIndex].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
 
-					tdNoLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (startNum + tdIndex);
+					tdNoLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + tongdaoList[tdIndex].TongdaoCommon.Address;
 					tdNameLabels[tdIndex].Text = tongdaoList[tdIndex].TongdaoCommon.TongdaoName;
 					myToolTip.SetToolTip(tdNameLabels[tdIndex], tongdaoList[tdIndex].TongdaoCommon.Remark);
 					tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].ScrollValue;

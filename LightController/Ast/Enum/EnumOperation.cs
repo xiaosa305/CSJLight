@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightController.Ast.Enum
 {
-    public enum EnumOperator
+    public enum EnumOperation
     {
         ADD,
         DELETE,

@@ -20,8 +20,9 @@ namespace LightController
 		public const int MAX_TD = 512;		
 		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private IList<LightAst> lightAstList = new List<LightAst>();		
-		private MainFormBase mainForm;
-		
+		private MainFormBase mainForm; 
+		private List<LightsChange> changeList ;  //DOTO 211026 定义changeList
+			 
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
@@ -68,6 +69,8 @@ namespace LightController
 				}				
 			}
 
+			//DOTO 211026 初始化changeList 
+			changeList = new List<LightsChange>();
 		}
 			
 		/// <summary>
@@ -154,13 +157,21 @@ namespace LightController
 			{
 				// 选择多个灯具情况下的删除方法：通过item来删除数据
 				foreach (ListViewItem item in lightsListView.SelectedItems)
-				{					
+				{
+					//DOTO 211026 新增changeList项，在删除灯具时
+					changeList.Add(
+						new LightsChange()
+						{
+							Operation = EnumOperation.DELETE,
+							LightIndex = item.Index,
+						}
+					);
+
 					lightAstList.RemoveAt(item.Index);	
 					item.Remove();
 				}
 				lightsListView.Refresh();
-			}					
-
+			}
 		}
 
 		/// <summary>
@@ -174,12 +185,15 @@ namespace LightController
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			mainForm.ReBuildLightList(lightAstList);
 
+			//DOTO 211026 调用ReBuildLightList2，传入changeList
+			mainForm.ReBuildLightList2( changeList );
+
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			Dispose();
 			mainForm.Activate();
 
 			//3.修改灯具列表后，提示保存工程
-			mainForm.RequestSaveProject(LanguageHelper.TranslateSentence("修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）？"),true);
+			mainForm.RequestSaveProject(LanguageHelper.TranslateSentence("修改灯具列表后，是否保存工程（建议保存，否则可能会出现数据错误）？"),true);
 		}	
 
 		/// <summary>
@@ -196,12 +210,11 @@ namespace LightController
 		internal void AddListViewAndLightAst(String lightPath,string lightName, string lightType, 
 					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
-
 			// 新增时，1.直接往listView加数据，
 			addListViewItem(lightName, lightType, lightAddr, lightPic);
 
 			// 2.往lightAstList添加新的数据
-			lightAstList.Add(new LightAst()
+			LightAst newLightAst = new LightAst()
 			{
 				LightAddr = lightAddr,
 				LightName = lightName,
@@ -211,14 +224,23 @@ namespace LightController
 				StartNum = startNum,
 				EndNum = endNum,
 				Count = lightCount
-			});
+			};
+
+			lightAstList.Add(newLightAst);
 
 			// 3.设置minNum的值 			
 			minNum = endNum + 1;
 			if( minNum>512 ) {
 				MessageBox.Show(LanguageHelper.TranslateSentence("当前工程已经到达DMX512地址上限，请谨慎设置！"));
 				minNum = 512;
-			}		
+			}
+
+			//DOTO 211026 新增changeList项，在新增灯具时
+			changeList.Add(new LightsChange()
+			{
+				Operation= EnumOperation.ADD,
+				NewLightAst = newLightAst
+			});			
 		}
 			   		
 		/// <summary>
@@ -239,6 +261,14 @@ namespace LightController
 				lightAstList[lightIndex].StartNum = startNum;
 				lightAstList[lightIndex].EndNum = endNum;
 				lightAstList[lightIndex].LightAddr = startNum + "-" + endNum;
+
+				//DOTO 211026 新增changeList项，在修改地址时
+				changeList.Add(new LightsChange()
+				{
+					Operation = EnumOperation.UPDATE,
+					LightIndex = lightIndex,
+					NewLightAst = lightAstList[ lightIndex],
+				});
 
 				// 2.修改lightListView
 				lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
@@ -294,6 +324,10 @@ namespace LightController
 
             return result;
         }
-		       
+
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(changeList);
+        }
     }
 }

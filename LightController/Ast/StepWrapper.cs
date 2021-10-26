@@ -19,8 +19,7 @@ namespace LightController.Ast
 		public string LightFullName { get; set; }
 		public int StartNum { get; set; }
 		// 这个列表记录通道数据
-		public IList<TongdaoWrapper> TongdaoList { get; set; }
-		
+		public IList<TongdaoWrapper> TongdaoList { get; set; }		
 
 		/// <summary>
 		///  辅助方法： 由 步数模板 和 TongdaoList集合 , 来生成某一步的StepWrapper;

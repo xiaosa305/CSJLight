@@ -168,9 +168,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\Enum\EnumOperator.cs" />
+    <Compile Include="Ast\Enum\EnumOperation.cs" />
     <Compile Include="Ast\Enum\EnumUnifyWhere.cs" />
     <Compile Include="Ast\LightsChange.cs" />
+    <Compile Include="Ast\TongdaoWrapperCommon.cs" />
     <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
@@ -336,11 +337,11 @@
     <Compile Include="MyForm\LightList\LightsEditForm.Designer.cs">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightList\LightsAstForm.cs">
+    <Compile Include="MyForm\LightList\LightsAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightList\LightsAstForm.designer.cs">
-      <DependentUpon>LightsAstForm.cs</DependentUpon>
+    <Compile Include="MyForm\LightList\LightsAddForm.designer.cs">
+      <DependentUpon>LightsAddForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\LightList\LightsForm.cs">
       <SubType>Form</SubType>
@@ -548,8 +549,8 @@
     <EmbeddedResource Include="MyForm\LightList\LightsEditForm.resx">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightList\LightsAstForm.resx">
-      <DependentUpon>LightsAstForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\LightList\LightsAddForm.resx">
+      <DependentUpon>LightsAddForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightList\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>

@@ -4,12 +4,7 @@ namespace LightController
 {
 	partial class LightsForm
 	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
+        /// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -152,7 +147,7 @@ namespace LightController
             this.testButton.TabIndex = 13;
             this.testButton.Text = "Test";
             this.testButton.UseVisualStyleBackColor = false;
-            this.testButton.Visible = false;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // LightsForm
             // 

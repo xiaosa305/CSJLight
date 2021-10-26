@@ -72,7 +72,7 @@ namespace LightController.MyForm
 					Margin = tdCBDemo.Margin,			
 					Size = tdCBDemo.Size,		
 					UseVisualStyleBackColor = tdCBDemo.UseVisualStyleBackColor,
-					Text = firstStep.TongdaoList[tdIndex].TongdaoName,
+					Text = firstStep.TongdaoList[tdIndex].TongdaoCommon.TongdaoName,
 				};
 				tdFLP.Controls.Add(tdCBs[tdIndex]);
 			}
@@ -168,7 +168,7 @@ namespace LightController.MyForm
 
 						tdArray[selectedStepIndex, selectedTdIndex] = new TongdaoWrapper()
 						{
-							TongdaoName = tongdaoWrapper.TongdaoName,
+							TongdaoCommon = tongdaoWrapper.TongdaoCommon,
 							ScrollValue = tongdaoWrapper.ScrollValue,
 							ChangeMode = tongdaoWrapper.ChangeMode,
 							StepTime = tongdaoWrapper.StepTime

@@ -452,26 +452,7 @@ namespace LightController.MyForm
                     LightAst editLa = change.NewLightAst;                  
 
                     LightAstList[ editIndex ] = editLa;
-                    LightWrapperList[ editIndex ].StepTemplate = generateStepTemplate( editLa );
-                    for (int sceneIndex = 0; sceneIndex < SceneCount; sceneIndex++)
-                    {
-                        // 只需修改加载到内存中的场景数据
-                        if (sceneLoadArray[sceneIndex]) {
-                            for (int modeIndex = 0; modeIndex < 2; modeIndex++) {
-                                for (int stepIndex = 0;  stepIndex < LightWrapperList[editIndex].LightStepWrapperList[sceneIndex, modeIndex].TotalStep ; stepIndex++ )
-                                {
-                                    LightWrapperList[editIndex].LightStepWrapperList[sceneIndex, modeIndex]
-                                     .StepWrapperList[stepIndex].StartNum = editLa.StartNum;
-                                    for( int tdIndex=0;
-                                        tdIndex < LightWrapperList[editIndex].LightStepWrapperList[sceneIndex, modeIndex].StepWrapperList[stepIndex].TongdaoList.Count; 
-                                        tdIndex++)
-                                    {
-                                        LightWrapperList[editIndex].LightStepWrapperList[sceneIndex, modeIndex].StepWrapperList[stepIndex].TongdaoList[tdIndex].Address = editLa.StartNum + tdIndex;
-                                    }
-                                }                               
-                            }                           
-                        } 
-                    }
+                    LightWrapperList[ editIndex ].StepTemplate = generateStepTemplate( editLa ) ;     
                     
                 }
             }
@@ -618,14 +599,18 @@ namespace LightController.MyForm
                             }
                             lightAst.SawList.Add(new SAWrapper() { SaList = saList });
 
+                            //DOTO 2110262 修改generateStepTemplate，改为TongdaoCommon
                             tongdaoList.Add(new TongdaoWrapper()
-                            {
-                                TongdaoName = tongdaoName,
+                            {                                
                                 ScrollValue = initNum,
                                 StepTime = 50,
                                 ChangeMode = -1,
-                                Address = lightAst.StartNum + (address - 1),
-                                Remark = remark
+                                TongdaoCommon = new TongdaoWrapperCommon()
+                                {
+                                    TongdaoName = tongdaoName,
+                                    Address = lightAst.StartNum + (address - 1),
+                                    Remark = remark
+                                }
                             });
                         }
                         return new StepWrapper()
@@ -706,12 +691,12 @@ namespace LightController.MyForm
                     int xz = 0, xzwt = 0, xzValue = 0, yz = 0, yzwt = 0, yzValue = 0;
                     foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
                     {
-                        switch (td.TongdaoName.Trim())
+                        switch (td.TongdaoCommon.TongdaoName.Trim())
                         {
-                            case "X轴": xz = td.Address; break;
-                            case "X轴微调": xzwt = td.Address; xzValue = td.ScrollValue; break;
-                            case "Y轴": yz = td.Address; break;
-                            case "Y轴微调": yzwt = td.Address; yzValue = td.ScrollValue; break;
+                            case "X轴": xz = td.TongdaoCommon.Address; break;
+                            case "X轴微调": xzwt = td.TongdaoCommon.Address; xzValue = td.ScrollValue; break;
+                            case "Y轴": yz = td.TongdaoCommon.Address; break;
+                            case "Y轴微调": yzwt = td.TongdaoCommon.Address; yzValue = td.ScrollValue; break;
                         }
                     }
                     if (xz != 0 && xzwt != 0)
@@ -970,8 +955,8 @@ namespace LightController.MyForm
             {
                 for (int currentTDIndex = 0; currentTDIndex < tongdaoList.Count; currentTDIndex++)
                 {
-                    if (materialTDNameList[materialTDIndex].Equals(tongdaoList[currentTDIndex].TongdaoName))
-                    {
+                    if (materialTDNameList[materialTDIndex].Equals(tongdaoList[currentTDIndex] .TongdaoCommon.TongdaoName ) )
+                    { 
                         sameTDIndexList.Add(new MaterialIndexAst()
                         {
                             MaterialTDIndex = materialTDIndex,
@@ -1643,7 +1628,8 @@ namespace LightController.MyForm
                         string[] valueArray = stepArray[step].Split('-');
                         tdList.Add(new TongdaoWrapper()
                         {
-                            Address = pk.LightID,
+                            //DOTO 211026 GetSMTDList内修改tdList的子项（先不写TongdaoCommon)
+                            //Address = pk.LightID,
                             ChangeMode = int.Parse(valueArray[0]),
                             ScrollValue = int.Parse(valueArray[1]),
                             StepTime = int.Parse(valueArray[2])
@@ -3422,7 +3408,7 @@ namespace LightController.MyForm
             string lightName = la.LightName;
             string lightType = la.LightType;
             string lightAddr = la.LightAddr;
-            string tdName = lw.StepTemplate.TongdaoList[selectedTdIndex].TongdaoName;
+            string tdName = lw.StepTemplate.TongdaoList[selectedTdIndex].TongdaoCommon.TongdaoName ;
 
             SetNotice("打开【" + lightType + "(" + selectedIndex + ")" + "(" + selectedTdIndex + ":" + tdName + ")】的单通道多步联调窗口。", false, false);
 
@@ -3891,7 +3877,7 @@ namespace LightController.MyForm
                                 {
                                     foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
                                     {
-                                        stepBytes[td.Address - 1] = (byte)td.ScrollValue;
+                                        stepBytes[td.TongdaoCommon.Address - 1] = (byte)td.ScrollValue;
                                     }
                                 }
                             }
@@ -3908,7 +3894,7 @@ namespace LightController.MyForm
                                     IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
                                     foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
                                     {
-                                        stepBytes[tdList[mi.CurrentTDIndex].Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
+                                        stepBytes[tdList[mi.CurrentTDIndex].TongdaoCommon.Address - 1] = (byte)material.TongdaoArray[0, mi.MaterialTDIndex].ScrollValue;
                                     }
                                 }
                             }

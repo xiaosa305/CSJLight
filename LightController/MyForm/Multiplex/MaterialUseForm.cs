@@ -265,7 +265,7 @@ namespace LightController.MyForm.Multiplex
 			tdComboBox.Items.Clear();
 			foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
 			{
-				tdComboBox.Items.Add(td.TongdaoName);
+				tdComboBox.Items.Add(td.TongdaoCommon.TongdaoName);
 			}
 			tdComboBox.SelectedIndex = 0;
 		}

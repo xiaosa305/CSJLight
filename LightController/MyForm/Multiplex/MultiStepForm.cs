@@ -80,7 +80,7 @@ namespace LightController.MyForm
 			for (int i = 0; i < stepTemplate.TongdaoList.Count; i++)
 			{
 				TongdaoWrapper td = stepTemplate.TongdaoList[i];
-				tdCheckBoxes[i].Text = td.Address + ":" + td.TongdaoName;
+				tdCheckBoxes[i].Text = td.TongdaoCommon.Address + ":" + td.TongdaoCommon.TongdaoName;
 				tdCheckBoxes[i].Show();
 			}
 

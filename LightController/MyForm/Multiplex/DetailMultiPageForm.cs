@@ -174,7 +174,9 @@ namespace LightController.MyForm.Multiplex
 				AutoSize = tdCheckBoxDemo.AutoSize,
 				Location = tdCheckBoxDemo.Location,
 				Size = tdCheckBoxDemo.Size ,
-				Text = mainForm.LightAstList[lightIndex].LightType + ":" + stepWrapperList[0].TongdaoList[tdIndex].Address +"." + stepWrapperList[0].TongdaoList[tdIndex].TongdaoName,				
+				Text = mainForm.LightAstList[lightIndex].LightType 
+								+ ":" + stepWrapperList[0].TongdaoList[tdIndex].TongdaoCommon.Address 
+								+"." + stepWrapperList[0].TongdaoList[tdIndex].TongdaoCommon.TongdaoName,				
 				UseVisualStyleBackColor = tdCheckBoxDemo.UseVisualStyleBackColor ,
 				Tag = lightIndex,
 			};
@@ -434,7 +436,7 @@ namespace LightController.MyForm.Multiplex
 
 				foreach (TongdaoWrapper td in sw.TongdaoList)
 				{
-					tdComboBox.Items.Add(td.TongdaoName);
+					tdComboBox.Items.Add(td.TongdaoCommon.TongdaoName);
 				}
 			}
 

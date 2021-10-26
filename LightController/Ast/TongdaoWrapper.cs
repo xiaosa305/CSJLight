@@ -28,7 +28,8 @@ namespace LightController.Ast
 		/// <param name="stepTime"></param>
 		public TongdaoWrapper(string tdName, int value, int stepTime)
 		{
-			TongdaoName = tdName;
+			//DOTO 2110262 TongdaoWrapper照样传入tdName，
+			TongdaoCommon = new TongdaoWrapperCommon(){TongdaoName = tdName};
 			ScrollValue = value;
 			StepTime = stepTime;
 			ChangeMode = 1;
@@ -42,7 +43,8 @@ namespace LightController.Ast
 		/// <param name="stepTime"></param>
 		public TongdaoWrapper(string tdName, int value, int stepTime, int changeMode)
 		{
-			TongdaoName = tdName;
+			//DOTO 2110262 TongdaoWrapper照样传入tdName，
+			TongdaoCommon = new TongdaoWrapperCommon() { TongdaoName = tdName };
 			ScrollValue = value;
 			StepTime = stepTime;
 			ChangeMode = changeMode;
@@ -60,12 +62,10 @@ namespace LightController.Ast
 			{
 				// 9.7 如果是模板数据，则根据mode来决定changeMode的初值
 				newList.Add(new TongdaoWrapper() {
-					StepTime = td.StepTime,
-					TongdaoName = td.TongdaoName,
+					StepTime = td.StepTime,				
 					ScrollValue = td.ScrollValue,
 					ChangeMode = td.ChangeMode == -1 ? (mode == 0 ? 1 : MainFormBase.DefaultSoundCM) : td.ChangeMode,
-					Address = td.Address,
-					Remark = td.Remark
+					TongdaoCommon = td.TongdaoCommon
 				}
 				);
 			}
@@ -95,7 +95,7 @@ namespace LightController.Ast
 				return ma.TongdaoArray[stepIndex, tdIndex];
 			}
 			else {
-				string tdName = ma.TongdaoArray[0, tdIndex].TongdaoName ;
+				string tdName = ma.TongdaoArray[0, tdIndex].TongdaoCommon.TongdaoName ;
 				return new TongdaoWrapper(tdName, 0, 50, ma.Mode == 0 ? 2 : 0);
 			}									
 		}

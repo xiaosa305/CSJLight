@@ -726,8 +726,8 @@ namespace LightController.MyForm
 					tdStNumericUpDowns[i].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
 
 					tdNoLabels[i].Text = LanguageHelper.TranslateWord("通道") + (startNum + i);
-					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
+					tdNameLabels[i].Text = tongdaoList[i].TongdaoCommon.TongdaoName;
+					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoCommon.Remark);
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;

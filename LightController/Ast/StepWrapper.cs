@@ -35,8 +35,11 @@ namespace LightController.Ast
 			{
 				TongdaoWrapper td = new TongdaoWrapper()
 				{
-					TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
-					Address = stepTemplate.TongdaoList[tdIndex].Address,
+					//TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
+					//Address = stepTemplate.TongdaoList[tdIndex].Address,
+
+					//DOTO 2110262 修改GenerateStepWrapper,把tdName,Address等，统一改为使用引用变量
+					TongdaoCommon = stepTemplate.TongdaoList[tdIndex].TongdaoCommon,
 					StepTime = tempTongdaoList[tdIndex].StepTime,
 					ChangeMode = tempTongdaoList[tdIndex].ChangeMode,
 					ScrollValue = tempTongdaoList[tdIndex].ScrollValue
@@ -135,11 +138,11 @@ namespace LightController.Ast
 			IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
 			foreach (TongdaoWrapper td in tongdaoList)
 			{
-				if (td.TongdaoName == LanguageHelper.TranslateWord("X轴"))
+				if (td.TongdaoCommon.TongdaoName == LanguageHelper.TranslateWord("X轴"))
 				{
 					existX = true;
 				}
-				else if (td.TongdaoName == LanguageHelper.TranslateWord("Y轴"))
+				else if (td.TongdaoCommon.TongdaoName == LanguageHelper.TranslateWord("Y轴"))
 				{
 					existY = true;
 				}
@@ -163,9 +166,9 @@ namespace LightController.Ast
 			IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
 			foreach (TongdaoWrapper td in tongdaoList)
 			{
-				if (rgbStrList.Contains(td.TongdaoName))
+				if (rgbStrList.Contains(td.TongdaoCommon.TongdaoName))
 				{
-					existSet.Add(td.TongdaoName);
+					existSet.Add(td.TongdaoCommon.TongdaoName);
 				}
 			}
 			return existSet.Count == 4;						

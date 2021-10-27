@@ -212,27 +212,6 @@ namespace LightController.Ast
 				session.CreateQuery(hql).ExecuteUpdate();
 			}
 		}
-
-		/// <summary>
-		/// MARK 只开单场景：14.6 BaseDAO中清空相关表内的不在灯具列表内的所有数据
-		///删除相应的表内所有数据
-		/// </summary>
-		public void DeleteRedundantData(IList<int> retainLightIndices)
-		{
-			using (var session = sessionFactory.OpenSession())
-			{
-				if (retainLightIndices == null || retainLightIndices.Count == 0)
-				{
-					Clear();
-					return;
-				}
-										
-				session
-					.CreateQuery("DELETE FROM " + typeof(T).Name + " t WHERE t.PK.LightIndex NOT IN (:lightIndices)")
-					.SetParameterList("lightIndices",retainLightIndices)
-					.ExecuteUpdate();				
-			}
-		}
-
+		
     }
 }

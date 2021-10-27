@@ -10,12 +10,10 @@ namespace LightController.Ast
 	// 通道包装类，记录了相关信息
 	public class TongdaoWrapper
 	{
-		public string TongdaoName { get; set; }  //通道名称
-		public int Address { get; set; }     // 通道地址
+		public TongdaoWrapperCommon TongdaoCommon { get; set; }
 		public int ScrollValue { get; set; }// 调节杆的值 --》两种方法改变：1拉杆 2.填值
 		public int ChangeMode { get; set; }     // 变化模式： | 常规：跳变0；渐变1；屏蔽2    |  声控：屏蔽0；跳变1；（渐变2）
-		public int StepTime { get; set; }    // 步时间：某内部时间因子的倍数
-		public string Remark { get; set; } //备注,主要用以显示各个子属性，在渲染时要写进去
+		public int StepTime { get; set; }    // 步时间：某内部时间因子的倍数		
 
 		/// <summary>
 		/// 构造方法：因有非空入参的构造函数，故需要一个空的构造函数
@@ -23,14 +21,15 @@ namespace LightController.Ast
 		public TongdaoWrapper() { }
 
 		/// <summary>
-		/// 构造方法：主要被《ActionForm》调用，（因有些数据是默认统一的，不需重新添加）
+		/// 构造方法：主要被《MaterialUseForm》调用，（因有些数据是默认统一的，不需重新添加）
 		/// </summary>
 		/// <param name="tdName"></param>
 		/// <param name="value"></param>
 		/// <param name="stepTime"></param>
 		public TongdaoWrapper(string tdName, int value, int stepTime)
 		{
-			TongdaoName = tdName;
+			//DOTO 2110262 TongdaoWrapper照样传入tdName，
+			TongdaoCommon = new TongdaoWrapperCommon(){TongdaoName = tdName};
 			ScrollValue = value;
 			StepTime = stepTime;
 			ChangeMode = 1;
@@ -44,7 +43,8 @@ namespace LightController.Ast
 		/// <param name="stepTime"></param>
 		public TongdaoWrapper(string tdName, int value, int stepTime, int changeMode)
 		{
-			TongdaoName = tdName;
+			//DOTO 2110262 TongdaoWrapper照样传入tdName，
+			TongdaoCommon = new TongdaoWrapperCommon() { TongdaoName = tdName };
 			ScrollValue = value;
 			StepTime = stepTime;
 			ChangeMode = changeMode;
@@ -62,12 +62,10 @@ namespace LightController.Ast
 			{
 				// 9.7 如果是模板数据，则根据mode来决定changeMode的初值
 				newList.Add(new TongdaoWrapper() {
-					StepTime = td.StepTime,
-					TongdaoName = td.TongdaoName,
+					StepTime = td.StepTime,				
 					ScrollValue = td.ScrollValue,
 					ChangeMode = td.ChangeMode == -1 ? (mode == 0 ? 1 : MainFormBase.DefaultSoundCM) : td.ChangeMode,
-					Address = td.Address,
-					Remark = td.Remark
+					TongdaoCommon = td.TongdaoCommon
 				}
 				);
 			}
@@ -97,7 +95,7 @@ namespace LightController.Ast
 				return ma.TongdaoArray[stepIndex, tdIndex];
 			}
 			else {
-				string tdName = ma.TongdaoArray[0, tdIndex].TongdaoName ;
+				string tdName = ma.TongdaoArray[0, tdIndex].TongdaoCommon.TongdaoName ;
 				return new TongdaoWrapper(tdName, 0, 50, ma.Mode == 0 ? 2 : 0);
 			}									
 		}

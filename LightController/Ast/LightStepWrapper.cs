@@ -95,7 +95,7 @@ namespace LightController.Ast
 		/// <param name="captainLSWrapper"></param>
 		/// <param name="currentStepTemplate"></param>
 		/// <returns></returns>
-		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper captainLSWrapper, StepWrapper currentStepTemplate , int mode)
+		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper captainLSWrapper, StepWrapper currentStepTemplate)
 		{
 			if (captainLSWrapper == null || captainLSWrapper.StepWrapperList==null || captainLSWrapper.StepWrapperList.Count==0) {
 				return null;
@@ -103,7 +103,7 @@ namespace LightController.Ast
 			LightStepWrapper lsWrapper = new LightStepWrapper();
 			foreach (StepWrapper  captainStepWrapper in captainLSWrapper.StepWrapperList)
 			{
-				StepWrapper newStep = StepWrapper.GenerateStepWrapper(currentStepTemplate, captainStepWrapper.TongdaoList, mode);
+				StepWrapper newStep = StepWrapper.GenerateStepWrapper(currentStepTemplate, captainStepWrapper.TongdaoList);
 				lsWrapper.AddStep(newStep);
 			}
 			return lsWrapper;

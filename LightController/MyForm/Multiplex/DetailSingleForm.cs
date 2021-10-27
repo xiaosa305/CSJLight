@@ -30,7 +30,7 @@ namespace LightController.MyForm.Multiplex
 			Text +=  "【"
 				+ mainForm.LightAstList[lightIndex].LightType 				
 				+ "("+ mainForm.LightAstList[lightIndex].LightAddr + ")"
-				+ ":" + stepWrapperList[0].TongdaoList[ tdIndex].TongdaoName 
+				+ ":" + stepWrapperList[0].TongdaoList[ tdIndex].TongdaoCommon.TongdaoName 
 				+  "】";
 			unifyComboBox.SelectedIndex = 0;
 

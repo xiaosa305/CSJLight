@@ -74,7 +74,7 @@ namespace LightController.MyForm.Multiplex
 					CheckBox tdCheckBox = new CheckBox
 					{
 						Name = "tdCheckBox" + (tdIndex + 1),
-						Text = tongdaoList[tdIndex].TongdaoName,
+						Text = tongdaoList[tdIndex].TongdaoCommon.TongdaoName,
 						AutoSize = tdCheckBoxDemo.AutoSize,
 						Location = tdCheckBoxDemo.Location,
 						Size = tdCheckBoxDemo.Size,

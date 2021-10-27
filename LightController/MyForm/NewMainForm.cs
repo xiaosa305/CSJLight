@@ -556,7 +556,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void exportProjectButton_Click(object sender, EventArgs e) { }
+		private void exportProjectButton_Click(object sender, EventArgs e) {	}
 
 		/// <summary>
 		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
@@ -814,7 +814,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
+		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList)
 		{
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
@@ -835,9 +835,9 @@ namespace LightController.MyForm
 					tdCmComboBoxes[tdIndex].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
 					tdStNumericUpDowns[tdIndex].ValueChanged -= tdStepTimeNumericUpDowns_ValueChanged;
 
-					tdNoLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + (startNum + tdIndex);
-					tdNameLabels[tdIndex].Text = tongdaoList[tdIndex].TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[tdIndex], tongdaoList[tdIndex].Remark);
+					tdNoLabels[tdIndex].Text = LanguageHelper.TranslateWord("通道") + tongdaoList[tdIndex].TongdaoCommon.Address;
+					tdNameLabels[tdIndex].Text = tongdaoList[tdIndex].TongdaoCommon.TongdaoName;
+					myToolTip.SetToolTip(tdNameLabels[tdIndex], tongdaoList[tdIndex].TongdaoCommon.Remark);
 					tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].ScrollValue;
 					tdValueNumericUpDowns[tdIndex].Text = tongdaoList[tdIndex].ScrollValue.ToString();
 					tdCmComboBoxes[tdIndex].SelectedIndex = tongdaoList[tdIndex].ChangeMode;
@@ -1432,7 +1432,7 @@ namespace LightController.MyForm
 			//3.多灯模式下，需要把调整复制到各个灯具去
 			if (isMultiMode)
 			{
-				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
+				copyValueToAll(tdIndex, EnumUnifyWhere.CHANGE_MODE, changeMode);
 			}
 		}
 
@@ -1498,7 +1498,7 @@ namespace LightController.MyForm
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (isMultiMode) {
-				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
+				copyValueToAll(tdIndex, EnumUnifyWhere.STEP_TIME, stepTime);
 			}
 		}
 

@@ -47,7 +47,7 @@ namespace LightController.Ast
 				{
 					tongdaoArray[stepIndex, tongdaoIndex] = new TongdaoWrapper
 					{
-						TongdaoName = tdNameList[tongdaoIndex],
+						TongdaoCommon = new TongdaoWrapperCommon() { TongdaoName = tdNameList[tongdaoIndex] },
 						ScrollValue = iniFileAst.ReadInt("Data", stepIndex + "_" + tongdaoIndex + "_V", 0),
 						ChangeMode = iniFileAst.ReadInt("Data", stepIndex + "_" + tongdaoIndex + "_CM", 0),
 						StepTime = iniFileAst.ReadInt("Data", stepIndex + "_" + tongdaoIndex + "_ST", 0)
@@ -117,7 +117,7 @@ namespace LightController.Ast
 				{
 					tdArray[stepIndex, tongdaoIndex] = new TongdaoWrapper
 					{
-						TongdaoName = ma2TdNameList[tongdaoIndex],
+						TongdaoCommon = new TongdaoWrapperCommon() {  TongdaoName = ma2TdNameList[tongdaoIndex] },
 						ScrollValue = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoArray[stepIndex, tongdaoIndex].ScrollValue : tdDict[ma2TdNameList[tongdaoIndex]],
 						ChangeMode = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoArray[stepIndex, tongdaoIndex].ChangeMode : 1 ,//不论哪种模式，默认都是1（渐变、跳变）
 						StepTime = tongdaoIndex < ma1.TdNameList.Count ? ma1.TongdaoArray[stepIndex, tongdaoIndex].StepTime : 50 // 默认0.04*50 = 2S

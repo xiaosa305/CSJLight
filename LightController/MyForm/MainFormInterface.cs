@@ -14,5 +14,6 @@ namespace LightController.MyForm
 		IList<DB_Light> GetLights();
 		string GetConfigPath();
 		IList<int> GetChannelIDList();
+		HashSet<int> GetExportSceneSet();
 	}
 }

@@ -80,7 +80,7 @@ namespace LightController.MyForm
 			for (int i = 0; i < stepTemplate.TongdaoList.Count; i++)
 			{
 				TongdaoWrapper td = stepTemplate.TongdaoList[i];
-				tdCheckBoxes[i].Text = td.Address + ":" + td.TongdaoName;
+				tdCheckBoxes[i].Text = td.TongdaoCommon.Address + ":" + td.TongdaoCommon.TongdaoName;
 				tdCheckBoxes[i].Show();
 			}
 
@@ -159,10 +159,10 @@ namespace LightController.MyForm
 			{
 				if (mode == 0)
 				{
-					mainForm.SetMultiStepValues(WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, 2);
+					mainForm.SetMultiStepValues(EnumUnifyWhere.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, 2);
 				}
 				else {
-					mainForm.SetMultiStepValues(WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, 0);
+					mainForm.SetMultiStepValues(EnumUnifyWhere.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, 0);
 				}				
 			}
 		}
@@ -176,7 +176,7 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				mainForm.SetMultiStepValues(WHERE.SCROLL_VALUE, tdIndexList, startStep, endStep, stepPos, 0);
+				mainForm.SetMultiStepValues(EnumUnifyWhere.SCROLL_VALUE, tdIndexList, startStep, endStep, stepPos, 0);
 			}
 		}
 
@@ -190,7 +190,7 @@ namespace LightController.MyForm
 			//通过了验证，才能继续运行核心代码
 			if (checkStepAndTds()) {
 				int commonValue = Decimal.ToInt32(commonValueNumericUpDown.Value);
-				mainForm.SetMultiStepValues(WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep, stepPos, commonValue);
+				mainForm.SetMultiStepValues(EnumUnifyWhere.SCROLL_VALUE,  tdIndexList, startStep,  endStep, stepPos, commonValue);
 			}
 		}
 
@@ -204,7 +204,7 @@ namespace LightController.MyForm
 			if (checkStepAndTds())
 			{
 				int  commonChangeModeSelectedIndex = unifyCmComboBox.SelectedIndex;
-				mainForm.SetMultiStepValues(WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, commonChangeModeSelectedIndex);
+				mainForm.SetMultiStepValues(EnumUnifyWhere.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, commonChangeModeSelectedIndex);
 			}
 		}
 
@@ -218,7 +218,7 @@ namespace LightController.MyForm
 			if (checkStepAndTds())
 			{
 				int unifyStepTime = decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.EachStepTime2);
-				mainForm.SetMultiStepValues(WHERE.STEP_TIME, tdIndexList, startStep, endStep, stepPos ,unifyStepTime);
+				mainForm.SetMultiStepValues(EnumUnifyWhere.STEP_TIME, tdIndexList, startStep, endStep, stepPos ,unifyStepTime);
 			}
 		}
 

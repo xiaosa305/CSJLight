@@ -11,6 +11,7 @@ using System.IO;
 using LightController.Ast;
 using LightController.MyForm;
 using LightController.Common;
+using LightController.Ast.Enum;
 
 namespace LightController
 {
@@ -19,8 +20,9 @@ namespace LightController
 		public const int MAX_TD = 512;		
 		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private IList<LightAst> lightAstList = new List<LightAst>();		
-		private MainFormBase mainForm;
-
+		private MainFormBase mainForm; 
+		private List<LightsChange> changeList ;  //DOTO 211026 定义changeList
+			 
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
@@ -66,6 +68,9 @@ namespace LightController
 					minNum = la.EndNum + 1;
 				}				
 			}
+
+			//DOTO 211026 初始化changeList 
+			changeList = new List<LightsChange>();
 		}
 			
 		/// <summary>
@@ -153,7 +158,16 @@ namespace LightController
 				// 选择多个灯具情况下的删除方法：通过item来删除数据
 				foreach (ListViewItem item in lightsListView.SelectedItems)
 				{
-					lightAstList.RemoveAt(item.Index);
+					//DOTO 211026 新增changeList项，在删除灯具时
+					changeList.Add(
+						new LightsChange()
+						{
+							Operation = EnumOperation.DELETE,
+							LightIndex = item.Index,
+						}
+					);
+
+					lightAstList.RemoveAt(item.Index);	
 					item.Remove();
 				}
 				lightsListView.Refresh();
@@ -169,14 +183,25 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-			mainForm.ReBuildLightList(lightAstList);
+			//mainForm.ReBuildLightList(lightAstList);
 
-			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
-			this.Dispose();
-			mainForm.Activate();
-
-			//3.修改灯具列表后，提示保存工程
-			mainForm.RequestSaveProject(LanguageHelper.TranslateSentence("修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）？"),true);
+			//DOTO 211026
+			//当修改了灯具列表后，必须保存工程：
+			//1. 若点了取消，则还保持在当前界面return；
+			//2.点了是，则执行操作；
+			//3.未修改和点了是(2)之后，统一都要激活mainForm
+			if (changeList != null && changeList.Count > 0) {
+				if (DialogResult.Cancel == MessageBox.Show(
+						LanguageHelper.TranslateSentence("修改灯具列表后，需保存工程变化才能生效，是否立刻保存？"),
+						"保存工程？",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question)) {
+					return;
+				}
+				mainForm.ReBuildLightList2(changeList);
+			}
+			Dispose();
+			mainForm.Activate();			
 		}	
 
 		/// <summary>
@@ -193,12 +218,11 @@ namespace LightController
 		internal void AddListViewAndLightAst(String lightPath,string lightName, string lightType, 
 					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
-
 			// 新增时，1.直接往listView加数据，
 			addListViewItem(lightName, lightType, lightAddr, lightPic);
 
 			// 2.往lightAstList添加新的数据
-			lightAstList.Add(new LightAst()
+			LightAst newLightAst = new LightAst()
 			{
 				LightAddr = lightAddr,
 				LightName = lightName,
@@ -208,7 +232,9 @@ namespace LightController
 				StartNum = startNum,
 				EndNum = endNum,
 				Count = lightCount
-			});
+			};
+
+			lightAstList.Add(newLightAst);
 
 			// 3.设置minNum的值 			
 			minNum = endNum + 1;
@@ -216,6 +242,13 @@ namespace LightController
 				MessageBox.Show(LanguageHelper.TranslateSentence("当前工程已经到达DMX512地址上限，请谨慎设置！"));
 				minNum = 512;
 			}
+
+			//DOTO 211026 新增changeList项，在新增灯具时
+			changeList.Add(new LightsChange()
+			{
+				Operation= EnumOperation.ADD,
+				NewLightAst = newLightAst
+			});			
 		}
 			   		
 		/// <summary>
@@ -236,6 +269,14 @@ namespace LightController
 				lightAstList[lightIndex].StartNum = startNum;
 				lightAstList[lightIndex].EndNum = endNum;
 				lightAstList[lightIndex].LightAddr = startNum + "-" + endNum;
+
+				//DOTO 211026 新增changeList项，在修改地址时
+				changeList.Add(new LightsChange()
+				{
+					Operation = EnumOperation.UPDATE,
+					LightIndex = lightIndex,
+					NewLightAst = lightAstList[ lightIndex],
+				});
 
 				// 2.修改lightListView
 				lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
@@ -258,8 +299,7 @@ namespace LightController
 			item.ImageKey = lightPic;
 			lightsListView.Items.Add(item);
 		}
-
-               
+		               
         /// <summary>
         /// 辅助方法：检测传进来的起始地址和截止地址（同时添加多个灯具时，也会有这两个地址【第一个灯的起始地址和最后一个灯的截止地址】）
         /// ，是否已被当前灯具所占用；
@@ -291,7 +331,11 @@ namespace LightController
             }
 
             return result;
-        }     
+        }
 
-	}
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(changeList);
+        }
+    }
 }

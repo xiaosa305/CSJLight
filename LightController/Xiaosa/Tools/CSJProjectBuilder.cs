@@ -113,7 +113,7 @@ namespace LightController.Xiaosa.Tools
                 {
                     int scene = sceneNo;
                     BuildProject(scene, MainFormInterface);
-                    InitProjectCacheDir();
+                    //InitProjectCacheDir();
                 }
                 BuildConfig();
                 Progress("全局配置文件编译成功");
@@ -316,10 +316,6 @@ namespace LightController.Xiaosa.Tools
             var list = MainFormInterface.GetFineTunes();
             foreach (var item in MainFormInterface.GetFineTunes())
             {
-                if (channelNo == 4)
-                {
-                    Console.WriteLine(channelNo);
-                }
                 if (item.FineTuneIndex == channelNo)
                 {
                     item.MaxValue = item.MaxValue == 0 ? 255 : item.MaxValue;
@@ -357,7 +353,7 @@ namespace LightController.Xiaosa.Tools
                     {
                         if (item.ChangeMode == 1)//渐变
                         {
-                            inc = (item.ScrollValue - startValue) / item.StepTime;
+                            inc = (item.ScrollValue - startValue) / (float)item.StepTime;
                             for (int i = 0; i < item.StepTime; i++)
                             {
                                 var value = startValue + (i + 1) * inc;
@@ -393,7 +389,7 @@ namespace LightController.Xiaosa.Tools
                 //写入缓存文件
                 if (writeBuff.Count > 0)
                 {
-                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".bin";
                     using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
                     {
                         writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
@@ -438,7 +434,7 @@ namespace LightController.Xiaosa.Tools
                 //写入缓存文件
                 if (writeBuff.Count > 0)
                 {
-                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".bin";
                     using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
                     {
                         writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
@@ -461,7 +457,7 @@ namespace LightController.Xiaosa.Tools
             for (int i = 0; i < 512; i++)
             {
                 int channelNo = i + 1;
-                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".bin";
                 if (File.Exists(cachePath))
                 {
                     cachePaths.Add(channelNo,cachePath);
@@ -560,7 +556,7 @@ namespace LightController.Xiaosa.Tools
             for (int i = 0; i < 512; i++)
             {
                 int channelNo = i + 1;
-                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".bin";
                 if (File.Exists(cachePath))
                 {
                     cachePaths.Add(channelNo, cachePath);

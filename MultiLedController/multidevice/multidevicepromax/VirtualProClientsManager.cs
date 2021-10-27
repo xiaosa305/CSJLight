@@ -75,6 +75,10 @@ namespace MultiLedController.multidevice.multidevicepromax
         private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
 
+        private int LastPackIndexSum;
+        private int CurrentPackIndexSum;
+
+
 
         //MAIN
         public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber,int ledType)
@@ -122,6 +126,8 @@ namespace MultiLedController.multidevice.multidevicepromax
 
         private void Init()
         {
+            CurrentPackIndexSum = 0;
+            LastPackIndexSum = -1;
             this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
             this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
             this.DebugDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
@@ -286,27 +292,30 @@ namespace MultiLedController.multidevice.multidevicepromax
                 {
                     if (this.isSycnFirstFrame)
                     {
-                        if (this.IsDebugDmxData)
-                        {
-                            lock (this.DebugDmxDataQueue)
-                            {
-                                if (this.SpaceDmxData.Count > 0)
-                                {
-                                    this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
-                                }
-                            }
-                        }
-                        if (this.IsRecordDmxData)
-                        {
-                            lock (this.RecordDmxDataQueue)
-                            {
-                                if (this.SpaceDmxData.Count > 0)
-                                {
-                                    this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
-                                }
-                            }
-                        }
                         //TODO 添加最大包数验证
+                        if (LastPackIndexSum == CurrentPackIndexSum)
+                        {
+                            if (this.IsDebugDmxData)
+                            {
+                                lock (this.DebugDmxDataQueue)
+                                {
+                                    if (this.SpaceDmxData.Count > 0)
+                                    {
+                                        this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                    }
+                                }
+                            }
+                            if (this.IsRecordDmxData)
+                            {
+                                lock (this.RecordDmxDataQueue)
+                                {
+                                    if (this.SpaceDmxData.Count > 0)
+                                    {
+                                        this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                    }
+                                }
+                            }
+                        }
                         List<int> keys = this.SpaceDmxData.Keys.ToList();
                         this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
                         this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
@@ -315,9 +324,12 @@ namespace MultiLedController.multidevice.multidevicepromax
                             this.SpaceDmxData.TryAdd(spaceIndex, new List<byte>());
                             this.SpaceDmxDataReceiveStatus.TryAdd(spaceIndex, false);
                         }
+                        LastPackIndexSum = CurrentPackIndexSum;
                     }
                     else
                     {
+                        LastPackIndexSum = CurrentPackIndexSum;
+                        CurrentPackIndexSum = 0;
                         this.isSycnFirstFrame = true;
                     }
                 }
@@ -335,6 +347,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                     {
                         this.SpaceDmxData[port] = dmxData;
                         this.SpaceDmxDataReceiveStatus[port] = true;
+                        CurrentPackIndexSum += port;
                     }
                 }
             }

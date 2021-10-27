@@ -21,8 +21,8 @@ namespace LightController
 		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private IList<LightAst> lightAstList = new List<LightAst>();		
 		private MainFormBase mainForm; 
-		private List<LightsChange> changeList ;  //DOTO 211026 定义changeList
-			 
+		private List<LightsChange> changeList ; 
+		
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
@@ -69,7 +69,6 @@ namespace LightController
 				}				
 			}
 
-			//DOTO 211026 初始化changeList 
 			changeList = new List<LightsChange>();
 		}
 			
@@ -185,14 +184,13 @@ namespace LightController
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			//mainForm.ReBuildLightList(lightAstList);
 
-			//DOTO 211026
-			//当修改了灯具列表后，必须保存工程：
-			//1. 若点了取消，则还保持在当前界面return；
+			//DOTO 211026 enterButton_Click() 当修改了灯具列表后，必须保存工程			
+			//1.若点了取消，则还保持在当前界面return；
 			//2.点了是，则执行操作；
 			//3.未修改和点了是(2)之后，统一都要激活mainForm
 			if (changeList != null && changeList.Count > 0) {
 				if (DialogResult.Cancel == MessageBox.Show(
-						LanguageHelper.TranslateSentence("修改灯具列表后，需保存工程变化才能生效，是否立刻保存？"),
+						LanguageHelper.TranslateSentence("点击《确定》后，会保存工程以使变动生效。是否立刻保存？"),
 						"保存工程？",
 						MessageBoxButtons.OKCancel,
 						MessageBoxIcon.Question)) {
@@ -265,6 +263,11 @@ namespace LightController
 			}
 			else
 			{
+				int oldStartNum = lightAstList[lightIndex].StartNum;
+				if (oldStartNum == startNum){
+					MessageBox.Show(LanguageHelper.TranslateSentence("设置地址与原地址相同，请重新设置。"));
+					return false;				
+				}
 				// 1.修改lightAstList
 				lightAstList[lightIndex].StartNum = startNum;
 				lightAstList[lightIndex].EndNum = endNum;
@@ -275,8 +278,9 @@ namespace LightController
 				{
 					Operation = EnumOperation.UPDATE,
 					LightIndex = lightIndex,
-					NewLightAst = lightAstList[ lightIndex],
-				});
+					NewLightAst = lightAstList[lightIndex],
+					AddNum = startNum - oldStartNum ,
+				}) ;
 
 				// 2.修改lightListView
 				lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;

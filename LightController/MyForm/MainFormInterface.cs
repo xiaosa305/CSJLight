@@ -13,7 +13,16 @@ namespace LightController.MyForm
 		int GetSceneCount();
 		IList<DB_Light> GetLights();
 		string GetConfigPath();
-		IList<int> GetChannelIDList();
+		
+		/// <summary>
+		/// 获取工程中所有灯具的所有通道列表（无论是否有步数）
+		/// </summary>
+		/// <returns></returns>
+		IList<int> GetChannelIDList();		
+		/// <summary>
+		/// 获取需要导出的场景编号，使用时foreach(int sceneNo in xx.GetExportSceneSet()) 即可
+		/// </summary>
+		/// <returns></returns>
 		HashSet<int> GetExportSceneSet();
 	}
 }

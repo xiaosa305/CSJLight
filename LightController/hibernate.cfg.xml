@@ -13,7 +13,7 @@
 
       <property name="dialect">NHibernate.Dialect.SQLiteDialect</property>
       <property name="query.substitutions">true=1;false=0</property>
-      <property name="show_sql">false</property>
+      <property name="show_sql">true</property>
       <property name="format_sql">true</property>
       <!-- 2019.9.2 建表用update方式, 会自动根据model类生成新列；但如果删除model中的属性，表中相应的列不会被删除；同时仍会保存原来的表数据（行），其中新增的列用null填充 -->
       <property name="hbm2ddl.auto">update</property>

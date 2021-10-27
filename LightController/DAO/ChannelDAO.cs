@@ -121,5 +121,31 @@ namespace LightController.Ast
 				return sceneList;
 			}
 		}
+
+        public void DeleteByLightId(int delLightId)
+        {
+			using (var session = sessionFactory.OpenSession())
+			{
+				session
+					.CreateQuery("DELETE FROM DB_Channel c WHERE c.PK.LightID =:delLightId")
+					.SetInt32("delLightId", delLightId)
+					.ExecuteUpdate();
+			}
+		}
+
+        public void UpdateByLightId(int editLightId, int addNum)
+        {
+			using (var session = sessionFactory.OpenSession())
+			{
+				session
+					.CreateSQLQuery("update channel " +
+						"set lightId = lightId + :addNum, " +
+						"channelId = channelId+ :addNum " +
+						"where LightId = :editLightId ")
+					.SetInt32("editLightId", editLightId)
+					.SetInt32("addNum",addNum)
+					.ExecuteUpdate();
+			}
+		}
     }
 }

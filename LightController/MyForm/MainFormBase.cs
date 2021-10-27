@@ -408,14 +408,12 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        /// MARK 重构BuildLightList：BuildLightList改名为ReBuildLightList()，并且是完整的方法，不再需要子类完成剩余部分；只是会调用子类的reBuildLightListView()
-        /// 辅助方法：添加新的lightAst列表到主界面内存中,只供 LightsForm调用）
+        /// 辅助方法：传入变动列表，修改数据库及内存中的相关数据（新建工程和改动工程通用）；
         /// </summary>
         public void ReBuildLightList2(List<LightsChange> changeList)
         {
             //DOTO 211026 ReBuildLightList2的具体实现
-            if (changeList == null || changeList.Count == 0)
-            {
+            if (changeList == null || changeList.Count == 0){
                 return;
             }
 
@@ -423,6 +421,7 @@ namespace LightController.MyForm
             disposeDmaForm();  // DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
             selectedIndex = -1;
             selectedIndexList = new List<int>();
+            
             // 新建时，需要初始化这两个List
             if (LightAstList == null)
             {
@@ -431,7 +430,13 @@ namespace LightController.MyForm
             }
 
             // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）
-            Dictionary<int, int> retainDict = new Dictionary<int, int>(); // 辅助变量，供修改编组信息使用
+            Dictionary<int, int> changeDict = new Dictionary<int, int>(); // 辅助变量，供修改编组信息使用
+            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
+            {
+                changeDict.Add(lightIndex, lightIndex);
+            }
+            Console.WriteLine(changeDict);
+
             foreach (LightsChange change in changeList)
             {
                 // 新增：只需新建一个LightAst、LightWrapper , DB_Light也新增一项；
@@ -439,30 +444,48 @@ namespace LightController.MyForm
                 {
                     LightAst newLa = change.NewLightAst;
                     LightAstList.Add(newLa);
-                    LightWrapperList.Add(
-                        new LightWrapper()
-                        {
-                            StepTemplate = generateStepTemplate(newLa)
-                        });
-                    // 数据是否延迟处理 ?
+                    LightWrapperList.Add( new LightWrapper()  {StepTemplate = generateStepTemplate(newLa)});                    
                 }
                 // 删除：删除LightAstList和LightWrapperList内相关项
                 else if (change.Operation == EnumOperation.DELETE)
                 {
                     int delIndex = change.LightIndex;
+                    int delLightId = LightAstList[delIndex].StartNum;
                     LightAstList.RemoveAt(delIndex);
                     LightWrapperList.RemoveAt(delIndex);
+                    channelDAO.DeleteByLightId( delLightId ); // 删除数据库相关的数据
+
+                    for (int changeIndex = 0; changeIndex < changeDict.Count ; changeIndex++)
+                    {
+                        if (changeIndex > delIndex)
+                        {
+                            changeDict[changeIndex + 1]--;
+                        }
+                        else if( changeIndex==delIndex ){
+                            changeDict[changeIndex + 1] = 0;
+                        }
+                    }
+                    Console.WriteLine(changeDict);
                 }
                 // 修改：相关项内的数据进行变动
                 else if (change.Operation == EnumOperation.UPDATE)
                 {
                     int editIndex = change.LightIndex;
-                    LightAst editLa = change.NewLightAst;
-                    LightAstList[editIndex] = editLa;
-                    LightWrapperList[editIndex].StepTemplate = generateStepTemplate(editLa);
+                    int editLightId = LightAstList[editIndex].StartNum; 
+                    LightAstList[editIndex].ChangeAddr(change.NewLightAst);
+                    LightWrapperList[editIndex].StepTemplate.StepCommon.StartNum += change.AddNum;                     
+                    for (int tdIndex = 0; tdIndex < LightWrapperList[editIndex].StepTemplate.TongdaoList.Count; tdIndex++)
+                    {
+                        LightWrapperList[editIndex].StepTemplate.TongdaoList[tdIndex].TongdaoCommon.Address += change.AddNum;
+                    }                                                      
+                    channelDAO.UpdateByLightId( editLightId,change.AddNum ); // 更新表中所有channel数据，注意set的写法（改多个列时用逗号而非and!）
                 }
             }
-
+            Console.WriteLine(changeDict);
+            // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
+            lightDAO.SaveAll("Light", generateDBLightList() );
+            fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList()); 
+                 
             //MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
             enterSyncMode(false); // 修改了灯具后，一定要退出同步模式
             enableProjectRelative(true);    //ReBuildLightAst内设置
@@ -476,38 +499,40 @@ namespace LightController.MyForm
             }
             generateLightData(); //ReBuildLightList
 
-            // 处理编组列表
-            IList<GroupAst> newGroupList = new List<GroupAst>();
-            //取出每个编组，并分别进行处理
-            foreach (GroupAst group in GroupList)
-            {
-                // 处理组员,直接用一个新的List来进行存储；
-                IList<int> newIndexList = new List<int>();
-                foreach (int oldIndex in group.LightIndexList)
-                {
-                    if (retainDict.ContainsKey(oldIndex))
-                    {
-                        newIndexList.Add(retainDict[oldIndex]);
-                    }
-                }
-                if (newIndexList.Count != 0)
-                {
-                    // 处理组长
-                    if (retainDict.ContainsKey(group.CaptainIndex))
-                    {
-                        group.CaptainIndex = retainDict[group.CaptainIndex];
-                    }
-                    else
-                    {
-                        group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
-                    }
-                    group.LightIndexList = newIndexList;
-                    newGroupList.Add(group);
-                }
-            }
-            // 最后刷新界面显示
-            GroupList = newGroupList;
-            refreshGroupPanels(); // ReBuildLightList()
+
+
+            //// 处理编组列表
+            //IList<GroupAst> newGroupList = new List<GroupAst>();
+            ////取出每个编组，并分别进行处理
+            //foreach (GroupAst group in GroupList)
+            //{
+            //    // 处理组员,直接用一个新的List来进行存储；
+            //    IList<int> newIndexList = new List<int>();
+            //    foreach (int oldIndex in group.LightIndexList)
+            //    {
+            //        if (retainDict.ContainsKey(oldIndex))
+            //        {
+            //            newIndexList.Add( retainDict[oldIndex] );
+            //        }
+            //    }
+            //    if (newIndexList.Count != 0)
+            //    {
+            //        // 处理组长
+            //        if (retainDict.ContainsKey(group.CaptainIndex))
+            //        {
+            //            group.CaptainIndex = retainDict[group.CaptainIndex];
+            //        }
+            //        else
+            //        {
+            //            group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
+            //        }
+            //        group.LightIndexList = newIndexList;
+            //        newGroupList.Add(group);
+            //    }
+            //}
+            //// 最后刷新界面显示
+            //GroupList = newGroupList;
+            //refreshGroupPanels(); // ReBuildLightList()
         }
 
         /// <summary>
@@ -553,7 +578,6 @@ namespace LightController.MyForm
         /// <returns></returns>
         protected StepWrapper generateStepTemplate(LightAst lightAst)
         {
-            //Console.WriteLine("Dickov :为 " + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")生成模板文件(StepTemplate)：");
             try
             {
                 using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
@@ -633,6 +657,7 @@ namespace LightController.MyForm
             }
             catch (Exception ex)
             {
+                SetNotice("生成灯具模板时出错:" + ex.Message , true, false) ;
                 throw ex;
             }
         }
@@ -2770,7 +2795,6 @@ namespace LightController.MyForm
         /// <param name="mouseButton"></param>
         protected void InsertStepClick(MouseButtons mouseButton)
         {
-
             if (!new MouseButtons[] { MouseButtons.Left, MouseButtons.Right }.Contains(mouseButton)) return; // 通用判断语句：非左右键点击时，return
 
             LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
@@ -3059,14 +3083,14 @@ namespace LightController.MyForm
         /// 2.若复制成功，则《粘贴步》按钮可用
         /// </summary>
         protected void copyStepClick()
-        {
+        {           
             if (getCurrentStepWrapper() == null)
             {
                 SetNotice("当前步数据为空，无法复制", true, true);
                 return;
             }
             tempStep = getCurrentStepWrapper();
-            refreshStep();
+            refreshStep(); // 主要作用是刷新按键（粘贴步可用）
         }
 
         /// <summary>

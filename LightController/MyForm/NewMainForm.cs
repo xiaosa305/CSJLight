@@ -729,7 +729,6 @@ namespace LightController.MyForm
 			//0. 每个灯具存储一个自身的saPanelDict,记录每个通道拥有的子属性（有的才加入到字典中）
 			//1. 若还未生成saPanelDict，则在选择灯具后进行生成；
 			//2. 不论是新生成还是已经存在的数据，按是否存在进行显示；
-
 			LightAst la = LightAstList[selectedIndex];
 			if (la.SawList == null)
 			{

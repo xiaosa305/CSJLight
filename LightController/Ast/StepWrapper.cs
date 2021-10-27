@@ -93,9 +93,9 @@ namespace LightController.Ast
 			}
 			return new StepWrapper()
 			{
-				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),
-				// DOTO 2110263 StepWrapper.GenerateNewStep()
-				StepCommon = stepTemplate.StepCommon
+				// DOTO 2110263 StepWrapper.GenerateNewStep() 
+				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),			
+				StepCommon = stepTemplate.StepCommon 
 			};
 		}	
 

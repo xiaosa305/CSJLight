@@ -12,8 +12,7 @@ namespace LightEditor.Ast
 	/// </summary>
 	public class SAWrapper
 	{
-		public IList<SA> SaList{ get; set; }	
-		
+		public IList<SA> SaList{ get; set; }			
 		public SAWrapper()
 		{
 			SaList = new List<SA>();			

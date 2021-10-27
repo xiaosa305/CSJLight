@@ -29,7 +29,7 @@ namespace LightController.Ast
 		public TongdaoWrapper(string tdName, int value, int stepTime)
 		{
 			//DOTO 2110262 TongdaoWrapper照样传入tdName，
-			TongdaoCommon = new TongdaoWrapperCommon(){TongdaoName = tdName};
+			TongdaoCommon = new TongdaoWrapperCommon(){ TongdaoName = tdName };
 			ScrollValue = value;
 			StepTime = stepTime;
 			ChangeMode = 1;

@@ -147,6 +147,7 @@ namespace LightController
             this.testButton.TabIndex = 13;
             this.testButton.Text = "Test";
             this.testButton.UseVisualStyleBackColor = false;
+            this.testButton.Visible = false;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // LightsForm

@@ -11,7 +11,6 @@ namespace LightController.Ast
         public EnumOperation Operation { get; set; }
         public LightAst NewLightAst { get; set;}
         public int LightIndex { get; set; }
-        //public int OldAddr { get; set; }
-        //public int NewAddr { get; set; }
-    }
+        public int AddNum { get; set;  }
+     }
 }

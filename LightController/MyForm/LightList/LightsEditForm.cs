@@ -28,23 +28,12 @@ namespace LightController.MyForm
 			nameLabel.Text = lightAst.LightName + "-" + lightAst.LightType;
 			addrLabel.Text = lightAst.LightAddr;			
 			startNUD.Value = lightAst.StartNum;
-
 		}
 
 		private void LightsEditForm_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
 			LanguageHelper.InitForm(this);
-		}
-
-		/// <summary>
-		///  点击《我知道了》按钮，会隐藏noticePanel
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void iSeeButton_Click(object sender, EventArgs e)
-		{
-			noticePanel.Hide();
 		}
 
 		/// <summary>
@@ -70,7 +59,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《放弃修改|取消》按钮
+		/// 事件：点击《取消》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

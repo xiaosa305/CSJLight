@@ -74,6 +74,17 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
+		/// 更改地址后，有些内容需要更新
+		/// </summary>
+		/// <param name="editLa"></param>
+		public void ChangeAddr(LightAst editLa)
+		{
+			StartNum = editLa.StartNum;
+			EndNum = editLa.EndNum;
+			LightAddr = editLa.LightAddr;
+		}
+
+		/// <summary>
 		///  辅助方法：重写（实际上并不算，因为形参不同）Equals语句，当地址和灯的全名一致时，基本可认为是同一个灯
 		/// </summary>
 		/// <param name="l2"></param>

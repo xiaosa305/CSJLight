@@ -337,6 +337,11 @@ namespace LightController
             return result;
         }
 
+		/// <summary>
+		///  点击《测试》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
         private void testButton_Click(object sender, EventArgs e)
         {
             Console.WriteLine(changeList);

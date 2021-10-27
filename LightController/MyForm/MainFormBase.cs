@@ -429,13 +429,12 @@ namespace LightController.MyForm
                 LightWrapperList = new List<LightWrapper>();
             }
 
-            // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）
-            Dictionary<int, int> changeDict = new Dictionary<int, int>(); // 辅助变量，供修改编组信息使用
+            // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）            
+            IList<int> retainList = new List<int>();
             for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
             {
-                changeDict.Add(lightIndex, lightIndex);
+                retainList.Add(lightIndex);
             }
-            Console.WriteLine(changeDict);
 
             foreach (LightsChange change in changeList)
             {
@@ -455,17 +454,7 @@ namespace LightController.MyForm
                     LightWrapperList.RemoveAt(delIndex);
                     channelDAO.DeleteByLightId( delLightId ); // 删除数据库相关的数据
 
-                    for (int changeIndex = 0; changeIndex < changeDict.Count ; changeIndex++)
-                    {
-                        if (changeIndex > delIndex)
-                        {
-                            changeDict[changeIndex + 1]--;
-                        }
-                        else if( changeIndex==delIndex ){
-                            changeDict[changeIndex + 1] = 0;
-                        }
-                    }
-                    Console.WriteLine(changeDict);
+                    retainList.RemoveAt(delIndex); 
                 }
                 // 修改：相关项内的数据进行变动
                 else if (change.Operation == EnumOperation.UPDATE)
@@ -481,7 +470,14 @@ namespace LightController.MyForm
                     channelDAO.UpdateByLightId( editLightId,change.AddNum ); // 更新表中所有channel数据，注意set的写法（改多个列时用逗号而非and!）
                 }
             }
-            Console.WriteLine(changeDict);
+            
+            Dictionary<int, int> retainDict = new Dictionary<int, int>();
+            for (int newIndex = 0; newIndex < retainList.Count; newIndex++) {
+                retainDict.Add(retainList[newIndex], newIndex);
+            }
+            Console.WriteLine(retainList);
+            Console.WriteLine(retainDict);
+
             // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
             lightDAO.SaveAll("Light", generateDBLightList() );
             fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList()); 
@@ -499,40 +495,38 @@ namespace LightController.MyForm
             }
             generateLightData(); //ReBuildLightList
 
-
-
             //// 处理编组列表
-            //IList<GroupAst> newGroupList = new List<GroupAst>();
-            ////取出每个编组，并分别进行处理
-            //foreach (GroupAst group in GroupList)
-            //{
-            //    // 处理组员,直接用一个新的List来进行存储；
-            //    IList<int> newIndexList = new List<int>();
-            //    foreach (int oldIndex in group.LightIndexList)
-            //    {
-            //        if (retainDict.ContainsKey(oldIndex))
-            //        {
-            //            newIndexList.Add( retainDict[oldIndex] );
-            //        }
-            //    }
-            //    if (newIndexList.Count != 0)
-            //    {
-            //        // 处理组长
-            //        if (retainDict.ContainsKey(group.CaptainIndex))
-            //        {
-            //            group.CaptainIndex = retainDict[group.CaptainIndex];
-            //        }
-            //        else
-            //        {
-            //            group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
-            //        }
-            //        group.LightIndexList = newIndexList;
-            //        newGroupList.Add(group);
-            //    }
-            //}
-            //// 最后刷新界面显示
-            //GroupList = newGroupList;
-            //refreshGroupPanels(); // ReBuildLightList()
+            IList<GroupAst> newGroupList = new List<GroupAst>();
+            //取出每个编组，并分别进行处理
+            foreach (GroupAst group in GroupList)
+            {
+                // 处理组员,直接用一个新的List来进行存储；
+                IList<int> newIndexList = new List<int>();
+                foreach (int oldIndex in group.LightIndexList)
+                {
+                    if (retainDict.ContainsKey(oldIndex))
+                    {
+                        newIndexList.Add(retainDict[oldIndex]);
+                    }
+                }
+                if (newIndexList.Count != 0)
+                {
+                    // 处理组长
+                    if (retainDict.ContainsKey(group.CaptainIndex))
+                    {
+                        group.CaptainIndex = retainDict[group.CaptainIndex];
+                    }
+                    else
+                    {
+                        group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
+                    }
+                    group.LightIndexList = newIndexList;
+                    newGroupList.Add(group);
+                }
+            }
+            // 最后刷新界面显示
+            GroupList = newGroupList;
+            refreshGroupPanels(); // ReBuildLightList()
         }
 
         /// <summary>

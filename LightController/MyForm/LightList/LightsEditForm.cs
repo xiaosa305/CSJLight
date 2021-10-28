@@ -45,7 +45,7 @@ namespace LightController.MyForm
 		{
 			int startAddr = decimal.ToInt32(startNUD.Value );
             int endAddr = startAddr + lightAst.Count - 1;
-            if (!lightsForm.CheckAddrAvailale( lightIndex,  startAddr , endAddr))
+            if (!lightsForm.CheckAddrAvailable( lightIndex,  startAddr , endAddr))
             {
                 MessageBox.Show(LanguageHelper.TranslateSentence("检测到您修改的新灯具地址中，有部分地址已被其他灯具占用，\n请重新设置起始地址后重试。"));
                 return;

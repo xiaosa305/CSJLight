@@ -410,7 +410,7 @@ namespace LightController.MyForm
         /// <summary>
         /// 辅助方法：传入变动列表，修改数据库及内存中的相关数据（新建工程和改动工程通用）；
         /// </summary>
-        public void ReBuildLightList2(List<LightsChange> changeList)
+        public void ReBuildLightList(List<LightsChange> changeList)
         {
             //DOTO 211026 ReBuildLightList2的具体实现
             if (changeList == null || changeList.Count == 0){
@@ -428,14 +428,15 @@ namespace LightController.MyForm
                 LightAstList = new List<LightAst>();
                 LightWrapperList = new List<LightWrapper>();
             }
-
-            // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）            
+            //初始化列表
             IList<int> retainList = new List<int>();
             for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
             {
                 retainList.Add(lightIndex);
             }
 
+
+            // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）
             foreach (LightsChange change in changeList)
             {
                 // 新增：只需新建一个LightAst、LightWrapper , DB_Light也新增一项；
@@ -469,15 +470,8 @@ namespace LightController.MyForm
                     }                                                      
                     channelDAO.UpdateByLightId( editLightId,change.AddNum ); // 更新表中所有channel数据，注意set的写法（改多个列时用逗号而非and!）
                 }
-            }
-            
-            Dictionary<int, int> retainDict = new Dictionary<int, int>();
-            for (int newIndex = 0; newIndex < retainList.Count; newIndex++) {
-                retainDict.Add(retainList[newIndex], newIndex);
-            }
-            Console.WriteLine(retainList);
-            Console.WriteLine(retainDict);
-
+            }            
+          
             // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
             lightDAO.SaveAll("Light", generateDBLightList() );
             fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList()); 
@@ -495,30 +489,30 @@ namespace LightController.MyForm
             }
             generateLightData(); //ReBuildLightList
 
-            //// 处理编组列表
-            IList<GroupAst> newGroupList = new List<GroupAst>();
+            // 处理编组列表
+            IList<GroupAst> newGroupList = new List<GroupAst>(); 
             //取出每个编组，并分别进行处理
             foreach (GroupAst group in GroupList)
             {
                 // 处理组员,直接用一个新的List来进行存储；
                 IList<int> newIndexList = new List<int>();
+                
                 foreach (int oldIndex in group.LightIndexList)
                 {
-                    if (retainDict.ContainsKey(oldIndex))
-                    {
-                        newIndexList.Add(retainDict[oldIndex]);
+                    if ( retainList.Contains(oldIndex) ) {
+                        newIndexList.Add(retainList.IndexOf(oldIndex));
                     }
                 }
                 if (newIndexList.Count != 0)
                 {
                     // 处理组长
-                    if (retainDict.ContainsKey(group.CaptainIndex))
+                    if (retainList.Contains(group.CaptainIndex))
                     {
-                        group.CaptainIndex = retainDict[group.CaptainIndex];
+                        group.CaptainIndex = retainList.IndexOf(group.CaptainIndex);
                     }
                     else
                     {
-                        group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
+                        group.CaptainIndex = retainList[0];  // 如果组长已经被删了，则直接设为保留下来的第一个灯具
                     }
                     group.LightIndexList = newIndexList;
                     newGroupList.Add(group);
@@ -1908,7 +1902,7 @@ namespace LightController.MyForm
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Question))
                 {
-                    new LightsForm(this, null).ShowDialog();
+                    new LightsForm(this).ShowDialog();
                 }
             }
             //10.17 若非空工程，则继续执行以下代码。
@@ -2652,7 +2646,7 @@ namespace LightController.MyForm
         /// </summary>
         protected void editLightList()
         {
-            new LightsForm(this, LightAstList).ShowDialog();
+            new LightsForm(this).ShowDialog();
         }
 
         /// <summary>
@@ -4605,7 +4599,7 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        /// DOTO 挑出需要导出的场景编号，避免浪费太多时间在导出无步数的场景上；
+        /// 挑出需要导出的场景编号，避免浪费太多时间在导出无步数的场景上；
         /// </summary>
         /// <returns></returns>
         public HashSet<int> GetExportSceneSet()
@@ -4614,7 +4608,8 @@ namespace LightController.MyForm
             IList<int> dbSceneList = channelDAO.GetExistSceneList();
             for (int sceneIndex = 0; sceneIndex < sceneLoadArray.Length; sceneIndex++)
             {
-                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex))
+                //1.已加载到内存（数据库内可能还没有保存）或 2.数据库中有数据 
+                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex)) 
                 {
                     result.Add(sceneIndex);
                 }

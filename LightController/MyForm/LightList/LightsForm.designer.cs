@@ -115,6 +115,7 @@ namespace LightController
             this.lightsListView.GridLines = true;
             this.lightsListView.HideSelection = false;
             this.lightsListView.Location = new System.Drawing.Point(419, 0);
+            this.lightsListView.MultiSelect = false;
             this.lightsListView.Name = "lightsListView";
             this.lightsListView.Size = new System.Drawing.Size(328, 509);
             this.lightsListView.TabIndex = 12;
@@ -140,14 +141,13 @@ namespace LightController
             // testButton
             // 
             this.testButton.BackColor = System.Drawing.Color.Red;
-            this.testButton.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.testButton.Font = new System.Drawing.Font("华文行楷", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.testButton.Location = new System.Drawing.Point(290, 320);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(75, 30);
             this.testButton.TabIndex = 13;
             this.testButton.Text = "Test";
             this.testButton.UseVisualStyleBackColor = false;
-            this.testButton.Visible = false;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // LightsForm

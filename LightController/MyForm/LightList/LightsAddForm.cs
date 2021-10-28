@@ -73,7 +73,7 @@ namespace LightController
 				return;
 			}
 
-            if ( ! lightsForm.CheckAddrAvailale(-1, decimal.ToInt32(startAddrNumericUpDown.Value), lastEndAddr) ){
+            if ( ! lightsForm.CheckAddrAvailable(-1, decimal.ToInt32(startAddrNumericUpDown.Value), lastEndAddr) ){
                 MessageBox.Show( LanguageHelper.TranslateSentence("检测到您添加的灯具部分地址已被占用，\n请重新设置起始地址或灯具数量。"));
                 return; 
             }

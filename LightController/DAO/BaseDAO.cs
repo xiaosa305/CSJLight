@@ -146,7 +146,7 @@ namespace LightController.Ast
 		///  1. 先采用删除数据；
 		///  2.再保存所有传进的T
 		/// </summary>
-		public void SaveAll(String tableName, IList<T> objList)
+		public void SaveAll(string tableName, IList<T> objList)
 		{
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -155,12 +155,13 @@ namespace LightController.Ast
 					try
 					{
 						session.CreateSQLQuery("delete from " + tableName).ExecuteUpdate();
-						foreach (T obj in objList)
-						{
-							session.Save(obj);
-						}
+						if (objList != null && objList.Count > 0) {
+							foreach (T obj in objList)
+							{
+								session.Save(obj);
+							}
+						}						
 						tx.Commit();
-						//MessageBox.Show("Dickov:成功保存所有("+typeof(T)+")到数据库中");
 					}
 					catch (Exception ex)
 					{
@@ -183,12 +184,13 @@ namespace LightController.Ast
 				{
 					try
 					{
-						foreach (T obj in objList)
-						{
-							session.SaveOrUpdate(obj);
+						if (objList != null && objList.Count > 0) {
+							foreach (T obj in objList)
+							{
+                                session.SaveOrUpdate(obj);
+							}					
 						}
 						tx.Commit();
-						//MessageBox.Show("Dickov:成功保存所有("+typeof(T)+")到数据库中");
 					}
 					catch (Exception ex)
 					{

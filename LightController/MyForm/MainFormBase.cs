@@ -382,45 +382,47 @@ namespace LightController.MyForm
 
             // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
             lightDAO.SaveAll("Light", generateDBLightList() );
-            fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList()); 
-                 
-            //MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
-            enterSyncMode(false); // 修改了灯具后，一定要退出同步模式
-            enableProjectRelative(true);    //ReBuildLightAst内设置
-            autosetEnabledPlayAndRefreshPic(); //ReBuildLightList
-            reBuildLightListView();
-
-            //出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
-            if (LightAstList != null && LightAstList.Count > 0)
-            {
-                selectedIndex = 0;
-            }
-            generateLightData(); //ReBuildLightList
+            fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
 
             // 处理编组列表
-            IList<GroupAst> newGroupList = new List<GroupAst>(); 
+            IList<GroupAst> newGroupList = new List<GroupAst>();
             //取出每个编组，并分别进行处理
             foreach (GroupAst group in GroupList)
             {
                 // 处理组员,直接用一个新的List来进行存储；
-                IList<int> newIndexList = new List<int>();                
+                IList<int> newIndexList = new List<int>();
                 foreach (int oldIndex in group.LightIndexList)
                 {
-                    if ( retainList.Contains(oldIndex) ) { // 若retainList中有此项
+                    if (retainList.Contains(oldIndex))
+                    { // 若retainList中有此项
                         newIndexList.Add(retainList.IndexOf(oldIndex));   // 则把该项的新索引添加进去
                     }
                 }
                 if (newIndexList.Count != 0) // 若组内成员已经为空，则此编组直接删掉(不添加到newGroupList中)
                 {
                     // 处理组长 : 如果组长还在，则取出其新下标 ; 否则设为0                    
-                    group.CaptainIndex = retainList.Contains(group.CaptainIndex) ? retainList.IndexOf(group.CaptainIndex) : 0 ;
+                    group.CaptainIndex = retainList.Contains(group.CaptainIndex) ? retainList.IndexOf(group.CaptainIndex) : 0;
                     group.LightIndexList = newIndexList;
                     newGroupList.Add(group);
                 }
             }
             GroupList = newGroupList;
-            // 最后刷新界面显示
+            saveAllGroups();
+
+            //MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
+            enterSyncMode(false); // 修改了灯具后，一定要退出同步模式
+            enableProjectRelative(true);    //ReBuildLightAst内设置
+            autosetEnabledPlayAndRefreshPic(); //ReBuildLightList
+            reBuildLightListView();
             refreshGroupPanels(); // ReBuildLightList() 
+
+            //出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
+            if (LightAstList != null && LightAstList.Count > 0)
+            {
+                selectedIndex = 0;
+            }
+            generateLightData(); //ReBuildLightList         
+            
         }
 
         /// <summary>
@@ -2040,15 +2042,7 @@ namespace LightController.MyForm
                 saveAllLights();
                 saveAllFineTunes();
                 saveSceneChannels(CurrentScene);
-
-                try
-                {
-                    GroupAst.SaveGroupIni(groupIniPath, GroupList);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("保存编组数据出错：\n" + ex.Message);
-                }
+                saveAllGroups();                
             }
 
             SetNotice(LanguageHelper.TranslateSentence("成功保存场景：") + AllSceneList[CurrentScene], true, false);
@@ -2076,15 +2070,7 @@ namespace LightController.MyForm
                 saveAllLights();
                 saveAllFineTunes();
                 saveAllChannels();
-
-                try
-                {
-                    GroupAst.SaveGroupIni(groupIniPath, GroupList);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("保存编组数据出错：\n" + ex.Message);
-                }
+                saveAllGroups();               
             }
 
             DateTime afterDT = System.DateTime.Now;
@@ -2200,6 +2186,21 @@ namespace LightController.MyForm
                 }
             }
             channelDAO.SaveSceneChannels(scene, channelDict);
+        }
+
+        /// <summary>
+        /// 辅助方法：保存编组数据（保存工程 、保存场景、更改灯具列表后都需要执行）
+        /// </summary>
+        protected void saveAllGroups() {
+            try
+            {
+                GroupAst.SaveGroupIni(groupIniPath, GroupList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("保存编组数据出错：\n" + ex.Message);
+            }
+
         }
 
         /// <summary>

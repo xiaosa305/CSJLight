@@ -27,7 +27,7 @@ namespace LightController.Ast
             foreach (LightsChange change in changeList)
             {
                 if (change.Operation != EnumOperation.NOCHANGE)
-                {  //只要有一项发生了改变，就需要询问客户是否保存
+                {  //只要有一项发生了改变，就直接返回true，表示发生了改变
                     return true;                   
                 }
             }

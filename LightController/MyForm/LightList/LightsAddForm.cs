@@ -21,19 +21,21 @@ namespace LightController
 		private string lightAddr; // 地址 ： 由【初始地址 + "-" + （初始地址+通道数）】组成
 		private string lightPic; //灯的图片地址
 		private int tdCount;    // 灯具的通道数
-        
-		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
-		{
-			if (startNum >= LightsForm.MAX_TD) {
-				MessageBox.Show(LanguageHelper.TranslateSentence("当前初始地址已经到达DMX512地址上限，请谨慎设置"));
-				startNum = 512;
-			}
-
+		        
+		public LightsAstForm(LightsForm lightsForm, string lightPath)
+		{		
 			InitializeComponent();
 			this.lightsForm = lightsForm;
-
 			this.lightPath = lightPath;
-			startAddrNumericUpDown.Value = startNum;
+
+			if (lightsForm.MinNum >= LightsForm.MAX_TD)
+			{
+				MessageBox.Show(LanguageHelper.TranslateSentence("当前初始地址已经到达DMX512地址上限，请谨慎设置"));
+				startAddrNumericUpDown.Value = 512;
+			}
+			else {
+				startAddrNumericUpDown.Value = lightsForm.MinNum ;
+			}		
 
 			readFile(lightPath);
 		}
@@ -44,8 +46,11 @@ namespace LightController
 			LanguageHelper.InitForm(this);
 		}
 
-        // 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
-        private void readFile(string lightPath)
+		/// <summary>
+		/// 辅助方法：用灯库路径，读取该灯具的相关数据
+		/// </summary>
+		/// <param name="lightPath">灯库在电脑中的位置</param>
+		private void readFile(string lightPath)
 		{
 			// 配置的每一行都要写死
 			string[] lines = File.ReadAllLines(lightPath);

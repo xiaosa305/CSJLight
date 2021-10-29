@@ -18,20 +18,20 @@ namespace LightController
     public partial class LightsForm : System.Windows.Forms.Form
     {
         public const int MAX_TD = 512;
-        private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
-        
+        public int MinNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1        
         private IList<LightAst> lightAstList = new List<LightAst>();
-        private int oldCount;
-
-        private IList<LightAst> lightAstList2 = new List<LightAst>();
-        private int newCount;
-
         private MainFormBase mainForm;
         private List<LightsChange> changeList;  //变动列表
+
         public LightsForm(MainFormBase mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
+
+            myToolTip.SetToolTip(deleteButton,
+                "1.为避免误操作，原工程中的灯具删除后，在右侧灯具列表内仍会保留，只是其\n" +
+                "《通道地址》会变成空值；如有需要，可在双击为其添加新地址后恢复；\n" +
+                "2.如果删除的是新加的灯具，则会直接删除。");
 
             // 1. 生成左边的灯具列表，树状形式		
             string path = mainForm.SavePath + @"\LightLibrary";
@@ -61,22 +61,20 @@ namespace LightController
                 this.skinTreeView1.ExpandAll();
             }
 
+            //初始化变动列表
+            changeList = new List<LightsChange>();
             // 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
             if (mainForm.LightAstList != null && mainForm.LightAstList.Count > 0)
             {
                 foreach (LightAst laOld in mainForm.LightAstList)
                 {
                     lightAstList.Add(new LightAst(laOld));
-                }
-                foreach (LightAst la in lightAstList)
-                {
-                    addListViewItem(la.LightName, la.LightType, la.LightAddr, la.LightPic);
-                    minNum = la.EndNum + 1;
+                    changeList.Add(new LightsChange() { Operation = EnumOperation.NOCHANGE });
+                    addListViewItem(laOld.LightName, laOld.LightType, laOld.LightAddr, laOld.LightPic);
+                    MinNum = laOld.EndNum + 1;
                 }
             }
 
-            //3. 初始化变动列表
-            changeList = new List<LightsChange>();
         }
 
         /// <summary>
@@ -112,7 +110,7 @@ namespace LightController
                 if (skinTreeView1.SelectedNode.Parent != null)
                 {
                     string fullPath = mainForm.SavePath + @"\LightLibrary\" + skinTreeView1.SelectedNode.FullPath + ".ini";
-                    LightsAstForm lightsAstForm = new LightsAstForm(this, fullPath, minNum);
+                    LightsAstForm lightsAstForm = new LightsAstForm(this, fullPath);
                     lightsAstForm.ShowDialog();
                 }
             }
@@ -151,21 +149,18 @@ namespace LightController
             lightAstList.Add(newLightAst);
 
             // 3.设置minNum的值 			
-            minNum = endNum + 1;
-            if (minNum > 512)
+            MinNum = endNum + 1;
+            if (MinNum > 512)
             {
                 MessageBox.Show(LanguageHelper.TranslateSentence("当前工程已经到达DMX512地址上限，请谨慎设置！"));
-                minNum = 512;
+                MinNum = 512;
             }
 
-            //DOTO 211028 新增灯具时，记录一个其在list中的index，方便edit和delete时对号入座
+            //DOTO 211028 新增灯具时，只需把NewLightAst属性与lightAstList中的项进行绑定即可（后续操作中：删除直接全删，修改则无需变动）
             changeList.Add(new LightsChange()
             {
                 Operation = EnumOperation.ADD,
                 NewLightAst = newLightAst,
-                //新增项内设置LightIndex，是为方便修改时读取（但如果先删了后 ，再点击修改，此时的Index就对应不上了啊
-                //）
-                LightIndex = lightAstList.Count - 1   
             });
         }
 
@@ -216,45 +211,35 @@ namespace LightController
             }
             else
             {
-                int oldStartNum = lightAstList[lightIndex].StartNum;
-                if (oldStartNum == startNum)
-                {
-                    MessageBox.Show(LanguageHelper.TranslateSentence("设置地址与原地址相同，请重新设置。"));
-                    return false;
-                }
-
                 // 1.修改lightAstList
                 lightAstList[lightIndex].StartNum = startNum;
                 lightAstList[lightIndex].EndNum = endNum;
                 lightAstList[lightIndex].LightAddr = startNum + "-" + endNum;
 
-                //DOTO 211028 修改灯具地址时，根据实际情况处理changeList
-                int changeIndex = getChangeIndex(lightIndex);
-                // 1.存在项且为【修改型】时
-                if (changeIndex != -1 && changeList[changeIndex].Operation == EnumOperation.UPDATE)
+                //DOTO 211028 修改灯具地址时，根据实际情况处理changeList                
+                //更改的灯具为旧灯具，才有修改的必要；
+                //新加灯具无论怎么改，都是ADD类型的，NewLightAst已指向lightAstList[lightIndex]，无需显式更改changeList内容！
+                if (lightIndex < mainForm.LightAstList.Count)
                 {
-                    int newAddNum = changeList[changeIndex].AddNum + (startNum - oldStartNum);
-                    if (newAddNum == 0)  //若最终算出来的增加值为0，则修改无意义，可直接删除这个变化项
-                    {
-                        changeList.RemoveAt(changeIndex);
+                    int addNum = startNum - mainForm.LightAstList[lightIndex].StartNum;
+                    // 当最终改动的值与原列表中的地址一致时，直接还原为NOCHANGE
+                    if (addNum == 0) { 
+                        changeList[lightIndex] = new LightsChange()
+                        {
+                            Operation = EnumOperation.NOCHANGE,
+                        };
                     }
-                    else // 否则就修改AddNum即可（其他几个属性没有修改的必要）
-                    {
-                        changeList[changeIndex].AddNum = newAddNum;
-                    }
-                }
-                // 2.不存在此项 或 3.存在项但为【删除型】时（此时的lightIndex无法和取到的项对应上，不要去动那个项！）：新建项
-                else if(changeIndex == -1 || changeList[changeIndex].Operation == EnumOperation.DELETE)
-                {
-                    changeList.Add(new LightsChange(){
+                    // 否则就设为UPDATE，并设置addNum（方便更改数据库）
+                    else {
+                        changeList[lightIndex] = new LightsChange()
+                        {
                             Operation = EnumOperation.UPDATE,
                             LightIndex = lightIndex,
                             NewLightAst = lightAstList[lightIndex],
-                            AddNum = startNum - oldStartNum,
-                    });                   
+                            AddNum = addNum,
+                        };
+                    }
                 }
-                // 4.存在项且为【新建项】时：无需额外处理， 因为此项内有效的数据NewLightAst（->lightAstList[lightIndex]）已经发生了变化
-                
 
                 // 2.修改lightListView
                 lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
@@ -279,34 +264,30 @@ namespace LightController
             }
             else
             {
-                //DOTO 211028 删除灯具时：(为简化问题，先改成每次只允许删除一个灯具)
-                //一、changeList中无相关项，只需新增就好
-                //二、changeList中无相关项
-                //  1.  新增：因为先后的lightIndex无法确保对上【或者可以确认无法对应】，故只需在记录内新加一项， 到时候按changeList顺序执行就好：只有按顺序运行，index才能对上)
-                //  2. 修改：既然项都要被删了，把相应的【修改项】直接删除好了   ！ DOTO（修改项时也可能会碰到index不符合的情况！）
-                //  3. 删除，不管这种情况
-                int delLightIndex = lightsListView.SelectedIndices[0];
-                int changeIndex = getChangeIndex(delLightIndex);
-
+                //DOTO 211028 删除灯具时：(为简化问题，先改成每次只允许删除一个灯具)->按新思路，基本上确定也可以多选了（待做）
                 //当changeList中有这个项的更改(UPDATE)记录时，把该记录删掉；
-                if (changeIndex != -1 && changeList[changeIndex].Operation == EnumOperation.UPDATE)  
+                int delLightIndex = lightsListView.SelectedIndices[0];
+                if (delLightIndex < mainForm.LightAstList.Count)
                 {
-                    changeList.RemoveAt(changeIndex);
-                } 
-                changeList.Add(
-                     new LightsChange()
-                     {
-                         Operation = EnumOperation.DELETE,
-                         LightIndex = delLightIndex,
-                     }
-                );
+                    lightAstList[delLightIndex].StartNum = 0;
+                    lightAstList[delLightIndex].EndNum = 0;
+                    lightAstList[delLightIndex].LightAddr = "";
+                    lightsListView.Items[delLightIndex].SubItems[2].Text = "";
 
-                //lightAstList.RemoveAt(delLightIndex);
-                //lightsListView.Items.RemoveAt(delLightIndex);
-                //lightAstList.Add();
-                
-
-                lightsListView.Refresh();
+                    changeList[delLightIndex] = new LightsChange()
+                    {
+                        Operation = EnumOperation.DELETE,
+                        LightIndex = delLightIndex,
+                        NewLightAst = null
+                    };
+                }
+                else
+                {
+                    changeList.RemoveAt(delLightIndex);
+                    lightAstList.RemoveAt(delLightIndex);
+                    lightsListView.Items.RemoveAt(delLightIndex);
+                    lightsListView.Refresh();
+                }
             }
         }
 
@@ -319,15 +300,8 @@ namespace LightController
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void enterButton_Click(object sender, EventArgs e)
-        {
-            // 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-            //mainForm.ReBuildLightList(lightAstList);
-
-            //DOTO 211026 enterButton_Click() 当修改了灯具列表后，必须保存工程			
-            //1.若点了取消，则还保持在当前界面return；
-            //2.点了是，则执行操作；
-            //3.未修改和点了是(2)之后，统一都要激活mainForm
-            if (changeList != null && changeList.Count > 0)
+        {                      
+            if ( LightsChange.IsChanged(changeList) )
             {
                 if (DialogResult.Cancel == MessageBox.Show(
                         LanguageHelper.TranslateSentence("点击《确定》后，会保存工程以使变动生效。是否立刻保存？"),
@@ -352,58 +326,27 @@ namespace LightController
         /// <param name="endAddr"></param>
         public bool CheckAddrAvailable(int lightIndex, int startAddr, int endAddr)
         {
-            List<int> addrList = new List<int>();
-            for (int i = 0; i < lightAstList.Count; i++)
+            HashSet<int> addrSet = new HashSet<int>();
+            for (int tempLightIndex = 0; tempLightIndex < lightAstList.Count; tempLightIndex++)
             {
-                if (i != lightIndex)
+                if (tempLightIndex != lightIndex)
                 {
-                    LightAst la = lightAstList[i];
+                    LightAst la = lightAstList[tempLightIndex];
                     for (int j = la.StartNum; j <= la.EndNum; j++)
                     {
-                        addrList.Add(j);
+                        addrSet.Add(j); //注意：此处0也可能加入到set中
                     }
                 }
             }
             for (int addr = startAddr; addr <= endAddr; addr++)
             {
-                if (addrList.Contains(addr))
+                if (addrSet.Contains(addr))
                 {
                     return false;
                 }
             }
             return true;
         }
-
-        /// <summary>
-        /// 辅助方法：获取此处变更灯具地址，是否存在于changeList中
-        /// </summary>
-        /// <param name="lightIndex">修改的灯具在列表中的index</param>
-        /// <returns>如果不存在，返回-1；否则返回在changeList中的索引</returns>
-        private int getChangeIndex(int lightIndex)
-        {
-            for (int changeIndex = 0; changeIndex < changeList.Count; changeIndex++)
-            {
-                if (changeList[changeIndex].LightIndex == lightIndex)
-                {
-                    return changeIndex;
-                }
-            }
-            return -1;
-        }
-
-        #region 测试相关
-
-        /// <summary>
-        ///  点击《测试》
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void testButton_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine(changeList);
-        }
-
-        #endregion
 
         #region 退出相关
 
@@ -429,6 +372,21 @@ namespace LightController
         }
 
         #endregion
+
+        #region 测试相关
+
+        /// <summary>
+        ///  点击《测试》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(changeList);
+        }
+
+        #endregion
+
 
     }
 }

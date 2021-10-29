@@ -27,7 +27,8 @@ namespace LightController.MyForm
 
 			nameLabel.Text = lightAst.LightName + "-" + lightAst.LightType;
 			addrLabel.Text = lightAst.LightAddr;			
-			startNUD.Value = lightAst.StartNum;
+
+			startNUD.Value = lightAst.StartNum != 0 ? lightAst.StartNum : lightsForm.MinNum ;
 		}
 
 		private void LightsEditForm_Load(object sender, EventArgs e)

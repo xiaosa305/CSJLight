@@ -37,7 +37,6 @@ namespace LightController.MyForm.Multiplex
 				lightsListView.Items.Add(item);
 			}
 		}
-
 		private void NewGroupForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);

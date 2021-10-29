@@ -7,6 +7,7 @@ namespace LightController.Ast.Enum
 {
     public enum EnumOperation
     {
+        NOCHANGE,
         ADD,
         DELETE,
         UPDATE

@@ -9,9 +9,17 @@ namespace LightController.Ast
 {
 	public class GroupAst
 	{
-		public string GroupName { get; set; }
+		/// <summary>
+		/// 组名
+		/// </summary>
+		public string GroupName { get; set; }		
+		/// <summary>
+		/// 组员列表为组内灯具在工程中的索引值
+		/// </summary>
 		public IList <int> LightIndexList { get; set; }		
-		// 组长：几个组员组成的列表的索引值
+		/// <summary>
+		/// 组长：几个组员组成的列表的索引值（下标值从0开始）
+		/// </summary>
 		public int CaptainIndex { get; set; } 
 
 		/// <summary>

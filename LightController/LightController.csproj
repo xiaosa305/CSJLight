@@ -173,6 +173,7 @@
     <Compile Include="Ast\LightsChange.cs" />
     <Compile Include="Ast\StepWrapperCommon.cs" />
     <Compile Include="Ast\TongdaoWrapperCommon.cs" />
+    <Compile Include="Common\ListHelper.cs" />
     <Compile Include="DAO\OldDAO.cs" />
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />

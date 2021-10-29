@@ -311,167 +311,75 @@ namespace LightController.MyForm
             bool enable = LightAstList != null && LightAstList.Count > 0;
             enableRefreshPic(enable);
         }
-
-        /// <summary>
-        /// MARK 重构BuildLightList：BuildLightList改名为ReBuildLightList()，并且是完整的方法，不再需要子类完成剩余部分；只是会调用子类的reBuildLightListView()
-        /// 辅助方法：添加新的lightAst列表到主界面内存中,只供 LightsForm调用）
-        /// </summary>
-        public void ReBuildLightList(IList<LightAst> lightAstList2)
-        {
-            List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
-
-            // 0907 保留下来的灯具的旧索引（左Key）及新索引（右Value）；此变量作用为修改编组相关信息
-            Dictionary<int, int> retainDict = new Dictionary<int, int>();
-
-            //MARK 只开单场景：14.1 ReBuildLightList()方法体内，对retainLightIndices进行初始化
-            retainLightIndices = new List<int>();
-            for (int newIndex = 0; newIndex < lightAstList2.Count; newIndex++)
-            {
-                // 如果addOld改成true，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
-                bool addOld = false;
-                if (LightWrapperList != null && LightWrapperList.Count > 0)
-                {
-                    for (int oldIndex = 0; oldIndex < LightAstList.Count; oldIndex++)
-                    {
-                        if (oldIndex < LightWrapperList.Count
-                            && lightAstList2[newIndex].Equals(LightAstList[oldIndex])
-                            && LightWrapperList[oldIndex] != null)
-                        {
-                            lightWrapperList2.Add(LightWrapperList[oldIndex]);
-                            addOld = true;
-                            //MARK 只开单场景：14.2 ReBuildLightList()方法体内，为retainLightIndices添加旧灯具的数据
-                            retainLightIndices.Add(lightAstList2[newIndex].StartNum);
-                            retainDict.Add(oldIndex, newIndex);
-                            break;
-                        }
-                    }
-                }
-                if (!addOld)
-                {
-                    //Console.WriteLine("Dickov : 添加了一个全新的LightWrapper["  + lightAstList2[i].LightName + ":" + lightAstList2[i].LightType + "(" + lightAstList2[i].LightAddr+ ")]，但还没有生成StepTemplate。");
-                    lightWrapperList2.Add(new LightWrapper() { StepTemplate = generateStepTemplate(lightAstList2[newIndex]) });
-                }
-            }
-
-            LightAstList = new List<LightAst>(lightAstList2);
-            LightWrapperList = new List<LightWrapper>(lightWrapperList2);
-
-            disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化
-            selectedIndex = -1;
-            selectedIndexList = new List<int>();
-
-            //MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
-            enterSyncMode(false); // 修改了灯具后，一定要退出同步模式
-            enableProjectRelative(true);    //ReBuildLightAst内设置
-            autosetEnabledPlayAndRefreshPic(); //ReBuildLightList
-            reBuildLightListView();
-
-            //出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
-            if (LightAstList != null && LightAstList.Count > 0)
-            {
-                selectedIndex = 0;
-            }
-            generateLightData(); //ReBuildLightList
-
-            // 处理编组列表
-            IList<GroupAst> newGroupList = new List<GroupAst>();
-            //取出每个编组，并分别进行处理
-            foreach (GroupAst group in GroupList)
-            {
-                // 处理组员,直接用一个新的List来进行存储；
-                IList<int> newIndexList = new List<int>();
-                foreach (int oldIndex in group.LightIndexList)
-                {
-                    if (retainDict.ContainsKey(oldIndex))
-                    {
-                        newIndexList.Add(retainDict[oldIndex]);
-                    }
-                }
-                if (newIndexList.Count != 0)
-                {
-                    // 处理组长
-                    if (retainDict.ContainsKey(group.CaptainIndex))
-                    {
-                        group.CaptainIndex = retainDict[group.CaptainIndex];
-                    }
-                    else
-                    {
-                        group.CaptainIndex = retainDict.Values.First();  // 如果组长已经被删了，则直接设为保留下来的第一个灯具 (注意：因为Dictionary[]的括号内，并不是index，而是Key！)
-                    }
-                    group.LightIndexList = newIndexList;
-                    newGroupList.Add(group);
-                }
-            }
-            // 最后刷新界面显示
-            GroupList = newGroupList;
-            refreshGroupPanels(); // ReBuildLightList()
-        }
-
+      
         /// <summary>
         /// 辅助方法：传入变动列表，修改数据库及内存中的相关数据（新建工程和改动工程通用）；
         /// </summary>
         public void ReBuildLightList(List<LightsChange> changeList)
         {
-            //DOTO 211026 ReBuildLightList2的具体实现
-            if (changeList == null || changeList.Count == 0){
+            // 若未发生任何变化，则不再往下执行
+            if ( ! LightsChange.IsChanged(changeList)) { 
                 return;
             }
 
-            // 只要灯具列表发生变化，很多相关的数据都可能发生变化，故直接重置这些可能发生变化的数据
+            // 只要灯具列表发生变化，很多相关的数据都可能发生变化，故直接重置这些可能发生变化的数据 
             disposeDmaForm();  // DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
             selectedIndex = -1;
             selectedIndexList = new List<int>();
-            
+
+            IList<int> retainList = new List<int>();
             // 新建时，需要初始化这两个List
             if (LightAstList == null)
             {
                 LightAstList = new List<LightAst>();
                 LightWrapperList = new List<LightWrapper>();
             }
-            //初始化列表
-            IList<int> retainList = new List<int>();
-            for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
-            {
-                retainList.Add(lightIndex);
-            }
-
-
-            // 遍历changeList，逐一修改LightAstList、LightWrapperList 和 数据库相关内容（该删的删、该变的变）
-            foreach (LightsChange change in changeList)
-            {
-                // 新增：只需新建一个LightAst、LightWrapper , DB_Light也新增一项；
-                if (change.Operation == EnumOperation.ADD)
+            else {
+                // 如果之前的灯具列表不为空，则可能存在旧的灯具项，此处先为retainList赋初值，再在后面的遍历中处理这些数据
+                for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                 {
-                    LightAst newLa = change.NewLightAst;
-                    LightAstList.Add(newLa);
-                    LightWrapperList.Add( new LightWrapper()  {StepTemplate = generateStepTemplate(newLa)});                    
+                    retainList.Add(lightIndex);
                 }
-                // 删除：删除LightAstList和LightWrapperList内相关项
-                else if (change.Operation == EnumOperation.DELETE)
-                {
-                    int delIndex = change.LightIndex;
-                    int delLightId = LightAstList[delIndex].StartNum;
-                    LightAstList.RemoveAt(delIndex);
-                    LightWrapperList.RemoveAt(delIndex);
-                    channelDAO.DeleteByLightId( delLightId ); // 删除数据库相关的数据
+            }          
 
-                    retainList.RemoveAt(delIndex); 
+            // 遍历处理changeList （分为前后两种情况，但可以写在一起）
+            for (int changeIndex = 0; changeIndex < changeList.Count; changeIndex++) {
+                LightsChange change = changeList[changeIndex];
+                // 前 LightAstList.Count项，只可能有DELETE和UPDATE两种情况
+                // 删除：先把相关项置为null(最后统一处理，避免遍历过程中index发生变化)，并处理retainList
+                if (change.Operation == EnumOperation.DELETE)
+                {
+                    int delLightId = LightAstList[changeIndex].StartNum; 
+                    LightAstList[changeIndex] = null ; 
+                    LightWrapperList[changeIndex] = null ;
+                    channelDAO.DeleteByLightId(delLightId); // 删除数据库相关的数据
+                    retainList.RemoveAt(changeIndex);  // 删去的灯具index，在此处直接删掉，这样留下的 【值-键对】可以供新的GroupList使用
                 }
                 // 修改：相关项内的数据进行变动
                 else if (change.Operation == EnumOperation.UPDATE)
-                {
-                    int editIndex = change.LightIndex;
-                    int editLightId = LightAstList[editIndex].StartNum; 
-                    LightAstList[editIndex].ChangeAddr(change.NewLightAst);
-                    LightWrapperList[editIndex].StepTemplate.StepCommon.StartNum += change.AddNum;                     
-                    for (int tdIndex = 0; tdIndex < LightWrapperList[editIndex].StepTemplate.TongdaoList.Count; tdIndex++)
+                {                    
+                    int editLightId = LightAstList[changeIndex].StartNum;
+                    LightAstList[changeIndex].ChangeAddr(change.NewLightAst);
+                    // 注意：更改Common项不要直接让StepCommon和TongdaoCommon=新值，这样会让子项和StepTemplate项的引用不再相同！正确的做法应该是改变Common内的属性；
+                    LightWrapperList[changeIndex].StepTemplate.StepCommon.StartNum += change.AddNum;  
+                    for (int tdIndex = 0; tdIndex < LightWrapperList[changeIndex].StepTemplate.TongdaoList.Count; tdIndex++)
                     {
-                        LightWrapperList[editIndex].StepTemplate.TongdaoList[tdIndex].TongdaoCommon.Address += change.AddNum;
-                    }                                                      
-                    channelDAO.UpdateByLightId( editLightId,change.AddNum ); // 更新表中所有channel数据，注意set的写法（改多个列时用逗号而非and!）
-                }
-            }            
-          
+                        LightWrapperList[changeIndex].StepTemplate.TongdaoList[tdIndex].TongdaoCommon.Address += change.AddNum;
+                    }                    
+                    channelDAO.UpdateByLightId(editLightId, change.AddNum); // 更新表中此灯具的所有channel数据（注意sql语句中set的写法：改多个列时用逗号而非and）
+                }               
+                // 后面剩下的项，只可能有ADD这种情况
+                // 新增：只需新建一个LightAst、LightWrapper；
+                if (change.Operation == EnumOperation.ADD)
+                {
+                    LightAstList.Add(change.NewLightAst);
+                    LightWrapperList.Add( new LightWrapper()  {StepTemplate = generateStepTemplate(change.NewLightAst) }); 
+                }                
+            }
+            // 最后把null值从各list中去掉，就是新的列表了
+            ListHelper.RemoveNull( LightAstList);
+            ListHelper.RemoveNull(LightWrapperList);
+
             // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
             lightDAO.SaveAll("Light", generateDBLightList() );
             fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList()); 
@@ -495,32 +403,24 @@ namespace LightController.MyForm
             foreach (GroupAst group in GroupList)
             {
                 // 处理组员,直接用一个新的List来进行存储；
-                IList<int> newIndexList = new List<int>();
-                
+                IList<int> newIndexList = new List<int>();                
                 foreach (int oldIndex in group.LightIndexList)
                 {
-                    if ( retainList.Contains(oldIndex) ) {
-                        newIndexList.Add(retainList.IndexOf(oldIndex));
+                    if ( retainList.Contains(oldIndex) ) { // 若retainList中有此项
+                        newIndexList.Add(retainList.IndexOf(oldIndex));   // 则把该项的新索引添加进去
                     }
                 }
-                if (newIndexList.Count != 0)
+                if (newIndexList.Count != 0) // 若组内成员已经为空，则此编组直接删掉(不添加到newGroupList中)
                 {
-                    // 处理组长
-                    if (retainList.Contains(group.CaptainIndex))
-                    {
-                        group.CaptainIndex = retainList.IndexOf(group.CaptainIndex);
-                    }
-                    else
-                    {
-                        group.CaptainIndex = retainList[0];  // 如果组长已经被删了，则直接设为保留下来的第一个灯具
-                    }
+                    // 处理组长 : 如果组长还在，则取出其新下标 ; 否则设为0                    
+                    group.CaptainIndex = retainList.Contains(group.CaptainIndex) ? retainList.IndexOf(group.CaptainIndex) : 0 ;
                     group.LightIndexList = newIndexList;
                     newGroupList.Add(group);
                 }
             }
-            // 最后刷新界面显示
             GroupList = newGroupList;
-            refreshGroupPanels(); // ReBuildLightList()
+            // 最后刷新界面显示
+            refreshGroupPanels(); // ReBuildLightList() 
         }
 
         /// <summary>

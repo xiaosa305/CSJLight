@@ -71,7 +71,7 @@
             this.addrLabel2.Name = "addrLabel2";
             this.addrLabel2.Size = new System.Drawing.Size(77, 12);
             this.addrLabel2.TabIndex = 4;
-            this.addrLabel2.Text = "新灯具地址：";
+            this.addrLabel2.Text = "新起始地址：";
             // 
             // nameLabel2
             // 

@@ -28,6 +28,7 @@ namespace LightController
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.skinTreeView1 = new CCWin.SkinControl.SkinTreeView();
             this.addButton = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@ namespace LightController
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.testButton = new System.Windows.Forms.Button();
+            this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -47,9 +49,9 @@ namespace LightController
             this.label1.Location = new System.Drawing.Point(262, 203);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(139, 72);
+            this.label1.Size = new System.Drawing.Size(139, 42);
             this.label1.TabIndex = 6;
-            this.label1.Text = "提示：双击右侧灯具，可修改其通道地址。";
+            this.label1.Text = "提示：双击右侧灯具，可修改其通道地址。\r\n";
             // 
             // skinTreeView1
             // 
@@ -150,6 +152,12 @@ namespace LightController
             this.testButton.UseVisualStyleBackColor = false;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
+            // myToolTip
+            // 
+            this.myToolTip.AutoPopDelay = 10000;
+            this.myToolTip.InitialDelay = 500;
+            this.myToolTip.ReshowDelay = 100;
+            // 
             // LightsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -190,5 +198,7 @@ namespace LightController
 		private ColumnHeader columnHeader2;
 		private ColumnHeader columnHeader3;
         private Button testButton;
+        private ToolTip myToolTip;
+        private System.ComponentModel.IContainer components;
     }
 }

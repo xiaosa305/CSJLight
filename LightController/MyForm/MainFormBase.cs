@@ -24,6 +24,7 @@ using LightController.MyForm.OtherTools;
 using LightController.Xiaosa.Tools;
 using LightController.Entity;
 using LightController.Ast.Enum;
+using LightController.Xiaosa.Preview;
 
 namespace LightController.MyForm
 {
@@ -3923,6 +3924,9 @@ namespace LightController.MyForm
                     //}
                     //DataConvertUtils.GetInstance().
                     //    SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
+
+                    Player.GetPlayer().Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
+                     
                 }
                 catch (Exception ex)
                 {

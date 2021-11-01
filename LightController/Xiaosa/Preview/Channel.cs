@@ -23,10 +23,10 @@ namespace LightController.Xiaosa.Preview
         private Queue<byte> DmxDataQueue;
         public Channel(int currentChannelNo,int currentSceneNo,int mode,MainFormInterface mainFormInterface)
         {
+            DmxDataQueue = new Queue<byte>();
             CurrentChannelNo = currentChannelNo;
             CurrentSceneNo = currentSceneNo;
             MainFormInterface = mainFormInterface;
-            DmxDataQueue = new Queue<byte>();
             CurrentMode = mode;
             StepPoint = 0;
             foreach (var item in MainFormInterface.GetFineTunes())
@@ -71,10 +71,9 @@ namespace LightController.Xiaosa.Preview
             {
                 StartValue = StepValues[0].ScrollValue;
                 StepPoint++;
+                LoadStepDataIntoQueue();
             }
-            LoadStepDataIntoQueue();
         }
-
         public byte TakeDmxData()
         {
             byte result = 0x00;
@@ -85,7 +84,10 @@ namespace LightController.Xiaosa.Preview
             }
             return result;
         }
-
+        public bool IsNoEmpty()
+        {
+            return StepValues.Count > 0;
+        }
         private void LoadStepDataIntoQueue()
         {
             switch (CurrentMode)

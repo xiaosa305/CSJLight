@@ -134,7 +134,6 @@ namespace LightController.Xiaosa.Tools
             CSJ_Config config = new CSJ_Config(MainFormInterface.GetLights(), MainFormInterface.GetConfigPath());
             config.WriteToFile(ProjectFileDir);
         }
-
         private void BuildGradient()
         {
             byte[][] gradientData = new byte[32][];
@@ -222,7 +221,6 @@ namespace LightController.Xiaosa.Tools
                 Console.WriteLine(ex.StackTrace);
             }
         }
-
         private void BuildProject(int sceneNo,MainFormInterface mainFormInterface)
         {
             CurrentSceneNo = sceneNo;
@@ -278,7 +276,6 @@ namespace LightController.Xiaosa.Tools
                 Error(sceneNo + "场景编译失败");
             }
         }
-
         //TODO 有待测试多线程下情况
         private void MultipartChannelTask(int startChannelNo,int currentSceneNo)
         {
@@ -309,7 +306,6 @@ namespace LightController.Xiaosa.Tools
                 }
             }
         }
-
         private void ChannelBasicTask(int channelNo)
         {
             DB_FineTune fineTune = null;
@@ -402,7 +398,6 @@ namespace LightController.Xiaosa.Tools
                 MultipartChannelBasicTaskState[channelNo] = true;
             }
         }
-
         private void ChannelMusicTask(int channelNo)
         {
             DB_ChannelPK pk = new DB_ChannelPK()
@@ -447,7 +442,6 @@ namespace LightController.Xiaosa.Tools
                 MultipartChannelMusicTaskState[channelNo] = true;
             }
         }
-
         private void SceneBasicTaskCompleted()
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
@@ -546,7 +540,6 @@ namespace LightController.Xiaosa.Tools
             }
             SceneBasicTaskState = true;
         }
-
         private void SceneMusicTaskCompleted()
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();

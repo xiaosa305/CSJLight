@@ -9,7 +9,7 @@ namespace LightController.Ast
 {
 	// 通道包装类，记录了相关信息
 	public class TongdaoWrapper
-	{
+	{		
 		public TongdaoWrapperCommon TongdaoCommon { get; set; }
 		public int ScrollValue { get; set; }// 调节杆的值 --》两种方法改变：1拉杆 2.填值
 		public int ChangeMode { get; set; }     // 变化模式： | 常规：跳变0；渐变1；屏蔽2    |  声控：屏蔽0；跳变1；（渐变2）
@@ -41,12 +41,8 @@ namespace LightController.Ast
 		/// <param name="tdName"></param>
 		/// <param name="value"></param>
 		/// <param name="stepTime"></param>
-		public TongdaoWrapper(string tdName, int value, int stepTime, int changeMode)
+		public TongdaoWrapper(string tdName, int value, int stepTime, int changeMode) : this(tdName, value, stepTime)
 		{
-			//DOTO 2110262 TongdaoWrapper照样传入tdName，
-			TongdaoCommon = new TongdaoWrapperCommon() { TongdaoName = tdName };
-			ScrollValue = value;
-			StepTime = stepTime;
 			ChangeMode = changeMode;
 		}
 

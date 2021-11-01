@@ -1553,8 +1553,7 @@ namespace LightController.MyForm
                         string[] valueArray = stepArray[step].Split('-');
                         tdList.Add(new TongdaoWrapper()
                         {
-                            //DOTO 211026 GetSMTDList内修改tdList的子项（先不写TongdaoCommon)
-                            //Address = pk.LightID,
+                            //DOTO 211026 GetSMTDList内修改tdList的子项（先不写TongdaoCommon)  √                            
                             ChangeMode = int.Parse(valueArray[0]),
                             ScrollValue = int.Parse(valueArray[1]),
                             StepTime = int.Parse(valueArray[2])
@@ -4460,7 +4459,8 @@ namespace LightController.MyForm
         /// </summary>
         protected void testButtonClick()
         {
-
+            TongdaoWrapper tdTest = new TongdaoWrapper(       "JaycChou", 200, 50, 1);
+            Console.WriteLine( tdTest );
         }
 
         #region 实现MainFormInterface内定义的一些方法，供维佳调用

@@ -449,6 +449,9 @@
     <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
     <Compile Include="Xiaosa\Entity\RecordBasicFile.cs" />
     <Compile Include="Xiaosa\Entity\RecordMusicFile.cs" />
+    <Compile Include="Xiaosa\Preview\Channel.cs" />
+    <Compile Include="Xiaosa\Preview\ChannelGroup.cs" />
+    <Compile Include="Xiaosa\Preview\Player.cs" />
     <Compile Include="Xiaosa\Tools\CSJProjectBuilder.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
     <EmbeddedResource Include="Entity\DB_Light.hbm.xml">

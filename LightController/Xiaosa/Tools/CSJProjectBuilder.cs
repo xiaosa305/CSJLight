@@ -113,7 +113,7 @@ namespace LightController.Xiaosa.Tools
                 {
                     int scene = sceneNo;
                     BuildProject(scene, MainFormInterface);
-                    InitProjectCacheDir();
+                    //InitProjectCacheDir();
                 }
                 BuildConfig();
                 Progress("全局配置文件编译成功");
@@ -134,7 +134,6 @@ namespace LightController.Xiaosa.Tools
             CSJ_Config config = new CSJ_Config(MainFormInterface.GetLights(), MainFormInterface.GetConfigPath());
             config.WriteToFile(ProjectFileDir);
         }
-
         private void BuildGradient()
         {
             byte[][] gradientData = new byte[32][];
@@ -222,7 +221,6 @@ namespace LightController.Xiaosa.Tools
                 Console.WriteLine(ex.StackTrace);
             }
         }
-
         private void BuildProject(int sceneNo,MainFormInterface mainFormInterface)
         {
             CurrentSceneNo = sceneNo;
@@ -278,7 +276,6 @@ namespace LightController.Xiaosa.Tools
                 Error(sceneNo + "场景编译失败");
             }
         }
-
         //TODO 有待测试多线程下情况
         private void MultipartChannelTask(int startChannelNo,int currentSceneNo)
         {
@@ -309,17 +306,12 @@ namespace LightController.Xiaosa.Tools
                 }
             }
         }
-
         private void ChannelBasicTask(int channelNo)
         {
             DB_FineTune fineTune = null;
             var list = MainFormInterface.GetFineTunes();
             foreach (var item in MainFormInterface.GetFineTunes())
             {
-                if (channelNo == 4)
-                {
-                    Console.WriteLine(channelNo);
-                }
                 if (item.FineTuneIndex == channelNo)
                 {
                     item.MaxValue = item.MaxValue == 0 ? 255 : item.MaxValue;
@@ -357,7 +349,7 @@ namespace LightController.Xiaosa.Tools
                     {
                         if (item.ChangeMode == 1)//渐变
                         {
-                            inc = (item.ScrollValue - startValue) / item.StepTime;
+                            inc = (item.ScrollValue - startValue) / (float)item.StepTime;
                             for (int i = 0; i < item.StepTime; i++)
                             {
                                 var value = startValue + (i + 1) * inc;
@@ -393,7 +385,7 @@ namespace LightController.Xiaosa.Tools
                 //写入缓存文件
                 if (writeBuff.Count > 0)
                 {
-                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".bin";
                     using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
                     {
                         writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
@@ -406,7 +398,6 @@ namespace LightController.Xiaosa.Tools
                 MultipartChannelBasicTaskState[channelNo] = true;
             }
         }
-
         private void ChannelMusicTask(int channelNo)
         {
             DB_ChannelPK pk = new DB_ChannelPK()
@@ -438,7 +429,7 @@ namespace LightController.Xiaosa.Tools
                 //写入缓存文件
                 if (writeBuff.Count > 0)
                 {
-                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                    var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".bin";
                     using (FileStream writeStream = new FileStream(cachePath, FileMode.Create))
                     {
                         writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
@@ -451,7 +442,6 @@ namespace LightController.Xiaosa.Tools
                 MultipartChannelMusicTaskState[channelNo] = true;
             }
         }
-
         private void SceneBasicTaskCompleted()
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
@@ -461,7 +451,7 @@ namespace LightController.Xiaosa.Tools
             for (int i = 0; i < 512; i++)
             {
                 int channelNo = i + 1;
-                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".cache";
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"C" + channelNo + @".bin";
                 if (File.Exists(cachePath))
                 {
                     cachePaths.Add(channelNo,cachePath);
@@ -550,7 +540,6 @@ namespace LightController.Xiaosa.Tools
             }
             SceneBasicTaskState = true;
         }
-
         private void SceneMusicTaskCompleted()
         {
             Dictionary<int, string> cachePaths = new Dictionary<int, string>();
@@ -560,7 +549,7 @@ namespace LightController.Xiaosa.Tools
             for (int i = 0; i < 512; i++)
             {
                 int channelNo = i + 1;
-                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".cache";
+                var cachePath = ProjectCacheDir + @"\S" + CurrentSceneNo + @"M" + channelNo + @".bin";
                 if (File.Exists(cachePath))
                 {
                     cachePaths.Add(channelNo, cachePath);

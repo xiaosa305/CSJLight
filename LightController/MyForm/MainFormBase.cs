@@ -347,7 +347,9 @@ namespace LightController.MyForm
                     LightAstList[changeIndex] = null ; 
                     LightWrapperList[changeIndex] = null ;
                     channelDAO.DeleteByLightId(delLightId); // 删除数据库相关的数据
-                    retainList.RemoveAt(changeIndex);  // 删去的灯具index，在此处直接删掉，这样留下的 【值-键对】可以供新的GroupList使用
+                    // 不能用RemoveAt（会出现不匹配index的情况） , 而应该用 Remove( retainList中 index 和 value刚好是对应的)
+                    // 【List,Remove(item)：从 ICollection<T> 中移除特定对象的第一个匹配项。】
+                    retainList.Remove( changeIndex) ;  // 删去的灯具index，在此处直接删掉，这样留下的 【值-键对】可以供新的GroupList使用
                 }
                 // 修改：相关项内的数据进行变动
                 else if (change.Operation == EnumOperation.UPDATE)
@@ -373,7 +375,7 @@ namespace LightController.MyForm
             // 最后把null值从各list中去掉，就是新的列表了
             ListHelper.RemoveNull( LightAstList);
             ListHelper.RemoveNull(LightWrapperList);
-
+           
             // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
             lightDAO.SaveAll("Light", generateDBLightList() );
             fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
@@ -1849,14 +1851,13 @@ namespace LightController.MyForm
         /// <summary>
         ///  DOTO 211012 辅助方法：旧版数据库转为新版格式 √
         /// </summary>
-        /// <param name="projDir">工程目录</param>
+        /// <param name="projDir">工程目录（最后一个字符为”/“无需额外添加）</param>
         private void changeToNewDB(string projDir)
         {
-
             DateTime beforeDT1 = System.DateTime.Now;
 
             OldDAO oldDAO = new OldDAO(projDir + "data.db3", false);
-            dbFilePath = projDir + @"\newData.db3";
+            dbFilePath = projDir + "newData.db3";
             lightDAO = new LightDAO(dbFilePath, isEncrypt);
             fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
             channelDAO = new ChannelDAO(dbFilePath, isEncrypt);
@@ -2046,17 +2047,16 @@ namespace LightController.MyForm
             // 1.先判断是否有灯具数据；若无，则清空所有表数据
             if (LightAstList == null || LightAstList.Count == 0)
             {
-                //ClearAllDB();
+                ClearAllDB();                  
             }
             // 2.保存各项数据			
             else
             {
-                //DOTO 211009 保存到新数据库的方法 √
                 saveAllLights();
                 saveAllFineTunes();
-                saveAllChannels();
-                saveAllGroups();               
+                saveAllChannels();                             
             }
+            saveAllGroups();  // 无论如何，都保存编组列表
 
             DateTime afterDT = System.DateTime.Now;
             TimeSpan ts = afterDT.Subtract(beforeDT);
@@ -2451,7 +2451,7 @@ namespace LightController.MyForm
         {
             lightDAO.Clear();
             fineTuneDAO.Clear();
-            channelDAO.Clear();
+            channelDAO.Clear();            
         }
 
         /// <summary>

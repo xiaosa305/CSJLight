@@ -1119,16 +1119,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
 		{
-			new SKForm(this, CurrentScene, sceneSkinComboBox.Text).ShowDialog();
-		}
-		
-		/// <summary>
-		///  事件：点击《上一步》
-		///  先判断currentStep，再调用chooseStep(stepValue)
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void backStepSkinButton_Click(object sender, EventArgs e) { }
+			soundListButtonClick();
+		}        
+
+        /// <summary>
+        ///  事件：点击《上一步》
+        ///  先判断currentStep，再调用chooseStep(stepValue)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void backStepSkinButton_Click(object sender, EventArgs e) { }
 
 		/// <summary>
 		/// 事件：鼠标（左|右键）按下《上一步》

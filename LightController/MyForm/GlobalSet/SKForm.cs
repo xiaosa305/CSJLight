@@ -12,34 +12,28 @@ namespace LightController.MyForm
 {
 	public partial class SKForm : Form
 	{
-		private MainFormBase mainForm;
-		private int frame;
+		private MainFormBase mainForm;		
 		private IniHelper iniAst;
-		private decimal eachStepTime2 = .03m;
 
-		public SKForm(MainFormBase mainForm,int frame,string frameName)
+		public SKForm(MainFormBase mainForm)
 		{
-			this.mainForm = mainForm;
-			this.frame = frame;
+			this.mainForm = mainForm;			
 
 			InitializeComponent();
 
 			// 初始化iniPath，并读取数据填入各框中
 			iniAst = new IniHelper(mainForm.GlobalIniPath);		
 
-			// 添加时间因子，用以显示实际步时间（单位s）
-			eachStepTime2 = iniAst.ReadInt("Set", "EachStepTime", 30) / 1000m;
-
 			//添加frameStepTimeNumericUpDown相关初始化及监听事件			
-			frameStepTimeNumericUpDown.Increment = eachStepTime2;
-			frameStepTimeNumericUpDown.Maximum = MainFormBase.MAX_StTimes * eachStepTime2;
-			frameStepTimeNumericUpDown.Value = iniAst.ReadInt("SK", frame + "ST", 0) * eachStepTime2;
-			frameStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.frameStepTimeNumericUpDown_MouseWheel);
+			sceneStepTimeNumericUpDown.Increment = mainForm.EachStepTime;
+			sceneStepTimeNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime;
+			sceneStepTimeNumericUpDown.Value = iniAst.ReadInt("SK", mainForm.CurrentScene + "ST", 0) * mainForm.EachStepTime;
+			sceneStepTimeNumericUpDown.MouseWheel += sceneStepTimeNumericUpDown_MouseWheel ;
 
 			//其他几个动态属性
-			jgtNumericUpDown.Value = iniAst.ReadInt("SK", frame + "JG", 0);
-			mFrameLKTextBox.Text = iniAst.ReadString("SK", frame + "LK", "");
-			frameLabel.Text = frameName;
+			jgtNumericUpDown.Value = iniAst.ReadInt("SK", mainForm.CurrentScene + "JG", 0);
+			mSceneLKTextBox.Text = iniAst.ReadString("SK", mainForm.CurrentScene + "LK", "");
+			sceneLabel.Text = MainFormBase.AllSceneList[mainForm.CurrentScene];
 		}
 
 		/// <summary>
@@ -60,9 +54,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void mFrameSaveSkinButton_Click(object sender, EventArgs e)
 		{
-			iniAst.WriteInt("SK", frame + "ST", frameStepTimeNumericUpDown.Value / eachStepTime2);
-			iniAst.WriteInt("SK", frame + "JG", jgtNumericUpDown.Value);
-			iniAst.WriteString("SK", frame + "LK", mFrameLKTextBox.Text.Trim());
+			iniAst.WriteInt("SK", mainForm.CurrentScene + "ST", sceneStepTimeNumericUpDown.Value / mainForm.EachStepTime);
+			iniAst.WriteInt("SK", mainForm.CurrentScene + "JG", jgtNumericUpDown.Value);
+			iniAst.WriteString("SK", mainForm.CurrentScene + "LK", mSceneLKTextBox.Text.Trim());
 			MessageBox.Show(LanguageHelper.TranslateSentence("设置保存成功"));
 
 			Dispose();
@@ -92,11 +86,11 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：《frameStepTimeNumericUpDown》的鼠标滚动事件（只+/-1）
+		/// 事件：《sceneStepTimeNumericUpDown》的鼠标滚动事件（只+/-1）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void frameStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		private void sceneStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
@@ -105,31 +99,31 @@ namespace LightController.MyForm
 			}
 			if (e.Delta > 0)
 			{
-				decimal dd = frameStepTimeNumericUpDown.Value + frameStepTimeNumericUpDown.Increment;
-				if (dd <= frameStepTimeNumericUpDown.Maximum)
+				decimal dd = sceneStepTimeNumericUpDown.Value + sceneStepTimeNumericUpDown.Increment;
+				if (dd <= sceneStepTimeNumericUpDown.Maximum)
 				{
-					frameStepTimeNumericUpDown.Value = dd;
+					sceneStepTimeNumericUpDown.Value = dd;
 				}
 			}
 			else if (e.Delta < 0)
 			{
-				decimal dd = frameStepTimeNumericUpDown.Value - frameStepTimeNumericUpDown.Increment;
-				if (dd >= frameStepTimeNumericUpDown.Minimum)
+				decimal dd = sceneStepTimeNumericUpDown.Value - sceneStepTimeNumericUpDown.Increment;
+				if (dd >= sceneStepTimeNumericUpDown.Minimum)
 				{
-					frameStepTimeNumericUpDown.Value = dd;
+					sceneStepTimeNumericUpDown.Value = dd;
 				}
 			}
 		}
 
 		/// <summary>
-		/// 事件：《frameStepTimeNumericUpDown》值发生变化后，进行相关验证
+		/// 事件：《sceneStepTimeNumericUpDown》值发生变化后，进行相关验证
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void frameStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		private void sceneStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt32(frameStepTimeNumericUpDown.Value / eachStepTime2);
-			frameStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
+			int stepTime = Decimal.ToInt32(sceneStepTimeNumericUpDown.Value / mainForm.EachStepTime);
+			sceneStepTimeNumericUpDown.Value = stepTime * mainForm.EachStepTime;
 		}
 
 		/// <summary>

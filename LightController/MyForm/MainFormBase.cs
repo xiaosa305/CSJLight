@@ -2638,6 +2638,14 @@ namespace LightController.MyForm
         #region stepPanel相关
 
         /// <summary>
+        /// 辅助方法：点击《音频链表》
+        /// </summary>
+        protected void soundListButtonClick()
+        {
+            new SKForm(this).ShowDialog();
+        }
+
+        /// <summary>
         /// 辅助方法：点击《上一步》
         /// </summary>
         protected void backStepClick()

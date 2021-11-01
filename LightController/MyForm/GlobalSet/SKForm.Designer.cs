@@ -31,15 +31,15 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.label36 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.frameLabel = new System.Windows.Forms.Label();
+			this.sceneLabel = new System.Windows.Forms.Label();
 			this.jgtNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.mFrameLKTextBox = new System.Windows.Forms.TextBox();
+			this.sceneStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.mSceneLKTextBox = new System.Windows.Forms.TextBox();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.sceneStepTimeNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -71,13 +71,13 @@
 			// 
 			// frameLabel
 			// 
-			this.frameLabel.AutoSize = true;
-			this.frameLabel.Location = new System.Drawing.Point(167, 33);
-			this.frameLabel.Name = "frameLabel";
-			this.frameLabel.Size = new System.Drawing.Size(53, 12);
-			this.frameLabel.TabIndex = 2;
-			this.frameLabel.Tag = "999";
-			this.frameLabel.Text = "场景名称";
+			this.sceneLabel.AutoSize = true;
+			this.sceneLabel.Location = new System.Drawing.Point(167, 33);
+			this.sceneLabel.Name = "frameLabel";
+			this.sceneLabel.Size = new System.Drawing.Size(53, 12);
+			this.sceneLabel.TabIndex = 2;
+			this.sceneLabel.Tag = "999";
+			this.sceneLabel.Text = "场景名称";
 			// 
 			// jgtNumericUpDown
 			// 
@@ -94,25 +94,25 @@
 			// 
 			// frameStepTimeNumericUpDown
 			// 
-			this.frameStepTimeNumericUpDown.DecimalPlaces = 2;
-			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(167, 58);
-			this.frameStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
-			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
-			this.frameStepTimeNumericUpDown.TabIndex = 1;
-			this.frameStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.frameStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.frameStepTimeNumericUpDown_ValueChanged);
+			this.sceneStepTimeNumericUpDown.DecimalPlaces = 2;
+			this.sceneStepTimeNumericUpDown.Location = new System.Drawing.Point(167, 58);
+			this.sceneStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
+			this.sceneStepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
+			this.sceneStepTimeNumericUpDown.TabIndex = 1;
+			this.sceneStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.sceneStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.sceneStepTimeNumericUpDown_ValueChanged);
 			// 
 			// mFrameLKTextBox
 			// 
-			this.mFrameLKTextBox.BackColor = System.Drawing.Color.White;
-			this.mFrameLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mFrameLKTextBox.Location = new System.Drawing.Point(22, 172);
-			this.mFrameLKTextBox.MaxLength = 20;
-			this.mFrameLKTextBox.Multiline = true;
-			this.mFrameLKTextBox.Name = "mFrameLKTextBox";
-			this.mFrameLKTextBox.Size = new System.Drawing.Size(217, 22);
-			this.mFrameLKTextBox.TabIndex = 8;
-			this.mFrameLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameLKTextBox_KeyPress);
+			this.mSceneLKTextBox.BackColor = System.Drawing.Color.White;
+			this.mSceneLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mSceneLKTextBox.Location = new System.Drawing.Point(22, 172);
+			this.mSceneLKTextBox.MaxLength = 20;
+			this.mSceneLKTextBox.Multiline = true;
+			this.mSceneLKTextBox.Name = "mFrameLKTextBox";
+			this.mSceneLKTextBox.Size = new System.Drawing.Size(217, 22);
+			this.mSceneLKTextBox.TabIndex = 8;
+			this.mSceneLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameLKTextBox_KeyPress);
 			// 
 			// saveButton
 			// 
@@ -153,14 +153,14 @@
 			this.ClientSize = new System.Drawing.Size(254, 263);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.frameLabel);
+			this.Controls.Add(this.sceneLabel);
 			this.Controls.Add(this.jgtNumericUpDown);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.label36);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.label8);
-			this.Controls.Add(this.mFrameLKTextBox);
-			this.Controls.Add(this.frameStepTimeNumericUpDown);
+			this.Controls.Add(this.mSceneLKTextBox);
+			this.Controls.Add(this.sceneStepTimeNumericUpDown);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.HelpButton = true;
 			this.MaximizeBox = false;
@@ -171,7 +171,7 @@
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SKForm_FormClosed);
 			this.Load += new System.EventHandler(this.SKForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.sceneStepTimeNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -181,9 +181,9 @@
 		private System.Windows.Forms.Label label36;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.NumericUpDown jgtNumericUpDown;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown;
-		private System.Windows.Forms.Label frameLabel;
-		private System.Windows.Forms.TextBox mFrameLKTextBox;
+		private System.Windows.Forms.NumericUpDown sceneStepTimeNumericUpDown;
+		private System.Windows.Forms.Label sceneLabel;
+		private System.Windows.Forms.TextBox mSceneLKTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Button cancelButton;

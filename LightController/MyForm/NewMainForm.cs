@@ -1018,7 +1018,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
 		{
-			new SKForm(this, CurrentScene, sceneComboBox.Text).ShowDialog();
+			soundListButtonClick();
 		}
 
 		/// <summary>

@@ -537,8 +537,8 @@ namespace LightController.MyForm
 		{			
 			for (int i = 0; i < 32; i++)
 			{
-				tdStNumericUpDowns[i].Maximum = EachStepTime2 * MAX_StTimes;
-				tdStNumericUpDowns[i].Increment = EachStepTime2;
+				tdStNumericUpDowns[i].Maximum = EachStepTime * MAX_StTimes;
+				tdStNumericUpDowns[i].Increment = EachStepTime;
 			}
 		}
 
@@ -732,7 +732,7 @@ namespace LightController.MyForm
 					tdValueNumericUpDowns[tdIndex].Text = tongdaoList[tdIndex].ScrollValue.ToString();
 					tdCmComboBoxes[tdIndex].SelectedIndex = tongdaoList[tdIndex].ChangeMode;
 					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
-					tdStNumericUpDowns[tdIndex].Text = (tongdaoList[tdIndex].StepTime * EachStepTime2).ToString();
+					tdStNumericUpDowns[tdIndex].Text = (tongdaoList[tdIndex].StepTime * EachStepTime).ToString();
 
 					tdTrackBars[tdIndex].ValueChanged += tdSkinTrackBars_ValueChanged;
 					tdValueNumericUpDowns[tdIndex].ValueChanged += tdValueNumericUpDowns_ValueChanged;
@@ -1566,9 +1566,9 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
-			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
+			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (isMultiMode) {
 				copyValueToAll(tdIndex, EnumUnifyWhere.STEP_TIME, stepTime);

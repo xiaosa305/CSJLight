@@ -30,7 +30,7 @@ namespace LightController.Ast
 			{
 				tongdaoList.Add(new TongdaoWrapper()
 				{
-					//DOTO 2110262 修改GenerateStepWrapper,把tdName,Address等，统一改为使用引用变量
+					//211026 修改GenerateStepWrapper,把tdName,Address等，统一改为使用引用变量
 					TongdaoCommon = stepTemplate.TongdaoList[tdIndex].TongdaoCommon,
 					StepTime = tempTongdaoList[tdIndex].StepTime,
 					ChangeMode = tempTongdaoList[tdIndex].ChangeMode,
@@ -40,7 +40,7 @@ namespace LightController.Ast
 			return new StepWrapper()
 			{
 				TongdaoList = tongdaoList,
-				// DOTO 2110263 StepWrapper.GenerateStepWrapper()
+				
 				StepCommon = stepTemplate.StepCommon				
 			};
 		}
@@ -93,7 +93,7 @@ namespace LightController.Ast
 			}
 			return new StepWrapper()
 			{
-				// DOTO 2110263 StepWrapper.GenerateNewStep() 
+				//2110263 StepWrapper.GenerateNewStep() 
 				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),			
 				StepCommon = stepTemplate.StepCommon 
 			};

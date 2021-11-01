@@ -117,7 +117,6 @@ namespace LightController
             this.lightsListView.GridLines = true;
             this.lightsListView.HideSelection = false;
             this.lightsListView.Location = new System.Drawing.Point(419, 0);
-            this.lightsListView.MultiSelect = false;
             this.lightsListView.Name = "lightsListView";
             this.lightsListView.Size = new System.Drawing.Size(328, 509);
             this.lightsListView.TabIndex = 12;

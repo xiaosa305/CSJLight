@@ -80,15 +80,12 @@ namespace LightController.MyForm
         protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
         protected string currentProjectPath; //存放当前工程所在目录
         public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
-        protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		                
-        //DOTO 211008 新的db存储路径（为兼容旧db）√
-        protected string newDbFilePath;  // newData.db3
+        protected string dbFilePath;  // 211008  新的db存储路径
         private string exportPath; // 导出工程的目录（每次都可能会发生变动）
         protected bool isEncrypt = false; //是否加密				
-        public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
-        public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）【不为static的原因是，这个在软件运行时可能会发生改变。】
+        public decimal EachStepTime = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
         protected string groupIniPath; // 存放编组文件存放路径
-        public IList<GroupAst> GroupList; // 存放编组	
+        public IList<GroupAst> GroupList; // 存放编组列表（public 因为多步联调等Form会用到）
 
         public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
         public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
@@ -97,8 +94,6 @@ namespace LightController.MyForm
         protected bool[] sceneSaveArray;
         //MARK 只开单场景：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了
         protected bool[] sceneLoadArray;
-        //MARK 只开单场景：14.0 为处理灯具列表变动，必须有一个存储[保留的旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
-        protected IList<int> retainLightIndices;
 
         // 数据库DAO(data access object：数据访问对象）
         protected LightDAO lightDAO;
@@ -297,8 +292,7 @@ namespace LightController.MyForm
         /// </summary>
         public void ChangeEachStepTime(int eachStepTime)
         {
-            this.eachStepTime = eachStepTime;
-            this.EachStepTime2 = eachStepTime / 1000m;
+            EachStepTime = eachStepTime / 1000m;
             refreshStep();
         }
 
@@ -519,7 +513,7 @@ namespace LightController.MyForm
                             }
                             lightAst.SawList.Add(new SAWrapper() { SaList = saList });
 
-                            //DOTO 2110262 修改generateStepTemplate，改为TongdaoCommon
+                            //2110262 修改generateStepTemplate，改为TongdaoCommon
                             tongdaoList.Add(new TongdaoWrapper()
                             {
                                 ScrollValue = initNum,
@@ -558,7 +552,7 @@ namespace LightController.MyForm
         {
             if (lightDAO == null)
             {
-                lightDAO = new LightDAO(newDbFilePath, isEncrypt);
+                lightDAO = new LightDAO(dbFilePath, isEncrypt);
             }
             return lightDAO.GetAll();
         }
@@ -568,7 +562,7 @@ namespace LightController.MyForm
 
             if (fineTuneDAO == null)
             {
-                fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
+                fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
             }
             return fineTuneDAO.GetAll();
         }
@@ -1508,15 +1502,13 @@ namespace LightController.MyForm
         {
             UseMaterial(TempMaterialAst, insMethod, false);
         }
-
-        // DOTO 211012 要重写 GetSMTDLIst √ 由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
+                
         /// <summary>
         /// 辅助方法：由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
         /// </summary>
         public IList<TongdaoWrapper> GetSMTDList(DB_ChannelPK pk)
         {
             IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
-
             //MARK 只开单场景：10.1 GetSMTDList() 的实现改动，若是已加载的场景则从内存读数据
             if (sceneLoadArray[pk.Scene])
             {
@@ -1552,8 +1544,7 @@ namespace LightController.MyForm
                     {
                         string[] valueArray = stepArray[step].Split('-');
                         tdList.Add(new TongdaoWrapper()
-                        {
-                            //DOTO 211026 GetSMTDList内修改tdList的子项（先不写TongdaoCommon)  √                            
+                        {           
                             ChangeMode = int.Parse(valueArray[0]),
                             ScrollValue = int.Parse(valueArray[1]),
                             StepTime = int.Parse(valueArray[2])
@@ -1590,9 +1581,7 @@ namespace LightController.MyForm
         protected void newProjectClick()
         {
             //MARK 只开单场景：17.1 新建工程前，申请保存工程
-            if (!RequestSaveProject(
-                LanguageHelper.TranslateSentence("新建工程前，是否保存当前工程？"),
-                false))
+            if (!RequestSaveProject(LanguageHelper.TranslateSentence("新建工程前，是否保存当前工程？")))
             {
                 return;
             }
@@ -1643,9 +1632,8 @@ namespace LightController.MyForm
             arrangeIniPath = currentProjectPath + @"\arrange.ini";
 
             //1.2 读取时间因子
-            IniHelper iniAst = new IniHelper(GlobalIniPath);
-            eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
-            EachStepTime2 = eachStepTime / 1000m;
+            IniHelper iniAst = new IniHelper(GlobalIniPath);            
+            EachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30) / 1000m;
             initStNumericUpDowns();  // InitProject : 更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
 
             // 1.3 加载groupList : 初始化时检查文件是否存在，不存在，则直接把默认文件拷贝过去；加载到内存后，通过相应的groupList刷新按钮
@@ -1658,16 +1646,16 @@ namespace LightController.MyForm
             refreshGroupPanels(); //InitProject()
 
             // 2.创建数据库:初始化，让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
-            //DOTO 211008 newDbFilePath的初始化 √
-            newDbFilePath = currentProjectPath + @"\newData.db3";
-            lightDAO = new LightDAO(newDbFilePath, isEncrypt);
-            fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
-            channelDAO = new ChannelDAO(newDbFilePath, isEncrypt);
+            //211008 newDbFilePath的初始化
+            dbFilePath = currentProjectPath + @"\newData.db3";
+            lightDAO = new LightDAO(dbFilePath, isEncrypt);
+            fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
+            channelDAO = new ChannelDAO(dbFilePath, isEncrypt);
 
             // 若为新建，则初始化db的table(随机使用一个DAO即可初始化）
             if (isNew)
             {
-                BaseDAO<object>.CreateSchema(newDbFilePath, false);
+                BaseDAO<object>.CreateSchema(dbFilePath, false);
             }
 
             //MARK 只开单场景：04.0 InitProject()内 ①修改当前场景；②初始化frameSaveArray、frameLoadArray
@@ -1737,9 +1725,7 @@ namespace LightController.MyForm
         protected void openProjectClick()
         {
             //MARK 只开单场景：17.2 打开工程前，申请保存工程
-            if (!RequestSaveProject(
-                LanguageHelper.TranslateSentence("打开工程前，是否保存当前工程？")
-                , false))
+            if (!RequestSaveProject(LanguageHelper.TranslateSentence("打开工程前，是否保存当前工程？")))
             {
                 return;
             }
@@ -1870,10 +1856,10 @@ namespace LightController.MyForm
             DateTime beforeDT1 = System.DateTime.Now;
 
             OldDAO oldDAO = new OldDAO(projDir + "data.db3", false);
-            newDbFilePath = projDir + @"\newData.db3";
-            lightDAO = new LightDAO(newDbFilePath, isEncrypt);
-            fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
-            channelDAO = new ChannelDAO(newDbFilePath, isEncrypt);
+            dbFilePath = projDir + @"\newData.db3";
+            lightDAO = new LightDAO(dbFilePath, isEncrypt);
+            fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
+            channelDAO = new ChannelDAO(dbFilePath, isEncrypt);
 
             IList<object[]> oldFineTuneList = oldDAO.GetListBySQL("select * from FineTune");
             List<DB_FineTune> fineTuneList = new List<DB_FineTune>();
@@ -1947,7 +1933,7 @@ namespace LightController.MyForm
 
             if (channelDAO == null)
             {
-                channelDAO = new ChannelDAO(newDbFilePath, false);
+                channelDAO = new ChannelDAO(dbFilePath, false);
             }
 
             // 采用多线程方法优化(每个灯开启一个线程)
@@ -2089,7 +2075,7 @@ namespace LightController.MyForm
         {
             if (fineTuneDAO == null)
             {
-                fineTuneDAO = new FineTuneDAO(newDbFilePath, isEncrypt);
+                fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
             }
             // 保存数据
             fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
@@ -2102,7 +2088,7 @@ namespace LightController.MyForm
         {
             if (lightDAO == null)
             {
-                lightDAO = new LightDAO(newDbFilePath, isEncrypt);
+                lightDAO = new LightDAO(dbFilePath, isEncrypt);
             }
             // 将传送所有的DB_Light给DAO,让它进行数据的保存
             lightDAO.SaveAll("Light", generateDBLightList());
@@ -2134,7 +2120,7 @@ namespace LightController.MyForm
         {
             if (channelDAO == null)
             {
-                channelDAO = new ChannelDAO(newDbFilePath, isEncrypt);
+                channelDAO = new ChannelDAO(dbFilePath, isEncrypt);
             }
 
             Dictionary<DB_ChannelPK, StringBuilder> channelDict = new Dictionary<DB_ChannelPK, StringBuilder>();
@@ -2199,7 +2185,6 @@ namespace LightController.MyForm
             {
                 MessageBox.Show("保存编组数据出错：\n" + ex.Message);
             }
-
         }
 
         /// <summary>
@@ -2394,7 +2379,7 @@ namespace LightController.MyForm
         /// </summary>
         protected void closeProjectClick()
         {
-            if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭工程前，是否保存当前工程?"), false))
+            if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭工程前，是否保存当前工程?")))
             {
                 return;
             }
@@ -2502,8 +2487,7 @@ namespace LightController.MyForm
         /// </summary>
         /// <returns>若在本方法之后继续下去，则返回true；若是不再往下执行，则返回false</returns>
         /// <param name="msg">提示保存的消息</param>
-        /// <param name="isAfterUpdateLightList">是否刚刚添加或修改完灯具列表</param>
-        public bool RequestSaveProject(string msg, bool isAfterUpdateLightList)
+        public bool RequestSaveProject(string msg)
         {
             //若frameSaveArray为空，表示当前软件内存内没有工程，不需弹出保存工程。
             if (sceneSaveArray == null)
@@ -2519,11 +2503,7 @@ namespace LightController.MyForm
             );
 
             if (dr == DialogResult.Yes)
-            {
-                if (isAfterUpdateLightList)
-                {
-                    channelDAO.DeleteRedundantData(retainLightIndices);
-                }
+            {               
                 saveProjectClick();
                 return true;
             }
@@ -3737,7 +3717,11 @@ namespace LightController.MyForm
             if (IsDeviceConnected)
             {
                 SleepBetweenSend("Order : StartPreview", 1);
-                networkPlayTools.StartPreview(MyConnect, StartPreviewCompleted, StartPreviewError, eachStepTime);
+                networkPlayTools.StartPreview(
+                    MyConnect, 
+                    StartPreviewCompleted,
+                    StartPreviewError,
+                    decimal.ToInt32(EachStepTime * 1000));
             }
         }
 
@@ -4186,9 +4170,7 @@ namespace LightController.MyForm
         protected void formClosing(FormClosingEventArgs e)
         {
             //MARK 只开单场景：17.4 FormClosing时提示保存工程
-            if (!RequestSaveProject(
-                LanguageHelper.TranslateSentence("关闭程序前，是否保存当前工程？"),
-                false))
+            if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭程序前，是否保存当前工程？")))
             {
                 e.Cancel = true;
             }
@@ -4200,7 +4182,7 @@ namespace LightController.MyForm
         protected void exitClick()
         {
             //MARK 只开单场景：17.3 点击《退出程序》时，申请保存工程
-            if (!RequestSaveProject("退出应用前，是否保存当前工程？", false))
+            if (!RequestSaveProject("退出应用前，是否保存当前工程？"))
             {
                 return;
             }
@@ -4314,7 +4296,7 @@ namespace LightController.MyForm
             {
                 NumericUpDown stNUD = control as NumericUpDown;
                 decimal stepTime = stNUD.Value;
-                unifyValue = decimal.ToInt32(stepTime / EachStepTime2);
+                unifyValue = decimal.ToInt32(stepTime / EachStepTime);
                 msg += LanguageHelper.TranslateSentence("的步时间都设为：") + stepTime + " ？";
             }
             else
@@ -4459,8 +4441,10 @@ namespace LightController.MyForm
         /// </summary>
         protected void testButtonClick()
         {
-            TongdaoWrapper tdTest = new TongdaoWrapper(       "JaycChou", 200, 50, 1);
+            TongdaoWrapper tdTest = new TongdaoWrapper(       "JaycChou", 200, 50, 30);
             Console.WriteLine( tdTest );
+            tdTest = new TongdaoWrapper("JJ", 140, 60);
+            Console.WriteLine();
         }
 
         #region 实现MainFormInterface内定义的一些方法，供维佳调用

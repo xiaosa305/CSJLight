@@ -26,14 +26,7 @@ namespace LightController.Ast
 		/// <param name="tdName"></param>
 		/// <param name="value"></param>
 		/// <param name="stepTime"></param>
-		public TongdaoWrapper(string tdName, int value, int stepTime)
-		{
-			//DOTO 2110262 TongdaoWrapper照样传入tdName，
-			TongdaoCommon = new TongdaoWrapperCommon(){ TongdaoName = tdName };
-			ScrollValue = value;
-			StepTime = stepTime;
-			ChangeMode = 1;
-		}
+		public TongdaoWrapper(string tdName, int value, int stepTime) : this(tdName, value, stepTime,1){}
 
 		/// <summary>
 		/// 构造方法：主要被ColorForm调用，需要用到跳渐变。
@@ -41,8 +34,11 @@ namespace LightController.Ast
 		/// <param name="tdName"></param>
 		/// <param name="value"></param>
 		/// <param name="stepTime"></param>
-		public TongdaoWrapper(string tdName, int value, int stepTime, int changeMode) : this(tdName, value, stepTime)
+		public TongdaoWrapper(string tdName, int value, int stepTime, int changeMode) 
 		{
+			TongdaoCommon = new TongdaoWrapperCommon() { TongdaoName = tdName };
+			ScrollValue = value;
+			StepTime = stepTime;
 			ChangeMode = changeMode;
 		}
 

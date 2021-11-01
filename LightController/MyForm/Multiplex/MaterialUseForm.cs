@@ -115,13 +115,13 @@ namespace LightController.MyForm.Multiplex
 			}			
 
 			// 若mainForm的时间因子发生变化，则相应的步时间也发生变化
-			if (mainForm.EachStepTime2 != oldEachStepTime)
+			if (mainForm.EachStepTime != oldEachStepTime)
 			{
 				// 动作步时间
-				StNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2;
-				StNumericUpDown.Minimum = mainForm.EachStepTime2; // 步时间如果为0，则毫无意义
-				StNumericUpDown.Increment = mainForm.EachStepTime2;
-				StNumericUpDown.Value = mainForm.EachStepTime2 * commonStepTime;
+				StNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime;
+				StNumericUpDown.Minimum = mainForm.EachStepTime; // 步时间如果为0，则毫无意义
+				StNumericUpDown.Increment = mainForm.EachStepTime;
+				StNumericUpDown.Value = mainForm.EachStepTime * commonStepTime;
 
 				// 颜色步时间	
 				for (int panelIndex = 1; panelIndex < colorFLP.Controls.Count; panelIndex++)
@@ -129,10 +129,10 @@ namespace LightController.MyForm.Multiplex
 					NumericUpDown stNUD = (colorFLP.Controls[panelIndex] as Panel).Controls[0] as NumericUpDown;
 					decimal oldValue = stNUD.Value / oldEachStepTime ;
 
-					stNUD.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2;
-					stNUD.Minimum = mainForm.EachStepTime2; // 步时间如果为0，则毫无意义
-					stNUD.Increment = mainForm.EachStepTime2;
-					stNUD.Value = mainForm.EachStepTime2 * oldValue;
+					stNUD.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime;
+					stNUD.Minimum = mainForm.EachStepTime; // 步时间如果为0，则毫无意义
+					stNUD.Increment = mainForm.EachStepTime;
+					stNUD.Value = mainForm.EachStepTime * oldValue;
 				}				
 			}
 
@@ -145,7 +145,7 @@ namespace LightController.MyForm.Multiplex
 
 			oldMode = mainForm.CurrentMode ;
 			oldLightType = newLightType ;
-			oldEachStepTime = mainForm.EachStepTime2;
+			oldEachStepTime = mainForm.EachStepTime;
 						
 			materialTreeView.ExpandAll(); // 不论渲染成什么样，都要主动展开树，否则winForm会自己收纳起来。
 			previewButton.Visible = mainForm.IsOneMoreConnected() && mainForm.CurrentMode == 0; // 音频模式就不要预览了，没有意义
@@ -608,7 +608,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void lineStNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			commonStepTime = decimal.ToInt32(StNumericUpDown.Value / mainForm.EachStepTime2);
+			commonStepTime = decimal.ToInt32(StNumericUpDown.Value / mainForm.EachStepTime);
 
 			// 需要在这里对波浪的倍率项进行限制
 			waveTimesNumericUpDown.Maximum = 250 / commonStepTime;
@@ -870,10 +870,10 @@ namespace LightController.MyForm.Multiplex
 				Size = stNUDDemo.Size,
 				TextAlign = stNUDDemo.TextAlign,
 				DecimalPlaces = stNUDDemo.DecimalPlaces,
-				Maximum = stNUDDemo.Maximum * mainForm.EachStepTime2,
-				Minimum = mainForm.EachStepTime2,
-				Increment = mainForm.EachStepTime2,
-				Value = mainForm.EachStepTime2 * commonStepTime,
+				Maximum = stNUDDemo.Maximum * mainForm.EachStepTime,
+				Minimum = mainForm.EachStepTime,
+				Increment = mainForm.EachStepTime,
+				Value = mainForm.EachStepTime * commonStepTime,
 				Visible = mainForm.CurrentMode == 0,
 			};
 			stNUD.MouseWheel += someNUD_MouseWheel;

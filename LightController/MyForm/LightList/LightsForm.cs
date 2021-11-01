@@ -156,7 +156,7 @@ namespace LightController
                 MinNum = 512;
             }
 
-            //DOTO 211028 新增灯具时，只需把NewLightAst属性与lightAstList中的项进行绑定即可（后续操作中：删除直接全删，修改则无需变动）
+            //211028 新增灯具时，只需把NewLightAst属性与lightAstList中的项进行绑定即可（后续操作中：删除直接全删，修改则无需变动）
             changeList.Add(new LightsChange()
             {
                 Operation = EnumOperation.ADD,
@@ -216,7 +216,7 @@ namespace LightController
                 lightAstList[lightIndex].EndNum = endNum;
                 lightAstList[lightIndex].LightAddr = startNum + "-" + endNum;
 
-                //DOTO 211028 修改灯具地址时，根据实际情况处理changeList                
+                //211028 修改灯具地址时，根据实际情况处理changeList                
                 //更改的灯具为旧灯具，才有修改的必要；
                 //新加灯具无论怎么改，都是ADD类型的，NewLightAst已指向lightAstList[lightIndex]，无需显式更改changeList内容！
                 if (lightIndex < mainForm.LightAstList.Count)
@@ -264,30 +264,31 @@ namespace LightController
             }
             else
             {
-                //DOTO 211028 删除灯具时：(为简化问题，先改成每次只允许删除一个灯具)->按新思路，基本上确定也可以多选了（待做）
-                //当changeList中有这个项的更改(UPDATE)记录时，把该记录删掉；
-                int delLightIndex = lightsListView.SelectedIndices[0];
-                if (delLightIndex < mainForm.LightAstList.Count)
-                {
-                    lightAstList[delLightIndex].StartNum = 0;
-                    lightAstList[delLightIndex].EndNum = 0;
-                    lightAstList[delLightIndex].LightAddr = "";
-                    lightsListView.Items[delLightIndex].SubItems[2].Text = "";
-
-                    changeList[delLightIndex] = new LightsChange()
+                //211028 删除灯具：遍历被删除的灯具，①如果是原来的灯具，则设为空地址；②如果是本次新增的灯具，则直接删除。
+                foreach (ListViewItem item in lightsListView.SelectedItems)  //使用遍历item的好处是：其index会自动更新为新的index
+                {                    
+                    int delLightIndex = item.Index;    // 关键语句！                
+                    if (delLightIndex < mainForm.LightAstList.Count)
                     {
-                        Operation = EnumOperation.DELETE,
-                        LightIndex = delLightIndex,
-                        NewLightAst = null
-                    };
+                        lightAstList[delLightIndex].StartNum = 0;
+                        lightAstList[delLightIndex].EndNum = 0;
+                        lightAstList[delLightIndex].LightAddr = "";
+                        lightsListView.Items[delLightIndex].SubItems[2].Text = "";
+                        changeList[delLightIndex] = new LightsChange()
+                        {
+                            Operation = EnumOperation.DELETE,
+                            LightIndex = delLightIndex,
+                            NewLightAst = null
+                        };
+                    }
+                    else
+                    {
+                        changeList.RemoveAt(delLightIndex);
+                        lightAstList.RemoveAt(delLightIndex);
+                        lightsListView.Items.RemoveAt(delLightIndex);                        
+                    }
                 }
-                else
-                {
-                    changeList.RemoveAt(delLightIndex);
-                    lightAstList.RemoveAt(delLightIndex);
-                    lightsListView.Items.RemoveAt(delLightIndex);
-                    lightsListView.Refresh();
-                }
+                lightsListView.Refresh();　// 最后才执行，避免重复刷新
             }
         }
 

@@ -1762,7 +1762,6 @@ namespace LightController.MyForm
             SetNotice("正在打开工程，请稍候...", false, true);
             setBusy(true);
 
-            //DOTO 211009 打开工程 √
             DateTime beforeDT = System.DateTime.Now;
 
             //MARK1124：OpenProject 内当更改过工作目录后，需要刷新软件内置的灯具图片列表；
@@ -1849,7 +1848,7 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        ///  DOTO 211012 辅助方法：旧版数据库转为新版格式 √
+        ///  211012 辅助方法：旧版数据库转为新版格式
         /// </summary>
         /// <param name="projDir">工程目录（最后一个字符为”/“无需额外添加）</param>
         private void changeToNewDB(string projDir)
@@ -1920,9 +1919,9 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        /// DOTO 211012 辅助方法：打开工程单场景(两个模式)数据（新版） √
+        ///211012 辅助方法：打开工程单场景(两个模式)数据 
         /// </summary>
-        /// <param name="scene"></param>
+        /// <param name="scene">场景编号，由0开始计数</param>
         private void generateSceneData(int scene)
         {
             //MARK 重构BuildLightList：generateFrameData()内加dbLightList空值验证
@@ -2112,10 +2111,9 @@ namespace LightController.MyForm
             }
         }
         /// <summary>
-        /// DOTO 211009 saveSceneChannels √
         /// 辅助方法：保存指定场景的channelList
         /// </summary>
-        /// <param name="scene">要保存的场景编号</param>
+        /// <param name="scene">要保存的场景编号，由0开始</param>
         private void saveSceneChannels(int scene)
         {
             if (channelDAO == null)
@@ -2280,7 +2278,7 @@ namespace LightController.MyForm
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
 
-            //DOTO 211019 导出工程 √
+            //DOTO 211019 导出工程
             //DataConvertUtils.GetInstance().SaveProjectFile(
             //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
             CSJProjectBuilder.GetInstance().BuildProjects(this, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
@@ -3847,7 +3845,7 @@ namespace LightController.MyForm
             networkPlayTools.EndView();
         }
 
-        //DOTO 211012 要重写 《预览 和 停止预览》 按键点击事件
+        //DOTO 211012 重写 《预览 和 停止预览》 按键点击事件
         /// <summary>
         /// 辅助方法：预览效果|停止预览
         /// </summary>

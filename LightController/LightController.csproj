@@ -366,22 +366,22 @@
     <Compile Include="MyForm\MainFormAst\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\ProtocolDataForm.cs">
+    <Compile Include="MyForm\Tools\ProtocolDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OtherTools\ProtocolDataForm.Designer.cs">
+    <Compile Include="MyForm\Tools\ProtocolDataForm.Designer.cs">
       <DependentUpon>ProtocolDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\SequencerForm.cs">
+    <Compile Include="MyForm\Tools\SequencerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OtherTools\SequencerForm.Designer.cs">
+    <Compile Include="MyForm\Tools\SequencerForm.Designer.cs">
       <DependentUpon>SequencerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\ToolsForm.cs">
+    <Compile Include="MyForm\Tools\ToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OtherTools\ToolsForm.Designer.cs">
+    <Compile Include="MyForm\Tools\ToolsForm.Designer.cs">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\SkinMainForm.cs">
@@ -492,13 +492,13 @@
     <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
       <DependentUpon>GroupForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\ProtocolDataForm.resx">
+    <EmbeddedResource Include="MyForm\Tools\ProtocolDataForm.resx">
       <DependentUpon>ProtocolDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\SequencerForm.resx">
+    <EmbeddedResource Include="MyForm\Tools\SequencerForm.resx">
       <DependentUpon>SequencerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
+    <EmbeddedResource Include="MyForm\Tools\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\灯光图.png" />

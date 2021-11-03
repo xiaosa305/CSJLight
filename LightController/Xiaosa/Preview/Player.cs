@@ -90,8 +90,18 @@ namespace LightController.Xiaosa.Preview
         }
         public void EndPreview(Completed completed, Error error)
         {
-            PlayTimer.Stop();
-            Connect.StopIntentPreview(delegate { completed(); }, delegate { error("关闭调试失败"); });
+            if (PlayTimer.Enabled)
+            {
+                PlayTimer.Stop();
+            }
+            if (SingleStepPlayTimer.Enabled)
+            {
+                SingleStepPlayTimer.Stop();
+            }
+            if (Connect.IsConnected())
+            {
+                Connect.StopIntentPreview(delegate { completed(); }, delegate { error("关闭调试失败"); });
+            }
         }
         public void SingleStepPreview(byte[] data)
         {

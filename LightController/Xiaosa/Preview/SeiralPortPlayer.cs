@@ -125,7 +125,14 @@ namespace LightController.Xiaosa.Preview
         }
         public void EndPreview()
         {
-            PlayTimer.Stop();
+            if (PlayTimer.Enabled)
+            {
+                PlayTimer.Stop();
+            }
+            if (SingleStepPlayTimer.Enabled)
+            {
+                SingleStepPlayTimer.Stop();
+            }
         }
         public void SingleStepPreview(byte[] data)
         {

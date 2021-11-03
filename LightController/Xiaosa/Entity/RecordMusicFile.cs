@@ -108,7 +108,6 @@ namespace LightController.Xiaosa.Entity
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw;
             }
             return false;
         }

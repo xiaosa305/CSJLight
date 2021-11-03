@@ -31,10 +31,10 @@ namespace LightController.MyForm
 		public SkinMainForm()
 		{			
 			InitializeComponent();
-			initGeneralControls();							
-
-			#region 初始化各通道控件
+			initGeneralControls();
 			
+			#region 初始化各通道控件
+
 			for (int tdIndex = 0; tdIndex<32;tdIndex++) {
 
 				tdPanels[tdIndex] = new Panel
@@ -171,19 +171,9 @@ namespace LightController.MyForm
 
 			#endregion
 
-			#region 几个下拉框的初始化及赋值
-			
-			//模式选项框
-			modeSkinComboBox.Items.AddRange(new object[] {
-				LanguageHelper.TranslateWord("常规模式"),
-				LanguageHelper.TranslateWord("音频模式")
-			});
-			modeSkinComboBox.SelectedIndex = 0;
-						
-			#endregion
-
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(copySceneSkinButton, copyFrameNotice);			
+			myToolTip.SetToolTip(protocolLabel, protocolNotice);
+			myToolTip.SetToolTip(copySceneSkinButton, copySceneNotice);			
 			myToolTip.SetToolTip(keepSkinButton, keepNotice);
 			myToolTip.SetToolTip(insertSkinButton, insertNotice);
 			myToolTip.SetToolTip(appendSkinButton, appendNotice);
@@ -197,14 +187,12 @@ namespace LightController.MyForm
 			//  动态加载灯具图片列表
 			lightsSkinListView.LargeImageList = lightImageList ; 
 			RefreshLightImageList(); //SkinMainForm构造函数
-
+		
 			// 刷新为设置的语言
 			LanguageHelper.InitForm(this);
 			LanguageHelper.TranslateMenuStrip( mySkinContextMenuStrip);
-
-			isInit = true;
 		}
-
+		
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
@@ -216,7 +204,7 @@ namespace LightController.MyForm
 				panel.Hide();
 			}
 		}
-		
+
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
 			startPreview(); //SkinMainForm_Activated
@@ -243,15 +231,30 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助公用方法：渲染场景选择框
+		/// 辅助公用方法：渲染《协议选择框》
+		/// </summary>
+		protected override void renderProtocolCB( int protocolIndex )
+		{
+			protocolComboBox.SelectedIndexChanged -= protocolComboBox_SelectedIndexChanged;
+			protocolComboBox.Items.Clear();
+			foreach (string protocolName in ProtocolList)
+			{
+				protocolComboBox.Items.Add(protocolName);
+			}
+			protocolComboBox.SelectedIndex = protocolIndex;
+			protocolComboBox.SelectedIndexChanged += protocolComboBox_SelectedIndexChanged;
+		}
+
+		/// <summary>
+		/// 辅助公用方法：渲染《场景选择框》
 		/// </summary>
 		public override void RenderSceneCB()
 		{
 			sceneSkinComboBox.SelectedIndexChanged -= sceneSkinComboBox_SelectedIndexChanged;
 			sceneSkinComboBox.Items.Clear();
-			foreach (string frame in AllSceneList)
+			foreach (string scene in AllSceneList)
 			{
-				sceneSkinComboBox.Items.Add(frame);
+				sceneSkinComboBox.Items.Add(scene);
 			}
 			sceneSkinComboBox.SelectedIndex = CurrentScene;
 			sceneSkinComboBox.SelectedIndexChanged += sceneSkinComboBox_SelectedIndexChanged;
@@ -1095,18 +1098,28 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void sceneSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			sceneSelectedChanged( sceneSkinComboBox.SelectedIndex);
+			sceneChanged( sceneSkinComboBox.SelectedIndex);
 		}
 
 		/// <summary>
-		/// 事件：更改《选择模式》选项后
+		/// 事件：更改《协议》选项
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			modeSelectedChanged(
-				modeSkinComboBox.SelectedIndex,
+			protocolChanged(protocolComboBox.SelectedIndex , true); 
+		}		
+
+        /// <summary>
+        /// 事件：勾选|取消勾选《音频模式(复选框)》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void modeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			modeChanged(
+				modeCheckBox.Checked,
 				tdCmComboBoxes,
 				tdStNumericUpDowns,
 				thirdLabel);
@@ -1629,7 +1642,7 @@ namespace LightController.MyForm
 			lightListSkinButton.Enabled = !isMultiMode;
 			lightsSkinListView.Enabled = !isMultiMode;
 			sceneSkinComboBox.Enabled = !isMultiMode;
-			modeSkinComboBox.Enabled = !isMultiMode;
+			protocolComboBox.Enabled = !isMultiMode;
 			copySceneSkinButton.Enabled = !isMultiMode;						
 			groupButton.Text = !isMultiMode ? "灯具编组" : "退出编组";
 			groupButton.Enabled = (LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0) || isMultiMode; // 选中灯具 或 已在编组模式中 ，此按键可用
@@ -1940,7 +1953,8 @@ namespace LightController.MyForm
 		{
 			testButtonClick();
 		}
-		
-	}
+
+       
+    }
 	   
 }

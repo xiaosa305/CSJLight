@@ -34,8 +34,8 @@ namespace LightController.MyForm
 		public NewMainForm()
 		{			
 			InitializeComponent();
-			initGeneralControls(); //几个全局控件的初始化
-			
+			initGeneralControls(); //几个全局控件的初始化		
+
 			#region 动态添加32个tdPanel的内容及其监听事件; 动态添加32个saPanel 
 
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
@@ -158,15 +158,9 @@ namespace LightController.MyForm
 
 			#endregion
 
-			//模式选项框
-			modeComboBox.Items.AddRange(new object[] {
-				LanguageHelper.TranslateWord("常规模式"),
-				LanguageHelper.TranslateWord("音频模式")
-			});
-			modeComboBox.SelectedIndex = 0;
-			
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(copySceneButton, copyFrameNotice);			
+			myToolTip.SetToolTip(protocolLabel, protocolNotice);
+			myToolTip.SetToolTip(copySceneButton, copySceneNotice);			
 			myToolTip.SetToolTip(keepButton,keepNotice);
 			myToolTip.SetToolTip(insertButton, insertNotice);
 			myToolTip.SetToolTip(appendButton, appendNotice);
@@ -213,12 +207,11 @@ namespace LightController.MyForm
 
 			// 刷新灯具图片列表（从硬盘读取）
 			lightsListView.LargeImageList = lightImageList;
-			RefreshLightImageList(); //NewMainForm构造函数
+			RefreshLightImageList(); //NewMainForm构造函数			
 
 			// 处理语言			
 			LanguageHelper.InitForm(this);
 
-			isInit = true;
 		}
 
 		private void NewMainForm_Load(object sender, EventArgs e)
@@ -232,7 +225,8 @@ namespace LightController.MyForm
 			// 根据之前打开时存在Settings内的数据，设置皮肤
 			if (isUseSkin) {
 				skinComboBox.SelectedIndex = Properties.Settings.Default.IrisSkinIndex;  // 触发skinComboBox_SelectedIndexChanged事件				
-			}	
+			}
+
 		}
 
 		/// <summary>
@@ -256,14 +250,30 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 辅助公用方法：渲染《协议选择框》
+		/// </summary>
+		protected override void renderProtocolCB(int protocolIndex)
+		{
+			protocolComboBox.SelectedIndexChanged -= protocolComboBox_SelectedIndexChanged;
+			protocolComboBox.Items.Clear();
+			foreach (string protocolName in ProtocolList)
+			{
+				protocolComboBox.Items.Add(protocolName);
+			}
+			protocolComboBox.SelectedIndex = protocolIndex;
+			protocolComboBox.SelectedIndexChanged += protocolComboBox_SelectedIndexChanged;
+		}
+
+		/// <summary>
 		/// 辅助公用方法：渲染场景选择框
 		/// </summary>
 		public override void RenderSceneCB() {
+
 			sceneComboBox.SelectedIndexChanged -= sceneComboBox_SelectedIndexChanged;
 			sceneComboBox.Items.Clear();			
-			foreach (string frame in AllSceneList)
+			foreach (string scene in AllSceneList)
 			{
-				sceneComboBox.Items.Add(frame);
+				sceneComboBox.Items.Add(scene);
 			}
 			sceneComboBox.SelectedIndex = CurrentScene;
 			sceneComboBox.SelectedIndexChanged += sceneComboBox_SelectedIndexChanged;
@@ -317,10 +327,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{			
-			if (!isInit) {
-				return;
-			}
-			
 			// 保存用户自选的皮肤到OS注册表中
 			Properties.Settings.Default.IrisSkinIndex = skinComboBox.SelectedIndex;
 			Properties.Settings.Default.Save();
@@ -995,20 +1001,31 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void sceneComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			sceneSelectedChanged( sceneComboBox.SelectedIndex );
+			sceneChanged( sceneComboBox.SelectedIndex );
 		}		
 
 		/// <summary>
-		/// 事件：更改《选择模式》选项后
+		/// 事件：更改《协议》选项后
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			modeSelectedChanged( modeComboBox.SelectedIndex ,
-				tdCmComboBoxes,	
-				tdStNumericUpDowns,	
-				thirdLabel );
+			protocolChanged(protocolComboBox.SelectedIndex , true);
+		}
+
+		/// <summary>
+		/// 事件：勾选|取消勾选《音频模式(复选框)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void modeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			modeChanged(
+				modeCheckBox.Checked,
+				tdCmComboBoxes,
+				tdStNumericUpDowns,
+				thirdLabel);
 		}
 
 		/// <summary>
@@ -1206,7 +1223,7 @@ namespace LightController.MyForm
 			lightListToolStripMenuItem.Enabled = !isMultiMode;
 			lightsListView.Enabled = !isMultiMode;
 			sceneComboBox.Enabled = !isMultiMode;
-			modeComboBox.Enabled = !isMultiMode;
+			protocolComboBox.Enabled = !isMultiMode;
 			copySceneButton.Enabled = !isMultiMode;
 			groupFlowLayoutPanel.Enabled = LightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 			groupButton.Text = isMultiMode ? "退出编组" : "灯具编组";
@@ -1832,6 +1849,6 @@ namespace LightController.MyForm
 		{
 			testButtonClick();
 		}
-			
-	}
+
+    }
 }

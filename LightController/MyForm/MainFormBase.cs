@@ -25,6 +25,8 @@ using LightController.Xiaosa.Tools;
 using LightController.Entity;
 using LightController.Ast.Enum;
 using LightController.Xiaosa.Preview;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 
 namespace LightController.MyForm
 {
@@ -36,7 +38,10 @@ namespace LightController.MyForm
         protected ToolTip myToolTip;
 
         //各类提示
-        protected string copyFrameNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
+        protected string protocolNotice = "1.选择不同协议，会将场景名更改为该协议的命名；\n" +
+            "2.’==...==‘之前的协议为excel表格中的协议，之后的协议为用户自定义协议;\n" +
+            "3.如需恢复默认(无场景名)，请选择'==============='。";
+        protected string copySceneNotice = "使用本功能，将从其他场景复制到当前场景 或 将当前场景复制到其他场景。";
         protected string keepNotice = "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。";
         protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
         protected string appendNotice = "右击可追加多步";
@@ -58,7 +63,6 @@ namespace LightController.MyForm
         public bool IsNoticeUnifyTd = true;
 
         // 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）	
-        public static string SceneListFile = Application.StartupPath + @"\Protocol\SceneList.txt";
         public static IList<string> AllSceneList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
         public static int SceneCount = 0;  //场景数量
         public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
@@ -68,9 +72,8 @@ namespace LightController.MyForm
         protected List<int> tdValues = null;  // 要实时显示单步数据的通道列表		
 
         // 全局辅助变量
-        protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
-        public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
-		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
+        //protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
+        public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
         protected MaterialUseForm materialUseForm = null; // 存储一个materialForm界面的实例，初次使用时新建
 
         // 程序运行后，动态变化的变量
@@ -105,7 +108,6 @@ namespace LightController.MyForm
         public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
         public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 
-
         // 通道数据操作时的变量		
         protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
         protected bool isMultiMode = false; //默认情况下是单灯模式；若进入编组模式，此变量改成true；	
@@ -113,6 +115,7 @@ namespace LightController.MyForm
         protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
         protected IList<int> selectedIndexList = new List<int>();  //选择的灯具的index列表（多选情况下）
 
+        public int CurrentProtocol = -1; // 表示协议index
         public int CurrentScene = 0; // 表示场景编号(selectedIndex)
         public int CurrentMode = 0;  // 表示模式编号(selectedIndex)；0.常规模式； 1.音频模式
 
@@ -153,6 +156,7 @@ namespace LightController.MyForm
         protected virtual void enableStepPanel(bool enable) { } //是否使能《步数面板》
 
         // 步数面板
+        protected virtual void renderProtocolCB(int protocolIndex) { }
         public virtual void RenderSceneCB() { } //渲染场景下拉框（外设配置也用得到）
         protected virtual void showStepLabelMore(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
         protected virtual void enterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
@@ -166,6 +170,220 @@ namespace LightController.MyForm
         // 通道面板		
         protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList) { } //通过传来的数值，生成通道列表的数据		
         protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
+
+        #region 协议相关
+        // DOTO 211103 协议相关
+        protected HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射               
+        public IList<string> ProtocolList;
+        public IList<string> SceneCodeList; // 存放读取的《Protocol\SceneCode》文件内生成的1-16场景相应的码值，有多处会用到此List; 
+
+        /// <summary>
+        /// 辅助方法：供ToolsForm调用，当新增或更改协议项（另存pbin）时，重新渲染protocolComboBox
+        /// </summary>
+        public void RenderProtocolCB(string protocolName) {
+
+            // 当首页原先选择项，为xls中的协议或未选择时，使用CurrentProtocol作为入参
+            if ( CurrentProtocol <= xlsWorkbook.NumberOfSheets )
+            {
+                renderProtocolCB( CurrentProtocol );
+            }
+            //当首页的原先选择项，为pbin协议时，必须要重新定位，此时传入由旧协议名称生成的新index
+            else
+            {
+                renderProtocolCB( GetIndexByPbinName( protocolName ) );
+            }
+        }
+
+        /// <summary>
+        ///  辅助方法：加载所有协议，包括xls内的和用户另存为的
+        /// </summary>
+        public void LoadProtocols()
+        {
+            try
+            {
+                ProtocolList = new List<string>();
+                // 由xls文件加载协议列表；
+                using (FileStream file = new FileStream( Application.StartupPath + @"\Protocol\Controller.xls", FileMode.Open, FileAccess.Read))
+                {
+                    xlsWorkbook = new HSSFWorkbook(file);
+                }
+                for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
+                {
+                    ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);                    
+                    ProtocolList.Add(sheet.SheetName);
+                }
+                ProtocolList.Add("===============");
+                // 加载所有pbin文件；
+                FileInfo[] pbinArray = new DirectoryInfo(Application.StartupPath + @"\Protocol\").GetFiles("*.pbin"); 
+                if (pbinArray.Length > 0)
+                {                               
+                    foreach (FileInfo pbin in pbinArray)
+                    {
+                        ProtocolList.Add(pbin.Name.Substring(0, pbin.Name.LastIndexOf(".pbin")));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+		/// 辅助方法：更改协议（会更改界面上的前十六个场景名；另外可能需要提示是否设为默认值）
+		/// </summary>
+		/// <param name="protocolIndex"></param>
+        protected void protocolChanged(int protocolIndex, bool isNoticeSave)
+        {
+            CurrentProtocol = protocolIndex;
+            rebuildSceneList(protocolIndex);
+            RenderSceneCB();
+
+            if ( isNoticeSave && DialogResult.Yes == MessageBox.Show(
+                "您已更改协议为【" + ProtocolList[protocolIndex] + "】，是否把此协议设为默认值?\n(注：如果选择‘==========’，前16个场景会只有场景编号而无场景名)",
+                 "设为默认协议?", 
+                 MessageBoxButtons.YesNo, 
+                 MessageBoxIcon.Question))
+            {
+                Properties.Settings.Default.protocolIndex = (protocolIndex == xlsWorkbook.NumberOfSheets || protocolIndex == -1) ? -1 : protocolIndex;
+                Properties.Settings.Default.Save();
+            }
+        }
+        
+        /// <summary>
+        /// 辅助方法：由协议index，改造或重建AllSceneList;
+        /// </summary>
+        /// <param name="protocolIndex"></param>
+        protected void rebuildSceneList(int protocolIndex) {
+
+            // 未选择协议 
+            if (protocolIndex == xlsWorkbook.NumberOfSheets ||
+                protocolIndex == -1 || 
+                SceneCodeList == null ||
+                SceneCodeList.Count != 16)
+            {
+                initSceneList();
+                return;
+            }
+
+            CCEntity ccEntity = GenerateCCEntity(protocolIndex);
+            if (ccEntity != null )
+            {
+                for (int codeIndex = 0; codeIndex < SceneCodeList.Count; codeIndex++)
+                {
+                    AllSceneList[codeIndex] = ccEntity.CCDataList[Convert.ToInt32(SceneCodeList[codeIndex], 16) - 1].Function;
+                }
+            }          
+        }
+
+        /// <summary>
+        /// 辅助方法：由传进来的protocolIndex,生成相应的CCEntity（供rebuildSceneList 和 ToolsForm 调用）
+        /// </summary>
+        /// <param name="protocolIndex"></param>
+        /// <returns></returns>
+        public CCEntity GenerateCCEntity(int protocolIndex) {
+
+            CCEntity ccEntity = null;
+
+            // 选中xls中协议
+            if (protocolIndex < xlsWorkbook.NumberOfSheets)
+            {
+                ccEntity = new CCEntity();
+                ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
+                ccEntity.ProtocolName = sheet.SheetName;
+                System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+                // 处理通用数据(com0,com1,ps2)
+                rows.MoveNext();
+                IRow row = (HSSFRow)rows.Current;
+                ICell cell = row.GetCell(0);
+                ccEntity.Com0 = Convert.ToInt32(cell.ToString().Substring(4));
+                rows.MoveNext();
+                row = (HSSFRow)rows.Current;
+                cell = row.GetCell(0);
+                ccEntity.Com1 = Convert.ToInt32(cell.ToString().Substring(4));
+                rows.MoveNext();
+                row = (HSSFRow)rows.Current;
+                cell = row.GetCell(0);
+                ccEntity.PS2 = cell.ToString().Equals("PS2=主") ? 0 : 1;
+                rows.MoveNext();
+
+                //逐一处理每一行的数据
+                int rowIndex = 0;
+                while (rows.MoveNext())
+                {
+                    row = (HSSFRow)rows.Current;
+
+                    CCData ccData = new CCData();
+                    cell = row.GetCell(0);
+                    ccData.Function = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(1);
+                    ccData.Code = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(2);
+                    ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(3);
+                    ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(4);
+                    ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(5);
+                    ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(6);
+                    ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(7);
+                    ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(8);
+                    ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
+                    cell = row.GetCell(9);
+                    ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
+
+                    ccEntity.CCDataList.Add(ccData);
+                    rowIndex++;
+                }
+            }
+            // 选中本地协议
+            else if( protocolIndex > xlsWorkbook.NumberOfSheets)
+            {
+                try
+                {
+                    ccEntity = (CCEntity)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\protocol\" + ProtocolList[protocolIndex] + ".pbin");
+                }
+                catch (Exception)
+                {
+                    ccEntity = null;
+                    MessageBox.Show("用户另存的【" + ProtocolList[protocolIndex] + "】协议损坏，无法调用，请重选协议。");                    
+                }
+            }
+            return ccEntity;
+        }
+
+        /// <summary>
+        /// 由text文件初始化场景名列表，当内容有误时，直接退出软件；
+        /// </summary>
+        protected void initSceneList()
+        {
+            AllSceneList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneList.txt");
+            if (AllSceneList == null || AllSceneList.Count == 0)
+            {
+                MessageBox.Show(LanguageHelper.TranslateSentence("SceneList.txt中的场景不可为空，否则软件无法使用，请修改后重启。"));
+                exit();
+            }
+            SceneCount = AllSceneList.Count;
+        }
+
+        /// <summary>
+        /// 辅助方法：传入pbin文件名，得出其在ProtocolList中的index ;  未找到就返回0（出bug才会有这种情况）
+        /// </summary>
+        /// <param name="pbinName"></param>
+        /// <returns></returns>
+        public int GetIndexByPbinName(string pbinName) {
+            for (int protocolIndex = xlsWorkbook.NumberOfSheets + 1; protocolIndex < ProtocolList.Count; protocolIndex++) {
+                if (ProtocolList[protocolIndex] == pbinName ) {
+                    return protocolIndex;
+                }
+            }
+            return 0;
+        }
+
+        #endregion
 
         // 调试面板
         protected virtual void refreshConnectedControls(bool isDeviceConnected, bool isPreviewing)
@@ -1588,30 +1806,22 @@ namespace LightController.MyForm
             {
                 return;
             }
-
-            //每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
-            IsCreateSuccess = false;
-            new NewForm(this, CurrentScene).ShowDialog();
-
-            //当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
-            if (IsCreateSuccess)
-            {
-                editLightList();
-            }
+            new NewForm(this).ShowDialog();
         }
 
         /// <summary>
         ///  辅助方法: 通过工程名，新建工程; 主要通过调用InitProject(),但在前后加了鼠标特效的处理。（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
         /// </summary>
         /// <param name="projectName">工程名</param>
-        public void NewProject(string projectName, int selectedFrameIndex)
+        public void NewProject(string projectName, int sceneIndex)
         {
             Cursor = Cursors.WaitCursor;
-            InitProject(projectName, selectedFrameIndex, true);
+            InitProject(projectName, sceneIndex, true);
             //MARK 只开单场景：01.2 NewProject时，要frameLoadArray[selectedFrame]=true；
-            sceneLoadArray[selectedFrameIndex] = true;
+            sceneLoadArray[sceneIndex] = true;
             SetNotice("成功新建工程，请为此工程添加灯具。", true, true);
             Cursor = Cursors.Default;
+            editLightList();  //新建工程后，灯具列表一定是空的，故直接弹出《添加灯具》
         }
 
         /// <summary>
@@ -1942,7 +2152,7 @@ namespace LightController.MyForm
             for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
             {
                 int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
-                int tempLightNo = dbLightList[tempLightIndex].LightID;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
+                int tempLightID = dbLightList[tempLightIndex].LightID;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
 
                 threadArray[tempLightIndex] = new Thread(delegate ()
                 {
@@ -1950,7 +2160,7 @@ namespace LightController.MyForm
                     {
                         LightWrapperList[tempLightIndex].LightStepWrapperList[scene, mode] = new LightStepWrapper();
 
-                        IList<DB_Channel> channelList = channelDAO.GetList(tempLightNo, scene, mode);
+                        IList<DB_Channel> channelList = channelDAO.GetList(tempLightID, scene, mode);
 
                         //当找到的stepValueListTemp ①不为空；②通道数量与模板相同 时，才继续往下走，否则不继续运行
                         if (channelList != null && channelList.Count == LightWrapperList[tempLightIndex].StepTemplate.TongdaoList.Count)
@@ -3133,14 +3343,8 @@ namespace LightController.MyForm
         /// 事件：切换场景选项
         /// </summary>
         /// <param name="sender"></param>
-        protected void sceneSelectedChanged(int newScene)
+        protected void sceneChanged(int newScene)
         {
-            //11.13 若未初始化，直接return；
-            if (!isInit)
-            {
-                return;
-            }
-
             setBusy(true);
             SetNotice("正在切换场景,请稍候...", false, true);
             endview(); // sceneSelectedChanged (只要更改了场景，直接结束预览)
@@ -3175,19 +3379,13 @@ namespace LightController.MyForm
         /// 辅助方法：切换模式选项
         /// </summary>
         /// <param name="sender"></param>
-        protected void modeSelectedChanged(int newMode,
+        protected void modeChanged( bool isSoundMode,
             ComboBox[] tdCMComboBoxes,
             NumericUpDown[] tdStepTimeNumericUpDowns,
             Label thirdLabel)
         {
-            //11.13 若未初始化，直接return；
-            if (!isInit)
-            {
-                return;
-            }
-
             SetNotice("正在切换模式", false, true);
-            CurrentMode = newMode;
+            CurrentMode = isSoundMode?1:0;
 
             for (int tdPanelIndex = 0; tdPanelIndex < 32; tdPanelIndex++)
             {
@@ -4080,9 +4278,9 @@ namespace LightController.MyForm
             exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
 
             //// myToolTip：悬停提示,延迟600ms
-            myToolTip = new System.Windows.Forms.ToolTip(this.components);
+            myToolTip = new ToolTip(this.components);
             myToolTip.IsBalloon = true;
-            myToolTip.InitialDelay = 600;
+            myToolTip.InitialDelay = 600;            
 
             SoftwareName = InHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "");
             SoftwareName += " Dimmer System ";
@@ -4134,7 +4332,7 @@ namespace LightController.MyForm
             // myToolTips的初始化
             if (LanguageHelper.Language != "zh-CN")
             {
-                copyFrameNotice = LanguageHelper.TranslateWord(copyFrameNotice);
+                copySceneNotice = LanguageHelper.TranslateWord(copySceneNotice);
                 keepNotice = LanguageHelper.TranslateWord(keepNotice);
                 insertNotice = LanguageHelper.TranslateWord(insertNotice);
                 appendNotice = LanguageHelper.TranslateWord(appendNotice);
@@ -4159,20 +4357,29 @@ namespace LightController.MyForm
                 Icon = Icon.ExtractAssociatedIcon(iconPath);
             }
 
-            // 处理场景列表，当内容有误时，直接退出软件；
-            AllSceneList = TextHelper.Read(SceneListFile);
-            if (AllSceneList == null || AllSceneList.Count == 0)
+            // DOTO 211103 处理 协议列表 和 场景列表
+            // 1.由各种配置文件，初始化三个列表（sceneCodeList、protocolList、AllSceneList)                  
+            SceneCodeList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneCode");
+            LoadProtocols();            
+            initSceneList();
+            // 2.渲染协议列表：先读取相关的协议index，如果有错误，直接置为-1
+            if (Properties.Settings.Default.protocolIndex >= ProtocolList.Count)
             {
-                MessageBox.Show(LanguageHelper.TranslateSentence("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。"));
-                exit();
+                Properties.Settings.Default.protocolIndex = -1;
+                Properties.Settings.Default.Save();
             }
-            SceneCount = AllSceneList.Count;
-            RenderSceneCB();
+            renderProtocolCB( Properties.Settings.Default.protocolIndex );
+            // 3. 由最新的协议index，重新渲染 sceneList          
+            protocolChanged( Properties.Settings.Default.protocolIndex , false);
 
-            //MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
+            //MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计)。
             CheckForIllegalCrossThreadCalls = false;
         }
 
+        #endregion
+
+        #region 退出程序相关
+        
         /// <summary>
         /// 辅助方法：点击退出时FormClosing事件；
         /// </summary>

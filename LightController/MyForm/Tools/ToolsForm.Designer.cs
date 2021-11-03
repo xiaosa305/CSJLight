@@ -110,7 +110,6 @@ namespace LightController.MyForm.OtherTools
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.leftStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.rightStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.renderMainFormSceneButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.deviceTypeLabel = new System.Windows.Forms.Label();
@@ -892,20 +891,6 @@ namespace LightController.MyForm.OtherTools
             this.rightStatusLabel.Size = new System.Drawing.Size(624, 17);
             this.rightStatusLabel.Spring = true;
             // 
-            // renderMainFormSceneButton
-            // 
-            this.renderMainFormSceneButton.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.renderMainFormSceneButton.Enabled = false;
-            this.renderMainFormSceneButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.renderMainFormSceneButton.Location = new System.Drawing.Point(356, 23);
-            this.renderMainFormSceneButton.Name = "renderMainFormSceneButton";
-            this.renderMainFormSceneButton.Size = new System.Drawing.Size(86, 30);
-            this.renderMainFormSceneButton.TabIndex = 15;
-            this.renderMainFormSceneButton.Text = "关联到主界面";
-            this.renderMainFormSceneButton.UseVisualStyleBackColor = false;
-            this.renderMainFormSceneButton.Click += new System.EventHandler(this.renderMainFormSceneButton_Click);
-            this.renderMainFormSceneButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderMainFormSceneButton_MouseDown);
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.label5);
@@ -965,7 +950,6 @@ namespace LightController.MyForm.OtherTools
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.myStatusStrip);
-            this.Controls.Add(this.renderMainFormSceneButton);
             this.Controls.Add(this.protocolSaveButton);
             this.Controls.Add(this.protocolComboBox);
             this.Controls.Add(this.label18);
@@ -1068,7 +1052,6 @@ namespace LightController.MyForm.OtherTools
 		private System.Windows.Forms.TextBox kpSearchTextBox;
 		private System.Windows.Forms.Button kpSearchButton;
 		private System.Windows.Forms.Button fillCodeAllButton;
-		private System.Windows.Forms.Button renderMainFormSceneButton;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label deviceTypeLabel;

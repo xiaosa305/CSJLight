@@ -98,23 +98,24 @@ namespace LightController.MyForm
             this.projectPanel = new System.Windows.Forms.Panel();
             this.newProjectButton = new System.Windows.Forms.Button();
             this.exportButton = new System.Windows.Forms.Button();
-            this.copySceneButton = new System.Windows.Forms.Button();
             this.openProjectButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.saveSceneButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
+            this.copySceneButton = new System.Windows.Forms.Button();
             this.lightsListView = new System.Windows.Forms.ListView();
             this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stepBasePanel = new System.Windows.Forms.Panel();
             this.stepPanel = new System.Windows.Forms.Panel();
+            this.modeCheckBox = new System.Windows.Forms.CheckBox();
             this.chooseStepButton = new System.Windows.Forms.Button();
             this.saveMaterialButton = new System.Windows.Forms.Button();
-            this.modeComboBox = new System.Windows.Forms.ComboBox();
+            this.protocolComboBox = new System.Windows.Forms.ComboBox();
             this.sceneComboBox = new System.Windows.Forms.ComboBox();
             this.stepLabel = new System.Windows.Forms.Label();
-            this.frameLabel = new System.Windows.Forms.Label();
+            this.protocolLabel = new System.Windows.Forms.Label();
             this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.modeLabel = new System.Windows.Forms.Label();
+            this.sceneLabel = new System.Windows.Forms.Label();
             this.syncButton = new System.Windows.Forms.Button();
             this.backStepButton = new System.Windows.Forms.Button();
             this.insertButton = new System.Windows.Forms.Button();
@@ -313,10 +314,10 @@ namespace LightController.MyForm
             // keepButton
             // 
             this.keepButton.Enabled = false;
-            this.keepButton.Location = new System.Drawing.Point(875, 14);
+            this.keepButton.Location = new System.Drawing.Point(990, 14);
             this.keepButton.Margin = new System.Windows.Forms.Padding(2);
             this.keepButton.Name = "keepButton";
-            this.keepButton.Size = new System.Drawing.Size(44, 53);
+            this.keepButton.Size = new System.Drawing.Size(47, 53);
             this.keepButton.TabIndex = 24;
             this.keepButton.Text = "保持状态";
             this.keepButton.UseVisualStyleBackColor = true;
@@ -326,10 +327,10 @@ namespace LightController.MyForm
             // makeSoundButton
             // 
             this.makeSoundButton.Enabled = false;
-            this.makeSoundButton.Location = new System.Drawing.Point(971, 14);
+            this.makeSoundButton.Location = new System.Drawing.Point(1088, 14);
             this.makeSoundButton.Margin = new System.Windows.Forms.Padding(2);
             this.makeSoundButton.Name = "makeSoundButton";
-            this.makeSoundButton.Size = new System.Drawing.Size(44, 53);
+            this.makeSoundButton.Size = new System.Drawing.Size(47, 53);
             this.makeSoundButton.TabIndex = 25;
             this.makeSoundButton.Text = "触发音频";
             this.makeSoundButton.UseVisualStyleBackColor = true;
@@ -338,10 +339,10 @@ namespace LightController.MyForm
             // previewButton
             // 
             this.previewButton.Enabled = false;
-            this.previewButton.Location = new System.Drawing.Point(923, 14);
+            this.previewButton.Location = new System.Drawing.Point(1039, 14);
             this.previewButton.Margin = new System.Windows.Forms.Padding(2);
             this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(44, 53);
+            this.previewButton.Size = new System.Drawing.Size(47, 53);
             this.previewButton.TabIndex = 24;
             this.previewButton.Text = "预览效果";
             this.previewButton.UseVisualStyleBackColor = true;
@@ -618,7 +619,7 @@ namespace LightController.MyForm
             // 
             // copyStepButton
             // 
-            this.copyStepButton.Location = new System.Drawing.Point(631, 14);
+            this.copyStepButton.Location = new System.Drawing.Point(753, 14);
             this.copyStepButton.Name = "copyStepButton";
             this.copyStepButton.Size = new System.Drawing.Size(80, 23);
             this.copyStepButton.TabIndex = 49;
@@ -628,7 +629,7 @@ namespace LightController.MyForm
             // 
             // pasteStepButton
             // 
-            this.pasteStepButton.Location = new System.Drawing.Point(631, 44);
+            this.pasteStepButton.Location = new System.Drawing.Point(753, 44);
             this.pasteStepButton.Name = "pasteStepButton";
             this.pasteStepButton.Size = new System.Drawing.Size(80, 23);
             this.pasteStepButton.TabIndex = 49;
@@ -765,7 +766,7 @@ namespace LightController.MyForm
             this.soundListButton.BackColor = System.Drawing.Color.Transparent;
             this.soundListButton.Enabled = false;
             this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.soundListButton.Location = new System.Drawing.Point(138, 47);
+            this.soundListButton.Location = new System.Drawing.Point(241, 15);
             this.soundListButton.Margin = new System.Windows.Forms.Padding(2);
             this.soundListButton.Name = "soundListButton";
             this.soundListButton.Size = new System.Drawing.Size(74, 24);
@@ -812,7 +813,6 @@ namespace LightController.MyForm
             this.projectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.projectPanel.Controls.Add(this.newProjectButton);
             this.projectPanel.Controls.Add(this.exportButton);
-            this.projectPanel.Controls.Add(this.copySceneButton);
             this.projectPanel.Controls.Add(this.openProjectButton);
             this.projectPanel.Controls.Add(this.saveButton);
             this.projectPanel.Controls.Add(this.saveSceneButton);
@@ -839,7 +839,7 @@ namespace LightController.MyForm
             // exportButton
             // 
             this.exportButton.Enabled = false;
-            this.exportButton.Location = new System.Drawing.Point(11, 268);
+            this.exportButton.Location = new System.Drawing.Point(11, 225);
             this.exportButton.Margin = new System.Windows.Forms.Padding(2);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(74, 40);
@@ -848,17 +848,6 @@ namespace LightController.MyForm
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.exportProjectButton_Click);
             this.exportButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportProjectButton_MouseDown);
-            // 
-            // copySceneButton
-            // 
-            this.copySceneButton.Enabled = false;
-            this.copySceneButton.Location = new System.Drawing.Point(10, 124);
-            this.copySceneButton.Name = "copySceneButton";
-            this.copySceneButton.Size = new System.Drawing.Size(74, 40);
-            this.copySceneButton.TabIndex = 49;
-            this.copySceneButton.Text = "调用场景";
-            this.copySceneButton.UseVisualStyleBackColor = true;
-            this.copySceneButton.Click += new System.EventHandler(this.copySceneButton_Click);
             // 
             // openProjectButton
             // 
@@ -876,7 +865,7 @@ namespace LightController.MyForm
             // saveButton
             // 
             this.saveButton.Enabled = false;
-            this.saveButton.Location = new System.Drawing.Point(10, 220);
+            this.saveButton.Location = new System.Drawing.Point(10, 177);
             this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(74, 40);
@@ -889,7 +878,7 @@ namespace LightController.MyForm
             // saveSceneButton
             // 
             this.saveSceneButton.Enabled = false;
-            this.saveSceneButton.Location = new System.Drawing.Point(10, 172);
+            this.saveSceneButton.Location = new System.Drawing.Point(10, 129);
             this.saveSceneButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveSceneButton.Name = "saveSceneButton";
             this.saveSceneButton.Size = new System.Drawing.Size(74, 40);
@@ -901,7 +890,7 @@ namespace LightController.MyForm
             // closeButton
             // 
             this.closeButton.Enabled = false;
-            this.closeButton.Location = new System.Drawing.Point(11, 330);
+            this.closeButton.Location = new System.Drawing.Point(11, 296);
             this.closeButton.Margin = new System.Windows.Forms.Padding(2);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(74, 40);
@@ -909,6 +898,17 @@ namespace LightController.MyForm
             this.closeButton.Text = "关闭工程";
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            // 
+            // copySceneButton
+            // 
+            this.copySceneButton.Enabled = false;
+            this.copySceneButton.Location = new System.Drawing.Point(241, 47);
+            this.copySceneButton.Name = "copySceneButton";
+            this.copySceneButton.Size = new System.Drawing.Size(74, 24);
+            this.copySceneButton.TabIndex = 49;
+            this.copySceneButton.Text = "复用场景";
+            this.copySceneButton.UseVisualStyleBackColor = true;
+            this.copySceneButton.Click += new System.EventHandler(this.copySceneButton_Click);
             // 
             // lightsListView
             // 
@@ -946,20 +946,22 @@ namespace LightController.MyForm
             // stepPanel
             // 
             this.stepPanel.BackColor = System.Drawing.Color.Transparent;
+            this.stepPanel.Controls.Add(this.modeCheckBox);
             this.stepPanel.Controls.Add(this.makeSoundButton);
             this.stepPanel.Controls.Add(this.keepButton);
+            this.stepPanel.Controls.Add(this.copySceneButton);
             this.stepPanel.Controls.Add(this.soundListButton);
             this.stepPanel.Controls.Add(this.previewButton);
             this.stepPanel.Controls.Add(this.chooseStepButton);
             this.stepPanel.Controls.Add(this.saveMaterialButton);
-            this.stepPanel.Controls.Add(this.modeComboBox);
+            this.stepPanel.Controls.Add(this.protocolComboBox);
             this.stepPanel.Controls.Add(this.sceneComboBox);
             this.stepPanel.Controls.Add(this.stepLabel);
-            this.stepPanel.Controls.Add(this.frameLabel);
+            this.stepPanel.Controls.Add(this.protocolLabel);
             this.stepPanel.Controls.Add(this.chooseStepNumericUpDown);
             this.stepPanel.Controls.Add(this.pasteStepButton);
             this.stepPanel.Controls.Add(this.copyStepButton);
-            this.stepPanel.Controls.Add(this.modeLabel);
+            this.stepPanel.Controls.Add(this.sceneLabel);
             this.stepPanel.Controls.Add(this.syncButton);
             this.stepPanel.Controls.Add(this.backStepButton);
             this.stepPanel.Controls.Add(this.insertButton);
@@ -968,16 +970,28 @@ namespace LightController.MyForm
             this.stepPanel.Controls.Add(this.deleteButton);
             this.stepPanel.Controls.Add(this.appendButton);
             this.stepPanel.Enabled = false;
-            this.stepPanel.Location = new System.Drawing.Point(24, 0);
+            this.stepPanel.Location = new System.Drawing.Point(10, 0);
             this.stepPanel.Name = "stepPanel";
-            this.stepPanel.Size = new System.Drawing.Size(1131, 83);
+            this.stepPanel.Size = new System.Drawing.Size(1145, 83);
             this.stepPanel.TabIndex = 65;
             this.stepPanel.Tag = "";
+            // 
+            // modeCheckBox
+            // 
+            this.modeCheckBox.AutoSize = true;
+            this.modeCheckBox.ForeColor = System.Drawing.Color.White;
+            this.modeCheckBox.Location = new System.Drawing.Point(168, 19);
+            this.modeCheckBox.Name = "modeCheckBox";
+            this.modeCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.modeCheckBox.TabIndex = 56;
+            this.modeCheckBox.Text = "音频模式";
+            this.modeCheckBox.UseVisualStyleBackColor = true;
+            this.modeCheckBox.CheckedChanged += new System.EventHandler(this.modeCheckBox_CheckedChanged);
             // 
             // chooseStepButton
             // 
             this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chooseStepButton.Location = new System.Drawing.Point(568, 14);
+            this.chooseStepButton.Location = new System.Drawing.Point(690, 14);
             this.chooseStepButton.Name = "chooseStepButton";
             this.chooseStepButton.Size = new System.Drawing.Size(27, 23);
             this.chooseStepButton.TabIndex = 54;
@@ -987,7 +1001,7 @@ namespace LightController.MyForm
             // 
             // saveMaterialButton
             // 
-            this.saveMaterialButton.Location = new System.Drawing.Point(720, 14);
+            this.saveMaterialButton.Location = new System.Drawing.Point(842, 14);
             this.saveMaterialButton.Name = "saveMaterialButton";
             this.saveMaterialButton.Size = new System.Drawing.Size(90, 23);
             this.saveMaterialButton.TabIndex = 49;
@@ -995,27 +1009,28 @@ namespace LightController.MyForm
             this.saveMaterialButton.UseVisualStyleBackColor = true;
             this.saveMaterialButton.Click += new System.EventHandler(this.saveMaterialButton_Click);
             // 
-            // modeComboBox
+            // protocolComboBox
             // 
-            this.modeComboBox.Enabled = false;
-            this.modeComboBox.FormattingEnabled = true;
-            this.modeComboBox.Location = new System.Drawing.Point(56, 49);
-            this.modeComboBox.Margin = new System.Windows.Forms.Padding(2);
-            this.modeComboBox.Name = "modeComboBox";
-            this.modeComboBox.Size = new System.Drawing.Size(74, 20);
-            this.modeComboBox.TabIndex = 18;
-            this.modeComboBox.Text = "音频模式";
-            this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
+            this.protocolComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.protocolComboBox.DropDownWidth = 150;
+            this.protocolComboBox.Enabled = false;
+            this.protocolComboBox.FormattingEnabled = true;
+            this.protocolComboBox.Location = new System.Drawing.Point(50, 17);
+            this.protocolComboBox.Margin = new System.Windows.Forms.Padding(2);
+            this.protocolComboBox.Name = "protocolComboBox";
+            this.protocolComboBox.Size = new System.Drawing.Size(113, 20);
+            this.protocolComboBox.TabIndex = 18;
+            this.protocolComboBox.SelectedIndexChanged += new System.EventHandler(this.protocolComboBox_SelectedIndexChanged);
             // 
             // sceneComboBox
             // 
             this.sceneComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sceneComboBox.Enabled = false;
             this.sceneComboBox.FormattingEnabled = true;
-            this.sceneComboBox.Location = new System.Drawing.Point(56, 17);
+            this.sceneComboBox.Location = new System.Drawing.Point(49, 49);
             this.sceneComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.sceneComboBox.Name = "sceneComboBox";
-            this.sceneComboBox.Size = new System.Drawing.Size(156, 20);
+            this.sceneComboBox.Size = new System.Drawing.Size(164, 20);
             this.sceneComboBox.TabIndex = 17;
             this.sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.sceneComboBox_SelectedIndexChanged);
             // 
@@ -1024,43 +1039,43 @@ namespace LightController.MyForm
             this.stepLabel.AutoSize = true;
             this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.stepLabel.ForeColor = System.Drawing.Color.White;
-            this.stepLabel.Location = new System.Drawing.Point(339, 18);
+            this.stepLabel.Location = new System.Drawing.Point(461, 18);
             this.stepLabel.Name = "stepLabel";
             this.stepLabel.Size = new System.Drawing.Size(71, 14);
             this.stepLabel.TabIndex = 53;
             this.stepLabel.Text = "  0 /  0";
             // 
-            // frameLabel
+            // protocolLabel
             // 
-            this.frameLabel.AutoSize = true;
-            this.frameLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.frameLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.frameLabel.Location = new System.Drawing.Point(16, 21);
-            this.frameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.frameLabel.Name = "frameLabel";
-            this.frameLabel.Size = new System.Drawing.Size(41, 12);
-            this.frameLabel.TabIndex = 20;
-            this.frameLabel.Text = "场景：";
+            this.protocolLabel.AutoSize = true;
+            this.protocolLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.protocolLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.protocolLabel.Location = new System.Drawing.Point(16, 21);
+            this.protocolLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.protocolLabel.Name = "protocolLabel";
+            this.protocolLabel.Size = new System.Drawing.Size(29, 12);
+            this.protocolLabel.TabIndex = 20;
+            this.protocolLabel.Text = "协议";
             // 
             // chooseStepNumericUpDown
             // 
-            this.chooseStepNumericUpDown.Location = new System.Drawing.Point(515, 15);
+            this.chooseStepNumericUpDown.Location = new System.Drawing.Point(637, 15);
             this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
             this.chooseStepNumericUpDown.Size = new System.Drawing.Size(47, 21);
             this.chooseStepNumericUpDown.TabIndex = 52;
             this.chooseStepNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // modeLabel
+            // sceneLabel
             // 
-            this.modeLabel.AutoSize = true;
-            this.modeLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.modeLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.modeLabel.Location = new System.Drawing.Point(16, 53);
-            this.modeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.modeLabel.Name = "modeLabel";
-            this.modeLabel.Size = new System.Drawing.Size(41, 12);
-            this.modeLabel.TabIndex = 19;
-            this.modeLabel.Text = "模式：";
+            this.sceneLabel.AutoSize = true;
+            this.sceneLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sceneLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.sceneLabel.Location = new System.Drawing.Point(16, 53);
+            this.sceneLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.sceneLabel.Name = "sceneLabel";
+            this.sceneLabel.Size = new System.Drawing.Size(29, 12);
+            this.sceneLabel.TabIndex = 19;
+            this.sceneLabel.Text = "场景";
             // 
             // syncButton
             // 
@@ -1069,7 +1084,7 @@ namespace LightController.MyForm
             this.syncButton.FlatAppearance.BorderSize = 0;
             this.syncButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.syncButton.ImageKey = "复制步.png";
-            this.syncButton.Location = new System.Drawing.Point(515, 46);
+            this.syncButton.Location = new System.Drawing.Point(637, 46);
             this.syncButton.Name = "syncButton";
             this.syncButton.Size = new System.Drawing.Size(80, 23);
             this.syncButton.TabIndex = 49;
@@ -1080,7 +1095,7 @@ namespace LightController.MyForm
             // 
             // backStepButton
             // 
-            this.backStepButton.Location = new System.Drawing.Point(255, 14);
+            this.backStepButton.Location = new System.Drawing.Point(377, 14);
             this.backStepButton.Name = "backStepButton";
             this.backStepButton.Size = new System.Drawing.Size(75, 23);
             this.backStepButton.TabIndex = 49;
@@ -1091,7 +1106,7 @@ namespace LightController.MyForm
             // 
             // insertButton
             // 
-            this.insertButton.Location = new System.Drawing.Point(255, 46);
+            this.insertButton.Location = new System.Drawing.Point(377, 46);
             this.insertButton.Name = "insertButton";
             this.insertButton.Size = new System.Drawing.Size(75, 23);
             this.insertButton.TabIndex = 49;
@@ -1102,7 +1117,7 @@ namespace LightController.MyForm
             // 
             // nextStepButton
             // 
-            this.nextStepButton.Location = new System.Drawing.Point(425, 14);
+            this.nextStepButton.Location = new System.Drawing.Point(547, 14);
             this.nextStepButton.Name = "nextStepButton";
             this.nextStepButton.Size = new System.Drawing.Size(75, 23);
             this.nextStepButton.TabIndex = 49;
@@ -1113,7 +1128,7 @@ namespace LightController.MyForm
             // 
             // useMaterialButton
             // 
-            this.useMaterialButton.Location = new System.Drawing.Point(720, 44);
+            this.useMaterialButton.Location = new System.Drawing.Point(842, 44);
             this.useMaterialButton.Name = "useMaterialButton";
             this.useMaterialButton.Size = new System.Drawing.Size(90, 23);
             this.useMaterialButton.TabIndex = 49;
@@ -1123,7 +1138,7 @@ namespace LightController.MyForm
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(425, 46);
+            this.deleteButton.Location = new System.Drawing.Point(547, 46);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(75, 23);
             this.deleteButton.TabIndex = 49;
@@ -1134,7 +1149,7 @@ namespace LightController.MyForm
             // 
             // appendButton
             // 
-            this.appendButton.Location = new System.Drawing.Point(340, 46);
+            this.appendButton.Location = new System.Drawing.Point(462, 46);
             this.appendButton.Name = "appendButton";
             this.appendButton.Size = new System.Drawing.Size(75, 23);
             this.appendButton.TabIndex = 49;
@@ -1284,12 +1299,12 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Panel stepBasePanel;
 		private System.Windows.Forms.Panel stepPanel;
 		private System.Windows.Forms.Button saveMaterialButton;
-		private System.Windows.Forms.ComboBox modeComboBox;
+		private System.Windows.Forms.ComboBox protocolComboBox;
 		private System.Windows.Forms.ComboBox sceneComboBox;
 		private System.Windows.Forms.Label stepLabel;
-		private System.Windows.Forms.Label frameLabel;
+		private System.Windows.Forms.Label protocolLabel;
 		private System.Windows.Forms.NumericUpDown chooseStepNumericUpDown;
-		private System.Windows.Forms.Label modeLabel;
+		private System.Windows.Forms.Label sceneLabel;
 		private System.Windows.Forms.Button syncButton;
 		private System.Windows.Forms.Button backStepButton;
 		private System.Windows.Forms.Button insertButton;
@@ -1351,5 +1366,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem toolStripMenuItem3;
 		private ToolStripMenuItem seqToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem4;
-	}
+        private CheckBox modeCheckBox;
+    }
 }

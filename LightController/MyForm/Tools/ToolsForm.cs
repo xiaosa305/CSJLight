@@ -43,10 +43,6 @@ namespace LightController.MyForm.OtherTools
 		private MainFormBase mainForm;
 		private ConnectStatus connStatus = ConnectStatus.No;   //初始状态为未连接
 						
-		private string protocolXlsPath = Application.StartupPath + @"\Protocol\Controller.xls"; //默认的中控配置文件路径
-		private HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射
-		private IList<string> sceneCodeList; // 存放读取的《Protocol\SceneCode》文件内生成的1-16场景相应的码值，有多处会用到此List; 
-
 		private CCEntity ccEntity; // 中控封装对象
 		private bool isDecoding = false; //中控是否开启解码
 
@@ -76,9 +72,7 @@ namespace LightController.MyForm.OtherTools
 			InitializeComponent();
 			this.mainForm = mainForm;
 
-			#region 初始化各组件		
-
-			sceneCodeList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneCode");
+			#region 初始化各组件					
 			pbinSaveDialog.InitialDirectory = Application.StartupPath + @"\protocol";
 
 			// 各强电开关
@@ -219,15 +213,11 @@ namespace LightController.MyForm.OtherTools
 					tgTrackBars[sceneIndex, tgIndex].MouseWheel += someTrackBar_MouseWheel;					
 					tgNUDs[sceneIndex, tgIndex].ValueChanged += tgNUDs_ValueChanged;
 					tgNUDs[sceneIndex, tgIndex].MouseWheel += someNUD_MouseWheel;					
-					tgNUDs[sceneIndex, tgIndex].KeyUp += tgNUDs_KeyUp;
-					
+					tgNUDs[sceneIndex, tgIndex].KeyUp += tgNUDs_KeyUp;					
 				}
 			}
 
-			myToolTip.SetToolTip(renderMainFormSceneButton,
-				"左键点击此按键，会把当前协议中灯光场景1-16的功能描述渲染到主界面\n" +
-				"的《场景选择框》中，改动只在此次软件运行期间生效；\n" +
-				"右键点击此按键，则会把改动保存到硬盘上，下次打开软件时仍然有效。");
+			myToolTip.SetToolTip(protocolSaveButton, "请不要在软件使用过程中删除pbin文件。");
 			myToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后:\n1.点亮或关闭每一个《继电器开关》，所有场景的相应《继电器开关》都会随之变动;\n2.调节《调光值》时，所有场景的《调光值》都会随之变动。");
 			myToolTip.SetToolTip(fillCodeAllButton, "点击此按键会将选中项的键码值填入左侧两个文本框中;\n双击右边列表的键码值也可实现同样效果。");
 
@@ -244,12 +234,13 @@ namespace LightController.MyForm.OtherTools
 		private void ToolsFormcs_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-			//LanguageHelper.InitForm(this);
-			//LanguageHelper.TranslateListView(protocolListView);
-			//LanguageHelper.TranslateListView(keypressListView);		
-			//deviceNameLabel.Text = mainForm.MyConnect.DeviceName;
 
-			loadProtocols(Properties.Settings.Default.protocolIndex); //主动加载协议,并选择注册表中记录的选项			
+            //LanguageHelper.InitForm(this);
+            //LanguageHelper.TranslateListView(protocolListView);
+            //LanguageHelper.TranslateListView(keypressListView);		
+            //deviceNameLabel.Text = mainForm.MyConnect.DeviceName;
+
+			renderProtocolCB( mainForm.CurrentProtocol == -1 ? 0 : mainForm.CurrentProtocol ); 		
 		}
 
 		private void ToolsForm_Shown(object sender, EventArgs e)
@@ -350,10 +341,9 @@ namespace LightController.MyForm.OtherTools
 		/// </summary>
 		private void refreshStatusButtons()
 		{
-			// 协议相关另存或渲染相关
+			// 协议另存按键
 			protocolSaveButton.Enabled = ccEntity != null ;
-			renderMainFormSceneButton.Enabled = ccEntity != null ;
-
+			
 			// 灯控相关按键
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
 			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc && lcEntity != null;			
@@ -388,50 +378,15 @@ namespace LightController.MyForm.OtherTools
 				Dispose();
 			}
 		}
-		
+
 		#region 协议相关
-
-		/// <summary>
-		///  辅助方法：加载所有protocol文件，包括xls内的和用户另存为的；并选中入参index的协议
-		/// </summary>
-		private void loadProtocols(int selectedProtocolIndex)
-		{
-			try
+		private void renderProtocolCB(int protocolIndex) {
+			protocolComboBox.Items.Clear();
+			foreach (string protocolName in mainForm.ProtocolList)
 			{
-				protocolComboBox.Items.Clear();
-				protocolComboBox.SelectedIndex = -1; //此处不触发保存协议选择的事件
-													 // 由xls文件加载协议列表；
-				using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
-				{
-					xlsWorkbook = new HSSFWorkbook(file);
-				}
-				for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
-				{
-					ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
-					protocolComboBox.Items.Add(sheet.SheetName);
-				}
-
-				// 加载所有pbin文件；
-				FileInfo[] pbinArray = new DirectoryInfo(Application.StartupPath + @"\Protocol\").GetFiles("*.pbin");
-				if (pbinArray.Length > 0)
-				{
-					protocolComboBox.Items.Add("================");
-					foreach (FileInfo pbin in pbinArray)
-					{
-						protocolComboBox.Items.Add(pbin.Name.Substring(0, pbin.Name.LastIndexOf(".pbin")));
-					}
-				}
-
-				// 主动选中传入的协议index
-				if (protocolComboBox.Items.Count > selectedProtocolIndex)
-				{
-					protocolComboBox.SelectedIndex = selectedProtocolIndex;
-				}
+				protocolComboBox.Items.Add(protocolName);
 			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+			protocolComboBox.SelectedIndex = protocolIndex;
 		}
 
 		/// <summary>
@@ -440,85 +395,8 @@ namespace LightController.MyForm.OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{			
-			// 一进来先把ccEntity置空
-			ccEntity = null;
-			string protocolName = "";
-			if (protocolComboBox.SelectedIndex == -1 || protocolComboBox.SelectedIndex == xlsWorkbook.NumberOfSheets)
-			{
-				setNotice(StatusLabel.RIGHT, "请选择可用协议（不要选择分隔符========）。", false, true);
-				return;
-			}
-
-			// 选中xls中协议
-			if (protocolComboBox.SelectedIndex < xlsWorkbook.NumberOfSheets)
-			{
-				ccEntity = new CCEntity();
-				ISheet sheet = xlsWorkbook.GetSheetAt(protocolComboBox.SelectedIndex);
-				ccEntity.ProtocolName = sheet.SheetName;
-				System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-				// 处理通用数据(com0,com1,ps2)
-				rows.MoveNext();
-				IRow row = (HSSFRow)rows.Current;
-				ICell cell = row.GetCell(0);
-				ccEntity.Com0 = Convert.ToInt32(cell.ToString().Substring(4));
-				rows.MoveNext();
-				row = (HSSFRow)rows.Current;
-				cell = row.GetCell(0);
-				ccEntity.Com1 = Convert.ToInt32(cell.ToString().Substring(4));
-				rows.MoveNext();
-				row = (HSSFRow)rows.Current;
-				cell = row.GetCell(0);
-				ccEntity.PS2 = cell.ToString().Equals("PS2=主") ? 0 : 1;
-				rows.MoveNext();
-
-				//逐一处理每一行的数据
-				int rowIndex = 0;
-				while (rows.MoveNext())
-				{
-					row = (HSSFRow)rows.Current;
-
-					CCData ccData = new CCData();
-					cell = row.GetCell(0);
-					ccData.Function = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(1);
-					ccData.Code = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(2);
-					ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(3);
-					ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(4);
-					ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(5);
-					ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(6);
-					ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(7);
-					ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(8);
-					ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
-					cell = row.GetCell(9);
-					ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
-
-					ccEntity.CCDataList.Add(ccData);
-					rowIndex++;
-				}
-				protocolName = "excel表格中的【" + protocolComboBox.Text + "】协议";
-			}
-			// 选中本地协议
-			else
-			{
-				try
-				{
-					ccEntity = (CCEntity)SerializeUtils.DeserializeToObject(Application.StartupPath + @"\protocol\" + protocolComboBox.Text + ".pbin");
-					protocolName = "用户另存的【" + protocolComboBox.Text + "】协议";
-				}
-				catch (Exception)
-				{
-					ccEntity = null;
-					setNotice(StatusLabel.RIGHT, "用户另存的【" + protocolComboBox.Text + "】协议损坏，无法生成CC，请重选协议。", true, true);
-				}
-			}
+		{
+			ccEntity = mainForm.GenerateCCEntity( protocolComboBox.SelectedIndex );
 
 			if (ccEntity != null)
 			{
@@ -542,20 +420,14 @@ namespace LightController.MyForm.OtherTools
 					item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down.Trim());
 					protocolListView.Items.Add(item);
 				}
-				setNotice(StatusLabel.RIGHT, "已加载" + protocolName, false, true);
+				setNotice(StatusLabel.RIGHT, "已加载" + mainForm.ProtocolList[protocolComboBox.SelectedIndex], false, true);
 
-				// MARK3 0420 如果选择了一个可以用的cc，则保存到注册表
-				Properties.Settings.Default.protocolIndex = protocolComboBox.SelectedIndex;
-				Properties.Settings.Default.Save();
-
-				if (sceneCodeList != null && sceneCodeList.Count == 16)
+				sceneLabels[0].Text = "开机场景";	
+				for (int codeIndex = 0; codeIndex < 16; codeIndex++)
 				{
-					sceneLabels[0].Text = "开机场景";
-					for (int codeIndex = 0; codeIndex < 16; codeIndex++)
-					{
-						sceneLabels[codeIndex+1].Text = ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function;
-					}
+					sceneLabels[codeIndex+1].Text = ccEntity.CCDataList[ Convert.ToInt32(mainForm.SceneCodeList[codeIndex], 16) - 1]. Function ;
 				}
+				
 			}
 			refreshStatusButtons();
 		}
@@ -572,10 +444,19 @@ namespace LightController.MyForm.OtherTools
 				if (ccEntity != null)
 				{
 					try
-					{
-						string pbinPath = pbinSaveDialog.FileName;
+					{						
+						string pbinPath = pbinSaveDialog.FileName; // 因为存储为pbin的名字不会重复，所以只要超过xls数量的索引，可以由名字获取相应的index
+						
 						SerializeUtils.SerializeObject(pbinPath, ccEntity);
 						setNotice(StatusLabel.RIGHT, "成功另存协议。", true, true);
+
+                        //DOTO 211103 只有在新增了协议之后，才会去修改  本界面选择的协议 以及 主页的选择项； 
+						string oldProtocolName = mainForm.ProtocolList[mainForm.CurrentProtocol] ; //在改变之前存储一个之前协议名称，如果首页选中的是pbin项，则会用到
+						mainForm.LoadProtocols();
+						int newProtocolIndex = mainForm.GetIndexByPbinName( Path.GetFileNameWithoutExtension(pbinPath) );                       
+						renderProtocolCB(newProtocolIndex);
+						mainForm.RenderProtocolCB(oldProtocolName); // 自己事自己做
+
 					}
 					catch (Exception ex)
 					{
@@ -583,46 +464,7 @@ namespace LightController.MyForm.OtherTools
 					}
 				}
 			}
-		}
-		
-		/// <summary>
-		/// 事件：点击《渲染主界面场景名》（本方法不起作用，主要用于导航）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void renderMainFormSceneButton_Click(object sender, EventArgs e) { }
-
-		/// <summary>
-		/// 事件：《关联主界面场景名》：左键点击渲染当前，右键点击生成SceneList文件在下次打开软件时生效；
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void renderMainFormSceneButton_MouseDown(object sender, MouseEventArgs e)
-		{
-			// 不是左键或右键不起则不起作用
-			if (e.Button != MouseButtons.Left && e.Button != MouseButtons.Right) {
-				return;
-			}
-			if (ccEntity == null || sceneCodeList == null || sceneCodeList.Count != 16) {
-				setNotice(StatusLabel.RIGHT, "当前协议为空或SceneCode文件有错误，无法继续操作。", true, true);
-			}
-
-			// 左键直接渲染到界面，但不保存；右键会保存文件，下次启动时仍能生效
-			for (int codeIndex = 0; codeIndex < 16; codeIndex++)
-			{
-				MainFormBase.AllSceneList[codeIndex] = ccEntity.CCDataList[Convert.ToInt32(sceneCodeList[codeIndex], 16) - 1].Function;
-			}
-			mainForm.RenderSceneCB();
-
-			string notice = "已将选定协议的1-16场景关联到主界面中，";
-			if (e.Button == MouseButtons.Left)
-			{
-				setNotice(StatusLabel.RIGHT, notice + "此改动只在本次软件运行期间生效。", true, false);
-			}else {
-				TextHelper.Write(MainFormBase.SceneListFile , MainFormBase.AllSceneList);
-				setNotice(StatusLabel.RIGHT, notice + "此改动将长期生效(已保存到Protocol/SceneList.txt文件中)。", true, false);
-			}	
-		}
+		}		
 
 		#endregion
 
@@ -1771,9 +1613,7 @@ namespace LightController.MyForm.OtherTools
 			}
 		}
 
-
-
-        #endregion
+		#endregion
 
       
     }

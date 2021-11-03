@@ -20,17 +20,17 @@ namespace LightController
 	public partial class NewForm :Form
 	{
 		private MainFormBase mainForm;
-		public NewForm(MainFormBase mainForm,int currentFrame)
+		public NewForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
 
 			//MARK 只开单场景：00.0 NewForm加场景选择
-			for (int frameIndex = 0; frameIndex < MainFormBase.AllSceneList.Count; frameIndex++)
+			for (int sceneIndex = 0; sceneIndex < MainFormBase.AllSceneList.Count; sceneIndex++)
 			{
-				frameComboBox.Items.Add(MainFormBase.AllSceneList[frameIndex]);
+				sceneComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
 			}
-			frameComboBox.SelectedIndex = currentFrame;
+			sceneComboBox.SelectedIndex = mainForm.CurrentScene;
 			
 		}
 
@@ -92,10 +92,10 @@ namespace LightController
 
 				// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 				// SQLiteHelper.SetPassword(dbFile);
-				//MARK 只开单场景：01.1 NewForm点确定时，传入frameIndex
-				mainForm.NewProject(projectName,frameComboBox.SelectedIndex);				
+				//MARK 只开单场景：01.1 NewForm点确定时，传入sceneIndex
+				mainForm.NewProject(projectName,sceneComboBox.SelectedIndex);				
 				Dispose();
-				mainForm.IsCreateSuccess = true;
+				//mainForm.IsCreateSuccess = true;
 				mainForm.Activate();					
 			}	
 		}
@@ -107,7 +107,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 		

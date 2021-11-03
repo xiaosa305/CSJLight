@@ -28,74 +28,102 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
-			this.sceneComboBox = new System.Windows.Forms.ComboBox();
-			this.enterButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
-			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(29, 38);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(53, 12);
-			this.label1.TabIndex = 8;
-			this.label1.Text = "场景名：";
-			// 
-			// frameComboBox
-			// 
-			this.sceneComboBox.FormattingEnabled = true;
-			this.sceneComboBox.Location = new System.Drawing.Point(104, 34);
-			this.sceneComboBox.Name = "frameComboBox";
-			this.sceneComboBox.Size = new System.Drawing.Size(103, 20);
-			this.sceneComboBox.TabIndex = 10;
-			// 
-			// enterButton
-			// 
-			this.enterButton.Location = new System.Drawing.Point(32, 79);
-			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(78, 26);
-			this.enterButton.TabIndex = 11;
-			this.enterButton.Text = "确定";
-			this.enterButton.UseVisualStyleBackColor = true;
-			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(126, 79);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(78, 26);
-			this.cancelButton.TabIndex = 11;
-			this.cancelButton.Text = "取消";
-			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
-			// UseFrameForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Window;
-			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(230, 134);
-			this.Controls.Add(this.cancelButton);
-			this.Controls.Add(this.enterButton);
-			this.Controls.Add(this.sceneComboBox);
-			this.Controls.Add(this.label1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "UseFrameForm";
-			this.Text = "调用其它场景";
-			this.Load += new System.EventHandler(this.CopySceneForm_Load);
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.label1 = new System.Windows.Forms.Label();
+            this.sceneComboBox = new System.Windows.Forms.ComboBox();
+            this.fromButton = new System.Windows.Forms.Button();
+            this.toButton = new System.Windows.Forms.Button();
+            this.normalCheckBox = new System.Windows.Forms.CheckBox();
+            this.soundCheckBox = new System.Windows.Forms.CheckBox();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "指定场景：";
+            // 
+            // sceneComboBox
+            // 
+            this.sceneComboBox.FormattingEnabled = true;
+            this.sceneComboBox.Location = new System.Drawing.Point(88, 27);
+            this.sceneComboBox.Name = "sceneComboBox";
+            this.sceneComboBox.Size = new System.Drawing.Size(145, 20);
+            this.sceneComboBox.TabIndex = 10;
+            // 
+            // fromButton
+            // 
+            this.fromButton.Enabled = false;
+            this.fromButton.Location = new System.Drawing.Point(31, 102);
+            this.fromButton.Name = "fromButton";
+            this.fromButton.Size = new System.Drawing.Size(202, 26);
+            this.fromButton.TabIndex = 11;
+            this.fromButton.Text = "从指定场景复制到当前场景";
+            this.fromButton.UseVisualStyleBackColor = true;
+            this.fromButton.Click += new System.EventHandler(this.fromButton_Click);
+            // 
+            // toButton
+            // 
+            this.toButton.Enabled = false;
+            this.toButton.Location = new System.Drawing.Point(31, 141);
+            this.toButton.Name = "toButton";
+            this.toButton.Size = new System.Drawing.Size(202, 26);
+            this.toButton.TabIndex = 11;
+            this.toButton.Text = "从当前场景数复制到指定场景";
+            this.toButton.UseVisualStyleBackColor = true;
+            this.toButton.Click += new System.EventHandler(this.toButton_Click);
+            // 
+            // normalCheckBox
+            // 
+            this.normalCheckBox.AutoSize = true;
+            this.normalCheckBox.Location = new System.Drawing.Point(44, 63);
+            this.normalCheckBox.Name = "normalCheckBox";
+            this.normalCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.normalCheckBox.TabIndex = 12;
+            this.normalCheckBox.Text = "常规模式";
+            this.normalCheckBox.UseVisualStyleBackColor = true;
+            this.normalCheckBox.CheckedChanged += new System.EventHandler(this.modeCheckBox_CheckedChanged);
+            // 
+            // soundCheckBox
+            // 
+            this.soundCheckBox.AutoSize = true;
+            this.soundCheckBox.Location = new System.Drawing.Point(138, 63);
+            this.soundCheckBox.Name = "soundCheckBox";
+            this.soundCheckBox.Size = new System.Drawing.Size(72, 16);
+            this.soundCheckBox.TabIndex = 12;
+            this.soundCheckBox.Text = "音频模式";
+            this.soundCheckBox.UseVisualStyleBackColor = true;
+            this.soundCheckBox.CheckedChanged += new System.EventHandler(this.modeCheckBox_CheckedChanged);
+            // 
+            // CopySceneForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(266, 186);
+            this.Controls.Add(this.soundCheckBox);
+            this.Controls.Add(this.normalCheckBox);
+            this.Controls.Add(this.toButton);
+            this.Controls.Add(this.fromButton);
+            this.Controls.Add(this.sceneComboBox);
+            this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Name = "CopySceneForm";
+            this.Text = "复用场景";
+            this.Load += new System.EventHandler(this.CopySceneForm_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
 		#endregion
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox sceneComboBox;
-		private System.Windows.Forms.Button enterButton;
-		private System.Windows.Forms.Button cancelButton;
-	}
+		private System.Windows.Forms.Button fromButton;
+        private System.Windows.Forms.Button toButton;
+        private System.Windows.Forms.CheckBox normalCheckBox;
+        private System.Windows.Forms.CheckBox soundCheckBox;
+    }
 }

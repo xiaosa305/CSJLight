@@ -168,6 +168,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Enum\EnumMode.cs" />
     <Compile Include="Ast\Enum\EnumOperation.cs" />
     <Compile Include="Ast\Enum\EnumUnifyWhere.cs" />
     <Compile Include="Ast\LightsChange.cs" />

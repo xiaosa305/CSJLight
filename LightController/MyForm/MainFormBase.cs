@@ -2662,33 +2662,38 @@ namespace LightController.MyForm
             fineTuneDAO.Clear();
             channelDAO.Clear();            
         }
-
-        /// <summary>
-        ///  辅助方法：调用其他场景
-        /// </summary>
-        /// <param name="text"></param>
-        public void CopyOtherScene(int scene)
+               
+        public void CopyOtherScene(int sourceScene, int destScene ,bool copyNormal, bool copySound)
         {
-            //MARK 只开单场景：09.2 调用场景时，若调用的是未打开的场景，则需先打开（载入到内存中）
-            if (!sceneLoadArray[scene])
-            {
-                generateSceneData(scene);
+            if ( ! copyNormal && !copySound) {
+                MessageBox.Show("请选择要复制的模式！");
             }
+
+            //MARK 只开单场景：09.2 调用场景时，若调用的是未打开的场景，则需先打开（载入到内存中）
+            if (!sceneLoadArray[sourceScene])  generateSceneData(sourceScene);
+            if (!sceneLoadArray[destScene])      generateSceneData(destScene); 
 
             //MARK 只开单场景：09.3 调用场景时，把被调用场景的灯具数据，深复制到当前场景中来（只复制当前模式）
             if (LightWrapperList != null && LightWrapperList.Count != 0)
             {
                 foreach (LightWrapper lightWrapper in LightWrapperList)
                 {
-                    lightWrapper.LightStepWrapperList[CurrentScene, CurrentMode]
-                        = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[scene, CurrentMode], lightWrapper.StepTemplate);
+                    if ( copyNormal) {
+                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL ]
+                            = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, CurrentMode], lightWrapper.StepTemplate);
+                    }
+                    if (copySound) {
+                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL]
+                          = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, CurrentMode], lightWrapper.StepTemplate);
+                    }
                 }
             }
 
             enterSyncMode(false); //UseOtherForm
             refreshStep();
-            SetNotice(LanguageHelper.TranslateSentence("成功调用场景：") + AllSceneList[scene], true, false);
+            SetNotice( "成功将【"+ AllSceneList[sourceScene] + "】复制到【" + AllSceneList[destScene] +"】", true, false);
         }
+                
 
         /// <summary>
         /// MARK 只开单场景：17.0 请求保存工程的辅助方法：RequestSaveProject（string msg,bool isAfterUpdateLightList)

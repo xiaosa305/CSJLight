@@ -32,8 +32,15 @@ namespace LightController.MyForm
 
 		private void CopySceneForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);
+			Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);			
 			LanguageHelper.InitForm(this);
+			if (mainForm.CurrentMode == 0)
+			{
+				normalCheckBox.Checked = true;
+			}
+			else {
+				soundCheckBox.Checked = true;
+			}
 		}
 		
 		/// <summary>
@@ -48,15 +55,37 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《确定》按钮
+		/// 事件：点击《将选中场景复制到当前场景》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void enterButton_Click(object sender, EventArgs e)
+		private void fromButton_Click(object sender, EventArgs e)
 		{			
-			mainForm.CopyOtherScene(getFrameIndex()); 
-			Dispose();
-			mainForm.Activate();
+			mainForm.CopyOtherScene(
+				getSceneIndex(),
+				mainForm.CurrentScene,				
+				normalCheckBox.Checked ,
+				soundCheckBox.Checked); 
+		}
+
+		/// <summary>
+		/// 事件：点击《将当前场景复制到选中场景》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void toButton_Click(object sender, EventArgs e)
+		{
+			mainForm.CopyOtherScene(				
+				mainForm.CurrentScene,
+				getSceneIndex(),
+				normalCheckBox.Checked,
+				soundCheckBox.Checked);
+		}
+
+		private void modeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			fromButton.Enabled = normalCheckBox.Checked || soundCheckBox.Checked;
+			toButton.Enabled = normalCheckBox.Checked || soundCheckBox.Checked;
 		}
 
 		/// <summary>
@@ -64,11 +93,14 @@ namespace LightController.MyForm
 		///
 		/// </summary>
 		/// <returns></returns>
-		private int getFrameIndex()
+		private int getSceneIndex()
 		{
 			// 获取当前选中项，然后取出其在frameIndexList中的位置
 			int selectedFrameIndex = sceneIndexList[sceneComboBox.SelectedIndex];
 			return selectedFrameIndex ;
-		}		
+		}
+
+        
+
 	}
 }

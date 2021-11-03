@@ -1,26 +1,27 @@
 ﻿using LightController.MyForm;
-using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
+using System.Text;
 using System.Threading;
-using static LightController.Xiaosa.Entity.CallBackFunction;
+using static LightController.Utils.OldFileToNewFileUtils;
 
 namespace LightController.Xiaosa.Preview
 {
-    public class Player
+    public class SeiralPortPlayer
     {
-        private static Player Instance;
+        private static SeiralPortPlayer Instance;
         private static readonly Object SingleKey = new object();
         private MainFormInterface MainFormInterface;
         private ChannelGroup Group;
         private int FrameIntervalTime;
         private System.Timers.Timer PlayTimer;
         private System.Timers.Timer SingleStepPlayTimer;
-        private NetworkConnect Connect;
         private byte[] SingleStepDmxData;
-        private Player()
+        private SerialPort COM;
+        private SeiralPortPlayer()
         {
             Init();
             InitPlayTimer();
@@ -30,6 +31,13 @@ namespace LightController.Xiaosa.Preview
         {
             FrameIntervalTime = 40;
             SingleStepDmxData = Enumerable.Repeat<byte>(Convert.ToByte(0x00), 513).ToArray();
+            COM = new SerialPort
+            {
+                DataBits = 8,
+                StopBits = StopBits.Two,
+                Parity = Parity.None,
+                BaudRate = 250000
+            };
         }
         public void SetFrameIntervalTime()
         {
@@ -57,10 +65,10 @@ namespace LightController.Xiaosa.Preview
             SingleStepPlayTimer.Elapsed += delegate
             {
                 PlayTask(SingleStepDmxData);
-                
+
             };
         }
-        public static Player GetPlayer()
+        public static SeiralPortPlayer GetPlayer()
         {
             if (Instance == null)
             {
@@ -68,13 +76,42 @@ namespace LightController.Xiaosa.Preview
                 {
                     if (Instance == null)
                     {
-                        Instance = new Player();
+                        Instance = new SeiralPortPlayer();
                     }
                 }
             }
             return Instance;
         }
-        public void Preview(NetworkConnect connect,MainFormInterface mainFormInterface,int sceneNo,Completed completed,Error error)
+        public bool OpenSerialPort(string serialPortName)
+        {
+            try
+            {
+                if (COM.IsOpen)
+                {
+                    COM.Close();
+                }
+                COM.PortName = serialPortName;
+                COM.Open();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("打开串口失败：" + ex.Message);
+            }
+            return false;
+        }
+        public void CloseSerialPort()
+        {
+            if (COM.IsOpen)
+            {
+                COM.Close();
+            }
+        }
+        public string[] GetSerialPortNames()
+        {
+            return SerialPort.GetPortNames();
+        }
+        public void Preview(MainFormInterface mainFormInterface, int sceneNo)
         {
             if (SingleStepPlayTimer.Enabled)
             {
@@ -84,14 +121,11 @@ namespace LightController.Xiaosa.Preview
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
             PlayTimer.Interval = FrameIntervalTime;
-            Connect = connect;
             Group = new ChannelGroup(MainFormInterface, sceneNo);
-            Connect.StartIntentPreview(FrameIntervalTime, delegate { Console.WriteLine("Preview Success"); ; PlayTimer.Start(); completed(); }, delegate { Console.WriteLine("Preview Failed"); error("启动调试失败");});
         }
-        public void EndPreview(Completed completed, Error error)
+        public void EndPreview()
         {
             PlayTimer.Stop();
-            Connect.StopIntentPreview(delegate { completed(); }, delegate { error("关闭调试失败"); });
         }
         public void SingleStepPreview(byte[] data)
         {
@@ -110,7 +144,10 @@ namespace LightController.Xiaosa.Preview
         }
         private void PlayTask(byte[] dmxData)
         {
-            Connect.IntentPreview(Connect.DeviceIp, dmxData);
+            if (COM.IsOpen)
+            {
+                COM.Write(dmxData, 0, dmxData.Length);
+            }
         }
     }
 }

@@ -452,6 +452,7 @@
     <Compile Include="Xiaosa\Preview\Channel.cs" />
     <Compile Include="Xiaosa\Preview\ChannelGroup.cs" />
     <Compile Include="Xiaosa\Preview\Player.cs" />
+    <Compile Include="Xiaosa\Preview\SeiralPortPlayer.cs" />
     <Compile Include="Xiaosa\Tools\CSJProjectBuilder.cs" />
     <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
     <EmbeddedResource Include="Entity\DB_Light.hbm.xml">

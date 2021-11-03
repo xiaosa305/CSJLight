@@ -399,16 +399,16 @@ namespace LightController.Tools
         {
             try
             {
-                List<byte> buff = new List<byte>();
-                buff.AddRange(this.StartCode);
-                lock (this.PlayData)
-                {
-                    buff.AddRange(this.PlayData);
-                }
-                if (this.DebugStatus && this.Communication != null)
-                {
-                    (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
-                }
+                //List<byte> buff = new List<byte>();
+                //buff.AddRange(this.StartCode);
+                //lock (this.PlayData)
+                //{
+                //    buff.AddRange(this.PlayData);
+                //}
+                //if (this.DebugStatus && this.Communication != null)
+                //{
+                //    (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
+                //}
             }
             catch (Exception ex)
             {

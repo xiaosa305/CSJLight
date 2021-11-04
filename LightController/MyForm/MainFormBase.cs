@@ -4038,12 +4038,12 @@ namespace LightController.MyForm
                 // 当使用网络连接设备时，用NetworkPlayTools播放；
                 if (IsDeviceConnected)
                 {
-                    networkPlayer.SingleStepPreview(stepBytes);
+                    networkPlayer.SingleStepPreview(stepBytes,this);
                 }
                 // 当DMX512调试线也连接在灯具时，也可调试；（双规并行）
                 if (IsDMXConnected)
                 {
-                    SerialPlayer.SingleStepPreview(stepBytes);
+                    SerialPlayer.SingleStepPreview(stepBytes,this);
                 }
 
                 SetNotice(prevStr + tdValueStr, false, false);

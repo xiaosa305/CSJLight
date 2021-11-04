@@ -3939,12 +3939,7 @@ namespace LightController.MyForm
             if (IsDeviceConnected)
             {
                 SleepBetweenSend("Order : StartPreview", 1);
-                networkPlayer.Preview(
-                    MyConnect,
-                    this,
-                    CurrentScene,
-                    StartPreviewCompleted,
-                    StartPreviewError);
+                networkPlayer.StartDebug( MyConnect,  StartPreviewCompleted, StartPreviewError);
             }
         }
 
@@ -3956,7 +3951,7 @@ namespace LightController.MyForm
             if (IsDeviceConnected)
             {
                 SleepBetweenSend("Order : StopPreview", 1);
-                networkPlayer.EndPreview(delegate { }, delegate { });
+                networkPlayer.StopDebug( delegate { }, delegate { } );
             }
         }
 
@@ -4067,9 +4062,8 @@ namespace LightController.MyForm
         /// </summary>
         protected void endview()
         {
-            //networkPlayer.EndView();
-            //DOTO : 结束预览
-            networkPlayer.EndPreview(delegate { }, delegate { } );
+            // 结束预览时，直接刷新步
+            refreshStep();
         }
 
         //DOTO 211012 重写 《预览 和 停止预览》 按键点击事件
@@ -4145,11 +4139,11 @@ namespace LightController.MyForm
 
                     if (IsDeviceConnected)
                     {
-                        networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);                      
+                        networkPlayer.Preview(this);                      
                     }
                     if (IsDMXConnected)
                     {
-                        SerialPlayer.Preview(this, CurrentScene);                        
+                        SerialPlayer.Preview(this);                        
                     }                    
 
                 }

@@ -120,6 +120,7 @@ namespace LightController.Xiaosa.Tools
         /// <param name="progress"></param>
         public void BuildSingleProject(int sceneNo,MainFormInterface mainFormInterface,Completed completed,Error error, ProjectBuildProgress progress)
         {
+            CurrentSceneNo = sceneNo;
             InitProjectCacheDir();
             string basicProjectFilePath = ProjectFileDir + @"\C" + (CurrentSceneNo + 1) + @".bin";
             string musicProjectFilePath = ProjectFileDir + @"\M" + (CurrentSceneNo + 1) + @".bin";

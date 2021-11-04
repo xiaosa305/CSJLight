@@ -2585,6 +2585,13 @@ namespace LightController.MyForm
             //DOTO 211019 导出场景
             //DataConvertUtils.GetInstance().SaveSingleFrameFile(
             //    GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+
+            CSJProjectBuilder.GetInstance().BuildSingleProject(
+                CurrentScene,
+                this,
+                ExportProjectCompleted,
+                ExportProjectError,
+                ExportProjectProgress);
         }
 
         /// <summary>
@@ -4361,7 +4368,7 @@ namespace LightController.MyForm
                 Icon = Icon.ExtractAssociatedIcon(iconPath);
             }
 
-            // DOTO 211103 处理 协议列表 和 场景列表
+            // 211103 处理 协议列表 和 场景列表
             // 1.由各种配置文件，初始化三个列表（sceneCodeList、protocolList、AllSceneList)                  
             SceneCodeList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneCode");
             LoadProtocols();

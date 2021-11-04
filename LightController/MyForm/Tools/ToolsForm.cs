@@ -452,12 +452,12 @@ namespace LightController.MyForm.OtherTools
 						SerializeUtils.SerializeObject(pbinPath, ccEntity);
 						setNotice(StatusLabel.RIGHT, "成功另存协议。", true, true);
 
-                        //DOTO 211103 只有在新增了协议之后，才会去修改  本界面选择的协议 以及 主页的选择项； 
+                        //211103 只有在新增了协议之后，才可能修改  本界面选择的协议 以及 主页的选择项； 
 						string oldProtocolName = mainForm.ProtocolList[mainForm.CurrentProtocol] ; //在改变之前存储一个之前协议名称，如果首页选中的是pbin项，则会用到
 						mainForm.LoadProtocols();
-						int newProtocolIndex = mainForm.GetIndexByPbinName( Path.GetFileNameWithoutExtension(pbinPath) );                       
+						int newProtocolIndex = mainForm.GetIndexByPbinName( Path.GetFileNameWithoutExtension(pbinPath) );  
 						renderProtocolCB(newProtocolIndex);
-						mainForm.RenderProtocolCB(oldProtocolName); // 自己事自己做
+						mainForm.RenderProtocolCB(oldProtocolName); // 传旧名字给mainForm，就能在更改过protocolCB的项后，仍然定位到原来的index
 
 					}
 					catch (Exception ex)

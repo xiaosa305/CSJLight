@@ -2582,16 +2582,13 @@ namespace LightController.MyForm
             }
 
             //MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）			
-            //DOTO 211019 导出场景
-            //DataConvertUtils.GetInstance().SaveSingleFrameFile(
-            //    GetDBWrapper(), this, GlobalIniPath, CurrentScene, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
-
             CSJProjectBuilder.GetInstance().BuildSingleProject(
                 CurrentScene,
                 this,
                 ExportProjectCompleted,
                 ExportProjectError,
-                ExportProjectProgress);
+                ExportProjectProgress
+             );
         }
 
         /// <summary>

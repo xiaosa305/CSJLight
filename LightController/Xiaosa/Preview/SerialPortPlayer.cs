@@ -158,6 +158,9 @@ namespace LightController.Xiaosa.Preview
         {
             if (COM.IsOpen)
             {
+                COM.BreakState = true;
+                Thread.Sleep(10);
+                COM.BreakState = false;
                 COM.Write(dmxData, 0, dmxData.Length);
             }
         }

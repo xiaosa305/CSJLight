@@ -4074,7 +4074,6 @@ namespace LightController.MyForm
             }
 
             // 停止预览
-
             if (IsPreviewing)
             {
                 endview(); // PreviewButtonClick
@@ -4096,6 +4095,9 @@ namespace LightController.MyForm
                 SetNotice("正在生成预览数据，请稍候...", false, true);
                 try
                 {            
+
+
+
                     if (IsDeviceConnected)
                     {
                         networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
@@ -4109,9 +4111,7 @@ namespace LightController.MyForm
                         }
                         catch (Exception ex) {
                             Console.WriteLine(ex.StackTrace);
-                        }
-                        
-
+                        }               
                         
                     }
 

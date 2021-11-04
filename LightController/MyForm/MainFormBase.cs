@@ -4139,14 +4139,13 @@ namespace LightController.MyForm
                                 }
                             }
                         }
-                    }
-
-                    SetNotice("预览数据生成成功,即将开始预览。", false, true);
-                    refreshConnectedControls(IsDeviceConnected, true); //Preview
+                    }                   
 
                     if (IsDeviceConnected)
                     {
                         networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
+                        SetNotice("预览数据生成成功,即将开始预览。", false, true);
+                        refreshConnectedControls(IsDeviceConnected, true); //Preview
                     }
                     if (IsDMXConnected)
                     {

@@ -4094,53 +4094,18 @@ namespace LightController.MyForm
                 SetPreview(true);
                 SetNotice("正在生成预览数据，请稍候...", false, true);
                 try
-                {
-                    //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
-                    //if (material != null)
-                    //{
-                    //    getDBLightList();
-                    //    generateDBFineTuneList();
-                    //    IList<DB_Value> valueList = new List<DB_Value>();
+                {            
 
-                    //    for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
-                    //    {
-                    //        if (lightIndex == selectedIndex || isMultiMode && selectedIndexList.Contains(lightIndex))
-                    //        {
-                    //            IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
-                    //            for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++)
-                    //            {
-                    //                foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
-                    //                {
-                    //                    DB_Value value = new DB_Value()
-                    //                    {
-                    //                        PK = new DB_ValuePK()
-                    //                        {
-                    //                            Frame = CurrentScene,
-                    //                            Mode = CurrentMode, // 注意，如果要让音频素材也生效，则此处得设为1，而下面的ChangeMode也得发生变化(但目前屏蔽了音频素材的预览)
-                    //                            Step = stepIndex + 1,
-                    //                            LightIndex = dbNewLightList[lightIndex].LightID,
-                    //                            LightID = tdList[mi.CurrentTDIndex].Address,
-                    //                        },
-                    //                        ScrollValue = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ScrollValue,
-                    //                        StepTime = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].StepTime,
-                    //                        ChangeMode = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ChangeMode,
-                    //                    };
-                    //                    valueList.Add(value);
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //    dbWrapperTemp = new DBWrapper(dbLightList, null, valueList, dbFineTuneList);
-                    //}
-                    //else
-                    //{
-                    //    dbWrapperTemp = GetDBWrapper(false);
-                    //}
-                    //DataConvertUtils.GetInstance().
-                    //    SaveProjectFileByPreviewData(dbWrapperTemp, GlobalIniPath, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError, PreviewDataGenerateProgress);
+                    if (IsDeviceConnected)
+                    {
+                        networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
+                    }
+                    if (IsDMXConnected)
+                    {
+                        SerialPlayer.Preview( this, CurrentScene);
 
-                    Player.GetPlayer().Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
-                     
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -4590,14 +4555,7 @@ namespace LightController.MyForm
                 SetNotice("预览数据生成成功,即将开始预览。", false, true);
                 refreshConnectedControls(IsDeviceConnected, true); //Preview
 
-                if (IsDeviceConnected)
-                {
-                    //networkPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);
-                }
-                if (IsDMXConnected)
-                {
-                    //SerialPlayTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentScene);
-                }
+                
             });
         }
 

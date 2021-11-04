@@ -102,7 +102,7 @@ namespace LightController.Xiaosa.Preview
         }
         private void BuildBasicChannels()
         {
-            foreach (var item in MainFormInterface.GetChannelIDList())
+            foreach (var item in MainFormInterface.GetPreviewChannelIDList())
             {
                 Channel channel = new Channel(item, BASIC_MODE, MainFormInterface);
                 if (channel.IsNoEmpty())
@@ -117,7 +117,7 @@ namespace LightController.Xiaosa.Preview
         }
         private void BuildMusicChannels()
         {
-            foreach (var item in MainFormInterface.GetChannelIDList())
+            foreach (var item in MainFormInterface.GetPreviewChannelIDList())
             {
                 Channel channel = new Channel(item, MUSIC_MODE, MainFormInterface);
                 if (channel.IsNoEmpty())

@@ -4161,11 +4161,11 @@ namespace LightController.MyForm
         {
             if (IsOneMoreConnected() && IsPreviewing)
             {
-                if (networkPlayer.GetMusicStatus() || SerialPlayer.GetMusicStatus())
+                if (networkPlayer.MusicControlState() || SerialPlayer.MusicControlState())
                 {
                     setMakeSound(true);
-                    if (IsDeviceConnected) networkPlayer.MusicControl();
-                    if (IsDMXConnected) SerialPlayer.MusicControl();
+                    if (IsDeviceConnected) networkPlayer.TriggerAudio();
+                    if (IsDMXConnected) SerialPlayer.TriggerAudio();
                     setMakeSound(false);
                 }
                 else

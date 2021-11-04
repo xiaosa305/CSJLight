@@ -103,13 +103,14 @@ namespace LightController.Xiaosa.Preview
                 Connect.StopIntentPreview(delegate { completed(); }, delegate { error("关闭调试失败"); });
             }
         }
-        public void SingleStepPreview(byte[] data)
+        public void SingleStepPreview(byte[] data,MainFormInterface mainFormInterface)
         {
             if (PlayTimer.Enabled)
             {
                 PlayTimer.Stop();
                 Thread.Sleep(100);
             }
+            MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
             SingleStepDmxData = data;
             SingleStepPlayTimer.Start();

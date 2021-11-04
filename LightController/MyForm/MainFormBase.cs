@@ -128,8 +128,8 @@ namespace LightController.MyForm
         public NetworkConnect MyConnect;  // 与设备的连接
         protected DMX512ConnnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可	
 
-        protected Player networkPlayTools = Player.GetPlayer(); // 通过设备，调试512灯具的对象
-        public SerialPortPlayer SerialPlayTools = SerialPortDMXPlay.GetPlayer();     // 通过DMX512调试线直连设备，调试512灯具的对象
+        protected Player networkPlayer = Player.GetPlayer(); // 通过设备，调试512灯具的对象
+        public SerialPortPlayer SerialPlayer = SerialPortPlayer.GetPlayer();     // 通过DMX512调试线直连设备，调试512灯具的对象
 
         public bool IsDeviceConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
         public bool IsDMXConnected = false; // 辅助bool值，当DMX512线已经连接时设为true，反之为false
@@ -3927,11 +3927,12 @@ namespace LightController.MyForm
             if (IsDeviceConnected)
             {
                 SleepBetweenSend("Order : StartPreview", 1);
-                networkPlayTools.StartPreview(
+                networkPlayer.Preview(
                     MyConnect, 
+                    this,
+                    CurrentScene,
                     StartPreviewCompleted,
-                    StartPreviewError,
-                    decimal.ToInt32(EachStepTime * 1000));
+                    StartPreviewError);
             }
         }
 
@@ -3943,7 +3944,7 @@ namespace LightController.MyForm
             if (IsDeviceConnected)
             {
                 SleepBetweenSend("Order : StopPreview", 1);
-                networkPlayTools.StopPreview();
+                networkPlayer.EndPreview(delegate { }, delegate { } ) ;
             }
         }
 
@@ -4037,12 +4038,12 @@ namespace LightController.MyForm
                 // 当使用网络连接设备时，用NetworkPlayTools播放；
                 if (IsDeviceConnected)
                 {
-                    networkPlayTools.OLOSView(stepBytes);
+                    networkPlayer.SingleStepPreview(stepBytes);
                 }
                 // 当DMX512调试线也连接在灯具时，也可调试；（双规并行）
                 if (IsDMXConnected)
                 {
-                    SerialPlayTools.OLOSView(stepBytes);
+                    SerialPlayer.SingleStepPreview(stepBytes);
                 }
 
                 SetNotice(prevStr + tdValueStr, false, false);
@@ -4054,7 +4055,9 @@ namespace LightController.MyForm
         /// </summary>
         protected void endview()
         {
-            networkPlayTools.EndView();
+            //networkPlayer.EndView();
+            //DOTO : 结束预览
+            networkPlayer.EndPreview(delegate { }, delegate { });
         }
 
         //DOTO 211012 重写 《预览 和 停止预览》 按键点击事件
@@ -4158,11 +4161,11 @@ namespace LightController.MyForm
         {
             if (IsOneMoreConnected() && IsPreviewing)
             {
-                if (networkPlayTools.GetMusicStatus() || SerialPlayTools.GetMusicStatus())
+                if (networkPlayer.GetMusicStatus() || SerialPlayer.GetMusicStatus())
                 {
                     setMakeSound(true);
-                    if (IsDeviceConnected) networkPlayTools.MusicControl();
-                    if (IsDMXConnected) SerialPlayTools.MusicControl();
+                    if (IsDeviceConnected) networkPlayer.MusicControl();
+                    if (IsDMXConnected) SerialPlayer.MusicControl();
                     setMakeSound(false);
                 }
                 else
@@ -4552,7 +4555,7 @@ namespace LightController.MyForm
         /// 辅助回调方法：启用调试成功
         /// </summary>
         /// <param name="obj"></param>
-        public void StartPreviewCompleted(Object obj, string msg)
+        public void StartPreviewCompleted()
         {
             Invoke((EventHandler)delegate
             {

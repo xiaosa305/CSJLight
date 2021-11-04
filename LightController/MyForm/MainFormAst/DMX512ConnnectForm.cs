@@ -64,7 +64,7 @@ namespace LightController.MyForm.MainFormAst
 			{
 				setNotice("正在断开连接，请稍候...", false, true);
 
-				mainForm.SerialPlayTools.SerialPortSwitch(null, false);
+				mainForm.SerialPlayer.SerialPortSwitch(null, false);
 				portComboBox.Enabled = true;
 				portRefreshButton.Enabled = true;				
 				portConnectButton.Text = "连接灯具";
@@ -76,7 +76,7 @@ namespace LightController.MyForm.MainFormAst
 			else {
 				setNotice("正在连接灯具，请稍候...", false, true);
 
-				mainForm.SerialPlayTools.SerialPortSwitch(  portComboBox.Text , true);
+				mainForm.SerialPlayer.SerialPortSwitch(  portComboBox.Text , true);
 				portComboBox.Enabled = false;
 				portRefreshButton.Enabled = false;
 				portConnectButton.Text = "断开连接";

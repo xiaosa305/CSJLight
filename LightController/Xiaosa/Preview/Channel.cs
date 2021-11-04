@@ -36,24 +36,24 @@ namespace LightController.Xiaosa.Preview
                     break;
                 }
             }
-            StepValues = mainFormInterface.GetPreviewChannelData(CurrentChannelNo, CurrentMode);
+            StepValues = new List<TongdaoWrapper>();
             switch (CurrentMode)
             {
                 case BASIC_MODE:
-                    foreach (var item in StepValues)
+                    foreach (var item in mainFormInterface.GetPreviewChannelData(CurrentChannelNo, CurrentMode))
                     {
-                        if (item.ChangeMode == 2)
+                        if (item.ChangeMode != 2)
                         {
-                            StepValues.Remove(item);
+                            StepValues.Add(item);
                         }
                     }
                     break;
                 case MUSIC_MODE:
-                    foreach (var item in StepValues)
+                    foreach (var item in mainFormInterface.GetPreviewChannelData(CurrentChannelNo, CurrentMode))
                     {
-                        if (item.ChangeMode != 1)
+                        if (item.ChangeMode == 1)
                         {
-                            StepValues.Remove(item);
+                            StepValues.Add(item);
                         }
                     }
                     break;

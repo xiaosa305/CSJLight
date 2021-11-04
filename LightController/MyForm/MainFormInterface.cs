@@ -17,13 +17,12 @@ namespace LightController.MyForm
 		/// 获取工程中所有灯具的所有通道列表（无论是否有步数）
 		/// </summary>
 		/// <returns></returns>
-		IList<int> GetChannelIDList();		
+		IList<int> GetChannelIDList();
 		/// <summary>
-		/// 获取需要导出的场景编号，使用时foreach(int sceneNo in xx.GetExportSceneSet()) 即可
+		/// 预览时，用到的所有通道列表（必须与导出工程的分开）
 		/// </summary>
-		/// <returns></returns>
+		/// <returns></returns>		
 		HashSet<int> GetExportSceneSet();
-
 		/// <summary>
 		/// 获取预览所需的音频步时间
 		/// </summary>
@@ -51,5 +50,10 @@ namespace LightController.MyForm
 		/// <param name="mode"></param>
 		/// <returns></returns>
 		IList<TongdaoWrapper> GetPreviewChannelData(int channelNo, int mode);
+		IList<int> GetPreviewChannelIDList();
+		/// <summary>
+		/// 获取需要导出的场景编号，使用时foreach(int sceneNo in xx.GetExportSceneSet()) 即可
+		/// </summary>
+		/// <returns></returns>
 	}
 }

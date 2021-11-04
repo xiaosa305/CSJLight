@@ -180,17 +180,18 @@ namespace LightController.MyForm
         /// <summary>
         /// 辅助方法：供ToolsForm调用，当新增或更改协议项（另存pbin）时，重新渲染protocolComboBox
         /// </summary>
-        public void RenderProtocolCB(string protocolName) {
+        public void RenderProtocolCB(string protocolName)
+        {
 
             // 当首页原先选择项，为xls中的协议或未选择时，使用CurrentProtocol作为入参
-            if ( CurrentProtocol <= xlsWorkbook.NumberOfSheets )
+            if (CurrentProtocol <= xlsWorkbook.NumberOfSheets)
             {
-                renderProtocolCB( CurrentProtocol );
+                renderProtocolCB(CurrentProtocol);
             }
             //当首页的原先选择项，为pbin协议时，必须要重新定位，此时传入由旧协议名称生成的新index
             else
             {
-                renderProtocolCB( GetIndexByPbinName( protocolName ) );
+                renderProtocolCB(GetIndexByPbinName(protocolName));
             }
         }
 
@@ -203,20 +204,20 @@ namespace LightController.MyForm
             {
                 ProtocolList = new List<string>();
                 // 由xls文件加载协议列表；
-                using (FileStream file = new FileStream( Application.StartupPath + @"\Protocol\Controller.xls", FileMode.Open, FileAccess.Read))
+                using (FileStream file = new FileStream(Application.StartupPath + @"\Protocol\Controller.xls", FileMode.Open, FileAccess.Read))
                 {
                     xlsWorkbook = new HSSFWorkbook(file);
                 }
                 for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
                 {
-                    ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);                    
+                    ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
                     ProtocolList.Add(sheet.SheetName);
                 }
                 ProtocolList.Add("===============");
                 // 加载所有pbin文件；
-                FileInfo[] pbinArray = new DirectoryInfo(Application.StartupPath + @"\Protocol\").GetFiles("*.pbin"); 
+                FileInfo[] pbinArray = new DirectoryInfo(Application.StartupPath + @"\Protocol\").GetFiles("*.pbin");
                 if (pbinArray.Length > 0)
-                {                               
+                {
                     foreach (FileInfo pbin in pbinArray)
                     {
                         ProtocolList.Add(pbin.Name.Substring(0, pbin.Name.LastIndexOf(".pbin")));
@@ -239,26 +240,27 @@ namespace LightController.MyForm
             rebuildSceneList(protocolIndex);
             RenderSceneCB();
 
-            if ( isNoticeSave && DialogResult.Yes == MessageBox.Show(
+            if (isNoticeSave && DialogResult.Yes == MessageBox.Show(
                 "您已更改协议为【" + ProtocolList[protocolIndex] + "】，是否把此协议设为默认值?\n(注：如果选择‘==========’，前16个场景会只有场景编号而无场景名)",
-                 "设为默认协议?", 
-                 MessageBoxButtons.YesNo, 
+                 "设为默认协议?",
+                 MessageBoxButtons.YesNo,
                  MessageBoxIcon.Question))
             {
                 Properties.Settings.Default.protocolIndex = (protocolIndex == xlsWorkbook.NumberOfSheets || protocolIndex == -1) ? -1 : protocolIndex;
                 Properties.Settings.Default.Save();
             }
         }
-        
+
         /// <summary>
         /// 辅助方法：由协议index，改造或重建AllSceneList;
         /// </summary>
         /// <param name="protocolIndex"></param>
-        protected void rebuildSceneList(int protocolIndex) {
+        protected void rebuildSceneList(int protocolIndex)
+        {
 
             // 未选择协议 
             if (protocolIndex == xlsWorkbook.NumberOfSheets ||
-                protocolIndex == -1 || 
+                protocolIndex == -1 ||
                 SceneCodeList == null ||
                 SceneCodeList.Count != 16)
             {
@@ -267,13 +269,13 @@ namespace LightController.MyForm
             }
 
             CCEntity ccEntity = GenerateCCEntity(protocolIndex);
-            if (ccEntity != null )
+            if (ccEntity != null)
             {
                 for (int codeIndex = 0; codeIndex < SceneCodeList.Count; codeIndex++)
                 {
                     AllSceneList[codeIndex] = ccEntity.CCDataList[Convert.ToInt32(SceneCodeList[codeIndex], 16) - 1].Function;
                 }
-            }          
+            }
         }
 
         /// <summary>
@@ -281,7 +283,8 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="protocolIndex"></param>
         /// <returns></returns>
-        public CCEntity GenerateCCEntity(int protocolIndex) {
+        public CCEntity GenerateCCEntity(int protocolIndex)
+        {
 
             CCEntity ccEntity = null;
 
@@ -340,7 +343,7 @@ namespace LightController.MyForm
                 }
             }
             // 选中本地协议
-            else if( protocolIndex > xlsWorkbook.NumberOfSheets)
+            else if (protocolIndex > xlsWorkbook.NumberOfSheets)
             {
                 try
                 {
@@ -349,7 +352,7 @@ namespace LightController.MyForm
                 catch (Exception)
                 {
                     ccEntity = null;
-                    MessageBox.Show("用户另存的【" + ProtocolList[protocolIndex] + "】协议损坏，无法调用，请重选协议。");                    
+                    MessageBox.Show("用户另存的【" + ProtocolList[protocolIndex] + "】协议损坏，无法调用，请重选协议。");
                 }
             }
             return ccEntity;
@@ -374,9 +377,12 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="pbinName"></param>
         /// <returns></returns>
-        public int GetIndexByPbinName(string pbinName) {
-            for (int protocolIndex = xlsWorkbook.NumberOfSheets + 1; protocolIndex < ProtocolList.Count; protocolIndex++) {
-                if (ProtocolList[protocolIndex] == pbinName ) {
+        public int GetIndexByPbinName(string pbinName)
+        {
+            for (int protocolIndex = xlsWorkbook.NumberOfSheets + 1; protocolIndex < ProtocolList.Count; protocolIndex++)
+            {
+                if (ProtocolList[protocolIndex] == pbinName)
+                {
                     return protocolIndex;
                 }
             }
@@ -524,14 +530,15 @@ namespace LightController.MyForm
             bool enable = LightAstList != null && LightAstList.Count > 0;
             enableRefreshPic(enable);
         }
-      
+
         /// <summary>
         /// 辅助方法：传入变动列表，修改数据库及内存中的相关数据（新建工程和改动工程通用）；
         /// </summary>
         public void ReBuildLightList(List<LightsChange> changeList)
         {
             // 若未发生任何变化，则不再往下执行
-            if ( ! LightsChange.IsChanged(changeList)) { 
+            if (!LightsChange.IsChanged(changeList))
+            {
                 return;
             }
 
@@ -547,56 +554,58 @@ namespace LightController.MyForm
                 LightAstList = new List<LightAst>();
                 LightWrapperList = new List<LightWrapper>();
             }
-            else {
+            else
+            {
                 // 如果之前的灯具列表不为空，则可能存在旧的灯具项，此处先为retainList赋初值，再在后面的遍历中处理这些数据
                 for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                 {
                     retainList.Add(lightIndex);
                 }
-            }          
+            }
 
             // 遍历处理changeList （分为前后两种情况，但可以写在一起）
-            for (int changeIndex = 0; changeIndex < changeList.Count; changeIndex++) {
+            for (int changeIndex = 0; changeIndex < changeList.Count; changeIndex++)
+            {
                 LightsChange change = changeList[changeIndex];
                 // 前 LightAstList.Count项，只可能有DELETE和UPDATE两种情况
                 // 删除：先把相关项置为null(最后统一处理，避免遍历过程中index发生变化)，并处理retainList
                 if (change.Operation == EnumOperation.DELETE)
                 {
-                    int delLightId = LightAstList[changeIndex].StartNum; 
-                    LightAstList[changeIndex] = null ; 
-                    LightWrapperList[changeIndex] = null ;
+                    int delLightId = LightAstList[changeIndex].StartNum;
+                    LightAstList[changeIndex] = null;
+                    LightWrapperList[changeIndex] = null;
                     channelDAO.DeleteByLightId(delLightId); // 删除数据库相关的数据
                     // 不能用RemoveAt（会出现不匹配index的情况） , 而应该用 Remove( retainList中 index 和 value刚好是对应的)
                     // 【List,Remove(item)：从 ICollection<T> 中移除特定对象的第一个匹配项。】
-                    retainList.Remove( changeIndex) ;  // 删去的灯具index，在此处直接删掉，这样留下的 【值-键对】可以供新的GroupList使用
+                    retainList.Remove(changeIndex);  // 删去的灯具index，在此处直接删掉，这样留下的 【值-键对】可以供新的GroupList使用
                 }
                 // 修改：相关项内的数据进行变动
                 else if (change.Operation == EnumOperation.UPDATE)
-                {                    
+                {
                     int editLightId = LightAstList[changeIndex].StartNum;
                     LightAstList[changeIndex].ChangeAddr(change.NewLightAst);
                     // 注意：更改Common项不要直接让StepCommon和TongdaoCommon=新值，这样会让子项和StepTemplate项的引用不再相同！正确的做法应该是改变Common内的属性；
-                    LightWrapperList[changeIndex].StepTemplate.StepCommon.StartNum += change.AddNum;  
+                    LightWrapperList[changeIndex].StepTemplate.StepCommon.StartNum += change.AddNum;
                     for (int tdIndex = 0; tdIndex < LightWrapperList[changeIndex].StepTemplate.TongdaoList.Count; tdIndex++)
                     {
                         LightWrapperList[changeIndex].StepTemplate.TongdaoList[tdIndex].TongdaoCommon.Address += change.AddNum;
-                    }                    
+                    }
                     channelDAO.UpdateByLightId(editLightId, change.AddNum); // 更新表中此灯具的所有channel数据（注意sql语句中set的写法：改多个列时用逗号而非and）
-                }               
+                }
                 // 后面剩下的项，只可能有ADD这种情况
                 // 新增：只需新建一个LightAst、LightWrapper；
                 if (change.Operation == EnumOperation.ADD)
                 {
                     LightAstList.Add(change.NewLightAst);
-                    LightWrapperList.Add( new LightWrapper()  {StepTemplate = generateStepTemplate(change.NewLightAst) }); 
-                }                
+                    LightWrapperList.Add(new LightWrapper() { StepTemplate = generateStepTemplate(change.NewLightAst) });
+                }
             }
             // 最后把null值从各list中去掉，就是新的列表了
-            ListHelper.RemoveNull( LightAstList);
+            ListHelper.RemoveNull(LightAstList);
             ListHelper.RemoveNull(LightWrapperList);
-           
+
             // light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
-            lightDAO.SaveAll("Light", generateDBLightList() );
+            lightDAO.SaveAll("Light", generateDBLightList());
             fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
 
             // 处理编组列表
@@ -637,7 +646,7 @@ namespace LightController.MyForm
                 selectedIndex = 0;
             }
             generateLightData(); //ReBuildLightList         
-            
+
         }
 
         /// <summary>
@@ -762,7 +771,7 @@ namespace LightController.MyForm
             }
             catch (Exception ex)
             {
-                SetNotice("生成灯具模板时出错:" + ex.Message , true, false) ;
+                SetNotice("生成灯具模板时出错:" + ex.Message, true, false);
                 throw ex;
             }
         }
@@ -1723,7 +1732,7 @@ namespace LightController.MyForm
         {
             UseMaterial(TempMaterialAst, insMethod, false);
         }
-                
+
         /// <summary>
         /// 辅助方法：由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
         /// </summary>
@@ -1765,7 +1774,7 @@ namespace LightController.MyForm
                     {
                         string[] valueArray = stepArray[step].Split('-');
                         tdList.Add(new TongdaoWrapper()
-                        {           
+                        {
                             ChangeMode = int.Parse(valueArray[0]),
                             ScrollValue = int.Parse(valueArray[1]),
                             StepTime = int.Parse(valueArray[2])
@@ -1845,7 +1854,7 @@ namespace LightController.MyForm
             arrangeIniPath = currentProjectPath + @"\arrange.ini";
 
             //1.2 读取时间因子
-            IniHelper iniAst = new IniHelper(GlobalIniPath);            
+            IniHelper iniAst = new IniHelper(GlobalIniPath);
             EachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30) / 1000m;
             initStNumericUpDowns();  // InitProject : 更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
 
@@ -2238,7 +2247,7 @@ namespace LightController.MyForm
                 saveAllLights();
                 saveAllFineTunes();
                 saveSceneChannels(CurrentScene);
-                saveAllGroups();                
+                saveAllGroups();
             }
 
             SetNotice(LanguageHelper.TranslateSentence("成功保存场景：") + AllSceneList[CurrentScene], true, false);
@@ -2257,14 +2266,14 @@ namespace LightController.MyForm
             // 1.先判断是否有灯具数据；若无，则清空所有表数据
             if (LightAstList == null || LightAstList.Count == 0)
             {
-                ClearAllDB();                  
+                ClearAllDB();
             }
             // 2.保存各项数据			
             else
             {
                 saveAllLights();
                 saveAllFineTunes();
-                saveAllChannels();                             
+                saveAllChannels();
             }
             saveAllGroups();  // 无论如何，都保存编组列表
 
@@ -2385,7 +2394,8 @@ namespace LightController.MyForm
         /// <summary>
         /// 辅助方法：保存编组数据（保存工程 、保存场景、更改灯具列表后都需要执行）
         /// </summary>
-        protected void saveAllGroups() {
+        protected void saveAllGroups()
+        {
             try
             {
                 GroupAst.SaveGroupIni(groupIniPath, GroupList);
@@ -2660,29 +2670,32 @@ namespace LightController.MyForm
         {
             lightDAO.Clear();
             fineTuneDAO.Clear();
-            channelDAO.Clear();            
+            channelDAO.Clear();
         }
-               
-        public void CopyOtherScene(int sourceScene, int destScene ,bool copyNormal, bool copySound)
+
+        public void CopyOtherScene(int sourceScene, int destScene, bool copyNormal, bool copySound)
         {
-            if ( ! copyNormal && !copySound) {
+            if (!copyNormal && !copySound)
+            {
                 MessageBox.Show("请选择要复制的模式！");
             }
 
             //MARK 只开单场景：09.2 调用场景时，若调用的是未打开的场景，则需先打开（载入到内存中）
-            if (!sceneLoadArray[sourceScene])  generateSceneData(sourceScene);
-            if (!sceneLoadArray[destScene])      generateSceneData(destScene); 
+            if (!sceneLoadArray[sourceScene]) generateSceneData(sourceScene);
+            if (!sceneLoadArray[destScene]) generateSceneData(destScene);
 
             //MARK 只开单场景：09.3 调用场景时，把被调用场景的灯具数据，深复制到当前场景中来（只复制当前模式）
             if (LightWrapperList != null && LightWrapperList.Count != 0)
             {
                 foreach (LightWrapper lightWrapper in LightWrapperList)
                 {
-                    if ( copyNormal) {
-                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL ]
+                    if (copyNormal)
+                    {
+                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL]
                             = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, CurrentMode], lightWrapper.StepTemplate);
                     }
-                    if (copySound) {
+                    if (copySound)
+                    {
                         lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL]
                           = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, CurrentMode], lightWrapper.StepTemplate);
                     }
@@ -2691,9 +2704,9 @@ namespace LightController.MyForm
 
             enterSyncMode(false); //UseOtherForm
             refreshStep();
-            SetNotice( "成功将【"+ AllSceneList[sourceScene] + "】复制到【" + AllSceneList[destScene] +"】", true, false);
+            SetNotice("成功将【" + AllSceneList[sourceScene] + "】复制到【" + AllSceneList[destScene] + "】", true, false);
         }
-                
+
 
         /// <summary>
         /// MARK 只开单场景：17.0 请求保存工程的辅助方法：RequestSaveProject（string msg,bool isAfterUpdateLightList)
@@ -2717,7 +2730,7 @@ namespace LightController.MyForm
             );
 
             if (dr == DialogResult.Yes)
-            {               
+            {
                 saveProjectClick();
                 return true;
             }
@@ -3173,7 +3186,7 @@ namespace LightController.MyForm
         /// 2.若复制成功，则《粘贴步》按钮可用
         /// </summary>
         protected void copyStepClick()
-        {           
+        {
             if (getCurrentStepWrapper() == null)
             {
                 SetNotice("当前步数据为空，无法复制", true, true);
@@ -3384,13 +3397,13 @@ namespace LightController.MyForm
         /// 辅助方法：切换模式选项
         /// </summary>
         /// <param name="sender"></param>
-        protected void modeChanged( bool isSoundMode,
+        protected void modeChanged(bool isSoundMode,
             ComboBox[] tdCMComboBoxes,
             NumericUpDown[] tdStepTimeNumericUpDowns,
             Label thirdLabel)
         {
             SetNotice("正在切换模式", false, true);
-            CurrentMode = isSoundMode?1:0;
+            CurrentMode = isSoundMode ? 1 : 0;
 
             for (int tdPanelIndex = 0; tdPanelIndex < 32; tdPanelIndex++)
             {
@@ -3928,7 +3941,7 @@ namespace LightController.MyForm
             {
                 SleepBetweenSend("Order : StartPreview", 1);
                 networkPlayer.Preview(
-                    MyConnect, 
+                    MyConnect,
                     this,
                     CurrentScene,
                     StartPreviewCompleted,
@@ -3944,7 +3957,7 @@ namespace LightController.MyForm
             if (IsDeviceConnected)
             {
                 SleepBetweenSend("Order : StopPreview", 1);
-                networkPlayer.EndPreview(delegate { }, delegate { } ) ;
+                networkPlayer.EndPreview(delegate { }, delegate { });
             }
         }
 
@@ -4038,12 +4051,12 @@ namespace LightController.MyForm
                 // 当使用网络连接设备时，用NetworkPlayTools播放；
                 if (IsDeviceConnected)
                 {
-                    networkPlayer.SingleStepPreview(stepBytes,this);
+                    networkPlayer.SingleStepPreview(stepBytes, this);
                 }
                 // 当DMX512调试线也连接在灯具时，也可调试；（双规并行）
                 if (IsDMXConnected)
                 {
-                    SerialPlayer.SingleStepPreview(stepBytes,this);
+                    SerialPlayer.SingleStepPreview(stepBytes, this);
                 }
 
                 SetNotice(prevStr + tdValueStr, false, false);
@@ -4057,7 +4070,7 @@ namespace LightController.MyForm
         {
             //networkPlayer.EndView();
             //DOTO : 结束预览
-            networkPlayer.EndPreview(delegate { }, delegate { });
+            networkPlayer.EndPreview(delegate { }, delegate { } );
         }
 
         //DOTO 211012 重写 《预览 和 停止预览》 按键点击事件
@@ -4094,9 +4107,41 @@ namespace LightController.MyForm
                 SetPreview(true);
                 SetNotice("正在生成预览数据，请稍候...", false, true);
                 try
-                {            
+                {
+                    //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
+                    if (material != null)
+                    {
+                        //DOTO 211004 重写 素材预览数据的生成
+                        materialTDListDict = new Dictionary<int, IList<TongdaoWrapper>>();
 
+                        for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+                        {
+                            if (lightIndex == selectedIndex || isMultiMode && selectedIndexList.Contains(lightIndex))
+                            {
+                                IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+                                for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++)
+                                {
+                                    foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+                                    {
+                                        int tdAddr = tdList[mi.CurrentTDIndex].TongdaoCommon.Address;
+                                        if (!materialTDListDict.ContainsKey(tdAddr))
+                                        {
+                                            materialTDListDict.Add(tdAddr, new List<TongdaoWrapper>());
+                                        }
 
+                                        materialTDListDict[tdAddr].Add(new TongdaoWrapper()
+                                        {
+                                            ScrollValue = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ScrollValue,
+                                            StepTime = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].StepTime,
+                                            ChangeMode = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ChangeMode,
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Console.WriteLine(materialTDListDict);
 
                     if (IsDeviceConnected)
                     {
@@ -4104,15 +4149,17 @@ namespace LightController.MyForm
                     }
                     if (IsDMXConnected)
                     {
-                        try {
+                        try
+                        {
                             SerialPlayer.Preview(this, CurrentScene);
                             SetNotice("预览数据生成成功,即将开始预览。", false, true);
                             refreshConnectedControls(IsDeviceConnected, true); //Preview
                         }
-                        catch (Exception ex) {
+                        catch (Exception ex)
+                        {
                             Console.WriteLine(ex.StackTrace);
-                        }               
-                        
+                        }
+
                     }
 
                 }
@@ -4262,7 +4309,7 @@ namespace LightController.MyForm
             //// myToolTip：悬停提示,延迟600ms
             myToolTip = new ToolTip(this.components);
             myToolTip.IsBalloon = true;
-            myToolTip.InitialDelay = 600;            
+            myToolTip.InitialDelay = 600;
 
             SoftwareName = InHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "");
             SoftwareName += " Dimmer System ";
@@ -4342,7 +4389,7 @@ namespace LightController.MyForm
             // DOTO 211103 处理 协议列表 和 场景列表
             // 1.由各种配置文件，初始化三个列表（sceneCodeList、protocolList、AllSceneList)                  
             SceneCodeList = TextHelper.Read(Application.StartupPath + @"\Protocol\SceneCode");
-            LoadProtocols();            
+            LoadProtocols();
             initSceneList();
             // 2.渲染协议列表：先读取相关的协议index，如果有错误，直接置为-1
             if (Properties.Settings.Default.protocolIndex >= ProtocolList.Count)
@@ -4350,9 +4397,9 @@ namespace LightController.MyForm
                 Properties.Settings.Default.protocolIndex = -1;
                 Properties.Settings.Default.Save();
             }
-            renderProtocolCB( Properties.Settings.Default.protocolIndex );
+            renderProtocolCB(Properties.Settings.Default.protocolIndex);
             // 3. 由最新的协议index，重新渲染 sceneList          
-            protocolChanged( Properties.Settings.Default.protocolIndex , false);
+            protocolChanged(Properties.Settings.Default.protocolIndex, false);
 
             //MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计)。
             CheckForIllegalCrossThreadCalls = false;
@@ -4361,7 +4408,7 @@ namespace LightController.MyForm
         #endregion
 
         #region 退出程序相关
-        
+
         /// <summary>
         /// 辅助方法：点击退出时FormClosing事件；
         /// </summary>
@@ -4564,7 +4611,7 @@ namespace LightController.MyForm
                 SetNotice("预览数据生成成功,即将开始预览。", false, true);
                 refreshConnectedControls(IsDeviceConnected, true); //Preview
 
-                
+
             });
         }
 
@@ -4662,6 +4709,7 @@ namespace LightController.MyForm
         public IList<int> GetChannelIDList()
         {
             IList<int> channelIDList = new List<int>();
+
             for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
             {
                 LightAst la = LightAstList[lightIndex];
@@ -4670,7 +4718,25 @@ namespace LightController.MyForm
                     channelIDList.Add(channelID);
                 }
             }
+
             return channelIDList;
+        }
+
+        public IList<int> GetPreviewChannelIDList()
+        {
+            if (isPreviewMaterial)
+            {
+                IList<int> channelIDList = new List<int>();
+                foreach (int channelID in materialTDListDict.Keys)
+                {
+                    channelIDList.Add(channelID);
+                }
+                return channelIDList;
+            }
+            else
+            {
+                return GetPreviewChannelIDList();
+            }
         }
 
         /// <summary>
@@ -4684,7 +4750,7 @@ namespace LightController.MyForm
             for (int sceneIndex = 0; sceneIndex < sceneLoadArray.Length; sceneIndex++)
             {
                 //1.已加载到内存（数据库内可能还没有保存）或 2.数据库中有数据 
-                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex)) 
+                if (sceneLoadArray[sceneIndex] || dbSceneList.Contains(sceneIndex))
                 {
                     result.Add(sceneIndex);
                 }
@@ -4695,22 +4761,24 @@ namespace LightController.MyForm
         private int currenMusicStepTime;
         private int currentMusicWaitTime;
         private List<int> currentSoundList;
+        private bool isPreviewMaterial = false;      
+        private Dictionary<int, IList<TongdaoWrapper>> materialTDListDict;  //音频素材无法预览，故此处只需存常规素材的通道值信息即可：key = channelID , value =  IList<TongdaoWrapper>
 
         /// <summary>
         /// 每次点击预览前，这些数据要准备好（或者在更改场景或修改音频链表数据后，但这样就太多了，如果不是很耗时，就在预览前跑一下）
         /// </summary>
-        private void generatePreviewParameters() {
-
+        private void generatePreviewParameters()
+        {
             IniHelper iniAst = new IniHelper(GlobalIniPath);
 
             currenMusicStepTime = iniAst.ReadInt("SK", CurrentScene + "ST", 0) * (int)EachStepTime;
             currentMusicWaitTime = iniAst.ReadInt("SK", CurrentScene + "JG", 0);
             currentSoundList = new List<int>();
-            string lkStr  = iniAst.ReadString("SK", CurrentScene + "LK", "");            
-            foreach (char item in lkStr.ToCharArray() )
+            string lkStr = iniAst.ReadString("SK", CurrentScene + "LK", "");
+            foreach (char item in lkStr.ToCharArray())
             {
-                currentSoundList.Add(  int.Parse(item.ToString()) ); 
-            }        
+                currentSoundList.Add(int.Parse(item.ToString()));
+            }
         }
 
         public int GetPreviewMusicControlTime()
@@ -4730,13 +4798,20 @@ namespace LightController.MyForm
 
         public int GetPreviewFactoryTime()
         {
-            return (int)EachStepTime*1000;
+            return (int)EachStepTime * 1000;
         }
 
         public IList<TongdaoWrapper> GetPreviewChannelData(int channelNo, int mode)
         {
             //DOTO 211004 
-
+            if (isPreviewMaterial)
+            {
+                return materialTDListDict[channelNo];
+            }
+            else
+            {
+                return GetSMTDList(new DB_ChannelPK() { ChannelID = channelNo, Scene = CurrentScene, Mode = mode });
+            }
         }
 
         #endregion

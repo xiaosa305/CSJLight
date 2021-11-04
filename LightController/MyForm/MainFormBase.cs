@@ -107,6 +107,7 @@ namespace LightController.MyForm
         // 这几个IList ，存放着界面中相关的灯具数据（包括通道数据之类等）
         public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
         public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
+        protected ImageList lightImageList; //灯具图片列表，从硬盘中读取后放到内存里
 
         // 通道数据操作时的变量		
         protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
@@ -136,9 +137,7 @@ namespace LightController.MyForm
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         public bool IsPreviewing = false; // 是否预览状态中
         public long LastSendTime; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；		
-
-        protected ImageList lightImageList;
-
+        
         #region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用
 
         // 全局
@@ -4106,7 +4105,7 @@ namespace LightController.MyForm
                 setBusy(true);
                 SetPreview(true);
 
-                SetNotice("正在生成预览数据，请稍候...", false, true);
+                SetNotice("正在准备预览数据，请稍候...", false, true);
                 try
                 {
                     //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
@@ -4139,26 +4138,19 @@ namespace LightController.MyForm
                                 }
                             }
                         }
-                    }                   
+                    }
+
+                    SetNotice("预览数据生成成功,即将开始预览。", false, true);
+                    refreshConnectedControls(IsDeviceConnected, true); //Preview
 
                     if (IsDeviceConnected)
                     {
-                        networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
-                        SetNotice("预览数据生成成功,即将开始预览。", false, true);
-                        refreshConnectedControls(IsDeviceConnected, true); //Preview
+                        networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);                      
                     }
                     if (IsDMXConnected)
                     {
-                        try
-                        {                                                       
-                            SerialPlayer.Preview(this, CurrentScene);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.StackTrace);
-                        }
-
-                    }
+                        SerialPlayer.Preview(this, CurrentScene);                        
+                    }                    
 
                 }
                 catch (Exception ex)

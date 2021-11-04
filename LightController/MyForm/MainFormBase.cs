@@ -4633,10 +4633,8 @@ namespace LightController.MyForm
         /// </summary>
         protected void testButtonClick()
         {
-            TongdaoWrapper tdTest = new TongdaoWrapper(       "JaycChou", 200, 50, 30);
-            Console.WriteLine( tdTest );
-            tdTest = new TongdaoWrapper("JJ", 140, 60);
-            Console.WriteLine();
+            generatePreviewParameters();
+            Console.WriteLine(currentSoundList);
         }
 
         #region 实现MainFormInterface内定义的一些方法，供维佳调用
@@ -4692,6 +4690,53 @@ namespace LightController.MyForm
                 }
             }
             return result;
+        }
+
+        private int currenMusicStepTime;
+        private int currentMusicWaitTime;
+        private List<int> currentSoundList;
+
+        /// <summary>
+        /// 每次点击预览前，这些数据要准备好（或者在更改场景或修改音频链表数据后，但这样就太多了，如果不是很耗时，就在预览前跑一下）
+        /// </summary>
+        private void generatePreviewParameters() {
+
+            IniHelper iniAst = new IniHelper(GlobalIniPath);
+
+            currenMusicStepTime = iniAst.ReadInt("SK", CurrentScene + "ST", 0) * (int)EachStepTime;
+            currentMusicWaitTime = iniAst.ReadInt("SK", CurrentScene + "JG", 0);
+            currentSoundList = new List<int>();
+            string lkStr  = iniAst.ReadString("SK", CurrentScene + "LK", "");            
+            foreach (char item in lkStr.ToCharArray() )
+            {
+                currentSoundList.Add(  int.Parse(item.ToString()) ); 
+            }        
+        }
+
+        public int GetPreviewMusicControlTime()
+        {
+            return currenMusicStepTime;
+        }
+
+        public int GetPreviewMusicWaitTime()
+        {
+            return currentMusicWaitTime;
+        }
+
+        public List<int> GetPreviewMusicStepList()
+        {
+            return currentSoundList;
+        }
+
+        public int GetPreviewFactoryTime()
+        {
+            return (int)EachStepTime*1000;
+        }
+
+        public IList<TongdaoWrapper> GetPreviewChannelData(int channelNo, int mode)
+        {
+            //DOTO 211004 
+
         }
 
         #endregion

@@ -91,6 +91,11 @@ namespace LightController.Xiaosa.Preview
                 SingleStepPlayTimer.Stop();
                 Thread.Sleep(100);
             }
+            if (PlayTimer.Enabled)
+            {
+                PlayTimer.Stop();
+                Thread.Sleep(100);
+            }
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
             PlayTimer.Interval = FrameIntervalTime;

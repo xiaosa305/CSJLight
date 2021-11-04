@@ -27,24 +27,23 @@ namespace LightController.Xiaosa.Tools
         private static Object SingleKey = new object();
         private static Object BasicTaskKey = new object();
         private static Object MusicTaskKey = new object();
+        private static CSJProjectBuilder Instance;
+        private static string ProjectCacheDir = Application.StartupPath + @"\DataCache\Project\Cache";
+        private static string ProjectFileDir = Application.StartupPath + @"\DataCache\Project\CSJ";
         private const int STEPLISTSIZE = 20;
         private const int BASIC_MODE = 0;
         private const int MUSIC_MODE = 1;
-        private static string ProjectCacheDir = Application.StartupPath + @"\DataCache\Project\Cache";
-        private static string ProjectFileDir = Application.StartupPath + @"\DataCache\Project\CSJ";
-        private static CSJProjectBuilder Instance;
-        private ConcurrentDictionary<int, bool> MultipartChannelBasicTaskState;
-        private ConcurrentDictionary<int, bool> MultipartChannelMusicTaskState;
+        private int CurrentSceneNo;
         private bool SceneBasicTaskState;
         private bool SceneMusicTaskState;
-        private int CurrentSceneNo;//从0开始
+        private bool IsEmptyBasicScene;
+        private bool IsEmptyMusicScene;
+        private ConcurrentDictionary<int, bool> MultipartChannelBasicTaskState;
+        private ConcurrentDictionary<int, bool> MultipartChannelMusicTaskState;
         private MainFormInterface MainFormInterface;
         private Completed Completed;
         private Error Error;
         private ProjectBuildProgress Progress;
-        private bool IsEmptyBasicScene;
-        private bool IsEmptyMusicScene;
-
         private CSJProjectBuilder()
         {
             Init();
@@ -93,7 +92,13 @@ namespace LightController.Xiaosa.Tools
             }
             return Instance;
         }
-
+        /// <summary>
+        /// 多场景数据生成
+        /// </summary>
+        /// <param name="mainFormInterface"></param>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        /// <param name="progress"></param>
         public void BuildProjects(MainFormInterface mainFormInterface,Completed completed,Error error, ProjectBuildProgress progress)
         {
             InitProjectFileDir();
@@ -105,14 +110,43 @@ namespace LightController.Xiaosa.Tools
             Thread thread = new Thread(() => BuildProjectsTask());
             thread.Start();
         }
+        /// <summary>
+        /// 单场景数据生成
+        /// </summary>
+        /// <param name="sceneNo"></param>
+        /// <param name="mainFormInterface"></param>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        /// <param name="progress"></param>
+        public void BuildSingleProject(int sceneNo,MainFormInterface mainFormInterface,Completed completed,Error error, ProjectBuildProgress progress)
+        {
+            InitProjectFileDir();
+            InitProjectCacheDir();
+            MainFormInterface = mainFormInterface;
+            Completed = completed;
+            Error = error;
+            Progress = progress;
+            Thread thread = new Thread(() => BuildSingleProjectTasjk(sceneNo));
+            thread.Start();
+        }
+        private void BuildSingleProjectTasjk(int sceneNo)
+        {
+            BuildProject(sceneNo, MainFormInterface);
+            BuildConfig();
+            Progress("全局配置文件编译成功");
+            BuildGradient();
+            Progress("场景渐变配置文件编译成功");
+            Completed();
+            InitProjectCacheDir();
+        }
         private void BuildProjectsTask()
         {
             try
             {
-                for (int sceneNo = 0; sceneNo < MainFormInterface.GetSceneCount(); sceneNo++)
+                foreach (var item in MainFormInterface.GetExportSceneSet())
                 {
-                    int scene = sceneNo;
-                    BuildProject(scene, MainFormInterface);
+                    int sceneNo = item;
+                    BuildProject(sceneNo, MainFormInterface);
                     //InitProjectCacheDir();
                 }
                 BuildConfig();
@@ -120,6 +154,7 @@ namespace LightController.Xiaosa.Tools
                 BuildGradient();
                 Progress("场景渐变配置文件编译成功");
                 Completed();
+                InitProjectCacheDir();
             }
             catch (Exception ex)
             {
@@ -242,7 +277,7 @@ namespace LightController.Xiaosa.Tools
                 for (int i = 0; i < 512; i += 16)
                 {
                     var startChannelNo = i + 1;
-                    Thread thread = new Thread(() => MultipartChannelTask(startChannelNo, sceneNo));
+                    Thread thread = new Thread(() => MultipartChannelTask(startChannelNo));
                     thread.Start();
                 }
                 while (!SceneBasicTaskState | !SceneMusicTaskState)
@@ -276,14 +311,24 @@ namespace LightController.Xiaosa.Tools
                 Error(sceneNo + "场景编译失败");
             }
         }
-        //TODO 有待测试多线程下情况
-        private void MultipartChannelTask(int startChannelNo,int currentSceneNo)
+        private void MultipartChannelTask(int startChannelNo)
         {
+            var channelList = MainFormInterface.GetChannelIDList();
             //常规场景数据处理
             for (int i = 0; i < 16; i++)
             {
                 var channelNo = startChannelNo + i;
-                ChannelBasicTask(channelNo);
+                if (channelList.Contains(channelNo))
+                {
+                    ChannelBasicTask(channelNo);
+                }
+                else
+                {
+                    lock (BasicTaskKey)
+                    {
+                        MultipartChannelBasicTaskState[channelNo] = true;
+                    }
+                }
             }
             lock (BasicTaskKey)
             {
@@ -296,7 +341,17 @@ namespace LightController.Xiaosa.Tools
             for (int i = 0; i < 16; i++)
             {
                 var channelNo = startChannelNo + i;
-                ChannelMusicTask(channelNo);
+                if (channelList.Contains(channelNo))
+                {
+                    ChannelMusicTask(channelNo);
+                }
+                else
+                {
+                    lock (MusicTaskKey)
+                    {
+                        MultipartChannelMusicTaskState[channelNo] = true;
+                    }
+                }
             }
             lock (MusicTaskKey)
             {
@@ -309,7 +364,6 @@ namespace LightController.Xiaosa.Tools
         private void ChannelBasicTask(int channelNo)
         {
             DB_FineTune fineTune = null;
-            var list = MainFormInterface.GetFineTunes();
             foreach (var item in MainFormInterface.GetFineTunes())
             {
                 if (item.FineTuneIndex == channelNo)

@@ -14,18 +14,16 @@ namespace LightController.Xiaosa.Preview
         private const int MUSIC_MODE = 1;
         private MainFormInterface MainFormInterface;
         private int CurrentChannelNo;
-        private int CurrentSceneNo;
         private int CurrentMode;
         private IList<TongdaoWrapper> StepValues;
         private int StepPoint;
         private int StartValue;
         private DB_FineTune FineTune;
         private Queue<byte> DmxDataQueue;
-        public Channel(int currentChannelNo,int currentSceneNo,int mode,MainFormInterface mainFormInterface)
+        public Channel(int currentChannelNo,int mode,MainFormInterface mainFormInterface)
         {
             DmxDataQueue = new Queue<byte>();
             CurrentChannelNo = currentChannelNo;
-            CurrentSceneNo = currentSceneNo;
             MainFormInterface = mainFormInterface;
             CurrentMode = mode;
             StepPoint = 0;
@@ -38,14 +36,7 @@ namespace LightController.Xiaosa.Preview
                     break;
                 }
             }
-            DB_ChannelPK pk = new DB_ChannelPK()
-            {
-                LightID = 0,
-                ChannelID = FineTune == null ? CurrentChannelNo : FineTune.MainIndex,
-                Scene = CurrentSceneNo,
-                Mode = CurrentMode
-            };
-            StepValues = mainFormInterface.GetSMTDList(pk);
+            StepValues = mainFormInterface.GetPreviewChannelData(CurrentChannelNo, CurrentMode);
             switch (CurrentMode)
             {
                 case BASIC_MODE:

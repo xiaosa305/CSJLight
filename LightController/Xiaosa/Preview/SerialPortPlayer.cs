@@ -122,7 +122,11 @@ namespace LightController.Xiaosa.Preview
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
             PlayTimer.Interval = FrameIntervalTime;
-            Group = new ChannelGroup(MainFormInterface, sceneNo);
+            Group = new ChannelGroup(MainFormInterface);
+            if (!PlayTimer.Enabled)
+            {
+                PlayTimer.Start();
+            }
         }
         public void EndPreview()
         {

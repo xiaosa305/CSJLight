@@ -112,7 +112,7 @@ namespace LightController.Xiaosa.Preview
         {
             return SerialPort.GetPortNames();
         }
-        public void Preview(MainFormInterface mainFormInterface, int sceneNo)
+        public void Preview(MainFormInterface mainFormInterface)
         {
             if (SingleStepPlayTimer.Enabled)
             {

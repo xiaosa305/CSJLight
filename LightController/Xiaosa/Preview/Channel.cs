@@ -62,6 +62,10 @@ namespace LightController.Xiaosa.Preview
             {
                 StartValue = StepValues[0].ScrollValue;
                 StepPoint++;
+                if (StepPoint == StepValues.Count)
+                {
+                    StepPoint = 0;
+                }
                 LoadStepDataIntoQueue();
             }
         }
@@ -96,32 +100,40 @@ namespace LightController.Xiaosa.Preview
         }
         private void LoadBasicStepData()
         {
-            TongdaoWrapper stepValue = StepValues[StepPoint];
-            if (stepValue.ChangeMode == 1)
+            try
             {
-                float inc = (stepValue.ScrollValue - StartValue) / (float)stepValue.StepTime;
-                for (int i = 0; i < stepValue.StepTime; i++)
+                TongdaoWrapper stepValue = StepValues[StepPoint];
+                if (stepValue.ChangeMode == 1)
                 {
-                    var value = StartValue + (i + 1) * inc;
-                    value = value < 0 ? 0 : value;
-                    value = value > 255 ? 255 : value;
-                    int intValue = (int)Math.Floor(value * 256);
-                    DmxDataQueue.Enqueue(Convert.ToByte(FineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / FineTune.MaxValue)));
+                    float inc = (stepValue.ScrollValue - StartValue) / (float)stepValue.StepTime;
+                    for (int i = 0; i < stepValue.StepTime; i++)
+                    {
+                        var value = StartValue + (i + 1) * inc;
+                        value = value < 0 ? 0 : value;
+                        value = value > 255 ? 255 : value;
+                        int intValue = (int)Math.Floor(value * 256);
+                        DmxDataQueue.Enqueue(Convert.ToByte(FineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / FineTune.MaxValue)));
+                    }
                 }
-            }
-            else if (stepValue.ChangeMode == 0)
-            {
-                for (int i = 0; i < stepValue.StepTime; i++)
+                else if (stepValue.ChangeMode == 0)
                 {
-                    DmxDataQueue.Enqueue(Convert.ToByte(FineTune == null ? stepValue.ScrollValue : 0));
+                    for (int i = 0; i < stepValue.StepTime; i++)
+                    {
+                        DmxDataQueue.Enqueue(Convert.ToByte(FineTune == null ? stepValue.ScrollValue : 0));
+                    }
                 }
+                StepPoint++;
+               
+                if (StepPoint == StepValues.Count)
+                {
+                    StepPoint = 0;
+                }
+                StartValue = stepValue.ScrollValue;
             }
-            StepPoint++;
-            if (StepPoint == StepValues.Count)
+            catch (Exception ex)
             {
-                StepPoint = 0;
+                throw ex;
             }
-            StartValue = stepValue.ScrollValue;
         }
         private void LoadMusicStepData()
         {

@@ -182,7 +182,6 @@ namespace LightController.PeripheralDevice
                 this.IntentPreviewUDPSender = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 this.IntentPreviewUDPSender.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             }
-            Console.WriteLine("3:" + data[3] + ",4:" + data[4] + ",8:" + data[8] + ",9:" + data[9] + ",10:" + data[10] + ",11:" + data[11]);
             this.IntentPreviewUDPSender.SendTo(data, new IPEndPoint(IPAddress.Parse(targetIp), UDP_INTENT_PREVIEW_PORT));
         }
         /// <summary>

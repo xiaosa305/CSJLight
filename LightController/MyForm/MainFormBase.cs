@@ -4105,6 +4105,7 @@ namespace LightController.MyForm
 
                 setBusy(true);
                 SetPreview(true);
+
                 SetNotice("正在生成预览数据，请稍候...", false, true);
                 try
                 {
@@ -4113,7 +4114,6 @@ namespace LightController.MyForm
                     {
                         //DOTO 211004 重写 素材预览数据的生成
                         materialTDListDict = new Dictionary<int, IList<TongdaoWrapper>>();
-
                         for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
                         {
                             if (lightIndex == selectedIndex || isMultiMode && selectedIndexList.Contains(lightIndex))
@@ -4141,7 +4141,8 @@ namespace LightController.MyForm
                         }
                     }
 
-                    Console.WriteLine(materialTDListDict);
+                    SetNotice("预览数据生成成功,即将开始预览。", false, true);
+                    refreshConnectedControls(IsDeviceConnected, true); //Preview
 
                     if (IsDeviceConnected)
                     {
@@ -4150,10 +4151,8 @@ namespace LightController.MyForm
                     if (IsDMXConnected)
                     {
                         try
-                        {
+                        {                                                       
                             SerialPlayer.Preview(this, CurrentScene);
-                            SetNotice("预览数据生成成功,即将开始预览。", false, true);
-                            refreshConnectedControls(IsDeviceConnected, true); //Preview
                         }
                         catch (Exception ex)
                         {
@@ -4610,8 +4609,6 @@ namespace LightController.MyForm
             {
                 SetNotice("预览数据生成成功,即将开始预览。", false, true);
                 refreshConnectedControls(IsDeviceConnected, true); //Preview
-
-
             });
         }
 

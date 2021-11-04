@@ -145,7 +145,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                Player.GetPlayer().EndPreview(delegate { Console.WriteLine("关闭网络调试成功"); }, delegate { Console.WriteLine("关闭网络调试失败"); });
+                Player.GetPlayer().EndPreview();
                 if (this.Socket != null)
                 {
                     if (this.Socket.Connected)

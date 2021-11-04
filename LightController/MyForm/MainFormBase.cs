@@ -4102,6 +4102,7 @@ namespace LightController.MyForm
                 SetNotice("正在准备预览数据，请稍候...", false, true);
                 try
                 {
+                    generatePreviewParameters();
                     //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
                     if (material != null)
                     {

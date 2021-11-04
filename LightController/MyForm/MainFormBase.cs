@@ -4144,7 +4144,14 @@ namespace LightController.MyForm
                     }
                     if (IsDMXConnected)
                     {
-                        SerialPlayer.Preview(this);                        
+                        try
+                        {
+                            SerialPlayer.Preview(this);
+                        }
+                        catch (Exception ex) {
+                            Console.WriteLine(ex.StackTrace);
+                        }
+                                           
                     }                    
 
                 }

@@ -58,7 +58,6 @@ namespace LightController.Xiaosa.Preview
             SingleStepPlayTimer.Elapsed += delegate
             {
                 PlayTask(SingleStepDmxData);
-                
             };
         }
         public static Player GetPlayer()
@@ -75,7 +74,17 @@ namespace LightController.Xiaosa.Preview
             }
             return Instance;
         }
-        public void Preview(NetworkConnect connect,MainFormInterface mainFormInterface,int sceneNo,Completed completed,Error error)
+        public void StartDebug(NetworkConnect connect, Completed completed, Error error)
+        {
+            Connect = connect;
+            Connect.StartIntentPreview(FrameIntervalTime, delegate { completed(); }, delegate {error("启动调试失败");});
+        }
+        public void StopDebug(Completed completed, Error error)
+        {
+            Connect.StopIntentPreview(delegate {completed();}, error);
+            Connect = null;
+        }
+        public void Preview(MainFormInterface mainFormInterface)
         {
             if (SingleStepPlayTimer.Enabled)
             {
@@ -85,11 +94,13 @@ namespace LightController.Xiaosa.Preview
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
             PlayTimer.Interval = FrameIntervalTime;
-            Connect = connect;
-            Group = new ChannelGroup(MainFormInterface, sceneNo);
-            Connect.StartIntentPreview(FrameIntervalTime, delegate { Console.WriteLine("Preview Success"); ; PlayTimer.Start(); completed(); }, delegate { Console.WriteLine("Preview Failed"); error("启动调试失败");});
+            Group = new ChannelGroup(MainFormInterface);
+            if (!PlayTimer.Enabled)
+            {
+                PlayTimer.Start();
+            }
         }
-        public void EndPreview(Completed completed, Error error)
+        public void EndPreview()
         {
             if (PlayTimer.Enabled)
             {
@@ -99,10 +110,6 @@ namespace LightController.Xiaosa.Preview
             {
                 SingleStepPlayTimer.Stop();
             }
-            if (Connect.IsConnected())
-            {
-                Connect.StopIntentPreview(delegate { completed(); }, delegate { error("关闭调试失败"); });
-            }
         }
         public void SingleStepPreview(byte[] data,MainFormInterface mainFormInterface)
         {
@@ -111,7 +118,6 @@ namespace LightController.Xiaosa.Preview
                 PlayTimer.Stop();
                 Thread.Sleep(100);
             }
-           
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
             lock (SingleStepDmxData)
@@ -136,7 +142,10 @@ namespace LightController.Xiaosa.Preview
         }
         private void PlayTask(byte[] dmxData)
         {
-            Connect.IntentPreview(Connect.DeviceIp, dmxData);
+            if (Connect != null)
+            {
+                Connect.IntentPreview(Connect.DeviceIp, dmxData);
+            }
         }
     }
 }

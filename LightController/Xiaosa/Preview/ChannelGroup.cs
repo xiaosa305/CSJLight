@@ -24,19 +24,17 @@ namespace LightController.Xiaosa.Preview
         private int MusicWaitTime;
         private int MusicControlTime;
         private int MusicStep;
-        private int CurrentSceneNo;
         public bool MusicControlState { get; set; }
         public bool IsMusicMode { get; set; }
         private bool IsNoEmptyBasic;
-        public ChannelGroup(MainFormInterface mainFormInterface,int sceneNo)
+        public ChannelGroup(MainFormInterface mainFormInterface)
         {
             MainFormInterface = mainFormInterface;
-            CurrentSceneNo = sceneNo;
             Init();
             ReadMusicConfigInfo();
             InitMusicControlTimer();
             InitMusicWaitControlTimer();
-            BuildChannels(sceneNo);
+            BuildChannels();
         }
         private void Init()
         {
@@ -86,75 +84,27 @@ namespace LightController.Xiaosa.Preview
         }
         private void ReadMusicConfigInfo()
         {
-            using (StreamReader reader = new StreamReader(MainFormInterface.GetConfigPath()))
+            MusicControlTime = MainFormInterface.GetPreviewMusicControlTime() ;
+            MusicWaitTime = MainFormInterface.GetPreviewMusicWaitTime();
+            MusicStepList = new List<int>();
+            foreach (var item in MainFormInterface.GetPreviewMusicStepList())
             {
-                List<int> stepList = new List<int>();
-                int frameTime = 0;
-                int musicIntervalTime = 0;
-                string lineStr;
-                string strValue = string.Empty;
-                int intValue;
-                while (true)
+                if (item != 0)
                 {
-                    lineStr = reader.ReadLine();
-                    if (lineStr.Equals("[SK]"))
-                    {
-                        for (int i = 0; i < MainFormInterface.GetSceneCount(); i++)
-                        {
-                            lineStr = reader.ReadLine();
-                            string sceneNumber;
-                            if (lineStr.Split('=')[0].Length > 3)
-                            {
-                                sceneNumber = lineStr[0].ToString() + lineStr[1].ToString();
-                            }
-                            else
-                            {
-                                sceneNumber = lineStr[0].ToString();
-                            }
-                            if (sceneNumber.Equals(CurrentSceneNo.ToString()))
-                            {
-                                strValue = lineStr.Split('=')[1];
-                                for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
-                                {
-                                    intValue = int.Parse(strValue[strIndex].ToString());
-                                    if (intValue != 0)
-                                    {
-                                        stepList.Add(intValue);
-                                    }
-                                }
-                                lineStr = reader.ReadLine();
-                                strValue = lineStr.Split('=')[1];
-                                intValue = int.Parse(strValue.ToString());
-                                frameTime = intValue;
-                                lineStr = reader.ReadLine();
-                                strValue = lineStr.Split('=')[1];
-                                intValue = int.Parse(strValue.ToString());
-                                musicIntervalTime = intValue;
-                            }
-                            else
-                            {
-                                reader.ReadLine();
-                                reader.ReadLine();
-                            }
-                        }
-                        break;
-                    }
+                    MusicStepList.Add(item);
                 }
-                MusicControlTime = frameTime;
-                MusicWaitTime = musicIntervalTime;
-                MusicStepList = stepList;
             }
         }
-        private void BuildChannels(int currentSceneNo)
+        private void BuildChannels()
         {
-            BuildBasicChannels(currentSceneNo);
-            BuildMusicChannels(currentSceneNo);
+            BuildBasicChannels();
+            BuildMusicChannels();
         }
-        private void BuildBasicChannels(int currentSceneNo)
+        private void BuildBasicChannels()
         {
             foreach (var item in MainFormInterface.GetChannelIDList())
             {
-                Channel channel = new Channel(item, currentSceneNo, BASIC_MODE, MainFormInterface);
+                Channel channel = new Channel(item, BASIC_MODE, MainFormInterface);
                 if (channel.IsNoEmpty())
                 {
                     BasicChannels.Add(item, channel);
@@ -165,11 +115,11 @@ namespace LightController.Xiaosa.Preview
                 IsNoEmptyBasic = true;
             }
         }
-        private void BuildMusicChannels(int currentSceneNo)
+        private void BuildMusicChannels()
         {
             foreach (var item in MainFormInterface.GetChannelIDList())
             {
-                Channel channel = new Channel(item, currentSceneNo, MUSIC_MODE, MainFormInterface);
+                Channel channel = new Channel(item, MUSIC_MODE, MainFormInterface);
                 if (channel.IsNoEmpty())
                 {
                     MusicChannels.Add(item, channel);

@@ -11,7 +11,6 @@ namespace LightController.Utils
 {
     public class CommandLogUtils
     {
-        private readonly bool LOG_STATUS = true;
         private readonly string FILEPATH = Application.StartupPath + @"\command.log";
         private static CommandLogUtils Instance { get; set; }
         private ConcurrentQueue<string> MsgQueue { get; set; }

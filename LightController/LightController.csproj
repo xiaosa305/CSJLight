@@ -436,13 +436,11 @@
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\SequencerData.cs" />
-    <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Utils\CommandLogUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\LightConfig\LightConfigBean.cs" />
     <Compile Include="Utils\OldFileToNewFileUtils.cs" />
     <Compile Include="Utils\LogTools.cs" />
-    <Compile Include="Utils\PlayPoint.cs" />
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
@@ -453,8 +451,8 @@
     <Compile Include="Xiaosa\Preview\Channel.cs" />
     <Compile Include="Xiaosa\Preview\ChannelGroup.cs" />
     <Compile Include="Xiaosa\Preview\Player.cs" />
+    <Compile Include="Xiaosa\Preview\SeiralPortPlayer.cs" />
     <Compile Include="Xiaosa\Tools\CSJProjectBuilder.cs" />
-    <Compile Include="Xiaosa\Tools\SerialPortDMXPlay.cs" />
     <EmbeddedResource Include="Entity\DB_Light.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

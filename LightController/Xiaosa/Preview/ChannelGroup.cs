@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -27,9 +28,6 @@ namespace LightController.Xiaosa.Preview
         public bool MusicControlState { get; set; }
         public bool IsMusicMode { get; set; }
         private bool IsNoEmptyBasic;
-        
-
-
         public ChannelGroup(MainFormInterface mainFormInterface,int sceneNo)
         {
             MainFormInterface = mainFormInterface;
@@ -207,6 +205,7 @@ namespace LightController.Xiaosa.Preview
             byte[] dmxData = Enumerable.Repeat<byte>(Convert.ToByte(0x00), 513).ToArray();
             if (IsNoEmptyBasic)
             {
+                var keys = BasicChannels.Keys;
                 foreach (var key in BasicChannels.Keys)
                 {
                     dmxData[key] = BasicChannels[key].TakeDmxData();

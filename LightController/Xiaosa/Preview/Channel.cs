@@ -80,7 +80,10 @@ namespace LightController.Xiaosa.Preview
             if (DmxDataQueue != null && DmxDataQueue.Count > 0)
             {
                 result = DmxDataQueue.Dequeue();
-                LoadStepDataIntoQueue();
+                if (DmxDataQueue.Count == 0)
+                {
+                    LoadStepDataIntoQueue();
+                }
             }
             return result;
         }
@@ -105,7 +108,7 @@ namespace LightController.Xiaosa.Preview
             TongdaoWrapper stepValue = StepValues[StepPoint];
             if (stepValue.ChangeMode == 1)
             {
-                float inc = stepValue.ScrollValue - StartValue / (float)stepValue.StepTime;
+                float inc = (stepValue.ScrollValue - StartValue) / (float)stepValue.StepTime;
                 for (int i = 0; i < stepValue.StepTime; i++)
                 {
                     var value = StartValue + (i + 1) * inc;

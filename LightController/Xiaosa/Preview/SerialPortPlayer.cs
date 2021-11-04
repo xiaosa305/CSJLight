@@ -2,6 +2,7 @@
 using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -96,7 +97,7 @@ namespace LightController.Xiaosa.Preview
             }
             catch (Exception ex)
             {
-                Console.WriteLine("打开串口失败：" + ex.Message);
+                Console.WriteLine("打开串口失败：" + ex.Message + "::::::" + ex.StackTrace);
             }
             return false;
         }
@@ -143,8 +144,17 @@ namespace LightController.Xiaosa.Preview
             }
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
-            SingleStepDmxData = data;
-            SingleStepPlayTimer.Start();
+            lock (SingleStepDmxData)
+            {
+                List<byte> buff = new List<byte>();
+                buff.Add(Convert.ToByte(0x00));
+                buff.AddRange(data);
+                SingleStepDmxData = buff.ToArray() ;
+            }
+            if (!SingleStepPlayTimer.Enabled)
+            {
+                SingleStepPlayTimer.Start();
+            }
         }
         public bool TriggerAudio()
         {
@@ -158,10 +168,18 @@ namespace LightController.Xiaosa.Preview
         {
             if (COM.IsOpen)
             {
-                COM.BreakState = true;
-                Thread.Sleep(10);
-                COM.BreakState = false;
-                COM.Write(dmxData, 0, dmxData.Length);
+                try
+                {
+                    COM.BreakState = true;
+                    Thread.Sleep(10);
+                    COM.BreakState = false;
+                    COM.Write(dmxData, 0, dmxData.Length);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
             }
         }
     }

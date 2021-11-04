@@ -2,6 +2,7 @@
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -110,10 +111,20 @@ namespace LightController.Xiaosa.Preview
                 PlayTimer.Stop();
                 Thread.Sleep(100);
             }
+           
             MainFormInterface = mainFormInterface;
             SetFrameIntervalTime();
-            SingleStepDmxData = data;
-            SingleStepPlayTimer.Start();
+            lock (SingleStepDmxData)
+            {
+                List<byte> buff = new List<byte>();
+                buff.Add(Convert.ToByte(0x00));
+                buff.AddRange(data);
+                SingleStepDmxData = buff.ToArray();
+            }
+            if (!SingleStepPlayTimer.Enabled)
+            {
+                SingleStepPlayTimer.Start();
+            }
         }
         public bool TriggerAudio()
         {

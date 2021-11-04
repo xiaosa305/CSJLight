@@ -23,5 +23,33 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <returns></returns>
 		HashSet<int> GetExportSceneSet();
+
+		/// <summary>
+		/// 获取预览所需的音频步时间
+		/// </summary>
+		/// <returns></returns>
+		int GetPreviewMusicControlTime();
+		/// <summary>
+		/// 获取预览所需的音频叠加后等待时间
+		/// </summary>
+		/// <returns></returns>
+		int GetPreviewMusicWaitTime();
+		/// <summary>
+		/// 获取预览所需的音频步数链表
+		/// </summary>
+		/// <returns></returns>
+		List<int> GetPreviewMusicStepList();
+		/// <summary>
+		/// 获取预览所需的时间因子
+		/// </summary>
+		/// <returns></returns>
+		int GetPreviewFactoryTime();
+		/// <summary>
+		/// 获取预览所需的通道数据
+		/// </summary>
+		/// <param name="channelNo"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		IList<TongdaoWrapper> GetPreviewChannelData(int channelNo, int mode);
 	}
 }

@@ -128,8 +128,8 @@ namespace LightController.MyForm
         public NetworkConnect MyConnect;  // 与设备的连接
         protected DMX512ConnnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可	
 
-        protected PlayTools networkPlayTools = PlayTools.GetInstance(); // 通过设备，调试512灯具的对象
-        public SerialPortDMXPlay SerialPlayTools = SerialPortDMXPlay.GetInstance();     // 通过DMX512调试线直连设备，调试512灯具的对象
+        protected Player networkPlayTools = Player.GetPlayer(); // 通过设备，调试512灯具的对象
+        public SerialPortPlayer SerialPlayTools = SerialPortDMXPlay.GetPlayer();     // 通过DMX512调试线直连设备，调试512灯具的对象
 
         public bool IsDeviceConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
         public bool IsDMXConnected = false; // 辅助bool值，当DMX512线已经连接时设为true，反之为false

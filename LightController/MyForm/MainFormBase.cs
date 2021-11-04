@@ -4074,6 +4074,7 @@ namespace LightController.MyForm
             }
 
             // 停止预览
+
             if (IsPreviewing)
             {
                 endview(); // PreviewButtonClick
@@ -4095,15 +4096,23 @@ namespace LightController.MyForm
                 SetNotice("正在生成预览数据，请稍候...", false, true);
                 try
                 {            
-
                     if (IsDeviceConnected)
                     {
                         networkPlayer.Preview(MyConnect, this, CurrentScene, PreviewDataGenerateCompleted, PreviewDataGenerateError);
                     }
                     if (IsDMXConnected)
                     {
-                        SerialPlayer.Preview( this, CurrentScene);
+                        try {
+                            SerialPlayer.Preview(this, CurrentScene);
+                            SetNotice("预览数据生成成功,即将开始预览。", false, true);
+                            refreshConnectedControls(IsDeviceConnected, true); //Preview
+                        }
+                        catch (Exception ex) {
+                            Console.WriteLine(ex.StackTrace);
+                        }
+                        
 
+                        
                     }
 
                 }

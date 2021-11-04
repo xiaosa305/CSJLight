@@ -10,9 +10,9 @@ using static LightController.Utils.OldFileToNewFileUtils;
 
 namespace LightController.Xiaosa.Preview
 {
-    public class SeiralPortPlayer
+    public class SerialPortPlayer
     {
-        private static SeiralPortPlayer Instance;
+        private static SerialPortPlayer Instance;
         private static readonly Object SingleKey = new object();
         private MainFormInterface MainFormInterface;
         private ChannelGroup Group;
@@ -21,7 +21,7 @@ namespace LightController.Xiaosa.Preview
         private System.Timers.Timer SingleStepPlayTimer;
         private byte[] SingleStepDmxData;
         private SerialPort COM;
-        private SeiralPortPlayer()
+        private SerialPortPlayer()
         {
             Init();
             InitPlayTimer();
@@ -68,7 +68,7 @@ namespace LightController.Xiaosa.Preview
 
             };
         }
-        public static SeiralPortPlayer GetPlayer()
+        public static SerialPortPlayer GetPlayer()
         {
             if (Instance == null)
             {
@@ -76,7 +76,7 @@ namespace LightController.Xiaosa.Preview
                 {
                     if (Instance == null)
                     {
-                        Instance = new SeiralPortPlayer();
+                        Instance = new SerialPortPlayer();
                     }
                 }
             }

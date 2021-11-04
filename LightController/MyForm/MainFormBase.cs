@@ -137,7 +137,7 @@ namespace LightController.MyForm
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         public bool IsPreviewing = false; // 是否预览状态中
         public long LastSendTime; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；		
-        
+
         #region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用
 
         // 全局
@@ -171,9 +171,8 @@ namespace LightController.MyForm
         protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板							
 
         #region 协议相关
-        // DOTO 211103 协议相关
         protected HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射               
-        public IList<string> ProtocolList;
+        public IList<string> ProtocolList; // 存储协议名（ xls中协议+分割线+pbin协议)
         public IList<string> SceneCodeList; // 存放读取的《Protocol\SceneCode》文件内生成的1-16场景相应的码值，有多处会用到此List; 
 
         /// <summary>
@@ -181,7 +180,6 @@ namespace LightController.MyForm
         /// </summary>
         public void RenderProtocolCB(string protocolName)
         {
-
             // 当首页原先选择项，为xls中的协议或未选择时，使用CurrentProtocol作为入参
             if (CurrentProtocol <= xlsWorkbook.NumberOfSheets)
             {
@@ -256,7 +254,6 @@ namespace LightController.MyForm
         /// <param name="protocolIndex"></param>
         protected void rebuildSceneList(int protocolIndex)
         {
-
             // 未选择协议 
             if (protocolIndex == xlsWorkbook.NumberOfSheets ||
                 protocolIndex == -1 ||
@@ -387,7 +384,7 @@ namespace LightController.MyForm
             }
             return 0;
         }
-
+        
         #endregion
 
         // 调试面板
@@ -2498,9 +2495,7 @@ namespace LightController.MyForm
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
 
-            //DOTO 211019 导出工程
-            //DataConvertUtils.GetInstance().SaveProjectFile(
-            //    GetDBWrapper(), this, GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+            //211104 导出工程
             CSJProjectBuilder.GetInstance().BuildProjects(this, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
         }
 
@@ -2771,7 +2766,7 @@ namespace LightController.MyForm
             // Mark3.0413  projectUpdateClick()-disConnect
             if (IsDeviceConnected)
             {
-                stopPreview();
+                stopDebug();
                 new ProjectDownloadForm(this).ShowDialog();
             }
         }
@@ -2799,7 +2794,7 @@ namespace LightController.MyForm
         {
             if (IsDeviceConnected)
             {
-                stopPreview();
+                stopDebug();
                 new HardwareSetForm(this).ShowDialog();
             }
         }
@@ -2811,8 +2806,8 @@ namespace LightController.MyForm
         {
             if (IsDeviceConnected)
             {
-                stopPreview();
-                new ToolsForm(this).ShowDialog();
+                stopDebug();
+                new ToolsForm(this,  (CurrentProtocol==-1 || CurrentProtocol == xlsWorkbook.NumberOfSheets)?0:CurrentProtocol ).ShowDialog();
             }
         }
 
@@ -2823,7 +2818,7 @@ namespace LightController.MyForm
         {
             if (IsDeviceConnected)
             {
-                stopPreview();
+                stopDebug();
                 new SequencerForm(this).ShowDialog();
             }
         }
@@ -3934,24 +3929,24 @@ namespace LightController.MyForm
         /// <summary>
         ///  辅助方法：启动调试，基本只有在界面激活时用得到；
         /// </summary>
-        protected void startPreview()
+        protected void startDebug()
         {
             if (IsDeviceConnected)
             {
-                SleepBetweenSend("Order : StartPreview", 1);
-                networkPlayer.StartDebug( MyConnect,  StartPreviewCompleted, StartPreviewError);
+                SleepBetweenSend("Order : StartDebug", 1);
+                networkPlayer.StartDebug(MyConnect, StartPreviewCompleted, StartPreviewError);
             }
         }
 
         /// <summary>
         /// 辅助方法：关闭调试
         /// </summary>
-        protected void stopPreview()
+        protected void stopDebug()
         {
             if (IsDeviceConnected)
             {
-                SleepBetweenSend("Order : StopPreview", 1);
-                networkPlayer.StopDebug( delegate { }, delegate { } );
+                SleepBetweenSend("Order : StopDebug", 1);
+                networkPlayer.StopDebug(delegate { }, delegate { });
             }
         }
 
@@ -4066,7 +4061,6 @@ namespace LightController.MyForm
             refreshStep();
         }
 
-        //DOTO 211012 重写 《预览 和 停止预览》 按键点击事件
         /// <summary>
         /// 辅助方法：预览效果|停止预览
         /// </summary>
@@ -4103,10 +4097,12 @@ namespace LightController.MyForm
                 try
                 {
                     generatePreviewParameters();
+                    isPreviewMaterial = false;
+
                     //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
                     if (material != null)
                     {
-                        //DOTO 211004 重写 素材预览数据的生成
+                        isPreviewMaterial = true;                        
                         materialTDListDict = new Dictionary<int, IList<TongdaoWrapper>>();
                         for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
                         {
@@ -4135,24 +4131,11 @@ namespace LightController.MyForm
                         }
                     }
 
-                    SetNotice("预览数据生成成功,即将开始预览。", false, true);
+                    SetNotice("正在预览" + (isPreviewMaterial ? "复合素材" : "场景数据") + "...", false, true);
                     refreshConnectedControls(IsDeviceConnected, true); //Preview
 
-                    if (IsDeviceConnected)
-                    {
-                        networkPlayer.Preview(this);                      
-                    }
-                    if (IsDMXConnected)
-                    {
-                        try
-                        {
-                            SerialPlayer.Preview(this);
-                        }
-                        catch (Exception ex) {
-                            Console.WriteLine(ex.StackTrace);
-                        }
-                                           
-                    }                    
+                    if (IsDeviceConnected) networkPlayer.Preview(this);
+                    if (IsDMXConnected) SerialPlayer.Preview(this);
 
                 }
                 catch (Exception ex)
@@ -4725,7 +4708,7 @@ namespace LightController.MyForm
             }
             else
             {
-                return GetPreviewChannelIDList();
+                return GetChannelIDList();
             }
         }
 
@@ -4751,7 +4734,7 @@ namespace LightController.MyForm
         private int currenMusicStepTime;
         private int currentMusicWaitTime;
         private List<int> currentSoundList;
-        private bool isPreviewMaterial = false;      
+        private bool isPreviewMaterial = false;
         private Dictionary<int, IList<TongdaoWrapper>> materialTDListDict;  //音频素材无法预览，故此处只需存常规素材的通道值信息即可：key = channelID , value =  IList<TongdaoWrapper>
 
         /// <summary>
@@ -4793,7 +4776,6 @@ namespace LightController.MyForm
 
         public IList<TongdaoWrapper> GetPreviewChannelData(int channelNo, int mode)
         {
-            //DOTO 211004 
             if (isPreviewMaterial)
             {
                 return materialTDListDict[channelNo];

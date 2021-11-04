@@ -67,7 +67,7 @@ namespace LightController.MyForm.OtherTools
 		private List<string> kpCodeList;   // 记录搜索到的码值列表（不用Dictionary，因为没有存储功能描述的必要，且Dictionary无序）		
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 		
-		public ToolsForm(MainFormBase mainForm)
+		public ToolsForm(MainFormBase mainForm,int selectedProtocolIndex)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -163,7 +163,6 @@ namespace LightController.MyForm.OtherTools
 					relayButtons[sceneIndex,relayIndex].Click += relayButtons_Click ;
 					relayFLPs[sceneIndex].Controls.Add(relayButtons[sceneIndex, relayIndex]);
 				}
-
 				
 				// 各调光通道
 				for (int tgIndex = 0; tgIndex < tgCount; tgIndex++) {
@@ -227,6 +226,9 @@ namespace LightController.MyForm.OtherTools
 			tabControl1.SizeMode = TabSizeMode.Fixed;
 			tabControl1.Multiline = true;
 			tabControl1.ItemSize = new Size(60, 100);
+			
+			// 由传入的协议index，渲染协议ComboBox
+			renderProtocolCB(selectedProtocolIndex);
 
 			#endregion
 		}
@@ -240,7 +242,7 @@ namespace LightController.MyForm.OtherTools
             //LanguageHelper.TranslateListView(keypressListView);		
             //deviceNameLabel.Text = mainForm.MyConnect.DeviceName;
 
-			renderProtocolCB( mainForm.CurrentProtocol == -1 ? 0 : mainForm.CurrentProtocol ); 		
+			
 		}
 
 		private void ToolsForm_Shown(object sender, EventArgs e)

@@ -207,7 +207,7 @@ namespace LightController.MyForm
 
 		private void SkinMainForm_Activated(object sender, EventArgs e)
 		{
-			startPreview(); //SkinMainForm_Activated
+			startDebug(); //SkinMainForm_Activated
 		}
 
 		/// <summary>

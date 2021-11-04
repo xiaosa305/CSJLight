@@ -553,6 +553,18 @@ namespace LightController.MyForm.Multiplex
 			}			
 		}
 
+		/// <summary>
+		/// 事件：更改了步时间之后，应该调整相应的stepTime
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void stNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			commonStepTime = decimal.ToInt32(StNumericUpDown.Value / mainForm.EachStepTime);
+			// 需要在这里对波浪的倍率项进行限制
+			waveTimesNumericUpDown.Maximum = 250 / commonStepTime;
+		}
+
 		#region 画直线相关的方法：包括验证，生成数据等；
 
 		/// <summary>
@@ -600,21 +612,7 @@ namespace LightController.MyForm.Multiplex
 			int y1Value = decimal.ToInt32(lineY1NumericUpDown.Value);
 			lineY2NumericUpDown.Maximum = 255 - y1Value;
 		}
-
-		/// <summary>
-		/// 事件：更改了步时间之后，应该调整相应的stepTime
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lineStNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			commonStepTime = decimal.ToInt32(StNumericUpDown.Value / mainForm.EachStepTime);
-
-			// 需要在这里对波浪的倍率项进行限制
-			waveTimesNumericUpDown.Maximum = 250 / commonStepTime;
-
-		}
-
+				
 		#endregion
 
 		#region 画圆及半圆相关的方法：包括验证，生成数据等；

@@ -1,6 +1,7 @@
 ﻿using LightController.Ast;
 using LightController.Common;
 using LightController.Utils;
+using LightController.Xiaosa.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +17,12 @@ namespace LightController.MyForm.MainFormAst
 {
 	public partial class ProjectDownloadForm : Form
 	{
-		public MainFormBase MainForm;
+		private MainFormBase mainForm;
 		private string exportProjectPath;
 
 		public ProjectDownloadForm(MainFormBase mainForm)
 		{
-			this.MainForm = mainForm;
+			this.mainForm = mainForm;
 
 			InitializeComponent();
 
@@ -52,13 +53,13 @@ namespace LightController.MyForm.MainFormAst
 			LanguageHelper.TranslateControl(this);
 			
 			// 在Load中再验证一下是否连接，如果没有连接，则关闭窗口（但这个操作因为太快 或 压根还没渲染出来，用户看不到）
-			if (!MainForm.IsDeviceConnected) Dispose();			
+			if (!mainForm.IsDeviceConnected) Dispose();			
 		}
 
 		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Dispose();
-			MainForm.Activate();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -80,9 +81,9 @@ namespace LightController.MyForm.MainFormAst
 		private void refreshButtons()
 		{
 			dirPanel.Visible = exportedCheckBox.Checked;
-			downloadButton.Enabled = MainForm.IsDeviceConnected && //必要条件
+			downloadButton.Enabled = mainForm.IsDeviceConnected && //必要条件
 				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《下载已有工程》
-				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(MainForm.GlobalIniPath)));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
+				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(mainForm.GlobalIniPath)));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
 		}
 
 		/// <summary>
@@ -142,15 +143,19 @@ namespace LightController.MyForm.MainFormAst
 			}
 			// 1.2下载当前工程
 			else {			
-				if (string.IsNullOrEmpty(MainForm.GlobalIniPath) )
+				if (string.IsNullOrEmpty(mainForm.GlobalIniPath) )
 				{
 					setNotice("主界面尚未打开工程，无法下载工程。", true, true);
 					setBusy(false);
 					return;
 				}
 				setNotice("正在实时生成工程数据，请耐心等待...", false, true);
-				//DOTO 211019 实时生成工程数据
-				//DataConvertUtils.GetInstance().SaveProjectFile(MainForm.GetDBWrapper(false), MainForm, MainForm.GlobalIniPath, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+				//211104 实时生成工程数据
+				CSJProjectBuilder.GetInstance().BuildProjects(
+					mainForm, 
+					ExportProjectCompleted, 
+					ExportProjectError,
+					ExportProjectProgress);
 			}
 		}
 
@@ -159,8 +164,8 @@ namespace LightController.MyForm.MainFormAst
 		/// </summary>
 		public void DownloadProject()
 		{
-			MainForm.SleepBetweenSend("Order : DownloadProject", 1);
-			MainForm.MyConnect.DownloadProject(DownloadCompleted, DownloadError, DrawProgress);
+			mainForm.SleepBetweenSend("Order : DownloadProject", 1);
+			mainForm.MyConnect.DownloadProject(DownloadCompleted, DownloadError, DrawProgress);
 		}
 
 		/// <summary>
@@ -189,9 +194,9 @@ namespace LightController.MyForm.MainFormAst
 				myProgressBar.Value = 0;
 				setBusy(false);
 				
-				MainForm.DisConnect();
-				MainForm.ConnForm.ShowDialog();
-				if (! MainForm.IsDeviceConnected )
+				mainForm.DisConnect();
+				mainForm.ConnForm.ShowDialog();
+				if (! mainForm.IsDeviceConnected )
 				{
 					MessageBox.Show("请重新连接设备，否则无法下载工程!");
 					Dispose();
@@ -267,7 +272,7 @@ namespace LightController.MyForm.MainFormAst
 				setNotice("工程导出成功，即将拷贝到临时目录...", false, true);
 				if (FileUtils.CopyProjectFileToDownloadDir())
 				{
-					MainForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
+					mainForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
 					DownloadProject();
 				}
 				else

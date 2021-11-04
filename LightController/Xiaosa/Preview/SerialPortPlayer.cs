@@ -149,6 +149,10 @@ namespace LightController.Xiaosa.Preview
         {
             return Group.MusicControl();
         }
+        public bool MusicControlState()
+        {
+            return Group.MusicControlState && Group.IsMusicMode;
+        }
         private void PlayTask(byte[] dmxData)
         {
             if (COM.IsOpen)

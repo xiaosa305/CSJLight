@@ -1,5 +1,4 @@
-﻿using fastJSON;
-using LightController.Ast.Entity;
+﻿using LightController.Ast.Entity;
 using LightController.Common;
 using LightController.MyForm;
 using LightController.MyForm.OtherTools;

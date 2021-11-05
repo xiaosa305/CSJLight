@@ -71,7 +71,7 @@
             this.toButton.Name = "toButton";
             this.toButton.Size = new System.Drawing.Size(202, 26);
             this.toButton.TabIndex = 11;
-            this.toButton.Text = "从当前场景数复制到指定场景";
+            this.toButton.Text = "从当前场景复制到指定场景";
             this.toButton.UseVisualStyleBackColor = true;
             this.toButton.Click += new System.EventHandler(this.toButton_Click);
             // 

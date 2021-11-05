@@ -35,7 +35,7 @@ namespace LightController.MyForm
         // 几个全局的辅助控件（导出文件、toolTip提示等）
         protected FolderBrowserDialog exportFolderBrowserDialog;
         private System.ComponentModel.IContainer components;
-        protected ToolTip myToolTip;
+        protected ToolTip myToolTip; 
 
         //各类提示
         protected string protocolNotice = "1.选择不同协议，会将场景名更改为该协议的命名；\n" +

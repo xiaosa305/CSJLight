@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+      assembly="LightController" namespace="LightController.Entity">
+  <class name="DB_Light" table="Light">
+    <id name="LightID" column="LightID">
+      <generator class="assigned"></generator>
+    </id>    
+    <property name="Name" type ="string">
+      <column name="Name" sql-type="nvarchar(60)" not-null="true" />
+    </property>
+    <property name="Type" type ="string">
+      <column name="Type" sql-type="nvarchar(60)" not-null="true" />
+    </property>
+    <property name="Pic" >
+      <column name="Pic" sql-type="nvarchar(60)" not-null="true" />      
+    </property>    
+    <property name="Count" column="Count" not-null="true"/>
+    <property name="Remark" >
+      <column name="Remark" sql-type="nvarchar(60)"  not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

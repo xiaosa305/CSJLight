@@ -164,7 +164,7 @@ namespace LightController.Xiaosa.Preview
         {
             return Group.MusicControl();
         }
-        public bool MusicControlState()
+        public bool GetMusicControlState()
         {
             return Group.MusicControlState && Group.IsMusicMode;
         }

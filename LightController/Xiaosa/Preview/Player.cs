@@ -3,7 +3,6 @@ using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using static LightController.Xiaosa.Entity.CallBackFunction;
@@ -141,7 +140,7 @@ namespace LightController.Xiaosa.Preview
         {
             return Group.MusicControl();
         }
-        public bool MusicControlState()
+        public bool GetMusicControlState()
         {
             return Group.MusicControlState && Group.IsMusicMode;
         }

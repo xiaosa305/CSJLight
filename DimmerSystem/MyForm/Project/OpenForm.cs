@@ -13,20 +13,18 @@ namespace LightController.MyForm.Project
         private MainFormBase mainForm;
         private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
         private bool isJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除
-        private string savePath;   // 辅助变量，获取软件的存储目录。
-        private string selectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单		
-        private EnumSortMethod sortMethod = EnumSortMethod.LAST_WRITE_TIME; //每次排序时按这个全局变量进行排序，可通过右侧三个按钮更改此变量；默认设为最后写入时间	
+		private EnumSortMethod sortMethod = EnumSortMethod.LAST_WRITE_TIME; //每次排序时按这个全局变量进行排序，可通过右侧三个按钮更改此变量；默认设为最后写入时间	
+		public string SavePath;   // 辅助变量，获取软件的存储目录。
+		public string SelectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单		
 
-        public OpenForm(MainFormBase mainForm)
+		public OpenForm(MainFormBase mainForm)
         {
             InitializeComponent();
 
             this.mainForm = mainForm;
-            this.savePath = mainForm.SavePath;
-
-			changeWorkspaceButton.Visible = true;
-
-            //MARK 只开单场景：00.1 OpenForm加场景选择
+            this.SavePath = mainForm.SavePath;
+						
+            //加初始场景选择（避免大工程打开了很大的场景）
             for (int sceneIndex = 0; sceneIndex < MainFormBase.AllSceneList.Count; sceneIndex++)
             {
                 sceneComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
@@ -88,7 +86,7 @@ namespace LightController.MyForm.Project
 			if (dr == DialogResult.OK)
 			{
 				//ＭARK1124: 只是在打开工程时更改工作目录，不应该直接应用到mainForm中，应该当真正打开工程才执行此项操作
-				savePath = wsFolderBrowserDialog.SelectedPath;
+				SavePath = wsFolderBrowserDialog.SelectedPath;
 				RefreshDirTreeView();
 			}
 		}
@@ -108,17 +106,15 @@ namespace LightController.MyForm.Project
 			}
 
 			string projectName = projectTreeView.SelectedNode.Text;
-			if (!string.IsNullOrEmpty(projectName))
-			{	
-				//mainForm.OpenProject(savePath, projectName, sceneComboBox.SelectedIndex);
-				Dispose();
-				mainForm.Activate();
-			}
-			else
+			if (string.IsNullOrEmpty(projectName))
 			{
 				MessageBox.Show(LanguageHelper.TranslateSentence("请选择要打开的工程"));
-				return;
+				return;			
 			}
+						
+			mainForm.OpenProject(SavePath, projectName, sceneComboBox.SelectedIndex);
+			Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -126,7 +122,7 @@ namespace LightController.MyForm.Project
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void treeView1_DoubleClick(object sender, EventArgs e)
+		private void projectTreeView_DoubleClick(object sender, EventArgs e)
 		{
 			MouseEventArgs me = e as MouseEventArgs;
 			if (me.Button == MouseButtons.Left)
@@ -168,7 +164,7 @@ namespace LightController.MyForm.Project
 				return;
 			}
 
-			string directoryPath = savePath + @"\LightProject\" + projectName;
+			string directoryPath = SavePath + @"\LightProject\" + projectName;
 			DirectoryInfo di = new DirectoryInfo(directoryPath);
 
 			// 2.删除目录
@@ -193,7 +189,7 @@ namespace LightController.MyForm.Project
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -202,17 +198,19 @@ namespace LightController.MyForm.Project
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		private void projectTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			this.isJustDelete = false;
+			isJustDelete = false;
 		}
 
-		/// <summary>
-		/// 事件： 选中某个节点后，可以弹出右键菜单（不在此处过滤是否打开文件，因为复制工程可以是使用中的工程）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        #region 重命名或复制工程
+
+        /// <summary>
+        /// 事件： 选中某个节点后，可以弹出右键菜单（不在此处过滤是否打开文件，因为复制工程可以是使用中的工程）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void projectTreeView_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)//判断你点的是不是右键
 			{
@@ -221,40 +219,49 @@ namespace LightController.MyForm.Project
 				if (CurrentNode != null)//判断你点的是不是一个节点
 				{
 					projectTreeView.SelectedNode = CurrentNode;//选中这个节点
-					selectedProjectName = projectTreeView.SelectedNode.Text;
+					SelectedProjectName = projectTreeView.SelectedNode.Text;
 					CurrentNode.ContextMenuStrip = myContextMenuStrip;
 				}
 			}
 		}
 
 		/// <summary>
-		/// 事件：点击《右键->工程重命名》 
-		///  -- 弹出一个新名称窗口，输入新名称，点击确定可以重命名，并刷新当前的treeView1
+		/// 事件：点击《右键-》工程重命名》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void renameToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (SelectedProjectName.Equals(currentProjectName))
+			{
+				MessageBox.Show(LanguageHelper.TranslateSentence("无法重命名当前打开的工程。"));
+			}
+			else
+			{
+				// 这里用到了形参默认值的方法，在没有设置的情况下，copy值默认为false（重命名）
+				new RenameOrCopyForm(this).ShowDialog();
+			}
+		}
 
-        }
-
-        /// <summary>
-        ///  事件：点击《右键->复制工程》
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void copyProjectToolStripMenuItem_Click(object sender, EventArgs e)
+		/// <summary>
+		///  事件：点击《右键->工程复制》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void copyProjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			new RenameOrCopyForm(this, true).ShowDialog();
+		}
 
-        }
+		#endregion
 
-        /// <summary>
-        /// 辅助方法：刷新treeView1的节点列表
-        /// </summary>
-        internal void RefreshDirTreeView()
+		/// <summary>
+		/// 辅助方法：刷新projectTreeView的节点列表（初始化、更改工作目录、更改排序方式*3 = 5处调用）
+		/// </summary>
+		internal void RefreshDirTreeView()
 		{
 			projectTreeView.Nodes.Clear();
-			string path = savePath + @"\LightProject";
+			string path = SavePath + @"\LightProject";
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);

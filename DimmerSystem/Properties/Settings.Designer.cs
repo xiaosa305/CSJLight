@@ -22,5 +22,53 @@ namespace LightController.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int protocolIndex {
+            get {
+                return ((int)(this["protocolIndex"]));
+            }
+            set {
+                this["protocolIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool updateExported {
+            get {
+                return ((bool)(this["updateExported"]));
+            }
+            set {
+                this["updateExported"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string xbinPath {
+            get {
+                return ((string)(this["xbinPath"]));
+            }
+            set {
+                this["xbinPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string exportProjectPath {
+            get {
+                return ((string)(this["exportProjectPath"]));
+            }
+            set {
+                this["exportProjectPath"] = value;
+            }
+        }
     }
 }

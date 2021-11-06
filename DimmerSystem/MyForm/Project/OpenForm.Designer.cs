@@ -72,6 +72,8 @@ namespace LightController.MyForm.Project
             this.projectTreeView.Name = "projectTreeView";
             this.projectTreeView.Size = new System.Drawing.Size(200, 228);
             this.projectTreeView.TabIndex = 3;
+            this.projectTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.projectTreeView_NodeMouseClick);
+            this.projectTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.projectTreeView_MouseDown);
             // 
             // changeWorkspaceButton
             // 
@@ -210,9 +212,6 @@ namespace LightController.MyForm.Project
             this.sceneComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sceneComboBox.ForeColor = System.Drawing.Color.White;
             this.sceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.sceneComboBox.Items.AddRange(new object[] {
-            "激情（01）",
-            "柔和（02）"});
             this.sceneComboBox.Location = new System.Drawing.Point(88, 273);
             this.sceneComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.sceneComboBox.MinimumSize = new System.Drawing.Size(63, 0);
@@ -224,7 +223,6 @@ namespace LightController.MyForm.Project
             this.sceneComboBox.Size = new System.Drawing.Size(165, 20);
             this.sceneComboBox.Style = Sunny.UI.UIStyle.Custom;
             this.sceneComboBox.TabIndex = 6;
-            this.sceneComboBox.Text = "激情（01）";
             this.sceneComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // myContextMenuStrip
@@ -240,12 +238,14 @@ namespace LightController.MyForm.Project
             this.renameButton.Name = "renameButton";
             this.renameButton.Size = new System.Drawing.Size(180, 22);
             this.renameButton.Text = "工程重命名";
+            this.renameButton.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // copyButton
             // 
             this.copyButton.Name = "copyButton";
             this.copyButton.Size = new System.Drawing.Size(180, 22);
             this.copyButton.Text = "工程复制";
+            this.copyButton.Click += new System.EventHandler(this.copyProjectToolStripMenuItem_Click);
             // 
             // OpenForm
             // 

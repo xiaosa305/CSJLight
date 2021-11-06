@@ -50,7 +50,7 @@ namespace LightController.MyForm.Project
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(270, 144);
+            this.panel1.Size = new System.Drawing.Size(270, 145);
             this.panel1.TabIndex = 0;
             // 
             // uiTextBox1
@@ -153,7 +153,7 @@ namespace LightController.MyForm.Project
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.ClientSize = new System.Drawing.Size(270, 179);
+            this.ClientSize = new System.Drawing.Size(270, 180);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("黑体", 9F);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));

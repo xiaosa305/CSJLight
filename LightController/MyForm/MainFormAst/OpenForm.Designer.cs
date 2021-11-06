@@ -204,11 +204,15 @@ namespace LightController.MyForm
 			// 
 			// wsFolderBrowserDialog
 			// 
-			this.wsFolderBrowserDialog.Description = LanguageHelper.TranslateSentence( "本功能只在此次软件运行期间有效，主要供高级用户调试使用。在打开[导出的工程]之后，请勿随意更改工程或编辑灯具。");
-			// 
-			// OpenForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.wsFolderBrowserDialog.Description =
+				//LanguageHelper.TranslateSentence(
+					"本功能只在此次软件运行期间有效，主要供高级用户调试使用。在打开[导出的工程]之后，请勿随意更改工程或编辑灯具。"
+                //)
+                ;
+            // 
+            // OpenForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(334, 331);

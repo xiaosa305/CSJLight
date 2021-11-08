@@ -29,6 +29,7 @@ namespace LightController.MyForm.Project
             sceneComboBox.SelectedIndex = mainForm.CurrentScene;
 
         }
+
         private void NewForm_Load(object sender, EventArgs e)
         {
             Location = MousePosition;
@@ -119,5 +120,6 @@ namespace LightController.MyForm.Project
 				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
+	
 	}
 }

@@ -81,9 +81,6 @@ namespace LightController.MyForm.Project
             this.sceneComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sceneComboBox.ForeColor = System.Drawing.Color.White;
             this.sceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.sceneComboBox.Items.AddRange(new object[] {
-            "激情（01）",
-            "柔和（02）"});
             this.sceneComboBox.Location = new System.Drawing.Point(94, 58);
             this.sceneComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.sceneComboBox.MinimumSize = new System.Drawing.Size(63, 0);
@@ -95,7 +92,6 @@ namespace LightController.MyForm.Project
             this.sceneComboBox.Size = new System.Drawing.Size(157, 20);
             this.sceneComboBox.Style = Sunny.UI.UIStyle.Custom;
             this.sceneComboBox.TabIndex = 10;
-            this.sceneComboBox.Text = "激情（01）";
             this.sceneComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // cancelButton
@@ -159,6 +155,7 @@ namespace LightController.MyForm.Project
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("黑体", 9F);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.HelpButton = true;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1536, 800);
@@ -169,6 +166,7 @@ namespace LightController.MyForm.Project
             this.Text = "新建工程";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.NewForm_HelpButtonClicked);
             this.Load += new System.EventHandler(this.NewForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -172,6 +172,12 @@
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
+    <Compile Include="MyForm\Project\GlobalSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Project\GlobalSetForm.Designer.cs">
+      <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Project\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,24 @@
     </Compile>
     <Compile Include="MyForm\Project\RenameOrCopyForm.Designer.cs">
       <DependentUpon>RenameOrCopyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Project\SKForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Project\SKForm.Designer.cs">
+      <DependentUpon>SKForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\AppendStepsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\AppendStepsForm.Designer.cs">
+      <DependentUpon>AppendStepsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\DeleteStepsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DeleteStepsForm.Designer.cs">
+      <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -216,6 +240,9 @@
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Project\GlobalSetForm.resx">
+      <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Project\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,6 +251,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Project\RenameOrCopyForm.resx">
       <DependentUpon>RenameOrCopyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Project\SKForm.resx">
+      <DependentUpon>SKForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\AppendStepsForm.resx">
+      <DependentUpon>AppendStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DeleteStepsForm.resx">
+      <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

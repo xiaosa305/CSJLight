@@ -96,9 +96,9 @@
             this.prevButton = new Sunny.UI.UISymbolButton();
             this.sceneComboBox = new Sunny.UI.UIComboBox();
             this.protocolComboBox = new Sunny.UI.UIComboBox();
-            this.uiLabel5 = new Sunny.UI.UILabel();
+            this.protocolLabel = new Sunny.UI.UILabel();
             this.stepLabel = new Sunny.UI.UILabel();
-            this.uiLabel4 = new Sunny.UI.UILabel();
+            this.sceneLabel = new Sunny.UI.UILabel();
             this.tdPanel = new System.Windows.Forms.Panel();
             this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tdPanelDemo = new System.Windows.Forms.Panel();
@@ -128,9 +128,9 @@
             this.openButton = new Sunny.UI.UISymbolButton();
             this.linePanel = new System.Windows.Forms.Panel();
             this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.myToolTip = new Sunny.UI.UIToolTip(this.components);
             this.astPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).BeginInit();
             this.menuPanel.SuspendLayout();
@@ -657,6 +657,7 @@
             this.globalSetButton.Text = "工程全局";
             this.globalSetButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.globalSetButton.WaitOnLoad = true;
+            this.globalSetButton.Click += new System.EventHandler(this.globalSetButton_Click);
             // 
             // previewButton1
             // 
@@ -927,10 +928,11 @@
             this.stepPanel.Controls.Add(this.prevButton);
             this.stepPanel.Controls.Add(this.sceneComboBox);
             this.stepPanel.Controls.Add(this.protocolComboBox);
-            this.stepPanel.Controls.Add(this.uiLabel5);
+            this.stepPanel.Controls.Add(this.protocolLabel);
             this.stepPanel.Controls.Add(this.stepLabel);
-            this.stepPanel.Controls.Add(this.uiLabel4);
+            this.stepPanel.Controls.Add(this.sceneLabel);
             this.stepPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.stepPanel.Enabled = false;
             this.stepPanel.Location = new System.Drawing.Point(0, 277);
             this.stepPanel.Name = "stepPanel";
             this.stepPanel.Size = new System.Drawing.Size(1035, 82);
@@ -958,6 +960,7 @@
             this.chooseStepButton.Style = Sunny.UI.UIStyle.Custom;
             this.chooseStepButton.TabIndex = 14;
             this.chooseStepButton.Text = "->";
+            this.chooseStepButton.Click += new System.EventHandler(this.chooseStepButton_Click);
             // 
             // chooseStepNumericUpDown
             // 
@@ -1146,6 +1149,8 @@
             this.nextButton.Symbol = 61;
             this.nextButton.TabIndex = 6;
             this.nextButton.Text = "下一步";
+            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
+            this.nextButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepButton_MouseDown);
             // 
             // copySceneButton
             // 
@@ -1197,6 +1202,8 @@
             this.deleteButton.Symbol = 61;
             this.deleteButton.TabIndex = 6;
             this.deleteButton.Text = "删除步";
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            this.deleteButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deleteButton_MouseDown);
             // 
             // appendButton
             // 
@@ -1224,6 +1231,8 @@
             this.appendButton.Symbol = 61;
             this.appendButton.TabIndex = 6;
             this.appendButton.Text = "追加步";
+            this.appendButton.Click += new System.EventHandler(this.appendButton_Click);
+            this.appendButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.appendButton_MouseDown);
             // 
             // insertButton
             // 
@@ -1251,6 +1260,8 @@
             this.insertButton.Symbol = 61;
             this.insertButton.TabIndex = 6;
             this.insertButton.Text = "插入步";
+            this.insertButton.Click += new System.EventHandler(this.insertButton_Click);
+            this.insertButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.insertButton_MouseDown);
             // 
             // prevButton
             // 
@@ -1278,6 +1289,8 @@
             this.prevButton.Symbol = 61;
             this.prevButton.TabIndex = 6;
             this.prevButton.Text = "上一步";
+            this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
+            this.prevButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.prevButton_MouseDown);
             // 
             // sceneComboBox
             // 
@@ -1335,44 +1348,44 @@
             this.protocolComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             this.protocolComboBox.SelectedIndexChanged += new System.EventHandler(this.protocolComboBox_SelectedIndexChanged);
             // 
-            // uiLabel5
+            // protocolLabel
             // 
-            this.uiLabel5.AutoSize = true;
-            this.uiLabel5.Font = new System.Drawing.Font("黑体", 9F);
-            this.uiLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.uiLabel5.Location = new System.Drawing.Point(36, 17);
-            this.uiLabel5.Name = "uiLabel5";
-            this.uiLabel5.Size = new System.Drawing.Size(41, 12);
-            this.uiLabel5.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabel5.TabIndex = 7;
-            this.uiLabel5.Text = "协议：";
-            this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.protocolLabel.AutoSize = true;
+            this.protocolLabel.Font = new System.Drawing.Font("黑体", 9F);
+            this.protocolLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.protocolLabel.Location = new System.Drawing.Point(36, 17);
+            this.protocolLabel.Name = "protocolLabel";
+            this.protocolLabel.Size = new System.Drawing.Size(41, 12);
+            this.protocolLabel.Style = Sunny.UI.UIStyle.Custom;
+            this.protocolLabel.TabIndex = 7;
+            this.protocolLabel.Text = "协议：";
+            this.protocolLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // stepLabel
             // 
             this.stepLabel.AutoSize = true;
             this.stepLabel.Font = new System.Drawing.Font("黑体", 9F);
             this.stepLabel.ForeColor = System.Drawing.Color.White;
-            this.stepLabel.Location = new System.Drawing.Point(534, 20);
+            this.stepLabel.Location = new System.Drawing.Point(516, 20);
             this.stepLabel.Name = "stepLabel";
-            this.stepLabel.Size = new System.Drawing.Size(23, 12);
+            this.stepLabel.Size = new System.Drawing.Size(41, 12);
             this.stepLabel.Style = Sunny.UI.UIStyle.Custom;
             this.stepLabel.TabIndex = 7;
-            this.stepLabel.Text = "0/0";
+            this.stepLabel.Text = "   0/0";
             this.stepLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // uiLabel4
+            // sceneLabel
             // 
-            this.uiLabel4.AutoSize = true;
-            this.uiLabel4.Font = new System.Drawing.Font("黑体", 9F);
-            this.uiLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.uiLabel4.Location = new System.Drawing.Point(36, 47);
-            this.uiLabel4.Name = "uiLabel4";
-            this.uiLabel4.Size = new System.Drawing.Size(41, 12);
-            this.uiLabel4.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabel4.TabIndex = 7;
-            this.uiLabel4.Text = "场景：";
-            this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.sceneLabel.AutoSize = true;
+            this.sceneLabel.Font = new System.Drawing.Font("黑体", 9F);
+            this.sceneLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sceneLabel.Location = new System.Drawing.Point(36, 47);
+            this.sceneLabel.Name = "sceneLabel";
+            this.sceneLabel.Size = new System.Drawing.Size(41, 12);
+            this.sceneLabel.Style = Sunny.UI.UIStyle.Custom;
+            this.sceneLabel.TabIndex = 7;
+            this.sceneLabel.Text = "场景：";
+            this.sceneLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tdPanel
             // 
@@ -1609,7 +1622,7 @@
             this.uiLabel1.AutoSize = true;
             this.uiLabel1.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel1.ForeColor = System.Drawing.Color.Silver;
-            this.uiLabel1.Location = new System.Drawing.Point(23, 19);
+            this.uiLabel1.Location = new System.Drawing.Point(24, 19);
             this.uiLabel1.Name = "uiLabel1";
             this.uiLabel1.Size = new System.Drawing.Size(53, 12);
             this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
@@ -1674,7 +1687,7 @@
             this.closeButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.closeButton.Image = global::LightController.Properties.Resources.关闭工程;
             this.closeButton.ImageInterval = 20;
-            this.closeButton.Location = new System.Drawing.Point(14, 509);
+            this.closeButton.Location = new System.Drawing.Point(16, 509);
             this.closeButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.closeButton.Name = "closeButton";
             this.closeButton.Radius = 12;
@@ -1689,6 +1702,7 @@
             this.closeButton.TabIndex = 1;
             this.closeButton.Text = "关闭工程";
             this.closeButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // exportButton
             // 
@@ -1703,7 +1717,7 @@
             this.exportButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.exportButton.Image = global::LightController.Properties.Resources.导出工程;
             this.exportButton.ImageInterval = 20;
-            this.exportButton.Location = new System.Drawing.Point(14, 420);
+            this.exportButton.Location = new System.Drawing.Point(16, 420);
             this.exportButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.exportButton.Name = "exportButton";
             this.exportButton.Radius = 12;
@@ -1732,7 +1746,7 @@
             this.saveSceneButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.saveSceneButton.Image = global::LightController.Properties.Resources.保存场景;
             this.saveSceneButton.ImageInterval = 20;
-            this.saveSceneButton.Location = new System.Drawing.Point(14, 331);
+            this.saveSceneButton.Location = new System.Drawing.Point(16, 331);
             this.saveSceneButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.saveSceneButton.Name = "saveSceneButton";
             this.saveSceneButton.Radius = 12;
@@ -1761,7 +1775,7 @@
             this.saveButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.saveButton.Image = global::LightController.Properties.Resources.保存工程;
             this.saveButton.ImageInterval = 20;
-            this.saveButton.Location = new System.Drawing.Point(14, 242);
+            this.saveButton.Location = new System.Drawing.Point(16, 242);
             this.saveButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Radius = 12;
@@ -1792,7 +1806,7 @@
             this.newButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.newButton.Image = global::LightController.Properties.Resources.新建工程;
             this.newButton.ImageInterval = 20;
-            this.newButton.Location = new System.Drawing.Point(14, 153);
+            this.newButton.Location = new System.Drawing.Point(16, 153);
             this.newButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.newButton.Name = "newButton";
             this.newButton.Radius = 12;
@@ -1821,7 +1835,7 @@
             this.openButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.openButton.Image = global::LightController.Properties.Resources.打开工程;
             this.openButton.ImageInterval = 40;
-            this.openButton.Location = new System.Drawing.Point(14, 65);
+            this.openButton.Location = new System.Drawing.Point(16, 65);
             this.openButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.openButton.Name = "openButton";
             this.openButton.Radius = 12;
@@ -1847,13 +1861,6 @@
             this.linePanel.Size = new System.Drawing.Size(1366, 1);
             this.linePanel.TabIndex = 11;
             // 
-            // myToolTip
-            // 
-            this.myToolTip.AutoPopDelay = 5000;
-            this.myToolTip.InitialDelay = 600;
-            this.myToolTip.IsBalloon = true;
-            this.myToolTip.ReshowDelay = 100;
-            // 
             // exportFolderBrowserDialog
             // 
             this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\\\"CSJ\\\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
@@ -1861,6 +1868,16 @@
             // exportSourceBrowserDialog
             // 
             this.exportSourceBrowserDialog.Description = "即将为您导出当前工程的源文件，并压缩为Source.zip；请选择导出目录。";
+            // 
+            // myToolTip
+            // 
+            this.myToolTip.AutoPopDelay = 10000;
+            this.myToolTip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
+            this.myToolTip.Font = new System.Drawing.Font("黑体", 9F);
+            this.myToolTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.myToolTip.InitialDelay = 500;
+            this.myToolTip.OwnerDraw = true;
+            this.myToolTip.ReshowDelay = 100;
             // 
             // MainFormBase
             // 
@@ -1966,8 +1983,8 @@
         private Sunny.UI.UISymbolButton nextButton;
         private Sunny.UI.UISymbolButton prevButton;
         private Sunny.UI.UIComboBox protocolComboBox;
-        private Sunny.UI.UILabel uiLabel5;
-        private Sunny.UI.UILabel uiLabel4;
+        private Sunny.UI.UILabel protocolLabel;
+        private Sunny.UI.UILabel sceneLabel;
         private Sunny.UI.UILabel stepLabel;
         private Sunny.UI.UISymbolButton deleteButton;
         private Sunny.UI.UISymbolButton appendButton;
@@ -2018,7 +2035,6 @@
         private System.Windows.Forms.Label saLabelDemo;
         private System.Windows.Forms.Label tdNoLabelDemo;
         private Sunny.UI.UIButton uiButton1;
-        private System.Windows.Forms.ToolTip myToolTip;
         private System.Windows.Forms.ContextMenuStrip myContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem refreshPicToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
@@ -2029,5 +2045,6 @@
         private System.Windows.Forms.ToolStripMenuItem showSaPanelsToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog exportFolderBrowserDialog;
         private System.Windows.Forms.FolderBrowserDialog exportSourceBrowserDialog;
+        private Sunny.UI.UIToolTip myToolTip;
     }
 }

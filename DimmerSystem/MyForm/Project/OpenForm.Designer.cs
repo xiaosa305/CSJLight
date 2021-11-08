@@ -73,6 +73,7 @@ namespace LightController.MyForm.Project
             this.projectTreeView.Size = new System.Drawing.Size(200, 228);
             this.projectTreeView.TabIndex = 3;
             this.projectTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.projectTreeView_NodeMouseClick);
+            this.projectTreeView.DoubleClick += new System.EventHandler(this.projectTreeView_DoubleClick);
             this.projectTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.projectTreeView_MouseDown);
             // 
             // changeWorkspaceButton
@@ -231,19 +232,19 @@ namespace LightController.MyForm.Project
             this.renameButton,
             this.copyButton});
             this.myContextMenuStrip.Name = "contextMenuStrip1";
-            this.myContextMenuStrip.Size = new System.Drawing.Size(181, 70);
+            this.myContextMenuStrip.Size = new System.Drawing.Size(137, 48);
             // 
             // renameButton
             // 
             this.renameButton.Name = "renameButton";
-            this.renameButton.Size = new System.Drawing.Size(180, 22);
+            this.renameButton.Size = new System.Drawing.Size(136, 22);
             this.renameButton.Text = "工程重命名";
             this.renameButton.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // copyButton
             // 
             this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(180, 22);
+            this.copyButton.Size = new System.Drawing.Size(136, 22);
             this.copyButton.Text = "工程复制";
             this.copyButton.Click += new System.EventHandler(this.copyProjectToolStripMenuItem_Click);
             // 

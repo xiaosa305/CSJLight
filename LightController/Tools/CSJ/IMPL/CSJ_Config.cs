@@ -194,139 +194,132 @@ namespace LightController.Tools.CSJ.IMPL
                 CombineScenes.Add(Data);
             }
             StreamReader Reader = StreamReader.Null;
-            try
+            using (Reader = new StreamReader(FilePath))
             {
-                using (Reader = new StreamReader(FilePath))
+                lineStr = Reader.ReadLine();
+                if (lineStr.Equals("[QD]"))
+                {
+                    for (int i = 0; i < 24; i++)
+                    {
+                        Reader.ReadLine();
+                    }
+
+                    lineStr = Reader.ReadLine();
+                }
+                if (lineStr.Equals("[Set]"))
+                {
+                    strValue = (Reader.ReadLine().Split('='))[1];
+                    int.TryParse(strValue, out intValue);
+                    DMX512_Chanel_Count = intValue;
+                    strValue = (Reader.ReadLine().Split('='))[1];
+                    int.TryParse(strValue, out intValue);
+                    Default_Scene_Number = intValue;
+                    strValue = (Reader.ReadLine().Split('='))[1];
+                    int.TryParse(strValue, out intValue);
+                    TimeFactory = intValue;
+                    strValue = (Reader.ReadLine().Split('='))[1];
+                    int.TryParse(strValue, out intValue);
+                    Scene_Change_Mode = intValue;
+                    lineStr = Reader.ReadLine();
+                }
+                if (lineStr.Equals("[Multiple]"))
                 {
                     lineStr = Reader.ReadLine();
-                    if (lineStr.Equals("[QD]"))
+                    do
                     {
-                        for (int i = 0; i < 24; i++)
+                        CombineScene combine_Scene = new CombineScene();
+                        //获取主场景编号
+                        if (lineStr[1] >= '0' && lineStr[1] <= '9')
                         {
-                            Reader.ReadLine();
+                            strValue = lineStr[0].ToString() + lineStr[1].ToString() + "";
                         }
-
+                        else
+                        {
+                            strValue = lineStr[0] + "";
+                        }
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Main_Number = intValue;
+                        //获取场景组合播放开启状态
+                        strValue = (lineStr.Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Combine_Scene_Enable = intValue;
+                        //获取连播次数
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Count = intValue;
+                        //获取主场景播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Main_Scene = intValue;
+                        //获取副场景1编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_One_Number = intValue;
+                        //获取副场景1播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_One = intValue;
+                        //获取副场景2编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Two_Number = intValue;
+                        //获取副场景2播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_Two = intValue;
+                        //获取副场景3编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Three_Number = intValue;
+                        //获取副场景3播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_Three = intValue;
+                        //获取副场景4编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Four_Number = intValue;
+                        //获取副场景4播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_Four = intValue;
+                        //将场景组合播放数据进行存放
+                        if (combine_Scene.Scene_Main_Number < GlobalSetForm.MULTI_SCENE_COUNT && combine_Scene.Scene_Main_Number >= 0)
+                        {
+                            CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
+                        }
+                        //读取下一条是否为下一个场景组合数据，不是则结束循环
+                        lineStr = Reader.ReadLine();
+                    } while (!lineStr.Equals("[SK]"));
+                    //添加音频功能开启状态
+                    for (int i = 0; i < 32; i++)
+                    {
+                        lineStr = Reader.ReadLine();
+                        strValue = lineStr.Split('=')[1];
+                        if (strValue.Length > 0)
+                        {
+                            Music_Control_Enable.Add(1);
+                        }
+                        else
+                        {
+                            Music_Control_Enable.Add(0);
+                        }
+                        lineStr = Reader.ReadLine();
                         lineStr = Reader.ReadLine();
                     }
-                    if (lineStr.Equals("[Set]"))
+                    //读取灯具数据
+                    foreach (DB_Light value in DB_Lights)
                     {
-                        strValue = (Reader.ReadLine().Split('='))[1];
-                        int.TryParse(strValue, out intValue);
-                        DMX512_Chanel_Count = intValue;
-                        strValue = (Reader.ReadLine().Split('='))[1];
-                        int.TryParse(strValue, out intValue);
-                        Default_Scene_Number = intValue;
-                        strValue = (Reader.ReadLine().Split('='))[1];
-                        int.TryParse(strValue, out intValue);
-                        TimeFactory = intValue;
-                        strValue = (Reader.ReadLine().Split('='))[1];
-                        int.TryParse(strValue, out intValue);
-                        Scene_Change_Mode = intValue;
-                        lineStr = Reader.ReadLine();
+                        LightInfo config_Light = new LightInfo
+                        {
+                            Light_Number = value.LightID,
+                            Start_Address = value.LightID,
+                            Chanel_Count = value.Count
+                        };
+                        LightInfos.Add(config_Light);
                     }
-                    if (lineStr.Equals("[Multiple]"))
-                    {
-                        lineStr = Reader.ReadLine();
-                        do
-                        {
-                            CombineScene combine_Scene = new CombineScene();
-                            //获取主场景编号
-                            if (lineStr[1] >= '0' && lineStr[1] <= '9')
-                            {
-                                strValue = lineStr[0].ToString() + lineStr[1].ToString() + "";
-                            }
-                            else
-                            {
-                                strValue = lineStr[0] + "";
-                            }
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Main_Number = intValue;
-                            //获取场景组合播放开启状态
-                            strValue = (lineStr.Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Combine_Scene_Enable = intValue;
-                            //获取连播次数
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Count = intValue;
-                            //获取主场景播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Main_Scene = intValue;
-                            //获取副场景1编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_One_Number = intValue;
-                            //获取副场景1播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_One = intValue;
-                            //获取副场景2编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Two_Number = intValue;
-                            //获取副场景2播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_Two = intValue;
-                            //获取副场景3编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Three_Number = intValue;
-                            //获取副场景3播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_Three = intValue;
-                            //获取副场景4编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Four_Number = intValue;
-                            //获取副场景4播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_Four = intValue;
-                            //将场景组合播放数据进行存放
-                            if (combine_Scene.Scene_Main_Number < GlobalSetForm.MULTI_SCENE_COUNT && combine_Scene.Scene_Main_Number >= 0)
-                            {
-                                CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
-                            }
-                            //读取下一条是否为下一个场景组合数据，不是则结束循环
-                            lineStr = Reader.ReadLine();
-                        } while (!lineStr.Equals("[SK]"));
-                        //添加音频功能开启状态
-                        for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
-                        {
-                            lineStr = Reader.ReadLine();
-                            strValue = lineStr.Split('=')[1];
-                            if (strValue.Length > 0)
-                            {
-                                Music_Control_Enable.Add(1);
-                            }
-                            else
-                            {
-                                Music_Control_Enable.Add(0);
-                            }
-                            lineStr = Reader.ReadLine();
-                            lineStr = Reader.ReadLine();
-                        }
-                        //读取灯具数据
-                        foreach (DB_Light value in DB_Lights)
-                        {
-                            LightInfo config_Light = new LightInfo
-                            {
-                                Light_Number = value.LightID,
-                                Start_Address = value.LightID,
-                                Chanel_Count = value.Count
-                            };
-                            LightInfos.Add(config_Light);
-                        }
-                        Light_Total_Count = LightInfos.Count;
-                    }
+                    Light_Total_Count = LightInfos.Count;
                 }
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex, "全局配置文件读取失败");
             }
         }
     }

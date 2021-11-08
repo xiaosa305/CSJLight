@@ -80,7 +80,7 @@ namespace LightController.PeripheralDevice
 
         private void SendCallBack(IAsyncResult async)
         {
-            CommandLogUtils.GetInstance().Enqueue("搜索包发送完成");
+            ;
         }
 
         private void NetworkReceive(IAsyncResult asyncResult)
@@ -103,7 +103,6 @@ namespace LightController.PeripheralDevice
                 }
                 if (count <= 0)
                 {
-                    CommandLogUtils.GetInstance().Enqueue("设备断开");
                     return;
                 }
                 else
@@ -126,9 +125,8 @@ namespace LightController.PeripheralDevice
                     Server.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, this.NetworkReceive, connect);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "网络设备已断开或网络接收模块发生异常", ex);
             }
         }
     }

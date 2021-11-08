@@ -70,12 +70,10 @@ namespace LightController.PeripheralDevice
                 this.TCPServerReceiveThread = new Thread(TCPServerReceive) { IsBackground = true };
                 this.IsReceive = true;
                 this.TCPServerReceiveThread.Start();
-                LogTools.Debug(Constant.TAG_XIAOSA, "连接设备成功!");
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "设备链接超时", ex);
                 return false;
             }
         }
@@ -132,9 +130,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA,"TCP接收消息异常", ex);
             }
         }
 
@@ -163,9 +160,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络连接失败", ex);
             }
         }
 
@@ -194,9 +190,8 @@ namespace LightController.PeripheralDevice
             {
                 SeachDeviceUtils.GetInstance().SearchDevice(localIP);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "搜索设备失败", ex);
             }
         }
         /// <summary>

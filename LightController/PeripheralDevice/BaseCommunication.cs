@@ -136,7 +136,6 @@ namespace LightController.PeripheralDevice
             {
                 this.IsStopThread = true;
                 this.IsSending = false;
-                LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
                 this.CommandFailed("通信超时，设备未响应，请重新连接设备");
                 this.CloseTransactionTimer();
             }
@@ -146,7 +145,6 @@ namespace LightController.PeripheralDevice
         /// </summary>
         protected void StartTimeOut()
         {
-            //LogTools.Debug(Constant.TAG_XIAOSA, "启动超时处理定时器");
             if (this.TimeOutTimer == null)
             {
                 this.TimeOutTimer = new System.Timers.Timer(TIMEOUT);
@@ -162,7 +160,6 @@ namespace LightController.PeripheralDevice
         {
             if (TimeOutTimer != null)
             {
-                //LogTools.Debug(Constant.TAG_XIAOSA, "关闭超时定时器");
                 TimeOutTimer.Stop();
             }
         }
@@ -421,7 +418,6 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
-            //CommandLogUtils.GetInstance().Enqueue("ORDER ::::  MainOrder: " + this.MainOrder + ";   SecondOrder:" + this.SecondOrder + ";   PackageIndex：" + this.PackIndex + ";    PackageCount" + this.PackCount + "\n");
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -452,7 +448,6 @@ namespace LightController.PeripheralDevice
             {
                 byte[] crc = CRCTools.GetInstance().GetLightControlCRC(packData.ToArray());
                 packData.AddRange(crc);
-                //LogTools.Debug(Constant.TAG_XIAOSA, "CurrentPack:" + this.PackIndex + ",PackCount:" + this.PackCount + "，CurrentPackSize:" + packData.Count);
             }
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
@@ -472,7 +467,6 @@ namespace LightController.PeripheralDevice
             {
                 this.CurrentDownloadCompletedSize += packData.Count();
             }
-            CommandLogUtils.GetInstance().Enqueue("DATA ::::  MainOrder: " + this.MainOrder + ";   SecondOrder:" + this.SecondOrder + ";   PackageIndex：" + this.PackIndex + ";    PackageCount" + this.PackCount + "\n");
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -874,22 +868,18 @@ namespace LightController.PeripheralDevice
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
                 this.SendData();
-                LogTools.Debug(Constant.TAG_XIAOSA, Constant.RECEIVE_ORDER_PUT);
 
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
             {
-                //this.IsDone = true;
                 this.IsStartCopy = false;
                 this.IsSending = false;
                 this.IsDone = false;
                 this.Completed_Event(null, "中控设备关闭解码模式成功");
-                //LogTools.Debug(Constant.TAG_XIAOSA, "中控设备关闭解码模式成功");
             }
             else
             {
                 this.Error_Event("中控设备关闭解码模式失败");
-                LogTools.Debug(Constant.TAG_XIAOSA, "中控设备关闭解码模式失败");
             }
         }
         /// <summary>
@@ -1050,7 +1040,6 @@ namespace LightController.PeripheralDevice
 				this.IsStopThread = false;
 				this.Completed_Event = completed;
 				this.Error_Event = error;
-				//ThreadPool.QueueUserWorkItem(new WaitCallback(LightControlConnectStart), null);
 				this.LightControlConnectStart(null);
             }
             else
@@ -1079,10 +1068,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "灯控设备链接失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1093,12 +1081,10 @@ namespace LightController.PeripheralDevice
         {
             if ((!this.IsSending) && this.IsConnected())
             {
-                //this.StartTimeOut();
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(LightControlReadStart, null);
                 this.LightControlReadStart(null);
             }
             else
@@ -1126,10 +1112,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ ,data.Length.ToString()});
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "灯控设备读取数据失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1144,7 +1129,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(LightControlDownloadStart, data);
                 this.LightControlDownloadStart(data);
             }
             else
@@ -1206,10 +1190,9 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "下载数据到灯控设备失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1224,7 +1207,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Error_Event = error;
                 this.Completed_Event = completed;
-                //ThreadPool.QueueUserWorkItem(LightControlDebugStart, data);
                 this.LightControlDebugStart(data);
             }
             else
@@ -1255,10 +1237,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "发送调试数据到灯控设备失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1277,7 +1258,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlConnectStart), null);
                 this.CenterControlConnectStart(null);
             }
             else
@@ -1306,10 +1286,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "连接中控设备失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1325,7 +1304,6 @@ namespace LightController.PeripheralDevice
                 this.Completed_Event = completed;
                 this.Error_Event = error;
                 this.CopyListener_Event = copyListener;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlStartCopyStart), null);
                 CenterControlStartCopyStart(null);
             }
             else
@@ -1354,10 +1332,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "中控设备开启解码失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1402,10 +1379,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = true;
-                LogTools.Error(Constant.TAG_XIAOSA, "中控设备关闭解码失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1496,7 +1472,6 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.CommandFailed(ex.Message);
-                LogTools.Error(Constant.TAG_XIAOSA, "下载协议数据到中控设备失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1544,10 +1519,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_CONNECT, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式链接墙板设备失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1564,7 +1538,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressReadStart), null);
                 this.PassThroughKeyPressReadStart(null);
             }
             else
@@ -1593,10 +1566,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_READ, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式读取墙板设备数据失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1614,7 +1586,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressDownloadStart), entity);
                 this.PassThroughKeyPressDownloadStart(entity);
             }
             else
@@ -1677,10 +1648,9 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载配置数据到墙板设备失败", ex);
                 this.Error_Event(START_TASK_ERROR_2);
             }
         }
@@ -1712,7 +1682,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughLightControlConnectStart), null);
                 this.PassThroughLightControlConnectStart(null);
             }
         }
@@ -1730,10 +1699,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式链接灯控设备失败", ex);
             }
         }
         /// <summary>
@@ -1748,7 +1716,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(PassThroughLightControlReadStart, null);
                 this.PassThroughLightControlReadStart(null);
             }
         }
@@ -1765,10 +1732,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式读取灯控设备数据失败", ex);
             }
         }
         /// <summary>
@@ -1782,7 +1748,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(PassThroughLightControlDownloadStart, data);
                 this.PassThroughLightControlDownloadStart(data);
             }
         }
@@ -1832,10 +1797,9 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载配置数据到灯控设备失败", ex);
             }
         }
         /// <summary>
@@ -1849,7 +1813,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Error_Event = error;
                 this.Completed_Event = completed;
-                //ThreadPool.QueueUserWorkItem(PassThroughLightControlDebugStart, data);
                 this.PassThroughLightControlDebugStart(data);
             }
         }
@@ -1869,10 +1832,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式发送调试数据到灯控设备失败", ex);
             }
         }
 
@@ -1890,7 +1852,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlConnectStart), null);
                 this.PassThroughCenterControlConnectStart(null);
             }
         }
@@ -1908,10 +1869,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式链接中控设备失败", ex);
             }
         }
         /// <summary>
@@ -1926,7 +1886,6 @@ namespace LightController.PeripheralDevice
                 this.Completed_Event = completed;
                 this.Error_Event = error;
                 this.CopyListener_Event = copyListener;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlStartCopyStart), null);
                 this.PassThroughCenterControlStartCopyStart(null);
             }
         }
@@ -1944,10 +1903,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式中控设备开启解码模式失败", ex);
             }
         }
         /// <summary>
@@ -1963,7 +1921,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlStopCopyStart), null);
                 this.PassThroughCenterControlStopCopyStart(null);
             }
         }
@@ -1981,10 +1938,9 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY, data.Length.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsSending = true;
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式中控设备关闭解码模式失败", ex);
             }
         }
         /// <summary>
@@ -2001,7 +1957,6 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlDownloadStart), null);
                 this.PassThroughCenterControlDownloadStart(entity);
             }
         }
@@ -2063,7 +2018,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载协议数据到中控设备失败", ex);
+                throw ex;
             }
         }
 
@@ -2116,9 +2071,8 @@ namespace LightController.PeripheralDevice
                     this.Send(package.ToArray());
                 }
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载数据发送出现异常", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("灯光工程下载更新数据包发送中止");
@@ -2141,7 +2095,6 @@ namespace LightController.PeripheralDevice
                 this.Error_Event = error;
                 if ((!this.IsSending) && this.IsConnected())
                 {
-                    //Thread.Sleep(250);
                     this.IsSending = true;
                     this.DownloadProjectFlag = false;
                     this.CloseTransactionTimer();
@@ -2282,9 +2235,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载更新已中止", ex);
                 this.Failed("灯光工程下载更新失败");
             }
         }
@@ -2323,9 +2275,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("更新硬件配置任务启动失败");
@@ -2341,7 +2292,6 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.PUT_PARAM;
-                //ICSJFile hardWareFile = new CSJ_Hardware(putParamData.FilePath);
                 ICSJFile hardWareFile = putParamData.Hardware;
                 byte[] data = hardWareFile.GetData();
                 string fileName = @"Hardware.bin";
@@ -2390,9 +2340,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("更新硬件配置任务启动失败");
@@ -2416,9 +2365,8 @@ namespace LightController.PeripheralDevice
                 string fileCrc = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                 this.SendOrder(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置信息失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event(START_TASK_ERROR_2);
@@ -2460,9 +2408,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "读取硬件配置任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("读取硬件配置信息任务启动失败");
@@ -2481,9 +2428,8 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.GET_PARAM;
                 this.SendOrder(null, Constant.ORDER_GET_PARAM, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "读取硬件配置信息失败",ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event(START_TASK_ERROR_2);
@@ -2525,9 +2471,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "升级硬件系统任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("升级硬件系统任务启动失败");
@@ -2559,9 +2504,8 @@ namespace LightController.PeripheralDevice
                     this.SendOrder(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA,"升级硬件系统失败",ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event(START_TASK_ERROR_2);
@@ -2715,9 +2659,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "获取固件版本任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("获取固件版本任务启动失败");
@@ -2736,9 +2679,8 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.GET_FIRMWARE_VERSION;
                 this.SendOrder(null, Constant.ORDER_GET_FIRMWARE_VERSION,null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "获取固件版本失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.CloseTransactionTimer();
@@ -2777,9 +2719,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "开台任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("开台任务启动失败");
@@ -2793,9 +2734,8 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.OPEN_SCENE;
                 this.SendOrder(null, Constant.ORDER_OPEN_SCENE, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "开台失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event(START_TASK_ERROR_2);
@@ -2832,9 +2772,8 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "关台任务启动失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event("关台任务启动失败");
@@ -2848,9 +2787,8 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.CLOSE_SCENE;
                 this.SendOrder(null, Constant.ORDER_CLOSE_SCENE, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "关台失败", ex);
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Error_Event(START_TASK_ERROR_2);
@@ -2895,7 +2833,6 @@ namespace LightController.PeripheralDevice
                         }
                         else
                         {
-                            LogTools.Debug(Constant.TAG_XIAOSA,"SD卡容量不足");
                             this.Failed("SD卡容量不足");
                         }
                     }
@@ -2952,14 +2889,12 @@ namespace LightController.PeripheralDevice
                 this.IsSending = false;
                 this.Completed_Event(null, "更新硬件配置信息成功");
                 this.CloseTransactionTimer();
-                LogTools.Debug(Constant.TAG_XIAOSA, "更新硬件配置信息成功");
             }
             else
             {
                 //更新硬件失败
                 this.IsSending = false;
                 this.Error_Event("更新硬件配置信息失败");
-                LogTools.Debug(Constant.TAG_XIAOSA, "更新硬件配置信息失败");
                 this.CloseTransactionTimer();
             }
         }
@@ -2973,7 +2908,6 @@ namespace LightController.PeripheralDevice
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_GET_PARAM))
             {
                 //读取硬件配置信息失败
-                LogTools.Debug(Constant.TAG_XIAOSA, "读取硬件配置信息失败");
                 this.Error_Event("读取硬件配置信息失败");
             }
             else
@@ -3005,7 +2939,6 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                LogTools.Debug(Constant.TAG_XIAOSA, "升级硬件系统失败");
                 this.IsSending = false;
                 this.CloseTransactionTimer();
                 this.Error_Event("升级硬件系统失败");
@@ -3058,7 +2991,6 @@ namespace LightController.PeripheralDevice
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_GET_FIRMWARE_VERSION))
             {
                 //读取固件版本信息失败
-                LogTools.Debug(Constant.TAG_XIAOSA, "读取固件版本信息失败");
                 this.Error_Event("读取固件版本信息失败");
             }
             else
@@ -3101,20 +3033,6 @@ namespace LightController.PeripheralDevice
         }
     }
 
-    //事件传递数据结构
-    /// <summary>
-    /// 灯光工程下载事件执行传递数据结构
-    /// </summary>
-    //public class DownloadProjectData
-    //{
-    //    public DBWrapper Wrapper { get; set; }
-    //    public string ConfigPath { get; set; }
-    //    public DownloadProjectData(DBWrapper wrapper,string configPath)
-    //    {
-    //        this.Wrapper = wrapper;
-    //        this.ConfigPath = configPath;
-    //    }
-    //}
     public class PutParamData
     {
         public string FilePath { get; set; } 

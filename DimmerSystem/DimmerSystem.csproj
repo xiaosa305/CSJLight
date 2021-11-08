@@ -192,7 +192,27 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xiaosa\CRCTools.cs" />
+    <Compile Include="Xiaosa\Entity\BaseCommunication.cs" />
+    <Compile Include="Xiaosa\Entity\CombineScene.cs" />
+    <Compile Include="Xiaosa\Entity\CSJ_Config.cs" />
+    <Compile Include="Xiaosa\Entity\CSJ_Hardware.cs" />
+    <Compile Include="Xiaosa\Entity\ICSJFile.cs" />
+    <Compile Include="Xiaosa\Entity\LightControlData.cs" />
+    <Compile Include="Xiaosa\Entity\LightControllerSCR.cs" />
+    <Compile Include="Xiaosa\Entity\LightInfo.cs" />
+    <Compile Include="Xiaosa\Entity\NetworkConnect.cs" />
+    <Compile Include="Xiaosa\Entity\NetworkDeviceInfo.cs" />
+    <Compile Include="Xiaosa\Entity\SequencerData.cs" />
+    <Compile Include="Xiaosa\Tools\Constant.cs" />
+    <Compile Include="Xiaosa\Tools\CRCTools.cs" />
+    <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
+    <Compile Include="Xiaosa\Preview\Channel.cs" />
+    <Compile Include="Xiaosa\Preview\ChannelGroup.cs" />
+    <Compile Include="Xiaosa\Preview\Player.cs" />
+    <Compile Include="Xiaosa\Preview\SerialPortPlayer.cs" />
+    <Compile Include="Xiaosa\Tools\CSJProjectBuilder.cs" />
+    <Compile Include="Xiaosa\Tools\FileUtils.cs" />
+    <Compile Include="Xiaosa\Tools\SeachDeviceUtils.cs" />
     <Content Include="Default\groupList.ini">
       <Generator>ResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

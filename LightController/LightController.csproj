@@ -427,8 +427,6 @@
     <Compile Include="Tools\CSJ\IMPL\SequencerData.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Xiaosa\Entity\CallBackFunction.cs" />
-    <Compile Include="Xiaosa\Entity\RecordBasicFile.cs" />
-    <Compile Include="Xiaosa\Entity\RecordMusicFile.cs" />
     <Compile Include="Xiaosa\Preview\Channel.cs" />
     <Compile Include="Xiaosa\Preview\ChannelGroup.cs" />
     <Compile Include="Xiaosa\Preview\Player.cs" />

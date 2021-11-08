@@ -162,6 +162,7 @@ namespace LightController.Xiaosa.Preview
                 }
                 if (MusicControlState)
                 {
+                    Console.WriteLine("音频触发");
                     foreach (var key in MusicDataBuff.Keys)
                     {
                         dmxData[key] = MusicDataBuff[key];

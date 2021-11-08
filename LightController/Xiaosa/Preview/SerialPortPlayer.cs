@@ -166,7 +166,11 @@ namespace LightController.Xiaosa.Preview
         }
         public bool GetMusicControlState()
         {
-            return Group.MusicControlState && Group.IsMusicMode;
+            if (Group != null)
+            {
+                return (!Group.MusicControlState) && Group.IsMusicMode;
+            }
+            return true;
         }
         private void PlayTask(byte[] dmxData)
         {

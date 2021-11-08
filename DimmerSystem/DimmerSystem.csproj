@@ -147,6 +147,24 @@
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
     <Compile Include="Entity\DB_Light.cs" />
+    <Compile Include="MyForm\LightList\LightsAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightList\LightsAddForm.Designer.cs">
+      <DependentUpon>LightsAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\LightList\LightsEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightList\LightsEditForm.Designer.cs">
+      <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\LightList\LightsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightList\LightsForm.Designer.cs">
+      <DependentUpon>LightsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +204,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\灯光图.png" />
+    <EmbeddedResource Include="MyForm\LightList\LightsAddForm.resx">
+      <DependentUpon>LightsAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightList\LightsEditForm.resx">
+      <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightList\LightsForm.resx">
+      <DependentUpon>LightsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>

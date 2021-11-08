@@ -3,6 +3,7 @@ using LightController.Ast.Enum;
 using LightController.Common;
 using LightController.DAO;
 using LightController.Entity;
+using LightController.MyForm.LightList;
 using LightController.MyForm.Project;
 using LightEditor.Ast;
 using NPOI.HSSF.UserModel;
@@ -229,6 +230,7 @@ namespace LightController.MyForm
 				{
 					Name = "tdNoLabel" + (tdIndex + 1),
 					Font = tdNoLabelDemo.Font,
+					ForeColor = tdNoLabelDemo.ForeColor,
 					AutoSize = tdNoLabelDemo.AutoSize,
 					Location = tdNoLabelDemo.Location,
 					Size = tdNoLabelDemo.Size,					
@@ -238,6 +240,7 @@ namespace LightController.MyForm
 				{
 					Name = "tdNameLabel" + (tdIndex + 1),
 					Font = tdNameLabelDemo.Font,
+					ForeColor = tdNameLabelDemo.ForeColor,
 					Location = tdNameLabelDemo.Location,
 					Size = tdNameLabelDemo.Size,
 					TextAlign = tdNameLabelDemo.TextAlign
@@ -336,8 +339,201 @@ namespace LightController.MyForm
 
 			// 渲染lightsListView的灯具图片
 			refreshLightImageList();
-
 		}
+
+		/// <summary>
+		/// 辅助方法：传入变动列表，修改数据库及内存中的相关数据（新建工程和改动工程通用）；
+		/// </summary>
+		public void ReBuildLightList(List<LightsChange> changeList)
+		{
+				// 若未发生任何变化，则不再往下执行
+				if (!LightsChange.IsChanged(changeList))
+				{
+					return;
+				}
+
+				// 只要灯具列表发生变化，很多相关的数据都可能发生变化，故直接重置这些可能发生变化的数据 
+				disposeDmaForm();  // DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
+				selectedIndex = -1;
+				selectedIndexList = new List<int>();
+
+				IList<int> retainList = new List<int>();
+				// 新建时，需要初始化这两个List
+				if (LightAstList == null)
+				{
+					LightAstList = new List<LightAst>();
+					LightWrapperList = new List<LightWrapper>();
+				}
+				else
+				{
+					// 如果之前的灯具列表不为空，则可能存在旧的灯具项，此处先为retainList赋初值，再在后面的遍历中处理这些数据
+					for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
+					{
+						retainList.Add(lightIndex);
+					}
+				}
+
+				// 遍历处理changeList （分为前后两种情况，但可以写在一起）
+				for (int changeIndex = 0; changeIndex < changeList.Count; changeIndex++)
+				{
+					LightsChange change = changeList[changeIndex];
+					// 前 LightAstList.Count项，只可能有DELETE和UPDATE两种情况
+					// 删除：先把相关项置为null(最后统一处理，避免遍历过程中index发生变化)，并处理retainList
+					if (change.Operation == EnumOperation.DELETE)
+					{
+						int delLightId = LightAstList[changeIndex].StartNum;
+						LightAstList[changeIndex] = null;
+						LightWrapperList[changeIndex] = null;
+						channelDAO.DeleteByLightId(delLightId); // 删除数据库相关的数据
+																// 不能用RemoveAt（会出现不匹配index的情况） , 而应该用 Remove( retainList中 index 和 value刚好是对应的)
+																// 【List,Remove(item)：从 ICollection<T> 中移除特定对象的第一个匹配项。】
+						retainList.Remove(changeIndex);  // 删去的灯具index，在此处直接删掉，这样留下的 【值-键对】可以供新的GroupList使用
+					}
+					// 修改：相关项内的数据进行变动
+					else if (change.Operation == EnumOperation.UPDATE)
+					{
+						int editLightId = LightAstList[changeIndex].StartNum;
+						LightAstList[changeIndex].ChangeAddr(change.NewLightAst);
+						// 注意：更改Common项不要直接让StepCommon和TongdaoCommon=新值，这样会让子项和StepTemplate项的引用不再相同！正确的做法应该是改变Common内的属性；
+						LightWrapperList[changeIndex].StepTemplate.StepCommon.StartNum += change.AddNum;
+						for (int tdIndex = 0; tdIndex < LightWrapperList[changeIndex].StepTemplate.TongdaoList.Count; tdIndex++)
+						{
+							LightWrapperList[changeIndex].StepTemplate.TongdaoList[tdIndex].TongdaoCommon.Address += change.AddNum;
+						}
+						channelDAO.UpdateByLightId(editLightId, change.AddNum); // 更新表中此灯具的所有channel数据（注意sql语句中set的写法：改多个列时用逗号而非and）
+					}
+					// 后面剩下的项，只可能有ADD这种情况
+					// 新增：只需新建一个LightAst、LightWrapper；
+					if (change.Operation == EnumOperation.ADD)
+					{
+						LightAstList.Add(change.NewLightAst);
+						LightWrapperList.Add(new LightWrapper() { StepTemplate = generateStepTemplate(change.NewLightAst) });
+					}
+				}
+				// 最后把null值从各list中去掉，就是新的列表了
+				ListHelper.RemoveNull(LightAstList);
+				ListHelper.RemoveNull(LightWrapperList);
+
+				// light、fineTune表，直接由当前的LightAst和LightWrapperList生成即可；channel表，则在删除和更新时，直接执行相关的操作
+				lightDAO.SaveAll("Light", generateDBLightList());
+				fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
+
+				// 处理编组列表
+				IList<GroupAst> newGroupList = new List<GroupAst>();
+				//取出每个编组，并分别进行处理
+				foreach (GroupAst group in GroupList)
+				{
+					// 处理组员,直接用一个新的List来进行存储；
+					IList<int> newIndexList = new List<int>();
+					foreach (int oldIndex in group.LightIndexList)
+					{
+						if (retainList.Contains(oldIndex))
+						{ // 若retainList中有此项
+							newIndexList.Add(retainList.IndexOf(oldIndex));   // 则把该项的新索引添加进去
+						}
+					}
+					if (newIndexList.Count != 0) // 若组内成员已经为空，则此编组直接删掉(不添加到newGroupList中)
+					{
+						// 处理组长 : 如果组长还在，则取出其新下标 ; 否则设为0                    
+						group.CaptainIndex = retainList.Contains(group.CaptainIndex) ? retainList.IndexOf(group.CaptainIndex) : 0;
+						group.LightIndexList = newIndexList;
+						newGroupList.Add(group);
+					}
+				}
+				GroupList = newGroupList;
+				saveAllGroups();
+
+				//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
+				enterSyncMode(false); // 修改了灯具后，一定要退出同步模式
+				enableProjectRelative(true);    //ReBuildLightAst内设置
+				enableRefreshPic(); //ReBuildLightList
+				reBuildLightListView();
+				refreshGroupPanels(); // ReBuildLightList() 
+
+				//出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
+				if (LightAstList != null && LightAstList.Count > 0)
+				{
+					selectedIndex = 0;
+				}
+				generateLightData(); //ReBuildLightList         
+			
+		}
+
+		/// <summary>
+		/// 辅助方法：保存编组数据（保存工程 、保存场景、更改灯具列表后都需要执行）
+		/// </summary>
+		private void saveAllGroups()
+		{
+			try
+			{
+				GroupAst.SaveGroupIni(groupIniPath, GroupList);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("保存编组数据出错：\n" + ex.Message);
+			}
+		}
+
+		#region 由界面数据生成dbXXList数据的方法（这些数据可能只在内存中，和数据库中的数据可能不同，除非保存过）
+
+		/// <summary>
+		/// 辅助方法：由lightAstList生成dbLightList（新）;
+		/// </summary>
+		private IList<DB_Light> generateDBLightList()
+		{
+			if (LightAstList == null || LightAstList.Count == 0)
+			{
+				return null;
+			}
+			IList<DB_Light> dbLightList = new List<DB_Light>();
+			foreach (LightAst la in LightAstList)
+			{
+				dbLightList.Add(new DB_Light(la));
+			}
+			return dbLightList;
+		}
+
+		/// <summary>
+		/// 辅助方法：由lightWrapperList生成dbFineTuneList（新）;
+		/// </summary>
+		private IList<DB_FineTune> generateDBFineTuneList()
+		{
+			if (LightAstList == null || LightAstList.Count == 0)
+			{
+				return null;
+			}
+			IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
+			// 遍历lightWrapperList的模板数据，用以读取相关的通道名称，才能加以处理			
+			foreach (LightWrapper lightWrapper in LightWrapperList)
+			{
+				StepWrapper stepTemplate = lightWrapper.StepTemplate;
+				if (stepTemplate != null && stepTemplate.TongdaoList != null)
+				{
+					int xz = 0, xzwt = 0, xzValue = 0, yz = 0, yzwt = 0, yzValue = 0;
+					foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
+					{
+						switch (td.TongdaoCommon.TongdaoName.Trim())
+						{
+							case "X轴": xz = td.TongdaoCommon.Address; break;
+							case "X轴微调": xzwt = td.TongdaoCommon.Address; xzValue = td.ScrollValue; break;
+							case "Y轴": yz = td.TongdaoCommon.Address; break;
+							case "Y轴微调": yzwt = td.TongdaoCommon.Address; yzValue = td.ScrollValue; break;
+						}
+					}
+					if (xz != 0 && xzwt != 0)
+					{
+						dbFineTuneList.Add(new DB_FineTune() { MainIndex = xz, FineTuneIndex = xzwt, MaxValue = xzValue });
+					}
+					if (yz != 0 && yzwt != 0)
+					{
+						dbFineTuneList.Add(new DB_FineTune() { MainIndex = yz, FineTuneIndex = yzwt, MaxValue = yzValue });
+					}
+				}
+			}
+
+			return dbFineTuneList;
+		}
+
 		private void MainFormBase_Load(object sender, EventArgs e)
 		{
 
@@ -363,18 +559,20 @@ namespace LightController.MyForm
 			(sender as UIImageButton).Selected = !(sender as UIImageButton).Selected;
 		}
 
-        #region 工程相关
+		#endregion
+
+		#region 工程相关
 
 		/// <summary>
 		/// 事件：点击《新建工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-        private void newButton_Click(object sender, EventArgs e)
+		private void newButton_Click(object sender, EventArgs e)
 		{
-			new NewForm().ShowDialog();
+			new NewForm(this).ShowDialog();
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《打开工程》
 		/// </summary>
@@ -383,6 +581,312 @@ namespace LightController.MyForm
 		private void openButton_Click(object sender, EventArgs e)
 		{
 			new OpenForm(this).ShowDialog();
+		}
+
+		/// <summary>
+		/// 事件：点击《保存工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：点击《保存工程》；根据点击按键的不同，采用不同的处理方法
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				saveProjectClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				exportSourceClick();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：保存工程
+		/// </summary>
+		private void saveProjectClick()
+		{
+			SetNotice("正在保存工程,请稍候...", false, true);
+			setBusy(true);
+
+			DateTime beforeDT = System.DateTime.Now;
+			// 1.先判断是否有灯具数据；若无，则清空所有表数据
+			if (LightAstList == null || LightAstList.Count == 0)
+			{
+				ClearAllDB();
+			}
+			// 2.保存各项数据			
+			else
+			{
+				saveAllLights();
+				saveAllFineTunes();
+				saveAllChannels();
+			}
+			saveAllGroups();  // 无论如何，都保存编组列表
+
+			DateTime afterDT = System.DateTime.Now;
+			TimeSpan ts = afterDT.Subtract(beforeDT);
+
+			setBusy(false);
+			SetNotice(LanguageHelper.TranslateSentence("成功保存工程:")
+				+ currentProjectName
+				+ ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s"
+				, true, false);
+		}
+
+		/// <summary>
+		///  辅助方法：保存工程源文件（Source.zip）到指定目录
+		/// </summary>
+		protected void exportSourceClick()
+		{
+			DialogResult dr = exportSourceBrowserDialog.ShowDialog();
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+			string exportPath = exportSourceBrowserDialog.SelectedPath;
+			string zipPath = exportPath + @"\Source.zip";
+			if (File.Exists(zipPath))
+			{
+				dr = MessageBox.Show(
+					LanguageHelper.TranslateSentence("检测到该目录已存在一个Source.zip文件，是否覆盖？"),
+					LanguageHelper.TranslateSentence("覆盖文件？"),
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+			}
+
+			setBusy(true);
+			SetNotice("正在压缩源文件,请稍候...", false, true);
+
+			if (GenerateSourceZip(zipPath))
+			{
+				dr = MessageBox.Show(
+						LanguageHelper.TranslateSentence("成功导出当前工程的源文件,是否打开导出文件夹?"),
+						LanguageHelper.TranslateSentence("打开导出文件夹？"),
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question);
+				if (dr == DialogResult.OK)
+				{
+					System.Diagnostics.Process.Start(exportPath);
+				}
+				SetNotice("已成功压缩源文件(Source.zip)。", false, true);
+			}
+			else
+			{
+				SetNotice("导出工程源文件失败。", false, true);
+			}
+			setBusy(false);
+		}
+
+		/// <summary>
+		/// 辅助方法：导出当前工程的源文件( 工程+灯具+相关Pic)，并压缩为Source.zip；
+		/// </summary>
+		public bool GenerateSourceZip(string zipPath)
+		{
+			try
+			{
+				//若存在Source文件夹，则先删除
+				DirectoryInfo di = new DirectoryInfo(SavePath + @"\Source");
+				if (di.Exists)
+				{
+					di.Delete(true);
+				}
+				// 删除后直接创建下一级目录，并拷贝相关目录
+				string destPath = SavePath + @"\Source\LightProject\" + currentProjectName;
+				di = new DirectoryInfo(destPath);
+				di.Create();
+				DirectoryHelper.CopyDirectory(currentProjectPath, destPath);
+
+				if (LightAstList != null && LightAstList.Count > 0)
+				{
+					string lightLibPath = SavePath + @"\Source\LightLibrary";
+					di = new DirectoryInfo(lightLibPath);
+					di.Create();
+
+					HashSet<string> lightSet = new HashSet<string>();
+					HashSet<string> dirSet = new HashSet<string>();
+					HashSet<string> picSet = new HashSet<string>();
+					foreach (LightAst la in LightAstList)
+					{
+						dirSet.Add(la.LightName);
+						if (!string.IsNullOrEmpty(la.LightPic))
+						{
+							picSet.Add(la.LightPic);
+						}
+						lightSet.Add(la.LightName + "\\" + la.LightType + ".ini");
+					}
+
+					foreach (string libDir in dirSet)
+					{
+						di = new DirectoryInfo(SavePath + @"\Source\LightLibrary\" + libDir);
+						di.Create();
+					}
+					foreach (string lightPath in lightSet)
+					{
+						File.Copy(SavePath + @"\LightLibrary\" + lightPath, SavePath + @"\Source\LightLibrary\" + lightPath, true);
+					}
+					// 把灯具图片也保存起来：但如果图片不存在，则跳过不理，避免触发异常（否则整个流程都直接跳出，Source.zip不会生成）
+					di = new DirectoryInfo(SavePath + @"\Source\LightPic");
+					di.Create();
+					foreach (string lightPic in picSet)
+					{
+						string sourcePicPath = SavePath + @"\LightPic\" + lightPic;
+						if (File.Exists(sourcePicPath))
+						{
+							File.Copy(sourcePicPath, SavePath + @"\Source\LightPic\" + lightPic, true);
+						}
+						else
+						{
+							Console.WriteLine("灯具图片(" + sourcePicPath + ")不存在...");
+						}
+					}
+					// 压缩文件直接继承到同一个方法中，成功后把Source工作目录直接删掉；
+					ZipHelper.CompressAllToZip(SavePath + @"\Source", zipPath, 9, null, SavePath + @"\");
+					di = new DirectoryInfo(SavePath + @"\Source");
+					di.Delete(true);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// 辅助方法：从界面数据实时生成dbFineTuneList，保存到db中
+		/// </summary>
+		private void saveAllFineTunes()
+		{
+			if (fineTuneDAO == null)
+			{
+				fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
+			}
+			// 保存数据
+			fineTuneDAO.SaveAll("FineTune", generateDBFineTuneList());
+		}
+
+		/// <summary>
+		/// 辅助方法：从界面数据实时生成dbLightList，保存到db中
+		/// </summary>
+		private void saveAllLights()
+		{
+			if (lightDAO == null)
+			{
+				lightDAO = new LightDAO(dbFilePath, isEncrypt);
+			}
+			// 将传送所有的DB_Light给DAO,让它进行数据的保存
+			lightDAO.SaveAll("Light", generateDBLightList());
+		}
+
+		/// <summary>
+		/// 辅助方法：保存所有场景的channelList
+		/// </summary>
+		private void saveAllChannels()
+		{
+			for (int sceneIndex = 0; sceneIndex < SceneCount; sceneIndex++)
+			{
+				if (sceneSaveArray[sceneIndex])
+				{
+					saveSceneChannels(sceneIndex);
+					if (sceneIndex != CurrentScene)
+					{
+						sceneSaveArray[sceneIndex] = false;
+					}
+				}
+			}
+		}
+		/// <summary>
+		/// 辅助方法：保存指定场景的channelList
+		/// </summary>
+		/// <param name="scene">要保存的场景编号，由0开始</param>
+		private void saveSceneChannels(int scene)
+		{
+			if (channelDAO == null)
+			{
+				channelDAO = new ChannelDAO(dbFilePath, isEncrypt);
+			}
+
+			Dictionary<DB_ChannelPK, StringBuilder> channelDict = new Dictionary<DB_ChannelPK, StringBuilder>();
+
+			for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
+			{
+				LightAst la = LightAstList[lightIndex];
+				LightStepWrapper[,] allLightStepWrappers = LightWrapperList[lightIndex].LightStepWrapperList;
+
+				//10.17 取出灯具的当前场景（两种模式都要），并将它们保存起来（但若为空，则不保存）
+				for (int mode = 0; mode < 2; mode++)
+				{
+					LightStepWrapper lswTemp = allLightStepWrappers[scene, mode];
+
+					//只有不为null且步数>0，才可能有需要保存的数据
+					if (lswTemp != null && lswTemp.TotalStep > 0)
+					{
+						IList<StepWrapper> stepWrapperList = lswTemp.StepWrapperList;
+
+						for (int stepIndex = 0; stepIndex < stepWrapperList.Count; stepIndex++)
+						{
+							StepWrapper step = stepWrapperList[stepIndex];
+
+							for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
+							{
+								TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
+
+								DB_ChannelPK pk = new DB_ChannelPK()
+								{
+									Scene = scene,
+									Mode = mode,
+									LightID = la.StartNum,
+									ChannelID = la.StartNum + tongdaoIndex
+								};
+
+								string addStr = tongdao.ChangeMode + "-" + tongdao.ScrollValue + "-" + tongdao.StepTime + ",";
+								if (channelDict.ContainsKey(pk))
+								{
+									channelDict[pk].Append(addStr);
+								}
+								else
+								{
+									channelDict.Add(pk, new StringBuilder(addStr));
+								}
+							}
+						}
+					}
+				}
+			}
+			channelDAO.SaveSceneChannels(scene, channelDict);
+		}
+
+		/// <summary>
+		///  辅助方法: 通过工程名，新建工程; 主要通过调用InitProject(),但在前后加了鼠标特效的处理。（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
+		/// </summary>
+		/// <param name="projectName">工程名</param>
+		public void NewProject(string projectName, int sceneIndex)
+		{
+			Cursor = Cursors.WaitCursor;
+			initProject(projectName, sceneIndex, true);
+			SetNotice("成功新建工程，请为此工程添加灯具。", true, true);
+			Cursor = Cursors.Default;
+			editLightList();  //新建工程后，灯具列表一定是空的，故直接弹出《添加灯具》
+		}
+
+		/// <summary>
+		/// 辅助方法：打开《灯具列表》
+		/// </summary>
+		protected void editLightList()
+		{
+			new LightsForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -441,7 +945,7 @@ namespace LightController.MyForm
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question))
 				{
-					//DOTO  	new LightsForm(this).ShowDialog();
+					new LightsForm(this).ShowDialog();
 				}
 			}
 			//10.17 若非空工程，则继续执行以下代码。
@@ -1403,7 +1907,6 @@ namespace LightController.MyForm
 							}
 							lightAst.SawList.Add(new SAWrapper() { SaList = saList });
 
-							//2110262 修改generateStepTemplate，改为TongdaoCommon
 							tongdaoList.Add(new TongdaoWrapper()
 							{
 								ScrollValue = initNum,
@@ -1438,18 +1941,26 @@ namespace LightController.MyForm
 
 		#endregion
 
-
 		private void HardwareSetButton_Click(object sender, EventArgs e)
 		{
 			//new HardwareSetForm(this).ShowDialog();
 		}
 
-
+		/// <summary>
+		/// 事件：点击《音频链表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
 		{
 			//new SKForm().ShowDialog();
 		}
 
+		/// <summary>
+		/// 事件：勾选|取消勾选 《音频模式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void modeCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			SetNotice("正在切换模式", false, true);
@@ -1467,6 +1978,43 @@ namespace LightController.MyForm
 			soundListButton.Enabled = CurrentMode == 1;
 
 			SetNotice("成功切换模式", false, true);			
+		}
+
+		/// <summary>
+		/// 事件：更改《场景》下拉框选项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sceneComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			//setBusy(true);
+			//SetNotice("正在切换场景,请稍候...", false, true);
+			//endview(); // sceneSelectedChanged (只要更改了场景，直接结束预览)
+
+			//DialogResult dr = MessageBox.Show(
+			//	LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllSceneList[CurrentScene] + "?",
+			//	LanguageHelper.TranslateSentence("保存场景?"),
+			//	MessageBoxButtons.YesNo,
+			//	MessageBoxIcon.Question);
+			//if (dr == DialogResult.Yes)
+			//{
+			//	saveSceneClick();
+			//	//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+			//	sceneSaveArray[CurrentScene] = false;
+			//}
+
+			//CurrentScene = newScene;
+			////MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
+			//if (!sceneLoadArray[CurrentScene])
+			//{
+			//	generateSceneData(CurrentScene);
+			//}
+			////MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			//sceneSaveArray[CurrentScene] = true;
+
+			//changeSceneMode();
+			//setBusy(false);
+			//SetNotice(LanguageHelper.TranslateSentence("成功切换为场景：") + AllSceneList[CurrentScene], false, false);
 		}
 
 		/// <summary>
@@ -1526,7 +2074,6 @@ namespace LightController.MyForm
 			protocolComboBox.SelectedIndex = protocolIndex;
 			protocolComboBox.SelectedIndexChanged += protocolComboBox_SelectedIndexChanged;
 		}
-
 		protected  void renderSceneCB() {
 
 			sceneComboBox.SelectedIndexChanged -= sceneComboBox_SelectedIndexChanged;
@@ -2013,8 +2560,17 @@ namespace LightController.MyForm
 			}
 		}
 
-		#endregion
+		/// <summary>
+		/// 辅助方法：当灯具列表为空时，清空数据库内所有数据
+		/// </summary>
+		private void ClearAllDB()
+		{
+			lightDAO.Clear();
+			fineTuneDAO.Clear();
+			channelDAO.Clear();
+		}
 
+		#endregion
 
 		#region tdPanel相关（监听事件及辅助方法）
 
@@ -2503,6 +3059,8 @@ namespace LightController.MyForm
 			OneStepPlay(null, null); // chooseStep			
 		}
 
+
+
 		/// <summary>
 		/// 辅助方法：单(多)灯单步发送DMX512帧数据
 		/// </summary>
@@ -2667,41 +3225,8 @@ namespace LightController.MyForm
 
 		public bool IsShowTestButton = false;
 
-
         #endregion
 
-        private void sceneComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-			//setBusy(true);
-			//SetNotice("正在切换场景,请稍候...", false, true);
-			//endview(); // sceneSelectedChanged (只要更改了场景，直接结束预览)
-
-			//DialogResult dr = MessageBox.Show(
-			//	LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllSceneList[CurrentScene] + "?",
-			//	LanguageHelper.TranslateSentence("保存场景?"),
-			//	MessageBoxButtons.YesNo,
-			//	MessageBoxIcon.Question);
-			//if (dr == DialogResult.Yes)
-			//{
-			//	saveSceneClick();
-			//	//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-			//	sceneSaveArray[CurrentScene] = false;
-			//}
-
-			//CurrentScene = newScene;
-			////MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-			//if (!sceneLoadArray[CurrentScene])
-			//{
-			//	generateSceneData(CurrentScene);
-			//}
-			////MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-			//sceneSaveArray[CurrentScene] = true;
-
-			//changeSceneMode();
-			//setBusy(false);
-			//SetNotice(LanguageHelper.TranslateSentence("成功切换为场景：") + AllSceneList[CurrentScene], false, false);
-		}
-
-        
+		
     }
 }

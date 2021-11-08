@@ -30,10 +30,10 @@ namespace LightController.MyForm.Project
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.uiTextBox1 = new Sunny.UI.UITextBox();
-            this.uiComboBox3 = new Sunny.UI.UIComboBox();
-            this.uiButton6 = new Sunny.UI.UIButton();
-            this.uiButton5 = new Sunny.UI.UIButton();
+            this.projectNameTextBox = new Sunny.UI.UITextBox();
+            this.sceneComboBox = new Sunny.UI.UIComboBox();
+            this.cancelButton = new Sunny.UI.UIButton();
+            this.enterButton = new Sunny.UI.UIButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -41,10 +41,10 @@ namespace LightController.MyForm.Project
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.uiTextBox1);
-            this.panel1.Controls.Add(this.uiComboBox3);
-            this.panel1.Controls.Add(this.uiButton6);
-            this.panel1.Controls.Add(this.uiButton5);
+            this.panel1.Controls.Add(this.projectNameTextBox);
+            this.panel1.Controls.Add(this.sceneComboBox);
+            this.panel1.Controls.Add(this.cancelButton);
+            this.panel1.Controls.Add(this.enterButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -53,78 +53,80 @@ namespace LightController.MyForm.Project
             this.panel1.Size = new System.Drawing.Size(270, 145);
             this.panel1.TabIndex = 0;
             // 
-            // uiTextBox1
+            // projectNameTextBox
             // 
-            this.uiTextBox1.ButtonSymbol = 61761;
-            this.uiTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox1.FillColor = System.Drawing.Color.White;
-            this.uiTextBox1.Font = new System.Drawing.Font("黑体", 8F);
-            this.uiTextBox1.Location = new System.Drawing.Point(94, 23);
-            this.uiTextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox1.Maximum = 2147483647D;
-            this.uiTextBox1.Minimum = -2147483648D;
-            this.uiTextBox1.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiTextBox1.Name = "uiTextBox1";
-            this.uiTextBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox1.Size = new System.Drawing.Size(157, 20);
-            this.uiTextBox1.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBox1.TabIndex = 11;
-            this.uiTextBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.projectNameTextBox.ButtonSymbol = 61761;
+            this.projectNameTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.projectNameTextBox.FillColor = System.Drawing.Color.White;
+            this.projectNameTextBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.projectNameTextBox.Location = new System.Drawing.Point(94, 23);
+            this.projectNameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.projectNameTextBox.Maximum = 2147483647D;
+            this.projectNameTextBox.Minimum = -2147483648D;
+            this.projectNameTextBox.MinimumSize = new System.Drawing.Size(1, 1);
+            this.projectNameTextBox.Name = "projectNameTextBox";
+            this.projectNameTextBox.Padding = new System.Windows.Forms.Padding(5);
+            this.projectNameTextBox.Size = new System.Drawing.Size(157, 20);
+            this.projectNameTextBox.Style = Sunny.UI.UIStyle.Custom;
+            this.projectNameTextBox.TabIndex = 11;
+            this.projectNameTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // uiComboBox3
+            // sceneComboBox
             // 
-            this.uiComboBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiComboBox3.DataSource = null;
-            this.uiComboBox3.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
-            this.uiComboBox3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiComboBox3.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.uiComboBox3.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiComboBox3.ForeColor = System.Drawing.Color.White;
-            this.uiComboBox3.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiComboBox3.Items.AddRange(new object[] {
+            this.sceneComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.sceneComboBox.DataSource = null;
+            this.sceneComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.sceneComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.sceneComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.sceneComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sceneComboBox.ForeColor = System.Drawing.Color.White;
+            this.sceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.sceneComboBox.Items.AddRange(new object[] {
             "激情（01）",
             "柔和（02）"});
-            this.uiComboBox3.Location = new System.Drawing.Point(94, 58);
-            this.uiComboBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiComboBox3.MinimumSize = new System.Drawing.Size(63, 0);
-            this.uiComboBox3.Name = "uiComboBox3";
-            this.uiComboBox3.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
-            this.uiComboBox3.Radius = 4;
-            this.uiComboBox3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.uiComboBox3.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiComboBox3.Size = new System.Drawing.Size(157, 20);
-            this.uiComboBox3.Style = Sunny.UI.UIStyle.Custom;
-            this.uiComboBox3.TabIndex = 10;
-            this.uiComboBox3.Text = "激情（01）";
-            this.uiComboBox3.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
+            this.sceneComboBox.Location = new System.Drawing.Point(94, 58);
+            this.sceneComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.sceneComboBox.MinimumSize = new System.Drawing.Size(63, 0);
+            this.sceneComboBox.Name = "sceneComboBox";
+            this.sceneComboBox.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.sceneComboBox.Radius = 4;
+            this.sceneComboBox.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sceneComboBox.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.sceneComboBox.Size = new System.Drawing.Size(157, 20);
+            this.sceneComboBox.Style = Sunny.UI.UIStyle.Custom;
+            this.sceneComboBox.TabIndex = 10;
+            this.sceneComboBox.Text = "激情（01）";
+            this.sceneComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // uiButton6
+            // cancelButton
             // 
-            this.uiButton6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButton6.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiButton6.Font = new System.Drawing.Font("黑体", 8F);
-            this.uiButton6.Location = new System.Drawing.Point(164, 100);
-            this.uiButton6.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButton6.Name = "uiButton6";
-            this.uiButton6.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.uiButton6.Size = new System.Drawing.Size(54, 20);
-            this.uiButton6.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButton6.TabIndex = 8;
-            this.uiButton6.Text = "取消";
+            this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.cancelButton.Location = new System.Drawing.Point(164, 100);
+            this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.cancelButton.Size = new System.Drawing.Size(54, 20);
+            this.cancelButton.Style = Sunny.UI.UIStyle.Custom;
+            this.cancelButton.TabIndex = 8;
+            this.cancelButton.Text = "取消";
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // uiButton5
+            // enterButton
             // 
-            this.uiButton5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButton5.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiButton5.Font = new System.Drawing.Font("黑体", 8F);
-            this.uiButton5.Location = new System.Drawing.Point(55, 100);
-            this.uiButton5.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButton5.Name = "uiButton5";
-            this.uiButton5.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.uiButton5.Size = new System.Drawing.Size(54, 20);
-            this.uiButton5.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButton5.TabIndex = 9;
-            this.uiButton5.Text = "确定";
+            this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.enterButton.Location = new System.Drawing.Point(55, 100);
+            this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
+            this.enterButton.Name = "enterButton";
+            this.enterButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.enterButton.Size = new System.Drawing.Size(54, 20);
+            this.enterButton.Style = Sunny.UI.UIStyle.Custom;
+            this.enterButton.TabIndex = 9;
+            this.enterButton.Text = "确定";
+            this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
             // 
             // label1
             // 
@@ -177,10 +179,10 @@ namespace LightController.MyForm.Project
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private Sunny.UI.UITextBox uiTextBox1;
-        private Sunny.UI.UIComboBox uiComboBox3;
-        private Sunny.UI.UIButton uiButton6;
-        private Sunny.UI.UIButton uiButton5;
+        private Sunny.UI.UITextBox projectNameTextBox;
+        private Sunny.UI.UIComboBox sceneComboBox;
+        private Sunny.UI.UIButton cancelButton;
+        private Sunny.UI.UIButton enterButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }

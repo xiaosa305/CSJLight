@@ -70,6 +70,15 @@
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.lightsListView = new System.Windows.Forms.ListView();
+            this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.hideMenuStriplToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideUnifyPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightImageList = new System.Windows.Forms.ImageList(this.components);
             this.stepPanel = new System.Windows.Forms.Panel();
             this.chooseStepButton = new Sunny.UI.UIButton();
             this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -118,17 +127,10 @@
             this.newButton = new Sunny.UI.UISymbolButton();
             this.openButton = new Sunny.UI.UISymbolButton();
             this.linePanel = new System.Windows.Forms.Panel();
-            this.lightImageList = new System.Windows.Forms.ImageList(this.components);
             this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.hideMenuStriplToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideUnifyPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.astPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).BeginInit();
             this.menuPanel.SuspendLayout();
@@ -145,6 +147,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.confButton)).BeginInit();
             this.myStatusStrip.SuspendLayout();
             this.mainPanel.SuspendLayout();
+            this.myContextMenuStrip.SuspendLayout();
             this.stepPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
             this.tdPanel.SuspendLayout();
@@ -157,7 +160,6 @@
             this.saFLPDemo.SuspendLayout();
             this.labelPanel.SuspendLayout();
             this.projectPanel.SuspendLayout();
-            this.myContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // astPanel
@@ -845,6 +847,66 @@
             this.lightsListView.TabIndex = 10;
             this.lightsListView.UseCompatibleStateImageBehavior = false;
             // 
+            // myContextMenuStrip
+            // 
+            this.myContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshPicToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.hideMenuStriplToolStripMenuItem,
+            this.hideProjectPanelToolStripMenuItem,
+            this.hideUnifyPanelToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.showSaPanelsToolStripMenuItem});
+            this.myContextMenuStrip.Name = "myContextMenuStrip";
+            this.myContextMenuStrip.Size = new System.Drawing.Size(173, 126);
+            // 
+            // refreshPicToolStripMenuItem
+            // 
+            this.refreshPicToolStripMenuItem.Enabled = false;
+            this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
+            this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+            // 
+            // hideMenuStriplToolStripMenuItem
+            // 
+            this.hideMenuStriplToolStripMenuItem.Name = "hideMenuStriplToolStripMenuItem";
+            this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.hideMenuStriplToolStripMenuItem.Text = "隐藏主菜单面板";
+            // 
+            // hideProjectPanelToolStripMenuItem
+            // 
+            this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
+            this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
+            // 
+            // hideUnifyPanelToolStripMenuItem
+            // 
+            this.hideUnifyPanelToolStripMenuItem.Name = "hideUnifyPanelToolStripMenuItem";
+            this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            // 
+            // showSaPanelsToolStripMenuItem
+            // 
+            this.showSaPanelsToolStripMenuItem.Name = "showSaPanelsToolStripMenuItem";
+            this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
+            // 
+            // lightImageList
+            // 
+            this.lightImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightImageList.ImageStream")));
+            this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.lightImageList.Images.SetKeyName(0, "灯光图.png");
+            // 
             // stepPanel
             // 
             this.stepPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
@@ -904,6 +966,7 @@
             this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
             this.chooseStepNumericUpDown.Size = new System.Drawing.Size(44, 20);
             this.chooseStepNumericUpDown.TabIndex = 13;
+            this.chooseStepNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // modeCheckBox
             // 
@@ -1324,7 +1387,7 @@
             // tdFlowLayoutPanel
             // 
             this.tdFlowLayoutPanel.AutoScroll = true;
-            this.tdFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.tdFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
             this.tdFlowLayoutPanel.Controls.Add(this.tdPanelDemo);
             this.tdFlowLayoutPanel.Controls.Add(this.saPanelDemo);
             this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1353,6 +1416,7 @@
             // 
             this.tdNoLabelDemo.AutoSize = true;
             this.tdNoLabelDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdNoLabelDemo.ForeColor = System.Drawing.Color.White;
             this.tdNoLabelDemo.Location = new System.Drawing.Point(5, 9);
             this.tdNoLabelDemo.Margin = new System.Windows.Forms.Padding(1);
             this.tdNoLabelDemo.Name = "tdNoLabelDemo";
@@ -1377,6 +1441,7 @@
             // 
             // tdTrackBarDemo
             // 
+            this.tdTrackBarDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.tdTrackBarDemo.Location = new System.Drawing.Point(20, 24);
             this.tdTrackBarDemo.Maximum = 255;
             this.tdTrackBarDemo.Name = "tdTrackBarDemo";
@@ -1387,7 +1452,8 @@
             // 
             // tdNameLabelDemo
             // 
-            this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
+            this.tdNameLabelDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdNameLabelDemo.ForeColor = System.Drawing.Color.White;
             this.tdNameLabelDemo.Location = new System.Drawing.Point(7, 32);
             this.tdNameLabelDemo.Name = "tdNameLabelDemo";
             this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 122);
@@ -1461,6 +1527,7 @@
             // saLabelDemo
             // 
             this.saLabelDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.saLabelDemo.ForeColor = System.Drawing.Color.White;
             this.saLabelDemo.Location = new System.Drawing.Point(1, 1);
             this.saLabelDemo.Margin = new System.Windows.Forms.Padding(1);
             this.saLabelDemo.Name = "saLabelDemo";
@@ -1597,6 +1664,7 @@
             // closeButton
             // 
             this.closeButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.closeButton.Enabled = false;
             this.closeButton.FillColor = System.Drawing.Color.Transparent;
             this.closeButton.FillDisableColor = System.Drawing.Color.Transparent;
             this.closeButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -1625,6 +1693,7 @@
             // exportButton
             // 
             this.exportButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.exportButton.Enabled = false;
             this.exportButton.FillColor = System.Drawing.Color.Transparent;
             this.exportButton.FillDisableColor = System.Drawing.Color.Transparent;
             this.exportButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -1653,6 +1722,7 @@
             // saveSceneButton
             // 
             this.saveSceneButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveSceneButton.Enabled = false;
             this.saveSceneButton.FillColor = System.Drawing.Color.Transparent;
             this.saveSceneButton.FillDisableColor = System.Drawing.Color.Transparent;
             this.saveSceneButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -1681,6 +1751,7 @@
             // saveButton
             // 
             this.saveButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveButton.Enabled = false;
             this.saveButton.FillColor = System.Drawing.Color.Transparent;
             this.saveButton.FillDisableColor = System.Drawing.Color.Transparent;
             this.saveButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -1705,6 +1776,8 @@
             this.saveButton.TabIndex = 1;
             this.saveButton.Text = "保存工程";
             this.saveButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseDown);
             // 
             // newButton
             // 
@@ -1774,12 +1847,6 @@
             this.linePanel.Size = new System.Drawing.Size(1366, 1);
             this.linePanel.TabIndex = 11;
             // 
-            // lightImageList
-            // 
-            this.lightImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightImageList.ImageStream")));
-            this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.lightImageList.Images.SetKeyName(0, "灯光图.png");
-            // 
             // myToolTip
             // 
             this.myToolTip.AutoPopDelay = 5000;
@@ -1787,59 +1854,13 @@
             this.myToolTip.IsBalloon = true;
             this.myToolTip.ReshowDelay = 100;
             // 
-            // myContextMenuStrip
+            // exportFolderBrowserDialog
             // 
-            this.myContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshPicToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.hideMenuStriplToolStripMenuItem,
-            this.hideProjectPanelToolStripMenuItem,
-            this.hideUnifyPanelToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.showSaPanelsToolStripMenuItem});
-            this.myContextMenuStrip.Name = "myContextMenuStrip";
-            this.myContextMenuStrip.Size = new System.Drawing.Size(173, 126);
+            this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\\\"CSJ\\\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
             // 
-            // refreshPicToolStripMenuItem
+            // exportSourceBrowserDialog
             // 
-            this.refreshPicToolStripMenuItem.Enabled = false;
-            this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
-            this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
-            // 
-            // hideMenuStriplToolStripMenuItem
-            // 
-            this.hideMenuStriplToolStripMenuItem.Name = "hideMenuStriplToolStripMenuItem";
-            this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.hideMenuStriplToolStripMenuItem.Text = "隐藏主菜单面板";
-            // 
-            // hideProjectPanelToolStripMenuItem
-            // 
-            this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
-            this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
-            // 
-            // hideUnifyPanelToolStripMenuItem
-            // 
-            this.hideUnifyPanelToolStripMenuItem.Name = "hideUnifyPanelToolStripMenuItem";
-            this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
-            // 
-            // showSaPanelsToolStripMenuItem
-            // 
-            this.showSaPanelsToolStripMenuItem.Name = "showSaPanelsToolStripMenuItem";
-            this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
+            this.exportSourceBrowserDialog.Description = "即将为您导出当前工程的源文件，并压缩为Source.zip；请选择导出目录。";
             // 
             // MainFormBase
             // 
@@ -1884,6 +1905,7 @@
             this.myStatusStrip.ResumeLayout(false);
             this.myStatusStrip.PerformLayout();
             this.mainPanel.ResumeLayout(false);
+            this.myContextMenuStrip.ResumeLayout(false);
             this.stepPanel.ResumeLayout(false);
             this.stepPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
@@ -1900,7 +1922,6 @@
             this.labelPanel.PerformLayout();
             this.projectPanel.ResumeLayout(false);
             this.projectPanel.PerformLayout();
-            this.myContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2006,5 +2027,7 @@
         private System.Windows.Forms.ToolStripMenuItem hideUnifyPanelToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem showSaPanelsToolStripMenuItem;
+        private System.Windows.Forms.FolderBrowserDialog exportFolderBrowserDialog;
+        private System.Windows.Forms.FolderBrowserDialog exportSourceBrowserDialog;
     }
 }

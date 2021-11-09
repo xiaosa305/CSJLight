@@ -1,4 +1,7 @@
-﻿using System;
+﻿using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace DimmerSystem.Xiaosa.Tools
+namespace LightController.PeripheralDevice
 {
     public class SeachDeviceUtils
     {

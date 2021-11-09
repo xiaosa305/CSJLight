@@ -13,7 +13,7 @@ using System.Threading;
 using System.Windows.Forms;
 using static LightController.Xiaosa.Entity.CallBackFunction;
 
-namespace DimmerSystem.Xiaosa.Tools
+namespace LightController.Xiaosa.Tools
 {
     /*
      * TODO 新版全局工程以及局部工程文件生成

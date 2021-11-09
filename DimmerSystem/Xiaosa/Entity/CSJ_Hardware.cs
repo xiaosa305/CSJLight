@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DimmerSystem.Xiaosa.Entity
+namespace LightController.Tools.CSJ.IMPL
 {
     public class CSJ_Hardware : ICSJFile
     {

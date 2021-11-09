@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DimmerSystem.Xiaosa.Tools
+namespace LightController.Tools
 {
     public class CRCTools
     {

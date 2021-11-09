@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace DimmerSystem.Xiaosa.Entity
+namespace LightController.PeripheralDevice
 {
     public class NetworkConnect : BaseCommunication
     {

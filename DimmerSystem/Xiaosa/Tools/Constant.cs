@@ -1,6 +1,6 @@
 ﻿using LightController.Tools.CSJ.IMPL;
 
-namespace DimmerSystem.Xiaosa.Tools
+namespace LightController.Tools
 {
     class Constant
     {

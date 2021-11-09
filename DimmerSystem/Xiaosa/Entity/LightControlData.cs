@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DimmerSystem.Xiaosa.Entity
+namespace LightController.Tools.CSJ.IMPL
 {
 	[Serializable]
 	public class LightControlData : ICSJFile

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DimmerSystem.Xiaosa.Entity
+namespace LightController.Xiaosa.Entity
 {
     public class CallBackFunction
     {

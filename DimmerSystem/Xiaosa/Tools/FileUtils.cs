@@ -10,7 +10,8 @@ using System.Threading;
 using System.Windows.Forms;
 using static LightController.Xiaosa.Entity.CallBackFunction;
 
-namespace DimmerSystem.Xiaosa.Tools
+namespace LightController.Utils
+{
     public class FileUtils
     {
         private static string ProjectDataFilePath = Application.StartupPath + @"\DataCache\Project\CSJ";

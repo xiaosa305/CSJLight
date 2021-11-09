@@ -964,7 +964,7 @@ namespace LightController.MyForm
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Question))
                 {
-                    new LightsForm(this).ShowDialog();
+                    editLightList();
                 }
             }
             //10.17 若非空工程，则继续执行以下代码。
@@ -3685,6 +3685,35 @@ namespace LightController.MyForm
             }
         }
 
+        /// <summary>
+        /// 事件：点击《添加灯具（编辑灯具列表）》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lightListButton_Click(object sender, EventArgs e)
+        {
+            editLightList(); //lightListButton_Click()
+        }
 
+
+        /// <summary>
+        /// 事件：点击《复制步》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void copyButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 事件：点击《粘贴步》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pasteButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

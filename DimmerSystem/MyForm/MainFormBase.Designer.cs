@@ -700,6 +700,7 @@
             this.lightListButton.Text = "添加灯具";
             this.lightListButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.lightListButton.WaitOnLoad = true;
+            this.lightListButton.Click += new System.EventHandler(this.lightListButton_Click);
             // 
             // seqButton
             // 
@@ -1095,6 +1096,7 @@
             this.copyButton.Symbol = 61;
             this.copyButton.TabIndex = 6;
             this.copyButton.Text = "复制步";
+            this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
             // pasteButton
             // 
@@ -1122,6 +1124,7 @@
             this.pasteButton.Symbol = 61;
             this.pasteButton.TabIndex = 6;
             this.pasteButton.Text = "粘贴步";
+            this.pasteButton.Click += new System.EventHandler(this.pasteButton_Click);
             // 
             // nextButton
             // 
@@ -1892,7 +1895,7 @@
             this.Controls.Add(this.myStatusStrip);
             this.ExtendSymbol = 1;
             this.Font = new System.Drawing.Font("黑体", 10F);
-            this.MaximumSize = new System.Drawing.Size(2560, 1440);
+            this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.Name = "MainFormBase";
             this.Padding = new System.Windows.Forms.Padding(0, 31, 0, 0);
             this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));

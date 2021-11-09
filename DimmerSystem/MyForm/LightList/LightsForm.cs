@@ -270,7 +270,7 @@ namespace LightController.MyForm.LightList
                 foreach (ListViewItem item in lightsListView.SelectedItems)  //使用遍历item的好处是：其index会自动更新为新的index
                 {
                     int delLightIndex = item.Index;    // 关键语句！                
-                    if (delLightIndex < mainForm.LightAstList.Count)
+                    if ( mainForm.LightAstList !=null && delLightIndex < mainForm.LightAstList.Count)
                     {
                         lightAstList[delLightIndex].StartNum = 0;
                         lightAstList[delLightIndex].EndNum = 0;

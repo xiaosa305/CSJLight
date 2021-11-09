@@ -1173,6 +1173,8 @@ namespace LightController.MyForm
 		{
 			pasteStepClick();
 		}	
+
+
 		
 		/// <summary>
 		/// 事件：点击《保存素材》

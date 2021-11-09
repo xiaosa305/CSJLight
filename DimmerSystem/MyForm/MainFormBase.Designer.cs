@@ -336,7 +336,6 @@
             this.multiButton.Style = Sunny.UI.UIStyle.Custom;
             this.multiButton.TabIndex = 5;
             this.multiButton.Text = "多步联调";
-            this.multiButton.Click += new System.EventHandler(this.uiButton1_Click);
             // 
             // unifyButton
             // 
@@ -360,7 +359,6 @@
             this.unifyButton.Style = Sunny.UI.UIStyle.Custom;
             this.unifyButton.TabIndex = 5;
             this.unifyButton.Text = "多步调节";
-            this.unifyButton.Click += new System.EventHandler(this.uiButton1_Click);
             // 
             // multiplexButton
             // 
@@ -384,7 +382,6 @@
             this.multiplexButton.Style = Sunny.UI.UIStyle.Custom;
             this.multiplexButton.TabIndex = 5;
             this.multiplexButton.Text = "多步复用";
-            this.multiplexButton.Click += new System.EventHandler(this.uiButton1_Click);
             // 
             // groupButton
             // 
@@ -408,7 +405,6 @@
             this.groupButton.Style = Sunny.UI.UIStyle.Custom;
             this.groupButton.TabIndex = 5;
             this.groupButton.Text = "灯具编组";
-            this.groupButton.Click += new System.EventHandler(this.uiButton1_Click);
             // 
             // soundListButton
             // 
@@ -461,7 +457,6 @@
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(1140, 89);
             this.menuPanel.TabIndex = 2;
-            this.menuPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.menuPanel_Paint);
             // 
             // menuLinePanel
             // 
@@ -574,7 +569,8 @@
             this.connectButton.Style = Sunny.UI.UIStyle.Custom;
             this.connectButton.TabIndex = 5;
             this.connectButton.Text = "设备连接";
-            this.connectButton.Click += new System.EventHandler(this.uiButton1_Click);
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            this.connectButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.connectButton_MouseDown);
             // 
             // downloadButton
             // 
@@ -835,7 +831,6 @@
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(1035, 616);
             this.mainPanel.TabIndex = 7;
-            this.mainPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // lightsListView
             // 
@@ -1764,6 +1759,7 @@
             this.saveSceneButton.TabIndex = 1;
             this.saveSceneButton.Text = "保存场景";
             this.saveSceneButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.saveSceneButton.Click += new System.EventHandler(this.saveSceneButton_Click);
             // 
             // saveButton
             // 
@@ -1895,7 +1891,7 @@
             this.Controls.Add(this.myStatusStrip);
             this.ExtendSymbol = 1;
             this.Font = new System.Drawing.Font("黑体", 10F);
-            this.MaximumSize = new System.Drawing.Size(1920, 1080);
+            this.MaximumSize = new System.Drawing.Size(2560, 1440);
             this.Name = "MainFormBase";
             this.Padding = new System.Windows.Forms.Padding(0, 31, 0, 0);
             this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));

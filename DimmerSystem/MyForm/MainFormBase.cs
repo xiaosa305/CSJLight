@@ -127,6 +127,7 @@ namespace LightController.MyForm
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         public bool IsPreviewing = false; // 是否预览状态中
         public long LastSendTime; // 记录最近一次StartDebug的时间戳，之后如果要发StopPreview，需要等这个时间过2s才进行；		
+        private int clickTime = 0;
 
         #region 通道信息相关控件
 
@@ -556,24 +557,48 @@ namespace LightController.MyForm
             return dbFineTuneList;
         }
 
+        /// <summary>
+        /// 事件：点击《设备连接》（空方法导航用）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void connectButton_Click(object sender, EventArgs e) {   }
 
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        /// <summary>
+        /// 事件：左右键点击《设备连接》（左键网络；右键点击6下DMX512连接）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void connectButton_MouseDown(object sender, MouseEventArgs e)
         {
-
+            // 当点击左键时，直接弹出《网络连接》界面
+            if (e.Button == MouseButtons.Left)
+            {
+                if (ConnForm == null)
+                {
+                    ConnForm = new ConnectForm(this);
+                }
+                ConnForm.ShowDialog();
+            }
+            // 当点击右键时，1.未使用网络方式连接（暂时取消）；2.点击次数达到6次 ；满足这两个条件才弹出DMX512连接的界面
+            else if (e.Button == MouseButtons.Right)
+            {
+                //if (MyConnect == null ||  !IsDeviceConnected ) {
+                clickTime++;
+                if (clickTime == 6)
+                {
+                    if (dmxConnForm == null)
+                    {
+                        dmxConnForm = new DMX512ConnnectForm(this);
+                    }
+                    dmxConnForm.ShowDialog();
+                    clickTime = 0;
+                }
+                //}			
+            }
         }
 
-        private void menuPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void uiButton1_Click(object sender, EventArgs e)
-        {
-            //new ConnectForm().ShowDialog();
-        }
-
-        private void uiImageButton9_Click(object sender, EventArgs e)
+            private void uiImageButton9_Click(object sender, EventArgs e)
         {
             (sender as UIImageButton).Selected = !(sender as UIImageButton).Selected;
         }
@@ -627,6 +652,34 @@ namespace LightController.MyForm
         }
 
         /// <summary>
+        /// 事件：点击《保存场景》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveSceneButton_Click(object sender, EventArgs e)
+        {
+            SetNotice("正在保存场景,请稍候...", false, true);
+            setBusy(true);
+
+            // 1.先判断是否有灯具数据；若无，则清空所有表数据
+            if (LightAstList == null || LightAstList.Count == 0)
+            {
+                ClearAllDB();
+            }
+            // 2.保存各项数据，其中保存 灯具、FineTune 是通用的；StepCounts和Values直接用saveOrUpdate方式即可。
+            else
+            {
+                saveAllLights();
+                saveAllFineTunes();
+                saveSceneChannels(CurrentScene);
+                saveAllGroups();
+            }
+
+            SetNotice(LanguageHelper.TranslateSentence("成功保存场景：") + AllSceneList[CurrentScene], true, false);
+            setBusy(false);
+        }
+
+        /// <summary>
         /// 辅助方法：保存工程
         /// </summary>
         private void saveProjectClick()
@@ -662,7 +715,7 @@ namespace LightController.MyForm
         /// <summary>
         ///  辅助方法：保存工程源文件（Source.zip）到指定目录
         /// </summary>
-        protected void exportSourceClick()
+        private void exportSourceClick()
         {
             DialogResult dr = exportSourceBrowserDialog.ShowDialog();
             if (dr == DialogResult.Cancel)
@@ -782,6 +835,7 @@ namespace LightController.MyForm
             }
             return true;
         }
+           
 
         /// <summary>
         /// 辅助方法：从界面数据实时生成dbFineTuneList，保存到db中
@@ -3703,7 +3757,13 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void copyButton_Click(object sender, EventArgs e)
         {
-
+            if (getCurrentStepWrapper() == null)
+            {
+                SetNotice("当前步数据为空，无法复制", true, true);
+                return;
+            }
+            tempStep = getCurrentStepWrapper();
+            refreshStep(); // 主要作用是刷新按键（粘贴步可用）
         }
 
         /// <summary>
@@ -3713,7 +3773,78 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void pasteButton_Click(object sender, EventArgs e)
         {
+            // 1. 先判断是不是同模式及同一种灯具（非同一个灯具也可以复制，但需类型(同一个灯库内容)一样)
+            StepWrapper currentStep = getCurrentStepWrapper();
+            if (currentStep == null)
+            {
+                SetNotice("当前步数据为空，无法粘贴步。", true, true);
+                return;
+            }
+            if (CurrentMode != tempStepMode)
+            {
+                SetNotice("不同模式下无法复制步。", true, true);
+                return;
+            }
+            if (currentStep.StepCommon.LightFullName != tempStep.StepCommon.LightFullName)
+            {
+                SetNotice("不同类型灯具无法复制步。", true, true);
+                return;
+            }
 
+            // 2.逐一将TongdaoList的某些数值填入tempStep中，而非粗暴地将currentStep 设为tempStep
+            for (int i = 0; i < tempStep.TongdaoList.Count; i++)
+            {
+                currentStep.TongdaoList[i].ScrollValue = tempStep.TongdaoList[i].ScrollValue;
+                currentStep.TongdaoList[i].ChangeMode = tempStep.TongdaoList[i].ChangeMode;
+                currentStep.TongdaoList[i].StepTime = tempStep.TongdaoList[i].StepTime;
+            }
+
+            //3.如果是编组模式，则需要在复制步之后处理下每个灯具的信息
+            if (isMultiMode)
+            {
+                copyStepToAll(getCurrentStep(), EnumUnifyWhere.ALL);
+            }
+
+            //4.刷新当前步
+            refreshStep();
+        }
+
+        /// <summary>
+        /// 辅助方法：将stepNum所有通道的指定位置(where)的值，复制到所有【编组成员】中。
+        /// </summary>
+        /// <param name="stepNum">步数</param>
+        /// <param name="where">复制哪些内容</param>
+        private void copyStepToAll(int stepNum, EnumUnifyWhere where)
+        {
+            LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
+            int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
+
+            foreach (int lightIndex in selectedIndexList)
+            {
+                if (getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1] != null)
+                {
+                    for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+                    {
+                        switch (where)
+                        {
+                            case EnumUnifyWhere.SCROLL_VALUE:
+                                getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue; break;
+                            case EnumUnifyWhere.CHANGE_MODE:
+                                getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode; break;
+                            case EnumUnifyWhere.STEP_TIME:
+                                getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime; break;
+                            case EnumUnifyWhere.ALL:
+                                getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;
+                                getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode;
+                                getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+       
         }
     }
 }

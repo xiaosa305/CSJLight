@@ -146,7 +146,7 @@ namespace LightController.Xiaosa.Preview
                 Thread.Sleep(100);
             }
             MainFormInterface = mainFormInterface;
-            SetFrameIntervalTime();
+
             lock (SingleStepDmxData)
             {
                 List<byte> buff = new List<byte>();

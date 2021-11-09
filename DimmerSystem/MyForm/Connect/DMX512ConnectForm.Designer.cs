@@ -68,7 +68,7 @@ namespace LightController.MyForm.Connect
             this.portConnectButton.Style = Sunny.UI.UIStyle.Custom;
             this.portConnectButton.StyleCustomMode = true;
             this.portConnectButton.TabIndex = 33;
-            this.portConnectButton.Text = "设备连接";
+            this.portConnectButton.Text = "连接灯具";
             this.portConnectButton.Click += new System.EventHandler(this.portConnectButton_Click);
             // 
             // portRefreshButton

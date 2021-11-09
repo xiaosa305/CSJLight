@@ -53,10 +53,7 @@ namespace LightController.MyForm
         public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
         protected string projectStr;
         public string ConnectStr = " [ 设备未连接 ]";
-
         
-        
-
         /// <summary>
         ///  辅助方法：供《DMX512连接Form》使用，使可以更改一些数据
         /// </summary>

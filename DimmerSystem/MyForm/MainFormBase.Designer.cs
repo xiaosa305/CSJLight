@@ -59,7 +59,7 @@
             this.makeSoundButton = new Sunny.UI.UIImageButton();
             this.toolsButton = new Sunny.UI.UIImageButton();
             this.globalSetButton = new Sunny.UI.UIImageButton();
-            this.previewButton1 = new Sunny.UI.UIImageButton();
+            this.previewButton = new Sunny.UI.UIImageButton();
             this.lightListButton = new Sunny.UI.UIImageButton();
             this.seqButton = new Sunny.UI.UIImageButton();
             this.helpButton = new Sunny.UI.UIImageButton();
@@ -138,7 +138,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.makeSoundButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toolsButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.globalSetButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.previewButton1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lightListButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seqButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.helpButton)).BeginInit();
@@ -445,7 +445,7 @@
             this.menuPanel.Controls.Add(this.makeSoundButton);
             this.menuPanel.Controls.Add(this.toolsButton);
             this.menuPanel.Controls.Add(this.globalSetButton);
-            this.menuPanel.Controls.Add(this.previewButton1);
+            this.menuPanel.Controls.Add(this.previewButton);
             this.menuPanel.Controls.Add(this.lightListButton);
             this.menuPanel.Controls.Add(this.seqButton);
             this.menuPanel.Controls.Add(this.helpButton);
@@ -655,27 +655,27 @@
             this.globalSetButton.WaitOnLoad = true;
             this.globalSetButton.Click += new System.EventHandler(this.globalSetButton_Click);
             // 
-            // previewButton1
+            // previewButton
             // 
-            this.previewButton1.BackColor = System.Drawing.Color.Transparent;
-            this.previewButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.previewButton1.Enabled = false;
-            this.previewButton1.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.previewButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.previewButton1.Image = global::LightController.Properties.Resources.预览效果;
-            this.previewButton1.ImageDisabled = global::LightController.Properties.Resources.预览效果_Disabled;
-            this.previewButton1.ImageHover = global::LightController.Properties.Resources.预览效果_Hover;
-            this.previewButton1.ImagePress = global::LightController.Properties.Resources.预览效果_Press;
-            this.previewButton1.ImageSelected = global::LightController.Properties.Resources.预览效果_Highlight;
-            this.previewButton1.Location = new System.Drawing.Point(820, 11);
-            this.previewButton1.Name = "previewButton1";
-            this.previewButton1.Size = new System.Drawing.Size(60, 69);
-            this.previewButton1.TabIndex = 8;
-            this.previewButton1.TabStop = false;
-            this.previewButton1.Text = "预览效果";
-            this.previewButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.previewButton1.WaitOnLoad = true;
-            this.previewButton1.Click += new System.EventHandler(this.uiImageButton9_Click);
+            this.previewButton.BackColor = System.Drawing.Color.Transparent;
+            this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.previewButton.Enabled = false;
+            this.previewButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.previewButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.previewButton.Image = global::LightController.Properties.Resources.预览效果;
+            this.previewButton.ImageDisabled = global::LightController.Properties.Resources.预览效果_Disabled;
+            this.previewButton.ImageHover = global::LightController.Properties.Resources.预览效果_Hover;
+            this.previewButton.ImagePress = global::LightController.Properties.Resources.预览效果_Press;
+            this.previewButton.ImageSelected = global::LightController.Properties.Resources.预览效果_Highlight;
+            this.previewButton.Location = new System.Drawing.Point(820, 11);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(60, 69);
+            this.previewButton.TabIndex = 8;
+            this.previewButton.TabStop = false;
+            this.previewButton.Text = "预览效果";
+            this.previewButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.previewButton.WaitOnLoad = true;
+            this.previewButton.Click += new System.EventHandler(this.uiImageButton9_Click);
             // 
             // lightListButton
             // 
@@ -1300,9 +1300,6 @@
             this.sceneComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sceneComboBox.ForeColor = System.Drawing.Color.White;
             this.sceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.sceneComboBox.Items.AddRange(new object[] {
-            "激情（01）",
-            "柔和（02）"});
             this.sceneComboBox.Location = new System.Drawing.Point(85, 43);
             this.sceneComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.sceneComboBox.MinimumSize = new System.Drawing.Size(63, 0);
@@ -1314,7 +1311,6 @@
             this.sceneComboBox.Size = new System.Drawing.Size(183, 20);
             this.sceneComboBox.Style = Sunny.UI.UIStyle.Custom;
             this.sceneComboBox.TabIndex = 5;
-            this.sceneComboBox.Text = "激情（01）";
             this.sceneComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             this.sceneComboBox.SelectedIndexChanged += new System.EventHandler(this.sceneComboBox_SelectedIndexChanged);
             // 
@@ -1328,9 +1324,6 @@
             this.protocolComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.protocolComboBox.ForeColor = System.Drawing.Color.White;
             this.protocolComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.protocolComboBox.Items.AddRange(new object[] {
-            "雷石",
-            "视易"});
             this.protocolComboBox.Location = new System.Drawing.Point(85, 12);
             this.protocolComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.protocolComboBox.MinimumSize = new System.Drawing.Size(63, 0);
@@ -1342,7 +1335,6 @@
             this.protocolComboBox.Size = new System.Drawing.Size(116, 20);
             this.protocolComboBox.Style = Sunny.UI.UIStyle.Custom;
             this.protocolComboBox.TabIndex = 5;
-            this.protocolComboBox.Text = "雷石";
             this.protocolComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             this.protocolComboBox.SelectedIndexChanged += new System.EventHandler(this.protocolComboBox_SelectedIndexChanged);
             // 
@@ -1911,7 +1903,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.makeSoundButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toolsButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.globalSetButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.previewButton1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lightListButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seqButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.helpButton)).EndInit();
@@ -1963,7 +1955,7 @@
         private Sunny.UI.UIPanel uiPanel4;
         private Sunny.UI.UIImageButton makeSoundButton;
         private Sunny.UI.UIImageButton globalSetButton;
-        private Sunny.UI.UIImageButton previewButton1;
+        private Sunny.UI.UIImageButton previewButton;
         private Sunny.UI.UIImageButton lightListButton;
         private Sunny.UI.UIImageButton keepButton;
         private Sunny.UI.UIImageButton libButton;

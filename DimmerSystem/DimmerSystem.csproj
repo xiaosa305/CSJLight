@@ -147,6 +147,12 @@
     <Compile Include="Entity\DB_ChannelPK.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
     <Compile Include="Entity\DB_Light.cs" />
+    <Compile Include="MyForm\Connect\DMX512ConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Connect\DMX512ConnectForm.Designer.cs">
+      <DependentUpon>DMX512ConnectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\LightList\LightsAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -248,6 +254,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\灯光图.png" />
+    <EmbeddedResource Include="MyForm\Connect\DMX512ConnectForm.resx">
+      <DependentUpon>DMX512ConnectForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightList\LightsAddForm.resx">
       <DependentUpon>LightsAddForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -643,7 +652,6 @@
     <Content Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MyForm\Connect\" />
     <Folder Include="MyForm\Tools\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

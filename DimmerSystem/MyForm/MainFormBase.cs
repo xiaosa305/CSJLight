@@ -1,11 +1,14 @@
-﻿using LightController.Ast;
+﻿using DimmerSystem.Xiaosa.Entity;
+using LightController.Ast;
 using LightController.Ast.Enum;
 using LightController.Common;
 using LightController.DAO;
 using LightController.Entity;
+using LightController.MyForm.Connect;
 using LightController.MyForm.LightList;
 using LightController.MyForm.Project;
 using LightController.MyForm.Step;
+using LightController.Xiaosa.Preview;
 using LightEditor.Ast;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -50,6 +53,73 @@ namespace LightController.MyForm
         public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
         protected string projectStr;
         public string ConnectStr = " [ 设备未连接 ]";
+
+        
+        
+
+        /// <summary>
+        ///  辅助方法：供《DMX512连接Form》使用，使可以更改一些数据
+        /// </summary>
+        public void RefreshConnectedControls(bool isDMXConnected)
+        {
+            IsDMXConnected = isDMXConnected;
+            refreshConnectedControls(IsDeviceConnected, IsPreviewing);
+        }
+
+        // 调试面板
+        private void refreshConnectedControls(bool isDeviceConnected, bool isPreviewing)
+        {
+            IsDeviceConnected = isDeviceConnected;
+            IsPreviewing = isPreviewing;
+            ConnectStr = " [ "
+                + (IsDeviceConnected ? "设备已连接：" + MyConnect.DeviceName : "设备未连接")
+                + (IsDMXConnected ? " #" : "")
+                + " ]";
+            Text = SoftwareName + projectStr + ConnectStr;
+
+            confButton.Enabled = isDeviceConnected;
+            seqButton.Enabled = isDeviceConnected;
+            toolsButton.Enabled = isDeviceConnected;           
+            downloadButton.Enabled = isDeviceConnected;
+
+            keepButton.Enabled = IsEnableOneStepPlay();
+            previewButton.Enabled = IsOneMoreConnected();
+            makeSoundButton.Enabled = IsOneMoreConnected() && IsPreviewing;
+            RefreshPreviewButton();
+
+            // 进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
+            if (IsEnableOneStepPlay())
+            {
+                refreshStep();
+            }
+        }
+
+        /// <summary>
+        /// 辅助方法：返回是否可以进行单步调试
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEnableOneStepPlay() { 
+            return IsOneMoreConnected() && !IsPreviewing; 
+        }
+
+        /// <summary>
+        /// 辅助方法：返回是否有至少连接方式正在连接
+        /// </summary>
+        /// <returns></returns>
+        public bool IsOneMoreConnected() { 
+            return IsDeviceConnected || IsDMXConnected; 
+        }
+
+        /// <summary>
+        /// 辅助方法：根据入参，调整《预览效果|停止预览》按键的显示
+        /// </summary>
+        /// <param name="preview"> 是否正在预览</param>
+        public void RefreshPreviewButton()
+        {
+            previewButton.Selected = IsPreviewing; 
+            previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
+        }
+
         public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
 
         public bool IsNoticeUnifyTd = true;
@@ -65,7 +135,7 @@ namespace LightController.MyForm
 
         // 全局辅助变量
         public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用		
-                                                    //protected MaterialUseForm materialUseForm = null; // 存储一个materialForm界面的实例，初次使用时新建
+        //protected MaterialUseForm materialUseForm = null; // 存储一个materialForm界面的实例，初次使用时新建
 
         // 程序运行后，动态变化的变量
         protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
@@ -116,11 +186,11 @@ namespace LightController.MyForm
         protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
         // 调试变量
-        //public ConnectForm ConnForm; // 《设备连接》的窗口，只留一个实体即可
-        //public NetworkConnect MyConnect;  // 与设备的连接
-        //protected DMX512ConnnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可	
-        //protected Player networkPlayer = Player.GetPlayer(); // 通过设备，调试512灯具的对象
-        //public SerialPortPlayer SerialPlayer = SerialPortPlayer.GetPlayer();     // 通过DMX512调试线直连设备，调试512灯具的对象
+        //DOTO public ConnectForm ConnForm; // 《设备连接》的窗口，只留一个实体即可
+        public NetworkConnect MyConnect;  // 与设备的连接
+        private DMX512ConnectForm dmxConnForm; //《DMX512调试线连接》的窗口，只留一个实体即可	
+        private Player networkPlayer = Player.GetPlayer(); // 通过设备，调试512灯具的对象
+        public SerialPortPlayer SerialPlayer = SerialPortPlayer.GetPlayer();     // 通过DMX512调试线直连设备，调试512灯具的对象
 
         public bool IsDeviceConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
         public bool IsDMXConnected = false; // 辅助bool值，当DMX512线已经连接时设为true，反之为false
@@ -574,27 +644,26 @@ namespace LightController.MyForm
             // 当点击左键时，直接弹出《网络连接》界面
             if (e.Button == MouseButtons.Left)
             {
-                if (ConnForm == null)
-                {
-                    ConnForm = new ConnectForm(this);
-                }
-                ConnForm.ShowDialog();
+                //DOTO 
+                //if (ConnForm == null)
+                //{
+                //    ConnForm = new ConnectForm(this);
+                //}
+                //ConnForm.ShowDialog();
             }
-            // 当点击右键时，1.未使用网络方式连接（暂时取消）；2.点击次数达到6次 ；满足这两个条件才弹出DMX512连接的界面
+            // 当点击右键时，点击次数达到6次，便弹出DMX512连接的界面
             else if (e.Button == MouseButtons.Right)
-            {
-                //if (MyConnect == null ||  !IsDeviceConnected ) {
+            {                
                 clickTime++;
                 if (clickTime == 6)
                 {
                     if (dmxConnForm == null)
                     {
-                        dmxConnForm = new DMX512ConnnectForm(this);
+                        dmxConnForm = new DMX512ConnectForm(this);
                     }
                     dmxConnForm.ShowDialog();
-                    clickTime = 0;
-                }
-                //}			
+                    clickTime = 0; //计数器归零
+                }                	
             }
         }
 

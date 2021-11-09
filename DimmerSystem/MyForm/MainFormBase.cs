@@ -1,5 +1,4 @@
-﻿using DimmerSystem.Xiaosa.Entity;
-using LightController.Ast;
+﻿using LightController.Ast;
 using LightController.Ast.Enum;
 using LightController.Common;
 using LightController.DAO;
@@ -8,6 +7,7 @@ using LightController.MyForm.Connect;
 using LightController.MyForm.LightList;
 using LightController.MyForm.Project;
 using LightController.MyForm.Step;
+using LightController.PeripheralDevice;
 using LightController.Xiaosa.Preview;
 using LightEditor.Ast;
 using NPOI.HSSF.UserModel;
@@ -3908,9 +3908,7 @@ namespace LightController.MyForm
                     }
                 }
             }
-        }
-
-       
-        }
-    }
+        }       
+     }
 }
+

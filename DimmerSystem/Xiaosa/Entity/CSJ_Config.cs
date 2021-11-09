@@ -1,5 +1,4 @@
-﻿using LightController.Ast;
-using LightController.Entity;
+﻿using LightController.Entity;
 using LightController.MyForm;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Tools.CSJ.IMPL
+namespace DimmerSystem.Xiaosa.Entity
 {
     public class CSJ_Config : ICSJFile
     {

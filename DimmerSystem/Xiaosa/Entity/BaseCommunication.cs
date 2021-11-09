@@ -1,11 +1,5 @@
-﻿using LightController.Ast;
-using LightController.Common;
+﻿using DimmerSystem.Xiaosa.Tools;
 using LightController.Entity;
-using LightController.Tools;
-using LightController.Tools.CSJ;
-using LightController.Tools.CSJ.IMPL;
-using LightController.Utils;
-using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,10 +10,9 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
-using LightController.Xiaosa.Entity;
-using static LightController.Xiaosa.Entity.CallBackFunction;
+using static DimmerSystem.Xiaosa.Entity.CallBackFunction;
 
-namespace LightController.PeripheralDevice
+namespace DimmerSystem.Xiaosa.Entity
 {
     public abstract class BaseCommunication
     {

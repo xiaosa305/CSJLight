@@ -23,7 +23,6 @@ namespace LightController.MyForm.Connect
 		public static int SEND_WAITTIME = 500; // 发送指令后等待时间	
 		private MainFormBase mainForm;
 		private IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)		
-
 		public ConnectForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
@@ -63,6 +62,7 @@ namespace LightController.MyForm.Connect
 		/// <param name="e"></param>
 		private void ConnectForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
+			//DOTO　ConnectForm_HelpButtonClicked
 			e.Cancel = true;
 			if (DialogResult.Yes == MessageBox.Show("设备出厂时的默认IP地址为192.168.2.10；如果当前电脑当前不在此网段内(即本机IP非192.168.2.X)，将无法搜到设备。是否要打开《网络连接》设置本地IP?",
 				"设置本地IP",
@@ -73,16 +73,6 @@ namespace LightController.MyForm.Connect
 			}
 		}
 
-		/// <summary>
-		/// 事件：关闭本窗口
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ConnectForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			Hide();
-			mainForm.Activate();
-		}
 
 		/// <summary>
 		/// 事件：点击《刷新列表》
@@ -205,7 +195,7 @@ namespace LightController.MyForm.Connect
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void restartButton_Click(object sender, EventArgs e)
+		private void deviceRestartButton_Click(object sender, EventArgs e)
 		{
 			if (mainForm.IsDeviceConnected)
 			{
@@ -249,7 +239,8 @@ namespace LightController.MyForm.Connect
 			myStatusStrip.Refresh();
 		}
 
-		#endregion
+        #endregion
 
-	}
+        
+    }
 }

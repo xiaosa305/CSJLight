@@ -73,6 +73,7 @@ namespace LightController.MyForm
         {
             IsDeviceConnected = isDeviceConnected;
             IsPreviewing = isPreviewing;
+            
             ConnectStr = " [ "
                 + (IsDeviceConnected ? "设备已连接：" + MyConnect.DeviceName : "设备未连接")
                 + (IsDMXConnected ? " #" : "")
@@ -86,7 +87,7 @@ namespace LightController.MyForm
 
             keepButton.Enabled = IsEnableOneStepPlay();
             previewButton.Enabled = IsOneMoreConnected();
-            RefreshPreviewButton();
+            RefreshPreviewButton(isPreviewing);           
             makeSoundButton.Enabled = IsOneMoreConnected() && IsPreviewing;
 
             // 进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
@@ -118,8 +119,9 @@ namespace LightController.MyForm
         /// 辅助方法：根据入参，调整《预览效果|停止预览》按键的显示
         /// </summary>
         /// <param name="preview"> 是否正在预览</param>
-        public void RefreshPreviewButton()
+        public void RefreshPreviewButton(bool isPreviewing)
         {
+            IsPreviewing = isPreviewing;
             previewButton.Selected = IsPreviewing;
             previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
         }
@@ -383,6 +385,8 @@ namespace LightController.MyForm
                     Size = tdValueNUDDemo.Size,
                     TextAlign = tdValueNUDDemo.TextAlign,
                     Tag = 0,
+                    BackColor = tdValueNUDDemo.BackColor,
+                    ForeColor = tdValueNUDDemo.ForeColor,
                 };
 
                 tdCmComboBoxes[tdIndex] = new ComboBox
@@ -393,7 +397,9 @@ namespace LightController.MyForm
                     Size = tdCmComboBoxDemo.Size,
                     DropDownStyle = tdCmComboBoxDemo.DropDownStyle,
                     Tag = 1,
-                    Font = tdCmComboBoxDemo.Font
+                    Font = tdCmComboBoxDemo.Font,
+                    BackColor = tdCmComboBoxDemo.BackColor,
+                    ForeColor = tdCmComboBoxDemo.ForeColor,
                 };
                 tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
                         LanguageHelper.TranslateWord("跳变"),
@@ -409,7 +415,9 @@ namespace LightController.MyForm
                     Size = tdStNUDDemo.Size,
                     TextAlign = tdStNUDDemo.TextAlign,
                     DecimalPlaces = tdStNUDDemo.DecimalPlaces,
-                    Tag = 2
+                    Tag = 2,
+                    BackColor = tdStNUDDemo.BackColor,
+                    ForeColor = tdStNUDDemo.ForeColor,
                 };
 
                 tdPanels[tdIndex].Controls.Add(tdNameLabels[tdIndex]);
@@ -706,12 +714,7 @@ namespace LightController.MyForm
                 }
             }
         }
-
-        private void uiImageButton9_Click(object sender, EventArgs e)
-        {
-            (sender as UIImageButton).Selected = !(sender as UIImageButton).Selected;
-        }
-
+          
         #endregion
 
         #region 工程相关
@@ -1553,7 +1556,7 @@ namespace LightController.MyForm
 
             showLightsInfo(); //EnterMultiMode
             refreshMultiModeControls(); //EnterMultiMode()
-            refreshStep(); //最后刷新步：此处代码用到了模板方法...
+            refreshStep(); //最后刷新步  (此处用到了《设计模式之模板方法》...)
         }
 
         /// <summary>
@@ -4197,6 +4200,362 @@ namespace LightController.MyForm
         }
 
         #endregion
+
+        private void MainFormBase_Activated(object sender, EventArgs e)
+        {
+            startDebug();
+        }
+
+        /// <summary>
+        ///  辅助方法：启动调试，基本只有在界面激活时用得到；
+        /// </summary>
+        protected void startDebug()
+        {
+            if (IsDeviceConnected)
+            {
+                SleepBetweenSend("Order : StartDebug", 1);
+                networkPlayer.StartDebug(MyConnect, StartDebugCompleted, StartDebugError);
+            }
+        }
+
+        /// <summary>
+        /// 辅助方法：关闭调试
+        /// </summary>
+        protected void stopDebug()
+        {
+            if (IsDeviceConnected)
+            {
+                SleepBetweenSend("Order : StopDebug", 1);
+                networkPlayer.StopDebug(delegate { }, delegate { });
+            }
+        }
+
+        /// <summary>
+        /// 辅助方法：为硬件发送新命令之前，先检查上次发送的时间，如果时间还不够长，把时间补足；
+        /// </summary>
+        /// <param name="orderName">命令名，方便调试</param>
+        /// <param name="times">暂停时间的倍数（有些命令需要更长的等待时间）</param>
+        public void SleepBetweenSend(string orderName, int times)
+        {
+            long pastTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000 - LastSendTime;
+            if (pastTime < ConnectForm.SEND_WAITTIME * times)
+            {
+                Thread.Sleep(ConnectForm.SEND_WAITTIME * times - (int)pastTime);
+            }
+            LastSendTime = (DateTime.Now.ToUniversalTime().Ticks) / 10000;
+            Console.WriteLine(DateTime.Now + " ：" + orderName);
+        }
+
+        /// <summary>
+        /// 辅助回调方法：启用调试成功
+        /// </summary>
+        /// <param name="obj"></param>
+        public void StartDebugCompleted()
+        {
+            Invoke((EventHandler)delegate
+            {
+                refreshConnectedControls(IsDeviceConnected, IsPreviewing);  //StartPreviewCompleted
+            });
+        }
+
+        /// <summary>
+        /// 辅助回调方法：启用调试失败
+        /// </summary>
+        /// <param name="msg">错误提示</param>
+        public void StartDebugError(string msg)
+        {
+            Invoke((EventHandler)delegate
+            {
+                DisConnect();
+                // 这里先后顺序十分重要：
+                // 1. 要在DisConnect()后，弹出提示 ！ 若提示在前，会重新触发Activated-》StartPreview()方法，就会造成跑两次不同msg的StartPreviewError方法！
+                // 2.要在ConnForm.ShowDialog()前，弹出提示：否则会出现牛头不对马嘴的情况：即可能都已经重连了再弹出断连的提示！
+                SetNotice(msg, true, true);
+                ConnForm.ShowDialog();
+            });
+        }
+
+        /// <summary>
+        /// 事件：点击《保持状态|取消保持》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void keepButton_Click(object sender, EventArgs e)
+        {
+            isKeepOtherLights = !isKeepOtherLights;
+            keepButton.Selected = isKeepOtherLights;
+            keepButton.Text = isKeepOtherLights?"取消保持":"保持状态";            
+            refreshStep();
+        }
+
+        
+        /// <summary>
+        /// 事件：点击《预览效果|停止预览》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void previewButton_Click(object sender, EventArgs e)
+        {
+            PreviewButtonClick(null);
+        }
+
+        /// <summary>
+        /// 辅助方法：预览效果|停止预览
+        /// </summary>
+        public void PreviewButtonClick(MaterialAst material)
+        {
+            if (!IsOneMoreConnected())
+            {
+                SetNotice("尚未连接设备（或灯具），无法预览效果（或停止预览）。", true, true);
+                refreshConnectedControls(false, false); //PreviewButtonClick()
+                return;
+            }
+
+            // 停止预览
+            if (IsPreviewing)
+            {
+                endPreview(); // PreviewButtonClick
+                refreshConnectedControls(IsDeviceConnected, false); //PreviewButtonClick
+                SetNotice("已结束预览,并恢复到实时调试模式。", false, true);
+            }
+            // 开始预览
+            else
+            {
+                if (LightAstList == null || LightAstList.Count == 0)
+                {
+                    SetNotice("当前工程还未添加灯具，无法预览。", true, true);
+                   RefreshPreviewButton(false); 
+                    return;
+                }
+
+                setBusy(true);
+                RefreshPreviewButton(true);
+
+                SetNotice("正在准备预览数据，请稍候...", false, true);
+                try
+                {
+                    generatePreviewParameters();
+                    isPreviewMaterial = false;
+
+                    //MARK : 1221 MainFormBase.PreviewButtonClick(material) 给使用动作预览的方法					
+                    if (material != null)
+                    {
+                        isPreviewMaterial = true;
+                        materialTDListDict = new Dictionary<int, IList<TongdaoWrapper>>();
+                        for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+                        {
+                            if (lightIndex == selectedIndex || isMultiMode && selectedIndexList.Contains(lightIndex))
+                            {
+                                IList<TongdaoWrapper> tdList = getSelectedLightStepTemplate(lightIndex).TongdaoList;
+                                for (int stepIndex = 0; stepIndex < material.StepCount; stepIndex++)
+                                {
+                                    foreach (MaterialIndexAst mi in getSameTDIndexList(material.TdNameList, tdList))
+                                    {
+                                        int tdAddr = tdList[mi.CurrentTDIndex].TongdaoCommon.Address;
+                                        if (!materialTDListDict.ContainsKey(tdAddr))
+                                        {
+                                            materialTDListDict.Add(tdAddr, new List<TongdaoWrapper>());
+                                        }
+
+                                        materialTDListDict[tdAddr].Add(new TongdaoWrapper()
+                                        {
+                                            ScrollValue = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ScrollValue,
+                                            StepTime = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].StepTime,
+                                            ChangeMode = material.TongdaoArray[stepIndex, mi.MaterialTDIndex].ChangeMode,
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    SetNotice("正在预览" + (isPreviewMaterial ? "复合素材" : "场景数据") + "...", false, true);
+                    refreshConnectedControls(IsDeviceConnected, true); //Preview
+
+                    if (IsDeviceConnected) networkPlayer.Preview(this);
+                    if (IsDMXConnected) SerialPlayer.Preview(this);
+
+                }
+                catch (Exception ex)
+                {
+                    RefreshPreviewButton(false);
+                    MessageBox.Show("生成预览数据时异常：" + ex.Message);
+                }
+                finally
+                {
+                    setBusy(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 辅助方法：结束预览
+        /// </summary>
+        private void endPreview()
+        {
+            // 结束预览时，直接刷新步
+            refreshStep();
+        }
+
+        /// <summary>
+        /// 事件：点击《触发音频》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void makeSoundButton_Click(object sender, EventArgs e)
+        {
+            if (IsOneMoreConnected() && IsPreviewing)
+            {
+                if (networkPlayer.GetMusicControlState() || SerialPlayer.GetMusicControlState())
+                {
+                    makeSoundButton.Selected = true;
+                    Refresh();
+
+                    if (IsDeviceConnected) networkPlayer.TriggerAudio();
+                    if (IsDMXConnected) SerialPlayer.TriggerAudio();
+
+                    makeSoundButton.Selected = false;
+                    Refresh();
+                }
+                else
+                {
+                    Console.WriteLine("Dickov :  音频正在触发中或无音频，故此操作不生效...");
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 事件:点击《灯具编组|退出编组》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void groupButton_Click(object sender, EventArgs e)
+        {
+            if (isMultiMode)
+            {
+                // 选择组长作为当前灯具（GroupAst中只有一个成员，index = 0）
+                GroupAst group = new GroupAst()
+                {
+                    LightIndexList = new List<int>() { selectedIndex },
+                    CaptainIndex = 0,
+                };
+                EnterMultiMode(group, false); // groupButtonClick内退出编组
+            }
+            else
+            {
+                if (lightsListView.SelectedIndices.Count < 1)
+                {
+                    SetNotice("请选择至少一个灯具，否则无法进行编组。", true, true);
+                    return;
+                }
+                if ( ! checkSameLights())
+                {
+                    SetNotice("未选中灯具或选中的灯具并非同一类型，无法进行编组；请再次选择后重试。", true, true);
+                    return;
+                }
+
+                selectedIndexList = new List<int>();
+                foreach (int item in lightsListView.SelectedIndices)
+                {
+                    selectedIndexList.Add(item);
+                }
+                new GroupForm(this, LightAstList, selectedIndexList).ShowDialog();
+            }           
+        }
+
+
+        /// <summary>
+        /// 辅助方法: 确认选中灯具是否否同一种灯具：是则返回true,否则返回false。
+        /// 验证方法：取出第一个选中灯具的名字，若后面的灯具的全名（Tag =lightName + ":" + lightType)与它不同，说明不是同种灯具。（只要一个不同即可判断）
+        /// </summary>
+        /// <returns></returns>
+        private bool checkSameLights()
+        {
+            if (lightsListView.SelectedItems.Count == 0)
+            {
+                return false;
+            }
+            if (lightsListView.SelectedItems.Count == 1)
+            {
+                return true;
+            }
+
+            bool result = true;
+            string firstTag = lightsListView.SelectedItems[0].Tag.ToString();
+            for (int i = 1; i < lightsListView.SelectedItems.Count; i++) // 从第二个选中灯具开始比对
+            {
+                string tempTag = lightsListView.SelectedItems[i].Tag.ToString();
+                if (!firstTag.Equals(tempTag))
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        ///  辅助方法：（供GroupForm调用）检查当前的所有选中灯具的所有步数，是否一致。--》只需都和第一个灯进行对比，稍有不同，即不通过。
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckSameStepCounts()
+        {
+            int firstIndex = selectedIndexList[0];
+            int firstStepCounts = getSelectedLightTotalStep(firstIndex);
+            foreach (int index in selectedIndexList)
+            {
+                int tempStepCounts = getSelectedLightTotalStep(index);
+                if (tempStepCounts != firstStepCounts)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 辅助方法：供《灯具编组Form》使用：成功为true(跳过或真的编组)，失败false（无法编组）
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public bool MakeGroup(GroupAst group)
+        {
+            // 当编组名为空时，直接返回true，表示跳过存储编组；
+            if (string.IsNullOrWhiteSpace(group.GroupName))
+            {
+                return true;
+            }
+
+            if (GroupList == null)
+            {
+                MessageBox.Show("GroupList==null");
+                return false;
+            }
+            if (!GroupAst.CheckGroupName(GroupList, group.GroupName))
+            {
+                MessageBox.Show("编组名已存在");
+                return false;
+            }
+
+            GroupList.Add(group);
+            refreshGroupPanels();
+            return true;
+        }
+
+        /// <summary>
+        /// 事件：点击《工程下载》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void downloadButton_Click(object sender, EventArgs e)
+        {
+            if (IsDeviceConnected)
+            {
+                stopDebug();
+                new DownloadForm(this).ShowDialog();
+            }
+        }
     }
 }
 

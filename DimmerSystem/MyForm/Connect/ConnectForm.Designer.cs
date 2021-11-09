@@ -31,11 +31,11 @@ namespace LightController.MyForm.Connect
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.deviceConnectButton = new Sunny.UI.UIButton();
+            this.deviceRestartButton = new Sunny.UI.UIButton();
             this.deviceRefreshButton = new Sunny.UI.UIButton();
             this.deviceComboBox = new Sunny.UI.UIComboBox();
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.deviceRestartButton = new Sunny.UI.UIButton();
             this.panel1.SuspendLayout();
             this.myStatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -71,6 +71,21 @@ namespace LightController.MyForm.Connect
             this.deviceConnectButton.TabIndex = 36;
             this.deviceConnectButton.Text = "连接灯具";
             this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
+            // 
+            // deviceRestartButton
+            // 
+            this.deviceRestartButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deviceRestartButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.deviceRestartButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.deviceRestartButton.Location = new System.Drawing.Point(228, 19);
+            this.deviceRestartButton.MinimumSize = new System.Drawing.Size(1, 1);
+            this.deviceRestartButton.Name = "deviceRestartButton";
+            this.deviceRestartButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.deviceRestartButton.Size = new System.Drawing.Size(60, 61);
+            this.deviceRestartButton.Style = Sunny.UI.UIStyle.Custom;
+            this.deviceRestartButton.TabIndex = 35;
+            this.deviceRestartButton.Text = "设备重启";
+            this.deviceRestartButton.Click += new System.EventHandler(this.deviceRestartButton_Click);
             // 
             // deviceRefreshButton
             // 
@@ -130,21 +145,6 @@ namespace LightController.MyForm.Connect
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 19);
             // 
-            // deviceRestartButton
-            // 
-            this.deviceRestartButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deviceRestartButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deviceRestartButton.Font = new System.Drawing.Font("黑体", 8F);
-            this.deviceRestartButton.Location = new System.Drawing.Point(228, 19);
-            this.deviceRestartButton.MinimumSize = new System.Drawing.Size(1, 1);
-            this.deviceRestartButton.Name = "deviceRestartButton";
-            this.deviceRestartButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.deviceRestartButton.Size = new System.Drawing.Size(60, 61);
-            this.deviceRestartButton.Style = Sunny.UI.UIStyle.Custom;
-            this.deviceRestartButton.TabIndex = 35;
-            this.deviceRestartButton.Text = "设备重启";
-            this.deviceRestartButton.Click += new System.EventHandler(this.deviceRefreshButton_Click);
-            // 
             // ConnectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -161,6 +161,8 @@ namespace LightController.MyForm.Connect
             this.Text = "设备连接";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.TitleFont = new System.Drawing.Font("黑体", 8F);
+            this.Load += new System.EventHandler(this.ConnectForm_Load);
+            this.Shown += new System.EventHandler(this.ConnectForm_Shown);
             this.panel1.ResumeLayout(false);
             this.myStatusStrip.ResumeLayout(false);
             this.myStatusStrip.PerformLayout();

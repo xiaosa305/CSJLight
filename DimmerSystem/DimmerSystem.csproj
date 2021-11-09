@@ -184,11 +184,23 @@
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
+    <Compile Include="MyForm\Project\DownloadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Project\DownloadForm.Designer.cs">
+      <DependentUpon>DownloadForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Project\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\Project\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Project\GroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Project\GroupForm.Designer.cs">
+      <DependentUpon>GroupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Project\NewForm.cs">
       <SubType>Form</SubType>
@@ -278,8 +290,14 @@
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Project\DownloadForm.resx">
+      <DependentUpon>DownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Project\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Project\GroupForm.resx">
+      <DependentUpon>GroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Project\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>

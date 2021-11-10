@@ -430,21 +430,24 @@ namespace LightController.Xiaosa.Tools
                         startValue = item.ScrollValue;
                     }
                 }
-                if (firstStepInfo.ChangeMode == 1)//渐变
+                if (firstStepInfo != null)
                 {
-                    inc = (firstStepInfo.ScrollValue - startValue) / firstStepInfo.StepTime;
-                    for (int i = 0; i < firstStepInfo.StepTime - 1; i++)
+                    if (firstStepInfo.ChangeMode == 1)//渐变
                     {
-                        var value = startValue + (i + 1) * inc;
-                        value = value < 0 ? 0 : value;
-                        value = value > 255 ? 255 : value;
-                        int intValue = (int)Math.Floor(value * 256);
-                        writeBuff.Add(Convert.ToByte(fineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / fineTune.MaxValue)));
+                        inc = (firstStepInfo.ScrollValue - startValue) / firstStepInfo.StepTime;
+                        for (int i = 0; i < firstStepInfo.StepTime - 1; i++)
+                        {
+                            var value = startValue + (i + 1) * inc;
+                            value = value < 0 ? 0 : value;
+                            value = value > 255 ? 255 : value;
+                            int intValue = (int)Math.Floor(value * 256);
+                            writeBuff.Add(Convert.ToByte(fineTune == null ? (intValue >> 8) & 0xFF : (intValue & 0xFF) / (255 / fineTune.MaxValue)));
+                        }
                     }
-                }
-                else//跳变
-                {
-                    writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(firstStepInfo.ScrollValue) : Convert.ToByte(0x00), firstStepInfo.StepTime - 1));
+                    else//跳变
+                    {
+                        writeBuff.AddRange(Enumerable.Repeat<byte>(fineTune == null ? Convert.ToByte(firstStepInfo.ScrollValue) : Convert.ToByte(0x00), firstStepInfo.StepTime - 1));
+                    }
                 }
                 //写入缓存文件
                 if (writeBuff.Count > 0)
@@ -473,7 +476,6 @@ namespace LightController.Xiaosa.Tools
             };
             List<byte> writeBuff = new List<byte>();
             var channelValues = MainFormInterface.GetSMTDList(pk);
-            TongdaoWrapper firstStep = null;
             if (channelValues.Count > 0)
             {
                 foreach (var item in channelValues)
@@ -482,14 +484,8 @@ namespace LightController.Xiaosa.Tools
                     {
                         continue;
                     }
-                    if (firstStep == null)
-                    {
-                        firstStep = item;
-                        writeBuff.Add(Convert.ToByte(item.ScrollValue));
-                    }
                     writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(item.ScrollValue), item.StepTime));
                 }
-                writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(firstStep.ScrollValue), firstStep.StepTime));
                 //写入缓存文件
                 if (writeBuff.Count > 0)
                 {

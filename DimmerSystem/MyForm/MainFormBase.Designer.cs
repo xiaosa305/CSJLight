@@ -36,6 +36,9 @@
             this.lightTypeLabel = new System.Windows.Forms.Label();
             this.lightNameLabel = new System.Windows.Forms.Label();
             this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupPanelDemo = new System.Windows.Forms.Panel();
+            this.groupInButtonDemo = new Sunny.UI.UIButton();
+            this.groupDelButtonDemo = new Sunny.UI.UIButton();
             this.astLinePanel = new System.Windows.Forms.Panel();
             this.lightPictureBox = new System.Windows.Forms.PictureBox();
             this.uiLabel3 = new Sunny.UI.UILabel();
@@ -132,6 +135,8 @@
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
             this.astPanel.SuspendLayout();
+            this.groupFlowLayoutPanel.SuspendLayout();
+            this.groupPanelDemo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).BeginInit();
             this.menuPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).BeginInit();
@@ -194,7 +199,7 @@
             this.lightsAddrLabel.Name = "lightsAddrLabel";
             this.lightsAddrLabel.Size = new System.Drawing.Size(189, 87);
             this.lightsAddrLabel.TabIndex = 12;
-            this.lightsAddrLabel.Text = "地址：";
+            this.lightsAddrLabel.Text = " ";
             // 
             // lightRemarkLabel
             // 
@@ -203,9 +208,9 @@
             this.lightRemarkLabel.ForeColor = System.Drawing.Color.White;
             this.lightRemarkLabel.Location = new System.Drawing.Point(21, 206);
             this.lightRemarkLabel.Name = "lightRemarkLabel";
-            this.lightRemarkLabel.Size = new System.Drawing.Size(41, 11);
+            this.lightRemarkLabel.Size = new System.Drawing.Size(11, 11);
             this.lightRemarkLabel.TabIndex = 12;
-            this.lightRemarkLabel.Text = "备注：";
+            this.lightRemarkLabel.Text = " ";
             // 
             // lightTypeLabel
             // 
@@ -214,9 +219,9 @@
             this.lightTypeLabel.ForeColor = System.Drawing.Color.White;
             this.lightTypeLabel.Location = new System.Drawing.Point(21, 184);
             this.lightTypeLabel.Name = "lightTypeLabel";
-            this.lightTypeLabel.Size = new System.Drawing.Size(41, 11);
+            this.lightTypeLabel.Size = new System.Drawing.Size(11, 11);
             this.lightTypeLabel.TabIndex = 12;
-            this.lightTypeLabel.Text = "型号：";
+            this.lightTypeLabel.Text = " ";
             // 
             // lightNameLabel
             // 
@@ -225,17 +230,77 @@
             this.lightNameLabel.ForeColor = System.Drawing.Color.White;
             this.lightNameLabel.Location = new System.Drawing.Point(21, 162);
             this.lightNameLabel.Name = "lightNameLabel";
-            this.lightNameLabel.Size = new System.Drawing.Size(41, 11);
+            this.lightNameLabel.Size = new System.Drawing.Size(11, 11);
             this.lightNameLabel.TabIndex = 12;
-            this.lightNameLabel.Text = "厂商：";
+            this.lightNameLabel.Text = " ";
             // 
             // groupFlowLayoutPanel
             // 
+            this.groupFlowLayoutPanel.AutoScroll = true;
+            this.groupFlowLayoutPanel.Controls.Add(this.groupPanelDemo);
             this.groupFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupFlowLayoutPanel.Location = new System.Drawing.Point(1, 448);
             this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
             this.groupFlowLayoutPanel.Size = new System.Drawing.Size(225, 257);
             this.groupFlowLayoutPanel.TabIndex = 11;
+            // 
+            // groupPanelDemo
+            // 
+            this.groupPanelDemo.Controls.Add(this.groupInButtonDemo);
+            this.groupPanelDemo.Controls.Add(this.groupDelButtonDemo);
+            this.groupPanelDemo.Location = new System.Drawing.Point(3, 3);
+            this.groupPanelDemo.Name = "groupPanelDemo";
+            this.groupPanelDemo.Size = new System.Drawing.Size(96, 24);
+            this.groupPanelDemo.TabIndex = 16;
+            // 
+            // groupInButtonDemo
+            // 
+            this.groupInButtonDemo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.groupInButtonDemo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.groupInButtonDemo.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.groupInButtonDemo.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.groupInButtonDemo.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.groupInButtonDemo.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.groupInButtonDemo.Font = new System.Drawing.Font("黑体", 8.25F);
+            this.groupInButtonDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.groupInButtonDemo.Location = new System.Drawing.Point(2, 2);
+            this.groupInButtonDemo.MinimumSize = new System.Drawing.Size(1, 2);
+            this.groupInButtonDemo.Name = "groupInButtonDemo";
+            this.groupInButtonDemo.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupInButtonDemo.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupInButtonDemo.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupInButtonDemo.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupInButtonDemo.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupInButtonDemo.Size = new System.Drawing.Size(70, 20);
+            this.groupInButtonDemo.Style = Sunny.UI.UIStyle.Custom;
+            this.groupInButtonDemo.TabIndex = 6;
+            this.groupInButtonDemo.Text = "进入编组";
+            this.groupInButtonDemo.Visible = false;
+            this.groupInButtonDemo.Click += new System.EventHandler(this.groupInButton_Click);
+            // 
+            // groupDelButtonDemo
+            // 
+            this.groupDelButtonDemo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.groupDelButtonDemo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.groupDelButtonDemo.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.groupDelButtonDemo.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.groupDelButtonDemo.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.groupDelButtonDemo.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.groupDelButtonDemo.Font = new System.Drawing.Font("黑体", 8.25F);
+            this.groupDelButtonDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.groupDelButtonDemo.Location = new System.Drawing.Point(75, 2);
+            this.groupDelButtonDemo.MinimumSize = new System.Drawing.Size(1, 2);
+            this.groupDelButtonDemo.Name = "groupDelButtonDemo";
+            this.groupDelButtonDemo.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupDelButtonDemo.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupDelButtonDemo.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupDelButtonDemo.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupDelButtonDemo.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.groupDelButtonDemo.Size = new System.Drawing.Size(16, 20);
+            this.groupDelButtonDemo.Style = Sunny.UI.UIStyle.Custom;
+            this.groupDelButtonDemo.TabIndex = 15;
+            this.groupDelButtonDemo.Text = "-";
+            this.groupDelButtonDemo.Visible = false;
             // 
             // astLinePanel
             // 
@@ -340,6 +405,7 @@
             // unifyButton
             // 
             this.unifyButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.unifyButton.Enabled = false;
             this.unifyButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.unifyButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.unifyButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -363,6 +429,7 @@
             // multiplexButton
             // 
             this.multiplexButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.multiplexButton.Enabled = false;
             this.multiplexButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.multiplexButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.multiplexButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -386,6 +453,7 @@
             // groupButton
             // 
             this.groupButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.groupButton.Enabled = false;
             this.groupButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.groupButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.groupButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
@@ -405,6 +473,7 @@
             this.groupButton.Style = Sunny.UI.UIStyle.Custom;
             this.groupButton.TabIndex = 5;
             this.groupButton.Text = "灯具编组";
+            this.groupButton.Click += new System.EventHandler(this.groupButton_Click);
             // 
             // soundListButton
             // 
@@ -591,6 +660,7 @@
             this.downloadButton.Text = "工程下载";
             this.downloadButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.downloadButton.WaitOnLoad = true;
+            this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
             // 
             // makeSoundButton
             // 
@@ -612,7 +682,7 @@
             this.makeSoundButton.Text = "触发音频";
             this.makeSoundButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.makeSoundButton.WaitOnLoad = true;
-            this.makeSoundButton.Click += new System.EventHandler(this.uiImageButton9_Click);
+            this.makeSoundButton.Click += new System.EventHandler(this.makeSoundButton_Click);
             // 
             // toolsButton
             // 
@@ -675,7 +745,7 @@
             this.previewButton.Text = "预览效果";
             this.previewButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.previewButton.WaitOnLoad = true;
-            this.previewButton.Click += new System.EventHandler(this.uiImageButton9_Click);
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
             // 
             // lightListButton
             // 
@@ -757,7 +827,7 @@
             this.keepButton.Text = "保持状态";
             this.keepButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.keepButton.WaitOnLoad = true;
-            this.keepButton.Click += new System.EventHandler(this.uiImageButton9_Click);
+            this.keepButton.Click += new System.EventHandler(this.keepButton_Click);
             // 
             // libButton
             // 
@@ -797,7 +867,7 @@
             this.confButton.Text = "网络配置";
             this.confButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.confButton.WaitOnLoad = true;
-            this.confButton.Click += new System.EventHandler(this.HardwareSetButton_Click);
+            this.confButton.Click += new System.EventHandler(this.confButton_Click);
             // 
             // myStatusStrip
             // 
@@ -834,8 +904,11 @@
             // 
             // lightsListView
             // 
+            this.lightsListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.lightsListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lightsListView.ContextMenuStrip = this.myContextMenuStrip;
             this.lightsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lightsListView.ForeColor = System.Drawing.Color.White;
             this.lightsListView.HideSelection = false;
             this.lightsListView.LargeImageList = this.lightImageList;
             this.lightsListView.Location = new System.Drawing.Point(0, 0);
@@ -843,6 +916,7 @@
             this.lightsListView.Size = new System.Drawing.Size(1035, 277);
             this.lightsListView.TabIndex = 10;
             this.lightsListView.UseCompatibleStateImageBehavior = false;
+            this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
             // 
             // myContextMenuStrip
             // 
@@ -1430,8 +1504,10 @@
             // 
             // tdCmComboBoxDemo
             // 
+            this.tdCmComboBoxDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.tdCmComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tdCmComboBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdCmComboBoxDemo.ForeColor = System.Drawing.Color.White;
             this.tdCmComboBoxDemo.FormattingEnabled = true;
             this.tdCmComboBoxDemo.Items.AddRange(new object[] {
             "跳变",
@@ -1466,8 +1542,10 @@
             // 
             // tdStNUDDemo
             // 
+            this.tdStNUDDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.tdStNUDDemo.DecimalPlaces = 2;
             this.tdStNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdStNUDDemo.ForeColor = System.Drawing.Color.White;
             this.tdStNUDDemo.Location = new System.Drawing.Point(3, 210);
             this.tdStNUDDemo.Margin = new System.Windows.Forms.Padding(2);
             this.tdStNUDDemo.Maximum = new decimal(new int[] {
@@ -1487,7 +1565,9 @@
             // 
             // tdValueNUDDemo
             // 
+            this.tdValueNUDDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.tdValueNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdValueNUDDemo.ForeColor = System.Drawing.Color.White;
             this.tdValueNUDDemo.Location = new System.Drawing.Point(3, 167);
             this.tdValueNUDDemo.Margin = new System.Windows.Forms.Padding(2);
             this.tdValueNUDDemo.Maximum = new decimal(new int[] {
@@ -1894,9 +1974,12 @@
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.TitleHeight = 31;
+            this.Activated += new System.EventHandler(this.MainFormBase_Activated);
             this.Load += new System.EventHandler(this.MainFormBase_Load);
             this.astPanel.ResumeLayout(false);
             this.astPanel.PerformLayout();
+            this.groupFlowLayoutPanel.ResumeLayout(false);
+            this.groupPanelDemo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).EndInit();
             this.menuPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).EndInit();
@@ -2000,7 +2083,6 @@
         private Sunny.UI.UICheckBox modeCheckBox;
         private Sunny.UI.UIButton copySceneButton;
         private System.Windows.Forms.ImageList lightImageList;
-        private System.Windows.Forms.FlowLayoutPanel groupFlowLayoutPanel;
         private System.Windows.Forms.ToolTip groupToolTip;
         private System.Windows.Forms.NumericUpDown chooseStepNumericUpDown;
         private Sunny.UI.UIButton chooseStepButton;
@@ -2016,7 +2098,6 @@
         private System.Windows.Forms.Label thirdLabel;
         private System.Windows.Forms.Panel tdPanel;
         private System.Windows.Forms.Panel tdPanelDemo;
-        private System.Windows.Forms.ComboBox tdCmComboBoxDemo;
         private System.Windows.Forms.TrackBar tdTrackBarDemo;
         public System.Windows.Forms.Label tdNameLabelDemo;
         private System.Windows.Forms.NumericUpDown tdStNUDDemo;
@@ -2037,5 +2118,10 @@
         private System.Windows.Forms.FolderBrowserDialog exportFolderBrowserDialog;
         private System.Windows.Forms.FolderBrowserDialog exportSourceBrowserDialog;
         private Sunny.UI.UIToolTip myToolTip;
+        private System.Windows.Forms.FlowLayoutPanel groupFlowLayoutPanel;
+        private System.Windows.Forms.Panel groupPanelDemo;
+        private Sunny.UI.UIButton groupInButtonDemo;
+        private Sunny.UI.UIButton groupDelButtonDemo;
+        private System.Windows.Forms.ComboBox tdCmComboBoxDemo;
     }
 }

@@ -102,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\Enum\EnumSortMethod.cs" />
+    <Compile Include="Ast\Form\MaskPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Ast\LibEntity\SA.cs" />
     <Compile Include="Ast\LibEntity\SAWrapper.cs" />
     <Compile Include="Ast\LibEntity\TongdaoWrapper.cs" />
@@ -158,6 +161,12 @@
     </Compile>
     <Compile Include="MyForm\Connect\ConnectForm.Designer.cs">
       <DependentUpon>ConnectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Device\HardwareSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Device\HardwareSetForm.Designer.cs">
+      <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\LightList\LightsAddForm.cs">
       <SubType>Form</SubType>
@@ -277,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Connect\DMX512ConnectForm.resx">
       <DependentUpon>DMX512ConnectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Device\HardwareSetForm.resx">
+      <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightList\LightsAddForm.resx">
       <DependentUpon>LightsAddForm.cs</DependentUpon>

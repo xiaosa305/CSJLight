@@ -73,7 +73,7 @@ namespace LightController.MyForm.Project
 		/// </summary>
 		private void refreshButtons()
 		{
-			Size = exportedCheckBox.Checked ? new Size(380, 200) : new Size(380, 140);
+			Size = exportedCheckBox.Checked ? new Size(380, 200) : new Size(380, 150);
 
 			downloadButton.Enabled = mainForm.IsDeviceConnected && //必要条件
 				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《下载已有工程》

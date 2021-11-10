@@ -45,7 +45,8 @@ namespace LightController.MyForm.Project
 
 		private void GroupForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			//Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = MousePosition;
 
 			//LanguageHelper.InitForm(this);
 			//LanguageHelper.TranslateListView(lightsListView);

@@ -4748,7 +4748,7 @@ namespace LightController.MyForm
         {
             IniHelper iniAst = new IniHelper(GlobalIniPath);
 
-            currenMusicStepTime = iniAst.ReadInt("SK", CurrentScene + "ST", 0) * (int)EachStepTime;
+            currenMusicStepTime = iniAst.ReadInt("SK", CurrentScene + "ST", 0) * (int)(EachStepTime*1000);
             currentMusicWaitTime = iniAst.ReadInt("SK", CurrentScene + "JG", 0);
             currentSoundList = new List<int>();
             string lkStr = iniAst.ReadString("SK", CurrentScene + "LK", "");

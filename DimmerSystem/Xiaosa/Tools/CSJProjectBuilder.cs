@@ -484,7 +484,7 @@ namespace LightController.Xiaosa.Tools
                     {
                         continue;
                     }
-                    writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(item.ScrollValue), item.StepTime));
+                    writeBuff.AddRange(Enumerable.Repeat<byte>(Convert.ToByte(item.ScrollValue), 1));
                 }
                 //写入缓存文件
                 if (writeBuff.Count > 0)

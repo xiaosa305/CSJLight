@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm
+﻿using LightController.Ast.Form;
+
+namespace LightController.MyForm
 {
     partial class MainFormBase
     {
@@ -68,7 +70,7 @@
             this.helpButton = new Sunny.UI.UIImageButton();
             this.keepButton = new Sunny.UI.UIImageButton();
             this.libButton = new Sunny.UI.UIImageButton();
-            this.confButton = new Sunny.UI.UIImageButton();
+            this.hardwareSetButton = new Sunny.UI.UIImageButton();
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainPanel = new System.Windows.Forms.Panel();
@@ -134,6 +136,7 @@
             this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
+            this.maskPanel = new MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
@@ -149,7 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.helpButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.keepButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.libButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.confButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).BeginInit();
             this.myStatusStrip.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.myContextMenuStrip.SuspendLayout();
@@ -520,7 +523,7 @@
             this.menuPanel.Controls.Add(this.helpButton);
             this.menuPanel.Controls.Add(this.keepButton);
             this.menuPanel.Controls.Add(this.libButton);
-            this.menuPanel.Controls.Add(this.confButton);
+            this.menuPanel.Controls.Add(this.hardwareSetButton);
             this.menuPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.menuPanel.Location = new System.Drawing.Point(0, 31);
             this.menuPanel.Name = "menuPanel";
@@ -848,26 +851,26 @@
             this.libButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.libButton.WaitOnLoad = true;
             // 
-            // confButton
+            // hardwareSetButton
             // 
-            this.confButton.BackColor = System.Drawing.Color.Transparent;
-            this.confButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.confButton.Enabled = false;
-            this.confButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.confButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.confButton.Image = global::LightController.Properties.Resources.网络配置;
-            this.confButton.ImageDisabled = global::LightController.Properties.Resources.网络配置_Disabled;
-            this.confButton.ImageHover = global::LightController.Properties.Resources.网络配置_Hover;
-            this.confButton.ImagePress = global::LightController.Properties.Resources.网络配置_Press;
-            this.confButton.Location = new System.Drawing.Point(140, 11);
-            this.confButton.Name = "confButton";
-            this.confButton.Size = new System.Drawing.Size(60, 69);
-            this.confButton.TabIndex = 8;
-            this.confButton.TabStop = false;
-            this.confButton.Text = "网络配置";
-            this.confButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.confButton.WaitOnLoad = true;
-            this.confButton.Click += new System.EventHandler(this.confButton_Click);
+            this.hardwareSetButton.BackColor = System.Drawing.Color.Transparent;
+            this.hardwareSetButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.hardwareSetButton.Enabled = false;
+            this.hardwareSetButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.hardwareSetButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.hardwareSetButton.Image = global::LightController.Properties.Resources.网络配置;
+            this.hardwareSetButton.ImageDisabled = global::LightController.Properties.Resources.网络配置_Disabled;
+            this.hardwareSetButton.ImageHover = global::LightController.Properties.Resources.网络配置_Hover;
+            this.hardwareSetButton.ImagePress = global::LightController.Properties.Resources.网络配置_Press;
+            this.hardwareSetButton.Location = new System.Drawing.Point(140, 11);
+            this.hardwareSetButton.Name = "hardwareSetButton";
+            this.hardwareSetButton.Size = new System.Drawing.Size(60, 69);
+            this.hardwareSetButton.TabIndex = 8;
+            this.hardwareSetButton.TabStop = false;
+            this.hardwareSetButton.Text = "网络配置";
+            this.hardwareSetButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.hardwareSetButton.WaitOnLoad = true;
+            this.hardwareSetButton.Click += new System.EventHandler(this.hardwareSetButton_Click);
             // 
             // myStatusStrip
             // 
@@ -893,6 +896,7 @@
             // mainPanel
             // 
             this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.mainPanel.Controls.Add(this.maskPanel);
             this.mainPanel.Controls.Add(this.lightsListView);
             this.mainPanel.Controls.Add(this.stepPanel);
             this.mainPanel.Controls.Add(this.tdPanel);
@@ -908,6 +912,7 @@
             this.lightsListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lightsListView.ContextMenuStrip = this.myContextMenuStrip;
             this.lightsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lightsListView.Font = new System.Drawing.Font("黑体", 8F);
             this.lightsListView.ForeColor = System.Drawing.Color.White;
             this.lightsListView.HideSelection = false;
             this.lightsListView.LargeImageList = this.lightImageList;
@@ -1802,6 +1807,8 @@
             this.exportButton.TabIndex = 1;
             this.exportButton.Text = "导出工程";
             this.exportButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            this.exportButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportButton_MouseDown);
             // 
             // saveSceneButton
             // 
@@ -1950,6 +1957,15 @@
             this.myToolTip.OwnerDraw = true;
             this.myToolTip.ReshowDelay = 100;
             // 
+            // maskPanel
+            // 
+            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.maskPanel.Location = new System.Drawing.Point(0, 0);
+            this.maskPanel.Name = "maskPanel";
+            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
+            this.maskPanel.TabIndex = 30;
+            this.maskPanel.Visible = false;
+            // 
             // MainFormBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1992,7 +2008,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.helpButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.keepButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.libButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.confButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).EndInit();
             this.myStatusStrip.ResumeLayout(false);
             this.myStatusStrip.PerformLayout();
             this.mainPanel.ResumeLayout(false);
@@ -2024,7 +2040,7 @@
         private System.Windows.Forms.StatusStrip myStatusStrip;
         private System.Windows.Forms.Panel mainPanel;
         private Sunny.UI.UIButton connectButton;
-        private Sunny.UI.UIImageButton confButton;
+        private Sunny.UI.UIImageButton hardwareSetButton;
         private Sunny.UI.UIPanel uiPanel1;
         private Sunny.UI.UILabel uiLabel3;
         private Sunny.UI.UIPanel uiPanel7;
@@ -2123,5 +2139,6 @@
         private Sunny.UI.UIButton groupInButtonDemo;
         private Sunny.UI.UIButton groupDelButtonDemo;
         private System.Windows.Forms.ComboBox tdCmComboBoxDemo;
+        private System.Windows.Forms.Panel maskPanel;
     }
 }

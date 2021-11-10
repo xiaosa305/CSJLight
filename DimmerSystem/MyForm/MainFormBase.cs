@@ -1,15 +1,19 @@
 ﻿using LightController.Ast;
 using LightController.Ast.Enum;
+using LightController.Ast.Form;
 using LightController.Common;
 using LightController.DAO;
 using LightController.Entity;
 using LightController.MyForm.Connect;
+using LightController.MyForm.Device;
 using LightController.MyForm.LightList;
 using LightController.MyForm.Project;
 using LightController.MyForm.Step;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using LightController.Xiaosa.Preview;
+using LightController.Xiaosa.Tools;
 using LightEditor.Ast;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -80,7 +84,7 @@ namespace LightController.MyForm
                 + " ]";
             Text = SoftwareName + projectStr + ConnectStr;
 
-            confButton.Enabled = isDeviceConnected;
+            hardwareSetButton.Enabled = isDeviceConnected;
             seqButton.Enabled = isDeviceConnected;
             toolsButton.Enabled = isDeviceConnected;
             downloadButton.Enabled = isDeviceConnected;
@@ -1986,7 +1990,9 @@ namespace LightController.MyForm
         {
             //MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
             lightListButton.Enabled = !isMultiMode;
-            lightsListView.Enabled = !isMultiMode;
+            //lightsListView.Enabled = !isMultiMode;
+           maskPanel.Visible = isMultiMode;
+
             sceneComboBox.Enabled = !isMultiMode;
             protocolComboBox.Enabled = !isMultiMode;
             copySceneButton.Enabled = !isMultiMode;
@@ -2146,9 +2152,14 @@ namespace LightController.MyForm
 
         #endregion
 
-        private void confButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 事件：点击《网络配置=硬件配置+固件升级）》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hardwareSetButton_Click(object sender, EventArgs e)
         {
-            //new HardwareSetForm(this).ShowDialog();
+            new HardwareSetForm(this).ShowDialog();
         }
 
         /// <summary>
@@ -3919,6 +3930,7 @@ namespace LightController.MyForm
                 return;
             }
             tempStep = getCurrentStepWrapper();
+            tempStepMode = CurrentMode ;  
             refreshStep(); // 主要作用是刷新按键（粘贴步可用）
         }
 
@@ -4087,7 +4099,7 @@ namespace LightController.MyForm
         {
             IniHelper iniAst = new IniHelper(GlobalIniPath);
 
-            currenMusicStepTime = iniAst.ReadInt("SK", CurrentScene + "ST", 0) * (int)EachStepTime;
+            currenMusicStepTime =iniAst.ReadInt("SK", CurrentScene + "ST", 0) * (int)(EachStepTime *1000);
             currentMusicWaitTime = iniAst.ReadInt("SK", CurrentScene + "JG", 0);
             currentSoundList = new List<int>();
             string lkStr = iniAst.ReadString("SK", CurrentScene + "LK", "");
@@ -4556,6 +4568,169 @@ namespace LightController.MyForm
                 new DownloadForm(this).ShowDialog();
             }
         }
+
+        /// <summary>
+        /// 事件：点击《导出工程》(空方法导航用)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exportButton_Click(object sender, EventArgs e)     {  }
+
+        /// <summary>
+		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                exportProjectClick();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                //DOTO  exportSceneClick();
+            }
+        }
+
+        /// <summary>
+        /// 辅助方法：点击《导出工程》
+        /// </summary>
+        protected void exportProjectClick()
+        {
+            if (LightAstList == null || LightAstList.Count == 0)
+            {
+                MessageBox.Show(LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。"));
+                return;
+            }
+            DialogResult dr = MessageBox.Show(
+                LanguageHelper.TranslateSentence("请确保工程已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？"),
+                LanguageHelper.TranslateSentence("导出工程？"),
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question);
+            if (dr == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            exportFolderBrowserDialog.Description = LanguageHelper.TranslateSentence("请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。");
+            dr = exportFolderBrowserDialog.ShowDialog();
+            if (dr == DialogResult.Cancel)
+            {
+                return;
+            }
+            exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+            DirectoryInfo di = new DirectoryInfo(exportPath);
+            if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
+            {
+                dr = MessageBox.Show(
+                    LanguageHelper.TranslateSentence("检测到目标文件夹不为空，是否覆盖？"),
+                    LanguageHelper.TranslateSentence("覆盖工程？"),
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question);
+                if (dr == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
+            SetNotice("正在导出工程，请稍候...", false, true);
+            setBusy(true);
+
+            //211104 导出工程
+            CSJProjectBuilder.GetInstance().BuildProjects(this, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
+        }
+
+        /// <summary>
+        /// 辅助方法：拷贝已生成工程到指定目录（并在此期间生成并压缩源文件），在SaveProjectFile成功后回调
+        /// </summary>
+        /// <param name="exportPath"></param>
+        /// <param name="success">SaveProjectFile成功为true，失败为false</param>
+        protected void copyProject()
+        {
+            try
+            {
+                FileUtils.ExportProjectFile(exportPath);
+            }
+            catch (Exception ex)
+            {
+                DialogResult dialogResult =
+                    MessageBox.Show("拷贝工程文件失败，原因为：\n" + ex.Message + "\n请《取消(拷贝)》或在处理完成后点击《重试》。",
+                    "是否重试？",
+                    MessageBoxButtons.RetryCancel,
+                    MessageBoxIcon.Error);
+                if (dialogResult == DialogResult.Retry)
+                {
+                    copyProject(); //若点击重试，则再跑一遍本方法						
+                }
+                else
+                {
+                    //若点击取消，则直接把忙时设为false，因为不会再往下走了;
+                    setBusy(false);
+                }
+                return; //只要出现异常，就一定要退出本方法；
+            }
+
+            SetNotice("正在源文件,请稍候...", false, true);
+            // 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中			
+            if (GenerateSourceZip(exportPath + @"\Source.zip"))
+            {
+                SetNotice("已成功压缩源文件(Source.zip)。", false, true);
+            }
+            else
+            {
+                SetNotice("工程源文件生成失败。", false, true);
+            }
+
+            DialogResult dr = MessageBox.Show(
+                    LanguageHelper.TranslateSentence("导出工程成功,是否打开导出文件夹？"),
+                    LanguageHelper.TranslateSentence("打开导出文件夹？"),
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question);
+            if (dr == DialogResult.OK)
+            {
+                System.Diagnostics.Process.Start(exportPath);
+            }
+
+            setBusy(false);
+            SetNotice("导出工程成功", false, true);
+        }
+
+        /// <summary>
+        /// 辅助回调函数：工程导出成功
+        /// </summary>
+        public void ExportProjectCompleted()
+        {
+            Invoke((EventHandler)delegate
+            {
+                SetNotice("工程导出成功，即将拷贝到相关目录...", false, true);
+                copyProject();
+            });
+        }
+
+        /// <summary>
+        /// 辅助回调函数：工程导出失败
+        /// </summary>
+        public void ExportProjectError(string msg)
+        {
+            Invoke((EventHandler)delegate
+            {
+                setBusy(false);
+                SetNotice("工程导出出错：" + msg, false, true);
+            });
+        }
+
+        /// <summary>
+        /// 辅助回调函数：工程导出进度
+        /// </summary>
+        public void ExportProjectProgress(string name)
+        {
+            Invoke((EventHandler)delegate
+            {
+                SetNotice(LanguageHelper.TranslateSentence("正在生成工程文件") + "(" + name + ")", false, false);
+            });
+        }
+
     }
 }
 

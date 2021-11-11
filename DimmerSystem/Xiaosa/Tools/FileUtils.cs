@@ -16,7 +16,6 @@ namespace LightController.Utils
     {
         private static string ProjectDataFilePath = Application.StartupPath + @"\DataCache\Project\CSJ";
         private static string ProjectDownloadDir = Application.StartupPath + @"\DataCache\Download\CSJ";
-
         public static readonly int MODE_PREVIEW = 11;
         public static readonly int MODE_MAKEFILE = 12;
         private FileUtils() { }

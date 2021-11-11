@@ -8,10 +8,8 @@ using System.Text;
 namespace LightController.Tools.CSJ.IMPL
 {
 	[Serializable]
-	public class LightControlData : ICSJFile
+	public class LightControlData
 	{
-		private const int SCENECOUNT = 17;
-
 		public int RelayCount { get; set; }//Address:0-继电器通道数
 		public int DmxCount { get; set; }//Address:1-调光通道数
 		public int RelayDataSize { get; set; }//Address:2-继电器占用的字节数
@@ -30,11 +28,8 @@ namespace LightController.Tools.CSJ.IMPL
 		public int PlaceHolder2 { get; set; }//Address15-预留
 		public bool[,] SceneData { get; set; }//Address16~15 + (17 * ((RelayCount - 1) / 8 + 1))  : 1true 0 false
         public int[] DmxData { get; set; }//Address16
-
-
         public SequencerData SequencerData { get; set; }
         public LightControllerSCR LightControllerSCR { get; set; }
-
         public static LightControlData GetTestData()
         {
             LightControlData data = new LightControlData();
@@ -66,7 +61,7 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public LightControlData()
         {
-				
+            ;
 		}
         public LightControlData(List<byte> data)
         {
@@ -110,7 +105,6 @@ namespace LightController.Tools.CSJ.IMPL
             this.SequencerData = SequencerData.Build(data.ToArray());
             this.LightControllerSCR = LightControllerSCR.Build(data.ToArray());
         }
-
         /// <summary>
 		/// Dickov：逐行读取cfg文件，并把内容填入lcEntity中（旧版的读灯控配置的方法，需保留以兼容）
 		/// </summary>
@@ -150,8 +144,6 @@ namespace LightController.Tools.CSJ.IMPL
 				}
 			}
 		}
-
-        
 		//MARK：此处我有稍微修改：SceneData[][] -> SceneData[,] ；后期需测试 --By Dickov
         public byte[] GetData()
         {
@@ -238,7 +230,6 @@ namespace LightController.Tools.CSJ.IMPL
 		{
 			return base.ToString();
 		}
-
 		/// <summary>
 		///  辅助方法：把某个场景的开关列表，转为byte数组
 		/// </summary>

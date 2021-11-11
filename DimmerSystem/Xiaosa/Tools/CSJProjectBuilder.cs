@@ -92,13 +92,6 @@ namespace LightController.Xiaosa.Tools
             }
             return Instance;
         }
-        /// <summary>
-        /// 多场景数据生成
-        /// </summary>
-        /// <param name="mainFormInterface"></param>
-        /// <param name="completed"></param>
-        /// <param name="error"></param>
-        /// <param name="progress"></param>
         public void BuildProjects(MainFormInterface mainFormInterface,Completed completed,Error error, ProjectBuildProgress progress)
         {
             InitProjectFileDir();
@@ -110,14 +103,6 @@ namespace LightController.Xiaosa.Tools
             Thread thread = new Thread(() => BuildProjectsTask());
             thread.Start();
         }
-        /// <summary>
-        /// 单场景数据生成
-        /// </summary>
-        /// <param name="sceneNo"></param>
-        /// <param name="mainFormInterface"></param>
-        /// <param name="completed"></param>
-        /// <param name="error"></param>
-        /// <param name="progress"></param>
         public void BuildSingleProject(int sceneNo,MainFormInterface mainFormInterface,Completed completed,Error error, ProjectBuildProgress progress)
         {
             CurrentSceneNo = sceneNo;

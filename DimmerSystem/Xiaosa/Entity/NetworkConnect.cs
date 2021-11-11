@@ -25,8 +25,6 @@ namespace LightController.PeripheralDevice
         private int BuffCount { get; set; }
         private Thread TCPServerReceiveThread { get; set; }
         private bool IsReceive { get; set; }
-
-        //901灯控功能设备搜索
         private const int UDP_INTENT_PREVIEW_PORT = 7080;
         private Socket IntentPreviewUDPSender { get; set; }
         public NetworkConnect()
@@ -77,14 +75,6 @@ namespace LightController.PeripheralDevice
             }
         }
         /// <summary>
-        /// 获取缓存区大小
-        /// </summary>
-        /// <returns></returns>
-        private int BuffRemain()
-        {
-            return RECEIVEBUFFSIZE - this.BuffCount;
-        }
-        /// <summary>
         /// 网络发送数据
         /// </summary>
         /// <param name="data"></param>
@@ -92,18 +82,7 @@ namespace LightController.PeripheralDevice
         {
             this.Socket.Send(data);
             this.SendDataCompleted();
-            //this.Socket.BeginSend(data, 0, data.Length, SocketFlags.None, this.SendCallBack, this);
         }
-        /// <summary>
-        /// 网络发送完成回调方法
-        /// </summary>
-        /// <param name="async"></param>
-        private void SendCallBack(IAsyncResult async)
-        {
-            this.SendDataCompleted();
-        }
-
-
         /// <summary>
         /// 网络同步接收数据
         /// </summary>
@@ -129,11 +108,11 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("网络链接异常：" +ex.StackTrace);
             }
         }
-
         /// <summary>
         /// 断开连接
         /// </summary>
@@ -159,12 +138,11 @@ namespace LightController.PeripheralDevice
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("断开网络连接异常：" + ex.StackTrace);
             }
         }
-
-        //发送网络模拟调试数据测试·
         /// <summary>
         /// 功能：发送网络模拟调试数据
         /// </summary>
@@ -189,8 +167,9 @@ namespace LightController.PeripheralDevice
             {
                 SeachDeviceUtils.GetInstance().SearchDevice(localIP);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("搜索设备异常：" + ex.StackTrace);
             }
         }
         /// <summary>

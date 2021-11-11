@@ -77,12 +77,10 @@ namespace LightController.PeripheralDevice
                 Console.WriteLine(ex.StackTrace);
             }
         }
-
         private void SendCallBack(IAsyncResult async)
         {
             ;
         }
-
         private void NetworkReceive(IAsyncResult asyncResult)
         {
             try

@@ -10,11 +10,9 @@ namespace LightController.Tools.CSJ.IMPL
     {
         private const int RELAY_SWITCH_NAME_COUNT = 7;
         private const int RELAY_DELAY_TIME_COUNT = 6;
-
         public String[] RelaySwitchNames { get; set; }
         public int[] RelaySwitchDelayTimes { get; set; }
         public bool IsOpenSequencer { get; set; }
-
         public byte[] GetData()
         {
             try

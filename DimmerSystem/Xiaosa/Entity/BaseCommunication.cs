@@ -2291,7 +2291,7 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.PUT_PARAM;
-                ICSJFile hardWareFile = putParamData.Hardware;
+                CSJ_Hardware hardWareFile = putParamData.Hardware;
                 byte[] data = hardWareFile.GetData();
                 string fileName = @"Hardware.bin";
                 string fileSize = data.Length.ToString();
@@ -2356,7 +2356,7 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.PUT_PARAM;
-                ICSJFile hardWareFile = new CSJ_Hardware(putParamData.FilePath);
+                CSJ_Hardware hardWareFile = new CSJ_Hardware(putParamData.FilePath);
                 byte[] data = hardWareFile.GetData();
                 string fileName = @"Hardware.bin";
                 string fileSize = data.Length.ToString();

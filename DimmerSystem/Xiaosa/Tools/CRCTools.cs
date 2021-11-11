@@ -108,7 +108,6 @@ namespace LightController.Tools
             result[1] = chCRCHi;
             return result;
         }
-
         public byte[] GetLightControlCRC(byte[] data)
         {
             ushort crc = 0;

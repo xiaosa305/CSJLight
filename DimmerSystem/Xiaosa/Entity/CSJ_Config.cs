@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    public class CSJ_Config : ICSJFile
+    public class CSJ_Config
     {
         private const string CONFIGNAME = "Config.bin";
         public int FileSize { get; set; }//文件大小
@@ -35,7 +35,6 @@ namespace LightController.Tools.CSJ.IMPL
             DB_Lights = lights;
             ReadData();
         }
-
         public byte[] GetData()
         {
             int FileSize = 0;
@@ -156,7 +155,6 @@ namespace LightController.Tools.CSJ.IMPL
             data[3] = Convert.ToByte((FileSize >> 24) & 0xFF);
             return data.ToArray();
         }
-
         public void WriteToFile(string filepath)
         {
             if (!Directory.Exists(filepath))
@@ -169,7 +167,6 @@ namespace LightController.Tools.CSJ.IMPL
             fileStream.Write(Data, 0, Data.Length);
             fileStream.Close();
         }
-
         private void ReadData()
         {
             string lineStr = "";

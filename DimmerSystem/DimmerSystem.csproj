@@ -253,7 +253,6 @@
     <Compile Include="Xiaosa\Entity\CombineScene.cs" />
     <Compile Include="Xiaosa\Entity\CSJ_Config.cs" />
     <Compile Include="Xiaosa\Entity\CSJ_Hardware.cs" />
-    <Compile Include="Xiaosa\Entity\ICSJFile.cs" />
     <Compile Include="Xiaosa\Entity\LightControlData.cs" />
     <Compile Include="Xiaosa\Entity\LightControllerSCR.cs" />
     <Compile Include="Xiaosa\Entity\LightInfo.cs" />

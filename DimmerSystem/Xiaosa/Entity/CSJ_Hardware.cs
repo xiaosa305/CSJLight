@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    public class CSJ_Hardware : ICSJFile
+    public class CSJ_Hardware
     {
         public readonly byte Flag = 0xEA;
         public int Ver { get; set; }

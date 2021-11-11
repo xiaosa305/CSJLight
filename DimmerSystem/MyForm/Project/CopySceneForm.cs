@@ -1,4 +1,4 @@
-﻿using LightController.Common;
+﻿using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,23 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LightController.MyForm
+namespace LightController.MyForm.Project
 {
-	public partial class CopySceneForm : Form
-	{
-		private MainFormBase mainForm;	
-		private IList<int> sceneIndexList  = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
+    public partial class CopySceneForm : UIForm
+    {
+		private MainFormBase mainForm;
+		private IList<int> sceneIndexList = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
 
-		public CopySceneForm(MainFormBase mainForm, int currentFrameIndex)
+		public CopySceneForm(MainFormBase mainForm, int currentSceneIndex)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
 			for (int sceneIndex = 0; sceneIndex < MainFormBase.AllSceneList.Count; sceneIndex++)
 			{
-				if (sceneIndex != currentFrameIndex)
+				if (sceneIndex != currentSceneIndex)
 				{
 					sceneComboBox.Items.Add(MainFormBase.AllSceneList[sceneIndex]);
-					sceneIndexList.Add(sceneIndex); 
+					sceneIndexList.Add(sceneIndex);
 				}
 			}
 			sceneComboBox.SelectedIndex = 0;
@@ -32,17 +32,18 @@ namespace LightController.MyForm
 
 		private void CopySceneForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);			
-			LanguageHelper.InitForm(this);
+			Location = MousePosition;
+			//LanguageHelper.InitForm(this);
 			if (mainForm.CurrentMode == 0)
 			{
 				normalCheckBox.Checked = true;
 			}
-			else {
+			else
+			{
 				soundCheckBox.Checked = true;
 			}
 		}
-		
+
 		/// <summary>
 		/// 事件：点击《取消、右上角关闭》按钮
 		/// </summary>
@@ -50,7 +51,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -60,12 +61,12 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void fromButton_Click(object sender, EventArgs e)
-		{			
+		{
 			mainForm.CopyOtherScene(
 				getSceneIndex(),
-				mainForm.CurrentScene,				
-				normalCheckBox.Checked ,
-				soundCheckBox.Checked); 
+				mainForm.CurrentScene,
+				normalCheckBox.Checked,
+				soundCheckBox.Checked);
 		}
 
 		/// <summary>
@@ -75,7 +76,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void toButton_Click(object sender, EventArgs e)
 		{
-			mainForm.CopyOtherScene(				
+			mainForm.CopyOtherScene(
 				mainForm.CurrentScene,
 				getSceneIndex(),
 				normalCheckBox.Checked,
@@ -95,10 +96,9 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		private int getSceneIndex()
 		{
-			// 获取当前选中项，然后取出其在sceneIndexList中的位置
-			int selectedFrameIndex = sceneIndexList[sceneComboBox.SelectedIndex];
-			return selectedFrameIndex ;
-		}        
-
+			// 获取当前选中项，然后取出其在frameIndexList中的位置
+			int selectedSceneIndex = sceneIndexList[sceneComboBox.SelectedIndex];
+			return selectedSceneIndex;
+		}
 	}
 }

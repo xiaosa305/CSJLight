@@ -122,6 +122,7 @@ namespace LightController.MyForm.Project
             this.mSceneLKTextBox.Location = new System.Drawing.Point(18, 142);
             this.mSceneLKTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mSceneLKTextBox.Maximum = 2147483647D;
+            this.mSceneLKTextBox.MaxLength = 20;
             this.mSceneLKTextBox.Minimum = -2147483648D;
             this.mSceneLKTextBox.MinimumSize = new System.Drawing.Size(1, 1);
             this.mSceneLKTextBox.Name = "mSceneLKTextBox";

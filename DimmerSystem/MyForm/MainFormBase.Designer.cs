@@ -322,6 +322,7 @@ namespace LightController.MyForm
             this.lightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.lightPictureBox.TabIndex = 9;
             this.lightPictureBox.TabStop = false;
+            this.lightPictureBox.Click += new System.EventHandler(this.lightPictureBox_Click);
             // 
             // uiLabel3
             // 
@@ -1261,7 +1262,7 @@ namespace LightController.MyForm
             this.copySceneButton.Style = Sunny.UI.UIStyle.Custom;
             this.copySceneButton.TabIndex = 5;
             this.copySceneButton.Text = "调用场景";
-            this.copySceneButton.Click += new System.EventHandler(this.soundListButton_Click);
+            this.copySceneButton.Click += new System.EventHandler(this.copySceneButton_Click);
             // 
             // deleteButton
             // 

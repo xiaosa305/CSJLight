@@ -2162,6 +2162,44 @@ namespace LightController.MyForm
             new HardwareSetForm(this).ShowDialog();
         }
 
+        public void CopyOtherScene(int sourceScene, int destScene, bool copyNormal, bool copySound)
+        {
+            if (!copyNormal && !copySound)
+            {
+                MessageBox.Show("请选择要复制的模式！");
+            }
+
+            //MARK 只开单场景：09.2 调用场景时，若调用的是未打开的场景，则需先打开（载入到内存中）
+            if (!sceneLoadArray[sourceScene]) generateSceneData(sourceScene);
+            if (!sceneLoadArray[destScene]) {
+                generateSceneData(destScene);
+                sceneSaveArray[destScene] = true;
+            }              
+                
+
+            //MARK 只开单场景：09.3 调用场景时，把被调用场景的灯具数据，深复制到当前场景中来（只复制当前模式）
+            if (LightWrapperList != null && LightWrapperList.Count != 0)
+            {
+                foreach (LightWrapper lightWrapper in LightWrapperList)
+                {
+                    if (copyNormal)
+                    {
+                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL]
+                            = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, (int)EnumMode.NORMAL], lightWrapper.StepTemplate);
+                    }
+                    if (copySound)
+                    {
+                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.SOUND]
+                          = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, (int)EnumMode.SOUND], lightWrapper.StepTemplate);
+                    }
+                }
+            }
+
+            enterSyncMode(false); //UseOtherForm
+            refreshStep();
+            SetNotice("成功将【" + AllSceneList[sourceScene] + "】复制到【" + AllSceneList[destScene] + "】", true, false);
+        }
+
         /// <summary>
         /// 事件：点击《音频链表》
         /// </summary>
@@ -2203,34 +2241,35 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void sceneComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //setBusy(true);
-            //SetNotice("正在切换场景,请稍候...", false, true);
-            //endview(); // sceneSelectedChanged (只要更改了场景，直接结束预览)
+            setBusy(true);
+            SetNotice("正在切换场景,请稍候...", false, true);
+            endPreview(); // sceneSelectedChanged (只要更改了场景，直接结束预览)
+            int newScene = sceneComboBox.SelectedIndex;
 
-            //DialogResult dr = MessageBox.Show(
-            //	LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllSceneList[CurrentScene] + "?",
-            //	LanguageHelper.TranslateSentence("保存场景?"),
-            //	MessageBoxButtons.YesNo,
-            //	MessageBoxIcon.Question);
-            //if (dr == DialogResult.Yes)
-            //{
-            //	saveSceneClick();
-            //	//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-            //	sceneSaveArray[CurrentScene] = false;
-            //}
+            DialogResult dr = MessageBox.Show(
+                LanguageHelper.TranslateSentence("切换场景前，是否保存之前场景：") + AllSceneList[CurrentScene] + "?",
+                LanguageHelper.TranslateSentence("保存场景?"),
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                saveCurrentScene();
+                // 切换场景时，若选择保存之前场景，则sceneSaveArray设为false，意味着以后不需要再保存了。
+                sceneSaveArray[CurrentScene] = false;
+            }
 
-            //CurrentScene = newScene;
-            ////MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-            //if (!sceneLoadArray[CurrentScene])
-            //{
-            //	generateSceneData(CurrentScene);
-            //}
-            ////MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-            //sceneSaveArray[CurrentScene] = true;
+            CurrentScene = newScene;
+            // 切换场景时，只有sceneLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；。
+            if (!sceneLoadArray[CurrentScene])
+            {
+                generateSceneData(CurrentScene);
+            }
+            //MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+            sceneSaveArray[CurrentScene] = true;
 
-            //changeSceneMode();
-            //setBusy(false);
-            //SetNotice(LanguageHelper.TranslateSentence("成功切换为场景：") + AllSceneList[CurrentScene], false, false);
+            changeSceneMode();
+            setBusy(false);
+            SetNotice(LanguageHelper.TranslateSentence("成功切换为场景：") + AllSceneList[CurrentScene], false, false);
         }
 
         /// <summary>
@@ -2252,6 +2291,32 @@ namespace LightController.MyForm
             {
                 MAX_STEP = CurrentMode == 0 ? 100 : 300;
             }
+        }
+
+        /// <summary>
+        /// 辅助方法：点击《保存场景》
+        /// </summary>
+        protected void saveCurrentScene()
+        {
+            SetNotice("正在保存场景,请稍候...", false, true);
+            setBusy(true);
+
+            // 1.先判断是否有灯具数据；若无，则清空所有表数据
+            if (LightAstList == null || LightAstList.Count == 0)
+            {
+                ClearAllDB();
+            }
+            // 2.保存各项数据，其中保存 灯具、FineTune 是通用的；StepCounts和Values直接用saveOrUpdate方式即可。
+            else
+            {
+                saveAllLights();
+                saveAllFineTunes();
+                saveSceneChannels(CurrentScene);
+                saveAllGroups();
+            }
+
+            SetNotice(LanguageHelper.TranslateSentence("成功保存场景：") + AllSceneList[CurrentScene], true, false);
+            setBusy(false);
         }
 
         #region 协议相关
@@ -4743,6 +4808,21 @@ namespace LightController.MyForm
                 stopDebug();
                 new SequencerForm(this).ShowDialog();
             }
+        }
+        
+        /// <summary>
+        /// 事件：点击《当前灯具图片》（做测试用）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lightPictureBox_Click(object sender, EventArgs e)
+        {
+            //Console.WriteLine( sceneSaveArray + " : " + sceneLoadArray );
+        }
+
+        private void copySceneButton_Click(object sender, EventArgs e)
+        {
+            new CopySceneForm(this,CurrentScene).ShowDialog();
         }
     }
 }

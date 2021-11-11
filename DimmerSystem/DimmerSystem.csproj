@@ -199,6 +199,12 @@
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
+    <Compile Include="MyForm\Project\CopySceneForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Project\CopySceneForm.Designer.cs">
+      <DependentUpon>CopySceneForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Project\DownloadForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Project\CopySceneForm.resx">
+      <DependentUpon>CopySceneForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Project\DownloadForm.resx">
       <DependentUpon>DownloadForm.cs</DependentUpon>

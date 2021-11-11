@@ -4731,6 +4731,19 @@ namespace LightController.MyForm
             });
         }
 
+        /// <summary>
+        /// 事件：点击《时序器配置》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void seqButton_Click(object sender, EventArgs e)
+        {
+            if (IsDeviceConnected)
+            {
+                stopDebug();
+                new SequencerForm(this).ShowDialog();
+            }
+        }
     }
 }
 

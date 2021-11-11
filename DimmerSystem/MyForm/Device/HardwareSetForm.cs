@@ -1,4 +1,5 @@
-﻿using LightController.Common;
+﻿using LightController.Ast.Form;
+using LightController.Common;
 using LightController.Tools.CSJ.IMPL;
 using Sunny.UI;
 using System;
@@ -17,14 +18,14 @@ namespace LightController.MyForm.Device
     {
 		private MainFormBase mainForm;
 		private CSJ_Hardware ch;
-		private string xbinPath;
+		private string xbinPath;		
 
 		public HardwareSetForm(MainFormBase mainForm)
 		{
-			InitializeComponent();
+			InitializeComponent();			
 
 			this.mainForm = mainForm;
-
+			
 			//《硬件配置》相关
 			ch = new CSJ_Hardware();
 			SetParamFromCH();
@@ -64,6 +65,7 @@ namespace LightController.MyForm.Device
 		private void HardwareSet_Load(object sender, EventArgs e)
 		{
 			Location = MousePosition;
+			Size = new Size(480, 280);
 		}
 
 		/// <summary>
@@ -153,7 +155,7 @@ namespace LightController.MyForm.Device
 			}
 
 			// 写入配置			
-			setBusy(true);
+			//setBusy(true);
 			setNotice("正在写入配置到设备，请稍候...", false, true);
 
 			//MARK0412 修改 《写入硬件配置》的入参
@@ -315,7 +317,9 @@ namespace LightController.MyForm.Device
 		private void setBusy(bool busy)
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
-			Enabled = !busy;
+			//Enabled = !busy;
+			maskPanel.Visible = busy;  //用遮罩层代替Enabled更改
+
 			Refresh();
 		}
 
@@ -507,5 +511,10 @@ namespace LightController.MyForm.Device
 				}
 			}
 		}
-	}
+
+        private void uiTabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			hardwarePanel.Visible = uiTabControl2.SelectedIndex == 0;
+        }
+    }
 }

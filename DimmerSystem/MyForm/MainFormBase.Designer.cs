@@ -74,6 +74,7 @@ namespace LightController.MyForm
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.maskPanel = new LightController.Ast.Form.MaskPanel();
             this.lightsListView = new System.Windows.Forms.ListView();
             this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,7 +137,6 @@ namespace LightController.MyForm
             this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
-            this.maskPanel = new MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
@@ -790,6 +790,7 @@ namespace LightController.MyForm
             this.seqButton.Text = "时序器配置";
             this.seqButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.seqButton.WaitOnLoad = true;
+            this.seqButton.Click += new System.EventHandler(this.seqButton_Click);
             // 
             // helpButton
             // 
@@ -905,6 +906,15 @@ namespace LightController.MyForm
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(1035, 616);
             this.mainPanel.TabIndex = 7;
+            // 
+            // maskPanel
+            // 
+            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.maskPanel.Location = new System.Drawing.Point(0, 0);
+            this.maskPanel.Name = "maskPanel";
+            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
+            this.maskPanel.TabIndex = 30;
+            this.maskPanel.Visible = false;
             // 
             // lightsListView
             // 
@@ -1957,15 +1967,6 @@ namespace LightController.MyForm
             this.myToolTip.OwnerDraw = true;
             this.myToolTip.ReshowDelay = 100;
             // 
-            // maskPanel
-            // 
-            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.maskPanel.Location = new System.Drawing.Point(0, 0);
-            this.maskPanel.Name = "maskPanel";
-            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
-            this.maskPanel.TabIndex = 30;
-            this.maskPanel.Visible = false;
-            // 
             // MainFormBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2139,6 +2140,6 @@ namespace LightController.MyForm
         private Sunny.UI.UIButton groupInButtonDemo;
         private Sunny.UI.UIButton groupDelButtonDemo;
         private System.Windows.Forms.ComboBox tdCmComboBoxDemo;
-        private System.Windows.Forms.Panel maskPanel;
+        private MaskPanel maskPanel;
     }
 }

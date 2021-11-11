@@ -18,13 +18,14 @@ namespace LightController.Xiaosa.Preview
         private System.Timers.Timer MusicControlTimer;
         private Dictionary<int, Channel> BasicChannels;
         private Dictionary<int, Channel> MusicChannels;
-        private ConcurrentDictionary<int, byte> MusicDataBuff;
+        private Dictionary<int, byte> MusicDataBuff;
         private List<int> MusicStepList;
         private int MusicStepListPoint;
         private int MusicWaitTime;
         private int MusicControlTime;
         private int MusicStep;
         public bool MusicControlState { get; set; }
+        private bool MusicWaitState;
         public bool IsMusicMode { get; set; }
         private bool IsNoEmptyBasic;
         public ChannelGroup(MainFormInterface mainFormInterface)
@@ -40,12 +41,13 @@ namespace LightController.Xiaosa.Preview
         {
             BasicChannels = new Dictionary<int, Channel>();
             MusicChannels = new Dictionary<int, Channel>();
-            MusicDataBuff = new ConcurrentDictionary<int, byte>();
+            MusicDataBuff = new Dictionary<int, byte>();
             MusicStepList = new List<int>();
             MusicControlState = false;
             MusicStepListPoint = 0;
             IsMusicMode = false;
             IsNoEmptyBasic = false;
+            MusicWaitState = false;
         }
         private void InitMusicControlTimer()
         {
@@ -59,16 +61,29 @@ namespace LightController.Xiaosa.Preview
                     MusicStep = MusicStepList[MusicStepListPoint];
                     for (int i = 0; i < MusicStep; i++)
                     {
-                        foreach (var key in MusicChannels.Keys)
+                        lock (MusicDataBuff)
                         {
-                            MusicDataBuff.TryAdd(key, MusicChannels[key].TakeDmxData());
+                            foreach (var key in MusicChannels.Keys)
+                            {
+                                byte value = MusicChannels[key].TakeDmxData();
+                                if (MusicDataBuff.ContainsKey(key))
+                                {
+                                    MusicDataBuff[key] = value;
+                                }
+                                else
+                                {
+                                    MusicDataBuff.Add(key, value);
+                                }
+                            }
                         }
                         MusicControlState = true;
                         Thread.Sleep(MusicControlTime);
                     }
                     MusicStepListPoint++;
                     MusicStepListPoint = MusicStepListPoint == MusicStepList.Count ? 0 : MusicStepListPoint;
+                    MusicWaitState = true;
                     MusicWaitControlTimer.Start();
+                    MusicControlState = false;
                 }
             };
         }
@@ -79,12 +94,12 @@ namespace LightController.Xiaosa.Preview
             MusicWaitControlTimer.AutoReset = false;
             MusicWaitControlTimer.Elapsed += delegate
             {
-                MusicControlState = false;
+                MusicWaitState = false;
             };
         }
         private void ReadMusicConfigInfo()
         {
-            MusicControlTime = MainFormInterface.GetPreviewMusicControlTime() ;
+            MusicControlTime = MainFormInterface.GetPreviewMusicControlTime();
             MusicWaitTime = MainFormInterface.GetPreviewMusicWaitTime();
             MusicStepList = new List<int>();
             foreach (var item in MainFormInterface.GetPreviewMusicStepList())
@@ -134,14 +149,15 @@ namespace LightController.Xiaosa.Preview
         {
             if (IsMusicMode && IsNoEmptyBasic)
             {
-                if (MusicControlTimer.Enabled)
+                if (MusicControlState)
                 {
                     return false;
                 }
                 else
                 {
-                    if (MusicWaitControlTimer.Enabled)
+                    if (MusicWaitState)
                     {
+                        MusicWaitState = false;
                         MusicWaitControlTimer.Stop();
                     }
                     MusicControlTimer.Start();
@@ -155,14 +171,12 @@ namespace LightController.Xiaosa.Preview
             byte[] dmxData = Enumerable.Repeat<byte>(Convert.ToByte(0x00), 513).ToArray();
             if (IsNoEmptyBasic)
             {
-                var keys = BasicChannels.Keys;
                 foreach (var key in BasicChannels.Keys)
                 {
                     dmxData[key] = BasicChannels[key].TakeDmxData();
                 }
-                if (MusicControlState)
+                if (MusicControlState || MusicWaitState)
                 {
-                    Console.WriteLine("音频触发");
                     foreach (var key in MusicDataBuff.Keys)
                     {
                         dmxData[key] = MusicDataBuff[key];

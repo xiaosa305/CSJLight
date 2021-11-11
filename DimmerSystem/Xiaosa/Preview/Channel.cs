@@ -58,16 +58,24 @@ namespace LightController.Xiaosa.Preview
                     }
                     break;
             }
-            if (StepValues.Count > 0)
+            if (CurrentMode == BASIC_MODE)
             {
-                StartValue = StepValues[0].ScrollValue;
-                StepPoint++;
-                if (StepPoint == StepValues.Count)
+                if (StepValues.Count > 0)
                 {
-                    StepPoint = 0;
+                    StartValue = StepValues[0].ScrollValue;
+                    StepPoint++;
+                    if (StepPoint == StepValues.Count)
+                    {
+                        StepPoint = 0;
+                    }
+                    LoadStepDataIntoQueue();
                 }
-                LoadStepDataIntoQueue();
             }
+            else
+            {
+                if (StepValues.Count > 0) LoadStepDataIntoQueue();
+            }
+            
         }
         public byte TakeDmxData()
         {
@@ -75,6 +83,7 @@ namespace LightController.Xiaosa.Preview
             if (DmxDataQueue != null && DmxDataQueue.Count > 0)
             {
                 result = DmxDataQueue.Dequeue();
+              
                 if (DmxDataQueue.Count == 0)
                 {
                     LoadStepDataIntoQueue();
@@ -138,6 +147,7 @@ namespace LightController.Xiaosa.Preview
         private void LoadMusicStepData()
         {
             TongdaoWrapper stepValue = StepValues[StepPoint];
+           
             DmxDataQueue.Enqueue(Convert.ToByte(stepValue.ScrollValue));
             StepPoint++;
             if (StepPoint == StepValues.Count)

@@ -117,7 +117,6 @@ namespace LightController.Xiaosa.Preview
         }
         public void SingleStepPreview(byte[] data,MainFormInterface mainFormInterface)
         {
-            Console.WriteLine("单灯单步");
             if (PlayTimer.Enabled)
             {
                 PlayTimer.Stop();

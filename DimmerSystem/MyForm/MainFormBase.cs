@@ -6,6 +6,7 @@ using LightController.DAO;
 using LightController.Entity;
 using LightController.MyForm.Connect;
 using LightController.MyForm.Device;
+using LightController.MyForm.LightLib;
 using LightController.MyForm.LightList;
 using LightController.MyForm.Project;
 using LightController.MyForm.Step;
@@ -4809,20 +4810,35 @@ namespace LightController.MyForm
                 new SequencerForm(this).ShowDialog();
             }
         }
-        
+
         /// <summary>
-        /// 事件：点击《当前灯具图片》（做测试用）
+        /// 事件：点击《复用场景》
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lightPictureBox_Click(object sender, EventArgs e)
-        {
-            //Console.WriteLine( sceneSaveArray + " : " + sceneLoadArray );
-        }
-
         private void copySceneButton_Click(object sender, EventArgs e)
         {
             new CopySceneForm(this,CurrentScene).ShowDialog();
+        }
+
+        /// <summary>
+        /// 事件：点击《灯库编辑》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void libButton_Click(object sender, EventArgs e)
+        {
+            new LibEditForm(this).ShowDialog();
+        }
+        
+        /// <summary>
+        /// 事件：点击某些Label（长期可用的label），做不同的测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void testLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -322,7 +322,6 @@ namespace LightController.MyForm
             this.lightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.lightPictureBox.TabIndex = 9;
             this.lightPictureBox.TabStop = false;
-            this.lightPictureBox.Click += new System.EventHandler(this.lightPictureBox_Click);
             // 
             // uiLabel3
             // 
@@ -852,6 +851,7 @@ namespace LightController.MyForm
             this.libButton.Text = "灯库编辑";
             this.libButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.libButton.WaitOnLoad = true;
+            this.libButton.Click += new System.EventHandler(this.libButton_Click);
             // 
             // hardwareSetButton
             // 
@@ -1715,6 +1715,7 @@ namespace LightController.MyForm
             this.uiLabel1.TabIndex = 2;
             this.uiLabel1.Text = "工程面板";
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel1.Click += new System.EventHandler(this.testLabel_Click);
             // 
             // uiPanel5
             // 

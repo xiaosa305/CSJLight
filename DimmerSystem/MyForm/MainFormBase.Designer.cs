@@ -128,7 +128,7 @@ namespace LightController.MyForm
             this.projectLinePanel = new System.Windows.Forms.Panel();
             this.closeButton = new Sunny.UI.UISymbolButton();
             this.exportButton = new Sunny.UI.UISymbolButton();
-            this.saveSceneButton = new Sunny.UI.UISymbolButton();
+            this.sourceButton = new Sunny.UI.UISymbolButton();
             this.saveButton = new Sunny.UI.UISymbolButton();
             this.newButton = new Sunny.UI.UISymbolButton();
             this.openButton = new Sunny.UI.UISymbolButton();
@@ -1742,7 +1742,7 @@ namespace LightController.MyForm
             this.projectPanel.Controls.Add(this.uiLabel1);
             this.projectPanel.Controls.Add(this.closeButton);
             this.projectPanel.Controls.Add(this.exportButton);
-            this.projectPanel.Controls.Add(this.saveSceneButton);
+            this.projectPanel.Controls.Add(this.sourceButton);
             this.projectPanel.Controls.Add(this.saveButton);
             this.projectPanel.Controls.Add(this.newButton);
             this.projectPanel.Controls.Add(this.openButton);
@@ -1820,37 +1820,36 @@ namespace LightController.MyForm
             this.exportButton.Text = "导出工程";
             this.exportButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
-            this.exportButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportButton_MouseDown);
             // 
-            // saveSceneButton
+            // sourceButton
             // 
-            this.saveSceneButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.saveSceneButton.Enabled = false;
-            this.saveSceneButton.FillColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.FillDisableColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.saveSceneButton.FillPressColor = System.Drawing.Color.Blue;
-            this.saveSceneButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.saveSceneButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.saveSceneButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveSceneButton.Image = global::LightController.Properties.Resources.保存场景;
-            this.saveSceneButton.ImageInterval = 20;
-            this.saveSceneButton.Location = new System.Drawing.Point(16, 331);
-            this.saveSceneButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.saveSceneButton.Name = "saveSceneButton";
-            this.saveSceneButton.Radius = 12;
-            this.saveSceneButton.RectColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.RectDisableColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveSceneButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveSceneButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.saveSceneButton.Size = new System.Drawing.Size(69, 68);
-            this.saveSceneButton.Style = Sunny.UI.UIStyle.Custom;
-            this.saveSceneButton.StyleCustomMode = true;
-            this.saveSceneButton.TabIndex = 1;
-            this.saveSceneButton.Text = "保存场景";
-            this.saveSceneButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.saveSceneButton.Click += new System.EventHandler(this.saveSceneButton_Click);
+            this.sourceButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sourceButton.Enabled = false;
+            this.sourceButton.FillColor = System.Drawing.Color.Transparent;
+            this.sourceButton.FillDisableColor = System.Drawing.Color.Transparent;
+            this.sourceButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.sourceButton.FillPressColor = System.Drawing.Color.Blue;
+            this.sourceButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.sourceButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sourceButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sourceButton.Image = global::LightController.Properties.Resources.保存场景;
+            this.sourceButton.ImageInterval = 20;
+            this.sourceButton.Location = new System.Drawing.Point(16, 331);
+            this.sourceButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.sourceButton.Name = "sourceButton";
+            this.sourceButton.Radius = 12;
+            this.sourceButton.RectColor = System.Drawing.Color.Transparent;
+            this.sourceButton.RectDisableColor = System.Drawing.Color.Transparent;
+            this.sourceButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sourceButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sourceButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.sourceButton.Size = new System.Drawing.Size(69, 68);
+            this.sourceButton.Style = Sunny.UI.UIStyle.Custom;
+            this.sourceButton.StyleCustomMode = true;
+            this.sourceButton.TabIndex = 1;
+            this.sourceButton.Text = "导出源文件";
+            this.sourceButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.sourceButton.Click += new System.EventHandler(this.sourceButton_Click);
             // 
             // saveButton
             // 
@@ -1881,7 +1880,6 @@ namespace LightController.MyForm
             this.saveButton.Text = "保存工程";
             this.saveButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            this.saveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseDown);
             // 
             // newButton
             // 
@@ -2069,7 +2067,7 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel projectPanel;
         private Sunny.UI.UISymbolButton closeButton;
         private Sunny.UI.UISymbolButton exportButton;
-        private Sunny.UI.UISymbolButton saveSceneButton;
+        private Sunny.UI.UISymbolButton sourceButton;
         private Sunny.UI.UISymbolButton saveButton;
         private Sunny.UI.UISymbolButton newButton;
         private System.Windows.Forms.Panel stepPanel;

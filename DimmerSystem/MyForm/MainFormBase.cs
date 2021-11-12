@@ -693,8 +693,6 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void connectButton_MouseDown(object sender, MouseEventArgs e)
         {
-            Console.WriteLine(IsPreviewing);
-
             // 当点击左键时，直接弹出《网络连接》界面
             if (e.Button == MouseButtons.Left)
             {
@@ -749,58 +747,8 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void saveButton_Click(object sender, EventArgs e) { }
+        private void saveButton_Click(object sender, EventArgs e) {
 
-        /// <summary>
-        /// 事件：点击《保存工程》；根据点击按键的不同，采用不同的处理方法
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveButton_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                saveProjectClick();
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                exportSourceClick();
-            }
-        }
-
-        /// <summary>
-        /// 事件：点击《保存场景》
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveSceneButton_Click(object sender, EventArgs e)
-        {
-            SetNotice("正在保存场景,请稍候...", false, true);
-            setBusy(true);
-
-            // 1.先判断是否有灯具数据；若无，则清空所有表数据
-            if (LightAstList == null || LightAstList.Count == 0)
-            {
-                ClearAllDB();
-            }
-            // 2.保存各项数据，其中保存 灯具、FineTune 是通用的；StepCounts和Values直接用saveOrUpdate方式即可。
-            else
-            {
-                saveAllLights();
-                saveAllFineTunes();
-                saveSceneChannels(CurrentScene);
-                saveAllGroups();
-            }
-
-            SetNotice(LanguageHelper.TranslateSentence("成功保存场景：") + AllSceneList[CurrentScene], true, false);
-            setBusy(false);
-        }
-
-        /// <summary>
-        /// 辅助方法：保存工程
-        /// </summary>
-        private void saveProjectClick()
-        {
             SetNotice("正在保存工程,请稍候...", false, true);
             setBusy(true);
 
@@ -830,9 +778,11 @@ namespace LightController.MyForm
         }
 
         /// <summary>
-        ///  辅助方法：保存工程源文件（Source.zip）到指定目录
+        /// 事件：点击《导出源文件》
         /// </summary>
-        private void exportSourceClick()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sourceButton_Click(object sender, EventArgs e)
         {
             DialogResult dr = exportSourceBrowserDialog.ShowDialog();
             if (dr == DialogResult.Cancel)
@@ -875,6 +825,23 @@ namespace LightController.MyForm
                 SetNotice("导出工程源文件失败。", false, true);
             }
             setBusy(false);
+        }
+
+        /// <summary>
+        /// 事件：点击《关闭工程》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭工程前，是否保存当前工程?")))
+            {
+                return;
+            }
+
+            string tempProjectName = currentProjectName;
+            clearAllData();
+            SetNotice(LanguageHelper.TranslateSentence("成功关闭工程") + "【" + tempProjectName + "】。", true, false);
         }
 
         /// <summary>
@@ -952,7 +919,6 @@ namespace LightController.MyForm
             }
             return true;
         }
-
 
         /// <summary>
         /// 辅助方法：从界面数据实时生成dbFineTuneList，保存到db中
@@ -1169,7 +1135,7 @@ namespace LightController.MyForm
                 enableRefreshPic();  //OpenProject
                 reBuildLightListView();  // OpenProject
 
-                // 只加载初始场景    
+                // 只加载初始场景
                 generateSceneData(CurrentScene);
 
                 DateTime afterDT = System.DateTime.Now;
@@ -1583,7 +1549,7 @@ namespace LightController.MyForm
         {
             //常规的四个按钮（保存、关闭、导出都需要当前存在场景）
             saveButton.Enabled = enable;
-            saveSceneButton.Enabled = enable;
+            sourceButton.Enabled = enable;
             exportButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
             closeButton.Enabled = enable;
 
@@ -1673,7 +1639,7 @@ namespace LightController.MyForm
                 Text = ga.GroupName,
                 Tag = groupIndex,
             };
-            Console.WriteLine( inButton.Tag.ToString() );
+
             inButton.Click += groupInButton_Click;
 
             UIButton delButton = new UIButton() {
@@ -2875,7 +2841,6 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void tdTrackBars_MouseWheel(object sender, MouseEventArgs e)
         {
-            //Console.WriteLine(	"trackBar_mouseWheel");
             int tdIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
             HandledMouseEventArgs hme = e as HandledMouseEventArgs;
             if (hme != null)
@@ -3534,17 +3499,7 @@ namespace LightController.MyForm
 
         #endregion
 
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭工程前，是否保存当前工程?")))
-            {
-                return;
-            }
-
-            string tempProjectName = currentProjectName;
-            clearAllData();
-            SetNotice(LanguageHelper.TranslateSentence("成功关闭工程") + "【" + tempProjectName + "】。", true, false);
-        }
+      
 
         /// <summary>
         /// 辅助方法：请求保存工程
@@ -3568,7 +3523,7 @@ namespace LightController.MyForm
 
             if (dr == DialogResult.Yes)
             {
-                saveProjectClick();
+                saveButton_Click(null,null);
                 return true;
             }
             else if (dr == DialogResult.No)
@@ -4640,30 +4595,7 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exportButton_Click(object sender, EventArgs e)     {  }
-
-        /// <summary>
-		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void exportButton_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                exportProjectClick();
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                //DOTO  exportSceneClick();
-            }
-        }
-
-        /// <summary>
-        /// 辅助方法：点击《导出工程》
-        /// </summary>
-        protected void exportProjectClick()
-        {
+        private void exportButton_Click(object sender, EventArgs e)     {
             if (LightAstList == null || LightAstList.Count == 0)
             {
                 MessageBox.Show(LanguageHelper.TranslateSentence("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。"));
@@ -4703,9 +4635,20 @@ namespace LightController.MyForm
             SetNotice("正在导出工程，请稍候...", false, true);
             setBusy(true);
 
+            // 加载 数据库有 且 sceneLoadArray为false 的场景；
+            IList<int> dbSceneList = channelDAO.GetExistSceneList();
+            for (int sceneIndex = 0; sceneIndex < sceneLoadArray.Length; sceneIndex++)
+            {
+                if (dbSceneList.Contains(sceneIndex) && !sceneLoadArray[sceneIndex] )
+                {
+                    generateSceneData(sceneIndex);
+                    SetNotice("正在加载场景" + (sceneIndex + 1), false, false);
+                }
+            }
+
             //211104 导出工程
             CSJProjectBuilder.GetInstance().BuildProjects(this, ExportProjectCompleted, ExportProjectError, ExportProjectProgress);
-        }
+        }      
 
         /// <summary>
         /// 辅助方法：拷贝已生成工程到指定目录（并在此期间生成并压缩源文件），在SaveProjectFile成功后回调
@@ -4737,7 +4680,7 @@ namespace LightController.MyForm
                 return; //只要出现异常，就一定要退出本方法；
             }
 
-            SetNotice("正在源文件,请稍候...", false, true);
+            SetNotice("正在压缩工程源文件,请稍候...", false, true);
             // 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中			
             if (GenerateSourceZip(exportPath + @"\Source.zip"))
             {
@@ -4840,6 +4783,8 @@ namespace LightController.MyForm
         {
 
         }
+
+       
     }
 }
 

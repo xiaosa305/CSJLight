@@ -265,11 +265,23 @@
     <Compile Include="MyForm\Step\DeleteStepsForm.Designer.cs">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Step\MultiplexForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\MultiplexForm.Designer.cs">
+      <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Step\UnifyForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\Step\UnifyForm.Designer.cs">
       <DependentUpon>UnifyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialUseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialUseForm.Designer.cs">
+      <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -362,8 +374,14 @@
     <EmbeddedResource Include="MyForm\Step\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\MultiplexForm.resx">
+      <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\UnifyForm.resx">
       <DependentUpon>UnifyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\MaterialUseForm.resx">
+      <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -217,7 +217,7 @@ namespace LightController.MyForm
         public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 
         // 通道数据操作时的变量		
-        protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
+        public bool IsSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
         protected bool isMultiMode = false; //默认情况下是单灯模式；若进入编组模式，此变量改成true；	
 
         protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
@@ -470,6 +470,8 @@ namespace LightController.MyForm
 
             //MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计)。
             CheckForIllegalCrossThreadCalls = false;
+                       
+         
         }
 
         /// <summary>
@@ -1487,7 +1489,7 @@ namespace LightController.MyForm
         /// <param name="isSyncMode">进入同步</param>
         private void enterSyncMode(bool isSyncMode)
         {
-            this.isSyncMode = isSyncMode;
+            this.IsSyncMode = isSyncMode;
             syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
             SetNotice(isSyncMode ? "已进入同步模式" : "已退出同步模式", false, true);
         }
@@ -1847,17 +1849,18 @@ namespace LightController.MyForm
             // 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
             if (tongdaoList == null || tongdaoList.Count == 0)
             {
+                labelPanel.Hide();
                 for (int tdIndex = 0; tdIndex < 32; tdIndex++)
                 {
                     tdPanels[tdIndex].Hide();
                     saPanels[tdIndex].Hide();
-                }
-                labelPanel.Hide();
+                }                
             }
             //2.将dataWrappers的内容渲染到起VScrollBar中
             else
             {
                 labelPanel.Show();
+                tdFlowLayoutPanel.Show();
                 for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
                 {
                     tdTrackBars[tdIndex].ValueChanged -= tdTrackBars_ValueChanged;
@@ -1892,6 +1895,7 @@ namespace LightController.MyForm
                     // DOTO 	generateSaPanels();
                 }
             }
+
 
         }
 
@@ -3291,7 +3295,7 @@ namespace LightController.MyForm
                     }
                 }
                 // 若是同步状态，则选择步时，将所有灯都设为一致的步数
-                if (isSyncMode)
+                if (IsSyncMode)
                 {
                     for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                     {
@@ -3331,7 +3335,7 @@ namespace LightController.MyForm
                             if (lightIndex == selectedIndex // 当前灯具一定会动
                                 || isMultiMode && selectedIndexList.Contains(lightIndex)  // 编组模式下，组员也要动
                                 || isKeepOtherLights  // 保持其它灯状态时，所有灯都要有数据
-                                || isSyncMode  // 同步状态下，所有灯一起动
+                                || IsSyncMode  // 同步状态下，所有灯一起动
                                 )
                             {
                                 StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
@@ -3655,7 +3659,7 @@ namespace LightController.MyForm
             }
             lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
-            if (isSyncMode)
+            if (IsSyncMode)
             {
                 for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                 {
@@ -3777,7 +3781,7 @@ namespace LightController.MyForm
                 {
                     int stepIndex = getCurrentStep() - 1;
                     getCurrentLightStepWrapper().DeleteStep(stepIndex);
-                    if (isSyncMode)
+                    if (IsSyncMode)
                     {
                         for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                         {
@@ -3845,7 +3849,7 @@ namespace LightController.MyForm
             StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? GetCurrentStepTemplate() : getCurrentLightLastStepWrapper(), CurrentMode);
             getCurrentLightStepWrapper().AddStep(newStep);
 
-            if (isSyncMode)
+            if (IsSyncMode)
             {
                 for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                 {
@@ -3884,7 +3888,7 @@ namespace LightController.MyForm
                 for (int i = 0; i < stepCount; i++)
                 {
                     getCurrentLightStepWrapper().DeleteStep(stepIndex);
-                    if (isSyncMode)
+                    if (IsSyncMode)
                     {
                         for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
                         {
@@ -4781,7 +4785,7 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void testLabel_Click(object sender, EventArgs e)
         {
-
+            new MaterialUseForm().ShowDialog();
         }
 
         /// <summary>
@@ -4817,7 +4821,88 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void multiplexButton_Click(object sender, EventArgs e)
         {
+            if (LightWrapperList == null || LightWrapperList.Count == 0)
+            {
+                MessageBox.Show("当前工程没有灯具，无法使用多步复用功能。");
+                return;
+            }
+            int totalStep = getCurrentTotalStep();
+            if (totalStep == 0)
+            {
+                MessageBox.Show("灯具没有步数，无法使用多步复用功能。");
+                return;
+            }
 
+            // selectedIndices2 ：选中的灯具（如果非多灯模式，只需传入当前灯具）
+            IList<int> selectedIndices2 = null;
+            if (!IsSyncMode)
+            {
+                if (!isMultiMode)
+                {
+                    selectedIndices2 = new List<int>() { selectedIndex };
+                }
+                else
+                {
+                    selectedIndices2 = selectedIndexList;
+                }
+            }
+
+            new MultiplexForm(this, LightAstList, totalStep, selectedIndices2).ShowDialog();
+        }
+
+        /// <summary>
+        /// 辅助方法：复用多灯多步
+        /// </summary>
+        /// <param name="selectedIndices"></param>
+        /// <param name="startStep"></param>
+        /// <param name="endStep"></param>
+        /// <param name="times">复用次数</param>
+        /// <returns>复用成功返回null，否则返回相应的错误信息</returns>
+        public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
+        {
+            // 检查剩余步数 是否大于 复用会添加的的步数
+            int addStepCount = (endStep - startStep + 1) * times;
+            if ((MAX_STEP - getSelectedLightTotalStep(0)) < addStepCount)
+            {
+                return "剩余步数小于复用占用步数，无法复用。";
+            }
+
+            // 解决方案（两种）：
+            // (1)先把所有的步数用新步数填上，再通过SelectedIndices来更改相应的数据 X
+            // (2)分开操作，不在列表内的直接加步，在表内的则复用 √
+            //		①不在表内的都添加最后一步
+            //		②在列表中的使用复制的方法(同步模式才这样选择)
+            for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
+            {
+                if (selectedIndices.Contains(lightIndex))
+                {
+                    for (int time = 1; time <= times; time++) //循环次数
+                    {
+                        for (int copyStepIndex = startStep - 1; copyStepIndex < endStep; copyStepIndex++)
+                        {
+                            StepWrapper copyStep = getSelectedLightSelectedStepWrapper(lightIndex, copyStepIndex);
+                            StepWrapper newStep = StepWrapper.GenerateNewStep(copyStep, CurrentMode);
+                            getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+                        }
+                    }
+                }
+                else
+                {
+                    if (IsSyncMode)
+                    {
+                        for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
+                        {
+                            // 210528修复一个bug：下面这两个语句必须写在for循环内，否则会出现多步复用后面的所有步使用的是同一个对象！
+                            StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
+                            StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, CurrentMode);
+                            getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+                        }
+                    }
+                }
+            }
+
+            refreshStep();
+            return null;
         }
 
         /// <summary>
@@ -4829,7 +4914,56 @@ namespace LightController.MyForm
         {
 
         }
-        
+
+        /// <summary>
+        /// 事件：点击《进入同步|退出同步》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void syncButton_Click(object sender, EventArgs e)
+        {
+            // 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
+            if (IsSyncMode)
+            {
+                enterSyncMode(false); //syncButtonClick				
+            }
+            else
+            {
+                // 异步时，要切换到同步模式，需要先进行检查。
+                if (CheckAllSameStepCounts())
+                {
+                    enterSyncMode(true); //syncButtonClick				
+                }
+                else
+                {
+                    SetNotice("当前场景所有灯具步数不一致，无法进入同步模式。", true, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 辅助方法：(供同步模式使用)检查是否所有灯具的步数都一致，若有不同，直接返回false
+        /// </summary>
+        private bool CheckAllSameStepCounts()
+        {
+            if (LightAstList == null || LightAstList.Count == 0)
+            {
+                MessageBox.Show("当前工程无灯具，检查灯具步数是否一致的操作无意义。");
+                return false;
+            }
+
+            int firstStepCounts = getSelectedLightTotalStep(0);
+            for (int lightIndex = 1; lightIndex < LightAstList.Count; lightIndex++)
+            {
+                int tempStepCounts = getSelectedLightTotalStep(lightIndex);
+                if (tempStepCounts != firstStepCounts)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    
     }
 }
 

@@ -74,7 +74,6 @@ namespace LightController.MyForm
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.maskPanel = new LightController.Ast.Form.MaskPanel();
             this.lightsListView = new System.Windows.Forms.ListView();
             this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,6 +136,7 @@ namespace LightController.MyForm
             this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
+            this.maskPanel = new LightController.Ast.Form.MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
@@ -895,8 +895,7 @@ namespace LightController.MyForm
             this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
-            this.myStatusLabel.Size = new System.Drawing.Size(155, 26);
-            this.myStatusLabel.Text = "设备已连接，正在调试中...";
+            this.myStatusLabel.Size = new System.Drawing.Size(0, 26);
             // 
             // mainPanel
             // 
@@ -910,15 +909,6 @@ namespace LightController.MyForm
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(1035, 616);
             this.mainPanel.TabIndex = 7;
-            // 
-            // maskPanel
-            // 
-            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.maskPanel.Location = new System.Drawing.Point(0, 0);
-            this.maskPanel.Name = "maskPanel";
-            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
-            this.maskPanel.TabIndex = 30;
-            this.maskPanel.Visible = false;
             // 
             // lightsListView
             // 
@@ -1103,6 +1093,7 @@ namespace LightController.MyForm
             this.syncButton.Symbol = 61;
             this.syncButton.TabIndex = 6;
             this.syncButton.Text = "进入同步";
+            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
             // 
             // saveMatButton
             // 
@@ -1491,6 +1482,7 @@ namespace LightController.MyForm
             this.tdFlowLayoutPanel.Name = "tdFlowLayoutPanel";
             this.tdFlowLayoutPanel.Size = new System.Drawing.Size(950, 257);
             this.tdFlowLayoutPanel.TabIndex = 9;
+            this.tdFlowLayoutPanel.Visible = false;
             this.tdFlowLayoutPanel.WrapContents = false;
             // 
             // tdPanelDemo
@@ -1672,6 +1664,7 @@ namespace LightController.MyForm
             this.labelPanel.Name = "labelPanel";
             this.labelPanel.Size = new System.Drawing.Size(85, 257);
             this.labelPanel.TabIndex = 28;
+            this.labelPanel.Visible = false;
             // 
             // firstLabel
             // 
@@ -1712,7 +1705,7 @@ namespace LightController.MyForm
             this.projectPanelLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.projectPanelLabel.ForeColor = System.Drawing.Color.Silver;
             this.projectPanelLabel.Location = new System.Drawing.Point(24, 19);
-            this.projectPanelLabel.Name = "uiLabel1";
+            this.projectPanelLabel.Name = "projectPanelLabel";
             this.projectPanelLabel.Size = new System.Drawing.Size(53, 12);
             this.projectPanelLabel.Style = Sunny.UI.UIStyle.Custom;
             this.projectPanelLabel.TabIndex = 2;
@@ -1969,6 +1962,15 @@ namespace LightController.MyForm
             this.myToolTip.InitialDelay = 500;
             this.myToolTip.OwnerDraw = true;
             this.myToolTip.ReshowDelay = 100;
+            // 
+            // maskPanel
+            // 
+            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.maskPanel.Location = new System.Drawing.Point(0, 0);
+            this.maskPanel.Name = "maskPanel";
+            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
+            this.maskPanel.TabIndex = 30;
+            this.maskPanel.Visible = false;
             // 
             // MainFormBase
             // 

@@ -265,6 +265,12 @@
     <Compile Include="MyForm\Step\DeleteStepsForm.Designer.cs">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Step\UnifyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\UnifyForm.Designer.cs">
+      <DependentUpon>UnifyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xiaosa\Entity\BaseCommunication.cs" />
@@ -355,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\UnifyForm.resx">
+      <DependentUpon>UnifyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

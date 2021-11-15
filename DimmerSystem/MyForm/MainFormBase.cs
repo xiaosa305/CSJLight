@@ -4784,7 +4784,52 @@ namespace LightController.MyForm
 
         }
 
-       
+        /// <summary>
+        /// 事件：点击《多步调节》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void unifyButton_Click(object sender, EventArgs e)
+        {
+            StepWrapper currentStep = getCurrentStepWrapper();
+            if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+            {
+                SetNotice("请先选中任意步数，才能进行统一调整！", true, true);
+                return;
+            }
+
+            LightAst la = LightAstList[selectedIndex];
+            LightWrapper lw = LightWrapperList[selectedIndex];
+
+            new UnifyForm(this,
+                getCurrentStep(),
+                getCurrentTotalStep(),
+                getCurrentStepWrapper(),
+                selectedIndex,
+                lw.LightStepWrapperList[CurrentScene, CurrentMode].StepWrapperList
+            ).ShowDialog();
+        }
+
+        /// <summary>
+        /// 事件：点击《多步复用》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void multiplexButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 事件：点击《多步联调》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void multiButton_Click(object sender, EventArgs e)
+        {
+
+        }
+        
     }
 }
 

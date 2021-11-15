@@ -122,7 +122,7 @@ namespace LightController.MyForm
             this.firstLabel = new System.Windows.Forms.Label();
             this.secondLabel = new System.Windows.Forms.Label();
             this.thirdLabel = new System.Windows.Forms.Label();
-            this.uiLabel1 = new Sunny.UI.UILabel();
+            this.projectPanelLabel = new Sunny.UI.UILabel();
             this.uiPanel5 = new Sunny.UI.UIPanel();
             this.projectPanel = new System.Windows.Forms.Panel();
             this.projectLinePanel = new System.Windows.Forms.Panel();
@@ -404,6 +404,7 @@ namespace LightController.MyForm
             this.multiButton.Style = Sunny.UI.UIStyle.Custom;
             this.multiButton.TabIndex = 5;
             this.multiButton.Text = "多步联调";
+            this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
             // 
             // unifyButton
             // 
@@ -428,6 +429,7 @@ namespace LightController.MyForm
             this.unifyButton.Style = Sunny.UI.UIStyle.Custom;
             this.unifyButton.TabIndex = 5;
             this.unifyButton.Text = "多步调节";
+            this.unifyButton.Click += new System.EventHandler(this.unifyButton_Click);
             // 
             // multiplexButton
             // 
@@ -452,6 +454,7 @@ namespace LightController.MyForm
             this.multiplexButton.Style = Sunny.UI.UIStyle.Custom;
             this.multiplexButton.TabIndex = 5;
             this.multiplexButton.Text = "多步复用";
+            this.multiplexButton.Click += new System.EventHandler(this.multiplexButton_Click);
             // 
             // groupButton
             // 
@@ -1703,19 +1706,19 @@ namespace LightController.MyForm
             this.thirdLabel.TabIndex = 0;
             this.thirdLabel.Text = "步时间(S)";
             // 
-            // uiLabel1
+            // projectPanelLabel
             // 
-            this.uiLabel1.AutoSize = true;
-            this.uiLabel1.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel1.ForeColor = System.Drawing.Color.Silver;
-            this.uiLabel1.Location = new System.Drawing.Point(24, 19);
-            this.uiLabel1.Name = "uiLabel1";
-            this.uiLabel1.Size = new System.Drawing.Size(53, 12);
-            this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabel1.TabIndex = 2;
-            this.uiLabel1.Text = "工程面板";
-            this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiLabel1.Click += new System.EventHandler(this.testLabel_Click);
+            this.projectPanelLabel.AutoSize = true;
+            this.projectPanelLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.projectPanelLabel.ForeColor = System.Drawing.Color.Silver;
+            this.projectPanelLabel.Location = new System.Drawing.Point(24, 19);
+            this.projectPanelLabel.Name = "uiLabel1";
+            this.projectPanelLabel.Size = new System.Drawing.Size(53, 12);
+            this.projectPanelLabel.Style = Sunny.UI.UIStyle.Custom;
+            this.projectPanelLabel.TabIndex = 2;
+            this.projectPanelLabel.Text = "工程面板";
+            this.projectPanelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.projectPanelLabel.Click += new System.EventHandler(this.testLabel_Click);
             // 
             // uiPanel5
             // 
@@ -1739,7 +1742,7 @@ namespace LightController.MyForm
             this.projectPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.projectPanel.Controls.Add(this.projectLinePanel);
             this.projectPanel.Controls.Add(this.uiPanel5);
-            this.projectPanel.Controls.Add(this.uiLabel1);
+            this.projectPanel.Controls.Add(this.projectPanelLabel);
             this.projectPanel.Controls.Add(this.closeButton);
             this.projectPanel.Controls.Add(this.exportButton);
             this.projectPanel.Controls.Add(this.sourceButton);
@@ -2062,7 +2065,7 @@ namespace LightController.MyForm
         private Sunny.UI.UIPanel uiPanel8;
         private Sunny.UI.UIImageButton helpButton;
         private Sunny.UI.UISymbolButton openButton;
-        private Sunny.UI.UILabel uiLabel1;
+        private Sunny.UI.UILabel projectPanelLabel;
         private Sunny.UI.UIPanel uiPanel5;
         private System.Windows.Forms.Panel projectPanel;
         private Sunny.UI.UISymbolButton closeButton;

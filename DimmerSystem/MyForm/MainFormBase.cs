@@ -1859,13 +1859,22 @@ namespace LightController.MyForm
         {
             SendMessage(tdFlowLayoutPanel.Handle, WM_SETREDRAW, 0, IntPtr.Zero);
 
-            tdFlowLayoutPanel.SuspendLayout();            
+            //for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+            //{
+            //    tdTrackBars[tdIndex].SuspendLayout();
+            //    tdValueNumericUpDowns[tdIndex].SuspendLayout();
+            //    tdCmComboBoxes[tdIndex].SuspendLayout();
+            //    tdStNumericUpDowns[tdIndex].SuspendLayout();
+            //    tdPanels[tdIndex].SuspendLayout();
+            //}
+
+            tdFlowLayoutPanel.SuspendLayout();
 
             // 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
             if (tongdaoList == null || tongdaoList.Count == 0)
             {
                 labelPanel.Visible =false ;
-                tdFlowLayoutPanel.Hide();
+                tdFlowLayoutPanel.Visible = false;
                 for (int tdIndex = 0; tdIndex < 32; tdIndex++)
                 {
                     tdPanels[tdIndex].Visible = false;
@@ -1878,7 +1887,7 @@ namespace LightController.MyForm
                 labelPanel.Visible = true;
                 if( ! tdFlowLayoutPanel.Visible)  tdFlowLayoutPanel.Visible = true; // 如果隐藏，需要主动显示
                 for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
-                {
+                {                    
                     tdTrackBars[tdIndex].ValueChanged -= tdTrackBars_ValueChanged;
                     tdValueNumericUpDowns[tdIndex].ValueChanged -= tdValueNumericUpDowns_ValueChanged;
                     tdCmComboBoxes[tdIndex].SelectedIndexChanged -= tdChangeModeSkinComboBoxes_SelectedIndexChanged;
@@ -1900,6 +1909,7 @@ namespace LightController.MyForm
                     tdStNumericUpDowns[tdIndex].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;
 
                     tdPanels[tdIndex].Visible = true;
+                    
                 }
                 for (int tdIndex = tongdaoList.Count; tdIndex < 32; tdIndex++)
                 {
@@ -1910,9 +1920,16 @@ namespace LightController.MyForm
                 {
                     // DOTO 	generateSaPanels();
                 }
-            }            
+            }
 
-            tdFlowLayoutPanel.ResumeLayout();
+            //for (int tdIndex = 0; tdIndex < 32; tdIndex++) {
+            //    tdTrackBars[tdIndex].ResumeLayout();
+            //    tdValueNumericUpDowns[tdIndex].ResumeLayout();
+            //    tdCmComboBoxes[tdIndex].ResumeLayout();
+            //    tdStNumericUpDowns[tdIndex].ResumeLayout();
+            //    tdPanels[tdIndex].ResumeLayout();
+            //}
+            tdFlowLayoutPanel.ResumeLayout();           
 
             SendMessage(tdFlowLayoutPanel.Handle, WM_SETREDRAW, 1, IntPtr.Zero);
             tdFlowLayoutPanel.Refresh();

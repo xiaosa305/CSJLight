@@ -3481,31 +3481,18 @@ namespace LightController.MyForm
         #region 退出程序相关
 
         /// <summary>
-        /// 辅助方法：点击退出时FormClosing事件；
+        /// 事件：《关闭窗口》（提示是否保存工程）
         /// </summary>
+        /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void formClosing(FormClosingEventArgs e)
+        private void MainFormBase_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ////MARK 只开单场景：17.4 FormClosing时提示保存工程
-            //if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭程序前，是否保存当前工程？")))
-            //{
-            //	e.Cancel = true;
-            //}
+            if (!RequestSaveProject(LanguageHelper.TranslateSentence("关闭程序前，是否保存当前工程？")))
+            {
+                e.Cancel = true;
+            }
         }
-
-        /// <summary>
-        /// 辅助方法：点击《退出程序》
-        /// </summary>
-        protected void exitClick()
-        {
-            ////MARK 只开单场景：17.3 点击《退出程序》时，申请保存工程
-            //if (!RequestSaveProject("退出应用前，是否保存当前工程？"))
-            //{
-            //	return;
-            //}
-            exit();
-        }
-
+        
         /// <summary>
         ///  辅助方法：彻底退出程序
         /// </summary>
@@ -3522,9 +3509,7 @@ namespace LightController.MyForm
 
 
         #endregion
-
-      
-
+        
         /// <summary>
         /// 辅助方法：请求保存工程
         /// </summary>
@@ -3560,6 +3545,11 @@ namespace LightController.MyForm
             }
         }
 
+        /// <summary>
+        /// 事件：点击《工程全局》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void globalSetButton_Click(object sender, EventArgs e)
         {
             new GlobalSetForm(this).ShowDialog();
@@ -3578,7 +3568,6 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void prevButton_MouseDown(object sender, MouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Left)
             {
                 int currentStep = getCurrentStep();
@@ -3636,10 +3625,7 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void insertButton_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void insertButton_Click(object sender, EventArgs e)  {  }
 
         /// <summary>
         /// 事件：左右键点击《插入步》(前插或后插)
@@ -3960,7 +3946,6 @@ namespace LightController.MyForm
         {
             editLightList(); //lightListButton_Click()
         }
-
 
         /// <summary>
         /// 事件：点击《复制步》
@@ -4990,6 +4975,7 @@ namespace LightController.MyForm
         private const int WM_SETREDRAW = 0xB;
 
         #endregion
+
     }
 }
 

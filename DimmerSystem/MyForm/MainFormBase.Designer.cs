@@ -74,6 +74,7 @@ namespace LightController.MyForm
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.maskPanel = new LightController.Ast.Form.MaskPanel();
             this.lightsListView = new System.Windows.Forms.ListView();
             this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,7 +137,6 @@ namespace LightController.MyForm
             this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
-            this.maskPanel = new LightController.Ast.Form.MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
@@ -909,6 +909,15 @@ namespace LightController.MyForm
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(1035, 616);
             this.mainPanel.TabIndex = 7;
+            // 
+            // maskPanel
+            // 
+            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.maskPanel.Location = new System.Drawing.Point(0, 0);
+            this.maskPanel.Name = "maskPanel";
+            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
+            this.maskPanel.TabIndex = 30;
+            this.maskPanel.Visible = false;
             // 
             // lightsListView
             // 
@@ -1971,15 +1980,6 @@ namespace LightController.MyForm
             this.myToolTip.OwnerDraw = true;
             this.myToolTip.ReshowDelay = 100;
             // 
-            // maskPanel
-            // 
-            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.maskPanel.Location = new System.Drawing.Point(0, 0);
-            this.maskPanel.Name = "maskPanel";
-            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
-            this.maskPanel.TabIndex = 30;
-            this.maskPanel.Visible = false;
-            // 
             // MainFormBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1993,7 +1993,7 @@ namespace LightController.MyForm
             this.Controls.Add(this.myStatusStrip);
             this.ExtendSymbol = 1;
             this.Font = new System.Drawing.Font("黑体", 10F);
-            this.MaximumSize = new System.Drawing.Size(2560, 1440);
+            this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.Name = "MainFormBase";
             this.Padding = new System.Windows.Forms.Padding(0, 31, 0, 0);
             this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
@@ -2005,6 +2005,7 @@ namespace LightController.MyForm
             this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.TitleHeight = 31;
             this.Activated += new System.EventHandler(this.MainFormBase_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormBase_FormClosing);
             this.Load += new System.EventHandler(this.MainFormBase_Load);
             this.astPanel.ResumeLayout(false);
             this.astPanel.PerformLayout();

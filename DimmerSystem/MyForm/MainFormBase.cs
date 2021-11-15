@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -252,7 +253,7 @@ namespace LightController.MyForm
         private Label[] tdNameLabels = new Label[32];
         private TrackBar[] tdTrackBars = new TrackBar[32];
         private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
-        private ComboBox[] tdCmComboBoxes = new ComboBox[32];
+        private UIComboBox[] tdCmComboBoxes = new UIComboBox[32];
         private NumericUpDown[] tdStNumericUpDowns = new NumericUpDown[32];
         private Panel[] saPanels = new Panel[32];
 
@@ -394,18 +395,30 @@ namespace LightController.MyForm
                     ForeColor = tdValueNUDDemo.ForeColor,
                 };
 
-                tdCmComboBoxes[tdIndex] = new ComboBox
+                tdCmComboBoxes[tdIndex] = new UIComboBox
                 {
                     Name = "tdCmComboBox" + (tdIndex + 1),
-                    FormattingEnabled = tdCmComboBoxDemo.FormattingEnabled,
-                    Location = tdCmComboBoxDemo.Location,
-                    Size = tdCmComboBoxDemo.Size,
-                    DropDownStyle = tdCmComboBoxDemo.DropDownStyle,
                     Tag = 1,
-                    Font = tdCmComboBoxDemo.Font,
-                    BackColor = tdCmComboBoxDemo.BackColor,
-                    ForeColor = tdCmComboBoxDemo.ForeColor,
-                };
+                    BackColor = tdCmComboBoxDemo.BackColor ,
+                    DropDownStyle = tdCmComboBoxDemo.DropDownStyle ,
+                    DropDownWidth = tdCmComboBoxDemo.DropDownWidth ,
+                    FillColor = tdCmComboBoxDemo.FillColor ,
+                    FillDisableColor = tdCmComboBoxDemo.FillDisableColor ,
+                    Font = tdCmComboBoxDemo.Font ,
+                    ForeColor = tdCmComboBoxDemo.ForeColor ,
+                    ForeDisableColor = tdCmComboBoxDemo.ForeDisableColor,
+                    Location = tdCmComboBoxDemo.Location ,
+                    Margin = tdCmComboBoxDemo.Margin ,
+                    MinimumSize = tdCmComboBoxDemo.MinimumSize ,
+                    Padding = tdCmComboBoxDemo.Padding ,
+                    Radius = tdCmComboBoxDemo.Radius ,
+                    RectColor = tdCmComboBoxDemo.RectColor ,
+                    RectDisableColor = tdCmComboBoxDemo.RectDisableColor ,
+                    Size = tdCmComboBoxDemo.Size ,
+                    Style = tdCmComboBoxDemo.Style ,
+                    TextAlignment = tdCmComboBoxDemo.TextAlignment ,
+                } ;
+
                 tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
                         LanguageHelper.TranslateWord("跳变"),
                         LanguageHelper.TranslateWord("渐变"),
@@ -415,12 +428,12 @@ namespace LightController.MyForm
                 tdStNumericUpDowns[tdIndex] = new NumericUpDown
                 {
                     Name = "tdStNUD" + (tdIndex + 1),
+                    Tag = 2,
                     Font = tdStNUDDemo.Font,
                     Location = tdStNUDDemo.Location,
                     Size = tdStNUDDemo.Size,
                     TextAlign = tdStNUDDemo.TextAlign,
-                    DecimalPlaces = tdStNUDDemo.DecimalPlaces,
-                    Tag = 2,
+                    DecimalPlaces = tdStNUDDemo.DecimalPlaces,                    
                     BackColor = tdStNUDDemo.BackColor,
                     ForeColor = tdStNUDDemo.ForeColor,
                 };
@@ -470,8 +483,6 @@ namespace LightController.MyForm
 
             //MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计)。
             CheckForIllegalCrossThreadCalls = false;
-                       
-         
         }
 
         /// <summary>
@@ -1846,21 +1857,26 @@ namespace LightController.MyForm
         /// <param name="startNum"></param>
         private void showTDPanels(IList<TongdaoWrapper> tongdaoList)
         {
+            SendMessage(tdFlowLayoutPanel.Handle, WM_SETREDRAW, 0, IntPtr.Zero);
+
+            tdFlowLayoutPanel.SuspendLayout();            
+
             // 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
             if (tongdaoList == null || tongdaoList.Count == 0)
             {
-                labelPanel.Hide();
+                labelPanel.Visible =false ;
+                tdFlowLayoutPanel.Hide();
                 for (int tdIndex = 0; tdIndex < 32; tdIndex++)
                 {
-                    tdPanels[tdIndex].Hide();
-                    saPanels[tdIndex].Hide();
-                }                
+                    tdPanels[tdIndex].Visible = false;
+                    saPanels[tdIndex].Visible = false;
+                }
             }
             //2.将dataWrappers的内容渲染到起VScrollBar中
             else
             {
-                labelPanel.Show();
-                tdFlowLayoutPanel.Show();
+                labelPanel.Visible = true;
+                if( ! tdFlowLayoutPanel.Visible)  tdFlowLayoutPanel.Visible = true; // 如果隐藏，需要主动显示
                 for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
                 {
                     tdTrackBars[tdIndex].ValueChanged -= tdTrackBars_ValueChanged;
@@ -1883,19 +1899,23 @@ namespace LightController.MyForm
                     tdCmComboBoxes[tdIndex].SelectedIndexChanged += tdChangeModeSkinComboBoxes_SelectedIndexChanged;
                     tdStNumericUpDowns[tdIndex].ValueChanged += tdStepTimeNumericUpDowns_ValueChanged;
 
-                    tdPanels[tdIndex].Show();
+                    tdPanels[tdIndex].Visible = true;
                 }
                 for (int tdIndex = tongdaoList.Count; tdIndex < 32; tdIndex++)
                 {
-                    tdPanels[tdIndex].Hide();
+                    tdPanels[tdIndex].Visible = false;
                 }
 
                 if (from0on)
                 {
                     // DOTO 	generateSaPanels();
                 }
-            }
+            }            
 
+            tdFlowLayoutPanel.ResumeLayout();
+
+            SendMessage(tdFlowLayoutPanel.Handle, WM_SETREDRAW, 1, IntPtr.Zero);
+            tdFlowLayoutPanel.Refresh();
 
         }
 
@@ -2972,7 +2992,7 @@ namespace LightController.MyForm
         private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
         {
             // 1.先找出对应changeModeComboBoxes的index
-            int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, -1);
+            int tdIndex = MathHelper.GetIndexNum(((UIComboBox)sender).Name, -1);
 
             //2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
             StepWrapper step = getCurrentStepWrapper();
@@ -4963,7 +4983,13 @@ namespace LightController.MyForm
             }
             return true;
         }
-    
+
+        #region 解决tdFLP 各个组件 Hide和Show切换时 闪烁的问题 
+        [DllImport("user32")]
+        private static extern int SendMessage(IntPtr hwnd, int wMsg, int wParam, IntPtr lParam);
+        private const int WM_SETREDRAW = 0xB;
+
+        #endregion
     }
 }
 

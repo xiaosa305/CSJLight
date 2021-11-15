@@ -107,8 +107,8 @@ namespace LightController.MyForm
             this.tdPanel = new System.Windows.Forms.Panel();
             this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tdPanelDemo = new System.Windows.Forms.Panel();
+            this.tdCmComboBoxDemo = new Sunny.UI.UIComboBox();
             this.tdNoLabelDemo = new System.Windows.Forms.Label();
-            this.tdCmComboBoxDemo = new System.Windows.Forms.ComboBox();
             this.tdTrackBarDemo = new System.Windows.Forms.TrackBar();
             this.tdNameLabelDemo = new System.Windows.Forms.Label();
             this.tdStNUDDemo = new System.Windows.Forms.NumericUpDown();
@@ -1487,8 +1487,8 @@ namespace LightController.MyForm
             // 
             // tdPanelDemo
             // 
-            this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
             this.tdPanelDemo.Controls.Add(this.tdCmComboBoxDemo);
+            this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
             this.tdPanelDemo.Controls.Add(this.tdTrackBarDemo);
             this.tdPanelDemo.Controls.Add(this.tdNameLabelDemo);
             this.tdPanelDemo.Controls.Add(this.tdStNUDDemo);
@@ -1499,6 +1499,30 @@ namespace LightController.MyForm
             this.tdPanelDemo.Size = new System.Drawing.Size(56, 232);
             this.tdPanelDemo.TabIndex = 28;
             this.tdPanelDemo.Visible = false;
+            // 
+            // tdCmComboBoxDemo
+            // 
+            this.tdCmComboBoxDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.tdCmComboBoxDemo.DataSource = null;
+            this.tdCmComboBoxDemo.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.tdCmComboBoxDemo.DropDownWidth = 50;
+            this.tdCmComboBoxDemo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.tdCmComboBoxDemo.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.tdCmComboBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdCmComboBoxDemo.ForeColor = System.Drawing.Color.White;
+            this.tdCmComboBoxDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.tdCmComboBoxDemo.Location = new System.Drawing.Point(3, 188);
+            this.tdCmComboBoxDemo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tdCmComboBoxDemo.MinimumSize = new System.Drawing.Size(10, 0);
+            this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
+            this.tdCmComboBoxDemo.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.tdCmComboBoxDemo.Radius = 4;
+            this.tdCmComboBoxDemo.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.tdCmComboBoxDemo.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 18);
+            this.tdCmComboBoxDemo.Style = Sunny.UI.UIStyle.Custom;
+            this.tdCmComboBoxDemo.TabIndex = 47;
+            this.tdCmComboBoxDemo.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // tdNoLabelDemo
             // 
@@ -1513,22 +1537,6 @@ namespace LightController.MyForm
             this.tdNoLabelDemo.Text = "通道512";
             this.tdNoLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tdCmComboBoxDemo
-            // 
-            this.tdCmComboBoxDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.tdCmComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tdCmComboBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
-            this.tdCmComboBoxDemo.ForeColor = System.Drawing.Color.White;
-            this.tdCmComboBoxDemo.FormattingEnabled = true;
-            this.tdCmComboBoxDemo.Items.AddRange(new object[] {
-            "跳变",
-            "渐变",
-            "屏蔽"});
-            this.tdCmComboBoxDemo.Location = new System.Drawing.Point(3, 188);
-            this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
-            this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 19);
-            this.tdCmComboBoxDemo.TabIndex = 27;
-            // 
             // tdTrackBarDemo
             // 
             this.tdTrackBarDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
@@ -1536,7 +1544,7 @@ namespace LightController.MyForm
             this.tdTrackBarDemo.Maximum = 255;
             this.tdTrackBarDemo.Name = "tdTrackBarDemo";
             this.tdTrackBarDemo.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tdTrackBarDemo.Size = new System.Drawing.Size(45, 140);
+            this.tdTrackBarDemo.Size = new System.Drawing.Size(45, 138);
             this.tdTrackBarDemo.TabIndex = 26;
             this.tdTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
@@ -1579,7 +1587,7 @@ namespace LightController.MyForm
             this.tdValueNUDDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.tdValueNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.tdValueNUDDemo.ForeColor = System.Drawing.Color.White;
-            this.tdValueNUDDemo.Location = new System.Drawing.Point(3, 167);
+            this.tdValueNUDDemo.Location = new System.Drawing.Point(3, 164);
             this.tdValueNUDDemo.Margin = new System.Windows.Forms.Padding(2);
             this.tdValueNUDDemo.Maximum = new decimal(new int[] {
             255,
@@ -1671,7 +1679,7 @@ namespace LightController.MyForm
             this.firstLabel.AutoSize = true;
             this.firstLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.firstLabel.ForeColor = System.Drawing.Color.White;
-            this.firstLabel.Location = new System.Drawing.Point(16, 172);
+            this.firstLabel.Location = new System.Drawing.Point(16, 169);
             this.firstLabel.Name = "firstLabel";
             this.firstLabel.Size = new System.Drawing.Size(41, 11);
             this.firstLabel.TabIndex = 0;
@@ -1682,7 +1690,7 @@ namespace LightController.MyForm
             this.secondLabel.AutoSize = true;
             this.secondLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.secondLabel.ForeColor = System.Drawing.Color.White;
-            this.secondLabel.Location = new System.Drawing.Point(16, 194);
+            this.secondLabel.Location = new System.Drawing.Point(16, 192);
             this.secondLabel.Name = "secondLabel";
             this.secondLabel.Size = new System.Drawing.Size(41, 11);
             this.secondLabel.TabIndex = 0;
@@ -2144,7 +2152,7 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel groupPanelDemo;
         private Sunny.UI.UIButton groupInButtonDemo;
         private Sunny.UI.UIButton groupDelButtonDemo;
-        private System.Windows.Forms.ComboBox tdCmComboBoxDemo;
         private MaskPanel maskPanel;
+        private Sunny.UI.UIComboBox tdCmComboBoxDemo;
     }
 }

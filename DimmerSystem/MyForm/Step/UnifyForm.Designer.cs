@@ -128,8 +128,6 @@ namespace LightController.MyForm.Step
             this.unifyCmComboBox.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyCmComboBox.ForeColor = System.Drawing.Color.White;
             this.unifyCmComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.unifyCmComboBox.Items.AddRange(new object[] {
-            "跳变"});
             this.unifyCmComboBox.Location = new System.Drawing.Point(305, 290);
             this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.unifyCmComboBox.MinimumSize = new System.Drawing.Size(10, 0);

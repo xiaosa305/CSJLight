@@ -69,6 +69,7 @@ namespace LightController.MyForm.Step
 			endNumericUpDown.Maximum = totalStep;
 			endNumericUpDown.Value = totalStep;
 
+			unifyCmComboBox.Items.Clear(); //先清空Items，避免写空间时有残留
 			if (mainForm.CurrentMode == 0)
 			{
 				modeLabel.Text = "当前模式：常规模式";

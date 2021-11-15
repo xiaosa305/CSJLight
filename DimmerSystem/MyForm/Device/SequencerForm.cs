@@ -40,7 +40,6 @@ namespace LightController.MyForm.Device
 
 			for (int relayIndex = 0; relayIndex < relayCount; relayIndex++)
 			{
-				//DOTO 
 				relayButtons[relayIndex] = new UIImageButton
 				{
 					BackColor = relayButtonDemo.BackColor ,

@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Ast.Helper;
 using LightController.Common;
 using LightEditor.Ast;
 using Sunny.UI;
@@ -64,14 +65,16 @@ namespace LightController.MyForm.Step
 					BorderStyle = stepPanelDemo.BorderStyle,
 					Size = stepPanelDemo.Size,
 					Location = stepPanelDemo.Location ,
-					BackColor = getBackColor(stepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue),
+					BackColor = ColorHelper.GetBackColor(stepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue , stepPanelDemo.BackColor),
 					Tag = lightIndex,
+					Margin = stepPanelDemo.Margin,
+					Padding = stepPanelDemo.Padding,
 				};
 
 				Label stepLabel = new Label
 				{
 					Name = "stepLabel" + (stepIndex + 1),
-					Text = LanguageHelper.TranslateWord("步 ") + (stepIndex + 1),
+					Text =  (stepIndex + 1).ToString(),
 					AutoSize = stepLabelDemo.AutoSize,
 					ForeColor = stepLabelDemo.ForeColor,
 					Location = stepLabelDemo.Location,
@@ -136,41 +139,6 @@ namespace LightController.MyForm.Step
 			LanguageHelper.InitForm(this);
 		}
 
-		#region 单独设值
-
-		/// <summary>
-		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
-		{
-			NumericUpDown nud = sender as NumericUpDown;
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			// 向上滚
-			if (e.Delta > 0)
-			{
-				decimal dd = nud.Value + nud.Increment;
-				if (dd <= nud.Maximum)
-				{
-					nud.Value = dd;
-				}
-			}
-			// 向下滚
-			else if (e.Delta < 0)
-			{
-				decimal dd = nud.Value - nud.Increment;
-				if (dd >= nud.Minimum)
-				{
-					nud.Value = dd;
-				}
-			}
-		}
-
 		/// <summary>
 		/// 事件：点击每个步数的《↑↓》
 		/// </summary>
@@ -211,14 +179,10 @@ namespace LightController.MyForm.Step
 				NumericUpDown nud = sender as NumericUpDown;
 				int stepIndex = MathHelper.GetIndexNum(nud.Name, -1);
 				int stepValue = decimal.ToInt32(nud.Value);
-				(nud.Parent as Panel).BackColor = getBackColor(stepValue);
+				(nud.Parent as Panel).BackColor = ColorHelper.GetBackColor(stepValue,stepPanelDemo.BackColor);
 
 				mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue, isJumpStep);  
 		}
-
-		#endregion
-
-		#region 通用方法
 
 		/// <summary>
 		/// 事件：更改saComboBox内的选中项，并将unifyStepNUD内的数字设为这个子属性对应的值（起始值）
@@ -267,25 +231,39 @@ namespace LightController.MyForm.Step
 
 			isJumpStep = true;  // 所有值设值完成后，调回来
 		}
+		
+		#region 通用方法
 
 		/// <summary>
-		/// 辅助方法：由输入的通道值，设置背景颜色
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
 		/// </summary>
-		/// <param name="stepValue"></param>
-		/// <returns></returns>
-		private Color getBackColor(int stepValue)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
 		{
-			if (stepValue == 0)
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
 			{
-				return Color.Gray;
+				hme.Handled = true;
 			}
-			else if (stepValue > 0 && stepValue < 255)
+			// 向上滚
+			if (e.Delta > 0)
 			{
-				return Color.SteelBlue;
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = dd;
+				}
 			}
-			else
+			// 向下滚
+			else if (e.Delta < 0)
 			{
-				return Color.IndianRed;
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = dd;
+				}
 			}
 		}
 

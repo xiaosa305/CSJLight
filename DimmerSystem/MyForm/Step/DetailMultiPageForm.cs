@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Ast.Helper;
 using LightController.Common;
 using LightEditor.Ast;
 using Sunny.UI;
@@ -229,7 +230,7 @@ namespace LightController.MyForm.Step
                 Panel stepPanel = new Panel
                 {
                     Name = "stepPanel" + (stepIndex + 1),
-                    BackColor = getBackColor(stepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue),
+                    BackColor = ColorHelper.GetBackColor(stepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue , BackColor),
                     BorderStyle = stepPanelDemo.BorderStyle,
                     Margin = stepPanelDemo.Margin,
                     Padding = stepPanelDemo.Padding,
@@ -338,7 +339,7 @@ namespace LightController.MyForm.Step
                         if (stepIndex < swList.Count)
                         {
                             //因为不再重复ValueChanged，故背景色需在此处进行改变；
-                            stepPanel.BackColor = getBackColor(swList[stepIndex].TongdaoList[tdIndex].ScrollValue);
+                            stepPanel.BackColor = ColorHelper.GetBackColor(swList[stepIndex].TongdaoList[tdIndex].ScrollValue, BackColor);
                             (stepPanel.Controls[0] as UIButton).Name = "topBottomButton" + (stepIndex + 1);
 
                             NumericUpDown nud = stepPanel.Controls[1] as NumericUpDown;
@@ -614,7 +615,7 @@ namespace LightController.MyForm.Step
             int tdIndex = MathHelper.GetIndexNum((nud.Parent.Parent as FlowLayoutPanel).Name, -1);
             int stepIndex = MathHelper.GetIndexNum(nud.Name, -1);
             int stepValue = decimal.ToInt32(nud.Value);
-            (nud.Parent as Panel).BackColor = getBackColor(stepValue);
+            (nud.Parent as Panel).BackColor = ColorHelper.GetBackColor(stepValue , BackColor);
 
             mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue, true); //手动设置的步数要跳转
 
@@ -677,28 +678,7 @@ namespace LightController.MyForm.Step
                 }
             }
         }
-
-        /// <summary>
-        /// 辅助方法：由输入的通道值，设置背景颜色
-        /// </summary>
-        /// <param name="stepValue"></param>
-        /// <returns></returns>
-        private Color getBackColor(int stepValue)
-        {
-            if (stepValue == 0)
-            {
-                return this.BackColor;
-            }
-            else if (stepValue > 0 && stepValue < 255)
-            {
-                return Color.SteelBlue;
-            }
-            else
-            {
-                return Color.IndianRed;
-            }
-        }
-
+        
         /// <summary>
         /// 辅助方法：设置提醒
         /// </summary>

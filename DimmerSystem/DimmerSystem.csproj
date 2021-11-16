@@ -105,6 +105,7 @@
     <Compile Include="Ast\Form\MaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Ast\Helper\ColorHelper.cs" />
     <Compile Include="Ast\LibEntity\SA.cs" />
     <Compile Include="Ast\LibEntity\SAWrapper.cs" />
     <Compile Include="Ast\LibEntity\TongdaoWrapper.cs" />

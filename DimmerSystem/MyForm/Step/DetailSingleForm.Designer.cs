@@ -64,7 +64,7 @@ namespace LightController.MyForm.Step
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 35);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(900, 534);
+            this.mainPanel.Size = new System.Drawing.Size(1000, 534);
             this.mainPanel.TabIndex = 0;
             // 
             // saComboBox
@@ -77,7 +77,7 @@ namespace LightController.MyForm.Step
             this.saComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.saComboBox.ForeColor = System.Drawing.Color.White;
             this.saComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.saComboBox.Location = new System.Drawing.Point(12, 79);
+            this.saComboBox.Location = new System.Drawing.Point(29, 81);
             this.saComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.saComboBox.MinimumSize = new System.Drawing.Size(63, 0);
             this.saComboBox.Name = "saComboBox";
@@ -105,7 +105,7 @@ namespace LightController.MyForm.Step
             "全步",
             "奇数步",
             "偶数步"});
-            this.unifyComboBox.Location = new System.Drawing.Point(12, 17);
+            this.unifyComboBox.Location = new System.Drawing.Point(29, 19);
             this.unifyComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.unifyComboBox.MinimumSize = new System.Drawing.Size(63, 0);
             this.unifyComboBox.Name = "unifyComboBox";
@@ -128,7 +128,7 @@ namespace LightController.MyForm.Step
             this.unifyBottomButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.unifyBottomButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.unifyBottomButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.unifyBottomButton.Location = new System.Drawing.Point(107, 17);
+            this.unifyBottomButton.Location = new System.Drawing.Point(124, 19);
             this.unifyBottomButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.unifyBottomButton.Name = "unifyBottomButton";
             this.unifyBottomButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
@@ -152,7 +152,7 @@ namespace LightController.MyForm.Step
             this.unifyTopButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.unifyTopButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.unifyTopButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.unifyTopButton.Location = new System.Drawing.Point(76, 17);
+            this.unifyTopButton.Location = new System.Drawing.Point(93, 19);
             this.unifyTopButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.unifyTopButton.Name = "unifyTopButton";
             this.unifyTopButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
@@ -176,7 +176,7 @@ namespace LightController.MyForm.Step
             this.unifyValueButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.unifyValueButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.unifyValueButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.unifyValueButton.Location = new System.Drawing.Point(76, 48);
+            this.unifyValueButton.Location = new System.Drawing.Point(93, 50);
             this.unifyValueButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.unifyValueButton.Name = "unifyValueButton";
             this.unifyValueButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
@@ -193,13 +193,14 @@ namespace LightController.MyForm.Step
             // stepPanelDemo
             // 
             this.stepPanelDemo.BackColor = System.Drawing.Color.Transparent;
-            this.stepPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.stepPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.stepPanelDemo.Controls.Add(this.topBottomButtonDemo);
             this.stepPanelDemo.Controls.Add(this.stepLabelDemo);
             this.stepPanelDemo.Controls.Add(this.stepNUDDemo);
             this.stepPanelDemo.Location = new System.Drawing.Point(29, 253);
+            this.stepPanelDemo.Margin = new System.Windows.Forms.Padding(1, 1, 0, 0);
             this.stepPanelDemo.Name = "stepPanelDemo";
-            this.stepPanelDemo.Size = new System.Drawing.Size(52, 85);
+            this.stepPanelDemo.Size = new System.Drawing.Size(40, 85);
             this.stepPanelDemo.TabIndex = 2;
             this.stepPanelDemo.Visible = false;
             // 
@@ -213,7 +214,7 @@ namespace LightController.MyForm.Step
             this.topBottomButtonDemo.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.topBottomButtonDemo.Font = new System.Drawing.Font("黑体", 8.25F);
             this.topBottomButtonDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.topBottomButtonDemo.Location = new System.Drawing.Point(4, 27);
+            this.topBottomButtonDemo.Location = new System.Drawing.Point(5, 27);
             this.topBottomButtonDemo.MinimumSize = new System.Drawing.Size(1, 2);
             this.topBottomButtonDemo.Name = "topBottomButtonDemo";
             this.topBottomButtonDemo.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
@@ -221,7 +222,7 @@ namespace LightController.MyForm.Step
             this.topBottomButtonDemo.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.topBottomButtonDemo.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.topBottomButtonDemo.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.topBottomButtonDemo.Size = new System.Drawing.Size(40, 20);
+            this.topBottomButtonDemo.Size = new System.Drawing.Size(30, 20);
             this.topBottomButtonDemo.Style = Sunny.UI.UIStyle.Custom;
             this.topBottomButtonDemo.TabIndex = 6;
             this.topBottomButtonDemo.Text = "↑↓";
@@ -230,23 +231,23 @@ namespace LightController.MyForm.Step
             // 
             this.stepLabelDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.stepLabelDemo.ForeColor = System.Drawing.Color.White;
-            this.stepLabelDemo.Location = new System.Drawing.Point(1, 7);
+            this.stepLabelDemo.Location = new System.Drawing.Point(5, 8);
             this.stepLabelDemo.Name = "stepLabelDemo";
-            this.stepLabelDemo.Size = new System.Drawing.Size(49, 16);
+            this.stepLabelDemo.Size = new System.Drawing.Size(33, 16);
             this.stepLabelDemo.TabIndex = 2;
-            this.stepLabelDemo.Text = "第100步";
+            this.stepLabelDemo.Text = "1000";
             // 
             // stepNUDDemo
             // 
             this.stepNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
-            this.stepNUDDemo.Location = new System.Drawing.Point(4, 55);
+            this.stepNUDDemo.Location = new System.Drawing.Point(1, 55);
             this.stepNUDDemo.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.stepNUDDemo.Name = "stepNUDDemo";
-            this.stepNUDDemo.Size = new System.Drawing.Size(40, 20);
+            this.stepNUDDemo.Size = new System.Drawing.Size(38, 20);
             this.stepNUDDemo.TabIndex = 1;
             this.stepNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.stepNUDDemo.Value = new decimal(new int[] {
@@ -259,7 +260,7 @@ namespace LightController.MyForm.Step
             // unifyNUD
             // 
             this.unifyNUD.Font = new System.Drawing.Font("黑体", 8F);
-            this.unifyNUD.Location = new System.Drawing.Point(12, 48);
+            this.unifyNUD.Location = new System.Drawing.Point(29, 50);
             this.unifyNUD.Maximum = new decimal(new int[] {
             255,
             0,
@@ -279,9 +280,10 @@ namespace LightController.MyForm.Step
             // 
             this.stepFLP.AutoScroll = true;
             this.stepFLP.Dock = System.Windows.Forms.DockStyle.Right;
-            this.stepFLP.Location = new System.Drawing.Point(148, 0);
+            this.stepFLP.Location = new System.Drawing.Point(178, 0);
+            this.stepFLP.Margin = new System.Windows.Forms.Padding(0);
             this.stepFLP.Name = "stepFLP";
-            this.stepFLP.Size = new System.Drawing.Size(750, 532);
+            this.stepFLP.Size = new System.Drawing.Size(820, 532);
             this.stepFLP.TabIndex = 0;
             // 
             // myStatusStrip
@@ -293,7 +295,7 @@ namespace LightController.MyForm.Step
             this.myStatusStrip.Location = new System.Drawing.Point(0, 569);
             this.myStatusStrip.Name = "myStatusStrip";
             this.myStatusStrip.ShowItemToolTips = true;
-            this.myStatusStrip.Size = new System.Drawing.Size(900, 31);
+            this.myStatusStrip.Size = new System.Drawing.Size(1000, 31);
             this.myStatusStrip.SizingGrip = false;
             this.myStatusStrip.TabIndex = 6;
             // 
@@ -309,7 +311,7 @@ namespace LightController.MyForm.Step
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.ClientSize = new System.Drawing.Size(900, 600);
+            this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.myStatusStrip);
             this.MaximizeBox = false;

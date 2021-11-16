@@ -265,6 +265,24 @@
     <Compile Include="MyForm\Step\DeleteStepsForm.Designer.cs">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Step\DetailMultiAstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailMultiAstForm.Designer.cs">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailMultiPageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailMultiPageForm.Designer.cs">
+      <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailSingleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailSingleForm.Designer.cs">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Step\MultiplexForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -373,6 +391,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DetailMultiAstForm.resx">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DetailMultiPageForm.resx">
+      <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DetailSingleForm.resx">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>

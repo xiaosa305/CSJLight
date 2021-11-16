@@ -200,7 +200,7 @@ namespace LightController.MyForm
         public IList<GroupAst> GroupList; // 存放编组列表（public 因为多步联调等Form会用到）
 
         //DOTO DetailMultiAstForm DmaForm
-        //public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
+        public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
         public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
 
         //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
@@ -283,7 +283,7 @@ namespace LightController.MyForm
             MAX_STEP = IniHelper.GetSystemCount("maxStep", 100);
             DefaultSoundCM = IniHelper.GetSystemCount("soundChangeMode", 0);
 
-            LanguageHelper.SetLanguage(IniHelper.GetString("System", "language", "zh-CN").Trim());// 国际化初始化	
+            LanguageHelper.SetLanguage(IniHelper.GetString("System", "language", "zh-CN").Trim());  // 国际化初始化	
 
             // myToolTips的初始化
             if (LanguageHelper.Language != "zh-CN")
@@ -2170,6 +2170,13 @@ namespace LightController.MyForm
             new HardwareSetForm(this).ShowDialog();
         }
 
+        /// <summary>
+        /// 辅助方法：复用场景
+        /// </summary>
+        /// <param name="sourceScene">源场景index</param>
+        /// <param name="destScene">目标场景index</param>
+        /// <param name="copyNormal">是否复制常规场景</param>
+        /// <param name="copySound">是否复制音频场景</param>
         public void CopyOtherScene(int sourceScene, int destScene, bool copyNormal, bool copySound)
         {
             if (!copyNormal && !copySound)
@@ -3098,7 +3105,15 @@ namespace LightController.MyForm
         private void tdNameNumLabels_Click(object sender, EventArgs e)
         {
             //DOTO tdNameNumLabels_Click
-            //tdNameNumLabelClick(sender);
+            SetNotice("正在单通道多步联调...", false, false);
+            int selectedTdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);            
+            new DetailSingleForm(
+                this,
+                selectedIndex,
+                selectedTdIndex,
+                LightWrapperList[selectedIndex].LightStepWrapperList[CurrentScene, CurrentMode].StepWrapperList
+            ).ShowDialog();
+
         }
 
         /// <summary>
@@ -4932,9 +4947,25 @@ namespace LightController.MyForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void multiButton_Click(object sender, EventArgs e)
-        {
+        private void multiButton_Click(object sender, EventArgs e)  {
 
+            if (getCurrentTotalStep() == 0)
+            {
+                SetNotice("当前灯具没有步数，无法使用多步联调。", true, true);
+                return;
+            }
+
+            // 若tdDict不为空（意味着从DmaForm中被回传了），且是右键点击；则直接打开多步联调
+            if (TdDict != null )
+            {
+                new DetailMultiPageForm(this, TdDict).ShowDialog();
+                return;
+            }
+            if (DmaForm == null || DmaForm.IsDisposed)
+            {
+                DmaForm = new DetailMultiAstForm(this);
+            }
+            DmaForm.ShowDialog();
         }
 
         /// <summary>
@@ -4986,12 +5017,72 @@ namespace LightController.MyForm
             return true;
         }
 
+        /// <summary>
+        /// 辅助方法：（供DetailMultiForm等调用）返回当前灯具某个通道的封装类；
+        /// </summary>
+        /// <returns></returns>
+        public SAWrapper GetSeletecdLightTdSaw(int lightIndex, int tdIndex)
+        {
+            if (LightAstList == null || LightAstList.Count == 0 || lightIndex == -1)
+            {
+                return null;
+            }
+            return LightAstList[lightIndex].SawList[tdIndex];
+        }
+
+        /// <summary>
+        ///  辅助方法：供《多步联调》内修改部分步数值时使用；
+        /// </summary>
+        /// <param name="tdIndex">通道index（在所在灯具中）</param>
+        /// <param name="stepIndex">步数Index</param>
+        /// <param name="isJumpStep">是否跳转指定步</param>
+        public void SetTdStepValue(int selectedLightIndex, int tdIndex, int stepIndex, int stepValue, bool isJumpStep)
+        {
+            //判断传入的 stepIndex是否在范围内，超过的话，直接return( tdIndex 不需验证：因为是mainForm传过去的)
+            LightStepWrapper lsWrapper = getSelectedLightStepWrapper(selectedLightIndex);
+            if (stepIndex >= lsWrapper.TotalStep)
+            {
+                return;
+            }
+
+            // 编组模式 且 所选灯具在当前的编组内，将值赋给每个编组的灯具中
+            if (isMultiMode && selectedIndexList.Contains(selectedLightIndex))
+            {
+                foreach (int lightIndex in selectedIndexList)
+                {
+                    getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
+                }
+            }
+            // 单灯模式，则只需更改当前灯具的数据即可。
+            else
+            {
+                getSelectedLightStepWrapper(selectedLightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
+            }
+
+            // isJumpStep的话，才执行跳转步(可有效避免重复进行某些操作)
+            if (isJumpStep)
+            {
+                getSelectedLightStepWrapper(selectedLightIndex).CurrentStep = stepIndex + 1;
+                // 如果不在编组模式，且更改的步数并非当前灯，则选中该灯具
+                if (! isMultiMode && selectedLightIndex != selectedIndex)
+                {
+                    selectedIndex = selectedLightIndex;
+                    generateLightData(); //SetTdStepValue | 这个方法里已经包含了refreshStep();
+                }
+                else {
+                    refreshStep();  //如果没有换灯，则刷新步
+                }
+            }
+        }
+
         #region 解决tdFLP 各个组件 Hide和Show切换时 闪烁的问题 
         [DllImport("user32")]
         private static extern int SendMessage(IntPtr hwnd, int wMsg, int wParam, IntPtr lParam);
         private const int WM_SETREDRAW = 0xB;
 
         #endregion
+
+
 
     }
 }

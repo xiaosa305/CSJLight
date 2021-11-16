@@ -73,7 +73,6 @@ namespace LightController.MyForm.Connect
 			}
 		}
 
-
 		/// <summary>
 		/// 事件：点击《刷新列表》
 		/// </summary>

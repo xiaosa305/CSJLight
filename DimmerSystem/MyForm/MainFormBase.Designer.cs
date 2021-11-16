@@ -1545,6 +1545,7 @@ namespace LightController.MyForm
             this.tdNoLabelDemo.TabIndex = 28;
             this.tdNoLabelDemo.Text = "通道512";
             this.tdNoLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
             // 
             // tdTrackBarDemo
             // 
@@ -1567,6 +1568,7 @@ namespace LightController.MyForm
             this.tdNameLabelDemo.TabIndex = 22;
             this.tdNameLabelDemo.Text = "x/y轴转速";
             this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
             // 
             // tdStNUDDemo
             // 
@@ -1993,7 +1995,7 @@ namespace LightController.MyForm
             this.Controls.Add(this.myStatusStrip);
             this.ExtendSymbol = 1;
             this.Font = new System.Drawing.Font("黑体", 10F);
-            this.MaximumSize = new System.Drawing.Size(1920, 1080);
+            this.MaximumSize = new System.Drawing.Size(2560, 1440);
             this.Name = "MainFormBase";
             this.Padding = new System.Windows.Forms.Padding(0, 31, 0, 0);
             this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));

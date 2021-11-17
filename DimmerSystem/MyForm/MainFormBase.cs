@@ -4803,7 +4803,7 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void testLabel_Click(object sender, EventArgs e)
         {
-            new MaterialUseForm().ShowDialog();
+            new MaterialUseForm(this).ShowDialog();
         }
 
         /// <summary>
@@ -5106,7 +5106,7 @@ namespace LightController.MyForm
 
             if (materialUseForm == null)
             {
-                //DOTO materialUseForm = new MaterialUseForm(this);
+               materialUseForm = new MaterialUseForm();
             }
             materialUseForm.ShowDialog();
         }

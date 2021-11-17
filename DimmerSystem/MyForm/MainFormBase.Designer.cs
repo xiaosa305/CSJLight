@@ -54,11 +54,11 @@ namespace LightController.MyForm
             this.soundListButton = new Sunny.UI.UIButton();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.menuLinePanel = new System.Windows.Forms.Panel();
-            this.uiPanel3 = new Sunny.UI.UIPanel();
-            this.uiPanel2 = new Sunny.UI.UIPanel();
-            this.uiPanel8 = new Sunny.UI.UIPanel();
-            this.uiPanel4 = new Sunny.UI.UIPanel();
-            this.uiPanel1 = new Sunny.UI.UIPanel();
+            this.vLinePanel3 = new Sunny.UI.UIPanel();
+            this.vLinePanel2 = new Sunny.UI.UIPanel();
+            this.vLinePanel5 = new Sunny.UI.UIPanel();
+            this.vLinePanel4 = new Sunny.UI.UIPanel();
+            this.vLinePanel1 = new Sunny.UI.UIPanel();
             this.connectButton = new Sunny.UI.UIButton();
             this.downloadButton = new Sunny.UI.UIImageButton();
             this.makeSoundButton = new Sunny.UI.UIImageButton();
@@ -137,8 +137,8 @@ namespace LightController.MyForm
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.mainMaskPanel = new LightController.Ast.Form.MaskPanel();
             this.lightsMaskPanel = new LightController.Ast.Form.MaskPanel();
+            this.mainMaskPanel = new LightController.Ast.Form.MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
@@ -513,11 +513,11 @@ namespace LightController.MyForm
             // 
             this.menuPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.menuPanel.Controls.Add(this.menuLinePanel);
-            this.menuPanel.Controls.Add(this.uiPanel3);
-            this.menuPanel.Controls.Add(this.uiPanel2);
-            this.menuPanel.Controls.Add(this.uiPanel8);
-            this.menuPanel.Controls.Add(this.uiPanel4);
-            this.menuPanel.Controls.Add(this.uiPanel1);
+            this.menuPanel.Controls.Add(this.vLinePanel1);
+            this.menuPanel.Controls.Add(this.vLinePanel2);
+            this.menuPanel.Controls.Add(this.vLinePanel3);
+            this.menuPanel.Controls.Add(this.vLinePanel4);
+            this.menuPanel.Controls.Add(this.vLinePanel5);
             this.menuPanel.Controls.Add(this.connectButton);
             this.menuPanel.Controls.Add(this.downloadButton);
             this.menuPanel.Controls.Add(this.makeSoundButton);
@@ -545,90 +545,90 @@ namespace LightController.MyForm
             this.menuLinePanel.Size = new System.Drawing.Size(1140, 1);
             this.menuLinePanel.TabIndex = 10;
             // 
-            // uiPanel3
+            // vLinePanel3
             // 
-            this.uiPanel3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel3.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel3.Location = new System.Drawing.Point(549, 23);
-            this.uiPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel3.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel3.Name = "uiPanel3";
-            this.uiPanel3.Radius = 4;
-            this.uiPanel3.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel3.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel3.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel3.TabIndex = 9;
-            this.uiPanel3.Text = null;
-            this.uiPanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel3.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.vLinePanel3.Location = new System.Drawing.Point(549, 23);
+            this.vLinePanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel3.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel3.Name = "vLinePanel3";
+            this.vLinePanel3.Radius = 4;
+            this.vLinePanel3.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel3.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel3.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel3.TabIndex = 9;
+            this.vLinePanel3.Text = null;
+            this.vLinePanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel2
+            // vLinePanel2
             // 
-            this.uiPanel2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel2.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel2.Location = new System.Drawing.Point(449, 23);
-            this.uiPanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel2.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel2.Name = "uiPanel2";
-            this.uiPanel2.Radius = 4;
-            this.uiPanel2.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel2.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel2.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel2.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel2.TabIndex = 9;
-            this.uiPanel2.Text = null;
-            this.uiPanel2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel2.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.vLinePanel2.Location = new System.Drawing.Point(449, 23);
+            this.vLinePanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel2.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel2.Name = "vLinePanel2";
+            this.vLinePanel2.Radius = 4;
+            this.vLinePanel2.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel2.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel2.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel2.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel2.TabIndex = 9;
+            this.vLinePanel2.Text = null;
+            this.vLinePanel2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel8
+            // vLinePanel5
             // 
-            this.uiPanel8.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel8.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel8.Location = new System.Drawing.Point(976, 23);
-            this.uiPanel8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel8.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel8.Name = "uiPanel8";
-            this.uiPanel8.Radius = 4;
-            this.uiPanel8.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel8.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel8.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel8.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel8.TabIndex = 9;
-            this.uiPanel8.Text = null;
-            this.uiPanel8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel5.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel5.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.vLinePanel5.Location = new System.Drawing.Point(976, 23);
+            this.vLinePanel5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel5.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel5.Name = "vLinePanel5";
+            this.vLinePanel5.Radius = 4;
+            this.vLinePanel5.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel5.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel5.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel5.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel5.TabIndex = 9;
+            this.vLinePanel5.Text = null;
+            this.vLinePanel5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel4
+            // vLinePanel4
             // 
-            this.uiPanel4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel4.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel4.Location = new System.Drawing.Point(724, 23);
-            this.uiPanel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel4.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel4.Name = "uiPanel4";
-            this.uiPanel4.Radius = 4;
-            this.uiPanel4.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel4.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel4.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel4.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel4.TabIndex = 9;
-            this.uiPanel4.Text = null;
-            this.uiPanel4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel4.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.vLinePanel4.Location = new System.Drawing.Point(724, 23);
+            this.vLinePanel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel4.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel4.Name = "vLinePanel4";
+            this.vLinePanel4.Radius = 4;
+            this.vLinePanel4.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel4.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel4.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel4.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel4.TabIndex = 9;
+            this.vLinePanel4.Text = null;
+            this.vLinePanel4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel1
+            // vLinePanel1
             // 
-            this.uiPanel1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel1.Location = new System.Drawing.Point(120, 23);
-            this.uiPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel1.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel1.Name = "uiPanel1";
-            this.uiPanel1.Radius = 4;
-            this.uiPanel1.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel1.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel1.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel1.TabIndex = 9;
-            this.uiPanel1.Text = null;
-            this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.vLinePanel1.Location = new System.Drawing.Point(122, 23);
+            this.vLinePanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel1.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel1.Name = "vLinePanel1";
+            this.vLinePanel1.Radius = 4;
+            this.vLinePanel1.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel1.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel1.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel1.TabIndex = 9;
+            this.vLinePanel1.Text = null;
+            this.vLinePanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // connectButton
             // 
@@ -1992,14 +1992,6 @@ namespace LightController.MyForm
             this.mainPanel.Size = new System.Drawing.Size(1366, 737);
             this.mainPanel.TabIndex = 31;
             // 
-            // mainMaskPanel
-            // 
-            this.mainMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainMaskPanel.Location = new System.Drawing.Point(0, 31);
-            this.mainMaskPanel.Name = "mainMaskPanel";
-            this.mainMaskPanel.Size = new System.Drawing.Size(1366, 737);
-            this.mainMaskPanel.TabIndex = 32;
-            // 
             // lightsMaskPanel
             // 
             this.lightsMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2008,6 +2000,14 @@ namespace LightController.MyForm
             this.lightsMaskPanel.Size = new System.Drawing.Size(1035, 277);
             this.lightsMaskPanel.TabIndex = 30;
             this.lightsMaskPanel.Visible = false;
+            // 
+            // mainMaskPanel
+            // 
+            this.mainMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainMaskPanel.Location = new System.Drawing.Point(0, 31);
+            this.mainMaskPanel.Name = "mainMaskPanel";
+            this.mainMaskPanel.Size = new System.Drawing.Size(1366, 737);
+            this.mainMaskPanel.TabIndex = 32;
             // 
             // MainFormBase
             // 
@@ -2082,7 +2082,7 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel workPanel;
         private Sunny.UI.UIButton connectButton;
         private Sunny.UI.UIImageButton hardwareSetButton;
-        private Sunny.UI.UIPanel uiPanel1;
+        private Sunny.UI.UIPanel vLinePanel1;
         private Sunny.UI.UILabel uiLabel3;
         private Sunny.UI.UIPanel uiPanel7;
         private Sunny.UI.UILabel uiLabel2;
@@ -2090,16 +2090,16 @@ namespace LightController.MyForm
         private Sunny.UI.UIImageButton seqButton;
         private Sunny.UI.UIImageButton toolsButton;
         private Sunny.UI.UIImageButton downloadButton;
-        private Sunny.UI.UIPanel uiPanel3;
-        private Sunny.UI.UIPanel uiPanel2;
-        private Sunny.UI.UIPanel uiPanel4;
+        private Sunny.UI.UIPanel vLinePanel3;
+        private Sunny.UI.UIPanel vLinePanel2;
+        private Sunny.UI.UIPanel vLinePanel4;
         private Sunny.UI.UIImageButton makeSoundButton;
         private Sunny.UI.UIImageButton globalSetButton;
         private Sunny.UI.UIImageButton previewButton;
         private Sunny.UI.UIImageButton lightListButton;
         private Sunny.UI.UIImageButton keepButton;
         private Sunny.UI.UIImageButton libButton;
-        private Sunny.UI.UIPanel uiPanel8;
+        private Sunny.UI.UIPanel vLinePanel5;
         private Sunny.UI.UIImageButton helpButton;
         private Sunny.UI.UISymbolButton openButton;
         private Sunny.UI.UILabel projectPanelLabel;

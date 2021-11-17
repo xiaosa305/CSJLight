@@ -157,7 +157,7 @@ namespace LightController.MyForm.Project
 			#endregion
 
 			// 初始化iniAst
-			iniHelper = new IniHelper(mainForm.GlobalIniPath);
+			iniHelper = new IniHelper(mainForm.GetConfigPath());
 			isInit = true;
 		}
 

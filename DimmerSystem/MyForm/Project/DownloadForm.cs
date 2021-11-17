@@ -77,7 +77,7 @@ namespace LightController.MyForm.Project
 
 			downloadButton.Enabled = mainForm.IsDeviceConnected && //必要条件
 				(exportedCheckBox.Checked && (!string.IsNullOrEmpty(exportProjectPath))   // 如果勾选《下载已有工程》
-				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(mainForm.GlobalIniPath)));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
+				|| (!exportedCheckBox.Checked && !string.IsNullOrEmpty(mainForm.GetConfigPath())));   // 如果选择下载当前工程，则必须当前已打开工程（用GlobalIniPath判断即可）
 		}
 
 		/// <summary>
@@ -138,7 +138,7 @@ namespace LightController.MyForm.Project
 			// 1.2下载当前工程
 			else
 			{
-				if (string.IsNullOrEmpty(mainForm.GlobalIniPath))
+				if (string.IsNullOrEmpty(mainForm.GetConfigPath()))
 				{
 					setNotice("主界面尚未打开工程，无法下载工程。", true, true);
 					setBusy(false);

@@ -22,7 +22,6 @@ namespace LightController.MyForm.Step
         private int pageCount; //  总页数
         private int currentPage = 1;  // 从0开始计算页数		       
         private bool isValueChangedWork = true; //非常重要的一个变量，可以防止多次调用ValueChanged事件。
-
         public DetailMultiPageForm(MainFormBase mainForm, Dictionary<int, List<int>> tdDict)
         {
             this.mainForm = mainForm;
@@ -67,7 +66,7 @@ namespace LightController.MyForm.Step
                 stepShowFLP.Controls.Add(stepCheckBox);
             }
 
-            // 根据各个通道的大小，来制定所需的stepPanel（小于20步的灯具，可渲染少一些的通道）
+            // 根据各个通道的大小，来生成所需的stepPanel；如果之前有而目前没有步数的通道，则不显示
             IList<LightWrapper> lwList = mainForm.LightWrapperList;
             foreach (int lightIndex in tdDict.Keys)
             {

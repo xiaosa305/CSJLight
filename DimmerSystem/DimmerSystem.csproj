@@ -284,6 +284,12 @@
     <Compile Include="MyForm\Step\DetailSingleForm.Designer.cs">
       <DependentUpon>DetailSingleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Step\MaterialSaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialSaveForm.Designer.cs">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Step\MultiplexForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -330,6 +336,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Default\global.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Default\MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Default\PreTDNameList">
@@ -401,6 +410,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\DetailSingleForm.resx">
       <DependentUpon>DetailSingleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\MaterialSaveForm.resx">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>

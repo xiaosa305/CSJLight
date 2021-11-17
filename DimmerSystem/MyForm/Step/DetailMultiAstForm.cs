@@ -20,7 +20,7 @@ namespace LightController.MyForm.Step
 			this.mainForm = mainForm;
 			InitializeComponent();
 
-			// 初始化时，所有的灯具都要生成相应面板（但显示与否由 load内决定）【这样之前的勾选可以保留】
+			// 初始化时，所有灯具都要生成相应面板（但显示与否由 load内决定，这样没有步的灯具就不要显示了）【这样之前的勾选可以保留】
 			for (int lightIndex = 0; lightIndex < mainForm.LightAstList.Count; lightIndex++)
 			{
 				IList<TongdaoWrapper> tongdaoList = mainForm.LightWrapperList[lightIndex].StepTemplate.TongdaoList;

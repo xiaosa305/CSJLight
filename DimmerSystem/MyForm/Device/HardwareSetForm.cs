@@ -488,8 +488,7 @@ namespace LightController.MyForm.Device
 			{
 				if (++clickTimes == 3)
 				{
-					//DOTO 
-					//new SpecialForm(this, ch).ShowDialog();
+					//DOTO new SpecialForm(this, ch).ShowDialog();
 					clickTimes = 0;
 				}
 			}

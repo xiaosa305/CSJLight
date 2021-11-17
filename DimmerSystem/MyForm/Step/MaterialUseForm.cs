@@ -90,8 +90,8 @@ namespace LightController.MyForm.Step
 			#endregion
 
 		}
-
-		private void MaterialForm_Load(object sender, EventArgs e)
+		
+		private void MaterialUseForm_Load(object sender, EventArgs e)
 		{
 			LanguageHelper.InitForm(this);
 
@@ -165,13 +165,12 @@ namespace LightController.MyForm.Step
 		}
 
 		#region load时刷新各个素材来源相关的内容
-
+		
 		/// <summary>
 		/// 辅助方法：刷新素材列表（最好不要有入参，而实时从主界面取出）
 		/// </summary>
 		private void refreshMaterialTab()
 		{
-
 			materialTreeView.Nodes.Clear();
 			materialPath = IniHelper.GetSavePath() + @"\LightMaterial\" + (mainForm.CurrentMode == 0 ? "Normal" : "Sound");
 
@@ -238,7 +237,6 @@ namespace LightController.MyForm.Step
 		/// </summary>
 		private void refreshColorTab()
 		{
-
 			if (StepWrapper.CheckRGB(stepTemplate))
 			{
 				colorTab.Parent = tabControl1;
@@ -407,7 +405,7 @@ namespace LightController.MyForm.Step
 		}
 
 		/// <summary>
-		/// 事件：点击《应用》
+		/// 事件：点击《 覆盖 | 插入 | 追加 》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1382,5 +1380,10 @@ namespace LightController.MyForm.Step
 			coverButton.Enabled = enable;
 			appendButton.Enabled = enable;
 		}
-	}
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

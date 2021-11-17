@@ -1975,7 +1975,7 @@ namespace LightController.MyForm
             //MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
             lightListButton.Enabled = !isMultiMode;
             //lightsListView.Enabled = !isMultiMode;
-           maskPanel.Visible = isMultiMode;
+           lightsMaskPanel.Visible = isMultiMode;
 
             sceneComboBox.Enabled = !isMultiMode;
             protocolComboBox.Enabled = !isMultiMode;
@@ -3480,7 +3480,14 @@ namespace LightController.MyForm
         private void setBusy(bool busy)
         {
             Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
-            Enabled = !busy;
+            //Enabled = !busy;
+            if (busy)
+            {
+                mainMaskPanel.BringToFront();
+            }
+            else {
+                mainMaskPanel.SendToBack();
+            }
         }
 
         #endregion

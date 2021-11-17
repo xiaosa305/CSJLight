@@ -42,6 +42,7 @@ namespace LightController.MyForm
             this.groupInButtonDemo = new Sunny.UI.UIButton();
             this.groupDelButtonDemo = new Sunny.UI.UIButton();
             this.astLinePanel = new System.Windows.Forms.Panel();
+            this.lightPictureBox = new System.Windows.Forms.PictureBox();
             this.uiLabel3 = new Sunny.UI.UILabel();
             this.uiPanel7 = new Sunny.UI.UIPanel();
             this.uiLabel2 = new Sunny.UI.UILabel();
@@ -59,9 +60,20 @@ namespace LightController.MyForm
             this.uiPanel4 = new Sunny.UI.UIPanel();
             this.uiPanel1 = new Sunny.UI.UIPanel();
             this.connectButton = new Sunny.UI.UIButton();
+            this.downloadButton = new Sunny.UI.UIImageButton();
+            this.makeSoundButton = new Sunny.UI.UIImageButton();
+            this.toolsButton = new Sunny.UI.UIImageButton();
+            this.globalSetButton = new Sunny.UI.UIImageButton();
+            this.previewButton = new Sunny.UI.UIImageButton();
+            this.lightListButton = new Sunny.UI.UIImageButton();
+            this.seqButton = new Sunny.UI.UIImageButton();
+            this.helpButton = new Sunny.UI.UIImageButton();
+            this.keepButton = new Sunny.UI.UIImageButton();
+            this.libButton = new Sunny.UI.UIImageButton();
+            this.hardwareSetButton = new Sunny.UI.UIImageButton();
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mainPanel = new System.Windows.Forms.Panel();
+            this.workPanel = new System.Windows.Forms.Panel();
             this.lightsListView = new System.Windows.Forms.ListView();
             this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,7 +88,17 @@ namespace LightController.MyForm
             this.chooseStepButton = new Sunny.UI.UIButton();
             this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.modeCheckBox = new Sunny.UI.UICheckBox();
+            this.syncButton = new Sunny.UI.UISymbolButton();
+            this.saveMatButton = new Sunny.UI.UISymbolButton();
+            this.useMatButton = new Sunny.UI.UISymbolButton();
+            this.copyButton = new Sunny.UI.UISymbolButton();
+            this.pasteButton = new Sunny.UI.UISymbolButton();
+            this.nextButton = new Sunny.UI.UISymbolButton();
             this.copySceneButton = new Sunny.UI.UIButton();
+            this.deleteButton = new Sunny.UI.UISymbolButton();
+            this.appendButton = new Sunny.UI.UISymbolButton();
+            this.insertButton = new Sunny.UI.UISymbolButton();
+            this.prevButton = new Sunny.UI.UISymbolButton();
             this.sceneComboBox = new Sunny.UI.UIComboBox();
             this.protocolComboBox = new Sunny.UI.UIComboBox();
             this.protocolLabel = new Sunny.UI.UILabel();
@@ -103,46 +125,38 @@ namespace LightController.MyForm
             this.uiPanel5 = new Sunny.UI.UIPanel();
             this.projectPanel = new System.Windows.Forms.Panel();
             this.projectLinePanel = new System.Windows.Forms.Panel();
-            this.linePanel = new System.Windows.Forms.Panel();
-            this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.myToolTip = new Sunny.UI.UIToolTip(this.components);
-            this.syncButton = new Sunny.UI.UISymbolButton();
-            this.saveMatButton = new Sunny.UI.UISymbolButton();
-            this.useMatButton = new Sunny.UI.UISymbolButton();
-            this.copyButton = new Sunny.UI.UISymbolButton();
-            this.pasteButton = new Sunny.UI.UISymbolButton();
-            this.nextButton = new Sunny.UI.UISymbolButton();
-            this.deleteButton = new Sunny.UI.UISymbolButton();
-            this.appendButton = new Sunny.UI.UISymbolButton();
-            this.insertButton = new Sunny.UI.UISymbolButton();
-            this.prevButton = new Sunny.UI.UISymbolButton();
             this.closeButton = new Sunny.UI.UISymbolButton();
             this.exportButton = new Sunny.UI.UISymbolButton();
             this.sourceButton = new Sunny.UI.UISymbolButton();
             this.saveButton = new Sunny.UI.UISymbolButton();
             this.newButton = new Sunny.UI.UISymbolButton();
             this.openButton = new Sunny.UI.UISymbolButton();
-            this.downloadButton = new Sunny.UI.UIImageButton();
-            this.makeSoundButton = new Sunny.UI.UIImageButton();
-            this.toolsButton = new Sunny.UI.UIImageButton();
-            this.globalSetButton = new Sunny.UI.UIImageButton();
-            this.previewButton = new Sunny.UI.UIImageButton();
-            this.lightListButton = new Sunny.UI.UIImageButton();
-            this.seqButton = new Sunny.UI.UIImageButton();
-            this.helpButton = new Sunny.UI.UIImageButton();
-            this.keepButton = new Sunny.UI.UIImageButton();
-            this.libButton = new Sunny.UI.UIImageButton();
-            this.hardwareSetButton = new Sunny.UI.UIImageButton();
-            this.lightPictureBox = new System.Windows.Forms.PictureBox();
-            this.maskPanel = new LightController.Ast.Form.MaskPanel();
+            this.linePanel = new System.Windows.Forms.Panel();
+            this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.myToolTip = new Sunny.UI.UIToolTip(this.components);
+            this.mainPanel = new System.Windows.Forms.Panel();
+            this.mainMaskPanel = new LightController.Ast.Form.MaskPanel();
+            this.lightsMaskPanel = new LightController.Ast.Form.MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).BeginInit();
             this.menuPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.makeSoundButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toolsButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.globalSetButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lightListButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seqButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.helpButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keepButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.libButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).BeginInit();
             this.myStatusStrip.SuspendLayout();
-            this.mainPanel.SuspendLayout();
+            this.workPanel.SuspendLayout();
             this.myContextMenuStrip.SuspendLayout();
             this.stepPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
@@ -156,18 +170,7 @@ namespace LightController.MyForm
             this.saFLPDemo.SuspendLayout();
             this.labelPanel.SuspendLayout();
             this.projectPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.makeSoundButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toolsButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.globalSetButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.previewButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lightListButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.seqButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.helpButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.keepButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.libButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).BeginInit();
+            this.mainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // astPanel
@@ -189,7 +192,7 @@ namespace LightController.MyForm
             this.astPanel.Controls.Add(this.multiplexButton);
             this.astPanel.Controls.Add(this.groupButton);
             this.astPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.astPanel.Location = new System.Drawing.Point(1140, 31);
+            this.astPanel.Location = new System.Drawing.Point(1140, 0);
             this.astPanel.Name = "astPanel";
             this.astPanel.Size = new System.Drawing.Size(226, 705);
             this.astPanel.TabIndex = 0;
@@ -313,6 +316,15 @@ namespace LightController.MyForm
             this.astLinePanel.Name = "astLinePanel";
             this.astLinePanel.Size = new System.Drawing.Size(1, 705);
             this.astLinePanel.TabIndex = 10;
+            // 
+            // lightPictureBox
+            // 
+            this.lightPictureBox.Location = new System.Drawing.Point(76, 62);
+            this.lightPictureBox.Name = "lightPictureBox";
+            this.lightPictureBox.Size = new System.Drawing.Size(76, 86);
+            this.lightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.lightPictureBox.TabIndex = 9;
+            this.lightPictureBox.TabStop = false;
             // 
             // uiLabel3
             // 
@@ -519,7 +531,7 @@ namespace LightController.MyForm
             this.menuPanel.Controls.Add(this.libButton);
             this.menuPanel.Controls.Add(this.hardwareSetButton);
             this.menuPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.menuPanel.Location = new System.Drawing.Point(0, 31);
+            this.menuPanel.Location = new System.Drawing.Point(0, 0);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(1140, 89);
             this.menuPanel.TabIndex = 2;
@@ -638,13 +650,243 @@ namespace LightController.MyForm
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             this.connectButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.connectButton_MouseDown);
             // 
+            // downloadButton
+            // 
+            this.downloadButton.BackColor = System.Drawing.Color.Transparent;
+            this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.downloadButton.Enabled = false;
+            this.downloadButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.downloadButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.downloadButton.Image = global::LightController.Properties.Resources.工程下载;
+            this.downloadButton.ImageDisabled = global::LightController.Properties.Resources.工程下载_Disabled;
+            this.downloadButton.ImageHover = global::LightController.Properties.Resources.工程下载_Hover;
+            this.downloadButton.ImagePress = global::LightController.Properties.Resources.工程下载_Press;
+            this.downloadButton.Location = new System.Drawing.Point(369, 11);
+            this.downloadButton.Name = "downloadButton";
+            this.downloadButton.Size = new System.Drawing.Size(60, 69);
+            this.downloadButton.TabIndex = 8;
+            this.downloadButton.TabStop = false;
+            this.downloadButton.Text = "工程下载";
+            this.downloadButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.downloadButton.WaitOnLoad = true;
+            this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
+            // 
+            // makeSoundButton
+            // 
+            this.makeSoundButton.BackColor = System.Drawing.Color.Transparent;
+            this.makeSoundButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.makeSoundButton.Enabled = false;
+            this.makeSoundButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.makeSoundButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.makeSoundButton.Image = global::LightController.Properties.Resources.触发音频;
+            this.makeSoundButton.ImageDisabled = global::LightController.Properties.Resources.触发音频_Disabled;
+            this.makeSoundButton.ImageHover = global::LightController.Properties.Resources.触发音频_Hover;
+            this.makeSoundButton.ImagePress = global::LightController.Properties.Resources.触发音频_Press;
+            this.makeSoundButton.ImageSelected = global::LightController.Properties.Resources.触发音频_Highlight;
+            this.makeSoundButton.Location = new System.Drawing.Point(896, 11);
+            this.makeSoundButton.Name = "makeSoundButton";
+            this.makeSoundButton.Size = new System.Drawing.Size(60, 69);
+            this.makeSoundButton.TabIndex = 8;
+            this.makeSoundButton.TabStop = false;
+            this.makeSoundButton.Text = "触发音频";
+            this.makeSoundButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.makeSoundButton.WaitOnLoad = true;
+            this.makeSoundButton.Click += new System.EventHandler(this.makeSoundButton_Click);
+            // 
+            // toolsButton
+            // 
+            this.toolsButton.BackColor = System.Drawing.Color.Transparent;
+            this.toolsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.toolsButton.Enabled = false;
+            this.toolsButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.toolsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.toolsButton.Image = global::LightController.Properties.Resources.外设配置;
+            this.toolsButton.ImageDisabled = global::LightController.Properties.Resources.外设配置_Disabled;
+            this.toolsButton.ImageHover = global::LightController.Properties.Resources.外设配置_Hover;
+            this.toolsButton.ImagePress = global::LightController.Properties.Resources.外设配置_Press;
+            this.toolsButton.Location = new System.Drawing.Point(291, 11);
+            this.toolsButton.Name = "toolsButton";
+            this.toolsButton.Size = new System.Drawing.Size(60, 69);
+            this.toolsButton.TabIndex = 8;
+            this.toolsButton.TabStop = false;
+            this.toolsButton.Text = "外设配置";
+            this.toolsButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolsButton.WaitOnLoad = true;
+            // 
+            // globalSetButton
+            // 
+            this.globalSetButton.BackColor = System.Drawing.Color.Transparent;
+            this.globalSetButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.globalSetButton.Enabled = false;
+            this.globalSetButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.globalSetButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.globalSetButton.Image = global::LightController.Properties.Resources.工程全局;
+            this.globalSetButton.ImageDisabled = global::LightController.Properties.Resources.工程全局_Disabled;
+            this.globalSetButton.ImageHover = global::LightController.Properties.Resources.工程全局_Hover;
+            this.globalSetButton.ImagePress = global::LightController.Properties.Resources.工程全局_Press;
+            this.globalSetButton.Location = new System.Drawing.Point(644, 11);
+            this.globalSetButton.Name = "globalSetButton";
+            this.globalSetButton.Size = new System.Drawing.Size(60, 69);
+            this.globalSetButton.TabIndex = 8;
+            this.globalSetButton.TabStop = false;
+            this.globalSetButton.Text = "工程全局";
+            this.globalSetButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.globalSetButton.WaitOnLoad = true;
+            this.globalSetButton.Click += new System.EventHandler(this.globalSetButton_Click);
+            // 
+            // previewButton
+            // 
+            this.previewButton.BackColor = System.Drawing.Color.Transparent;
+            this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.previewButton.Enabled = false;
+            this.previewButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.previewButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.previewButton.Image = global::LightController.Properties.Resources.预览效果;
+            this.previewButton.ImageDisabled = global::LightController.Properties.Resources.预览效果_Disabled;
+            this.previewButton.ImageHover = global::LightController.Properties.Resources.预览效果_Hover;
+            this.previewButton.ImagePress = global::LightController.Properties.Resources.预览效果_Press;
+            this.previewButton.ImageSelected = global::LightController.Properties.Resources.预览效果_Highlight;
+            this.previewButton.Location = new System.Drawing.Point(820, 11);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(60, 69);
+            this.previewButton.TabIndex = 8;
+            this.previewButton.TabStop = false;
+            this.previewButton.Text = "预览效果";
+            this.previewButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.previewButton.WaitOnLoad = true;
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            // 
+            // lightListButton
+            // 
+            this.lightListButton.BackColor = System.Drawing.Color.Transparent;
+            this.lightListButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lightListButton.Enabled = false;
+            this.lightListButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lightListButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.lightListButton.Image = global::LightController.Properties.Resources.添加灯具;
+            this.lightListButton.ImageDisabled = global::LightController.Properties.Resources.添加灯具_Disabled;
+            this.lightListButton.ImageHover = global::LightController.Properties.Resources.添加灯具_Hover;
+            this.lightListButton.ImagePress = global::LightController.Properties.Resources.添加灯具_Press;
+            this.lightListButton.Location = new System.Drawing.Point(569, 11);
+            this.lightListButton.Name = "lightListButton";
+            this.lightListButton.Size = new System.Drawing.Size(60, 69);
+            this.lightListButton.TabIndex = 8;
+            this.lightListButton.TabStop = false;
+            this.lightListButton.Text = "添加灯具";
+            this.lightListButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.lightListButton.WaitOnLoad = true;
+            this.lightListButton.Click += new System.EventHandler(this.lightListButton_Click);
+            // 
+            // seqButton
+            // 
+            this.seqButton.BackColor = System.Drawing.Color.Transparent;
+            this.seqButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.seqButton.Enabled = false;
+            this.seqButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.seqButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.seqButton.Image = global::LightController.Properties.Resources.时序器配置;
+            this.seqButton.ImageDisabled = global::LightController.Properties.Resources.时序器配置_Disabled;
+            this.seqButton.ImageHover = global::LightController.Properties.Resources.时序器配置_Hover;
+            this.seqButton.ImagePress = global::LightController.Properties.Resources.时序器配置_Press;
+            this.seqButton.Location = new System.Drawing.Point(216, 11);
+            this.seqButton.Name = "seqButton";
+            this.seqButton.Size = new System.Drawing.Size(60, 69);
+            this.seqButton.TabIndex = 8;
+            this.seqButton.TabStop = false;
+            this.seqButton.Text = "时序器配置";
+            this.seqButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.seqButton.WaitOnLoad = true;
+            this.seqButton.Click += new System.EventHandler(this.seqButton_Click);
+            // 
+            // helpButton
+            // 
+            this.helpButton.BackColor = System.Drawing.Color.Transparent;
+            this.helpButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.helpButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.helpButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.helpButton.Image = global::LightController.Properties.Resources.帮助;
+            this.helpButton.ImageDisabled = global::LightController.Properties.Resources.帮助_Disabled;
+            this.helpButton.ImageHover = global::LightController.Properties.Resources.帮助_Hover;
+            this.helpButton.ImagePress = global::LightController.Properties.Resources.帮助_Press;
+            this.helpButton.Location = new System.Drawing.Point(996, 11);
+            this.helpButton.Name = "helpButton";
+            this.helpButton.Size = new System.Drawing.Size(60, 69);
+            this.helpButton.TabIndex = 8;
+            this.helpButton.TabStop = false;
+            this.helpButton.Text = "帮助";
+            this.helpButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.helpButton.WaitOnLoad = true;
+            // 
+            // keepButton
+            // 
+            this.keepButton.BackColor = System.Drawing.Color.Transparent;
+            this.keepButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.keepButton.Enabled = false;
+            this.keepButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.keepButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.keepButton.Image = global::LightController.Properties.Resources.保持状态;
+            this.keepButton.ImageDisabled = global::LightController.Properties.Resources.工程全局_Disabled;
+            this.keepButton.ImageHover = global::LightController.Properties.Resources.保持状态_Hover;
+            this.keepButton.ImagePress = global::LightController.Properties.Resources.保持状态_Press;
+            this.keepButton.ImageSelected = global::LightController.Properties.Resources.保持状态_Highlight;
+            this.keepButton.Location = new System.Drawing.Point(744, 11);
+            this.keepButton.Name = "keepButton";
+            this.keepButton.Size = new System.Drawing.Size(60, 69);
+            this.keepButton.TabIndex = 8;
+            this.keepButton.TabStop = false;
+            this.keepButton.Text = "保持状态";
+            this.keepButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.keepButton.WaitOnLoad = true;
+            this.keepButton.Click += new System.EventHandler(this.keepButton_Click);
+            // 
+            // libButton
+            // 
+            this.libButton.BackColor = System.Drawing.Color.Transparent;
+            this.libButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.libButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.libButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.libButton.Image = global::LightController.Properties.Resources.灯库编辑;
+            this.libButton.ImageDisabled = global::LightController.Properties.Resources.灯库编辑_Disabled;
+            this.libButton.ImageHover = global::LightController.Properties.Resources.灯库编辑_Hover;
+            this.libButton.ImagePress = global::LightController.Properties.Resources.灯库编辑_Press;
+            this.libButton.Location = new System.Drawing.Point(469, 11);
+            this.libButton.Name = "libButton";
+            this.libButton.Size = new System.Drawing.Size(60, 69);
+            this.libButton.TabIndex = 8;
+            this.libButton.TabStop = false;
+            this.libButton.Text = "灯库编辑";
+            this.libButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.libButton.WaitOnLoad = true;
+            this.libButton.Click += new System.EventHandler(this.libButton_Click);
+            // 
+            // hardwareSetButton
+            // 
+            this.hardwareSetButton.BackColor = System.Drawing.Color.Transparent;
+            this.hardwareSetButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.hardwareSetButton.Enabled = false;
+            this.hardwareSetButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.hardwareSetButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.hardwareSetButton.Image = global::LightController.Properties.Resources.网络配置;
+            this.hardwareSetButton.ImageDisabled = global::LightController.Properties.Resources.网络配置_Disabled;
+            this.hardwareSetButton.ImageHover = global::LightController.Properties.Resources.网络配置_Hover;
+            this.hardwareSetButton.ImagePress = global::LightController.Properties.Resources.网络配置_Press;
+            this.hardwareSetButton.Location = new System.Drawing.Point(140, 11);
+            this.hardwareSetButton.Name = "hardwareSetButton";
+            this.hardwareSetButton.Size = new System.Drawing.Size(60, 69);
+            this.hardwareSetButton.TabIndex = 8;
+            this.hardwareSetButton.TabStop = false;
+            this.hardwareSetButton.Text = "网络配置";
+            this.hardwareSetButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.hardwareSetButton.WaitOnLoad = true;
+            this.hardwareSetButton.Click += new System.EventHandler(this.hardwareSetButton_Click);
+            // 
             // myStatusStrip
             // 
             this.myStatusStrip.AutoSize = false;
             this.myStatusStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-            this.myStatusStrip.Location = new System.Drawing.Point(0, 737);
+            this.myStatusStrip.Location = new System.Drawing.Point(0, 706);
             this.myStatusStrip.Name = "myStatusStrip";
             this.myStatusStrip.ShowItemToolTips = true;
             this.myStatusStrip.Size = new System.Drawing.Size(1366, 31);
@@ -658,18 +900,18 @@ namespace LightController.MyForm
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 26);
             // 
-            // mainPanel
+            // workPanel
             // 
-            this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.mainPanel.Controls.Add(this.maskPanel);
-            this.mainPanel.Controls.Add(this.lightsListView);
-            this.mainPanel.Controls.Add(this.stepPanel);
-            this.mainPanel.Controls.Add(this.tdPanel);
-            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(105, 120);
-            this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1035, 616);
-            this.mainPanel.TabIndex = 7;
+            this.workPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.workPanel.Controls.Add(this.lightsMaskPanel);
+            this.workPanel.Controls.Add(this.lightsListView);
+            this.workPanel.Controls.Add(this.stepPanel);
+            this.workPanel.Controls.Add(this.tdPanel);
+            this.workPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.workPanel.Location = new System.Drawing.Point(105, 89);
+            this.workPanel.Name = "workPanel";
+            this.workPanel.Size = new System.Drawing.Size(1035, 616);
+            this.workPanel.TabIndex = 7;
             // 
             // lightsListView
             // 
@@ -828,6 +1070,175 @@ namespace LightController.MyForm
             this.modeCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.modeCheckBox.CheckedChanged += new System.EventHandler(this.modeCheckBox_CheckedChanged);
             // 
+            // syncButton
+            // 
+            this.syncButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.syncButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.syncButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.syncButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.syncButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.syncButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.syncButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.syncButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.syncButton.Image = global::LightController.Properties.Resources.Play_进入同步;
+            this.syncButton.ImageInterval = 4;
+            this.syncButton.Location = new System.Drawing.Point(682, 47);
+            this.syncButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.syncButton.Name = "syncButton";
+            this.syncButton.Radius = 2;
+            this.syncButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.syncButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.syncButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.syncButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.syncButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.syncButton.Size = new System.Drawing.Size(70, 19);
+            this.syncButton.Style = Sunny.UI.UIStyle.Custom;
+            this.syncButton.Symbol = 61;
+            this.syncButton.TabIndex = 6;
+            this.syncButton.Text = "进入同步";
+            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
+            // 
+            // saveMatButton
+            // 
+            this.saveMatButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveMatButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.saveMatButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.saveMatButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.saveMatButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.saveMatButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.saveMatButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.saveMatButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.saveMatButton.Image = global::LightController.Properties.Resources.Play_保存素材;
+            this.saveMatButton.ImageInterval = 4;
+            this.saveMatButton.Location = new System.Drawing.Point(923, 16);
+            this.saveMatButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.saveMatButton.Name = "saveMatButton";
+            this.saveMatButton.Radius = 2;
+            this.saveMatButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.saveMatButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.saveMatButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.saveMatButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.saveMatButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.saveMatButton.Size = new System.Drawing.Size(70, 19);
+            this.saveMatButton.Style = Sunny.UI.UIStyle.Custom;
+            this.saveMatButton.Symbol = 61;
+            this.saveMatButton.TabIndex = 6;
+            this.saveMatButton.Text = "保存素材";
+            this.saveMatButton.Click += new System.EventHandler(this.saveMatButton_Click);
+            // 
+            // useMatButton
+            // 
+            this.useMatButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.useMatButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.useMatButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.useMatButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.useMatButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.useMatButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.useMatButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.useMatButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.useMatButton.Image = global::LightController.Properties.Resources.Play_使用素材;
+            this.useMatButton.ImageInterval = 4;
+            this.useMatButton.Location = new System.Drawing.Point(923, 46);
+            this.useMatButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.useMatButton.Name = "useMatButton";
+            this.useMatButton.Radius = 2;
+            this.useMatButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.useMatButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.useMatButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.useMatButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.useMatButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.useMatButton.Size = new System.Drawing.Size(70, 19);
+            this.useMatButton.Style = Sunny.UI.UIStyle.Custom;
+            this.useMatButton.Symbol = 61;
+            this.useMatButton.TabIndex = 6;
+            this.useMatButton.Text = "使用素材";
+            this.useMatButton.Click += new System.EventHandler(this.useMatButton_Click);
+            // 
+            // copyButton
+            // 
+            this.copyButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.copyButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.copyButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.copyButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.copyButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.copyButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.copyButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.copyButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.copyButton.Image = global::LightController.Properties.Resources.Play_复制步;
+            this.copyButton.ImageInterval = 4;
+            this.copyButton.Location = new System.Drawing.Point(840, 16);
+            this.copyButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.copyButton.Name = "copyButton";
+            this.copyButton.Radius = 2;
+            this.copyButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.copyButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.copyButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.copyButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.copyButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.copyButton.Size = new System.Drawing.Size(60, 19);
+            this.copyButton.Style = Sunny.UI.UIStyle.Custom;
+            this.copyButton.Symbol = 61;
+            this.copyButton.TabIndex = 6;
+            this.copyButton.Text = "复制步";
+            this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
+            // 
+            // pasteButton
+            // 
+            this.pasteButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pasteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.pasteButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.pasteButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.pasteButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.pasteButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.pasteButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pasteButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.pasteButton.Image = global::LightController.Properties.Resources.Play_粘贴步;
+            this.pasteButton.ImageInterval = 4;
+            this.pasteButton.Location = new System.Drawing.Point(840, 46);
+            this.pasteButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.pasteButton.Name = "pasteButton";
+            this.pasteButton.Radius = 2;
+            this.pasteButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.pasteButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.pasteButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.pasteButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.pasteButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.pasteButton.Size = new System.Drawing.Size(60, 19);
+            this.pasteButton.Style = Sunny.UI.UIStyle.Custom;
+            this.pasteButton.Symbol = 61;
+            this.pasteButton.TabIndex = 6;
+            this.pasteButton.Text = "粘贴步";
+            this.pasteButton.Click += new System.EventHandler(this.pasteButton_Click);
+            // 
+            // nextButton
+            // 
+            this.nextButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.nextButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.nextButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.nextButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.nextButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.nextButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.nextButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.nextButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.nextButton.Image = global::LightController.Properties.Resources.Play_下一步;
+            this.nextButton.ImageInterval = 4;
+            this.nextButton.Location = new System.Drawing.Point(595, 17);
+            this.nextButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.nextButton.Name = "nextButton";
+            this.nextButton.Radius = 2;
+            this.nextButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.nextButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.nextButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.nextButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.nextButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.nextButton.Size = new System.Drawing.Size(60, 19);
+            this.nextButton.Style = Sunny.UI.UIStyle.Custom;
+            this.nextButton.Symbol = 61;
+            this.nextButton.TabIndex = 6;
+            this.nextButton.Text = "下一步";
+            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
+            this.nextButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepButton_MouseDown);
+            // 
             // copySceneButton
             // 
             this.copySceneButton.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -851,6 +1262,122 @@ namespace LightController.MyForm
             this.copySceneButton.TabIndex = 5;
             this.copySceneButton.Text = "调用场景";
             this.copySceneButton.Click += new System.EventHandler(this.copySceneButton_Click);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deleteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.deleteButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.deleteButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.deleteButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.deleteButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.deleteButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.deleteButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.deleteButton.Image = global::LightController.Properties.Resources.Play_删除步;
+            this.deleteButton.ImageInterval = 4;
+            this.deleteButton.Location = new System.Drawing.Point(595, 47);
+            this.deleteButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Radius = 2;
+            this.deleteButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.deleteButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.deleteButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.deleteButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.deleteButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.deleteButton.Size = new System.Drawing.Size(60, 19);
+            this.deleteButton.Style = Sunny.UI.UIStyle.Custom;
+            this.deleteButton.Symbol = 61;
+            this.deleteButton.TabIndex = 6;
+            this.deleteButton.Text = "删除步";
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            this.deleteButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deleteButton_MouseDown);
+            // 
+            // appendButton
+            // 
+            this.appendButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.appendButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.appendButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.appendButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.appendButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.appendButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.appendButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.appendButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.appendButton.Image = global::LightController.Properties.Resources.Play_追加步;
+            this.appendButton.ImageInterval = 4;
+            this.appendButton.Location = new System.Drawing.Point(516, 47);
+            this.appendButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.appendButton.Name = "appendButton";
+            this.appendButton.Radius = 2;
+            this.appendButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.appendButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.appendButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.appendButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.appendButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.appendButton.Size = new System.Drawing.Size(60, 19);
+            this.appendButton.Style = Sunny.UI.UIStyle.Custom;
+            this.appendButton.Symbol = 61;
+            this.appendButton.TabIndex = 6;
+            this.appendButton.Text = "追加步";
+            this.appendButton.Click += new System.EventHandler(this.appendButton_Click);
+            this.appendButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.appendButton_MouseDown);
+            // 
+            // insertButton
+            // 
+            this.insertButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.insertButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.insertButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.insertButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.insertButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.insertButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.insertButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.insertButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.insertButton.Image = global::LightController.Properties.Resources.Play_插入步;
+            this.insertButton.ImageInterval = 4;
+            this.insertButton.Location = new System.Drawing.Point(435, 47);
+            this.insertButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.insertButton.Name = "insertButton";
+            this.insertButton.Radius = 2;
+            this.insertButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.insertButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.insertButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.insertButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.insertButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.insertButton.Size = new System.Drawing.Size(60, 19);
+            this.insertButton.Style = Sunny.UI.UIStyle.Custom;
+            this.insertButton.Symbol = 61;
+            this.insertButton.TabIndex = 6;
+            this.insertButton.Text = "插入步";
+            this.insertButton.Click += new System.EventHandler(this.insertButton_Click);
+            this.insertButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.insertButton_MouseDown);
+            // 
+            // prevButton
+            // 
+            this.prevButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.prevButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.prevButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.prevButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.prevButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
+            this.prevButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.prevButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.prevButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.prevButton.Image = global::LightController.Properties.Resources.Play_上一步;
+            this.prevButton.ImageInterval = 4;
+            this.prevButton.Location = new System.Drawing.Point(435, 17);
+            this.prevButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.prevButton.Name = "prevButton";
+            this.prevButton.Radius = 2;
+            this.prevButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.prevButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.prevButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.prevButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.prevButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.prevButton.Size = new System.Drawing.Size(60, 19);
+            this.prevButton.Style = Sunny.UI.UIStyle.Custom;
+            this.prevButton.Symbol = 61;
+            this.prevButton.TabIndex = 6;
+            this.prevButton.Text = "上一步";
+            this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
+            this.prevButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.prevButton_MouseDown);
             // 
             // sceneComboBox
             // 
@@ -1231,7 +1758,7 @@ namespace LightController.MyForm
             this.projectPanel.Controls.Add(this.newButton);
             this.projectPanel.Controls.Add(this.openButton);
             this.projectPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.projectPanel.Location = new System.Drawing.Point(0, 120);
+            this.projectPanel.Location = new System.Drawing.Point(0, 89);
             this.projectPanel.Name = "projectPanel";
             this.projectPanel.Size = new System.Drawing.Size(105, 616);
             this.projectPanel.TabIndex = 3;
@@ -1244,318 +1771,6 @@ namespace LightController.MyForm
             this.projectLinePanel.Name = "projectLinePanel";
             this.projectLinePanel.Size = new System.Drawing.Size(1, 616);
             this.projectLinePanel.TabIndex = 11;
-            // 
-            // linePanel
-            // 
-            this.linePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(31)))), ((int)(((byte)(40)))));
-            this.linePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.linePanel.Location = new System.Drawing.Point(0, 736);
-            this.linePanel.Name = "linePanel";
-            this.linePanel.Size = new System.Drawing.Size(1366, 1);
-            this.linePanel.TabIndex = 11;
-            // 
-            // exportFolderBrowserDialog
-            // 
-            this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\\\"CSJ\\\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
-            // 
-            // exportSourceBrowserDialog
-            // 
-            this.exportSourceBrowserDialog.Description = "即将为您导出当前工程的源文件，并压缩为Source.zip；请选择导出目录。";
-            // 
-            // myToolTip
-            // 
-            this.myToolTip.AutoPopDelay = 10000;
-            this.myToolTip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
-            this.myToolTip.Font = new System.Drawing.Font("黑体", 9F);
-            this.myToolTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.myToolTip.InitialDelay = 500;
-            this.myToolTip.OwnerDraw = true;
-            this.myToolTip.ReshowDelay = 100;
-            // 
-            // syncButton
-            // 
-            this.syncButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.syncButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.syncButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.syncButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.syncButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.syncButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.syncButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.syncButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.syncButton.Image = global::LightController.Properties.Resources.Play_进入同步;
-            this.syncButton.ImageInterval = 4;
-            this.syncButton.Location = new System.Drawing.Point(682, 47);
-            this.syncButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.syncButton.Name = "syncButton";
-            this.syncButton.Radius = 2;
-            this.syncButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.syncButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.syncButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.syncButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.syncButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.syncButton.Size = new System.Drawing.Size(70, 19);
-            this.syncButton.Style = Sunny.UI.UIStyle.Custom;
-            this.syncButton.Symbol = 61;
-            this.syncButton.TabIndex = 6;
-            this.syncButton.Text = "进入同步";
-            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
-            // 
-            // saveMatButton
-            // 
-            this.saveMatButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.saveMatButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.saveMatButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.saveMatButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.saveMatButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.saveMatButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.saveMatButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.saveMatButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveMatButton.Image = global::LightController.Properties.Resources.Play_保存素材;
-            this.saveMatButton.ImageInterval = 4;
-            this.saveMatButton.Location = new System.Drawing.Point(923, 16);
-            this.saveMatButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.saveMatButton.Name = "saveMatButton";
-            this.saveMatButton.Radius = 2;
-            this.saveMatButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveMatButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveMatButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveMatButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveMatButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveMatButton.Size = new System.Drawing.Size(70, 19);
-            this.saveMatButton.Style = Sunny.UI.UIStyle.Custom;
-            this.saveMatButton.Symbol = 61;
-            this.saveMatButton.TabIndex = 6;
-            this.saveMatButton.Text = "保存素材";
-            this.saveMatButton.Click += new System.EventHandler(this.saveMatButton_Click);
-            // 
-            // useMatButton
-            // 
-            this.useMatButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.useMatButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.useMatButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.useMatButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.useMatButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.useMatButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.useMatButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.useMatButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.useMatButton.Image = global::LightController.Properties.Resources.Play_使用素材;
-            this.useMatButton.ImageInterval = 4;
-            this.useMatButton.Location = new System.Drawing.Point(923, 46);
-            this.useMatButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.useMatButton.Name = "useMatButton";
-            this.useMatButton.Radius = 2;
-            this.useMatButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.useMatButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.useMatButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.useMatButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.useMatButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.useMatButton.Size = new System.Drawing.Size(70, 19);
-            this.useMatButton.Style = Sunny.UI.UIStyle.Custom;
-            this.useMatButton.Symbol = 61;
-            this.useMatButton.TabIndex = 6;
-            this.useMatButton.Text = "使用素材";
-            this.useMatButton.Click += new System.EventHandler(this.useMatButton_Click);
-            // 
-            // copyButton
-            // 
-            this.copyButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.copyButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.copyButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.copyButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.copyButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.copyButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.copyButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.copyButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.copyButton.Image = global::LightController.Properties.Resources.Play_复制步;
-            this.copyButton.ImageInterval = 4;
-            this.copyButton.Location = new System.Drawing.Point(840, 16);
-            this.copyButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.copyButton.Name = "copyButton";
-            this.copyButton.Radius = 2;
-            this.copyButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.copyButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.copyButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.copyButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.copyButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.copyButton.Size = new System.Drawing.Size(60, 19);
-            this.copyButton.Style = Sunny.UI.UIStyle.Custom;
-            this.copyButton.Symbol = 61;
-            this.copyButton.TabIndex = 6;
-            this.copyButton.Text = "复制步";
-            this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
-            // 
-            // pasteButton
-            // 
-            this.pasteButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pasteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.pasteButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.pasteButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.pasteButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.pasteButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.pasteButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pasteButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.pasteButton.Image = global::LightController.Properties.Resources.Play_粘贴步;
-            this.pasteButton.ImageInterval = 4;
-            this.pasteButton.Location = new System.Drawing.Point(840, 46);
-            this.pasteButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.pasteButton.Name = "pasteButton";
-            this.pasteButton.Radius = 2;
-            this.pasteButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.pasteButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.pasteButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.pasteButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.pasteButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.pasteButton.Size = new System.Drawing.Size(60, 19);
-            this.pasteButton.Style = Sunny.UI.UIStyle.Custom;
-            this.pasteButton.Symbol = 61;
-            this.pasteButton.TabIndex = 6;
-            this.pasteButton.Text = "粘贴步";
-            this.pasteButton.Click += new System.EventHandler(this.pasteButton_Click);
-            // 
-            // nextButton
-            // 
-            this.nextButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nextButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.nextButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.nextButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.nextButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.nextButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.nextButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.nextButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.nextButton.Image = global::LightController.Properties.Resources.Play_下一步;
-            this.nextButton.ImageInterval = 4;
-            this.nextButton.Location = new System.Drawing.Point(595, 17);
-            this.nextButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.nextButton.Name = "nextButton";
-            this.nextButton.Radius = 2;
-            this.nextButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.nextButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.nextButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.nextButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.nextButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.nextButton.Size = new System.Drawing.Size(60, 19);
-            this.nextButton.Style = Sunny.UI.UIStyle.Custom;
-            this.nextButton.Symbol = 61;
-            this.nextButton.TabIndex = 6;
-            this.nextButton.Text = "下一步";
-            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
-            this.nextButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepButton_MouseDown);
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.deleteButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.deleteButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deleteButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.deleteButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.deleteButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.deleteButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.deleteButton.Image = global::LightController.Properties.Resources.Play_删除步;
-            this.deleteButton.ImageInterval = 4;
-            this.deleteButton.Location = new System.Drawing.Point(595, 47);
-            this.deleteButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Radius = 2;
-            this.deleteButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.deleteButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.deleteButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.deleteButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.deleteButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.deleteButton.Size = new System.Drawing.Size(60, 19);
-            this.deleteButton.Style = Sunny.UI.UIStyle.Custom;
-            this.deleteButton.Symbol = 61;
-            this.deleteButton.TabIndex = 6;
-            this.deleteButton.Text = "删除步";
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            this.deleteButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deleteButton_MouseDown);
-            // 
-            // appendButton
-            // 
-            this.appendButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.appendButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.appendButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.appendButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.appendButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.appendButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.appendButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.appendButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.appendButton.Image = global::LightController.Properties.Resources.Play_追加步;
-            this.appendButton.ImageInterval = 4;
-            this.appendButton.Location = new System.Drawing.Point(516, 47);
-            this.appendButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.appendButton.Name = "appendButton";
-            this.appendButton.Radius = 2;
-            this.appendButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.appendButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.appendButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.appendButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.appendButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.appendButton.Size = new System.Drawing.Size(60, 19);
-            this.appendButton.Style = Sunny.UI.UIStyle.Custom;
-            this.appendButton.Symbol = 61;
-            this.appendButton.TabIndex = 6;
-            this.appendButton.Text = "追加步";
-            this.appendButton.Click += new System.EventHandler(this.appendButton_Click);
-            this.appendButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.appendButton_MouseDown);
-            // 
-            // insertButton
-            // 
-            this.insertButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.insertButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.insertButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.insertButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.insertButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.insertButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.insertButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.insertButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.insertButton.Image = global::LightController.Properties.Resources.Play_插入步;
-            this.insertButton.ImageInterval = 4;
-            this.insertButton.Location = new System.Drawing.Point(435, 47);
-            this.insertButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.insertButton.Name = "insertButton";
-            this.insertButton.Radius = 2;
-            this.insertButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.insertButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.insertButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.insertButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.insertButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.insertButton.Size = new System.Drawing.Size(60, 19);
-            this.insertButton.Style = Sunny.UI.UIStyle.Custom;
-            this.insertButton.Symbol = 61;
-            this.insertButton.TabIndex = 6;
-            this.insertButton.Text = "插入步";
-            this.insertButton.Click += new System.EventHandler(this.insertButton_Click);
-            this.insertButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.insertButton_MouseDown);
-            // 
-            // prevButton
-            // 
-            this.prevButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.prevButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.prevButton.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.prevButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.prevButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.prevButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.prevButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.prevButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.prevButton.Image = global::LightController.Properties.Resources.Play_上一步;
-            this.prevButton.ImageInterval = 4;
-            this.prevButton.Location = new System.Drawing.Point(435, 17);
-            this.prevButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.prevButton.Name = "prevButton";
-            this.prevButton.Radius = 2;
-            this.prevButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.prevButton.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.prevButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.prevButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.prevButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.prevButton.Size = new System.Drawing.Size(60, 19);
-            this.prevButton.Style = Sunny.UI.UIStyle.Custom;
-            this.prevButton.Symbol = 61;
-            this.prevButton.TabIndex = 6;
-            this.prevButton.Text = "上一步";
-            this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
-            this.prevButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.prevButton_MouseDown);
             // 
             // closeButton
             // 
@@ -1736,253 +1951,63 @@ namespace LightController.MyForm
             this.openButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.openButton.Click += new System.EventHandler(this.openButton_Click);
             // 
-            // downloadButton
+            // linePanel
             // 
-            this.downloadButton.BackColor = System.Drawing.Color.Transparent;
-            this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.downloadButton.Enabled = false;
-            this.downloadButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.downloadButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.downloadButton.Image = global::LightController.Properties.Resources.工程下载;
-            this.downloadButton.ImageDisabled = global::LightController.Properties.Resources.工程下载_Disabled;
-            this.downloadButton.ImageHover = global::LightController.Properties.Resources.工程下载_Hover;
-            this.downloadButton.ImagePress = global::LightController.Properties.Resources.工程下载_Press;
-            this.downloadButton.Location = new System.Drawing.Point(369, 11);
-            this.downloadButton.Name = "downloadButton";
-            this.downloadButton.Size = new System.Drawing.Size(60, 69);
-            this.downloadButton.TabIndex = 8;
-            this.downloadButton.TabStop = false;
-            this.downloadButton.Text = "工程下载";
-            this.downloadButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.downloadButton.WaitOnLoad = true;
-            this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
+            this.linePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(31)))), ((int)(((byte)(40)))));
+            this.linePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.linePanel.Location = new System.Drawing.Point(0, 705);
+            this.linePanel.Name = "linePanel";
+            this.linePanel.Size = new System.Drawing.Size(1366, 1);
+            this.linePanel.TabIndex = 11;
             // 
-            // makeSoundButton
+            // exportFolderBrowserDialog
             // 
-            this.makeSoundButton.BackColor = System.Drawing.Color.Transparent;
-            this.makeSoundButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.makeSoundButton.Enabled = false;
-            this.makeSoundButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.makeSoundButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.makeSoundButton.Image = global::LightController.Properties.Resources.触发音频;
-            this.makeSoundButton.ImageDisabled = global::LightController.Properties.Resources.触发音频_Disabled;
-            this.makeSoundButton.ImageHover = global::LightController.Properties.Resources.触发音频_Hover;
-            this.makeSoundButton.ImagePress = global::LightController.Properties.Resources.触发音频_Press;
-            this.makeSoundButton.ImageSelected = global::LightController.Properties.Resources.触发音频_Highlight;
-            this.makeSoundButton.Location = new System.Drawing.Point(896, 11);
-            this.makeSoundButton.Name = "makeSoundButton";
-            this.makeSoundButton.Size = new System.Drawing.Size(60, 69);
-            this.makeSoundButton.TabIndex = 8;
-            this.makeSoundButton.TabStop = false;
-            this.makeSoundButton.Text = "触发音频";
-            this.makeSoundButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.makeSoundButton.WaitOnLoad = true;
-            this.makeSoundButton.Click += new System.EventHandler(this.makeSoundButton_Click);
+            this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\\\"CSJ\\\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
             // 
-            // toolsButton
+            // exportSourceBrowserDialog
             // 
-            this.toolsButton.BackColor = System.Drawing.Color.Transparent;
-            this.toolsButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.toolsButton.Enabled = false;
-            this.toolsButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.toolsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.toolsButton.Image = global::LightController.Properties.Resources.外设配置;
-            this.toolsButton.ImageDisabled = global::LightController.Properties.Resources.外设配置_Disabled;
-            this.toolsButton.ImageHover = global::LightController.Properties.Resources.外设配置_Hover;
-            this.toolsButton.ImagePress = global::LightController.Properties.Resources.外设配置_Press;
-            this.toolsButton.Location = new System.Drawing.Point(291, 11);
-            this.toolsButton.Name = "toolsButton";
-            this.toolsButton.Size = new System.Drawing.Size(60, 69);
-            this.toolsButton.TabIndex = 8;
-            this.toolsButton.TabStop = false;
-            this.toolsButton.Text = "外设配置";
-            this.toolsButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolsButton.WaitOnLoad = true;
+            this.exportSourceBrowserDialog.Description = "即将为您导出当前工程的源文件，并压缩为Source.zip；请选择导出目录。";
             // 
-            // globalSetButton
+            // myToolTip
             // 
-            this.globalSetButton.BackColor = System.Drawing.Color.Transparent;
-            this.globalSetButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.globalSetButton.Enabled = false;
-            this.globalSetButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.globalSetButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.globalSetButton.Image = global::LightController.Properties.Resources.工程全局;
-            this.globalSetButton.ImageDisabled = global::LightController.Properties.Resources.工程全局_Disabled;
-            this.globalSetButton.ImageHover = global::LightController.Properties.Resources.工程全局_Hover;
-            this.globalSetButton.ImagePress = global::LightController.Properties.Resources.工程全局_Press;
-            this.globalSetButton.Location = new System.Drawing.Point(644, 11);
-            this.globalSetButton.Name = "globalSetButton";
-            this.globalSetButton.Size = new System.Drawing.Size(60, 69);
-            this.globalSetButton.TabIndex = 8;
-            this.globalSetButton.TabStop = false;
-            this.globalSetButton.Text = "工程全局";
-            this.globalSetButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.globalSetButton.WaitOnLoad = true;
-            this.globalSetButton.Click += new System.EventHandler(this.globalSetButton_Click);
+            this.myToolTip.AutoPopDelay = 10000;
+            this.myToolTip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
+            this.myToolTip.Font = new System.Drawing.Font("黑体", 9F);
+            this.myToolTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.myToolTip.InitialDelay = 500;
+            this.myToolTip.OwnerDraw = true;
+            this.myToolTip.ReshowDelay = 100;
             // 
-            // previewButton
+            // mainPanel
             // 
-            this.previewButton.BackColor = System.Drawing.Color.Transparent;
-            this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.previewButton.Enabled = false;
-            this.previewButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.previewButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.previewButton.Image = global::LightController.Properties.Resources.预览效果;
-            this.previewButton.ImageDisabled = global::LightController.Properties.Resources.预览效果_Disabled;
-            this.previewButton.ImageHover = global::LightController.Properties.Resources.预览效果_Hover;
-            this.previewButton.ImagePress = global::LightController.Properties.Resources.预览效果_Press;
-            this.previewButton.ImageSelected = global::LightController.Properties.Resources.预览效果_Highlight;
-            this.previewButton.Location = new System.Drawing.Point(820, 11);
-            this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(60, 69);
-            this.previewButton.TabIndex = 8;
-            this.previewButton.TabStop = false;
-            this.previewButton.Text = "预览效果";
-            this.previewButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.previewButton.WaitOnLoad = true;
-            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            this.mainPanel.Controls.Add(this.workPanel);
+            this.mainPanel.Controls.Add(this.projectPanel);
+            this.mainPanel.Controls.Add(this.menuPanel);
+            this.mainPanel.Controls.Add(this.astPanel);
+            this.mainPanel.Controls.Add(this.linePanel);
+            this.mainPanel.Controls.Add(this.myStatusStrip);
+            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainPanel.Location = new System.Drawing.Point(0, 31);
+            this.mainPanel.Name = "mainPanel";
+            this.mainPanel.Size = new System.Drawing.Size(1366, 737);
+            this.mainPanel.TabIndex = 31;
             // 
-            // lightListButton
+            // mainMaskPanel
             // 
-            this.lightListButton.BackColor = System.Drawing.Color.Transparent;
-            this.lightListButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lightListButton.Enabled = false;
-            this.lightListButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lightListButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.lightListButton.Image = global::LightController.Properties.Resources.添加灯具;
-            this.lightListButton.ImageDisabled = global::LightController.Properties.Resources.添加灯具_Disabled;
-            this.lightListButton.ImageHover = global::LightController.Properties.Resources.添加灯具_Hover;
-            this.lightListButton.ImagePress = global::LightController.Properties.Resources.添加灯具_Press;
-            this.lightListButton.Location = new System.Drawing.Point(569, 11);
-            this.lightListButton.Name = "lightListButton";
-            this.lightListButton.Size = new System.Drawing.Size(60, 69);
-            this.lightListButton.TabIndex = 8;
-            this.lightListButton.TabStop = false;
-            this.lightListButton.Text = "添加灯具";
-            this.lightListButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.lightListButton.WaitOnLoad = true;
-            this.lightListButton.Click += new System.EventHandler(this.lightListButton_Click);
+            this.mainMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainMaskPanel.Location = new System.Drawing.Point(0, 31);
+            this.mainMaskPanel.Name = "mainMaskPanel";
+            this.mainMaskPanel.Size = new System.Drawing.Size(1366, 737);
+            this.mainMaskPanel.TabIndex = 32;
             // 
-            // seqButton
+            // lightsMaskPanel
             // 
-            this.seqButton.BackColor = System.Drawing.Color.Transparent;
-            this.seqButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.seqButton.Enabled = false;
-            this.seqButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.seqButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.seqButton.Image = global::LightController.Properties.Resources.时序器配置;
-            this.seqButton.ImageDisabled = global::LightController.Properties.Resources.时序器配置_Disabled;
-            this.seqButton.ImageHover = global::LightController.Properties.Resources.时序器配置_Hover;
-            this.seqButton.ImagePress = global::LightController.Properties.Resources.时序器配置_Press;
-            this.seqButton.Location = new System.Drawing.Point(216, 11);
-            this.seqButton.Name = "seqButton";
-            this.seqButton.Size = new System.Drawing.Size(60, 69);
-            this.seqButton.TabIndex = 8;
-            this.seqButton.TabStop = false;
-            this.seqButton.Text = "时序器配置";
-            this.seqButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.seqButton.WaitOnLoad = true;
-            this.seqButton.Click += new System.EventHandler(this.seqButton_Click);
-            // 
-            // helpButton
-            // 
-            this.helpButton.BackColor = System.Drawing.Color.Transparent;
-            this.helpButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.helpButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.helpButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.helpButton.Image = global::LightController.Properties.Resources.帮助;
-            this.helpButton.ImageDisabled = global::LightController.Properties.Resources.帮助_Disabled;
-            this.helpButton.ImageHover = global::LightController.Properties.Resources.帮助_Hover;
-            this.helpButton.ImagePress = global::LightController.Properties.Resources.帮助_Press;
-            this.helpButton.Location = new System.Drawing.Point(996, 11);
-            this.helpButton.Name = "helpButton";
-            this.helpButton.Size = new System.Drawing.Size(60, 69);
-            this.helpButton.TabIndex = 8;
-            this.helpButton.TabStop = false;
-            this.helpButton.Text = "帮助";
-            this.helpButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.helpButton.WaitOnLoad = true;
-            // 
-            // keepButton
-            // 
-            this.keepButton.BackColor = System.Drawing.Color.Transparent;
-            this.keepButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.keepButton.Enabled = false;
-            this.keepButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.keepButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.keepButton.Image = global::LightController.Properties.Resources.保持状态;
-            this.keepButton.ImageDisabled = global::LightController.Properties.Resources.工程全局_Disabled;
-            this.keepButton.ImageHover = global::LightController.Properties.Resources.保持状态_Hover;
-            this.keepButton.ImagePress = global::LightController.Properties.Resources.保持状态_Press;
-            this.keepButton.ImageSelected = global::LightController.Properties.Resources.保持状态_Highlight;
-            this.keepButton.Location = new System.Drawing.Point(744, 11);
-            this.keepButton.Name = "keepButton";
-            this.keepButton.Size = new System.Drawing.Size(60, 69);
-            this.keepButton.TabIndex = 8;
-            this.keepButton.TabStop = false;
-            this.keepButton.Text = "保持状态";
-            this.keepButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.keepButton.WaitOnLoad = true;
-            this.keepButton.Click += new System.EventHandler(this.keepButton_Click);
-            // 
-            // libButton
-            // 
-            this.libButton.BackColor = System.Drawing.Color.Transparent;
-            this.libButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.libButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.libButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.libButton.Image = global::LightController.Properties.Resources.灯库编辑;
-            this.libButton.ImageDisabled = global::LightController.Properties.Resources.灯库编辑_Disabled;
-            this.libButton.ImageHover = global::LightController.Properties.Resources.灯库编辑_Hover;
-            this.libButton.ImagePress = global::LightController.Properties.Resources.灯库编辑_Press;
-            this.libButton.Location = new System.Drawing.Point(469, 11);
-            this.libButton.Name = "libButton";
-            this.libButton.Size = new System.Drawing.Size(60, 69);
-            this.libButton.TabIndex = 8;
-            this.libButton.TabStop = false;
-            this.libButton.Text = "灯库编辑";
-            this.libButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.libButton.WaitOnLoad = true;
-            this.libButton.Click += new System.EventHandler(this.libButton_Click);
-            // 
-            // hardwareSetButton
-            // 
-            this.hardwareSetButton.BackColor = System.Drawing.Color.Transparent;
-            this.hardwareSetButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.hardwareSetButton.Enabled = false;
-            this.hardwareSetButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.hardwareSetButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.hardwareSetButton.Image = global::LightController.Properties.Resources.网络配置;
-            this.hardwareSetButton.ImageDisabled = global::LightController.Properties.Resources.网络配置_Disabled;
-            this.hardwareSetButton.ImageHover = global::LightController.Properties.Resources.网络配置_Hover;
-            this.hardwareSetButton.ImagePress = global::LightController.Properties.Resources.网络配置_Press;
-            this.hardwareSetButton.Location = new System.Drawing.Point(140, 11);
-            this.hardwareSetButton.Name = "hardwareSetButton";
-            this.hardwareSetButton.Size = new System.Drawing.Size(60, 69);
-            this.hardwareSetButton.TabIndex = 8;
-            this.hardwareSetButton.TabStop = false;
-            this.hardwareSetButton.Text = "网络配置";
-            this.hardwareSetButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.hardwareSetButton.WaitOnLoad = true;
-            this.hardwareSetButton.Click += new System.EventHandler(this.hardwareSetButton_Click);
-            // 
-            // lightPictureBox
-            // 
-            this.lightPictureBox.Location = new System.Drawing.Point(76, 62);
-            this.lightPictureBox.Name = "lightPictureBox";
-            this.lightPictureBox.Size = new System.Drawing.Size(76, 86);
-            this.lightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.lightPictureBox.TabIndex = 9;
-            this.lightPictureBox.TabStop = false;
-            // 
-            // maskPanel
-            // 
-            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.maskPanel.Location = new System.Drawing.Point(0, 0);
-            this.maskPanel.Name = "maskPanel";
-            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
-            this.maskPanel.TabIndex = 30;
-            this.maskPanel.Visible = false;
+            this.lightsMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lightsMaskPanel.Location = new System.Drawing.Point(0, 0);
+            this.lightsMaskPanel.Name = "lightsMaskPanel";
+            this.lightsMaskPanel.Size = new System.Drawing.Size(1035, 277);
+            this.lightsMaskPanel.TabIndex = 30;
+            this.lightsMaskPanel.Visible = false;
             // 
             // MainFormBase
             // 
@@ -1990,11 +2015,7 @@ namespace LightController.MyForm
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.mainPanel);
-            this.Controls.Add(this.projectPanel);
-            this.Controls.Add(this.menuPanel);
-            this.Controls.Add(this.astPanel);
-            this.Controls.Add(this.linePanel);
-            this.Controls.Add(this.myStatusStrip);
+            this.Controls.Add(this.mainMaskPanel);
             this.ExtendSymbol = 1;
             this.Font = new System.Drawing.Font("黑体", 10F);
             this.MaximumSize = new System.Drawing.Size(2560, 1440);
@@ -2015,10 +2036,22 @@ namespace LightController.MyForm
             this.astPanel.PerformLayout();
             this.groupFlowLayoutPanel.ResumeLayout(false);
             this.groupPanelDemo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).EndInit();
             this.menuPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.makeSoundButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toolsButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.globalSetButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lightListButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seqButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.helpButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keepButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.libButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).EndInit();
             this.myStatusStrip.ResumeLayout(false);
             this.myStatusStrip.PerformLayout();
-            this.mainPanel.ResumeLayout(false);
+            this.workPanel.ResumeLayout(false);
             this.myContextMenuStrip.ResumeLayout(false);
             this.stepPanel.ResumeLayout(false);
             this.stepPanel.PerformLayout();
@@ -2036,18 +2069,7 @@ namespace LightController.MyForm
             this.labelPanel.PerformLayout();
             this.projectPanel.ResumeLayout(false);
             this.projectPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.downloadButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.makeSoundButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toolsButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.globalSetButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.previewButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lightListButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.seqButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.helpButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.keepButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.libButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lightPictureBox)).EndInit();
+            this.mainPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2057,7 +2079,7 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel astPanel;
         private System.Windows.Forms.Panel menuPanel;       
         private System.Windows.Forms.StatusStrip myStatusStrip;
-        private System.Windows.Forms.Panel mainPanel;
+        private System.Windows.Forms.Panel workPanel;
         private Sunny.UI.UIButton connectButton;
         private Sunny.UI.UIImageButton hardwareSetButton;
         private Sunny.UI.UIPanel uiPanel1;
@@ -2157,7 +2179,9 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel groupPanelDemo;
         private Sunny.UI.UIButton groupInButtonDemo;
         private Sunny.UI.UIButton groupDelButtonDemo;
-        private MaskPanel maskPanel;
+        private MaskPanel lightsMaskPanel;
         private Sunny.UI.UIComboBox tdCmComboBoxDemo;
+        private System.Windows.Forms.Panel mainPanel;
+        private MaskPanel mainMaskPanel;
     }
 }

@@ -11,7 +11,6 @@ namespace LightController.MyForm.Project
     public partial class OpenForm : UIForm
     {
         private MainFormBase mainForm;
-        private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
         private bool isJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除
 		private EnumSortMethod sortMethod = EnumSortMethod.LAST_WRITE_TIME; //每次排序时按这个全局变量进行排序，可通过右侧三个按钮更改此变量；默认设为最后写入时间	
 		public string SavePath;   // 辅助变量，获取软件的存储目录。
@@ -148,7 +147,7 @@ namespace LightController.MyForm.Project
 			string projectName = projectTreeView.SelectedNode.Text;
 
 			// 8.21 验证是否当前项目，若是则不可删除
-			if (projectName.Equals(currentProjectName))
+			if (projectName.Equals(mainForm.CurrentProjectName))
 			{
 				MessageBox.Show(LanguageHelper.TranslateSentence("无法删除正在使用的工程！"));
 				return;
@@ -232,7 +231,7 @@ namespace LightController.MyForm.Project
 		/// <param name="e"></param>
 		private void renameToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (SelectedProjectName.Equals(currentProjectName))
+			if (SelectedProjectName.Equals(mainForm.CurrentProjectName))
 			{
 				MessageBox.Show(LanguageHelper.TranslateSentence("无法重命名当前打开的工程。"));
 			}

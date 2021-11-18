@@ -105,6 +105,7 @@
     <Compile Include="Ast\Form\MaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Ast\Helper\ColorHelper.cs" />
     <Compile Include="Ast\LibEntity\SA.cs" />
     <Compile Include="Ast\LibEntity\SAWrapper.cs" />
     <Compile Include="Ast\LibEntity\TongdaoWrapper.cs" />
@@ -174,6 +175,18 @@
     <Compile Include="MyForm\Device\SequencerForm.Designer.cs">
       <DependentUpon>SequencerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Device\ToolsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Device\ToolsForm.Designer.cs">
+      <DependentUpon>ToolsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\LightLib\LibEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightLib\LibEditForm.Designer.cs">
+      <DependentUpon>LibEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\LightList\LightsAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +212,12 @@
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
+    <Compile Include="MyForm\Project\CopySceneForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Project\CopySceneForm.Designer.cs">
+      <DependentUpon>CopySceneForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Project\DownloadForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +272,48 @@
     <Compile Include="MyForm\Step\DeleteStepsForm.Designer.cs">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Step\DetailMultiAstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailMultiAstForm.Designer.cs">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailMultiPageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailMultiPageForm.Designer.cs">
+      <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailSingleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\DetailSingleForm.Designer.cs">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialSaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialSaveForm.Designer.cs">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\MultiplexForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\MultiplexForm.Designer.cs">
+      <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\UnifyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\UnifyForm.Designer.cs">
+      <DependentUpon>UnifyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialUseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Step\MaterialUseForm.Designer.cs">
+      <DependentUpon>MaterialUseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xiaosa\Entity\BaseCommunication.cs" />
@@ -282,6 +343,9 @@
     <Content Include="Default\global.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Default\MaterialSet.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Default\PreTDNameList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -298,6 +362,12 @@
     <EmbeddedResource Include="MyForm\Device\SequencerForm.resx">
       <DependentUpon>SequencerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Device\ToolsForm.resx">
+      <DependentUpon>ToolsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightLib\LibEditForm.resx">
+      <DependentUpon>LibEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightList\LightsAddForm.resx">
       <DependentUpon>LightsAddForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -309,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Project\CopySceneForm.resx">
+      <DependentUpon>CopySceneForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Project\DownloadForm.resx">
       <DependentUpon>DownloadForm.cs</DependentUpon>
@@ -336,6 +409,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Step\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DetailMultiAstForm.resx">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DetailMultiPageForm.resx">
+      <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\DetailSingleForm.resx">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\MaterialSaveForm.resx">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\MultiplexForm.resx">
+      <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\UnifyForm.resx">
+      <DependentUpon>UnifyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Step\MaterialUseForm.resx">
+      <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -698,9 +792,7 @@
     </EmbeddedResource>
     <Content Include="favicon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MyForm\Tools\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -2690,12 +2690,12 @@ namespace LightController.MyForm
                     if (copyNormal)
                     {
                         lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL]
-                            = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, CurrentMode], lightWrapper.StepTemplate);
+                            = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, (int)EnumMode.NORMAL], lightWrapper.StepTemplate);
                     }
                     if (copySound)
                     {
-                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.NORMAL]
-                          = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, CurrentMode], lightWrapper.StepTemplate);
+                        lightWrapper.LightStepWrapperList[destScene, (int)EnumMode.SOUND]
+                          = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[sourceScene, (int)EnumMode.SOUND], lightWrapper.StepTemplate);
                     }
                 }
             }

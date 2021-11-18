@@ -17,6 +17,10 @@ namespace LightController.Ast
 		public string LightName { get; set; }
 		public string LightType { get; set; }
 		public string LightPic { get; set; }
+		
+		/// <summary>
+		/// 通道数
+		/// </summary>
 		public int Count { get; set; }
 		public string Remark { get; set; }
 

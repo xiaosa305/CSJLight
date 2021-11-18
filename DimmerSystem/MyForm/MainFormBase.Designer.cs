@@ -54,11 +54,11 @@ namespace LightController.MyForm
             this.soundListButton = new Sunny.UI.UIButton();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.menuLinePanel = new System.Windows.Forms.Panel();
-            this.uiPanel3 = new Sunny.UI.UIPanel();
-            this.uiPanel2 = new Sunny.UI.UIPanel();
-            this.uiPanel8 = new Sunny.UI.UIPanel();
-            this.uiPanel4 = new Sunny.UI.UIPanel();
-            this.uiPanel1 = new Sunny.UI.UIPanel();
+            this.vLinePanel3 = new Sunny.UI.UIPanel();
+            this.vLinePanel2 = new Sunny.UI.UIPanel();
+            this.vLinePanel5 = new Sunny.UI.UIPanel();
+            this.vLinePanel4 = new Sunny.UI.UIPanel();
+            this.vLinePanel1 = new Sunny.UI.UIPanel();
             this.connectButton = new Sunny.UI.UIButton();
             this.downloadButton = new Sunny.UI.UIImageButton();
             this.makeSoundButton = new Sunny.UI.UIImageButton();
@@ -73,8 +73,7 @@ namespace LightController.MyForm
             this.hardwareSetButton = new Sunny.UI.UIImageButton();
             this.myStatusStrip = new System.Windows.Forms.StatusStrip();
             this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mainPanel = new System.Windows.Forms.Panel();
-            this.maskPanel = new LightController.Ast.Form.MaskPanel();
+            this.workPanel = new System.Windows.Forms.Panel();
             this.lightsListView = new System.Windows.Forms.ListView();
             this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,8 +107,8 @@ namespace LightController.MyForm
             this.tdPanel = new System.Windows.Forms.Panel();
             this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tdPanelDemo = new System.Windows.Forms.Panel();
+            this.tdCmComboBoxDemo = new Sunny.UI.UIComboBox();
             this.tdNoLabelDemo = new System.Windows.Forms.Label();
-            this.tdCmComboBoxDemo = new System.Windows.Forms.ComboBox();
             this.tdTrackBarDemo = new System.Windows.Forms.TrackBar();
             this.tdNameLabelDemo = new System.Windows.Forms.Label();
             this.tdStNUDDemo = new System.Windows.Forms.NumericUpDown();
@@ -122,13 +121,13 @@ namespace LightController.MyForm
             this.firstLabel = new System.Windows.Forms.Label();
             this.secondLabel = new System.Windows.Forms.Label();
             this.thirdLabel = new System.Windows.Forms.Label();
-            this.uiLabel1 = new Sunny.UI.UILabel();
+            this.projectPanelLabel = new Sunny.UI.UILabel();
             this.uiPanel5 = new Sunny.UI.UIPanel();
             this.projectPanel = new System.Windows.Forms.Panel();
             this.projectLinePanel = new System.Windows.Forms.Panel();
             this.closeButton = new Sunny.UI.UISymbolButton();
             this.exportButton = new Sunny.UI.UISymbolButton();
-            this.saveSceneButton = new Sunny.UI.UISymbolButton();
+            this.sourceButton = new Sunny.UI.UISymbolButton();
             this.saveButton = new Sunny.UI.UISymbolButton();
             this.newButton = new Sunny.UI.UISymbolButton();
             this.openButton = new Sunny.UI.UISymbolButton();
@@ -137,6 +136,9 @@ namespace LightController.MyForm
             this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.exportSourceBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.myToolTip = new Sunny.UI.UIToolTip(this.components);
+            this.mainPanel = new System.Windows.Forms.Panel();
+            this.lightsMaskPanel = new LightController.Ast.Form.MaskPanel();
+            this.mainMaskPanel = new LightController.Ast.Form.MaskPanel();
             this.astPanel.SuspendLayout();
             this.groupFlowLayoutPanel.SuspendLayout();
             this.groupPanelDemo.SuspendLayout();
@@ -154,7 +156,7 @@ namespace LightController.MyForm
             ((System.ComponentModel.ISupportInitialize)(this.libButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).BeginInit();
             this.myStatusStrip.SuspendLayout();
-            this.mainPanel.SuspendLayout();
+            this.workPanel.SuspendLayout();
             this.myContextMenuStrip.SuspendLayout();
             this.stepPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
@@ -168,6 +170,7 @@ namespace LightController.MyForm
             this.saFLPDemo.SuspendLayout();
             this.labelPanel.SuspendLayout();
             this.projectPanel.SuspendLayout();
+            this.mainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // astPanel
@@ -189,7 +192,7 @@ namespace LightController.MyForm
             this.astPanel.Controls.Add(this.multiplexButton);
             this.astPanel.Controls.Add(this.groupButton);
             this.astPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.astPanel.Location = new System.Drawing.Point(1140, 31);
+            this.astPanel.Location = new System.Drawing.Point(1140, 0);
             this.astPanel.Name = "astPanel";
             this.astPanel.Size = new System.Drawing.Size(226, 705);
             this.astPanel.TabIndex = 0;
@@ -338,7 +341,7 @@ namespace LightController.MyForm
             // uiPanel7
             // 
             this.uiPanel7.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel7.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiPanel7.Font = new System.Drawing.Font("黑体", 12F);
             this.uiPanel7.Location = new System.Drawing.Point(11, 366);
             this.uiPanel7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel7.MinimumSize = new System.Drawing.Size(1, 2);
@@ -367,7 +370,7 @@ namespace LightController.MyForm
             // uiPanel6
             // 
             this.uiPanel6.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel6.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiPanel6.Font = new System.Drawing.Font("黑体", 12F);
             this.uiPanel6.Location = new System.Drawing.Point(11, 52);
             this.uiPanel6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel6.MinimumSize = new System.Drawing.Size(1, 2);
@@ -404,6 +407,7 @@ namespace LightController.MyForm
             this.multiButton.Style = Sunny.UI.UIStyle.Custom;
             this.multiButton.TabIndex = 5;
             this.multiButton.Text = "多步联调";
+            this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
             // 
             // unifyButton
             // 
@@ -428,6 +432,7 @@ namespace LightController.MyForm
             this.unifyButton.Style = Sunny.UI.UIStyle.Custom;
             this.unifyButton.TabIndex = 5;
             this.unifyButton.Text = "多步调节";
+            this.unifyButton.Click += new System.EventHandler(this.unifyButton_Click);
             // 
             // multiplexButton
             // 
@@ -452,6 +457,7 @@ namespace LightController.MyForm
             this.multiplexButton.Style = Sunny.UI.UIStyle.Custom;
             this.multiplexButton.TabIndex = 5;
             this.multiplexButton.Text = "多步复用";
+            this.multiplexButton.Click += new System.EventHandler(this.multiplexButton_Click);
             // 
             // groupButton
             // 
@@ -507,11 +513,11 @@ namespace LightController.MyForm
             // 
             this.menuPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.menuPanel.Controls.Add(this.menuLinePanel);
-            this.menuPanel.Controls.Add(this.uiPanel3);
-            this.menuPanel.Controls.Add(this.uiPanel2);
-            this.menuPanel.Controls.Add(this.uiPanel8);
-            this.menuPanel.Controls.Add(this.uiPanel4);
-            this.menuPanel.Controls.Add(this.uiPanel1);
+            this.menuPanel.Controls.Add(this.vLinePanel1);
+            this.menuPanel.Controls.Add(this.vLinePanel2);
+            this.menuPanel.Controls.Add(this.vLinePanel3);
+            this.menuPanel.Controls.Add(this.vLinePanel4);
+            this.menuPanel.Controls.Add(this.vLinePanel5);
             this.menuPanel.Controls.Add(this.connectButton);
             this.menuPanel.Controls.Add(this.downloadButton);
             this.menuPanel.Controls.Add(this.makeSoundButton);
@@ -525,7 +531,7 @@ namespace LightController.MyForm
             this.menuPanel.Controls.Add(this.libButton);
             this.menuPanel.Controls.Add(this.hardwareSetButton);
             this.menuPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.menuPanel.Location = new System.Drawing.Point(0, 31);
+            this.menuPanel.Location = new System.Drawing.Point(0, 0);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(1140, 89);
             this.menuPanel.TabIndex = 2;
@@ -539,90 +545,90 @@ namespace LightController.MyForm
             this.menuLinePanel.Size = new System.Drawing.Size(1140, 1);
             this.menuLinePanel.TabIndex = 10;
             // 
-            // uiPanel3
+            // vLinePanel3
             // 
-            this.uiPanel3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel3.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel3.Location = new System.Drawing.Point(549, 23);
-            this.uiPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel3.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel3.Name = "uiPanel3";
-            this.uiPanel3.Radius = 4;
-            this.uiPanel3.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel3.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel3.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel3.TabIndex = 9;
-            this.uiPanel3.Text = null;
-            this.uiPanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel3.Font = new System.Drawing.Font("黑体", 12F);
+            this.vLinePanel3.Location = new System.Drawing.Point(549, 23);
+            this.vLinePanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel3.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel3.Name = "vLinePanel3";
+            this.vLinePanel3.Radius = 4;
+            this.vLinePanel3.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel3.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel3.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel3.TabIndex = 9;
+            this.vLinePanel3.Text = null;
+            this.vLinePanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel2
+            // vLinePanel2
             // 
-            this.uiPanel2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel2.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel2.Location = new System.Drawing.Point(449, 23);
-            this.uiPanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel2.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel2.Name = "uiPanel2";
-            this.uiPanel2.Radius = 4;
-            this.uiPanel2.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel2.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel2.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel2.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel2.TabIndex = 9;
-            this.uiPanel2.Text = null;
-            this.uiPanel2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel2.Font = new System.Drawing.Font("黑体", 12F);
+            this.vLinePanel2.Location = new System.Drawing.Point(449, 23);
+            this.vLinePanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel2.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel2.Name = "vLinePanel2";
+            this.vLinePanel2.Radius = 4;
+            this.vLinePanel2.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel2.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel2.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel2.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel2.TabIndex = 9;
+            this.vLinePanel2.Text = null;
+            this.vLinePanel2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel8
+            // vLinePanel5
             // 
-            this.uiPanel8.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel8.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel8.Location = new System.Drawing.Point(976, 23);
-            this.uiPanel8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel8.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel8.Name = "uiPanel8";
-            this.uiPanel8.Radius = 4;
-            this.uiPanel8.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel8.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel8.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel8.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel8.TabIndex = 9;
-            this.uiPanel8.Text = null;
-            this.uiPanel8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel5.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel5.Font = new System.Drawing.Font("黑体", 12F);
+            this.vLinePanel5.Location = new System.Drawing.Point(976, 23);
+            this.vLinePanel5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel5.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel5.Name = "vLinePanel5";
+            this.vLinePanel5.Radius = 4;
+            this.vLinePanel5.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel5.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel5.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel5.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel5.TabIndex = 9;
+            this.vLinePanel5.Text = null;
+            this.vLinePanel5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel4
+            // vLinePanel4
             // 
-            this.uiPanel4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel4.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel4.Location = new System.Drawing.Point(724, 23);
-            this.uiPanel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel4.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel4.Name = "uiPanel4";
-            this.uiPanel4.Radius = 4;
-            this.uiPanel4.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel4.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel4.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel4.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel4.TabIndex = 9;
-            this.uiPanel4.Text = null;
-            this.uiPanel4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel4.Font = new System.Drawing.Font("黑体", 12F);
+            this.vLinePanel4.Location = new System.Drawing.Point(724, 23);
+            this.vLinePanel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel4.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel4.Name = "vLinePanel4";
+            this.vLinePanel4.Radius = 4;
+            this.vLinePanel4.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel4.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel4.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel4.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel4.TabIndex = 9;
+            this.vLinePanel4.Text = null;
+            this.vLinePanel4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // uiPanel1
+            // vLinePanel1
             // 
-            this.uiPanel1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiPanel1.Location = new System.Drawing.Point(120, 23);
-            this.uiPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel1.MinimumSize = new System.Drawing.Size(1, 2);
-            this.uiPanel1.Name = "uiPanel1";
-            this.uiPanel1.Radius = 4;
-            this.uiPanel1.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiPanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.uiPanel1.Size = new System.Drawing.Size(1, 24);
-            this.uiPanel1.Style = Sunny.UI.UIStyle.Custom;
-            this.uiPanel1.TabIndex = 9;
-            this.uiPanel1.Text = null;
-            this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.vLinePanel1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.vLinePanel1.Font = new System.Drawing.Font("黑体", 12F);
+            this.vLinePanel1.Location = new System.Drawing.Point(122, 23);
+            this.vLinePanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.vLinePanel1.MinimumSize = new System.Drawing.Size(1, 2);
+            this.vLinePanel1.Name = "vLinePanel1";
+            this.vLinePanel1.Radius = 4;
+            this.vLinePanel1.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.vLinePanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.vLinePanel1.Size = new System.Drawing.Size(1, 24);
+            this.vLinePanel1.Style = Sunny.UI.UIStyle.Custom;
+            this.vLinePanel1.TabIndex = 9;
+            this.vLinePanel1.Text = null;
+            this.vLinePanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // connectButton
             // 
@@ -851,6 +857,7 @@ namespace LightController.MyForm
             this.libButton.Text = "灯库编辑";
             this.libButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.libButton.WaitOnLoad = true;
+            this.libButton.Click += new System.EventHandler(this.libButton_Click);
             // 
             // hardwareSetButton
             // 
@@ -879,7 +886,7 @@ namespace LightController.MyForm
             this.myStatusStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-            this.myStatusStrip.Location = new System.Drawing.Point(0, 737);
+            this.myStatusStrip.Location = new System.Drawing.Point(0, 706);
             this.myStatusStrip.Name = "myStatusStrip";
             this.myStatusStrip.ShowItemToolTips = true;
             this.myStatusStrip.Size = new System.Drawing.Size(1366, 31);
@@ -891,30 +898,20 @@ namespace LightController.MyForm
             this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
-            this.myStatusLabel.Size = new System.Drawing.Size(155, 26);
-            this.myStatusLabel.Text = "设备已连接，正在调试中...";
+            this.myStatusLabel.Size = new System.Drawing.Size(0, 26);
             // 
-            // mainPanel
+            // workPanel
             // 
-            this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.mainPanel.Controls.Add(this.maskPanel);
-            this.mainPanel.Controls.Add(this.lightsListView);
-            this.mainPanel.Controls.Add(this.stepPanel);
-            this.mainPanel.Controls.Add(this.tdPanel);
-            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(105, 120);
-            this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1035, 616);
-            this.mainPanel.TabIndex = 7;
-            // 
-            // maskPanel
-            // 
-            this.maskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.maskPanel.Location = new System.Drawing.Point(0, 0);
-            this.maskPanel.Name = "maskPanel";
-            this.maskPanel.Size = new System.Drawing.Size(1035, 277);
-            this.maskPanel.TabIndex = 30;
-            this.maskPanel.Visible = false;
+            this.workPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.workPanel.Controls.Add(this.lightsMaskPanel);
+            this.workPanel.Controls.Add(this.lightsListView);
+            this.workPanel.Controls.Add(this.stepPanel);
+            this.workPanel.Controls.Add(this.tdPanel);
+            this.workPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.workPanel.Location = new System.Drawing.Point(105, 89);
+            this.workPanel.Name = "workPanel";
+            this.workPanel.Size = new System.Drawing.Size(1035, 616);
+            this.workPanel.TabIndex = 7;
             // 
             // lightsListView
             // 
@@ -1099,6 +1096,7 @@ namespace LightController.MyForm
             this.syncButton.Symbol = 61;
             this.syncButton.TabIndex = 6;
             this.syncButton.Text = "进入同步";
+            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
             // 
             // saveMatButton
             // 
@@ -1126,6 +1124,7 @@ namespace LightController.MyForm
             this.saveMatButton.Symbol = 61;
             this.saveMatButton.TabIndex = 6;
             this.saveMatButton.Text = "保存素材";
+            this.saveMatButton.Click += new System.EventHandler(this.saveMatButton_Click);
             // 
             // useMatButton
             // 
@@ -1153,6 +1152,7 @@ namespace LightController.MyForm
             this.useMatButton.Symbol = 61;
             this.useMatButton.TabIndex = 6;
             this.useMatButton.Text = "使用素材";
+            this.useMatButton.Click += new System.EventHandler(this.useMatButton_Click);
             // 
             // copyButton
             // 
@@ -1261,7 +1261,7 @@ namespace LightController.MyForm
             this.copySceneButton.Style = Sunny.UI.UIStyle.Custom;
             this.copySceneButton.TabIndex = 5;
             this.copySceneButton.Text = "调用场景";
-            this.copySceneButton.Click += new System.EventHandler(this.soundListButton_Click);
+            this.copySceneButton.Click += new System.EventHandler(this.copySceneButton_Click);
             // 
             // deleteButton
             // 
@@ -1487,12 +1487,13 @@ namespace LightController.MyForm
             this.tdFlowLayoutPanel.Name = "tdFlowLayoutPanel";
             this.tdFlowLayoutPanel.Size = new System.Drawing.Size(950, 257);
             this.tdFlowLayoutPanel.TabIndex = 9;
+            this.tdFlowLayoutPanel.Visible = false;
             this.tdFlowLayoutPanel.WrapContents = false;
             // 
             // tdPanelDemo
             // 
-            this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
             this.tdPanelDemo.Controls.Add(this.tdCmComboBoxDemo);
+            this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
             this.tdPanelDemo.Controls.Add(this.tdTrackBarDemo);
             this.tdPanelDemo.Controls.Add(this.tdNameLabelDemo);
             this.tdPanelDemo.Controls.Add(this.tdStNUDDemo);
@@ -1503,6 +1504,30 @@ namespace LightController.MyForm
             this.tdPanelDemo.Size = new System.Drawing.Size(56, 232);
             this.tdPanelDemo.TabIndex = 28;
             this.tdPanelDemo.Visible = false;
+            // 
+            // tdCmComboBoxDemo
+            // 
+            this.tdCmComboBoxDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.tdCmComboBoxDemo.DataSource = null;
+            this.tdCmComboBoxDemo.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.tdCmComboBoxDemo.DropDownWidth = 50;
+            this.tdCmComboBoxDemo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.tdCmComboBoxDemo.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.tdCmComboBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.tdCmComboBoxDemo.ForeColor = System.Drawing.Color.White;
+            this.tdCmComboBoxDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.tdCmComboBoxDemo.Location = new System.Drawing.Point(3, 188);
+            this.tdCmComboBoxDemo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tdCmComboBoxDemo.MinimumSize = new System.Drawing.Size(10, 0);
+            this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
+            this.tdCmComboBoxDemo.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.tdCmComboBoxDemo.Radius = 4;
+            this.tdCmComboBoxDemo.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.tdCmComboBoxDemo.RectDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
+            this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 18);
+            this.tdCmComboBoxDemo.Style = Sunny.UI.UIStyle.Custom;
+            this.tdCmComboBoxDemo.TabIndex = 47;
+            this.tdCmComboBoxDemo.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // tdNoLabelDemo
             // 
@@ -1516,22 +1541,7 @@ namespace LightController.MyForm
             this.tdNoLabelDemo.TabIndex = 28;
             this.tdNoLabelDemo.Text = "通道512";
             this.tdNoLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tdCmComboBoxDemo
-            // 
-            this.tdCmComboBoxDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.tdCmComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tdCmComboBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
-            this.tdCmComboBoxDemo.ForeColor = System.Drawing.Color.White;
-            this.tdCmComboBoxDemo.FormattingEnabled = true;
-            this.tdCmComboBoxDemo.Items.AddRange(new object[] {
-            "跳变",
-            "渐变",
-            "屏蔽"});
-            this.tdCmComboBoxDemo.Location = new System.Drawing.Point(3, 188);
-            this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
-            this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 19);
-            this.tdCmComboBoxDemo.TabIndex = 27;
+            this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
             // 
             // tdTrackBarDemo
             // 
@@ -1540,7 +1550,7 @@ namespace LightController.MyForm
             this.tdTrackBarDemo.Maximum = 255;
             this.tdTrackBarDemo.Name = "tdTrackBarDemo";
             this.tdTrackBarDemo.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tdTrackBarDemo.Size = new System.Drawing.Size(45, 140);
+            this.tdTrackBarDemo.Size = new System.Drawing.Size(45, 138);
             this.tdTrackBarDemo.TabIndex = 26;
             this.tdTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
@@ -1554,6 +1564,7 @@ namespace LightController.MyForm
             this.tdNameLabelDemo.TabIndex = 22;
             this.tdNameLabelDemo.Text = "x/y轴转速";
             this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
             // 
             // tdStNUDDemo
             // 
@@ -1583,7 +1594,7 @@ namespace LightController.MyForm
             this.tdValueNUDDemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.tdValueNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.tdValueNUDDemo.ForeColor = System.Drawing.Color.White;
-            this.tdValueNUDDemo.Location = new System.Drawing.Point(3, 167);
+            this.tdValueNUDDemo.Location = new System.Drawing.Point(3, 164);
             this.tdValueNUDDemo.Margin = new System.Windows.Forms.Padding(2);
             this.tdValueNUDDemo.Maximum = new decimal(new int[] {
             255,
@@ -1668,13 +1679,14 @@ namespace LightController.MyForm
             this.labelPanel.Name = "labelPanel";
             this.labelPanel.Size = new System.Drawing.Size(85, 257);
             this.labelPanel.TabIndex = 28;
+            this.labelPanel.Visible = false;
             // 
             // firstLabel
             // 
             this.firstLabel.AutoSize = true;
             this.firstLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.firstLabel.ForeColor = System.Drawing.Color.White;
-            this.firstLabel.Location = new System.Drawing.Point(16, 172);
+            this.firstLabel.Location = new System.Drawing.Point(16, 169);
             this.firstLabel.Name = "firstLabel";
             this.firstLabel.Size = new System.Drawing.Size(41, 11);
             this.firstLabel.TabIndex = 0;
@@ -1685,7 +1697,7 @@ namespace LightController.MyForm
             this.secondLabel.AutoSize = true;
             this.secondLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.secondLabel.ForeColor = System.Drawing.Color.White;
-            this.secondLabel.Location = new System.Drawing.Point(16, 194);
+            this.secondLabel.Location = new System.Drawing.Point(16, 192);
             this.secondLabel.Name = "secondLabel";
             this.secondLabel.Size = new System.Drawing.Size(41, 11);
             this.secondLabel.TabIndex = 0;
@@ -1702,23 +1714,24 @@ namespace LightController.MyForm
             this.thirdLabel.TabIndex = 0;
             this.thirdLabel.Text = "步时间(S)";
             // 
-            // uiLabel1
+            // projectPanelLabel
             // 
-            this.uiLabel1.AutoSize = true;
-            this.uiLabel1.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel1.ForeColor = System.Drawing.Color.Silver;
-            this.uiLabel1.Location = new System.Drawing.Point(24, 19);
-            this.uiLabel1.Name = "uiLabel1";
-            this.uiLabel1.Size = new System.Drawing.Size(53, 12);
-            this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabel1.TabIndex = 2;
-            this.uiLabel1.Text = "工程面板";
-            this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.projectPanelLabel.AutoSize = true;
+            this.projectPanelLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.projectPanelLabel.ForeColor = System.Drawing.Color.Silver;
+            this.projectPanelLabel.Location = new System.Drawing.Point(24, 19);
+            this.projectPanelLabel.Name = "projectPanelLabel";
+            this.projectPanelLabel.Size = new System.Drawing.Size(53, 12);
+            this.projectPanelLabel.Style = Sunny.UI.UIStyle.Custom;
+            this.projectPanelLabel.TabIndex = 2;
+            this.projectPanelLabel.Text = "工程面板";
+            this.projectPanelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.projectPanelLabel.Click += new System.EventHandler(this.testLabel_Click);
             // 
             // uiPanel5
             // 
             this.uiPanel5.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
-            this.uiPanel5.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiPanel5.Font = new System.Drawing.Font("黑体", 12F);
             this.uiPanel5.Location = new System.Drawing.Point(13, 50);
             this.uiPanel5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel5.MinimumSize = new System.Drawing.Size(1, 2);
@@ -1737,15 +1750,15 @@ namespace LightController.MyForm
             this.projectPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.projectPanel.Controls.Add(this.projectLinePanel);
             this.projectPanel.Controls.Add(this.uiPanel5);
-            this.projectPanel.Controls.Add(this.uiLabel1);
+            this.projectPanel.Controls.Add(this.projectPanelLabel);
             this.projectPanel.Controls.Add(this.closeButton);
             this.projectPanel.Controls.Add(this.exportButton);
-            this.projectPanel.Controls.Add(this.saveSceneButton);
+            this.projectPanel.Controls.Add(this.sourceButton);
             this.projectPanel.Controls.Add(this.saveButton);
             this.projectPanel.Controls.Add(this.newButton);
             this.projectPanel.Controls.Add(this.openButton);
             this.projectPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.projectPanel.Location = new System.Drawing.Point(0, 120);
+            this.projectPanel.Location = new System.Drawing.Point(0, 89);
             this.projectPanel.Name = "projectPanel";
             this.projectPanel.Size = new System.Drawing.Size(105, 616);
             this.projectPanel.TabIndex = 3;
@@ -1818,37 +1831,36 @@ namespace LightController.MyForm
             this.exportButton.Text = "导出工程";
             this.exportButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
-            this.exportButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportButton_MouseDown);
             // 
-            // saveSceneButton
+            // sourceButton
             // 
-            this.saveSceneButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.saveSceneButton.Enabled = false;
-            this.saveSceneButton.FillColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.FillDisableColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.saveSceneButton.FillPressColor = System.Drawing.Color.Blue;
-            this.saveSceneButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.saveSceneButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.saveSceneButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveSceneButton.Image = global::LightController.Properties.Resources.保存场景;
-            this.saveSceneButton.ImageInterval = 20;
-            this.saveSceneButton.Location = new System.Drawing.Point(16, 331);
-            this.saveSceneButton.MinimumSize = new System.Drawing.Size(1, 2);
-            this.saveSceneButton.Name = "saveSceneButton";
-            this.saveSceneButton.Radius = 12;
-            this.saveSceneButton.RectColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.RectDisableColor = System.Drawing.Color.Transparent;
-            this.saveSceneButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveSceneButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.saveSceneButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
-            this.saveSceneButton.Size = new System.Drawing.Size(69, 68);
-            this.saveSceneButton.Style = Sunny.UI.UIStyle.Custom;
-            this.saveSceneButton.StyleCustomMode = true;
-            this.saveSceneButton.TabIndex = 1;
-            this.saveSceneButton.Text = "保存场景";
-            this.saveSceneButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.saveSceneButton.Click += new System.EventHandler(this.saveSceneButton_Click);
+            this.sourceButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sourceButton.Enabled = false;
+            this.sourceButton.FillColor = System.Drawing.Color.Transparent;
+            this.sourceButton.FillDisableColor = System.Drawing.Color.Transparent;
+            this.sourceButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.sourceButton.FillPressColor = System.Drawing.Color.Blue;
+            this.sourceButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.sourceButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sourceButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sourceButton.Image = global::LightController.Properties.Resources.保存场景;
+            this.sourceButton.ImageInterval = 20;
+            this.sourceButton.Location = new System.Drawing.Point(16, 331);
+            this.sourceButton.MinimumSize = new System.Drawing.Size(1, 2);
+            this.sourceButton.Name = "sourceButton";
+            this.sourceButton.Radius = 12;
+            this.sourceButton.RectColor = System.Drawing.Color.Transparent;
+            this.sourceButton.RectDisableColor = System.Drawing.Color.Transparent;
+            this.sourceButton.RectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sourceButton.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.sourceButton.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(123)))), ((int)(((byte)(129)))));
+            this.sourceButton.Size = new System.Drawing.Size(69, 68);
+            this.sourceButton.Style = Sunny.UI.UIStyle.Custom;
+            this.sourceButton.StyleCustomMode = true;
+            this.sourceButton.TabIndex = 1;
+            this.sourceButton.Text = "导出源文件";
+            this.sourceButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.sourceButton.Click += new System.EventHandler(this.sourceButton_Click);
             // 
             // saveButton
             // 
@@ -1879,7 +1891,6 @@ namespace LightController.MyForm
             this.saveButton.Text = "保存工程";
             this.saveButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            this.saveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseDown);
             // 
             // newButton
             // 
@@ -1944,7 +1955,7 @@ namespace LightController.MyForm
             // 
             this.linePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(31)))), ((int)(((byte)(40)))));
             this.linePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.linePanel.Location = new System.Drawing.Point(0, 736);
+            this.linePanel.Location = new System.Drawing.Point(0, 705);
             this.linePanel.Name = "linePanel";
             this.linePanel.Size = new System.Drawing.Size(1366, 1);
             this.linePanel.TabIndex = 11;
@@ -1967,17 +1978,44 @@ namespace LightController.MyForm
             this.myToolTip.OwnerDraw = true;
             this.myToolTip.ReshowDelay = 100;
             // 
+            // mainPanel
+            // 
+            this.mainPanel.Controls.Add(this.workPanel);
+            this.mainPanel.Controls.Add(this.projectPanel);
+            this.mainPanel.Controls.Add(this.menuPanel);
+            this.mainPanel.Controls.Add(this.astPanel);
+            this.mainPanel.Controls.Add(this.linePanel);
+            this.mainPanel.Controls.Add(this.myStatusStrip);
+            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainPanel.Location = new System.Drawing.Point(0, 31);
+            this.mainPanel.Name = "mainPanel";
+            this.mainPanel.Size = new System.Drawing.Size(1366, 737);
+            this.mainPanel.TabIndex = 31;
+            // 
+            // lightsMaskPanel
+            // 
+            this.lightsMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lightsMaskPanel.Location = new System.Drawing.Point(0, 0);
+            this.lightsMaskPanel.Name = "lightsMaskPanel";
+            this.lightsMaskPanel.Size = new System.Drawing.Size(1035, 277);
+            this.lightsMaskPanel.TabIndex = 30;
+            this.lightsMaskPanel.Visible = false;
+            // 
+            // mainMaskPanel
+            // 
+            this.mainMaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainMaskPanel.Location = new System.Drawing.Point(0, 31);
+            this.mainMaskPanel.Name = "mainMaskPanel";
+            this.mainMaskPanel.Size = new System.Drawing.Size(1366, 737);
+            this.mainMaskPanel.TabIndex = 32;
+            // 
             // MainFormBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.mainPanel);
-            this.Controls.Add(this.projectPanel);
-            this.Controls.Add(this.menuPanel);
-            this.Controls.Add(this.astPanel);
-            this.Controls.Add(this.linePanel);
-            this.Controls.Add(this.myStatusStrip);
+            this.Controls.Add(this.mainMaskPanel);
             this.ExtendSymbol = 1;
             this.Font = new System.Drawing.Font("黑体", 10F);
             this.MaximumSize = new System.Drawing.Size(2560, 1440);
@@ -1992,6 +2030,7 @@ namespace LightController.MyForm
             this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.TitleHeight = 31;
             this.Activated += new System.EventHandler(this.MainFormBase_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormBase_FormClosing);
             this.Load += new System.EventHandler(this.MainFormBase_Load);
             this.astPanel.ResumeLayout(false);
             this.astPanel.PerformLayout();
@@ -2012,7 +2051,7 @@ namespace LightController.MyForm
             ((System.ComponentModel.ISupportInitialize)(this.hardwareSetButton)).EndInit();
             this.myStatusStrip.ResumeLayout(false);
             this.myStatusStrip.PerformLayout();
-            this.mainPanel.ResumeLayout(false);
+            this.workPanel.ResumeLayout(false);
             this.myContextMenuStrip.ResumeLayout(false);
             this.stepPanel.ResumeLayout(false);
             this.stepPanel.PerformLayout();
@@ -2030,6 +2069,7 @@ namespace LightController.MyForm
             this.labelPanel.PerformLayout();
             this.projectPanel.ResumeLayout(false);
             this.projectPanel.PerformLayout();
+            this.mainPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2039,10 +2079,10 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel astPanel;
         private System.Windows.Forms.Panel menuPanel;       
         private System.Windows.Forms.StatusStrip myStatusStrip;
-        private System.Windows.Forms.Panel mainPanel;
+        private System.Windows.Forms.Panel workPanel;
         private Sunny.UI.UIButton connectButton;
         private Sunny.UI.UIImageButton hardwareSetButton;
-        private Sunny.UI.UIPanel uiPanel1;
+        private Sunny.UI.UIPanel vLinePanel1;
         private Sunny.UI.UILabel uiLabel3;
         private Sunny.UI.UIPanel uiPanel7;
         private Sunny.UI.UILabel uiLabel2;
@@ -2050,24 +2090,24 @@ namespace LightController.MyForm
         private Sunny.UI.UIImageButton seqButton;
         private Sunny.UI.UIImageButton toolsButton;
         private Sunny.UI.UIImageButton downloadButton;
-        private Sunny.UI.UIPanel uiPanel3;
-        private Sunny.UI.UIPanel uiPanel2;
-        private Sunny.UI.UIPanel uiPanel4;
+        private Sunny.UI.UIPanel vLinePanel3;
+        private Sunny.UI.UIPanel vLinePanel2;
+        private Sunny.UI.UIPanel vLinePanel4;
         private Sunny.UI.UIImageButton makeSoundButton;
         private Sunny.UI.UIImageButton globalSetButton;
         private Sunny.UI.UIImageButton previewButton;
         private Sunny.UI.UIImageButton lightListButton;
         private Sunny.UI.UIImageButton keepButton;
         private Sunny.UI.UIImageButton libButton;
-        private Sunny.UI.UIPanel uiPanel8;
+        private Sunny.UI.UIPanel vLinePanel5;
         private Sunny.UI.UIImageButton helpButton;
         private Sunny.UI.UISymbolButton openButton;
-        private Sunny.UI.UILabel uiLabel1;
+        private Sunny.UI.UILabel projectPanelLabel;
         private Sunny.UI.UIPanel uiPanel5;
         private System.Windows.Forms.Panel projectPanel;
         private Sunny.UI.UISymbolButton closeButton;
         private Sunny.UI.UISymbolButton exportButton;
-        private Sunny.UI.UISymbolButton saveSceneButton;
+        private Sunny.UI.UISymbolButton sourceButton;
         private Sunny.UI.UISymbolButton saveButton;
         private Sunny.UI.UISymbolButton newButton;
         private System.Windows.Forms.Panel stepPanel;
@@ -2139,7 +2179,9 @@ namespace LightController.MyForm
         private System.Windows.Forms.Panel groupPanelDemo;
         private Sunny.UI.UIButton groupInButtonDemo;
         private Sunny.UI.UIButton groupDelButtonDemo;
-        private System.Windows.Forms.ComboBox tdCmComboBoxDemo;
-        private MaskPanel maskPanel;
+        private MaskPanel lightsMaskPanel;
+        private Sunny.UI.UIComboBox tdCmComboBoxDemo;
+        private System.Windows.Forms.Panel mainPanel;
+        private MaskPanel mainMaskPanel;
     }
 }

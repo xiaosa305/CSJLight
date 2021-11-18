@@ -23,7 +23,7 @@ namespace LightController.MyForm.Project
 			InitializeComponent();
 
 			// 初始化iniPath，并读取数据填入各框中
-			iniHelper = new IniHelper(mainForm.GlobalIniPath);
+			iniHelper = new IniHelper(mainForm.GetConfigPath());
 
 			//添加frameStepTimeNumericUpDown相关初始化及监听事件			
 			sceneStepTimeNumericUpDown.Increment = mainForm.EachStepTime;

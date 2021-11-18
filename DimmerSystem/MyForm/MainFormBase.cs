@@ -76,7 +76,7 @@ namespace LightController.MyForm
         public int CurrentMode = 0;  // 表示模式编号(selectedIndex)；0.常规模式； 1.音频模式                 
 
         //LOCATE 工程相关的变量
-        private string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
+        public string CurrentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
         private string currentProjectPath; //存放当前工程所在目录
         private string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
         private string dbFilePath;  // 211008  新的db存储路径
@@ -762,7 +762,7 @@ namespace LightController.MyForm
 
             setBusy(false);
             SetNotice(LanguageHelper.TranslateSentence("成功保存工程:")
-                + currentProjectName
+                + CurrentProjectName
                 + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s"
                 , true, false);
         }
@@ -829,7 +829,7 @@ namespace LightController.MyForm
                 return;
             }
 
-            string tempProjectName = currentProjectName;
+            string tempProjectName = CurrentProjectName;
             clearAllData(); //closeButton_Click
             SetNotice(LanguageHelper.TranslateSentence("成功关闭工程") + "【" + tempProjectName + "】。", true, false);
         }
@@ -848,7 +848,7 @@ namespace LightController.MyForm
                     di.Delete(true);
                 }
                 // 删除后直接创建下一级目录，并拷贝相关目录
-                string destPath = SavePath + @"\Source\LightProject\" + currentProjectName;
+                string destPath = SavePath + @"\Source\LightProject\" + CurrentProjectName;
                 di = new DirectoryInfo(destPath);
                 di.Create();
                 DirectoryHelper.CopyDirectory(currentProjectPath, destPath);
@@ -1341,7 +1341,7 @@ namespace LightController.MyForm
             clearAllData(); //initProject()
 
             // 1.全局设置
-            currentProjectName = projectName;
+            CurrentProjectName = projectName;
             currentProjectPath = SavePath + @"\LightProject\" + projectName;
             globalIniPath = currentProjectPath + @"\global.ini";
             projectStr = "(" + LanguageHelper.TranslateSentence(" 当前工程：") + projectName + " )";
@@ -1398,7 +1398,7 @@ namespace LightController.MyForm
         /// </summary>
         private void clearAllData()
         {
-            currentProjectName = null;
+            CurrentProjectName = null;
             currentProjectPath = null;
             globalIniPath = null;
             GroupList = null;
@@ -1816,7 +1816,7 @@ namespace LightController.MyForm
             unifyButton.Enabled = totalStep != 0;
             multiButton.Enabled = totalStep != 0;
             multiplexButton.Enabled = currentStep > 0;
-            soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1;
+            soundListButton.Enabled = !string.IsNullOrEmpty(CurrentProjectName) && CurrentMode == 1;
 
             // 5.处理选择步数的框及按钮
             chooseStepNumericUpDown.Enabled = totalStep != 0;

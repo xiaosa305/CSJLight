@@ -563,15 +563,14 @@ namespace LightController.MyForm.Device
             this.maskPanel.Name = "maskPanel";
             this.maskPanel.Size = new System.Drawing.Size(488, 445);
             this.maskPanel.TabIndex = 29;
-            this.maskPanel.Visible = false;
             // 
             // HardwareSetForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.ClientSize = new System.Drawing.Size(488, 480);
-            this.Controls.Add(this.maskPanel);
             this.Controls.Add(this.mainPanel);
+            this.Controls.Add(this.maskPanel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HardwareSetForm";

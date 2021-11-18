@@ -1126,10 +1126,11 @@ namespace LightController.MyForm.Step
 
 			Label tdLabel = new Label
 			{
+				Text = tdComboBox.Text,
 				AutoSize = tdLabelDemo.AutoSize,
 				Location = tdLabelDemo.Location,
-				Size = tdLabelDemo.Size,
-				Text = tdComboBox.Text,
+				Size = tdLabelDemo.Size,				
+				ForeColor = tdLabelDemo.ForeColor,
 			};
 
 			NumericUpDown tdNUD = new NumericUpDown

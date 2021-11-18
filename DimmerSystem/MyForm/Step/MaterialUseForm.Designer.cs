@@ -108,7 +108,6 @@ namespace LightController.MyForm.Step
             this.mainPanel = new System.Windows.Forms.Panel();
             this.previewButton = new Sunny.UI.UIButton();
             this.noticeLabel = new System.Windows.Forms.Label();
-            this.clearCB = new System.Windows.Forms.CheckBox();
             this.appendButton = new Sunny.UI.UIButton();
             this.insertButton = new Sunny.UI.UIButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -118,6 +117,7 @@ namespace LightController.MyForm.Step
             this.colorCB = new System.Windows.Forms.CheckBox();
             this.coverButton = new Sunny.UI.UIButton();
             this.cancelButton = new Sunny.UI.UIButton();
+            this.clearCB = new System.Windows.Forms.CheckBox();
             this.myColorDialog = new System.Windows.Forms.ColorDialog();
             this.materialPanel = new System.Windows.Forms.Panel();
             this.myStatusStrip.SuspendLayout();
@@ -301,7 +301,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.StNumericUpDown.Name = "StNumericUpDown";
-            this.StNumericUpDown.Size = new System.Drawing.Size(54, 22);
+            this.StNumericUpDown.Size = new System.Drawing.Size(54, 20);
             this.StNumericUpDown.TabIndex = 10;
             this.StNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.StNumericUpDown.Value = new decimal(new int[] {
@@ -318,7 +318,7 @@ namespace LightController.MyForm.Step
             this.label19.ForeColor = System.Drawing.SystemColors.Window;
             this.label19.Location = new System.Drawing.Point(68, 322);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(110, 16);
+            this.label19.Size = new System.Drawing.Size(119, 11);
             this.label19.TabIndex = 9;
             this.label19.Text = "变化速率(步时间S)：";
             // 
@@ -384,7 +384,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.linePhaseNumericUpDown.Name = "linePhaseNumericUpDown";
-            this.linePhaseNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.linePhaseNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.linePhaseNumericUpDown.TabIndex = 29;
             this.linePhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.linePhaseNumericUpDown.Value = new decimal(new int[] {
@@ -399,7 +399,7 @@ namespace LightController.MyForm.Step
             this.label17.ForeColor = System.Drawing.Color.White;
             this.label17.Location = new System.Drawing.Point(68, 179);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(82, 16);
+            this.label17.Size = new System.Drawing.Size(89, 11);
             this.label17.TabIndex = 28;
             this.label17.Text = "起始步(相位)：";
             // 
@@ -412,7 +412,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.lineY2NumericUpDown.Name = "lineY2NumericUpDown";
-            this.lineY2NumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.lineY2NumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.lineY2NumericUpDown.TabIndex = 26;
             this.lineY2NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.lineY2NumericUpDown.Value = new decimal(new int[] {
@@ -430,7 +430,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.lineY1NumericUpDown.Name = "lineY1NumericUpDown";
-            this.lineY1NumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.lineY1NumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.lineY1NumericUpDown.TabIndex = 27;
             this.lineY1NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.lineY1NumericUpDown.Value = new decimal(new int[] {
@@ -449,7 +449,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.lineXNumericUpDown.Name = "lineXNumericUpDown";
-            this.lineXNumericUpDown.Size = new System.Drawing.Size(67, 22);
+            this.lineXNumericUpDown.Size = new System.Drawing.Size(67, 20);
             this.lineXNumericUpDown.TabIndex = 25;
             this.lineXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -459,7 +459,7 @@ namespace LightController.MyForm.Step
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(68, 137);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(111, 16);
+            this.label5.Size = new System.Drawing.Size(119, 11);
             this.label5.TabIndex = 22;
             this.label5.Text = "Y轴变化幅度(终点)：";
             // 
@@ -469,7 +469,7 @@ namespace LightController.MyForm.Step
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(68, 95);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 16);
+            this.label2.Size = new System.Drawing.Size(59, 11);
             this.label2.TabIndex = 23;
             this.label2.Text = "Y轴起点：";
             // 
@@ -479,7 +479,7 @@ namespace LightController.MyForm.Step
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(68, 53);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 16);
+            this.label3.Size = new System.Drawing.Size(95, 11);
             this.label3.TabIndex = 24;
             this.label3.Text = "X轴位置(不动)：";
             // 
@@ -512,7 +512,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.circlePhaseNumericUpDown.Name = "circlePhaseNumericUpDown";
-            this.circlePhaseNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.circlePhaseNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.circlePhaseNumericUpDown.TabIndex = 25;
             this.circlePhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.circlePhaseNumericUpDown.Value = new decimal(new int[] {
@@ -527,7 +527,7 @@ namespace LightController.MyForm.Step
             this.label16.ForeColor = System.Drawing.Color.White;
             this.label16.Location = new System.Drawing.Point(68, 165);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(82, 16);
+            this.label16.Size = new System.Drawing.Size(89, 11);
             this.label16.TabIndex = 24;
             this.label16.Text = "起始步(相位)：";
             // 
@@ -545,7 +545,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.circleXNumericUpDown.Name = "circleXNumericUpDown";
-            this.circleXNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.circleXNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.circleXNumericUpDown.TabIndex = 23;
             this.circleXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.circleXNumericUpDown.Value = new decimal(new int[] {
@@ -563,7 +563,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.circleYNumericUpDown.Name = "circleYNumericUpDown";
-            this.circleYNumericUpDown.Size = new System.Drawing.Size(67, 22);
+            this.circleYNumericUpDown.Size = new System.Drawing.Size(67, 20);
             this.circleYNumericUpDown.TabIndex = 22;
             this.circleYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.circleYNumericUpDown.Value = new decimal(new int[] {
@@ -578,7 +578,7 @@ namespace LightController.MyForm.Step
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(68, 75);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 16);
+            this.label6.Size = new System.Drawing.Size(95, 11);
             this.label6.TabIndex = 20;
             this.label6.Text = "转动角度(X轴)：";
             // 
@@ -588,7 +588,7 @@ namespace LightController.MyForm.Step
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(68, 120);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(148, 16);
+            this.label7.Size = new System.Drawing.Size(161, 11);
             this.label7.TabIndex = 21;
             this.label7.Text = "圆的大小(值越小半径越大)：";
             // 
@@ -621,7 +621,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.scPhaseNumericUpDown.Name = "scPhaseNumericUpDown";
-            this.scPhaseNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.scPhaseNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.scPhaseNumericUpDown.TabIndex = 27;
             this.scPhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.scPhaseNumericUpDown.Value = new decimal(new int[] {
@@ -636,7 +636,7 @@ namespace LightController.MyForm.Step
             this.label18.ForeColor = System.Drawing.Color.White;
             this.label18.Location = new System.Drawing.Point(68, 165);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(82, 16);
+            this.label18.Size = new System.Drawing.Size(89, 11);
             this.label18.TabIndex = 26;
             this.label18.Text = "起始步(相位)：";
             // 
@@ -649,7 +649,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.scXNumericUpDown.Name = "scXNumericUpDown";
-            this.scXNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.scXNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.scXNumericUpDown.TabIndex = 25;
             this.scXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.scXNumericUpDown.Value = new decimal(new int[] {
@@ -667,7 +667,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.scYNumericUpDown.Name = "scYNumericUpDown";
-            this.scYNumericUpDown.Size = new System.Drawing.Size(67, 22);
+            this.scYNumericUpDown.Size = new System.Drawing.Size(67, 20);
             this.scYNumericUpDown.TabIndex = 24;
             this.scYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.scYNumericUpDown.Value = new decimal(new int[] {
@@ -682,7 +682,7 @@ namespace LightController.MyForm.Step
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(68, 75);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 16);
+            this.label4.Size = new System.Drawing.Size(95, 11);
             this.label4.TabIndex = 22;
             this.label4.Text = "转动角度(X轴)：";
             // 
@@ -692,7 +692,7 @@ namespace LightController.MyForm.Step
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(68, 120);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(148, 16);
+            this.label8.Size = new System.Drawing.Size(161, 11);
             this.label8.TabIndex = 23;
             this.label8.Text = "圆的大小(值越小半径越大)：";
             // 
@@ -729,7 +729,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.waveTimesNumericUpDown.Name = "waveTimesNumericUpDown";
-            this.waveTimesNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.waveTimesNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.waveTimesNumericUpDown.TabIndex = 16;
             this.waveTimesNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waveTimesNumericUpDown.Value = new decimal(new int[] {
@@ -747,7 +747,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.waveY2NumericUpDown.Name = "waveY2NumericUpDown";
-            this.waveY2NumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.waveY2NumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.waveY2NumericUpDown.TabIndex = 17;
             this.waveY2NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waveY2NumericUpDown.Value = new decimal(new int[] {
@@ -765,7 +765,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.waveY1NumericUpDown.Name = "waveY1NumericUpDown";
-            this.waveY1NumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.waveY1NumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.waveY1NumericUpDown.TabIndex = 18;
             this.waveY1NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waveY1NumericUpDown.Value = new decimal(new int[] {
@@ -784,7 +784,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.waveX1NumericUpDown.Name = "waveX1NumericUpDown";
-            this.waveX1NumericUpDown.Size = new System.Drawing.Size(67, 22);
+            this.waveX1NumericUpDown.Size = new System.Drawing.Size(67, 20);
             this.waveX1NumericUpDown.TabIndex = 14;
             this.waveX1NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waveX1NumericUpDown.ValueChanged += new System.EventHandler(this.waveX1NumericUpDown_ValueChanged);
@@ -798,7 +798,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.waveX2NumericUpDown.Name = "waveX2NumericUpDown";
-            this.waveX2NumericUpDown.Size = new System.Drawing.Size(67, 22);
+            this.waveX2NumericUpDown.Size = new System.Drawing.Size(67, 20);
             this.waveX2NumericUpDown.TabIndex = 15;
             this.waveX2NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waveX2NumericUpDown.Value = new decimal(new int[] {
@@ -813,7 +813,7 @@ namespace LightController.MyForm.Step
             this.label13.ForeColor = System.Drawing.Color.White;
             this.label13.Location = new System.Drawing.Point(68, 204);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(63, 16);
+            this.label13.Size = new System.Drawing.Size(65, 11);
             this.label13.TabIndex = 9;
             this.label13.Text = "摆动倍率：";
             // 
@@ -823,7 +823,7 @@ namespace LightController.MyForm.Step
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(68, 162);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(81, 16);
+            this.label9.Size = new System.Drawing.Size(83, 11);
             this.label9.TabIndex = 10;
             this.label9.Text = "Y轴摆动幅度：";
             // 
@@ -833,7 +833,7 @@ namespace LightController.MyForm.Step
             this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(68, 120);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(81, 16);
+            this.label10.Size = new System.Drawing.Size(83, 11);
             this.label10.TabIndex = 11;
             this.label10.Text = "Y轴起始位置：";
             // 
@@ -843,7 +843,7 @@ namespace LightController.MyForm.Step
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(68, 36);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(81, 16);
+            this.label12.Size = new System.Drawing.Size(83, 11);
             this.label12.TabIndex = 12;
             this.label12.Text = "X轴起始位置：";
             // 
@@ -853,7 +853,7 @@ namespace LightController.MyForm.Step
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(68, 78);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(81, 16);
+            this.label11.Size = new System.Drawing.Size(83, 11);
             this.label11.TabIndex = 13;
             this.label11.Text = "X轴转动幅度：";
             // 
@@ -884,7 +884,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.eightPhaseNumericUpDown.Name = "eightPhaseNumericUpDown";
-            this.eightPhaseNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.eightPhaseNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.eightPhaseNumericUpDown.TabIndex = 20;
             this.eightPhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.eightPhaseNumericUpDown.Value = new decimal(new int[] {
@@ -902,7 +902,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.eightYNumericUpDown.Name = "eightYNumericUpDown";
-            this.eightYNumericUpDown.Size = new System.Drawing.Size(66, 22);
+            this.eightYNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.eightYNumericUpDown.TabIndex = 21;
             this.eightYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.eightYNumericUpDown.Value = new decimal(new int[] {
@@ -917,7 +917,7 @@ namespace LightController.MyForm.Step
             this.label14.ForeColor = System.Drawing.Color.White;
             this.label14.Location = new System.Drawing.Point(68, 144);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(82, 16);
+            this.label14.Size = new System.Drawing.Size(89, 11);
             this.label14.TabIndex = 18;
             this.label14.Text = "起始步(相位)：";
             // 
@@ -927,7 +927,7 @@ namespace LightController.MyForm.Step
             this.label15.ForeColor = System.Drawing.Color.White;
             this.label15.Location = new System.Drawing.Point(68, 96);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(139, 16);
+            this.label15.Size = new System.Drawing.Size(149, 11);
             this.label15.TabIndex = 19;
             this.label15.Text = "Y轴幅度(值越小8字越大)：";
             // 
@@ -958,7 +958,7 @@ namespace LightController.MyForm.Step
             this.label21.ForeColor = System.Drawing.Color.White;
             this.label21.Location = new System.Drawing.Point(255, 54);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(52, 16);
+            this.label21.Size = new System.Drawing.Size(53, 11);
             this.label21.TabIndex = 81;
             this.label21.Text = "总调光：";
             // 
@@ -971,7 +971,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.tgNUD.Name = "tgNUD";
-            this.tgNUD.Size = new System.Drawing.Size(50, 22);
+            this.tgNUD.Size = new System.Drawing.Size(50, 20);
             this.tgNUD.TabIndex = 80;
             this.tgNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tgNUD.ValueChanged += new System.EventHandler(this.tgNUD_ValueChanged);
@@ -1057,7 +1057,7 @@ namespace LightController.MyForm.Step
             this.stLabel.ForeColor = System.Drawing.Color.White;
             this.stLabel.Location = new System.Drawing.Point(11, 186);
             this.stLabel.Name = "stLabel";
-            this.stLabel.Size = new System.Drawing.Size(58, 16);
+            this.stLabel.Size = new System.Drawing.Size(65, 11);
             this.stLabel.TabIndex = 75;
             this.stLabel.Text = "步时间(S):";
             this.stLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1068,7 +1068,7 @@ namespace LightController.MyForm.Step
             this.astLabel.ForeColor = System.Drawing.Color.White;
             this.astLabel.Location = new System.Drawing.Point(11, 105);
             this.astLabel.Name = "astLabel";
-            this.astLabel.Size = new System.Drawing.Size(52, 16);
+            this.astLabel.Size = new System.Drawing.Size(53, 11);
             this.astLabel.TabIndex = 74;
             this.astLabel.Text = "未选中步";
             // 
@@ -1078,7 +1078,7 @@ namespace LightController.MyForm.Step
             this.modeLabel.ForeColor = System.Drawing.Color.White;
             this.modeLabel.Location = new System.Drawing.Point(11, 211);
             this.modeLabel.Name = "modeLabel";
-            this.modeLabel.Size = new System.Drawing.Size(63, 16);
+            this.modeLabel.Size = new System.Drawing.Size(65, 11);
             this.modeLabel.TabIndex = 76;
             this.modeLabel.Text = "是否渐变：";
             this.modeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1134,7 +1134,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.stNUDDemo.Name = "stNUDDemo";
-            this.stNUDDemo.Size = new System.Drawing.Size(50, 22);
+            this.stNUDDemo.Size = new System.Drawing.Size(50, 20);
             this.stNUDDemo.TabIndex = 0;
             this.stNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.stNUDDemo.Value = new decimal(new int[] {
@@ -1150,9 +1150,9 @@ namespace LightController.MyForm.Step
             this.tdTab.Controls.Add(this.tdAddButton);
             this.tdTab.Controls.Add(this.tdComboBox);
             this.tdTab.Controls.Add(this.tdFLP);
-            this.tdTab.Location = new System.Drawing.Point(0, 40);
+            this.tdTab.Location = new System.Drawing.Point(0, 30);
             this.tdTab.Name = "tdTab";
-            this.tdTab.Size = new System.Drawing.Size(200, 60);
+            this.tdTab.Size = new System.Drawing.Size(398, 370);
             this.tdTab.TabIndex = 3;
             this.tdTab.Text = "固定通道";
             // 
@@ -1218,9 +1218,9 @@ namespace LightController.MyForm.Step
             this.tdFLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tdFLP.Controls.Add(this.tdPanelDemo);
             this.tdFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tdFLP.Location = new System.Drawing.Point(0, -267);
+            this.tdFLP.Location = new System.Drawing.Point(0, 43);
             this.tdFLP.Name = "tdFLP";
-            this.tdFLP.Size = new System.Drawing.Size(200, 327);
+            this.tdFLP.Size = new System.Drawing.Size(398, 327);
             this.tdFLP.TabIndex = 1;
             // 
             // tdPanelDemo
@@ -1266,7 +1266,7 @@ namespace LightController.MyForm.Step
             this.tdLabelDemo.ForeColor = System.Drawing.Color.White;
             this.tdLabelDemo.Location = new System.Drawing.Point(9, 5);
             this.tdLabelDemo.Name = "tdLabelDemo";
-            this.tdLabelDemo.Size = new System.Drawing.Size(58, 16);
+            this.tdLabelDemo.Size = new System.Drawing.Size(59, 11);
             this.tdLabelDemo.TabIndex = 18;
             this.tdLabelDemo.Text = "X|Y轴速度";
             // 
@@ -1279,7 +1279,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.tdNUDDemo.Name = "tdNUDDemo";
-            this.tdNUDDemo.Size = new System.Drawing.Size(40, 22);
+            this.tdNUDDemo.Size = new System.Drawing.Size(40, 20);
             this.tdNUDDemo.TabIndex = 17;
             this.tdNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tdNUDDemo.Value = new decimal(new int[] {
@@ -1335,21 +1335,9 @@ namespace LightController.MyForm.Step
             this.noticeLabel.ForeColor = System.Drawing.Color.White;
             this.noticeLabel.Location = new System.Drawing.Point(15, 10);
             this.noticeLabel.Name = "noticeLabel";
-            this.noticeLabel.Size = new System.Drawing.Size(63, 16);
+            this.noticeLabel.Size = new System.Drawing.Size(65, 11);
             this.noticeLabel.TabIndex = 86;
             this.noticeLabel.Text = "素材来源：";
-            // 
-            // clearCB
-            // 
-            this.clearCB.Font = new System.Drawing.Font("黑体", 8F);
-            this.clearCB.ForeColor = System.Drawing.Color.White;
-            this.clearCB.Location = new System.Drawing.Point(257, 37);
-            this.clearCB.Name = "clearCB";
-            this.clearCB.Padding = new System.Windows.Forms.Padding(1);
-            this.clearCB.Size = new System.Drawing.Size(71, 40);
-            this.clearCB.TabIndex = 87;
-            this.clearCB.Text = "覆盖前\r\n清空步";
-            this.clearCB.UseVisualStyleBackColor = true;
             // 
             // appendButton
             // 
@@ -1403,7 +1391,7 @@ namespace LightController.MyForm.Step
             this.tempCB.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.tempCB.Name = "tempCB";
             this.tempCB.Padding = new System.Windows.Forms.Padding(1);
-            this.tempCB.Size = new System.Drawing.Size(73, 22);
+            this.tempCB.Size = new System.Drawing.Size(74, 17);
             this.tempCB.TabIndex = 81;
             this.tempCB.Text = "临时素材";
             this.tempCB.UseVisualStyleBackColor = true;
@@ -1415,11 +1403,11 @@ namespace LightController.MyForm.Step
             this.materialCB.AutoSize = true;
             this.materialCB.Font = new System.Drawing.Font("黑体", 8F);
             this.materialCB.ForeColor = System.Drawing.Color.White;
-            this.materialCB.Location = new System.Drawing.Point(0, 26);
+            this.materialCB.Location = new System.Drawing.Point(0, 21);
             this.materialCB.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.materialCB.Name = "materialCB";
             this.materialCB.Padding = new System.Windows.Forms.Padding(1);
-            this.materialCB.Size = new System.Drawing.Size(73, 22);
+            this.materialCB.Size = new System.Drawing.Size(74, 17);
             this.materialCB.TabIndex = 81;
             this.materialCB.Text = "用户素材";
             this.materialCB.UseVisualStyleBackColor = true;
@@ -1431,11 +1419,11 @@ namespace LightController.MyForm.Step
             this.actionCB.AutoSize = true;
             this.actionCB.Font = new System.Drawing.Font("黑体", 8F);
             this.actionCB.ForeColor = System.Drawing.Color.White;
-            this.actionCB.Location = new System.Drawing.Point(0, 50);
+            this.actionCB.Location = new System.Drawing.Point(0, 40);
             this.actionCB.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.actionCB.Name = "actionCB";
             this.actionCB.Padding = new System.Windows.Forms.Padding(1);
-            this.actionCB.Size = new System.Drawing.Size(73, 22);
+            this.actionCB.Size = new System.Drawing.Size(74, 17);
             this.actionCB.TabIndex = 81;
             this.actionCB.Text = "内置动作";
             this.actionCB.UseVisualStyleBackColor = true;
@@ -1447,11 +1435,11 @@ namespace LightController.MyForm.Step
             this.colorCB.AutoSize = true;
             this.colorCB.Font = new System.Drawing.Font("黑体", 8F);
             this.colorCB.ForeColor = System.Drawing.Color.White;
-            this.colorCB.Location = new System.Drawing.Point(0, 74);
+            this.colorCB.Location = new System.Drawing.Point(0, 59);
             this.colorCB.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.colorCB.Name = "colorCB";
             this.colorCB.Padding = new System.Windows.Forms.Padding(1);
-            this.colorCB.Size = new System.Drawing.Size(73, 22);
+            this.colorCB.Size = new System.Drawing.Size(74, 17);
             this.colorCB.TabIndex = 81;
             this.colorCB.Text = "快速调色";
             this.colorCB.UseVisualStyleBackColor = true;
@@ -1490,6 +1478,18 @@ namespace LightController.MyForm.Step
             this.cancelButton.TabIndex = 61;
             this.cancelButton.Text = "取消";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // clearCB
+            // 
+            this.clearCB.Font = new System.Drawing.Font("黑体", 8F);
+            this.clearCB.ForeColor = System.Drawing.Color.White;
+            this.clearCB.Location = new System.Drawing.Point(257, 37);
+            this.clearCB.Name = "clearCB";
+            this.clearCB.Padding = new System.Windows.Forms.Padding(1);
+            this.clearCB.Size = new System.Drawing.Size(71, 40);
+            this.clearCB.TabIndex = 87;
+            this.clearCB.Text = "覆盖前\r\n清空步";
+            this.clearCB.UseVisualStyleBackColor = true;
             // 
             // myColorDialog
             // 

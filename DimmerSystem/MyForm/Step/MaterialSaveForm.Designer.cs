@@ -365,6 +365,7 @@ namespace LightController.MyForm.Step
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "保存素材";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.MaterialForm_Load);
             this.mainPanel.ResumeLayout(false);
             this.mainPanel.PerformLayout();

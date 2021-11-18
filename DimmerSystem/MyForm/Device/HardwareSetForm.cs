@@ -318,8 +318,14 @@ namespace LightController.MyForm.Device
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 			//Enabled = !busy;
-			maskPanel.Visible = busy;  //用遮罩层代替Enabled更改
-
+			//用遮罩层代替Enabled更改
+			if (busy)
+			{
+				maskPanel.BringToFront();
+			}
+			else {
+				maskPanel.SendToBack();
+			}
 			Refresh();
 		}
 

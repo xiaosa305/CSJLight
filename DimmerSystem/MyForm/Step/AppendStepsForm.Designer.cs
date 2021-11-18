@@ -29,26 +29,27 @@ namespace LightController.MyForm.Step
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.mainPanel = new System.Windows.Forms.Panel();
             this.cancelButton = new Sunny.UI.UIButton();
             this.appendButton = new Sunny.UI.UIButton();
             this.stepCountNUD = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepCountNUD)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // mainPanel
             // 
-            this.panel1.Controls.Add(this.cancelButton);
-            this.panel1.Controls.Add(this.appendButton);
-            this.panel1.Controls.Add(this.stepCountNUD);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 35);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 85);
-            this.panel1.TabIndex = 0;
+            this.mainPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mainPanel.Controls.Add(this.cancelButton);
+            this.mainPanel.Controls.Add(this.appendButton);
+            this.mainPanel.Controls.Add(this.stepCountNUD);
+            this.mainPanel.Controls.Add(this.label2);
+            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainPanel.Location = new System.Drawing.Point(0, 35);
+            this.mainPanel.Name = "mainPanel";
+            this.mainPanel.Size = new System.Drawing.Size(200, 85);
+            this.mainPanel.TabIndex = 0;
             // 
             // cancelButton
             // 
@@ -123,7 +124,7 @@ namespace LightController.MyForm.Step
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.ClientSize = new System.Drawing.Size(200, 120);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.mainPanel);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -134,8 +135,8 @@ namespace LightController.MyForm.Step
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.AppendStepsForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.mainPanel.ResumeLayout(false);
+            this.mainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepCountNUD)).EndInit();
             this.ResumeLayout(false);
 
@@ -143,7 +144,7 @@ namespace LightController.MyForm.Step
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.NumericUpDown stepCountNUD;
         private System.Windows.Forms.Label label2;
         private Sunny.UI.UIButton cancelButton;

@@ -270,10 +270,10 @@ namespace LightController.MyForm.Step
             this.actionTab.Controls.Add(this.StNumericUpDown);
             this.actionTab.Controls.Add(this.label19);
             this.actionTab.Controls.Add(this.actionTabControl);
-            this.actionTab.Location = new System.Drawing.Point(0, 40);
+            this.actionTab.Location = new System.Drawing.Point(0, 30);
             this.actionTab.Margin = new System.Windows.Forms.Padding(0);
             this.actionTab.Name = "actionTab";
-            this.actionTab.Size = new System.Drawing.Size(200, 60);
+            this.actionTab.Size = new System.Drawing.Size(398, 370);
             this.actionTab.TabIndex = 1;
             this.actionTab.Text = "内置动作";
             // 
@@ -283,7 +283,7 @@ namespace LightController.MyForm.Step
             this.linePanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.linePanel.Location = new System.Drawing.Point(0, 286);
             this.linePanel.Name = "linePanel";
-            this.linePanel.Size = new System.Drawing.Size(200, 1);
+            this.linePanel.Size = new System.Drawing.Size(398, 1);
             this.linePanel.TabIndex = 12;
             // 
             // StNumericUpDown
@@ -342,7 +342,7 @@ namespace LightController.MyForm.Step
             this.actionTabControl.Name = "actionTabControl";
             this.actionTabControl.Padding = new System.Drawing.Point(0, 0);
             this.actionTabControl.SelectedIndex = 0;
-            this.actionTabControl.Size = new System.Drawing.Size(200, 286);
+            this.actionTabControl.Size = new System.Drawing.Size(398, 286);
             this.actionTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.actionTabControl.Style = Sunny.UI.UIStyle.Custom;
             this.actionTabControl.TabBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
@@ -366,7 +366,7 @@ namespace LightController.MyForm.Step
             this.lineTab.Controls.Add(this.label3);
             this.lineTab.Location = new System.Drawing.Point(0, 0);
             this.lineTab.Name = "lineTab";
-            this.lineTab.Size = new System.Drawing.Size(200, 256);
+            this.lineTab.Size = new System.Drawing.Size(398, 256);
             this.lineTab.TabIndex = 0;
             this.lineTab.Text = "直线";
             // 
@@ -1096,9 +1096,9 @@ namespace LightController.MyForm.Step
             this.colorFLP.AutoScroll = true;
             this.colorFLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.colorFLP.Controls.Add(this.colorPanelDemo);
-            this.colorFLP.Location = new System.Drawing.Point(89, 92);
+            this.colorFLP.Location = new System.Drawing.Point(86, 92);
             this.colorFLP.Name = "colorFLP";
-            this.colorFLP.Size = new System.Drawing.Size(300, 180);
+            this.colorFLP.Size = new System.Drawing.Size(302, 180);
             this.colorFLP.TabIndex = 66;
             this.colorFLP.WrapContents = false;
             // 
@@ -1150,9 +1150,9 @@ namespace LightController.MyForm.Step
             this.tdTab.Controls.Add(this.tdAddButton);
             this.tdTab.Controls.Add(this.tdComboBox);
             this.tdTab.Controls.Add(this.tdFLP);
-            this.tdTab.Location = new System.Drawing.Point(0, 30);
+            this.tdTab.Location = new System.Drawing.Point(0, 40);
             this.tdTab.Name = "tdTab";
-            this.tdTab.Size = new System.Drawing.Size(398, 370);
+            this.tdTab.Size = new System.Drawing.Size(200, 60);
             this.tdTab.TabIndex = 3;
             this.tdTab.Text = "固定通道";
             // 
@@ -1218,9 +1218,9 @@ namespace LightController.MyForm.Step
             this.tdFLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tdFLP.Controls.Add(this.tdPanelDemo);
             this.tdFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tdFLP.Location = new System.Drawing.Point(0, 43);
+            this.tdFLP.Location = new System.Drawing.Point(0, -267);
             this.tdFLP.Name = "tdFLP";
-            this.tdFLP.Size = new System.Drawing.Size(398, 327);
+            this.tdFLP.Size = new System.Drawing.Size(200, 327);
             this.tdFLP.TabIndex = 1;
             // 
             // tdPanelDemo
@@ -1489,6 +1489,7 @@ namespace LightController.MyForm.Step
             this.cancelButton.Style = Sunny.UI.UIStyle.Custom;
             this.cancelButton.TabIndex = 61;
             this.cancelButton.Text = "取消";
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // myColorDialog
             // 

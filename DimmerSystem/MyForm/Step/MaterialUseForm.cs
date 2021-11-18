@@ -94,7 +94,7 @@ namespace LightController.MyForm.Step
 		{
 			LanguageHelper.InitForm(this);
 
-			Location = MousePosition;
+			//Location = MousePosition;
 			stepTemplate = mainForm.GetCurrentStepTemplate();
 			string newLightType = mainForm.GetCurrentLightType();
 
@@ -864,6 +864,7 @@ namespace LightController.MyForm.Step
 			{
 				Size = colorPanelDemo.Size,
 				Margin = colorPanelDemo.Margin,
+				Padding = colorPanelDemo.Padding,
 				Visible = true,
 				BackColor = myColorDialog.Color,
 			};
@@ -1379,6 +1380,16 @@ namespace LightController.MyForm.Step
 			coverButton.Enabled = enable;
 			appendButton.Enabled = enable;
 		}
-		        
+
+		/// <summary>
+		/// 事件：点击《取消》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+			endView();
+			Hide();
+        }
     }
 }

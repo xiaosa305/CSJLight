@@ -62,7 +62,7 @@ namespace LightController.MyForm.Step
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.cancelButton.Location = new System.Drawing.Point(118, 87);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -77,7 +77,7 @@ namespace LightController.MyForm.Step
             // 
             this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deleteButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.deleteButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.deleteButton.Location = new System.Drawing.Point(30, 87);
             this.deleteButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.deleteButton.Name = "deleteButton";
@@ -91,7 +91,7 @@ namespace LightController.MyForm.Step
             // startNUD
             // 
             this.startNUD.BackColor = System.Drawing.SystemColors.Window;
-            this.startNUD.Font = new System.Drawing.Font("黑体", 8F);
+            this.startNUD.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.startNUD.ForeColor = System.Drawing.SystemColors.MenuText;
             this.startNUD.Location = new System.Drawing.Point(28, 47);
             this.startNUD.Maximum = new decimal(new int[] {
@@ -117,7 +117,7 @@ namespace LightController.MyForm.Step
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("黑体", 8F);
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(26, 19);
             this.label2.Name = "label2";
@@ -128,7 +128,7 @@ namespace LightController.MyForm.Step
             // endNUD
             // 
             this.endNUD.BackColor = System.Drawing.SystemColors.Window;
-            this.endNUD.Font = new System.Drawing.Font("黑体", 8F);
+            this.endNUD.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.endNUD.ForeColor = System.Drawing.SystemColors.MenuText;
             this.endNUD.Location = new System.Drawing.Point(115, 47);
             this.endNUD.Maximum = new decimal(new int[] {
@@ -155,7 +155,7 @@ namespace LightController.MyForm.Step
             // 
             this.allButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.allButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.allButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.allButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.allButton.Location = new System.Drawing.Point(118, 14);
             this.allButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.allButton.Name = "allButton";
@@ -169,7 +169,7 @@ namespace LightController.MyForm.Step
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("黑体", 8F);
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(94, 52);
             this.label1.Name = "label1";
@@ -191,7 +191,7 @@ namespace LightController.MyForm.Step
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "删除步数";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.DeleteStepsForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -121,7 +121,7 @@ namespace LightController.MyForm.Project
             this.skGroupBox.Controls.Add(this.panel3);
             this.skGroupBox.Controls.Add(this.panel2);
             this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.skGroupBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.skGroupBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.skGroupBox.ForeColor = System.Drawing.Color.White;
             this.skGroupBox.Location = new System.Drawing.Point(0, 203);
             this.skGroupBox.Name = "skGroupBox";
@@ -168,7 +168,7 @@ namespace LightController.MyForm.Project
             // 
             // jgNUDDemo
             // 
-            this.jgNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.jgNUDDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.jgNUDDemo.Location = new System.Drawing.Point(197, 5);
             this.jgNUDDemo.Maximum = new decimal(new int[] {
             100000,
@@ -188,7 +188,7 @@ namespace LightController.MyForm.Project
             // stNUDDemo
             // 
             this.stNUDDemo.DecimalPlaces = 2;
-            this.stNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
+            this.stNUDDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.stNUDDemo.Increment = new decimal(new int[] {
             1,
             0,
@@ -223,7 +223,7 @@ namespace LightController.MyForm.Project
             // 
             this.skSaveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.skSaveButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.skSaveButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.skSaveButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.skSaveButton.Location = new System.Drawing.Point(828, 21);
             this.skSaveButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.skSaveButton.Name = "skSaveButton";
@@ -238,7 +238,7 @@ namespace LightController.MyForm.Project
             // 
             this.skNoticeButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.skNoticeButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.skNoticeButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.skNoticeButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.skNoticeButton.Location = new System.Drawing.Point(781, 21);
             this.skNoticeButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.skNoticeButton.Name = "skNoticeButton";
@@ -356,7 +356,7 @@ namespace LightController.MyForm.Project
             this.basicGroupBox.Controls.Add(this.startupComboBox);
             this.basicGroupBox.Controls.Add(this.label2);
             this.basicGroupBox.Controls.Add(this.eachStepTimeComboBox);
-            this.basicGroupBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.basicGroupBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.basicGroupBox.ForeColor = System.Drawing.Color.White;
             this.basicGroupBox.Location = new System.Drawing.Point(3, 6);
             this.basicGroupBox.Name = "basicGroupBox";
@@ -368,7 +368,7 @@ namespace LightController.MyForm.Project
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("黑体", 8F);
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(18, 59);
             this.label5.Name = "label5";
@@ -379,7 +379,7 @@ namespace LightController.MyForm.Project
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("黑体", 8F);
+            this.label4.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(18, 29);
             this.label4.Name = "label4";
@@ -391,7 +391,7 @@ namespace LightController.MyForm.Project
             // 
             this.globalSaveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.globalSaveButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.globalSaveButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.globalSaveButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.globalSaveButton.Location = new System.Drawing.Point(106, 149);
             this.globalSaveButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.globalSaveButton.Name = "globalSaveButton";
@@ -409,7 +409,7 @@ namespace LightController.MyForm.Project
             this.eachChangeModeComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.eachChangeModeComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.eachChangeModeComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.eachChangeModeComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.eachChangeModeComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.eachChangeModeComboBox.ForeColor = System.Drawing.Color.White;
             this.eachChangeModeComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.eachChangeModeComboBox.Items.AddRange(new object[] {
@@ -437,7 +437,7 @@ namespace LightController.MyForm.Project
             this.startupComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.startupComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.startupComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.startupComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.startupComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.startupComboBox.ForeColor = System.Drawing.Color.White;
             this.startupComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.startupComboBox.Location = new System.Drawing.Point(18, 77);
@@ -456,7 +456,7 @@ namespace LightController.MyForm.Project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("黑体", 8F);
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(16, 120);
             this.label2.Name = "label2";
@@ -471,7 +471,7 @@ namespace LightController.MyForm.Project
             this.eachStepTimeComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.eachStepTimeComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.eachStepTimeComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.eachStepTimeComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.eachStepTimeComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.eachStepTimeComboBox.ForeColor = System.Drawing.Color.White;
             this.eachStepTimeComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.eachStepTimeComboBox.Items.AddRange(new object[] {
@@ -501,7 +501,7 @@ namespace LightController.MyForm.Project
             this.zuheGroupBox.Controls.Add(this.circleTimeNumericUpDown);
             this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
             this.zuheGroupBox.Controls.Add(this.zuheSceneComboBox);
-            this.zuheGroupBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.zuheGroupBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.zuheGroupBox.ForeColor = System.Drawing.Color.White;
             this.zuheGroupBox.Location = new System.Drawing.Point(201, 6);
             this.zuheGroupBox.Name = "zuheGroupBox";
@@ -536,7 +536,7 @@ namespace LightController.MyForm.Project
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("黑体", 8F);
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(64, 18);
             this.label7.Name = "label7";
@@ -547,7 +547,7 @@ namespace LightController.MyForm.Project
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("黑体", 8F);
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(544, 18);
             this.label10.Name = "label10";
@@ -562,7 +562,7 @@ namespace LightController.MyForm.Project
             this.scene1ComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.scene1ComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.scene1ComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.scene1ComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene1ComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene1ComboBox.ForeColor = System.Drawing.Color.White;
             this.scene1ComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.scene1ComboBox.Location = new System.Drawing.Point(64, 47);
@@ -581,7 +581,7 @@ namespace LightController.MyForm.Project
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("黑体", 8F);
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(384, 18);
             this.label9.Name = "label9";
@@ -596,7 +596,7 @@ namespace LightController.MyForm.Project
             this.scene2ComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.scene2ComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.scene2ComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.scene2ComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene2ComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene2ComboBox.ForeColor = System.Drawing.Color.White;
             this.scene2ComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.scene2ComboBox.Location = new System.Drawing.Point(224, 47);
@@ -615,7 +615,7 @@ namespace LightController.MyForm.Project
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("黑体", 8F);
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(224, 18);
             this.label8.Name = "label8";
@@ -630,7 +630,7 @@ namespace LightController.MyForm.Project
             this.scene3ComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.scene3ComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.scene3ComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.scene3ComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene3ComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene3ComboBox.ForeColor = System.Drawing.Color.White;
             this.scene3ComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.scene3ComboBox.Location = new System.Drawing.Point(384, 47);
@@ -653,7 +653,7 @@ namespace LightController.MyForm.Project
             this.scene4ComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.scene4ComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.scene4ComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.scene4ComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene4ComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene4ComboBox.ForeColor = System.Drawing.Color.White;
             this.scene4ComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.scene4ComboBox.Location = new System.Drawing.Point(544, 47);
@@ -672,7 +672,7 @@ namespace LightController.MyForm.Project
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("黑体", 8F);
+            this.label11.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(11, 51);
             this.label11.Name = "label11";
@@ -683,7 +683,7 @@ namespace LightController.MyForm.Project
             // scene1numericUpDown
             // 
             this.scene1numericUpDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.scene1numericUpDown.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene1numericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene1numericUpDown.ForeColor = System.Drawing.Color.White;
             this.scene1numericUpDown.Location = new System.Drawing.Point(64, 85);
             this.scene1numericUpDown.Name = "scene1numericUpDown";
@@ -694,7 +694,7 @@ namespace LightController.MyForm.Project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("黑体", 8F);
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(11, 90);
             this.label1.Name = "label1";
@@ -705,7 +705,7 @@ namespace LightController.MyForm.Project
             // scene2numericUpDown
             // 
             this.scene2numericUpDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.scene2numericUpDown.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene2numericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene2numericUpDown.ForeColor = System.Drawing.Color.White;
             this.scene2numericUpDown.Location = new System.Drawing.Point(224, 85);
             this.scene2numericUpDown.Name = "scene2numericUpDown";
@@ -716,7 +716,7 @@ namespace LightController.MyForm.Project
             // scene3numericUpDown
             // 
             this.scene3numericUpDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.scene3numericUpDown.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene3numericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene3numericUpDown.ForeColor = System.Drawing.Color.White;
             this.scene3numericUpDown.Location = new System.Drawing.Point(384, 85);
             this.scene3numericUpDown.Name = "scene3numericUpDown";
@@ -727,7 +727,7 @@ namespace LightController.MyForm.Project
             // scene4numericUpDown
             // 
             this.scene4numericUpDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.scene4numericUpDown.Font = new System.Drawing.Font("黑体", 8F);
+            this.scene4numericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.scene4numericUpDown.ForeColor = System.Drawing.Color.White;
             this.scene4numericUpDown.Location = new System.Drawing.Point(544, 85);
             this.scene4numericUpDown.Name = "scene4numericUpDown";
@@ -738,7 +738,7 @@ namespace LightController.MyForm.Project
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("黑体", 8F);
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(418, 32);
             this.label6.Name = "label6";
@@ -749,7 +749,7 @@ namespace LightController.MyForm.Project
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("黑体", 8F);
+            this.label3.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(284, 32);
             this.label3.Name = "label3";
@@ -761,7 +761,7 @@ namespace LightController.MyForm.Project
             // 
             this.multipleSceneSaveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.multipleSceneSaveButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.multipleSceneSaveButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.multipleSceneSaveButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.multipleSceneSaveButton.Location = new System.Drawing.Point(625, 25);
             this.multipleSceneSaveButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.multipleSceneSaveButton.Name = "multipleSceneSaveButton";
@@ -806,7 +806,7 @@ namespace LightController.MyForm.Project
             // 
             this.zuheCheckBox.CheckBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.zuheCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.zuheCheckBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.zuheCheckBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.zuheCheckBox.ForeColor = System.Drawing.Color.White;
             this.zuheCheckBox.Location = new System.Drawing.Point(186, 28);
             this.zuheCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -825,7 +825,7 @@ namespace LightController.MyForm.Project
             this.zuheSceneComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.zuheSceneComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.zuheSceneComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.zuheSceneComboBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.zuheSceneComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.zuheSceneComboBox.ForeColor = System.Drawing.Color.White;
             this.zuheSceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.zuheSceneComboBox.Location = new System.Drawing.Point(13, 27);
@@ -863,7 +863,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "工程全局设置";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.GlobalSetForm_Load);
             this.panel1.ResumeLayout(false);
             this.skGroupBox.ResumeLayout(false);

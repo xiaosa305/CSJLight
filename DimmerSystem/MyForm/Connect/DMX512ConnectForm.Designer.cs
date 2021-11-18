@@ -58,7 +58,7 @@ namespace LightController.MyForm.Connect
             this.portConnectButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.portConnectButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.portConnectButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.portConnectButton.Font = new System.Drawing.Font("黑体", 8.25F);
+            this.portConnectButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
             this.portConnectButton.Location = new System.Drawing.Point(129, 61);
             this.portConnectButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.portConnectButton.Name = "portConnectButton";
@@ -75,7 +75,7 @@ namespace LightController.MyForm.Connect
             // 
             this.portRefreshButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.portRefreshButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.portRefreshButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.portRefreshButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.portRefreshButton.Location = new System.Drawing.Point(34, 61);
             this.portRefreshButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.portRefreshButton.Name = "portRefreshButton";
@@ -93,7 +93,7 @@ namespace LightController.MyForm.Connect
             this.portComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.portComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.portComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.portComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.portComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.portComboBox.ForeColor = System.Drawing.Color.White;
             this.portComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.portComboBox.Location = new System.Drawing.Point(20, 20);
@@ -124,7 +124,7 @@ namespace LightController.MyForm.Connect
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 19);
@@ -144,7 +144,7 @@ namespace LightController.MyForm.Connect
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "《DMX512调试线》直连灯具";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.DMX512ConnectForm_Load);
             this.panel1.ResumeLayout(false);
             this.myStatusStrip.ResumeLayout(false);

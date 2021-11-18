@@ -42,7 +42,7 @@ namespace LightController.MyForm.Project
             // projectNameLabel
             // 
             this.projectNameLabel.AutoSize = true;
-            this.projectNameLabel.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Bold);
+            this.projectNameLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold);
             this.projectNameLabel.ForeColor = System.Drawing.Color.White;
             this.projectNameLabel.Location = new System.Drawing.Point(87, 27);
             this.projectNameLabel.Name = "projectNameLabel";
@@ -54,7 +54,7 @@ namespace LightController.MyForm.Project
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.cancelButton.Location = new System.Drawing.Point(166, 100);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -69,7 +69,7 @@ namespace LightController.MyForm.Project
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.enterButton.Location = new System.Drawing.Point(55, 100);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -85,7 +85,7 @@ namespace LightController.MyForm.Project
             this.projectNameTextBox.ButtonSymbol = 61761;
             this.projectNameTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.projectNameTextBox.FillColor = System.Drawing.Color.White;
-            this.projectNameTextBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.projectNameTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.projectNameTextBox.Location = new System.Drawing.Point(87, 58);
             this.projectNameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.projectNameTextBox.Maximum = 2147483647D;
@@ -101,7 +101,7 @@ namespace LightController.MyForm.Project
             // newLabel
             // 
             this.newLabel.AutoSize = true;
-            this.newLabel.Font = new System.Drawing.Font("黑体", 8F);
+            this.newLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.newLabel.ForeColor = System.Drawing.Color.White;
             this.newLabel.Location = new System.Drawing.Point(22, 63);
             this.newLabel.Name = "newLabel";
@@ -112,7 +112,7 @@ namespace LightController.MyForm.Project
             // oldLabel
             // 
             this.oldLabel.AutoSize = true;
-            this.oldLabel.Font = new System.Drawing.Font("黑体", 8F);
+            this.oldLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.oldLabel.ForeColor = System.Drawing.Color.White;
             this.oldLabel.Location = new System.Drawing.Point(22, 28);
             this.oldLabel.Name = "oldLabel";
@@ -147,7 +147,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "工程重命名";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.RenameOrCopyForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

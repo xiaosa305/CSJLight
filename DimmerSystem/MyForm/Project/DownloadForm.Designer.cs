@@ -61,7 +61,7 @@ namespace LightController.MyForm.Project
             // processLabel
             // 
             this.processLabel.AutoSize = true;
-            this.processLabel.Font = new System.Drawing.Font("黑体", 8F);
+            this.processLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.processLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(183)))), ((int)(((byte)(183)))));
             this.processLabel.Location = new System.Drawing.Point(29, 62);
             this.processLabel.Name = "processLabel";
@@ -76,7 +76,7 @@ namespace LightController.MyForm.Project
             this.myProcessBar.BackColor = System.Drawing.Color.Transparent;
             this.myProcessBar.DecimalCount = 0;
             this.myProcessBar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.myProcessBar.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myProcessBar.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myProcessBar.ForeColor = System.Drawing.Color.White;
             this.myProcessBar.Location = new System.Drawing.Point(114, 58);
             this.myProcessBar.MinimumSize = new System.Drawing.Size(70, 5);
@@ -93,7 +93,7 @@ namespace LightController.MyForm.Project
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.enterButton.Location = new System.Drawing.Point(23, 97);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -106,7 +106,7 @@ namespace LightController.MyForm.Project
             // 
             // pathLabel
             // 
-            this.pathLabel.Font = new System.Drawing.Font("黑体", 8F);
+            this.pathLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.pathLabel.ForeColor = System.Drawing.Color.White;
             this.pathLabel.Location = new System.Drawing.Point(112, 97);
             this.pathLabel.Name = "pathLabel";
@@ -122,7 +122,7 @@ namespace LightController.MyForm.Project
             this.downloadButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.downloadButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.downloadButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.downloadButton.Font = new System.Drawing.Font("黑体", 10F);
+            this.downloadButton.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.downloadButton.Location = new System.Drawing.Point(278, 14);
             this.downloadButton.MinimumSize = new System.Drawing.Size(1, 2);
             this.downloadButton.Name = "downloadButton";
@@ -138,7 +138,7 @@ namespace LightController.MyForm.Project
             // 
             this.exportedCheckBox.CheckBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.exportedCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.exportedCheckBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.exportedCheckBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.exportedCheckBox.ForeColor = System.Drawing.Color.White;
             this.exportedCheckBox.Location = new System.Drawing.Point(23, 19);
             this.exportedCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -165,7 +165,7 @@ namespace LightController.MyForm.Project
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 19);
@@ -199,7 +199,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "工程下载";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.DownloadForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

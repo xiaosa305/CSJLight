@@ -64,7 +64,7 @@ namespace LightController.MyForm.LightList
             // noteicLabel
             // 
             this.noteicLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.noteicLabel.Font = new System.Drawing.Font("黑体", 8F);
+            this.noteicLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.noteicLabel.ForeColor = System.Drawing.Color.White;
             this.noteicLabel.Location = new System.Drawing.Point(246, 181);
             this.noteicLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -77,7 +77,7 @@ namespace LightController.MyForm.LightList
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.cancelButton.Location = new System.Drawing.Point(288, 395);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -92,7 +92,7 @@ namespace LightController.MyForm.LightList
             // 
             this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deleteButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.deleteButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.deleteButton.Location = new System.Drawing.Point(288, 108);
             this.deleteButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.deleteButton.Name = "deleteButton";
@@ -107,7 +107,7 @@ namespace LightController.MyForm.LightList
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.enterButton.Location = new System.Drawing.Point(288, 354);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -122,7 +122,7 @@ namespace LightController.MyForm.LightList
             // 
             this.addButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.addButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.addButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.addButton.Location = new System.Drawing.Point(288, 67);
             this.addButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.addButton.Name = "addButton";
@@ -136,7 +136,7 @@ namespace LightController.MyForm.LightList
             // libTreeView
             // 
             this.libTreeView.Dock = System.Windows.Forms.DockStyle.Left;
-            this.libTreeView.Font = new System.Drawing.Font("黑体", 8F);
+            this.libTreeView.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.libTreeView.Location = new System.Drawing.Point(0, 0);
             this.libTreeView.Name = "libTreeView";
             this.libTreeView.Size = new System.Drawing.Size(238, 463);
@@ -150,7 +150,7 @@ namespace LightController.MyForm.LightList
             this.columnHeader2,
             this.columnHeader3});
             this.lightsListView.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lightsListView.Font = new System.Drawing.Font("黑体", 8F);
+            this.lightsListView.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.lightsListView.FullRowSelect = true;
             this.lightsListView.GridLines = true;
             this.lightsListView.HideSelection = false;
@@ -197,7 +197,7 @@ namespace LightController.MyForm.LightList
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "编辑工程灯具列表";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.LightsForm_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

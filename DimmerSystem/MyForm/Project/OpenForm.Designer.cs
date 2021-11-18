@@ -80,7 +80,7 @@ namespace LightController.MyForm.Project
             // 
             this.changeWorkspaceButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.changeWorkspaceButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.changeWorkspaceButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.changeWorkspaceButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.changeWorkspaceButton.Location = new System.Drawing.Point(211, 181);
             this.changeWorkspaceButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.changeWorkspaceButton.Name = "changeWorkspaceButton";
@@ -95,7 +95,7 @@ namespace LightController.MyForm.Project
             // 
             this.sortLastTimeButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sortLastTimeButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.sortLastTimeButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.sortLastTimeButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.sortLastTimeButton.Location = new System.Drawing.Point(211, 135);
             this.sortLastTimeButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.sortLastTimeButton.Name = "sortLastTimeButton";
@@ -110,7 +110,7 @@ namespace LightController.MyForm.Project
             // 
             this.sortCreateTimeButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sortCreateTimeButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.sortCreateTimeButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.sortCreateTimeButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.sortCreateTimeButton.Location = new System.Drawing.Point(211, 89);
             this.sortCreateTimeButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.sortCreateTimeButton.Name = "sortCreateTimeButton";
@@ -125,7 +125,7 @@ namespace LightController.MyForm.Project
             // 
             this.sortNameButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sortNameButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.sortNameButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.sortNameButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.sortNameButton.Location = new System.Drawing.Point(211, 43);
             this.sortNameButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.sortNameButton.Name = "sortNameButton";
@@ -139,7 +139,7 @@ namespace LightController.MyForm.Project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("黑体", 8F);
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(209, 15);
             this.label1.Name = "label1";
@@ -151,7 +151,7 @@ namespace LightController.MyForm.Project
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.enterButton.Location = new System.Drawing.Point(22, 306);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -166,7 +166,7 @@ namespace LightController.MyForm.Project
             // 
             this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deleteButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.deleteButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.deleteButton.Location = new System.Drawing.Point(109, 306);
             this.deleteButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.deleteButton.Name = "deleteButton";
@@ -181,7 +181,7 @@ namespace LightController.MyForm.Project
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.cancelButton.Location = new System.Drawing.Point(196, 306);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -195,7 +195,7 @@ namespace LightController.MyForm.Project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("黑体", 8F);
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(22, 277);
             this.label2.Name = "label2";
@@ -210,7 +210,7 @@ namespace LightController.MyForm.Project
             this.sceneComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.sceneComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.sceneComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.sceneComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sceneComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sceneComboBox.ForeColor = System.Drawing.Color.White;
             this.sceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.sceneComboBox.Location = new System.Drawing.Point(88, 273);
@@ -260,7 +260,7 @@ namespace LightController.MyForm.Project
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.enterButton);
             this.Controls.Add(this.label2);
-            this.Font = new System.Drawing.Font("黑体", 9F);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1536, 800);
@@ -271,7 +271,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "打开工程";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.TitleHeight = 32;
             this.Load += new System.EventHandler(this.OpenForm_Load);
             this.panel1.ResumeLayout(false);

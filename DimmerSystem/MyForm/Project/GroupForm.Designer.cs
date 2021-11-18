@@ -51,7 +51,7 @@ namespace LightController.MyForm.Project
             this.lightType,
             this.lightAddr});
             this.lightsListView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lightsListView.Font = new System.Drawing.Font("黑体", 8F);
+            this.lightsListView.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.lightsListView.FullRowSelect = true;
             this.lightsListView.GridLines = true;
             this.lightsListView.HideSelection = false;
@@ -84,7 +84,7 @@ namespace LightController.MyForm.Project
             // 
             this.nameTextBox.BackColor = System.Drawing.Color.White;
             this.nameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.nameTextBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.nameTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.nameTextBox.Location = new System.Drawing.Point(95, 334);
             this.nameTextBox.MaxLength = 20;
             this.nameTextBox.Multiline = true;
@@ -96,7 +96,7 @@ namespace LightController.MyForm.Project
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Font = new System.Drawing.Font("黑体", 8F);
+            this.nameLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.nameLabel.ForeColor = System.Drawing.Color.White;
             this.nameLabel.Location = new System.Drawing.Point(48, 339);
             this.nameLabel.Name = "nameLabel";
@@ -108,7 +108,7 @@ namespace LightController.MyForm.Project
             // 
             this.copyAllCheckBox.CheckBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.copyAllCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.copyAllCheckBox.Font = new System.Drawing.Font("黑体", 8F);
+            this.copyAllCheckBox.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.copyAllCheckBox.ForeColor = System.Drawing.Color.White;
             this.copyAllCheckBox.Location = new System.Drawing.Point(47, 304);
             this.copyAllCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -124,7 +124,7 @@ namespace LightController.MyForm.Project
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.enterButton.Location = new System.Drawing.Point(50, 370);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -139,7 +139,7 @@ namespace LightController.MyForm.Project
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.cancelButton.Location = new System.Drawing.Point(168, 370);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -165,7 +165,7 @@ namespace LightController.MyForm.Project
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 19);
@@ -200,7 +200,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "灯具编组";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("黑体", 10F);
+            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
             this.Load += new System.EventHandler(this.GroupForm_Load);
             this.myStatusStrip.ResumeLayout(false);
             this.myStatusStrip.PerformLayout();

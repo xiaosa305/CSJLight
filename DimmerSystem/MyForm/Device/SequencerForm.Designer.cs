@@ -118,7 +118,7 @@ namespace LightController.MyForm.Device
             // 
             this.relayButtonDemo.BackColor = System.Drawing.Color.Transparent;
             this.relayButtonDemo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.relayButtonDemo.Font = new System.Drawing.Font("微软雅黑", 7F);
+            this.relayButtonDemo.Font = new System.Drawing.Font("黑体", 7F);
             this.relayButtonDemo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.relayButtonDemo.Image = global::LightController.Properties.Resources.开关关;
             this.relayButtonDemo.ImageDisabled = ((System.Drawing.Image)(resources.GetObject("relayButtonDemo.ImageDisabled")));
@@ -140,7 +140,7 @@ namespace LightController.MyForm.Device
             this.relayTextBoxDemo.ButtonSymbol = 61761;
             this.relayTextBoxDemo.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.relayTextBoxDemo.FillColor = System.Drawing.Color.White;
-            this.relayTextBoxDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.relayTextBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.relayTextBoxDemo.Location = new System.Drawing.Point(9, 74);
             this.relayTextBoxDemo.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.relayTextBoxDemo.Maximum = 2147483647D;
@@ -164,7 +164,7 @@ namespace LightController.MyForm.Device
             this.loadButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.loadButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.loadButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.loadButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.loadButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.loadButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.loadButton.Location = new System.Drawing.Point(243, 287);
             this.loadButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -189,7 +189,7 @@ namespace LightController.MyForm.Device
             this.saveButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.saveButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.saveButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.saveButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.saveButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.saveButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.saveButton.Location = new System.Drawing.Point(326, 287);
             this.saveButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -214,7 +214,7 @@ namespace LightController.MyForm.Device
             this.readButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.readButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.readButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.readButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.readButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.readButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.readButton.Location = new System.Drawing.Point(419, 287);
             this.readButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -235,7 +235,7 @@ namespace LightController.MyForm.Device
             // 
             this.openCheckBox.CheckBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.openCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.openCheckBox.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.openCheckBox.Font = new System.Drawing.Font("黑体", 8.25F);
             this.openCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.openCheckBox.Location = new System.Drawing.Point(75, 284);
             this.openCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -253,7 +253,7 @@ namespace LightController.MyForm.Device
             this.writeButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.writeButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.writeButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.writeButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.writeButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.writeButton.Location = new System.Drawing.Point(504, 287);
             this.writeButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.writeButton.Name = "writeButton";
@@ -269,7 +269,7 @@ namespace LightController.MyForm.Device
             // uiLabel2
             // 
             this.uiLabel2.AutoSize = true;
-            this.uiLabel2.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel2.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel2.Location = new System.Drawing.Point(280, 245);
             this.uiLabel2.Name = "uiLabel2";
@@ -282,7 +282,7 @@ namespace LightController.MyForm.Device
             // uiLabel1
             // 
             this.uiLabel1.AutoSize = true;
-            this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel1.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel1.Location = new System.Drawing.Point(280, 19);
             this.uiLabel1.Name = "uiLabel1";
@@ -322,7 +322,7 @@ namespace LightController.MyForm.Device
             this.closeButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.closeButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.closeButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.closeButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.closeButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.closeButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.closeButton.Location = new System.Drawing.Point(593, 117);
             this.closeButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -347,7 +347,7 @@ namespace LightController.MyForm.Device
             this.uiButton5.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.uiButton5.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.uiButton5.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.uiButton5.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.uiButton5.Font = new System.Drawing.Font("黑体", 8.25F);
             this.uiButton5.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.uiButton5.Location = new System.Drawing.Point(19, 117);
             this.uiButton5.MinimumSize = new System.Drawing.Size(1, 2);
@@ -389,7 +389,7 @@ namespace LightController.MyForm.Device
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(125, 11);
@@ -407,7 +407,7 @@ namespace LightController.MyForm.Device
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label5.Font = new System.Drawing.Font("黑体", 8F);
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(5, 8);
             this.label5.Name = "label5";
@@ -431,7 +431,7 @@ namespace LightController.MyForm.Device
             // 
             // timeNUDDemo
             // 
-            this.timeNUDDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.timeNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.timeNUDDemo.Location = new System.Drawing.Point(123, 5);
             this.timeNUDDemo.Margin = new System.Windows.Forms.Padding(2, 5, 27, 3);
             this.timeNUDDemo.Maximum = new decimal(new int[] {
@@ -472,7 +472,7 @@ namespace LightController.MyForm.Device
             this.ClientSize = new System.Drawing.Size(650, 380);
             this.Controls.Add(this.maskPanel);
             this.Controls.Add(this.mainPanel);
-            this.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.Font = new System.Drawing.Font("黑体", 10F);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1792, 867);
@@ -484,7 +484,7 @@ namespace LightController.MyForm.Device
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "时序器配置";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.SequencerForm_Load);
             this.Shown += new System.EventHandler(this.SequencerForm_Shown);
             this.mainPanel.ResumeLayout(false);

@@ -63,7 +63,7 @@ namespace LightController.MyForm.LightList
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
             this.cancelButton.Location = new System.Drawing.Point(140, 122);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -78,7 +78,7 @@ namespace LightController.MyForm.LightList
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
             this.enterButton.Location = new System.Drawing.Point(49, 122);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -91,7 +91,7 @@ namespace LightController.MyForm.LightList
             // 
             // startNUD
             // 
-            this.startNUD.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.startNUD.Font = new System.Drawing.Font("黑体", 8F);
             this.startNUD.ForeColor = System.Drawing.Color.Black;
             this.startNUD.Location = new System.Drawing.Point(148, 82);
             this.startNUD.Margin = new System.Windows.Forms.Padding(2);
@@ -118,7 +118,7 @@ namespace LightController.MyForm.LightList
             // oldAddrLabel
             // 
             this.oldAddrLabel.AutoSize = true;
-            this.oldAddrLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.oldAddrLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.oldAddrLabel.ForeColor = System.Drawing.Color.White;
             this.oldAddrLabel.Location = new System.Drawing.Point(26, 54);
             this.oldAddrLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -130,7 +130,7 @@ namespace LightController.MyForm.LightList
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.nameLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.nameLabel.ForeColor = System.Drawing.Color.White;
             this.nameLabel.Location = new System.Drawing.Point(121, 21);
             this.nameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -142,7 +142,7 @@ namespace LightController.MyForm.LightList
             // nameLabel2
             // 
             this.nameLabel2.AutoSize = true;
-            this.nameLabel2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.nameLabel2.Font = new System.Drawing.Font("黑体", 8F);
             this.nameLabel2.ForeColor = System.Drawing.Color.White;
             this.nameLabel2.Location = new System.Drawing.Point(26, 21);
             this.nameLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -154,7 +154,7 @@ namespace LightController.MyForm.LightList
             // addrLabel
             // 
             this.addrLabel.AutoSize = true;
-            this.addrLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.addrLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.addrLabel.ForeColor = System.Drawing.Color.White;
             this.addrLabel.Location = new System.Drawing.Point(148, 54);
             this.addrLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -166,7 +166,7 @@ namespace LightController.MyForm.LightList
             // addrLabel2
             // 
             this.addrLabel2.AutoSize = true;
-            this.addrLabel2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.addrLabel2.Font = new System.Drawing.Font("黑体", 8F);
             this.addrLabel2.ForeColor = System.Drawing.Color.White;
             this.addrLabel2.Location = new System.Drawing.Point(26, 87);
             this.addrLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -189,7 +189,7 @@ namespace LightController.MyForm.LightList
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "修改灯具地址";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.LightsEditForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

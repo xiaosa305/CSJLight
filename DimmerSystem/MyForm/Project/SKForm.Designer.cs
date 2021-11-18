@@ -67,7 +67,7 @@ namespace LightController.MyForm.Project
             // jgtNumericUpDown
             // 
             this.jgtNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
-            this.jgtNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.jgtNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.jgtNumericUpDown.ForeColor = System.Drawing.SystemColors.MenuText;
             this.jgtNumericUpDown.Location = new System.Drawing.Point(147, 74);
             this.jgtNumericUpDown.Maximum = new decimal(new int[] {
@@ -89,7 +89,7 @@ namespace LightController.MyForm.Project
             // 
             this.sceneStepTimeNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
             this.sceneStepTimeNumericUpDown.DecimalPlaces = 2;
-            this.sceneStepTimeNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.sceneStepTimeNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.sceneStepTimeNumericUpDown.ForeColor = System.Drawing.SystemColors.MenuText;
             this.sceneStepTimeNumericUpDown.Increment = new decimal(new int[] {
             4,
@@ -118,7 +118,7 @@ namespace LightController.MyForm.Project
             this.mSceneLKTextBox.ButtonSymbol = 61761;
             this.mSceneLKTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.mSceneLKTextBox.FillColor = System.Drawing.Color.White;
-            this.mSceneLKTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.mSceneLKTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.mSceneLKTextBox.Location = new System.Drawing.Point(18, 142);
             this.mSceneLKTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mSceneLKTextBox.Maximum = 2147483647D;
@@ -137,7 +137,7 @@ namespace LightController.MyForm.Project
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
             this.cancelButton.Location = new System.Drawing.Point(124, 182);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -152,7 +152,7 @@ namespace LightController.MyForm.Project
             // 
             this.saveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.saveButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.saveButton.Font = new System.Drawing.Font("黑体", 8F);
             this.saveButton.Location = new System.Drawing.Point(40, 182);
             this.saveButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.saveButton.Name = "saveButton";
@@ -165,7 +165,7 @@ namespace LightController.MyForm.Project
             // 
             // sceneLabel
             // 
-            this.sceneLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.sceneLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.sceneLabel.ForeColor = System.Drawing.Color.White;
             this.sceneLabel.Location = new System.Drawing.Point(75, 20);
             this.sceneLabel.Name = "sceneLabel";
@@ -177,7 +177,7 @@ namespace LightController.MyForm.Project
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label5.Font = new System.Drawing.Font("黑体", 8F);
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(16, 120);
             this.label5.Name = "label5";
@@ -188,7 +188,7 @@ namespace LightController.MyForm.Project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label1.Font = new System.Drawing.Font("黑体", 8F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(16, 20);
             this.label1.Name = "label1";
@@ -199,7 +199,7 @@ namespace LightController.MyForm.Project
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label3.Font = new System.Drawing.Font("黑体", 8F);
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(16, 76);
             this.label3.Name = "label3";
@@ -210,7 +210,7 @@ namespace LightController.MyForm.Project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label2.Font = new System.Drawing.Font("黑体", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(16, 50);
             this.label2.Name = "label2";
@@ -232,7 +232,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "音频场景设置";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.SKForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

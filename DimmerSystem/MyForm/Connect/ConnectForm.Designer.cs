@@ -59,7 +59,7 @@ namespace LightController.MyForm.Connect
             this.deviceConnectButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.deviceConnectButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.deviceConnectButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.deviceConnectButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.deviceConnectButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.deviceConnectButton.Location = new System.Drawing.Point(130, 60);
             this.deviceConnectButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceConnectButton.Name = "deviceConnectButton";
@@ -76,7 +76,7 @@ namespace LightController.MyForm.Connect
             // 
             this.deviceRestartButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deviceRestartButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deviceRestartButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.deviceRestartButton.Font = new System.Drawing.Font("黑体", 8F);
             this.deviceRestartButton.Location = new System.Drawing.Point(228, 19);
             this.deviceRestartButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceRestartButton.Name = "deviceRestartButton";
@@ -91,7 +91,7 @@ namespace LightController.MyForm.Connect
             // 
             this.deviceRefreshButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deviceRefreshButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deviceRefreshButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.deviceRefreshButton.Font = new System.Drawing.Font("黑体", 8F);
             this.deviceRefreshButton.Location = new System.Drawing.Point(35, 60);
             this.deviceRefreshButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceRefreshButton.Name = "deviceRefreshButton";
@@ -109,7 +109,7 @@ namespace LightController.MyForm.Connect
             this.deviceComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.deviceComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.deviceComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.deviceComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.deviceComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.deviceComboBox.ForeColor = System.Drawing.Color.White;
             this.deviceComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.deviceComboBox.Location = new System.Drawing.Point(21, 19);
@@ -140,7 +140,7 @@ namespace LightController.MyForm.Connect
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 19);
@@ -160,7 +160,7 @@ namespace LightController.MyForm.Connect
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "设备连接";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 8F);
+            this.TitleFont = new System.Drawing.Font("黑体", 8F);
             this.Load += new System.EventHandler(this.ConnectForm_Load);
             this.Shown += new System.EventHandler(this.ConnectForm_Shown);
             this.panel1.ResumeLayout(false);

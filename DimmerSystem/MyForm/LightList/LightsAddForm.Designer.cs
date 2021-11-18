@@ -64,7 +64,7 @@ namespace LightController.MyForm.LightList
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
             this.cancelButton.Location = new System.Drawing.Point(138, 124);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -79,7 +79,7 @@ namespace LightController.MyForm.LightList
             // 
             this.enterButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.enterButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.enterButton.Font = new System.Drawing.Font("黑体", 8F);
             this.enterButton.Location = new System.Drawing.Point(47, 124);
             this.enterButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.enterButton.Name = "enterButton";
@@ -93,7 +93,7 @@ namespace LightController.MyForm.LightList
             // nameTypeLabel
             // 
             this.nameTypeLabel.AutoSize = true;
-            this.nameTypeLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.nameTypeLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.nameTypeLabel.ForeColor = System.Drawing.Color.White;
             this.nameTypeLabel.Location = new System.Drawing.Point(136, 24);
             this.nameTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -105,7 +105,7 @@ namespace LightController.MyForm.LightList
             // 
             // startAddrNumericUpDown
             // 
-            this.startAddrNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.startAddrNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.startAddrNumericUpDown.ForeColor = System.Drawing.Color.Black;
             this.startAddrNumericUpDown.Location = new System.Drawing.Point(138, 54);
             this.startAddrNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
@@ -131,7 +131,7 @@ namespace LightController.MyForm.LightList
             // 
             // lightCountNumericUpDown
             // 
-            this.lightCountNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.lightCountNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.lightCountNumericUpDown.ForeColor = System.Drawing.Color.Black;
             this.lightCountNumericUpDown.Location = new System.Drawing.Point(138, 86);
             this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
@@ -158,7 +158,7 @@ namespace LightController.MyForm.LightList
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label2.Font = new System.Drawing.Font("黑体", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(19, 56);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -170,7 +170,7 @@ namespace LightController.MyForm.LightList
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label3.Font = new System.Drawing.Font("黑体", 8F);
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(19, 24);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -182,7 +182,7 @@ namespace LightController.MyForm.LightList
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label1.Font = new System.Drawing.Font("黑体", 8F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(19, 88);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -205,7 +205,7 @@ namespace LightController.MyForm.LightList
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "添加灯具";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.LightsAddForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

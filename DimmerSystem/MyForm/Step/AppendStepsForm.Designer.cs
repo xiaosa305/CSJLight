@@ -54,7 +54,7 @@ namespace LightController.MyForm.Step
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.cancelButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
             this.cancelButton.Location = new System.Drawing.Point(117, 48);
             this.cancelButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.cancelButton.Name = "cancelButton";
@@ -69,7 +69,7 @@ namespace LightController.MyForm.Step
             // 
             this.appendButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.appendButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.appendButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.appendButton.Font = new System.Drawing.Font("黑体", 8F);
             this.appendButton.Location = new System.Drawing.Point(33, 48);
             this.appendButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.appendButton.Name = "appendButton";
@@ -83,7 +83,7 @@ namespace LightController.MyForm.Step
             // stepCountNUD
             // 
             this.stepCountNUD.BackColor = System.Drawing.SystemColors.Window;
-            this.stepCountNUD.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.stepCountNUD.Font = new System.Drawing.Font("黑体", 8F);
             this.stepCountNUD.ForeColor = System.Drawing.SystemColors.MenuText;
             this.stepCountNUD.Location = new System.Drawing.Point(117, 15);
             this.stepCountNUD.Maximum = new decimal(new int[] {
@@ -109,7 +109,7 @@ namespace LightController.MyForm.Step
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label2.Font = new System.Drawing.Font("黑体", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(27, 19);
             this.label2.Name = "label2";
@@ -132,7 +132,7 @@ namespace LightController.MyForm.Step
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "追加步数";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.AppendStepsForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

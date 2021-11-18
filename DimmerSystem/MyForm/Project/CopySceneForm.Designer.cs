@@ -61,7 +61,7 @@ namespace LightController.MyForm.Project
             this.toButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.toButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.toButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.toButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.toButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.toButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.toButton.Location = new System.Drawing.Point(38, 99);
             this.toButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -84,7 +84,7 @@ namespace LightController.MyForm.Project
             this.sceneComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.sceneComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.sceneComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.sceneComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sceneComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sceneComboBox.ForeColor = System.Drawing.Color.White;
             this.sceneComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.sceneComboBox.Location = new System.Drawing.Point(95, 27);
@@ -103,7 +103,7 @@ namespace LightController.MyForm.Project
             // sceneLabel
             // 
             this.sceneLabel.AutoSize = true;
-            this.sceneLabel.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.sceneLabel.Font = new System.Drawing.Font("黑体", 9F);
             this.sceneLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.sceneLabel.Location = new System.Drawing.Point(36, 31);
             this.sceneLabel.Name = "sceneLabel";
@@ -121,7 +121,7 @@ namespace LightController.MyForm.Project
             this.fromButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.fromButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.fromButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.fromButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.fromButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.fromButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.fromButton.Location = new System.Drawing.Point(38, 138);
             this.fromButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -141,7 +141,7 @@ namespace LightController.MyForm.Project
             // 
             this.soundCheckBox.CheckBoxColor = System.Drawing.Color.Snow;
             this.soundCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.soundCheckBox.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.soundCheckBox.Font = new System.Drawing.Font("黑体", 9F);
             this.soundCheckBox.ForeColor = System.Drawing.Color.White;
             this.soundCheckBox.Location = new System.Drawing.Point(166, 65);
             this.soundCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -158,7 +158,7 @@ namespace LightController.MyForm.Project
             // 
             this.normalCheckBox.CheckBoxColor = System.Drawing.Color.Snow;
             this.normalCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.normalCheckBox.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.normalCheckBox.Font = new System.Drawing.Font("黑体", 9F);
             this.normalCheckBox.ForeColor = System.Drawing.Color.White;
             this.normalCheckBox.Location = new System.Drawing.Point(54, 65);
             this.normalCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -187,7 +187,7 @@ namespace LightController.MyForm.Project
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "复用场景";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.CopySceneForm_Load);
             this.mainPanel.ResumeLayout(false);
             this.mainPanel.PerformLayout();

@@ -125,7 +125,7 @@ namespace LightController.MyForm.Step
             this.topBottomButtonDemo.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.topBottomButtonDemo.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.topBottomButtonDemo.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.topBottomButtonDemo.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.topBottomButtonDemo.Font = new System.Drawing.Font("黑体", 8.25F);
             this.topBottomButtonDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.topBottomButtonDemo.Location = new System.Drawing.Point(5, 1);
             this.topBottomButtonDemo.MinimumSize = new System.Drawing.Size(1, 2);
@@ -143,7 +143,7 @@ namespace LightController.MyForm.Step
             // 
             // stepNUDDemo
             // 
-            this.stepNUDDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.stepNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.stepNUDDemo.Location = new System.Drawing.Point(1, 24);
             this.stepNUDDemo.Maximum = new decimal(new int[] {
             255,
@@ -177,7 +177,7 @@ namespace LightController.MyForm.Step
             // tdCheckBoxDemo
             // 
             this.tdCheckBoxDemo.AutoSize = true;
-            this.tdCheckBoxDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.tdCheckBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.tdCheckBoxDemo.ForeColor = System.Drawing.Color.White;
             this.tdCheckBoxDemo.Location = new System.Drawing.Point(0, 0);
             this.tdCheckBoxDemo.Name = "tdCheckBoxDemo";
@@ -195,7 +195,7 @@ namespace LightController.MyForm.Step
             this.saComboBoxDemo.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.saComboBoxDemo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.saComboBoxDemo.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.saComboBoxDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.saComboBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.saComboBoxDemo.ForeColor = System.Drawing.Color.White;
             this.saComboBoxDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.saComboBoxDemo.Location = new System.Drawing.Point(5, 24);
@@ -234,7 +234,7 @@ namespace LightController.MyForm.Step
             this.stepComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.stepComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.stepComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.stepComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.stepComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.stepComboBox.ForeColor = System.Drawing.Color.White;
             this.stepComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.stepComboBox.Items.AddRange(new object[] {
@@ -263,7 +263,7 @@ namespace LightController.MyForm.Step
             this.tdComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.tdComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.tdComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.tdComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tdComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tdComboBox.ForeColor = System.Drawing.Color.White;
             this.tdComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.tdComboBox.Items.AddRange(new object[] {
@@ -289,7 +289,7 @@ namespace LightController.MyForm.Step
             this.groupComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.groupComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.groupComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.groupComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.groupComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupComboBox.ForeColor = System.Drawing.Color.White;
             this.groupComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.groupComboBox.Items.AddRange(new object[] {
@@ -316,7 +316,7 @@ namespace LightController.MyForm.Step
             this.returnButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.returnButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.returnButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.returnButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.returnButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.returnButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.returnButton.Location = new System.Drawing.Point(136, 7);
             this.returnButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -340,7 +340,7 @@ namespace LightController.MyForm.Step
             this.nextPageButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.nextPageButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.nextPageButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.nextPageButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.nextPageButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.nextPageButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.nextPageButton.Location = new System.Drawing.Point(1025, 35);
             this.nextPageButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -364,7 +364,7 @@ namespace LightController.MyForm.Step
             this.backPageButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.backPageButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.backPageButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.backPageButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.backPageButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.backPageButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.backPageButton.Location = new System.Drawing.Point(1025, 6);
             this.backPageButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -391,7 +391,7 @@ namespace LightController.MyForm.Step
             // stepCheckBoxDemo
             // 
             this.stepCheckBoxDemo.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.stepCheckBoxDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.stepCheckBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.stepCheckBoxDemo.ForeColor = System.Drawing.Color.White;
             this.stepCheckBoxDemo.Location = new System.Drawing.Point(0, 0);
             this.stepCheckBoxDemo.Margin = new System.Windows.Forms.Padding(0);
@@ -419,7 +419,7 @@ namespace LightController.MyForm.Step
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 26);
@@ -441,7 +441,7 @@ namespace LightController.MyForm.Step
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "多通道多步联调";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.DetailMultiPageForm_Load);
             this.mainPanel.ResumeLayout(false);
             this.bigFLP.ResumeLayout(false);

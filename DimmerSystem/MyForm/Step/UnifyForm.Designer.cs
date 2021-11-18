@@ -94,7 +94,7 @@ namespace LightController.MyForm.Step
             // endNumericUpDown
             // 
             this.endNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
-            this.endNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.endNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.endNumericUpDown.ForeColor = System.Drawing.SystemColors.MenuText;
             this.endNumericUpDown.Location = new System.Drawing.Point(421, 102);
             this.endNumericUpDown.Maximum = new decimal(new int[] {
@@ -125,7 +125,7 @@ namespace LightController.MyForm.Step
             this.unifyCmComboBox.DropDownWidth = 56;
             this.unifyCmComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.unifyCmComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.unifyCmComboBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyCmComboBox.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyCmComboBox.ForeColor = System.Drawing.Color.White;
             this.unifyCmComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.unifyCmComboBox.Location = new System.Drawing.Point(305, 290);
@@ -144,7 +144,7 @@ namespace LightController.MyForm.Step
             // sLabel
             // 
             this.sLabel.AutoSize = true;
-            this.sLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.sLabel.Font = new System.Drawing.Font("黑体", 8F);
             this.sLabel.ForeColor = System.Drawing.Color.White;
             this.sLabel.Location = new System.Drawing.Point(374, 335);
             this.sLabel.Name = "sLabel";
@@ -155,7 +155,7 @@ namespace LightController.MyForm.Step
             // unifyValueNumericUpDown
             // 
             this.unifyValueNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
-            this.unifyValueNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyValueNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyValueNumericUpDown.ForeColor = System.Drawing.SystemColors.MenuText;
             this.unifyValueNumericUpDown.Location = new System.Drawing.Point(305, 250);
             this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
@@ -172,7 +172,7 @@ namespace LightController.MyForm.Step
             // 
             this.unifyValueButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.unifyValueButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.unifyValueButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyValueButton.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyValueButton.Location = new System.Drawing.Point(413, 250);
             this.unifyValueButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.unifyValueButton.Name = "unifyValueButton";
@@ -187,7 +187,7 @@ namespace LightController.MyForm.Step
             // 
             this.zeroButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.zeroButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.zeroButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.zeroButton.Font = new System.Drawing.Font("黑体", 8F);
             this.zeroButton.Location = new System.Drawing.Point(413, 210);
             this.zeroButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.zeroButton.Name = "zeroButton";
@@ -202,7 +202,7 @@ namespace LightController.MyForm.Step
             // 
             this.unifyStButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.unifyStButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.unifyStButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyStButton.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyStButton.Location = new System.Drawing.Point(413, 330);
             this.unifyStButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.unifyStButton.Name = "unifyStButton";
@@ -217,7 +217,7 @@ namespace LightController.MyForm.Step
             // 
             this.unifyCmButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.unifyCmButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.unifyCmButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyCmButton.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyCmButton.Location = new System.Drawing.Point(413, 290);
             this.unifyCmButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.unifyCmButton.Name = "unifyCmButton";
@@ -232,7 +232,7 @@ namespace LightController.MyForm.Step
             // 
             this.ignoreButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ignoreButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.ignoreButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.ignoreButton.Font = new System.Drawing.Font("黑体", 8F);
             this.ignoreButton.Location = new System.Drawing.Point(305, 210);
             this.ignoreButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.ignoreButton.Name = "ignoreButton";
@@ -246,7 +246,7 @@ namespace LightController.MyForm.Step
             // doubleRadioButton
             // 
             this.doubleRadioButton.AutoSize = true;
-            this.doubleRadioButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.doubleRadioButton.Font = new System.Drawing.Font("黑体", 8F);
             this.doubleRadioButton.ForeColor = System.Drawing.Color.White;
             this.doubleRadioButton.Location = new System.Drawing.Point(423, 139);
             this.doubleRadioButton.Name = "doubleRadioButton";
@@ -259,7 +259,7 @@ namespace LightController.MyForm.Step
             // singleRadioButton
             // 
             this.singleRadioButton.AutoSize = true;
-            this.singleRadioButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.singleRadioButton.Font = new System.Drawing.Font("黑体", 8F);
             this.singleRadioButton.ForeColor = System.Drawing.Color.White;
             this.singleRadioButton.Location = new System.Drawing.Point(358, 139);
             this.singleRadioButton.Name = "singleRadioButton";
@@ -273,7 +273,7 @@ namespace LightController.MyForm.Step
             // 
             this.allRadioButton.AutoSize = true;
             this.allRadioButton.Checked = true;
-            this.allRadioButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.allRadioButton.Font = new System.Drawing.Font("黑体", 8F);
             this.allRadioButton.ForeColor = System.Drawing.Color.White;
             this.allRadioButton.Location = new System.Drawing.Point(305, 139);
             this.allRadioButton.Name = "allRadioButton";
@@ -287,7 +287,7 @@ namespace LightController.MyForm.Step
             // modeLabel
             // 
             this.modeLabel.AutoSize = true;
-            this.modeLabel.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold);
+            this.modeLabel.Font = new System.Drawing.Font("黑体", 10F, System.Drawing.FontStyle.Bold);
             this.modeLabel.ForeColor = System.Drawing.Color.White;
             this.modeLabel.Location = new System.Drawing.Point(302, 19);
             this.modeLabel.Name = "modeLabel";
@@ -298,7 +298,7 @@ namespace LightController.MyForm.Step
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label1.Font = new System.Drawing.Font("黑体", 8F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(385, 107);
             this.label1.Name = "label1";
@@ -310,7 +310,7 @@ namespace LightController.MyForm.Step
             // 
             this.allStepButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.allStepButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.allStepButton.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.allStepButton.Font = new System.Drawing.Font("黑体", 8F);
             this.allStepButton.Location = new System.Drawing.Point(423, 65);
             this.allStepButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.allStepButton.Name = "allStepButton";
@@ -325,7 +325,7 @@ namespace LightController.MyForm.Step
             // 
             this.unifyStNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
             this.unifyStNumericUpDown.DecimalPlaces = 2;
-            this.unifyStNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyStNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyStNumericUpDown.ForeColor = System.Drawing.SystemColors.MenuText;
             this.unifyStNumericUpDown.Location = new System.Drawing.Point(305, 330);
             this.unifyStNumericUpDown.Maximum = new decimal(new int[] {
@@ -342,7 +342,7 @@ namespace LightController.MyForm.Step
             // startNumericUpDown
             // 
             this.startNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
-            this.startNumericUpDown.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.startNumericUpDown.Font = new System.Drawing.Font("黑体", 8F);
             this.startNumericUpDown.ForeColor = System.Drawing.SystemColors.MenuText;
             this.startNumericUpDown.Location = new System.Drawing.Point(305, 102);
             this.startNumericUpDown.Maximum = new decimal(new int[] {
@@ -368,7 +368,7 @@ namespace LightController.MyForm.Step
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label2.Font = new System.Drawing.Font("黑体", 8F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(302, 70);
             this.label2.Name = "label2";
@@ -390,7 +390,7 @@ namespace LightController.MyForm.Step
             // selectAllCheckBox
             // 
             this.selectAllCheckBox.AutoSize = true;
-            this.selectAllCheckBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.selectAllCheckBox.Font = new System.Drawing.Font("黑体", 8F);
             this.selectAllCheckBox.ForeColor = System.Drawing.Color.White;
             this.selectAllCheckBox.Location = new System.Drawing.Point(186, 19);
             this.selectAllCheckBox.Name = "selectAllCheckBox";
@@ -403,7 +403,7 @@ namespace LightController.MyForm.Step
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label3.Font = new System.Drawing.Font("黑体", 8F);
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(16, 19);
             this.label3.Name = "label3";
@@ -424,7 +424,7 @@ namespace LightController.MyForm.Step
             // 
             // tdCheckBoxDemo
             // 
-            this.tdCheckBoxDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.tdCheckBoxDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.tdCheckBoxDemo.ForeColor = System.Drawing.Color.White;
             this.tdCheckBoxDemo.Location = new System.Drawing.Point(10, 5);
             this.tdCheckBoxDemo.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -451,7 +451,7 @@ namespace LightController.MyForm.Step
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "多步调节";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UnifyForm_FormClosed);
             this.Load += new System.EventHandler(this.UnifyForm_Load);
             this.mainPanel.ResumeLayout(false);

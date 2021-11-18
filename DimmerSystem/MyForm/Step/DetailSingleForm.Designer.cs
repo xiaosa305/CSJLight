@@ -74,7 +74,7 @@ namespace LightController.MyForm.Step
             this.saComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.saComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.saComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.saComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.saComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.saComboBox.ForeColor = System.Drawing.Color.White;
             this.saComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.saComboBox.Location = new System.Drawing.Point(29, 81);
@@ -98,7 +98,7 @@ namespace LightController.MyForm.Step
             this.unifyComboBox.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.unifyComboBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.unifyComboBox.FillDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.unifyComboBox.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.unifyComboBox.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.unifyComboBox.ForeColor = System.Drawing.Color.White;
             this.unifyComboBox.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.unifyComboBox.Items.AddRange(new object[] {
@@ -126,7 +126,7 @@ namespace LightController.MyForm.Step
             this.unifyBottomButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.unifyBottomButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.unifyBottomButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.unifyBottomButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.unifyBottomButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.unifyBottomButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.unifyBottomButton.Location = new System.Drawing.Point(124, 19);
             this.unifyBottomButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -150,7 +150,7 @@ namespace LightController.MyForm.Step
             this.unifyTopButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.unifyTopButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.unifyTopButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.unifyTopButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.unifyTopButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.unifyTopButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.unifyTopButton.Location = new System.Drawing.Point(93, 19);
             this.unifyTopButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -174,7 +174,7 @@ namespace LightController.MyForm.Step
             this.unifyValueButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.unifyValueButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.unifyValueButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.unifyValueButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.unifyValueButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.unifyValueButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.unifyValueButton.Location = new System.Drawing.Point(93, 50);
             this.unifyValueButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -212,7 +212,7 @@ namespace LightController.MyForm.Step
             this.topBottomButtonDemo.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.topBottomButtonDemo.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.topBottomButtonDemo.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.topBottomButtonDemo.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.topBottomButtonDemo.Font = new System.Drawing.Font("黑体", 8.25F);
             this.topBottomButtonDemo.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.topBottomButtonDemo.Location = new System.Drawing.Point(5, 27);
             this.topBottomButtonDemo.MinimumSize = new System.Drawing.Size(1, 2);
@@ -229,7 +229,7 @@ namespace LightController.MyForm.Step
             // 
             // stepLabelDemo
             // 
-            this.stepLabelDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.stepLabelDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.stepLabelDemo.ForeColor = System.Drawing.Color.White;
             this.stepLabelDemo.Location = new System.Drawing.Point(5, 8);
             this.stepLabelDemo.Name = "stepLabelDemo";
@@ -239,7 +239,7 @@ namespace LightController.MyForm.Step
             // 
             // stepNUDDemo
             // 
-            this.stepNUDDemo.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.stepNUDDemo.Font = new System.Drawing.Font("黑体", 8F);
             this.stepNUDDemo.Location = new System.Drawing.Point(1, 55);
             this.stepNUDDemo.Maximum = new decimal(new int[] {
             255,
@@ -259,7 +259,7 @@ namespace LightController.MyForm.Step
             // 
             // unifyNUD
             // 
-            this.unifyNUD.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.unifyNUD.Font = new System.Drawing.Font("黑体", 8F);
             this.unifyNUD.Location = new System.Drawing.Point(29, 50);
             this.unifyNUD.Maximum = new decimal(new int[] {
             255,
@@ -301,7 +301,7 @@ namespace LightController.MyForm.Step
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 26);
@@ -323,7 +323,7 @@ namespace LightController.MyForm.Step
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "单通道多步联调";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.DetailSingleForm_Load);
             this.mainPanel.ResumeLayout(false);
             this.stepPanelDemo.ResumeLayout(false);

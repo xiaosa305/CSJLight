@@ -86,7 +86,7 @@ namespace LightController.MyForm.Device
             // 
             // myStatusLabel
             // 
-            this.myStatusLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myStatusLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myStatusLabel.ForeColor = System.Drawing.Color.White;
             this.myStatusLabel.Name = "myStatusLabel";
             this.myStatusLabel.Size = new System.Drawing.Size(0, 19);
@@ -97,7 +97,7 @@ namespace LightController.MyForm.Device
             this.uiTabControl2.Controls.Add(this.tabPage4);
             this.uiTabControl2.Dock = System.Windows.Forms.DockStyle.Top;
             this.uiTabControl2.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.uiTabControl2.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.uiTabControl2.Font = new System.Drawing.Font("黑体", 9F);
             this.uiTabControl2.ItemSize = new System.Drawing.Size(100, 25);
             this.uiTabControl2.Location = new System.Drawing.Point(0, 0);
             this.uiTabControl2.MainPage = "";
@@ -139,7 +139,7 @@ namespace LightController.MyForm.Device
             this.fileOpenButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.fileOpenButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.fileOpenButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.fileOpenButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.fileOpenButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.fileOpenButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.fileOpenButton.Location = new System.Drawing.Point(30, 28);
             this.fileOpenButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -159,7 +159,7 @@ namespace LightController.MyForm.Device
             // uiLabel8
             // 
             this.uiLabel8.AutoSize = true;
-            this.uiLabel8.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel8.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel8.Location = new System.Drawing.Point(33, 91);
             this.uiLabel8.Name = "uiLabel8";
@@ -174,7 +174,7 @@ namespace LightController.MyForm.Device
             this.myProcessBar.BackColor = System.Drawing.Color.Transparent;
             this.myProcessBar.DecimalCount = 0;
             this.myProcessBar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.myProcessBar.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.myProcessBar.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.myProcessBar.ForeColor = System.Drawing.Color.White;
             this.myProcessBar.Location = new System.Drawing.Point(133, 88);
             this.myProcessBar.MinimumSize = new System.Drawing.Size(70, 5);
@@ -189,7 +189,7 @@ namespace LightController.MyForm.Device
             // 
             // pathLabel
             // 
-            this.pathLabel.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pathLabel.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.pathLabel.ForeColor = System.Drawing.Color.White;
             this.pathLabel.Location = new System.Drawing.Point(128, 28);
             this.pathLabel.Name = "pathLabel";
@@ -205,7 +205,7 @@ namespace LightController.MyForm.Device
             this.updateButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.updateButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.updateButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.updateButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.updateButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.updateButton.Location = new System.Drawing.Point(357, 145);
             this.updateButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.updateButton.Name = "updateButton";
@@ -224,7 +224,7 @@ namespace LightController.MyForm.Device
             this.gatewayTextBox.ButtonSymbol = 61761;
             this.gatewayTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.gatewayTextBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.gatewayTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.gatewayTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.gatewayTextBox.ForeColor = System.Drawing.Color.White;
             this.gatewayTextBox.Location = new System.Drawing.Point(93, 86);
             this.gatewayTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -245,7 +245,7 @@ namespace LightController.MyForm.Device
             // uiLabel3
             // 
             this.uiLabel3.AutoSize = true;
-            this.uiLabel3.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel3.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel3.Location = new System.Drawing.Point(28, 94);
             this.uiLabel3.Name = "uiLabel3";
@@ -258,7 +258,7 @@ namespace LightController.MyForm.Device
             // uiLabel4
             // 
             this.uiLabel4.AutoSize = true;
-            this.uiLabel4.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel4.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel4.Location = new System.Drawing.Point(28, 127);
             this.uiLabel4.Name = "uiLabel4";
@@ -274,7 +274,7 @@ namespace LightController.MyForm.Device
             this.macTextBox.ButtonSymbol = 61761;
             this.macTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.macTextBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.macTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.macTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.macTextBox.ForeColor = System.Drawing.Color.White;
             this.macTextBox.Location = new System.Drawing.Point(93, 120);
             this.macTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -298,7 +298,7 @@ namespace LightController.MyForm.Device
             this.IPTextBox.ButtonSymbol = 61761;
             this.IPTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.IPTextBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.IPTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.IPTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.IPTextBox.ForeColor = System.Drawing.Color.White;
             this.IPTextBox.Location = new System.Drawing.Point(93, 52);
             this.IPTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -323,7 +323,7 @@ namespace LightController.MyForm.Device
             this.writeButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.writeButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.writeButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.writeButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.writeButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.writeButton.Location = new System.Drawing.Point(356, 165);
             this.writeButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.writeButton.Name = "writeButton";
@@ -339,7 +339,7 @@ namespace LightController.MyForm.Device
             // uiLabel5
             // 
             this.uiLabel5.AutoSize = true;
-            this.uiLabel5.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel5.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel5.Location = new System.Drawing.Point(256, 58);
             this.uiLabel5.Name = "uiLabel5";
@@ -353,7 +353,7 @@ namespace LightController.MyForm.Device
             // 
             this.macCheckBox.CheckBoxColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.macCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.macCheckBox.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.macCheckBox.Font = new System.Drawing.Font("黑体", 8.25F);
             this.macCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.macCheckBox.Location = new System.Drawing.Point(258, 119);
             this.macCheckBox.MinimumSize = new System.Drawing.Size(1, 1);
@@ -367,7 +367,7 @@ namespace LightController.MyForm.Device
             // uiLabel2
             // 
             this.uiLabel2.AutoSize = true;
-            this.uiLabel2.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel2.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel2.Location = new System.Drawing.Point(28, 58);
             this.uiLabel2.Name = "uiLabel2";
@@ -385,7 +385,7 @@ namespace LightController.MyForm.Device
             this.readButton.FillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.readButton.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(37)))), ((int)(((byte)(48)))));
             this.readButton.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.readButton.Font = new System.Drawing.Font("微软雅黑", 8.25F);
+            this.readButton.Font = new System.Drawing.Font("黑体", 8.25F);
             this.readButton.ForeDisableColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(83)))), ((int)(((byte)(91)))));
             this.readButton.Location = new System.Drawing.Point(256, 165);
             this.readButton.MinimumSize = new System.Drawing.Size(1, 2);
@@ -408,7 +408,7 @@ namespace LightController.MyForm.Device
             this.deviceNameTextBox.ButtonSymbol = 61761;
             this.deviceNameTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.deviceNameTextBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.deviceNameTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.deviceNameTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.deviceNameTextBox.ForeColor = System.Drawing.Color.White;
             this.deviceNameTextBox.Location = new System.Drawing.Point(93, 18);
             this.deviceNameTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -437,7 +437,7 @@ namespace LightController.MyForm.Device
             // uiLabel1
             // 
             this.uiLabel1.AutoSize = true;
-            this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel1.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel1.Location = new System.Drawing.Point(28, 24);
             this.uiLabel1.Name = "uiLabel1";
@@ -453,7 +453,7 @@ namespace LightController.MyForm.Device
             this.protocolTextBox.ButtonSymbol = 61761;
             this.protocolTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.protocolTextBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.protocolTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.protocolTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.protocolTextBox.ForeColor = System.Drawing.Color.White;
             this.protocolTextBox.Location = new System.Drawing.Point(324, 18);
             this.protocolTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -473,7 +473,7 @@ namespace LightController.MyForm.Device
             // uiLabel6
             // 
             this.uiLabel6.AutoSize = true;
-            this.uiLabel6.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.uiLabel6.Font = new System.Drawing.Font("黑体", 8F);
             this.uiLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.uiLabel6.Location = new System.Drawing.Point(256, 24);
             this.uiLabel6.Name = "uiLabel6";
@@ -526,7 +526,7 @@ namespace LightController.MyForm.Device
             this.netmaskTextBox.ButtonSymbol = 61761;
             this.netmaskTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.netmaskTextBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.netmaskTextBox.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.netmaskTextBox.Font = new System.Drawing.Font("黑体", 8F);
             this.netmaskTextBox.ForeColor = System.Drawing.Color.White;
             this.netmaskTextBox.Location = new System.Drawing.Point(324, 52);
             this.netmaskTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -581,7 +581,7 @@ namespace LightController.MyForm.Device
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "网络配置";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
-            this.TitleFont = new System.Drawing.Font("微软雅黑", 10F);
+            this.TitleFont = new System.Drawing.Font("黑体", 10F);
             this.Load += new System.EventHandler(this.HardwareSet_Load);
             this.Shown += new System.EventHandler(this.HardwareSetForm_Shown);
             this.myStatusStrip.ResumeLayout(false);

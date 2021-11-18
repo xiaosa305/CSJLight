@@ -86,8 +86,8 @@ namespace LightController.MyForm.Step
             this.tgTrackBar = new System.Windows.Forms.TrackBar();
             this.clearButton = new Sunny.UI.UIButton();
             this.colorDeleteButton = new Sunny.UI.UIButton();
-            this.editButton = new Sunny.UI.UIButton();
-            this.addButton = new Sunny.UI.UIButton();
+            this.colorEditButton = new Sunny.UI.UIButton();
+            this.colorAddButton = new Sunny.UI.UIButton();
             this.stLabel = new System.Windows.Forms.Label();
             this.astLabel = new System.Windows.Forms.Label();
             this.modeLabel = new System.Windows.Forms.Label();
@@ -235,6 +235,7 @@ namespace LightController.MyForm.Step
             this.materialRefreshButton.Style = Sunny.UI.UIStyle.Custom;
             this.materialRefreshButton.TabIndex = 61;
             this.materialRefreshButton.Text = "刷新列表";
+            this.materialRefreshButton.Click += new System.EventHandler(this.materialRefreshButton_Click);
             // 
             // materialDeleteButton
             // 
@@ -250,6 +251,7 @@ namespace LightController.MyForm.Step
             this.materialDeleteButton.Style = Sunny.UI.UIStyle.Custom;
             this.materialDeleteButton.TabIndex = 62;
             this.materialDeleteButton.Text = "删除";
+            this.materialDeleteButton.Click += new System.EventHandler(this.materialDeleteButton_Click);
             // 
             // materialTreeView
             // 
@@ -259,6 +261,7 @@ namespace LightController.MyForm.Step
             this.materialTreeView.Name = "materialTreeView";
             this.materialTreeView.Size = new System.Drawing.Size(300, 370);
             this.materialTreeView.TabIndex = 2;
+            this.materialTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.materialTreeView_NodeMouseClick);
             // 
             // actionTab
             // 
@@ -306,6 +309,7 @@ namespace LightController.MyForm.Step
             0,
             0,
             0});
+            this.StNumericUpDown.ValueChanged += new System.EventHandler(this.stNumericUpDown_ValueChanged);
             // 
             // label19
             // 
@@ -328,7 +332,7 @@ namespace LightController.MyForm.Step
             this.actionTabControl.Controls.Add(this.eightTab);
             this.actionTabControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.actionTabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.actionTabControl.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.actionTabControl.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.actionTabControl.Font = new System.Drawing.Font("黑体", 8F);
             this.actionTabControl.ItemSize = new System.Drawing.Size(60, 30);
             this.actionTabControl.Location = new System.Drawing.Point(0, 0);
@@ -351,7 +355,7 @@ namespace LightController.MyForm.Step
             // 
             // lineTab
             // 
-            this.lineTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.lineTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.lineTab.Controls.Add(this.linePhaseNumericUpDown);
             this.lineTab.Controls.Add(this.label17);
             this.lineTab.Controls.Add(this.lineY2NumericUpDown);
@@ -434,6 +438,7 @@ namespace LightController.MyForm.Step
             0,
             0,
             0});
+            this.lineY1NumericUpDown.ValueChanged += new System.EventHandler(this.lineY1NumericUpDown_ValueChanged);
             // 
             // lineXNumericUpDown
             // 
@@ -480,7 +485,7 @@ namespace LightController.MyForm.Step
             // 
             // circleTab
             // 
-            this.circleTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.circleTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.circleTab.Controls.Add(this.circlePhaseNumericUpDown);
             this.circleTab.Controls.Add(this.label16);
             this.circleTab.Controls.Add(this.circleXNumericUpDown);
@@ -589,7 +594,7 @@ namespace LightController.MyForm.Step
             // 
             // halfCircleTab
             // 
-            this.halfCircleTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.halfCircleTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.halfCircleTab.Controls.Add(this.scPhaseNumericUpDown);
             this.halfCircleTab.Controls.Add(this.label18);
             this.halfCircleTab.Controls.Add(this.scXNumericUpDown);
@@ -693,7 +698,7 @@ namespace LightController.MyForm.Step
             // 
             // waveTab
             // 
-            this.waveTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.waveTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.waveTab.Controls.Add(this.waveTimesNumericUpDown);
             this.waveTab.Controls.Add(this.waveY2NumericUpDown);
             this.waveTab.Controls.Add(this.waveY1NumericUpDown);
@@ -768,6 +773,7 @@ namespace LightController.MyForm.Step
             0,
             0,
             0});
+            this.waveY1NumericUpDown.ValueChanged += new System.EventHandler(this.waveY1NumericUpDown_ValueChanged);
             // 
             // waveX1NumericUpDown
             // 
@@ -781,6 +787,7 @@ namespace LightController.MyForm.Step
             this.waveX1NumericUpDown.Size = new System.Drawing.Size(67, 20);
             this.waveX1NumericUpDown.TabIndex = 14;
             this.waveX1NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.waveX1NumericUpDown.ValueChanged += new System.EventHandler(this.waveX1NumericUpDown_ValueChanged);
             // 
             // waveX2NumericUpDown
             // 
@@ -852,7 +859,7 @@ namespace LightController.MyForm.Step
             // 
             // eightTab
             // 
-            this.eightTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.eightTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
             this.eightTab.Controls.Add(this.eightPhaseNumericUpDown);
             this.eightTab.Controls.Add(this.eightYNumericUpDown);
             this.eightTab.Controls.Add(this.label14);
@@ -932,16 +939,16 @@ namespace LightController.MyForm.Step
             this.colorTab.Controls.Add(this.tgTrackBar);
             this.colorTab.Controls.Add(this.clearButton);
             this.colorTab.Controls.Add(this.colorDeleteButton);
-            this.colorTab.Controls.Add(this.editButton);
-            this.colorTab.Controls.Add(this.addButton);
+            this.colorTab.Controls.Add(this.colorEditButton);
+            this.colorTab.Controls.Add(this.colorAddButton);
             this.colorTab.Controls.Add(this.stLabel);
             this.colorTab.Controls.Add(this.astLabel);
             this.colorTab.Controls.Add(this.modeLabel);
             this.colorTab.Controls.Add(this.astPanel);
             this.colorTab.Controls.Add(this.colorFLP);
-            this.colorTab.Location = new System.Drawing.Point(0, 40);
+            this.colorTab.Location = new System.Drawing.Point(0, 30);
             this.colorTab.Name = "colorTab";
-            this.colorTab.Size = new System.Drawing.Size(200, 60);
+            this.colorTab.Size = new System.Drawing.Size(398, 370);
             this.colorTab.TabIndex = 2;
             this.colorTab.Text = "快速调色";
             // 
@@ -967,6 +974,7 @@ namespace LightController.MyForm.Step
             this.tgNUD.Size = new System.Drawing.Size(50, 20);
             this.tgNUD.TabIndex = 80;
             this.tgNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tgNUD.ValueChanged += new System.EventHandler(this.tgNUD_ValueChanged);
             // 
             // tgTrackBar
             // 
@@ -977,6 +985,7 @@ namespace LightController.MyForm.Step
             this.tgTrackBar.Size = new System.Drawing.Size(145, 45);
             this.tgTrackBar.TabIndex = 79;
             this.tgTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.tgTrackBar.ValueChanged += new System.EventHandler(this.tgTrackBar_ValueChanged);
             // 
             // clearButton
             // 
@@ -992,6 +1001,7 @@ namespace LightController.MyForm.Step
             this.clearButton.Style = Sunny.UI.UIStyle.Custom;
             this.clearButton.TabIndex = 78;
             this.clearButton.Text = "清空";
+            this.clearButton.Click += new System.EventHandler(this.colorClearButton_Click);
             // 
             // colorDeleteButton
             // 
@@ -1007,36 +1017,39 @@ namespace LightController.MyForm.Step
             this.colorDeleteButton.Style = Sunny.UI.UIStyle.Custom;
             this.colorDeleteButton.TabIndex = 78;
             this.colorDeleteButton.Text = "删除";
+            this.colorDeleteButton.Click += new System.EventHandler(this.colorDeleteButton_Click);
             // 
-            // editButton
+            // colorEditButton
             // 
-            this.editButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.editButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.editButton.Font = new System.Drawing.Font("黑体", 8F);
-            this.editButton.Location = new System.Drawing.Point(89, 23);
-            this.editButton.MinimumSize = new System.Drawing.Size(1, 1);
-            this.editButton.Name = "editButton";
-            this.editButton.Radius = 8;
-            this.editButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.editButton.Size = new System.Drawing.Size(40, 36);
-            this.editButton.Style = Sunny.UI.UIStyle.Custom;
-            this.editButton.TabIndex = 78;
-            this.editButton.Text = "修改";
+            this.colorEditButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.colorEditButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.colorEditButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.colorEditButton.Location = new System.Drawing.Point(89, 23);
+            this.colorEditButton.MinimumSize = new System.Drawing.Size(1, 1);
+            this.colorEditButton.Name = "colorEditButton";
+            this.colorEditButton.Radius = 8;
+            this.colorEditButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.colorEditButton.Size = new System.Drawing.Size(40, 36);
+            this.colorEditButton.Style = Sunny.UI.UIStyle.Custom;
+            this.colorEditButton.TabIndex = 78;
+            this.colorEditButton.Text = "修改";
+            this.colorEditButton.Click += new System.EventHandler(this.colorEditButton_Click);
             // 
-            // addButton
+            // colorAddButton
             // 
-            this.addButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            this.addButton.Font = new System.Drawing.Font("黑体", 8F);
-            this.addButton.Location = new System.Drawing.Point(16, 23);
-            this.addButton.MinimumSize = new System.Drawing.Size(1, 1);
-            this.addButton.Name = "addButton";
-            this.addButton.Radius = 8;
-            this.addButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
-            this.addButton.Size = new System.Drawing.Size(40, 36);
-            this.addButton.Style = Sunny.UI.UIStyle.Custom;
-            this.addButton.TabIndex = 78;
-            this.addButton.Text = "添加";
+            this.colorAddButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.colorAddButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            this.colorAddButton.Font = new System.Drawing.Font("黑体", 8F);
+            this.colorAddButton.Location = new System.Drawing.Point(16, 23);
+            this.colorAddButton.MinimumSize = new System.Drawing.Size(1, 1);
+            this.colorAddButton.Name = "colorAddButton";
+            this.colorAddButton.Radius = 8;
+            this.colorAddButton.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(158)))), ((int)(((byte)(158)))));
+            this.colorAddButton.Size = new System.Drawing.Size(40, 36);
+            this.colorAddButton.Style = Sunny.UI.UIStyle.Custom;
+            this.colorAddButton.TabIndex = 78;
+            this.colorAddButton.Text = "添加";
+            this.colorAddButton.Click += new System.EventHandler(this.colorAddButton_Click);
             // 
             // stLabel
             // 
@@ -1099,6 +1112,7 @@ namespace LightController.MyForm.Step
             this.colorPanelDemo.Size = new System.Drawing.Size(60, 138);
             this.colorPanelDemo.TabIndex = 68;
             this.colorPanelDemo.Visible = false;
+            this.colorPanelDemo.Click += new System.EventHandler(this.colorPanel_Click);
             // 
             // cmCBDemo
             // 
@@ -1136,9 +1150,9 @@ namespace LightController.MyForm.Step
             this.tdTab.Controls.Add(this.tdAddButton);
             this.tdTab.Controls.Add(this.tdComboBox);
             this.tdTab.Controls.Add(this.tdFLP);
-            this.tdTab.Location = new System.Drawing.Point(0, 40);
+            this.tdTab.Location = new System.Drawing.Point(0, 30);
             this.tdTab.Name = "tdTab";
-            this.tdTab.Size = new System.Drawing.Size(200, 60);
+            this.tdTab.Size = new System.Drawing.Size(398, 370);
             this.tdTab.TabIndex = 3;
             this.tdTab.Text = "固定通道";
             // 
@@ -1196,6 +1210,7 @@ namespace LightController.MyForm.Step
             this.tdComboBox.Style = Sunny.UI.UIStyle.Custom;
             this.tdComboBox.TabIndex = 6;
             this.tdComboBox.TextAlignment = System.Drawing.ContentAlignment.BottomLeft;
+            this.tdComboBox.SelectedIndexChanged += new System.EventHandler(this.tdComboBox_SelectedIndexChanged);
             // 
             // tdFLP
             // 
@@ -1203,9 +1218,9 @@ namespace LightController.MyForm.Step
             this.tdFLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tdFLP.Controls.Add(this.tdPanelDemo);
             this.tdFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tdFLP.Location = new System.Drawing.Point(0, -267);
+            this.tdFLP.Location = new System.Drawing.Point(0, 43);
             this.tdFLP.Name = "tdFLP";
-            this.tdFLP.Size = new System.Drawing.Size(200, 327);
+            this.tdFLP.Size = new System.Drawing.Size(398, 327);
             this.tdFLP.TabIndex = 1;
             // 
             // tdPanelDemo
@@ -1273,6 +1288,7 @@ namespace LightController.MyForm.Step
             0,
             0});
             this.tdNUDDemo.Visible = false;
+            this.tdNUDDemo.ValueChanged += new System.EventHandler(this.tdNUD_ValueChanged);
             // 
             // mainPanel
             // 
@@ -1309,6 +1325,7 @@ namespace LightController.MyForm.Step
             this.previewButton.Style = Sunny.UI.UIStyle.Custom;
             this.previewButton.TabIndex = 6;
             this.previewButton.Text = "预览";
+            this.previewButton.TextChanged += new System.EventHandler(this.someControl_TextChanged);
             this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
             // 
             // noticeLabel
@@ -1390,6 +1407,8 @@ namespace LightController.MyForm.Step
             this.tempCB.TabIndex = 81;
             this.tempCB.Text = "临时素材";
             this.tempCB.UseVisualStyleBackColor = true;
+            this.tempCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+            this.tempCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
             // 
             // materialCB
             // 
@@ -1404,6 +1423,8 @@ namespace LightController.MyForm.Step
             this.materialCB.TabIndex = 81;
             this.materialCB.Text = "用户素材";
             this.materialCB.UseVisualStyleBackColor = true;
+            this.materialCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+            this.materialCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
             // 
             // actionCB
             // 
@@ -1418,6 +1439,8 @@ namespace LightController.MyForm.Step
             this.actionCB.TabIndex = 81;
             this.actionCB.Text = "内置动作";
             this.actionCB.UseVisualStyleBackColor = true;
+            this.actionCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+            this.actionCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
             // 
             // colorCB
             // 
@@ -1432,6 +1455,8 @@ namespace LightController.MyForm.Step
             this.colorCB.TabIndex = 81;
             this.colorCB.Text = "快速调色";
             this.colorCB.UseVisualStyleBackColor = true;
+            this.colorCB.CheckedChanged += new System.EventHandler(this.materialCB_Changed);
+            this.colorCB.VisibleChanged += new System.EventHandler(this.materialCB_Changed);
             // 
             // coverButton
             // 
@@ -1452,6 +1477,7 @@ namespace LightController.MyForm.Step
             // cancelButton
             // 
             this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
             this.cancelButton.Font = new System.Drawing.Font("黑体", 8F);
             this.cancelButton.Location = new System.Drawing.Point(328, 88);
@@ -1463,7 +1489,6 @@ namespace LightController.MyForm.Step
             this.cancelButton.Style = Sunny.UI.UIStyle.Custom;
             this.cancelButton.TabIndex = 61;
             this.cancelButton.Text = "取消";
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // myColorDialog
             // 
@@ -1485,6 +1510,7 @@ namespace LightController.MyForm.Step
             this.AllowAddControlOnTitle = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(46)))), ((int)(((byte)(58)))));
+            this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(400, 600);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.materialPanel);
@@ -1632,8 +1658,8 @@ namespace LightController.MyForm.Step
         private System.Windows.Forms.NumericUpDown stNUDDemo;
         private Sunny.UI.UIButton clearButton;
         private Sunny.UI.UIButton colorDeleteButton;
-        private Sunny.UI.UIButton editButton;
-        private Sunny.UI.UIButton addButton;
+        private Sunny.UI.UIButton colorEditButton;
+        private Sunny.UI.UIButton colorAddButton;
         private System.Windows.Forms.Label stLabel;
         private System.Windows.Forms.Label astLabel;
         private System.Windows.Forms.Label modeLabel;

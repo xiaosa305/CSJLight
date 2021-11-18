@@ -89,8 +89,7 @@ namespace LightController.MyForm.Step
 
 			#endregion
 
-		}
-		
+		}		
 		private void MaterialUseForm_Load(object sender, EventArgs e)
 		{
 			LanguageHelper.InitForm(this);
@@ -983,7 +982,7 @@ namespace LightController.MyForm.Step
 		{
 			astPanel.BackColor = colorSelectedIndex > 0 ? (colorFLP.Controls[colorSelectedIndex] as Panel).BackColor : Color.MintCream;
 			astLabel.Text = colorSelectedIndex > 0 ? colorSelectedIndex + "" : "未选中步";
-			editButton.Enabled = colorSelectedIndex > 0;
+			colorEditButton.Enabled = colorSelectedIndex > 0;
 			colorDeleteButton.Enabled = colorSelectedIndex > 0;
 
 			colorCount = colorFLP.Controls.Count - 1;
@@ -1380,10 +1379,6 @@ namespace LightController.MyForm.Step
 			coverButton.Enabled = enable;
 			appendButton.Enabled = enable;
 		}
-
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-
-        }
+		        
     }
 }

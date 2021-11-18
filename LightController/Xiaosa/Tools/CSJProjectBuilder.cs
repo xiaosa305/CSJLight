@@ -391,7 +391,11 @@ namespace LightController.Xiaosa.Tools
                 Mode = BASIC_MODE
             };
             List<byte> writeBuff = new List<byte>();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             var channelValues = MainFormInterface.GetSMTDList(pk);
+            Console.WriteLine("取数据时间，通道" + channelNo + "：" + stopwatch.ElapsedMilliseconds);
+            stopwatch.Stop();
             TongdaoWrapper firstStepInfo = null;
             int startValue = 0;
             float inc;

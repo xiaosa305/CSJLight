@@ -3,6 +3,7 @@ using MultiLedController.xiaosa.entity;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -85,101 +86,107 @@ namespace MultiLedController.xiaosa.madirx
                 byte[] receiveBuffer = new byte[len];
                 Array.Copy(buffer, 0, receiveBuffer, 0, len);
                 Packet packet = new Packet(receiveBuffer);
-                if (SpaceInfo.ContainsKey(packet.Des_IP) || packet.Des_IP.EndsWith(BRODCASTADDRESS))
+                if ((SpaceInfo.ContainsKey(packet.Des_IP) || packet.Des_IP.EndsWith(BRODCASTADDRESS)) && packet.Des_PORT.Equals("6454") && packet.ProString.Equals("UDP"))
                 {
                     Packets.Enqueue(packet);
+                    //PacketTransManage(packet);
+                    //Console.WriteLine("包数：" + Packets.Count);
                 }
             }
+            buffer = new byte[1024 * 1024];
             Client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(this.OnReceive), null);
         }
 
+
+        private void PacketTransManage(Packet packet)
+        {
+            if (SpaceInfo.ContainsKey(packet.Des_IP))
+            {
+
+                int port = (packet.Byte_Data[22] & 0xFF) | ((packet.Byte_Data[23] & 0xFF) << 8) + SpaceInfo[packet.Des_IP] * 256;
+                int length = (int)(packet.Byte_Data[25] & 0xFF) | ((packet.Byte_Data[24] & 0xFF) << 8);
+                byte[] dmxData = new byte[length];
+                Array.Copy(packet.Byte_Data.ToArray(), 26, dmxData, 0, length);
+                Console.WriteLine("接收到DMX512数据包，空间编号为：" + port);
+                Manager(SpaceInfo[packet.Des_IP], port, new List<byte>(dmxData));
+            }
+            else if (packet.Des_IP.EndsWith(BRODCASTADDRESS))
+            {
+                if (packet.Byte_Data[8] == 0x41 &&
+                    packet.Byte_Data[9] == 0x72 &&
+                    packet.Byte_Data[10] == 0x74 &&
+                    packet.Byte_Data[11] == 0x2D &&
+                    packet.Byte_Data[12] == 0x4E &&
+                    packet.Byte_Data[13] == 0x65 &&
+                    packet.Byte_Data[14] == 0x74 &&
+                    packet.Byte_Data[15] == 0x00 &&
+                    packet.Byte_Data[16] == 0x00 &&
+                    packet.Byte_Data[17] == 0x20 &&
+                    packet.Byte_Data[18] == 0x00 &&
+                    packet.Byte_Data[19] == 0x0E &&
+                    packet.Byte_Data[20] == 0x02 &&
+                    packet.Byte_Data[21] == 0x10)
+                {
+                    Console.WriteLine("收到搜索包");
+                    AnswerArtNetSearch();
+                }
+                else if (packet.Byte_Data[8] == 0x4D &&
+                         packet.Byte_Data[9] == 0x61 &&
+                         packet.Byte_Data[10] == 0x64 &&
+                         packet.Byte_Data[11] == 0x72 &&
+                         packet.Byte_Data[12] == 0x69 &&
+                         packet.Byte_Data[13] == 0x78 &&
+                         packet.Byte_Data[14] == 0x4E &&
+                         packet.Byte_Data[15] == 0x00 &&
+                         packet.Byte_Data[16] == 0x02 &&
+                         packet.Byte_Data[17] == 0x52 &&
+                         packet.Byte_Data[18] == 0x00 &&
+                         packet.Byte_Data[19] == 0x0E)
+                {
+                    Sync();
+                    Console.WriteLine("收到同步包1");
+                }
+                else if (packet.Byte_Data[8] == 0x4D &&
+                         packet.Byte_Data[9] == 0x61 &&
+                         packet.Byte_Data[10] == 0x64 &&
+                         packet.Byte_Data[11] == 0x72 &&
+                         packet.Byte_Data[12] == 0x69 &&
+                         packet.Byte_Data[13] == 0x78 &&
+                         packet.Byte_Data[14] == 0x4E &&
+                         packet.Byte_Data[15] == 0x00 &&
+                         packet.Byte_Data[16] == 0x01 &&
+                         packet.Byte_Data[17] == 0x51 &&
+                         packet.Byte_Data[18] == 0x00 &&
+                         packet.Byte_Data[19] == 0x0E)
+                {
+                    Sync();
+                    Console.WriteLine("收到同步包2");
+                }
+                else if (packet.Byte_Data[8] == 0x41 &&
+                         packet.Byte_Data[9] == 0x72 &&
+                         packet.Byte_Data[10] == 0x74 &&
+                         packet.Byte_Data[11] == 0x2D &&
+                         packet.Byte_Data[12] == 0x4E &&
+                         packet.Byte_Data[13] == 0x65 &&
+                         packet.Byte_Data[14] == 0x74 &&
+                         packet.Byte_Data[15] == 0x00 &&
+                         packet.Byte_Data[16] == 0x00 &&
+                         packet.Byte_Data[17] == 0x52 &&
+                         packet.Byte_Data[18] == 0x00 &&
+                         packet.Byte_Data[19] == 0x0E)
+                {
+                    Sync();
+                    Console.WriteLine("收到同步包3");
+                }
+        }
+    }
         protected void PacketsManage()
         {
             while (true)
             {
-                if (Packets.TryDequeue(out Packet packet))
+                if(Packets.TryDequeue(out Packet packet))
                 {
-                    if (packet.Des_PORT.Equals(ARTNETPORT.ToString()))
-                    {
-                        if (SpaceInfo.ContainsKey(packet.Des_IP))
-                        {
-                            int port = (packet.Byte_Data[22] & 0xFF) | ((packet.Byte_Data[23] & 0xFF) << 8) + SpaceInfo[packet.Des_IP] * 256;
-                            int length = (int)(packet.Byte_Data[25] & 0xFF) | ((packet.Byte_Data[24] & 0xFF) << 8);
-                            byte[] dmxData = new byte[length];
-                            Array.Copy(packet.Byte_Data.ToArray(), 26, dmxData, 0, length);
-                            Console.WriteLine("接收到DMX512数据包，空间编号为：" + port);
-                            Manager(SpaceInfo[packet.Des_IP], port, new List<byte>(dmxData));
-                        }
-                        else if (packet.Des_IP.EndsWith(BRODCASTADDRESS))
-                        {
-                            if (packet.Byte_Data[8] == 0x41 &&
-                                packet.Byte_Data[9] == 0x72 &&
-                                packet.Byte_Data[10] == 0x74 &&
-                                packet.Byte_Data[11] == 0x2D &&
-                                packet.Byte_Data[12] == 0x4E &&
-                                packet.Byte_Data[13] == 0x65 &&
-                                packet.Byte_Data[14] == 0x74 &&
-                                packet.Byte_Data[15] == 0x00 &&
-                                packet.Byte_Data[16] == 0x00 &&
-                                packet.Byte_Data[17] == 0x20 &&
-                                packet.Byte_Data[18] == 0x00 &&
-                                packet.Byte_Data[19] == 0x0E &&
-                                packet.Byte_Data[20] == 0x02 &&
-                                packet.Byte_Data[21] == 0x10)
-                            {
-                                Console.WriteLine("收到搜索包");
-                                AnswerArtNetSearch();
-                            }
-                            else if (packet.Byte_Data[8] == 0x4D &&
-                                     packet.Byte_Data[9] == 0x61 &&
-                                     packet.Byte_Data[10] == 0x64 &&
-                                     packet.Byte_Data[11] == 0x72 &&
-                                     packet.Byte_Data[12] == 0x69 &&
-                                     packet.Byte_Data[13] == 0x78 &&
-                                     packet.Byte_Data[14] == 0x4E &&
-                                     packet.Byte_Data[15] == 0x00 &&
-                                     packet.Byte_Data[16] == 0x02 &&
-                                     packet.Byte_Data[17] == 0x52 &&
-                                     packet.Byte_Data[18] == 0x00 &&
-                                     packet.Byte_Data[19] == 0x0E)
-                            {
-                                Sync();
-                                Console.WriteLine("收到同步包1");
-                            }
-                            else if (packet.Byte_Data[8] == 0x4D &&
-                                     packet.Byte_Data[9] == 0x61 &&
-                                     packet.Byte_Data[10] == 0x64 &&
-                                     packet.Byte_Data[11] == 0x72 &&
-                                     packet.Byte_Data[12] == 0x69 &&
-                                     packet.Byte_Data[13] == 0x78 &&
-                                     packet.Byte_Data[14] == 0x4E &&
-                                     packet.Byte_Data[15] == 0x00 &&
-                                     packet.Byte_Data[16] == 0x01 &&
-                                     packet.Byte_Data[17] == 0x51 &&
-                                     packet.Byte_Data[18] == 0x00 &&
-                                     packet.Byte_Data[19] == 0x0E)
-                            {
-                                Sync();
-                                Console.WriteLine("收到同步包2");
-                            }
-                            else if (packet.Byte_Data[8] == 0x41 &&
-                                     packet.Byte_Data[9] == 0x72 &&
-                                     packet.Byte_Data[10] == 0x74 &&
-                                     packet.Byte_Data[11] == 0x2D &&
-                                     packet.Byte_Data[12] == 0x4E &&
-                                     packet.Byte_Data[13] == 0x65 &&
-                                     packet.Byte_Data[14] == 0x74 &&
-                                     packet.Byte_Data[15] == 0x00 &&
-                                     packet.Byte_Data[16] == 0x00 &&
-                                     packet.Byte_Data[17] == 0x52 &&
-                                     packet.Byte_Data[18] == 0x00 &&
-                                     packet.Byte_Data[19] == 0x0E)
-                            {
-                                Sync();
-                                Console.WriteLine("收到同步包3");
-                            }
-                        }
-                    }
+                    PacketTransManage(packet);
                 }
             }
         }

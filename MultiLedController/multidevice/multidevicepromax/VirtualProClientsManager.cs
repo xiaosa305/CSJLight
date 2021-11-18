@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -74,11 +75,7 @@ namespace MultiLedController.multidevice.multidevicepromax
 
         private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
         private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
-
-        private int LastPackIndexSum;
-        private int CurrentPackIndexSum;
-
-
+        private Thread SendThread;
 
         //MAIN
         public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber,int ledType)
@@ -102,32 +99,32 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.LedControlNumber = ledControlNumber;
             this.Init();
             this.InitLedServer();
-            ArtNetClient.Build(virtualIP, ledSpaceNumber * ledInterfaceNumber * ledControlNumber, localIP, this.Manager, this.SyncDMXDataCache);
-            //int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
-            //for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
-            //{
-            //    int portCount = 0;
-            //    if (clientIndex == clientCount - 1)
-            //    {
-            //        portCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber - clientIndex * 256;
-            //    }
-            //    else
-            //    {
-            //        portCount = 256;
-            //    }
-            //    this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager, this.SyncDMXDataCache));
-            //}
             for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
             {
                 this.SpaceDmxData.TryAdd(i, new List<byte>());
                 this.SpaceDmxDataReceiveStatus.TryAdd(i, false);
             }
+            //virtualIP[0] = "192.168.31.236";
+            //virtualIP[1] = "192.168.31.237";
+            //ArtNetClient.Build(virtualIP, ledSpaceNumber * ledInterfaceNumber * ledControlNumber, localIP, this.Manager, this.SyncDMXDataCache);
+            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
+            for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
+            {
+                int portCount = 0;
+                if (clientIndex == clientCount - 1)
+                {
+                    portCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber - clientIndex * 256;
+                }
+                else
+                {
+                    portCount = 256;
+                }
+                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager, this.SyncDMXDataCache));
+            }
         }
 
         private void Init()
         {
-            CurrentPackIndexSum = 0;
-            LastPackIndexSum = -1;
             this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
             this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
             this.DebugDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
@@ -153,6 +150,8 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.DebugDmxTask.Start();
             this.RecordDmxTask.Start();
             this.ShowFrameCountTask.Start();
+            //SendThread = new Thread(() => SendTask());
+            //SendThread.Start();
         }
 
         private void InitLedServer()
@@ -288,50 +287,26 @@ namespace MultiLedController.multidevice.multidevicepromax
         {
             if (this.IsStartReceiveDmxDataStatus)
             {
-                lock (this.SYNCHROLOCK_KEY)
+                if (this.isSycnFirstFrame)
                 {
-                    if (this.isSycnFirstFrame)
+                    if (this.IsDebugDmxData)
                     {
-                        //TODO 添加最大包数验证
-                        if (LastPackIndexSum == CurrentPackIndexSum)
+                        if (this.SpaceDmxData.Count > 0)
                         {
-                            if (this.IsDebugDmxData)
-                            {
-                                lock (this.DebugDmxDataQueue)
-                                {
-                                    if (this.SpaceDmxData.Count > 0)
-                                    {
-                                        this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
-                                    }
-                                }
-                            }
-                            if (this.IsRecordDmxData)
-                            {
-                                lock (this.RecordDmxDataQueue)
-                                {
-                                    if (this.SpaceDmxData.Count > 0)
-                                    {
-                                        this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
-                                    }
-                                }
-                            }
+                            this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
                         }
-                        List<int> keys = this.SpaceDmxData.Keys.ToList();
-                        this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
-                        this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
-                        foreach (int spaceIndex in keys)
-                        {
-                            this.SpaceDmxData.TryAdd(spaceIndex, new List<byte>());
-                            this.SpaceDmxDataReceiveStatus.TryAdd(spaceIndex, false);
-                        }
-                        LastPackIndexSum = CurrentPackIndexSum;
                     }
-                    else
+                    if (this.IsRecordDmxData)
                     {
-                        LastPackIndexSum = CurrentPackIndexSum;
-                        CurrentPackIndexSum = 0;
-                        this.isSycnFirstFrame = true;
+                        if (this.SpaceDmxData.Count > 0)
+                        {
+                            this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
+                        }
                     }
+                }
+                else
+                {
+                    this.isSycnFirstFrame = true;
                 }
             }
         }
@@ -343,12 +318,8 @@ namespace MultiLedController.multidevice.multidevicepromax
             {
                 if (this.IsStartReceiveDmxDataStatus && this.isSycnFirstFrame)
                 {
-                    lock (this.SYNCHROLOCK_KEY)
-                    {
-                        this.SpaceDmxData[port] = dmxData;
-                        this.SpaceDmxDataReceiveStatus[port] = true;
-                        CurrentPackIndexSum += port;
-                    }
+                    this.SpaceDmxData[port] = dmxData;
+                    this.SpaceDmxDataReceiveStatus[port] = true;
                 }
             }
             catch (Exception ex)
@@ -384,25 +355,17 @@ namespace MultiLedController.multidevice.multidevicepromax
                 {
                     if (this.IsDebugDmxData)
                     {
-                        int queueCount = 0;
-                        lock (this.DebugDmxDataQueue)
+                        if (this.DebugDmxDataQueue.Count > 0)
                         {
-                            queueCount = this.DebugDmxDataQueue.Count;
-                        }
-                        if (queueCount > 0)
-                        {
-                            lock (this.DebugDmxDataQueue)
+                            this.DebugDmxDataQueue.TryDequeue(out ConcurrentDictionary<int, List<byte>> dmxData);
+                            Console.WriteLine("Debug队列剩余数量：" + DebugDmxDataQueue.Count);
+                            if (dmxData.Count > 0)
                             {
-                                ConcurrentDictionary<int, List<byte>> dmxData = new ConcurrentDictionary<int, List<byte>>();
-                                this.DebugDmxDataQueue.TryDequeue(out dmxData);
-                                if (dmxData.Count > 0)
-                                {
-                                    this.DebugTask(dmxData);
-                                }
-                                else
-                                {
-                                    this.ThreadSleepOneSe();
-                                }
+                                this.DebugTask(dmxData);
+                            }
+                            else
+                            {
+                                this.ThreadSleepOneSe();
                             }
                         }
                         else
@@ -423,13 +386,14 @@ namespace MultiLedController.multidevice.multidevicepromax
             }
         }
 
-        private void DebugTask(ConcurrentDictionary<int,List<byte>> dmxData)
+        private void DebugTask(ConcurrentDictionary<int, List<byte>> dmxData)
         {
             IPEndPoint iPEnd = new IPEndPoint(IPAddress.Broadcast, PORT);
-
+            Stopwatch stopwatch = new Stopwatch();
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
+            stopwatch.Start();
             try
             {
                 #region 数据整理
@@ -456,6 +420,8 @@ namespace MultiLedController.multidevice.multidevicepromax
                         ledInterfaceNo++;
                     }
                 }
+                Console.WriteLine("发包耗时1：" + stopwatch.ElapsedMilliseconds);
+                stopwatch.Restart();
                 for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
@@ -476,13 +442,15 @@ namespace MultiLedController.multidevice.multidevicepromax
                         }
                         //B
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
-                        {
+                        { 
                             byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
                             ledInterfaceDMXDatas[controlNo].Push(value);
                         }
                     }
                 }
                 #endregion
+                Console.WriteLine("发包耗时2：" + stopwatch.ElapsedMilliseconds);
+                stopwatch.Restart();
                 #region 数据分包
                 int packageSize = 1024;
                 for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
@@ -516,6 +484,8 @@ namespace MultiLedController.multidevice.multidevicepromax
                     dataBuff[controlNo].Enqueue(packageData);
                 }
                 #endregion
+                Console.WriteLine("分包耗时：" + stopwatch.ElapsedMilliseconds);
+                stopwatch.Restart();
                 #region 发包
                 for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
@@ -525,21 +495,51 @@ namespace MultiLedController.multidevice.multidevicepromax
                     while (dataBuff[controlNo].Count > 0)
                     {
                         this.DebugServer.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
-                        for (int i = 0; i < 60000; i++)
-                        {
-                            ;
-                        }
+                        //for (int i = 0; i < 60000; i++)
+                        //{
+                        //    ;
+                        //}
                     }
                 }
+                //Console.WriteLine("耗时：" + stopwatch.ElapsedMilliseconds);
                 this.DebugServer.SendTo(PACKAGE_END.ToArray(), iPEnd);
-                #endregion
                 this.DebugFrameCount++;
+                #endregion
             }
             catch (Exception ex)
             {
                 Console.WriteLine("实时调试发送报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
+            }
+        }
+
+        private Queue<Dictionary<int, Queue<List<byte>>>> SendQueue = new Queue<Dictionary<int, Queue<List<byte>>>>();
+        private void SendTask()
+        {
+            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Broadcast, PORT);
+            while (true)
+            {
+                if (SendQueue.Count > 0)
+                {
+                    Dictionary<int, Queue<List<byte>>> dataBuff = SendQueue.Dequeue();
+                    for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
+                    {
+                        int controlNo = controlIndex + 1;
+                        byte[] head = new byte[] { Convert.ToByte((controlNo >> 8) & 0xFF), Convert.ToByte(controlNo & 0xFF), 0x33, 0x44 };
+                        this.DebugServer.SendTo(head, iPEnd);
+                        while (dataBuff[controlNo].Count > 0)
+                        {
+                            this.DebugServer.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
+                            for (int i = 0; i < 60000; i++)
+                            {
+                                ;
+                            }
+                        }
+                    }
+                    this.DebugServer.SendTo(PACKAGE_END.ToArray(), iPEnd);
+                    this.DebugFrameCount++;
+                }
             }
         }
 
@@ -551,25 +551,16 @@ namespace MultiLedController.multidevice.multidevicepromax
                 {
                     if (this.IsRecordDmxData)
                     {
-                        int queueCount = 0;
-                        lock (this.RecordDmxDataQueue)
+                        if (this.RecordDmxDataQueue.Count > 0)
                         {
-                            queueCount = this.RecordDmxDataQueue.Count;
-                        }
-                        if (queueCount > 0)
-                        {
-                            lock (this.RecordDmxDataQueue)
+                            this.RecordDmxDataQueue.TryDequeue(out ConcurrentDictionary<int, List<byte>> dmxData);
+                            if (dmxData.Count > 0)
                             {
-                                ConcurrentDictionary<int, List<byte>> dmxData = new ConcurrentDictionary<int, List<byte>>();
-                                this.RecordDmxDataQueue.TryDequeue(out dmxData);
-                                if (dmxData.Count > 0)
-                                {
-                                    this.RecordTask(dmxData);
-                                }
-                                else
-                                {
-                                    this.ThreadSleepOneSe();
-                                }
+                                this.RecordTask(dmxData);
+                            }
+                            else
+                            {
+                                this.ThreadSleepOneSe();
                             }
                         }
                         else
